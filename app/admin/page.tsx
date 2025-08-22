@@ -120,10 +120,6 @@ export default function AdminDashboardPage() {
               <h3 className="text-xl font-semibold">🔍 Lost & Found</h3>
               <p className="text-muted-foreground">Manage lost and found items.</p>
             </Link>
-            <Link href="/admin/help-desk" className="block border rounded-lg p-5 hover:bg-accent">
-              <h3 className="text-xl font-semibold">🎫 Help Desk</h3>
-              <p className="text-muted-foreground">Manage support tickets and responses.</p>
-            </Link>
             <Link href="/admin/news-events" className="block border rounded-lg p-5 hover:bg-accent">
               <h3 className="text-xl font-semibold">📰 News & Events</h3>
               <p className="text-muted-foreground">Create and manage news and events.</p>

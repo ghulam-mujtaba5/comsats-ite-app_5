@@ -8,25 +8,21 @@ import { Users, MessageSquare, Search, HelpCircle, Newspaper, Heart, FileText, A
 
 interface DashboardStats {
   lostFoundItems: number
-  helpDeskTickets: number
   newsItems: number
   events: number
   supportRequests: number
   guidanceContent: number
   totalUsers: number
-  activeTickets: number
 }
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState<DashboardStats>({
     lostFoundItems: 0,
-    helpDeskTickets: 0,
     newsItems: 0,
     events: 0,
     supportRequests: 0,
     guidanceContent: 0,
-    totalUsers: 0,
-    activeTickets: 0
+    totalUsers: 0
   })
   const [loading, setLoading] = useState(true)
 
@@ -56,14 +52,6 @@ export default function AdminDashboardPage() {
       icon: Search,
       color: "text-blue-600",
       href: "/admin/lost-found"
-    },
-    {
-      title: "Help Desk Tickets",
-      value: stats.helpDeskTickets,
-      description: `${stats.activeTickets} active tickets`,
-      icon: HelpCircle,
-      color: "text-orange-600",
-      href: "/admin/help-desk"
     },
     {
       title: "News & Events",
@@ -144,7 +132,7 @@ export default function AdminDashboardPage() {
             <CardContent>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">New help desk ticket</span>
+                  <span className="text-sm">New support request</span>
                   <Badge variant="outline">2 min ago</Badge>
                 </div>
                 <div className="flex items-center justify-between">

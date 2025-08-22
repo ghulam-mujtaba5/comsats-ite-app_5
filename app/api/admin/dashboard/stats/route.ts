@@ -31,35 +31,29 @@ export async function GET(request: NextRequest) {
     // Get counts for all tables
     const [
       lostFoundResult,
-      ticketsResult,
       newsResult,
       eventsResult,
       supportRequestsResult,
       guidanceResult,
       faqResult,
-      usersResult,
-      activeTicketsResult
+      usersResult
     ] = await Promise.all([
       supabase.from('lost_found_items').select('*', { count: 'exact', head: true }),
-      supabase.from('help_desk_tickets').select('*', { count: 'exact', head: true }),
       supabase.from('news_items').select('*', { count: 'exact', head: true }),
       supabase.from('events').select('*', { count: 'exact', head: true }),
       supabase.from('support_requests').select('*', { count: 'exact', head: true }),
       supabase.from('guidance_content').select('*', { count: 'exact', head: true }),
       supabase.from('faq_items').select('*', { count: 'exact', head: true }),
-      supabase.auth.admin.listUsers(),
-      supabase.from('help_desk_tickets').select('*', { count: 'exact', head: true }).in('status', ['open', 'in-progress'])
+      supabase.auth.admin.listUsers()
     ])
 
     const stats = {
       lostFoundItems: lostFoundResult.count || 0,
-      helpDeskTickets: ticketsResult.count || 0,
       newsItems: newsResult.count || 0,
       events: eventsResult.count || 0,
       supportRequests: supportRequestsResult.count || 0,
       guidanceContent: (guidanceResult.count || 0) + (faqResult.count || 0),
-      totalUsers: usersResult.data?.users?.length || 0,
-      activeTickets: activeTicketsResult.count || 0
+      totalUsers: usersResult.data?.users?.length || 0
     }
 
     return NextResponse.json(stats)

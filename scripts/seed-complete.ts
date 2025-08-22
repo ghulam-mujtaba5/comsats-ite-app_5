@@ -99,25 +99,6 @@ async function seedDatabase() {
     if (lostFoundError) throw lostFoundError
     console.log('Lost & Found items seeded successfully')
 
-    // Seed Help Desk Tickets
-    const helpDeskTickets = [
-      {
-        title: "Fee Payment Issue",
-        description: "I'm unable to pay my semester fee online. The payment gateway shows an error.",
-        category: "Finance",
-        priority: "high",
-        student_name: "Ahmad Ali",
-        student_id: "SP21-BCS-001",
-        user_id: userIds[0] || null
-      }
-    ]
-
-    const { error: ticketsError } = await supabase
-      .from('help_desk_tickets')
-      .upsert(helpDeskTickets)
-
-    if (ticketsError) throw ticketsError
-    console.log('Help desk tickets seeded successfully')
 
     // Seed News Items
     const newsItems = [

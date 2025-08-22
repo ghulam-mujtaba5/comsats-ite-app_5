@@ -38,12 +38,6 @@ const navigationItems = [
     description: "Report lost items or help others find theirs",
   },
   {
-    name: "Help Desk",
-    href: "/help-desk",
-    icon: HelpCircle,
-    description: "Get help with admissions, fees, and queries",
-  },
-  {
     name: "News & Events",
     href: "/news-events",
     icon: Newspaper,

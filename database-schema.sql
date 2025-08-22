@@ -22,32 +22,6 @@ CREATE TABLE IF NOT EXISTS lost_found_items (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Help Desk Tickets
-CREATE TABLE IF NOT EXISTS help_desk_tickets (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    category VARCHAR(100) NOT NULL,
-    priority VARCHAR(20) DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high')),
-    status VARCHAR(50) DEFAULT 'open' CHECK (status IN ('open', 'in-progress', 'resolved', 'closed')),
-    student_name VARCHAR(255) NOT NULL,
-    student_id VARCHAR(50) NOT NULL,
-    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-    assigned_to UUID REFERENCES auth.users(id),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Help Desk Responses
-CREATE TABLE IF NOT EXISTS help_desk_responses (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    ticket_id UUID REFERENCES help_desk_tickets(id) ON DELETE CASCADE,
-    message TEXT NOT NULL,
-    author_name VARCHAR(255) NOT NULL,
-    author_role VARCHAR(50) NOT NULL CHECK (author_role IN ('student', 'admin')),
-    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
 
 -- News and Announcements
 CREATE TABLE IF NOT EXISTS news_items (
@@ -163,9 +137,6 @@ CREATE INDEX IF NOT EXISTS idx_lost_found_category ON lost_found_items(category)
 CREATE INDEX IF NOT EXISTS idx_lost_found_status ON lost_found_items(status);
 CREATE INDEX IF NOT EXISTS idx_lost_found_created_at ON lost_found_items(created_at);
 
-CREATE INDEX IF NOT EXISTS idx_help_desk_status ON help_desk_tickets(status);
-CREATE INDEX IF NOT EXISTS idx_help_desk_priority ON help_desk_tickets(priority);
-CREATE INDEX IF NOT EXISTS idx_help_desk_created_at ON help_desk_tickets(created_at);
 
 CREATE INDEX IF NOT EXISTS idx_news_category ON news_items(category);
 CREATE INDEX IF NOT EXISTS idx_news_published_at ON news_items(published_at);
@@ -181,8 +152,6 @@ CREATE INDEX IF NOT EXISTS idx_faq_category ON faq_items(category);
 
 -- Enable Row Level Security
 ALTER TABLE lost_found_items ENABLE ROW LEVEL SECURITY;
-ALTER TABLE help_desk_tickets ENABLE ROW LEVEL SECURITY;
-ALTER TABLE help_desk_responses ENABLE ROW LEVEL SECURITY;
 ALTER TABLE news_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE event_registrations ENABLE ROW LEVEL SECURITY;
@@ -200,16 +169,6 @@ CREATE POLICY "Users can create lost and found items" ON lost_found_items FOR IN
 CREATE POLICY "Users can update their own items" ON lost_found_items FOR UPDATE USING (auth.uid() = user_id);
 CREATE POLICY "Users can delete their own items" ON lost_found_items FOR DELETE USING (auth.uid() = user_id);
 
--- Help Desk Tickets - Users can read their own, create their own
-CREATE POLICY "Users can view their own tickets" ON help_desk_tickets FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can create tickets" ON help_desk_tickets FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users can update their own tickets" ON help_desk_tickets FOR UPDATE USING (auth.uid() = user_id);
-
--- Help Desk Responses - Users can read responses to their tickets, create responses
-CREATE POLICY "Users can view responses to their tickets" ON help_desk_responses FOR SELECT USING (
-    EXISTS (SELECT 1 FROM help_desk_tickets WHERE id = ticket_id AND user_id = auth.uid())
-);
-CREATE POLICY "Users can create responses" ON help_desk_responses FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- News Items - Everyone can read published items
 CREATE POLICY "Anyone can view published news" ON news_items FOR SELECT USING (true);
@@ -234,12 +193,6 @@ CREATE POLICY "Anyone can view published FAQs" ON faq_items FOR SELECT USING (is
 
 -- Admin policies (will be refined based on admin role)
 CREATE POLICY "Admins have full access" ON lost_found_items FOR ALL USING (
-    EXISTS (SELECT 1 FROM admin_users WHERE user_id = auth.uid())
-);
-CREATE POLICY "Admins have full access to tickets" ON help_desk_tickets FOR ALL USING (
-    EXISTS (SELECT 1 FROM admin_users WHERE user_id = auth.uid())
-);
-CREATE POLICY "Admins have full access to responses" ON help_desk_responses FOR ALL USING (
     EXISTS (SELECT 1 FROM admin_users WHERE user_id = auth.uid())
 );
 CREATE POLICY "Admins can manage news" ON news_items FOR ALL USING (
@@ -280,7 +233,6 @@ $$ LANGUAGE plpgsql;
 
 -- Apply update triggers to all tables
 CREATE TRIGGER update_lost_found_items_updated_at BEFORE UPDATE ON lost_found_items FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-CREATE TRIGGER update_help_desk_tickets_updated_at BEFORE UPDATE ON help_desk_tickets FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_news_items_updated_at BEFORE UPDATE ON news_items FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_events_updated_at BEFORE UPDATE ON events FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_support_resources_updated_at BEFORE UPDATE ON support_resources FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
