@@ -38,132 +38,34 @@ import { fetchPosts, fetchGroups, toggleLikePerUser } from "@/lib/community"
 import type { Post } from "@/lib/community-data"
 import { ThreadCard } from "@/components/community/thread-card"
 
-const mockPosts: Post[] = [
-  {
-    id: "1",
-    author: "Ahmad Hassan",
-    avatar: "/student-avatar.png",
-    department: "Computer Science",
-    semester: "8th Semester",
-    time: "2 hours ago",
-    content:
-      "Just finished my final year project on AI-based student performance prediction. Happy to share insights with anyone working on similar projects! The model achieved 94% accuracy using ensemble methods.",
-    likes: 24,
-    comments: 8,
-    shares: 3,
-    tags: ["AI", "Final Year Project", "Computer Science", "Machine Learning"],
-    liked: false,
-    type: "achievement",
-  },
-  {
-    id: "2",
-    author: "Fatima Khan",
-    avatar: "/female-student-avatar.png",
-    department: "Electrical Engineering",
-    semester: "6th Semester",
-    time: "4 hours ago",
-    content:
-      "Looking for study partners for Power Systems course. Planning to meet every Tuesday and Thursday at 4 PM in the library. Anyone interested in forming a study group?",
-    likes: 15,
-    comments: 12,
-    shares: 5,
-    tags: ["Study Group", "Power Systems", "Electrical Engineering"],
-    liked: false,
-    type: "study",
-  },
-  {
-    id: "3",
-    author: "Ali Raza",
-    avatar: "/male-student-avatar.png",
-    department: "Business Administration",
-    semester: "7th Semester",
-    time: "1 day ago",
-    content:
-      "Internship opportunity at a local startup! They're looking for marketing students with social media experience. Great learning opportunity with potential for full-time offer. DM me for details.",
-    likes: 32,
-    comments: 18,
-    shares: 12,
-    tags: ["Internship", "Marketing", "Opportunity", "Social Media"],
-    liked: true,
-    type: "opportunity",
-  },
-]
+// All data now comes from backend - no more mock data
 
-const mockGroups = [
-  {
-    id: 1,
-    name: "CS Final Year Projects",
-    members: 156,
-    description: "Share and discuss final year project ideas and progress",
-    category: "Academic",
-    isJoined: false,
-    recentActivity: "2 hours ago",
-    posts: 45,
-  },
-  {
-    id: 2,
-    name: "COMSATS Job Board",
-    members: 892,
-    description: "Job opportunities and career guidance for students",
-    category: "Career",
-    isJoined: true,
-    recentActivity: "1 hour ago",
-    posts: 123,
-  },
-  {
-    id: 3,
-    name: "Study Buddies",
-    members: 324,
-    description: "Find study partners and form study groups",
-    category: "Study",
-    isJoined: false,
-    recentActivity: "30 minutes ago",
-    posts: 67,
-  },
-  {
-    id: 4,
-    name: "Programming Help",
-    members: 567,
-    description: "Get help with coding assignments and projects",
-    category: "Academic",
-    isJoined: true,
-    recentActivity: "15 minutes ago",
-    posts: 234,
-  },
-]
+interface Group {
+  id: number
+  name: string
+  members: number
+  description: string
+  category: string
+  isJoined: boolean
+  recentActivity: string
+  posts: number
+}
 
-const upcomingEvents = [
-  {
-    id: 1,
-    title: "Tech Talk: AI in Industry",
-    date: "Dec 15, 2024",
-    time: "2:00 PM",
-    location: "Main Auditorium",
-    attendees: 45,
-  },
-  {
-    id: 2,
-    title: "Career Fair 2024",
-    date: "Dec 20, 2024",
-    time: "10:00 AM",
-    location: "Sports Complex",
-    attendees: 234,
-  },
-  {
-    id: 3,
-    title: "Study Group: Calculus",
-    date: "Dec 12, 2024",
-    time: "4:00 PM",
-    location: "Library Room 201",
-    attendees: 12,
-  },
-]
+interface Event {
+  id: string
+  title: string
+  date: string
+  time: string
+  location: string
+  attendees: number
+}
 
 export default function CommunityPage() {
   const [newPost, setNewPost] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
-  const [posts, setPosts] = useState<Post[]>(mockPosts)
-  const [groups, setGroups] = useState(mockGroups)
+  const [posts, setPosts] = useState<Post[]>([])
+  const [groups, setGroups] = useState<Group[]>([])
+  const [events, setEvents] = useState<Event[]>([])
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [postType, setPostType] = useState("general")
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false)
@@ -176,9 +78,44 @@ export default function CommunityPage() {
       setLoading(true)
       setError(null)
       try {
-        const [p, g] = await Promise.all([fetchPosts(100), fetchGroups()])
-        if (p.length) setPosts(p)
-        if (g.length) setGroups(g)
+        const [postsResponse, eventsResponse] = await Promise.all([
+          fetch('/api/community/posts'),
+          fetch('/api/news-events/events')
+        ])
+        
+        if (postsResponse.ok) {
+          const postsData = await postsResponse.json()
+          setPosts(postsData)
+        }
+        
+        if (eventsResponse.ok) {
+          const eventsData = await eventsResponse.json()
+          setEvents(eventsData.slice(0, 3)) // Show only 3 upcoming events
+        }
+        
+        // Load groups from static data for now (can be converted to backend later)
+        setGroups([
+          {
+            id: 1,
+            name: "CS Final Year Projects",
+            members: 156,
+            description: "Share and discuss final year project ideas and progress",
+            category: "Academic",
+            isJoined: false,
+            recentActivity: "2 hours ago",
+            posts: 45,
+          },
+          {
+            id: 2,
+            name: "COMSATS Job Board",
+            members: 892,
+            description: "Job opportunities and career guidance for students",
+            category: "Career",
+            isJoined: true,
+            recentActivity: "1 hour ago",
+            posts: 123,
+          }
+        ])
       } catch (e: any) {
         setError(e?.message || "Failed to load community data")
       } finally {
@@ -313,8 +250,8 @@ export default function CommunityPage() {
       return
     }
 
-    setGroups((prevGroups) =>
-      prevGroups.map((group) =>
+    setGroups((prevGroups: Group[]) =>
+      prevGroups.map((group: Group) =>
         group.id === groupId
           ? {
               ...group,
@@ -325,7 +262,7 @@ export default function CommunityPage() {
       ),
     )
 
-    const group = groups.find((g) => g.id === groupId)
+    const group = groups.find((g: Group) => g.id === groupId)
     toast({
       title: group?.isJoined ? "Left group" : "Joined group",
       description: group?.isJoined ? `You left ${group.name}` : `Welcome to ${group?.name}!`,
@@ -399,7 +336,7 @@ export default function CommunityPage() {
               <div className="flex items-center">
                 <Calendar className="h-8 w-8 text-orange-600" />
                 <div className="ml-4">
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{upcomingEvents.length}</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{events.length}</p>
                   <p className="text-gray-600 dark:text-gray-400">Upcoming Events</p>
                 </div>
               </div>
@@ -552,7 +489,7 @@ export default function CommunityPage() {
 
               <TabsContent value="events" className="space-y-6">
                 <div className="space-y-4">
-                  {upcomingEvents.map((event) => (
+                  {events.map((event: Event) => (
                     <Card key={event.id} className="hover:shadow-lg transition-shadow">
                       <CardContent className="p-6">
                         <div className="flex items-start justify-between">

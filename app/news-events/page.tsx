@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -34,111 +34,53 @@ interface Event {
   imageUrl?: string
 }
 
-const mockNews: NewsItem[] = [
-  {
-    id: "1",
-    title: "Spring 2024 Semester Registration Opens",
-    content: "Registration for Spring 2024 semester will begin on January 25th. Students are advised to complete their course selection and fee payment before the deadline.",
-    category: "academic",
-    publishedAt: "2024-01-20T10:00:00Z",
-    author: "Registrar Office",
-    isImportant: true,
-  },
-  {
-    id: "2",
-    title: "Annual Tech Fest 2024 Announced",
-    content: "COMSATS Lahore is excited to announce the Annual Tech Fest 2024. Join us for three days of innovation, competitions, and networking opportunities.",
-    category: "event",
-    publishedAt: "2024-01-19T14:30:00Z",
-    author: "Student Affairs",
-    isImportant: false,
-  },
-  {
-    id: "3",
-    title: "Library Hours Extended During Exams",
-    content: "The main library will remain open 24/7 during the final examination period to support students in their studies.",
-    category: "announcement",
-    publishedAt: "2024-01-18T09:15:00Z",
-    author: "Library Administration",
-    isImportant: false,
-  },
-  {
-    id: "4",
-    title: "Scholarship Application Deadline Extended",
-    content: "The deadline for merit-based scholarship applications has been extended to February 15th, 2024.",
-    category: "deadline",
-    publishedAt: "2024-01-17T16:45:00Z",
-    author: "Financial Aid Office",
-    isImportant: true,
-  },
-]
-
-const mockEvents: Event[] = [
-  {
-    id: "1",
-    title: "AI & Machine Learning Workshop",
-    description: "Learn the fundamentals of AI and ML with hands-on projects and industry experts.",
-    date: "2024-02-15",
-    time: "10:00 AM - 4:00 PM",
-    location: "CS Auditorium",
-    category: "workshop",
-    organizer: "CS Department",
-    capacity: 100,
-    registered: 75,
-    registrationOpen: true,
-  },
-  {
-    id: "2",
-    title: "Annual Sports Gala",
-    description: "Join us for a day of sports, fun, and competition. Multiple events including cricket, football, and badminton.",
-    date: "2024-02-20",
-    time: "9:00 AM - 6:00 PM",
-    location: "Sports Complex",
-    category: "sports",
-    organizer: "Sports Society",
-    capacity: 500,
-    registered: 320,
-    registrationOpen: true,
-  },
-  {
-    id: "3",
-    title: "Career Fair 2024",
-    description: "Meet with top employers and explore career opportunities. Bring your resume and dress professionally.",
-    date: "2024-02-25",
-    time: "11:00 AM - 5:00 PM",
-    location: "Main Hall",
-    category: "academic",
-    organizer: "Career Services",
-    registrationOpen: true,
-  },
-  {
-    id: "4",
-    title: "Cultural Night",
-    description: "Experience the rich cultural diversity of our campus with performances, food, and traditional displays.",
-    date: "2024-03-01",
-    time: "7:00 PM - 11:00 PM",
-    location: "Open Air Theater",
-    category: "cultural",
-    organizer: "Cultural Society",
-    capacity: 800,
-    registered: 450,
-    registrationOpen: true,
-  },
-]
+// All data now comes from backend - no more mock data
 
 export default function NewsEventsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [newsFilter, setNewsFilter] = useState<string>("all")
   const [eventsFilter, setEventsFilter] = useState<string>("all")
+  const [news, setNews] = useState<NewsItem[]>([])
+  const [events, setEvents] = useState<Event[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const filteredNews = mockNews.filter((item) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        const [newsResponse, eventsResponse] = await Promise.all([
+          fetch('/api/news-events/news'),
+          fetch('/api/news-events/events')
+        ])
+        
+        if (newsResponse.ok) {
+          const newsData = await newsResponse.json()
+          setNews(newsData)
+        }
+        
+        if (eventsResponse.ok) {
+          const eventsData = await eventsResponse.json()
+          setEvents(eventsData)
+        }
+      } catch (e: any) {
+        setError(e?.message || "Failed to load news and events")
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
+
+  const filteredNews = news.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          item.content.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesFilter = newsFilter === "all" || item.category === newsFilter
     return matchesSearch && matchesFilter
   })
 
-  const filteredEvents = mockEvents.filter((event) => {
+  const filteredEvents = events.filter((event) => {
     const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          event.description.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesFilter = eventsFilter === "all" || event.category === eventsFilter
