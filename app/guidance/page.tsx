@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Search, BookOpen, GraduationCap, FileText, DollarSign, MapPin } from "lucide-react"
 
 interface GuideSection {
@@ -263,7 +264,7 @@ export default function GuidancePage() {
 
           <TabsContent value="guides" className="space-y-6">
             {loading ? (
-              <div className="text-center py-8">Loading guidance content...</div>
+              <CenteredLoader message="Loading guidance content..." />
             ) : error ? (
               <div className="text-center py-8 text-red-600">{error}</div>
             ) : filteredSections.length === 0 ? (
@@ -308,7 +309,7 @@ export default function GuidancePage() {
 
           <TabsContent value="faqs" className="space-y-6">
             {loading ? (
-              <div className="text-center py-8">Loading FAQs...</div>
+              <CenteredLoader message="Loading FAQs..." />
             ) : error ? (
               <div className="text-center py-8 text-red-600">{error}</div>
             ) : filteredFaqs.length === 0 ? (

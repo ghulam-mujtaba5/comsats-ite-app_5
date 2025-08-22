@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, Plus, MapPin, Calendar, User, Loader2 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
+import { CenteredLoader } from "@/components/ui/loading-spinner"
 
 interface LostFoundItem {
   id: string
@@ -259,49 +260,53 @@ export default function LostFoundPage() {
       </div>
 
       {/* Items Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredItems.map((item) => (
-          <Card key={item.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <CardTitle className="text-lg">{item.title}</CardTitle>
-                <Badge variant={item.category === "lost" ? "destructive" : "default"}>
-                  {item.category === "lost" ? "Lost" : "Found"}
-                </Badge>
-              </div>
-              <CardDescription className="text-sm text-muted-foreground">
-                {item.item_type}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm mb-4">{item.description}</p>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  <span>{item.location}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
-                  <span>{new Date(item.created_at).toLocaleDateString()}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <User className="h-4 w-4" />
-                  <span>{item.contact_info}</span>
-                </div>
-              </div>
-              <Button className="w-full mt-4" variant="outline">
-                Contact Owner
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {loading ? (
+        <CenteredLoader message="Loading lost & found items..." />
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredItems.map((item) => (
+              <Card key={item.id} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="text-lg">{item.title}</CardTitle>
+                    <Badge variant={item.category === "lost" ? "destructive" : "default"}>
+                      {item.category === "lost" ? "Lost" : "Found"}
+                    </Badge>
+                  </div>
+                  <CardDescription className="text-sm text-muted-foreground">
+                    {item.item_type}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm mb-4">{item.description}</p>
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4" />
+                      <span>{item.location}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      <span>{new Date(item.created_at).toLocaleDateString()}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <User className="h-4 w-4" />
+                      <span>{item.contact_info}</span>
+                    </div>
+                  </div>
+                  <Button className="w-full mt-4" variant="outline">
+                    Contact Owner
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
 
-      {filteredItems.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">No items found matching your search.</p>
-        </div>
-      )}
+        {!loading && filteredItems.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No items found matching your search.</p>
+          </div>
+        )}
     </div>
   )
 }

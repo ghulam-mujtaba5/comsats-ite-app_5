@@ -9,6 +9,7 @@ import { departments, type Faculty, searchFaculty } from "@/lib/faculty-data"
 import { Users, Star, MessageSquare, Filter } from "lucide-react"
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 import { supabase } from "@/lib/supabase"
+import { CenteredLoader } from "@/components/ui/loading-spinner"
 
 export default function FacultyPage() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -159,7 +160,7 @@ export default function FacultyPage() {
           </div>
 
           {loading ? (
-            <Card className="p-12 text-center">Loading faculty...</Card>
+            <CenteredLoader message="Loading faculty members..." />
           ) : error ? (
             <Card className="p-12 text-center text-blue-600">{error}</Card>
           ) : filteredFaculty.length === 0 ? (

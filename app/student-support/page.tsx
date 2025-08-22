@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Heart, Phone, MessageCircle, BookOpen, Users, Shield, Clock, Mail } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { CenteredLoader } from "@/components/ui/loading-spinner"
 
 interface SupportResource {
   id: string
@@ -309,7 +310,7 @@ export default function StudentSupportPage() {
         <div>
           <h2 className="text-xl font-semibold mb-4">Available Support Resources</h2>
           {loading ? (
-            <div className="text-center py-8">Loading support resources...</div>
+            <CenteredLoader message="Loading support resources..." />
           ) : error ? (
             <div className="text-center py-8 text-red-600">{error}</div>
           ) : regularResources.length === 0 ? (

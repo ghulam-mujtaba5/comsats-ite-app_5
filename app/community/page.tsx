@@ -37,6 +37,7 @@ import { supabase } from "@/lib/supabase"
 import { fetchPosts, fetchGroups, toggleLikePerUser } from "@/lib/community"
 import type { Post } from "@/lib/community-data"
 import { ThreadCard } from "@/components/community/thread-card"
+import { CenteredLoader } from "@/components/ui/loading-spinner"
 
 // All data now comes from backend - no more mock data
 
@@ -426,7 +427,7 @@ export default function CommunityPage() {
 
                 <div className="space-y-6">
                   {loading ? (
-                    <Card className="p-8 text-center text-gray-500">Loading posts...</Card>
+                    <CenteredLoader message="Loading community posts..." />
                   ) : error ? (
                     <Card className="p-8 text-center text-blue-600">{error}</Card>
                   ) : filteredPosts.length === 0 ? (

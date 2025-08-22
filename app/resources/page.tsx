@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { BookOpen, Upload, ExternalLink, Download } from "lucide-react"
 import { AdvancedFilterBar, type Option } from "@/components/search/advanced-filter-bar"
+import { CenteredLoader } from "@/components/ui/loading-spinner"
 
 type Resource = {
   id: string
@@ -85,7 +86,7 @@ export default function ResourcesPage() {
             />
           </div>
 
-          {loading && <p>Loading…</p>}
+          {loading && <CenteredLoader message="Loading resources..." />}
           {error && <p className="text-blue-600">{error}</p>}
 
           {(!loading && items.length === 0) ? (
