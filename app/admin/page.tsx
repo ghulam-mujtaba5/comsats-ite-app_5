@@ -112,25 +112,41 @@ export default function AdminDashboardPage() {
         <div>
           <h2 className="text-2xl font-semibold mb-4">Management Sections</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <Link href="/admin/dashboard" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">📊 Dashboard</h3>
+              <p className="text-muted-foreground">View comprehensive stats and analytics.</p>
+            </Link>
+            <Link href="/admin/lost-found" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">🔍 Lost & Found</h3>
+              <p className="text-muted-foreground">Manage lost and found items.</p>
+            </Link>
+            <Link href="/admin/help-desk" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">🎫 Help Desk</h3>
+              <p className="text-muted-foreground">Manage support tickets and responses.</p>
+            </Link>
+            <Link href="/admin/news-events" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">📰 News & Events</h3>
+              <p className="text-muted-foreground">Create and manage news and events.</p>
+            </Link>
+            <Link href="/admin/student-support" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">❤️ Student Support</h3>
+              <p className="text-muted-foreground">Manage support resources and requests.</p>
+            </Link>
+            <Link href="/admin/guidance" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">📚 Guidance Portal</h3>
+              <p className="text-muted-foreground">Manage guides, policies, and FAQs.</p>
+            </Link>
             <Link href="/admin/faculty" className="block border rounded-lg p-5 hover:bg-accent">
-              <h3 className="text-xl font-semibold">Faculty</h3>
+              <h3 className="text-xl font-semibold">👨‍🏫 Faculty</h3>
               <p className="text-muted-foreground">Add, edit, and manage faculty members.</p>
             </Link>
-            <Link href="/admin/timetable-docs" className="block border rounded-lg p-5 hover:bg-accent">
-              <h3 className="text-xl font-semibold">Timetables</h3>
-              <p className="text-muted-foreground">Upload and manage timetable documents.</p>
-            </Link>
-            <Link href="/admin/resources" className="block border rounded-lg p-5 hover:bg-accent">
-              <h3 className="text-xl font-semibold">Resources</h3>
-              <p className="text-muted-foreground">Manage learning resources and links.</p>
-            </Link>
-            <Link href="/admin/news" className="block border rounded-lg p-5 hover:bg-accent">
-              <h3 className="text-xl font-semibold">News & Updates</h3>
-              <p className="text-muted-foreground">Create and publish news for students.</p>
-            </Link>
             <Link href="/admin/community" className="block border rounded-lg p-5 hover:bg-accent">
-              <h3 className="text-xl font-semibold">Community</h3>
-              <p className="text-muted-foreground">Manage student community cards.</p>
+              <h3 className="text-xl font-semibold">💬 Community</h3>
+              <p className="text-muted-foreground">Manage student community posts.</p>
+            </Link>
+            <Link href="/admin/users" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">👥 Users</h3>
+              <p className="text-muted-foreground">Manage user accounts and permissions.</p>
             </Link>
           </div>
         </div>
