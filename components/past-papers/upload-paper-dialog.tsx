@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { useAuth } from "@/contexts/auth-context"
 import {
   Dialog,
   DialogContent,
@@ -17,10 +16,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Upload, Plus, X, LogIn, Loader2 } from "lucide-react"
+import { Upload, Plus, X, Loader2 } from "lucide-react"
 import { departments, examTypes, semesters, getCoursesByDepartment, type Course, type Department } from "@/lib/past-papers-data"
 import { useToast } from "@/hooks/use-toast"
-import Link from "next/link"
 
 interface UploadPaperDialogProps {
   children: React.ReactNode
@@ -52,7 +50,6 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
       }
     }
   }, [courseCode])
-  const { isAuthenticated } = useAuth()
   const [formData, setFormData] = useState({
     title: "",
     department: "",
@@ -162,44 +159,13 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
     }
   }
 
-  const handleTriggerClick = () => {
-    if (!isAuthenticated) {
-      // Don't open dialog if not authenticated
-      return
-    }
-    setOpen(true)
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <Dialog>
-        <DialogTrigger asChild>
-          <div onClick={handleTriggerClick}>{children}</div>
-        </DialogTrigger>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <LogIn className="h-5 w-5 text-primary" />
-              Sign In Required
-            </DialogTitle>
-            <DialogDescription>You need to sign in with your COMSATS email to upload past papers.</DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col gap-4 pt-4">
-            <p className="text-sm text-muted-foreground">
-              Only verified COMSATS students can upload papers to maintain quality and authenticity.
-            </p>
-            <Button asChild>
-              <Link href="/auth">Sign In with University Email</Link>
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    )
-  }
+  const handleTriggerClick = () => setOpen(true)
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger asChild>
+        <div onClick={handleTriggerClick}>{children}</div>
+      </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">

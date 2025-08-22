@@ -7,8 +7,7 @@ export async function GET(req: NextRequest) {
   
   try {
     // Dev hardcoded admin session via cookie
-    const cookieStore = await cookies()
-    const devCookie = cookieStore.get('dev_admin')?.value
+    const devCookie = req.cookies.get('dev_admin')?.value
     if (devCookie === '1') {
       return NextResponse.json({ ok: true, role: 'super_admin', dev: true })
     }
