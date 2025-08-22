@@ -29,11 +29,39 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
+    setMessage("")
 
     try {
       await login(email, password)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed")
+    }
+  }
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError("Please enter your email address first")
+      return
+    }
+
+    setResetLoading(true)
+    setError("")
+    setMessage("")
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
+      })
+
+      if (error) {
+        setError(error.message)
+      } else {
+        setMessage("Password reset link sent to your email!")
+      }
+    } catch (err) {
+      setError("Failed to send reset email")
+    } finally {
+      setResetLoading(false)
     }
   }
 
