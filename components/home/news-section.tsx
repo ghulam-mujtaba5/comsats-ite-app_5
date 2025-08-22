@@ -3,41 +3,36 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Calendar, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 
-const newsItems = [
-  {
-    title: "Mid-Term Examinations Schedule Released",
-    description:
-      "The schedule for mid-term examinations has been published. Students are advised to check their respective department portals.",
-    date: "2024-03-15",
-    category: "Examinations",
-    image: "/placeholder-tfhrz.png",
-  },
-  {
-    title: "New Learning Resources Added",
-    description:
-      "Fresh study materials and past papers for Computer Science and Engineering departments have been uploaded.",
-    date: "2024-03-12",
-    category: "Resources",
-    image: "/placeholder-w0eji.png",
-  },
-  {
-    title: "Faculty Development Workshop",
-    description: "A workshop on modern teaching methodologies will be conducted for all faculty members next week.",
-    date: "2024-03-10",
-    category: "Faculty",
-    image: "/university-faculty-workshop.png",
-  },
-  {
-    title: "Student Portal Maintenance",
-    description: "The student portal will undergo scheduled maintenance this weekend. Please plan accordingly.",
-    date: "2024-03-08",
-    category: "Technical",
-    image: "/placeholder-7ca42.png",
-  },
-]
+type News = {
+  id: string
+  title: string
+  content: string
+  status: "draft" | "published"
+  published_at: string | null
+}
 
 export function NewsSection() {
+  const [items, setItems] = useState<News[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const res = await fetch('/api/news')
+        const json = await res.json()
+        const data: News[] = json.data || []
+        // Only show up to 4 latest
+        setItems(data.slice(0, 4))
+      } catch (e) {
+        setItems([])
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [])
+
   return (
     <section className="py-20 px-4">
       <div className="container mx-auto max-w-6xl">
@@ -55,37 +50,43 @@ export function NewsSection() {
             </Link>
           </Button>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {newsItems.map((item, index) => (
-            <Card key={index} className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
-              <div className="aspect-video relative overflow-hidden">
-                <img
-                  src={item.image || "/placeholder.svg"}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">{item.category}</Badge>
-              </div>
-              <CardHeader className="pb-2">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                  <Calendar className="h-4 w-4" />
-                  {new Date(item.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+        {loading ? (
+          <p>Loading…</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {items.map((item) => (
+              <Card key={item.id} className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
+                <div className="aspect-video relative overflow-hidden">
+                  <img
+                    src="/placeholder.svg"
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">Published</Badge>
                 </div>
-                <CardTitle className="text-xl group-hover:text-primary transition-colors line-clamp-2">
-                  {item.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="font-serif line-clamp-3">{item.description}</CardDescription>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                <CardHeader className="pb-2">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                    <Calendar className="h-4 w-4" />
+                    {item.published_at ? new Date(item.published_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }) : 'Draft'}
+                  </div>
+                  <CardTitle className="text-xl group-hover:text-primary transition-colors line-clamp-2">
+                    {item.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="font-serif line-clamp-3">{item.content}</CardDescription>
+                </CardContent>
+              </Card>
+            ))}
+            {items.length === 0 && (
+              <Card>
+                <CardContent className="p-6">
+                  <CardDescription>No news yet.</CardDescription>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        )}
 
         <div className="text-center mt-8 sm:hidden">
           <Button variant="outline" asChild>

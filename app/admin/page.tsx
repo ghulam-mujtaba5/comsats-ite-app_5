@@ -49,6 +49,14 @@ export default function AdminDashboardPage() {
             <h2 className="text-xl font-semibold">Resources</h2>
             <p className="text-muted-foreground">Add/edit/delete resources with Google Drive links or files</p>
           </Link>
+          <Link href="/admin/news" className="block border rounded-lg p-5 hover:bg-accent">
+            <h2 className="text-xl font-semibold">News & Updates</h2>
+            <p className="text-muted-foreground">Create, publish, edit, delete news posts</p>
+          </Link>
+          <Link href="/admin/community" className="block border rounded-lg p-5 hover:bg-accent">
+            <h2 className="text-xl font-semibold">Community Cards</h2>
+            <p className="text-muted-foreground">Manage student community cards and ordering</p>
+          </Link>
         </div>
       </div>
     </AdminGuard>

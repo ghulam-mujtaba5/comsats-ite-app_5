@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/footer"
 import { HeroSection } from "@/components/home/hero-section"
 import { FeatureCards } from "@/components/home/feature-cards"
 import { NewsSection } from "@/components/home/news-section"
+import { CommunitySection } from "@/components/home/community-section"
 import { FAQSection } from "@/components/home/faq-section"
 
 export default function HomePage() {
@@ -11,6 +12,7 @@ export default function HomePage() {
       <main className="flex-1">
         <HeroSection />
         <FeatureCards />
+        <CommunitySection />
         <NewsSection />
         <FAQSection />
       </main>
