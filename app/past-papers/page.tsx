@@ -3,32 +3,70 @@
 import { useState, useMemo } from "react"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CourseCard } from "@/components/past-papers/course-card"
 import { UploadPaperDialog } from "@/components/past-papers/upload-paper-dialog"
-import { getCoursesWithPapers, departments } from "@/lib/past-papers-data"
-import { Upload, FileText, Download, Users, Search } from "lucide-react"
+import {
+  getCoursesWithPapers,
+  departments,
+  examTypes,
+  semesters,
+  years,
+  type CourseWithPapers,
+} from "@/lib/past-papers-data"
+import { Upload, FileText, Download, Users } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
+import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 
 export default function PastPapersPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("All")
+  const [selectedExamType, setSelectedExamType] = useState("All")
+  const [selectedSemester, setSelectedSemester] = useState("All")
+  const [selectedYear, setSelectedYear] = useState("All")
 
   const coursesWithPapers = useMemo(() => getCoursesWithPapers(), [])
 
   const filteredCourses = useMemo(() => {
-    return coursesWithPapers.filter((course) => {
+    // Filter courses by search term and department first
+    const preliminaryFiltered = coursesWithPapers.filter((course) => {
       const matchesSearch =
-        searchTerm === "" ||
+        !searchTerm ||
         course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.code.toLowerCase().includes(searchTerm.toLowerCase())
-
       const matchesDepartment = selectedDepartment === "All" || course.department === selectedDepartment
-
       return matchesSearch && matchesDepartment
     })
-  }, [coursesWithPapers, searchTerm, selectedDepartment])
+
+    // If no other filters are active, return the preliminary results
+    if (selectedExamType === "All" && selectedSemester === "All" && selectedYear === "All") {
+      return preliminaryFiltered
+    }
+
+    // Otherwise, filter deeper by checking papers within each course
+    return preliminaryFiltered
+      .map((course) => {
+        const papers = [
+          ...course.assignments,
+          ...course.quizzes,
+          ...course.midterms,
+          ...course.finals,
+        ]
+
+        const filteredPapers = papers.filter(
+          (p) =>
+            (selectedExamType === "All" || p.examType === selectedExamType) &&
+            (selectedSemester === "All" || p.semester === selectedSemester) &&
+            (selectedYear === "All" || p.year.toString() === selectedYear)
+        )
+
+        // Return a new course object with only the filtered papers
+        return {
+          ...course,
+          totalPapers: filteredPapers.length,
+        }
+      })
+      .filter((course) => course.totalPapers > 0) // Only include courses that still have papers after filtering
+  }, [coursesWithPapers, searchTerm, selectedDepartment, selectedExamType, selectedSemester, selectedYear])
 
   const totalPapers = coursesWithPapers.reduce((sum, course) => sum + course.totalPapers, 0)
 
@@ -91,29 +129,48 @@ export default function PastPapersPage() {
           </div>
 
           {/* Search and Filters */}
-          <div className="flex flex-col md:flex-row gap-4 mb-8">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search courses..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-              <SelectTrigger className="w-full md:w-64">
-                <SelectValue placeholder="Select Department" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="All">All Departments</SelectItem>
-                {departments.map((dept) => (
-                  <SelectItem key={dept.id} value={dept.name}>
-                    {dept.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="mb-8">
+            <AdvancedFilterBar
+              search={searchTerm}
+              onSearchChange={setSearchTerm}
+              searchPlaceholder="Search by course name or code..."
+              selects={[
+                {
+                  id: "department",
+                  value: selectedDepartment,
+                  onChange: setSelectedDepartment,
+                  placeholder: "All Departments",
+                  options: [
+                    { label: "All Departments", value: "All" },
+                    ...departments.map((d) => ({ label: d.name, value: d.name })),
+                  ],
+                },
+                {
+                  id: "examType",
+                  value: selectedExamType,
+                  onChange: setSelectedExamType,
+                  placeholder: "All Exam Types",
+                  options: examTypes.map((t) => ({ label: t, value: t })),
+                },
+                {
+                  id: "semester",
+                  value: selectedSemester,
+                  onChange: setSelectedSemester,
+                  placeholder: "All Semesters",
+                  options: semesters.map((s) => ({ label: s, value: s })),
+                },
+                {
+                  id: "year",
+                  value: selectedYear,
+                  onChange: setSelectedYear,
+                  placeholder: "All Years",
+                  options: [
+                    { label: "All Years", value: "All" },
+                    ...years.map((y) => ({ label: y.toString(), value: y.toString() })),
+                  ],
+                },
+              ]}
+            />
           </div>
 
           {/* Results */}
@@ -134,6 +191,9 @@ export default function PastPapersPage() {
                   onClick={() => {
                     setSearchTerm("")
                     setSelectedDepartment("All")
+                    setSelectedExamType("All")
+                    setSelectedSemester("All")
+                    setSelectedYear("All")
                   }}
                   className="bg-transparent"
                 >

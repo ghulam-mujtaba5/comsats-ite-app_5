@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { BookOpen, Upload, ExternalLink, Download } from "lucide-react"
+import { AdvancedFilterBar, type Option } from "@/components/search/advanced-filter-bar"
 
 type Resource = {
   id: string
@@ -23,6 +24,9 @@ export default function ResourcesPage() {
   const [items, setItems] = useState<Resource[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [search, setSearch] = useState("")
+  const [dept, setDept] = useState("All")
+  const [term, setTerm] = useState("All")
 
   useEffect(() => {
     (async () => {
@@ -50,6 +54,37 @@ export default function ResourcesPage() {
             </p>
           </div>
 
+          {/* Filters */}
+          <div className="mb-6">
+            <AdvancedFilterBar
+              searchPlaceholder="Search resources..."
+              search={search}
+              onSearchChange={setSearch}
+              selects={[
+                {
+                  id: "dept",
+                  value: dept,
+                  onChange: setDept,
+                  placeholder: "All Departments",
+                  options: useMemo<Option[]>(() => {
+                    const values = Array.from(new Set(items.map((i) => i.department || "General"))).sort()
+                    return [{ label: "All Departments", value: "All" }, ...values.map((v) => ({ label: v, value: v }))]
+                  }, [items]),
+                },
+                {
+                  id: "term",
+                  value: term,
+                  onChange: setTerm,
+                  placeholder: "All Terms",
+                  options: useMemo<Option[]>(() => {
+                    const values = Array.from(new Set(items.map((i) => i.term || "Unspecified"))).sort()
+                    return [{ label: "All Terms", value: "All" }, ...values.map((v) => ({ label: v, value: v }))]
+                  }, [items]),
+                },
+              ]}
+            />
+          </div>
+
           {loading && <p>Loading…</p>}
           {error && <p className="text-blue-600">{error}</p>}
 
@@ -61,7 +96,17 @@ export default function ResourcesPage() {
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {items.map((r) => (
+              {useMemo(() => {
+                const s = search.toLowerCase().trim()
+                return items
+                  .filter((r) =>
+                    s
+                      ? (r.title?.toLowerCase().includes(s) || (r.description || "").toLowerCase().includes(s))
+                      : true,
+                  )
+                  .filter((r) => (dept === "All" ? true : (r.department || "General") === dept))
+                  .filter((r) => (term === "All" ? true : (r.term || "Unspecified") === term))
+              }, [items, search, dept, term]).map((r) => (
                 <Card key={r.id} className="p-4">
                   <div className="space-y-2">
                     <h2 className="text-lg font-semibold">{r.title}</h2>

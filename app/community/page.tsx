@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -33,10 +34,13 @@ import {
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
 import { supabase } from "@/lib/supabase"
+import { fetchPosts, fetchGroups, toggleLikePerUser } from "@/lib/community"
+import type { Post } from "@/lib/community-data"
+import { ThreadCard } from "@/components/community/thread-card"
 
-const mockPosts = [
+const mockPosts: Post[] = [
   {
-    id: 1,
+    id: "1",
     author: "Ahmad Hassan",
     avatar: "/student-avatar.png",
     department: "Computer Science",
@@ -52,7 +56,7 @@ const mockPosts = [
     type: "achievement",
   },
   {
-    id: 2,
+    id: "2",
     author: "Fatima Khan",
     avatar: "/female-student-avatar.png",
     department: "Electrical Engineering",
@@ -68,7 +72,7 @@ const mockPosts = [
     type: "study",
   },
   {
-    id: 3,
+    id: "3",
     author: "Ali Raza",
     avatar: "/male-student-avatar.png",
     department: "Business Administration",
@@ -158,7 +162,7 @@ const upcomingEvents = [
 export default function CommunityPage() {
   const [newPost, setNewPost] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
-  const [posts, setPosts] = useState(mockPosts)
+  const [posts, setPosts] = useState<Post[]>(mockPosts)
   const [groups, setGroups] = useState(mockGroups)
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [postType, setPostType] = useState("general")
@@ -171,48 +175,15 @@ export default function CommunityPage() {
     const load = async () => {
       setLoading(true)
       setError(null)
-      const [{ data: pData, error: pErr }, { data: gData, error: gErr }] = await Promise.all([
-        supabase
-          .from("community_posts")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .limit(100),
-        supabase.from("community_groups").select("*").order("name"),
-      ])
-
-      if (pErr) setError(pErr.message)
-      if (gErr) setError((prev) => prev ?? gErr.message)
-
-      const mappedPosts = (pData || []).map((row: any) => ({
-        id: row.id,
-        author: row.author_name || row.user_name || "Anonymous",
-        avatar: row.avatar_url || "/student-avatar.png",
-        department: row.department || "",
-        semester: row.semester || "",
-        time: row.created_at ? new Date(row.created_at).toLocaleString() : "",
-        content: row.content,
-        likes: Number(row.likes ?? 0),
-        comments: Number(row.comments_count ?? 0),
-        shares: Number(row.shares ?? 0),
-        tags: Array.isArray(row.tags) ? row.tags : [],
-        liked: !!row.liked,
-        type: row.type || "general",
-      }))
-
-      const mappedGroups = (gData || []).map((row: any) => ({
-        id: row.id,
-        name: row.name,
-        members: Number(row.members ?? 0),
-        description: row.description || "",
-        category: row.category || "General",
-        isJoined: !!row.is_joined,
-        recentActivity: row.recent_activity || "",
-        posts: Number(row.posts ?? 0),
-      }))
-
-      if (mappedPosts.length) setPosts(mappedPosts)
-      if (mappedGroups.length) setGroups(mappedGroups)
-      setLoading(false)
+      try {
+        const [p, g] = await Promise.all([fetchPosts(100), fetchGroups()])
+        if (p.length) setPosts(p)
+        if (g.length) setGroups(g)
+      } catch (e: any) {
+        setError(e?.message || "Failed to load community data")
+      } finally {
+        setLoading(false)
+      }
     }
     load()
   }, [])
@@ -247,8 +218,8 @@ export default function CommunityPage() {
       }
       const { data, error } = await supabase.from("community_posts").insert(payload).select("*").single()
       if (error) throw error
-      const inserted = {
-        id: data.id,
+      const inserted: Post = {
+        id: String(data.id),
         author: data.author_name,
         avatar: data.avatar_url,
         department: data.department || "",
@@ -276,7 +247,7 @@ export default function CommunityPage() {
     return hashtags.map((tag) => tag.substring(1))
   }
 
-  const handleLike = (postId: number) => {
+  const handleLike = async (postId: string) => {
     if (!user) {
       toast({
         title: "Authentication Required",
@@ -286,17 +257,50 @@ export default function CommunityPage() {
       return
     }
 
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
+    // optimistic update
+    let optimisticPrev: Post[] = []
+    setPosts((prevPosts) => {
+      optimisticPrev = prevPosts
+      return prevPosts.map((post) =>
         post.id === postId
-          ? {
-              ...post,
-              liked: !post.liked,
-              likes: post.liked ? post.likes - 1 : post.likes + 1,
-            }
+          ? { ...post, liked: !post.liked, likes: post.liked ? post.likes - 1 : post.likes + 1 }
           : post,
-      ),
-    )
+      )
+    })
+
+    try {
+      const current = (list: typeof posts) => list.find((x) => x.id === postId)
+      const after = current(
+        optimisticPrev.map((post) =>
+          post.id === postId
+            ? { ...post, liked: !post.liked, likes: post.liked ? post.likes - 1 : post.likes + 1 }
+            : post,
+        ),
+      )
+      // Try per-user like first
+      await toggleLikePerUser(postId, user.id, !(after?.liked === true ? true : false))
+    } catch (e1: any) {
+      try {
+        // Fallback to column-based update
+        const current = (list: typeof posts) => list.find((x) => x.id === postId)
+        const after = current(
+          optimisticPrev.map((post) =>
+            post.id === postId
+              ? { ...post, liked: !post.liked, likes: post.liked ? post.likes - 1 : post.likes + 1 }
+              : post,
+          ),
+        )
+        const { error } = await supabase
+          .from("community_posts")
+          .update({ likes: after?.likes, liked: after?.liked })
+          .eq("id", postId)
+        if (error) throw error
+      } catch (e2: any) {
+        // revert on failure
+        setPosts((_) => optimisticPrev)
+        toast({ title: "Failed to update like", description: e2?.message || "Please try again.", variant: "destructive" })
+      }
+    }
   }
 
   const handleJoinGroup = (groupId: number) => {
@@ -491,67 +495,12 @@ export default function CommunityPage() {
                   ) : filteredPosts.length === 0 ? (
                     <Card className="p-8 text-center">No posts found.</Card>
                   ) : (
-                  filteredPosts.map((post) => (
-                    <Card key={post.id} className="hover:shadow-lg transition-shadow">
-                      <CardContent className="p-6">
-                        <div className="flex items-start space-x-4">
-                          <Avatar className="h-12 w-12">
-                            <AvatarImage src={post.avatar || "/placeholder.svg"} />
-                            <AvatarFallback>
-                              {post.author
-                                .split(" ")
-                                .map((n) => n[0])
-                                .join("")}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1">
-                            <div className="flex items-center space-x-2 mb-2">
-                              <h4 className="font-semibold text-gray-900 dark:text-white">{post.author}</h4>
-                              <Badge className="border-transparent bg-secondary text-secondary-foreground">{post.department}</Badge>
-                              <Badge className="text-xs border text-foreground">
-                                {post.semester}
-                              </Badge>
-                              <span className="text-sm text-gray-500">{post.time}</span>
-                            </div>
-                            <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">{post.content}</p>
-                            <div className="flex flex-wrap gap-2 mb-4">
-                              {post.tags.map((tag) => (
-                                <Badge key={tag} className="text-xs border cursor-pointer hover:bg-blue-50">
-                                  #{tag}
-                                </Badge>
-                              ))}
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-6 text-gray-500">
-                                <button
-                                  onClick={() => handleLike(post.id)}
-                                  className={`flex items-center space-x-1 hover:text-blue-500 transition-colors ${
-                                    post.liked ? "text-blue-500" : ""
-                                  }`}
-                                >
-                                  <Heart className={`h-4 w-4 ${post.liked ? "fill-current" : ""}`} />
-                                  <span>{post.likes}</span>
-                                </button>
-                                <button className="flex items-center space-x-1 hover:text-green-500 transition-colors">
-                                  <MessageCircle className="h-4 w-4" />
-                                  <span>{post.comments}</span>
-                                </button>
-                                <button className="flex items-center space-x-1 hover:text-purple-500 transition-colors">
-                                  <Share2 className="h-4 w-4" />
-                                  <span>{post.shares}</span>
-                                </button>
-                              </div>
-                              <Badge
-                                className={`capitalize ${post.type === "achievement" ? "bg-primary text-primary-foreground border-transparent" : "bg-secondary text-secondary-foreground border-transparent"}`}
-                              >
-                                {post.type}
-                              </Badge>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  )))}
+                    filteredPosts.map((post) => (
+                      <Link href={`/community/post/${post.id}`} key={post.id} className="block">
+                        <ThreadCard thread={post} handleLike={handleLike} />
+                      </Link>
+                    ))
+                  )}
                 </div>
               </TabsContent>
 

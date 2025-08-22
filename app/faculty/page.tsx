@@ -3,12 +3,11 @@
 import { useEffect, useMemo, useState } from "react"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent } from "@/components/ui/card"
 import { FacultyCard } from "@/components/faculty/faculty-card"
 import { departments, type Faculty, searchFaculty } from "@/lib/faculty-data"
-import { Search, Users, Star, MessageSquare, Filter } from "lucide-react"
+import { Users, Star, MessageSquare, Filter } from "lucide-react"
+import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 import { supabase } from "@/lib/supabase"
 
 export default function FacultyPage() {
@@ -135,29 +134,20 @@ export default function FacultyPage() {
           {/* Search and Filters */}
           <Card className="mb-8">
             <CardContent className="p-6">
-              <div className="flex flex-col md:flex-row gap-4">
-                <div className="flex-1 relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search faculty by name, specialization, or courses..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
-                <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-                  <SelectTrigger className="w-full md:w-64">
-                    <SelectValue placeholder="All Departments" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {departments.map((dept) => (
-                      <SelectItem key={dept} value={dept}>
-                        {dept}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <AdvancedFilterBar
+                search={searchQuery}
+                onSearchChange={setSearchQuery}
+                searchPlaceholder="Search faculty by name, specialization, or courses..."
+                selects={[
+                  {
+                    id: "department",
+                    value: selectedDepartment,
+                    onChange: setSelectedDepartment,
+                    placeholder: "All Departments",
+                    options: departments.map((d) => ({ label: d, value: d })),
+                  },
+                ]}
+              />
             </CardContent>
           </Card>
 

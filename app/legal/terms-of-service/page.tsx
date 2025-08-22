@@ -57,7 +57,7 @@ export default function TermsOfServicePage() {
             <section>
               <h2 className="text-2xl font-semibold text-foreground mb-4">6. Contact Us</h2>
               <p>
-                If you have any questions about these Terms, please contact us at support@campusaxis.com.
+                If you have any questions about these Terms, please contact us at campusaxis0@gmail.com.
               </p>
             </section>
           </div>

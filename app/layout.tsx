@@ -34,7 +34,7 @@ html {
 }
         `}</style>
       </head>
-      <body className={`${GeistSans.variable} ${manrope.variable} antialiased`}>
+      <body className={`${GeistSans.variable} ${manrope.variable} antialiased bg-background text-foreground`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <AuthProvider>
             <Header />
