@@ -12,10 +12,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from "@/contexts/auth-context"
-import { GraduationCap, LogOut, User, Menu, Calculator, FileText, Users, BookOpen, Calendar } from "lucide-react"
+import { GraduationCap, LogOut, User, Menu, Calculator, FileText, Users, BookOpen, Calendar, Shield } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { isAdminAuthed } from "@/lib/admin"
 
 const navigationItems = [
   {
@@ -54,6 +55,12 @@ export function Header() {
   const { user, logout, isAuthenticated } = useAuth()
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    // Local check based on admin session flag
+    setIsAdmin(isAdminAuthed())
+  }, [])
 
   const isActivePath = (path: string) => {
     return pathname === path || (path !== "/" && pathname.startsWith(path))
@@ -91,6 +98,14 @@ export function Header() {
         </nav>
 
         <div className="flex items-center space-x-2">
+          {isAdmin && (
+            <Link href="/admin" title="Admin Panel" className="hidden lg:inline-flex">
+              <Button variant="ghost" size="sm" className="px-2">
+                <Shield className="h-5 w-5" />
+                <span className="sr-only">Admin Panel</span>
+              </Button>
+            </Link>
+          )}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="sm" className="lg:hidden">
@@ -129,6 +144,20 @@ export function Header() {
                     </Link>
                   )
                 })}
+
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-start space-x-3 p-3 rounded-lg transition-colors hover:bg-accent"
+                  >
+                    <Shield className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                    <div className="flex flex-col">
+                      <span className="font-medium">Admin Panel</span>
+                      <span className="text-sm text-muted-foreground">Manage site content</span>
+                    </div>
+                  </Link>
+                )}
               </div>
             </SheetContent>
           </Sheet>
