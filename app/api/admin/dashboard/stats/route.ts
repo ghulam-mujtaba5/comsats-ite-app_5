@@ -1,0 +1,70 @@
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+import { NextRequest, NextResponse } from 'next/server'
+
+async function checkAdminAccess(supabase: any) {
+  const { data: { user } } = await supabase.auth.getUser()
+  
+  if (!user) {
+    return { isAdmin: false, user: null }
+  }
+
+  const { data: adminUser } = await supabase
+    .from('admin_users')
+    .select('id')
+    .eq('user_id', user.id)
+    .single()
+
+  return { isAdmin: !!adminUser, user }
+}
+
+export async function GET(request: NextRequest) {
+  const supabase = createRouteHandlerClient({ cookies })
+  
+  const { isAdmin } = await checkAdminAccess(supabase)
+  
+  if (!isAdmin) {
+    return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })
+  }
+
+  try {
+    // Get counts for all tables
+    const [
+      lostFoundResult,
+      ticketsResult,
+      newsResult,
+      eventsResult,
+      supportRequestsResult,
+      guidanceResult,
+      faqResult,
+      usersResult,
+      activeTicketsResult
+    ] = await Promise.all([
+      supabase.from('lost_found_items').select('*', { count: 'exact', head: true }),
+      supabase.from('help_desk_tickets').select('*', { count: 'exact', head: true }),
+      supabase.from('news_items').select('*', { count: 'exact', head: true }),
+      supabase.from('events').select('*', { count: 'exact', head: true }),
+      supabase.from('support_requests').select('*', { count: 'exact', head: true }),
+      supabase.from('guidance_content').select('*', { count: 'exact', head: true }),
+      supabase.from('faq_items').select('*', { count: 'exact', head: true }),
+      supabase.auth.admin.listUsers(),
+      supabase.from('help_desk_tickets').select('*', { count: 'exact', head: true }).in('status', ['open', 'in-progress'])
+    ])
+
+    const stats = {
+      lostFoundItems: lostFoundResult.count || 0,
+      helpDeskTickets: ticketsResult.count || 0,
+      newsItems: newsResult.count || 0,
+      events: eventsResult.count || 0,
+      supportRequests: supportRequestsResult.count || 0,
+      guidanceContent: (guidanceResult.count || 0) + (faqResult.count || 0),
+      totalUsers: usersResult.data?.users?.length || 0,
+      activeTickets: activeTicketsResult.count || 0
+    }
+
+    return NextResponse.json(stats)
+  } catch (error) {
+    console.error('Error fetching dashboard stats:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}

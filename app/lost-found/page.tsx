@@ -68,6 +68,13 @@ export default function LostFoundPage() {
     fetchItems()
   }, [filterCategory, searchQuery])
 
+  const filteredItems = items.filter((item) => {
+    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         item.description.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesCategory = filterCategory === "all" || item.category === filterCategory
+    return matchesSearch && matchesCategory && item.status === "active"
+  })
+
   const handleSubmit = async () => {
     if (!isAuthenticated) {
       toast({
@@ -211,13 +218,14 @@ export default function LostFoundPage() {
                 <Label htmlFor="contact">Contact Information</Label>
                 <Input
                   id="contact"
-                  value={newItem.contactInfo}
-                  onChange={(e) => setNewItem({ ...newItem, contactInfo: e.target.value })}
+                  value={newItem.contact_info}
+                  onChange={(e) => setNewItem({ ...newItem, contact_info: e.target.value })}
                   placeholder="Your email or phone number"
                 />
               </div>
             </div>
-            <Button onClick={handleSubmit} className="w-full">
+            <Button onClick={handleSubmit} className="w-full" disabled={submitting}>
+              {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Submit Report
             </Button>
           </DialogContent>
@@ -262,7 +270,7 @@ export default function LostFoundPage() {
                 </Badge>
               </div>
               <CardDescription className="text-sm text-muted-foreground">
-                {item.type}
+                {item.item_type}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -274,11 +282,11 @@ export default function LostFoundPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  <span>{new Date(item.date).toLocaleDateString()}</span>
+                  <span>{new Date(item.created_at).toLocaleDateString()}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <User className="h-4 w-4" />
-                  <span>{item.contactInfo}</span>
+                  <span>{item.contact_info}</span>
                 </div>
               </div>
               <Button className="w-full mt-4" variant="outline">

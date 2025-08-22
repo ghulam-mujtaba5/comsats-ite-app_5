@@ -1,8 +1,8 @@
 -- COMSATS ITE App - Complete Database Schema
 -- Run this in your Supabase SQL editor
 
--- Enable RLS (Row Level Security)
-ALTER DATABASE postgres SET "app.jwt_secret" TO 'your-jwt-secret';
+-- Enable necessary extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Create tables
 
