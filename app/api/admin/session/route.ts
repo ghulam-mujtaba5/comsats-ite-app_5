@@ -6,6 +6,13 @@ export async function GET(req: NextRequest) {
   const supabase = createRouteHandlerClient({ cookies })
   
   try {
+    // Dev hardcoded admin session via cookie
+    const cookieStore = await cookies()
+    const devCookie = cookieStore.get('dev_admin')?.value
+    if (devCookie === '1') {
+      return NextResponse.json({ ok: true, role: 'super_admin', dev: true })
+    }
+
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
@@ -39,7 +46,7 @@ export async function POST(req: NextRequest) {
 
     // Hardcoded super admin credentials for development
     if (username === 'admin@cuilahore.edu.pk' && password === 'admin123') {
-      return NextResponse.json({ 
+      const res = NextResponse.json({ 
         ok: true, 
         role: 'super_admin',
         user: {
@@ -47,6 +54,16 @@ export async function POST(req: NextRequest) {
           email: 'admin@cuilahore.edu.pk'
         }
       })
+      // Set dev admin cookie to persist session for AdminGuard GET check
+      res.cookies.set('dev_admin', '1', {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        // secure in production environments
+        secure: process.env.NODE_ENV === 'production',
+        // session cookie (clears on browser close)
+      })
+      return res
     }
 
     return NextResponse.json({ error: 'Invalid admin credentials' }, { status: 401 })
