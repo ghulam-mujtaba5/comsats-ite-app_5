@@ -71,12 +71,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Registration failed");
+        // Ensure the error message from the API is thrown
+        throw new Error(data.error || "An unknown registration error occurred.");
       }
 
-      // Manually update the user session after successful registration
-      await supabase.auth.signInWithPassword({ email, password });
-
+      // On successful registration, Supabase sends a verification email.
+      // The user should not be logged in until they verify.
       return data;
     } finally {
       setIsLoading(false);

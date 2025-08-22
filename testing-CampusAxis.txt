@@ -16,12 +16,16 @@ Past Paper Section:
 
 Sign in or Up:
 - Password viewer button is now available on sign-in and sign-up forms. - Fixed
+- Password- Preview Page of any section is not working - Fixed
+- Password- Account is being login by our Email like simple Gmail as well(At Account creation in email section only email with right format should pass only) - Fixed
 - A pop-up is now displayed for successful account creation. - Fixed 
 
 GPA Calculator:
 - Each GPA calculator feature now has its own separate page for improved SEO. - Fixed
 
 Faculty Reviews Section:
+- A pop-up is now displayed for successful faculty review submissions, and reviews are saved correctly. - Fixed
+- Faculty page statistics are now dynamic and reflect real data. - Fixed
 
 Home Page:
 - The website logo has been updated. - Fixed

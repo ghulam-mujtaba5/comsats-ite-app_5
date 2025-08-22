@@ -15,10 +15,29 @@ export default function FacultyPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("All")
   const [facultyList, setFacultyList] = useState<Faculty[]>([])
+  const [stats, setStats] = useState({ facultyCount: 0, totalReviews: 0, averageRating: 0, departmentCount: 0 })
+  const [statsLoading, setStatsLoading] = useState(true)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    const fetchStats = async () => {
+      setStatsLoading(true)
+      try {
+        const res = await fetch('/api/faculty/stats')
+        if (!res.ok) throw new Error('Failed to fetch stats')
+        const data = await res.json()
+        setStats(data)
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setStatsLoading(false)
+      }
+    }
+
+    fetchStats()
+
+
     const load = async () => {
       setLoading(true)
       setError(null)
@@ -59,10 +78,6 @@ export default function FacultyPage() {
     return faculty
   }, [searchQuery, selectedDepartment, facultyList])
 
-  const totalReviews = facultyList.reduce((sum, f) => sum + (f.totalReviews || 0), 0)
-  const averageRating = facultyList.length
-    ? facultyList.reduce((sum, f) => sum + (f.averageRating || 0), 0) / facultyList.length
-    : 0
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -83,7 +98,7 @@ export default function FacultyPage() {
               <CardContent className="flex items-center gap-3 p-4">
                 <Users className="h-8 w-8 text-primary" />
                 <div>
-                  <div className="text-2xl font-bold">{facultyList.length}</div>
+                  <div className="text-2xl font-bold">{statsLoading ? "..." : stats.facultyCount}</div>
                   <div className="text-sm text-muted-foreground">Faculty Members</div>
                 </div>
               </CardContent>
@@ -92,7 +107,7 @@ export default function FacultyPage() {
               <CardContent className="flex items-center gap-3 p-4">
                 <MessageSquare className="h-8 w-8 text-accent" />
                 <div>
-                  <div className="text-2xl font-bold">{totalReviews}</div>
+                  <div className="text-2xl font-bold">{statsLoading ? "..." : stats.totalReviews}</div>
                   <div className="text-sm text-muted-foreground">Total Reviews</div>
                 </div>
               </CardContent>
@@ -101,7 +116,7 @@ export default function FacultyPage() {
               <CardContent className="flex items-center gap-3 p-4">
                 <Star className="h-8 w-8 text-yellow-500" />
                 <div>
-                  <div className="text-2xl font-bold">{averageRating.toFixed(1)}</div>
+                  <div className="text-2xl font-bold">{statsLoading ? "..." : stats.averageRating.toFixed(1)}</div>
                   <div className="text-sm text-muted-foreground">Average Rating</div>
                 </div>
               </CardContent>
@@ -110,7 +125,7 @@ export default function FacultyPage() {
               <CardContent className="flex items-center gap-3 p-4">
                 <Filter className="h-8 w-8 text-primary" />
                 <div>
-                  <div className="text-2xl font-bold">{departments.length - 1}</div>
+                  <div className="text-2xl font-bold">{statsLoading ? "..." : stats.departmentCount}</div>
                   <div className="text-sm text-muted-foreground">Departments</div>
                 </div>
               </CardContent>
