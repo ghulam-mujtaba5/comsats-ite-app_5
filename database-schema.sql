@@ -4,6 +4,17 @@
 -- Enable necessary extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- Drop existing policies to avoid conflicts
+DO $$ 
+BEGIN
+    DROP POLICY IF EXISTS "Anyone can view lost and found items" ON lost_found_items;
+    DROP POLICY IF EXISTS "Users can create lost and found items" ON lost_found_items;
+    DROP POLICY IF EXISTS "Users can update their own items" ON lost_found_items;
+    DROP POLICY IF EXISTS "Users can delete their own items" ON lost_found_items;
+EXCEPTION
+    WHEN undefined_table THEN NULL;
+END $$;
+
 -- Create tables
 
 -- Admin Users Table
