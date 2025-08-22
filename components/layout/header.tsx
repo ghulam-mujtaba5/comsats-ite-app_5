@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from "@/contexts/auth-context"
-import { GraduationCap, LogOut, User, Menu, Calculator, FileText, Users, BookOpen, Calendar, Shield, Search, HelpCircle, Newspaper } from "lucide-react"
+import { GraduationCap, LogOut, User, Menu, Calculator, FileText, Users, BookOpen, Calendar, Shield, Search, HelpCircle, Newspaper, Info, Heart } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -48,6 +48,18 @@ const navigationItems = [
     href: "/news-events",
     icon: Newspaper,
     description: "Stay updated with campus news and events",
+  },
+  {
+    name: "Guidance Portal",
+    href: "/guidance",
+    icon: Info,
+    description: "Essential policies and student guides",
+  },
+  {
+    name: "Student Support",
+    href: "/student-support",
+    icon: Heart,
+    description: "Mental health and academic support resources",
   },
   {
     name: "Past Papers",

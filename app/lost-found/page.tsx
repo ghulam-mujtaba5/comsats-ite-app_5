@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -9,59 +9,30 @@ import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search, Plus, MapPin, Calendar, User } from "lucide-react"
+import { Search, Plus, MapPin, Calendar, User, Loader2 } from "lucide-react"
+import { useAuth } from "@/contexts/auth-context"
+import { toast } from "@/hooks/use-toast"
 
 interface LostFoundItem {
   id: string
   title: string
   description: string
   category: "lost" | "found"
-  type: string
+  item_type: string
   location: string
-  date: string
-  contactInfo: string
-  status: "active" | "resolved"
-  imageUrl?: string
+  contact_info: string
+  status: "active" | "resolved" | "closed"
+  image_url?: string
+  created_at: string
+  updated_at: string
+  user_id: string
 }
 
-const mockItems: LostFoundItem[] = [
-  {
-    id: "1",
-    title: "Black iPhone 14",
-    description: "Lost my black iPhone 14 near the library. Has a clear case with a blue sticker.",
-    category: "lost",
-    type: "Electronics",
-    location: "Main Library",
-    date: "2024-01-20",
-    contactInfo: "ahmad.ali@student.comsats.edu.pk",
-    status: "active",
-  },
-  {
-    id: "2",
-    title: "Red Water Bottle",
-    description: "Found a red water bottle in the CS department. Has 'Sarah' written on it.",
-    category: "found",
-    type: "Personal Items",
-    location: "CS Department",
-    date: "2024-01-19",
-    contactInfo: "fatima.khan@student.comsats.edu.pk",
-    status: "active",
-  },
-  {
-    id: "3",
-    title: "Blue Backpack",
-    description: "Lost my blue Adidas backpack containing textbooks and notebooks.",
-    category: "lost",
-    type: "Bags",
-    location: "Cafeteria",
-    date: "2024-01-18",
-    contactInfo: "usman.malik@student.comsats.edu.pk",
-    status: "resolved",
-  },
-]
-
 export default function LostFoundPage() {
-  const [items, setItems] = useState<LostFoundItem[]>(mockItems)
+  const { user, isAuthenticated } = useAuth()
+  const [items, setItems] = useState<LostFoundItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [filterCategory, setFilterCategory] = useState<"all" | "lost" | "found">("all")
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -70,35 +41,85 @@ export default function LostFoundPage() {
     title: "",
     description: "",
     category: "lost" as "lost" | "found",
-    type: "",
+    item_type: "",
     location: "",
-    contactInfo: "",
+    contact_info: "",
   })
 
-  const filteredItems = items.filter((item) => {
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         item.description.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = filterCategory === "all" || item.category === filterCategory
-    return matchesSearch && matchesCategory && item.status === "active"
-  })
-
-  const handleSubmit = () => {
-    const item: LostFoundItem = {
-      id: Date.now().toString(),
-      ...newItem,
-      date: new Date().toISOString().split('T')[0],
-      status: "active",
+  const fetchItems = async () => {
+    try {
+      const params = new URLSearchParams()
+      if (filterCategory !== "all") params.append("category", filterCategory)
+      if (searchQuery) params.append("search", searchQuery)
+      
+      const response = await fetch(`/api/lost-found?${params}`)
+      if (response.ok) {
+        const data = await response.json()
+        setItems(data)
+      }
+    } catch (error) {
+      console.error("Error fetching items:", error)
+    } finally {
+      setLoading(false)
     }
-    setItems([item, ...items])
-    setNewItem({
-      title: "",
-      description: "",
-      category: "lost",
-      type: "",
-      location: "",
-      contactInfo: "",
-    })
-    setIsDialogOpen(false)
+  }
+
+  useEffect(() => {
+    fetchItems()
+  }, [filterCategory, searchQuery])
+
+  const handleSubmit = async () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to report items.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setSubmitting(true)
+    try {
+      const response = await fetch("/api/lost-found", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newItem),
+      })
+
+      if (response.ok) {
+        toast({
+          title: "Success",
+          description: "Item reported successfully!",
+        })
+        setNewItem({
+          title: "",
+          description: "",
+          category: "lost",
+          item_type: "",
+          location: "",
+          contact_info: "",
+        })
+        setIsDialogOpen(false)
+        fetchItems()
+      } else {
+        const error = await response.json()
+        toast({
+          title: "Error",
+          description: error.error || "Failed to report item",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -149,10 +170,10 @@ export default function LostFoundPage() {
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="type">Item Type</Label>
+                <Label htmlFor="item_type">Item Type</Label>
                 <Select
-                  value={newItem.type}
-                  onValueChange={(value) => setNewItem({ ...newItem, type: value })}
+                  value={newItem.item_type}
+                  onValueChange={(value) => setNewItem({ ...newItem, item_type: value })}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select type" />
