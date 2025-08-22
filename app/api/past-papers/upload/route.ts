@@ -10,6 +10,35 @@ export async function POST(req: NextRequest) {
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 })
     }
+    // File validation: type and size
+    const allowed = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ]
+    const maxSizeBytes = 10 * 1024 * 1024 // 10MB
+    if (!allowed.includes((file as any).type)) {
+      return NextResponse.json({ error: "Invalid file type. Only PDF, DOC, DOCX are allowed." }, { status: 400 })
+    }
+    if ((file as any).size > maxSizeBytes) {
+      return NextResponse.json({ error: "File too large. Max size is 10MB." }, { status: 400 })
+    }
+
+    // Validate required fields
+    const required = ["title", "department", "examType", "semester", "year"]
+    for (const key of required) {
+      if (!paperData?.[key] || String(paperData[key]).trim() === "") {
+        return NextResponse.json({ error: `Missing field: ${key}` }, { status: 400 })
+      }
+    }
+    if (!paperData?.course) {
+      return NextResponse.json({ error: "Missing field: course" }, { status: 400 })
+    }
+    if (paperData.course === 'Other') {
+      if (!paperData.courseName || String(paperData.courseName).trim() === '') {
+        return NextResponse.json({ error: "Missing field: courseName (required when course is 'Other')" }, { status: 400 })
+      }
+    }
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY

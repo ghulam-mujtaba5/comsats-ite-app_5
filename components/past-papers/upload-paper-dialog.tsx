@@ -19,6 +19,8 @@ import { Badge } from "@/components/ui/badge"
 import { Upload, Plus, X, Loader2 } from "lucide-react"
 import { departments, examTypes, semesters, getCoursesByDepartment, type Course, type Department } from "@/lib/past-papers-data"
 import { useToast } from "@/hooks/use-toast"
+import { useAuth } from "@/contexts/auth-context"
+import { useRouter } from "next/navigation"
 
 interface UploadPaperDialogProps {
   children: React.ReactNode
@@ -29,6 +31,8 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
+  const { isAuthenticated } = useAuth()
+  const router = useRouter()
 
   useEffect(() => {
     if (courseCode) {
@@ -101,12 +105,33 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null
+    if (file) {
+      const allowed = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
+      const maxSizeBytes = 10 * 1024 * 1024 // 10MB
+      if (!allowed.includes(file.type)) {
+        toast({ title: "Invalid file type", description: "Only PDF, DOC, DOCX are allowed.", variant: "destructive" })
+        e.currentTarget.value = ""
+        setFormData((prev) => ({ ...prev, file: null }))
+        return
+      }
+      if (file.size > maxSizeBytes) {
+        toast({ title: "File too large", description: "Max size is 10MB.", variant: "destructive" })
+        e.currentTarget.value = ""
+        setFormData((prev) => ({ ...prev, file: null }))
+        return
+      }
+    }
     setFormData((prev) => ({ ...prev, file }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.file) return
+
+    if (!isAuthenticated) {
+      toast({ title: "Sign in required", description: "Please sign in to upload a past paper.", variant: "destructive" })
+      return
+    }
 
     setIsLoading(true)
 
@@ -123,7 +148,13 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
       })
 
       if (!response.ok) {
-        throw new Error("Failed to upload paper")
+        let message = "Failed to upload past paper"
+        try {
+          const data = await response.json()
+          if (data?.error) message = data.error
+        } catch {}
+        toast({ title: "Upload failed", description: message, variant: "destructive" })
+        return
       }
 
       toast({
@@ -145,8 +176,12 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
         file: null,
       })
       setOpen(false)
-      // Refresh the page to show the new paper
-      window.location.reload()
+      // Notify listeners (e.g., course page) to refetch without full reload
+      try {
+        window.dispatchEvent(new CustomEvent("pastpaper:uploaded", { detail: { courseCode: formData.course } }))
+      } catch {}
+      // Also refresh server components if any
+      router.refresh()
     } catch (error) {
       console.error(error)
       toast({
@@ -159,7 +194,17 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
     }
   }
 
-  const handleTriggerClick = () => setOpen(true)
+  const handleTriggerClick = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to upload a past paper.",
+        variant: "destructive",
+      })
+      return
+    }
+    setOpen(true)
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

@@ -1,13 +1,16 @@
 ..............................................................................................................................................................................................................................
 Manual Testing Version 0.2:
 ..............................................................................................................................................................................................................................
-Status Update (2025-08-23 00:27)
+Status Update (2025-08-23 00:30)
 - News links fixed: Home section now points to /news-events; detail page back link updated. Files: components/home/news-section.tsx, app/news/[id]/page.tsx
 - Past Papers course 404: Added dev/mock fallback in API so course pages load without Supabase. File: app/api/past-papers/[courseCode]/route.ts
 - Auth UX and validation: Enforced strict university email format (fa22-bse-105@cuilahore.edu.pk) in frontend and backend; replaced inline alerts with toast popups on register/login/reset. Files: lib/auth.ts, app/api/auth/register/route.ts, components/auth/register-form.tsx, components/auth/login-form.tsx
 - Admin auth: Unified cookies across routes (dev_admin + ite_admin) for consistent admin detection. File: app/api/admin/session/route.ts
 - Next targets: Past Papers upload flow, News/Events admin CRUD & filters, GPA rounding/tests, Timetable schema issue
 - Past Papers upload: Added dev-mode fallback for /api/past-papers/upload so uploads succeed without Supabase; returns mock URL and does not persist storage in dev. File: app/api/past-papers/upload/route.ts
+  • Upload button now requires sign-in and shows toast if unauthenticated; client-side file validation (PDF/DOC/DOCX, <=10MB); uses router.refresh() instead of full reload. File: components/past-papers/upload-paper-dialog.tsx
+  • Server-side validations on upload API: required fields and course='Other' requires courseName. File: app/api/past-papers/upload/route.ts
+  • Course page auto-refreshes after upload using a custom event ('pastpaper:uploaded') and refetch. File: app/past-papers/[courseCode]/page.tsx
 
 Home Page:
 - logo 

@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PaperCard } from "@/components/past-papers/paper-card"
 import { UploadPaperDialog } from "@/components/past-papers/upload-paper-dialog"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { CourseWithPapers } from "@/lib/past-papers-data"
 import { ArrowLeft, Upload, FileText, BookOpen, Calendar, Download } from "lucide-react"
 import Link from "next/link"
@@ -23,24 +23,34 @@ export default function CoursePage({ params }: CoursePageProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        const res = await fetch(`/api/past-papers/${params.courseCode}`)
-        if (!res.ok) {
-          throw new Error('Course not found')
-        }
-        const json = await res.json()
-        setCourse(json.data)
-      } catch (e: any) {
-        setError(e.message)
-      } finally {
-        setLoading(false)
+  const fetchCourse = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/past-papers/${params.courseCode}`, { cache: 'no-store' })
+      if (!res.ok) {
+        throw new Error('Course not found')
       }
+      const json = await res.json()
+      setCourse(json.data)
+      setError(null)
+    } catch (e: any) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
     }
-
-    fetchCourse()
   }, [params.courseCode])
+
+  useEffect(() => {
+    fetchCourse()
+  }, [fetchCourse])
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      // Optional: can inspect (e as CustomEvent).detail
+      fetchCourse()
+    }
+    window.addEventListener("pastpaper:uploaded", handler as EventListener)
+    return () => window.removeEventListener("pastpaper:uploaded", handler as EventListener)
+  }, [fetchCourse])
 
   if (loading) {
     return <Loading />
