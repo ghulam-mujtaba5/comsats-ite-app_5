@@ -1,4 +1,3 @@
-import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -6,7 +5,6 @@ import { Skeleton } from "@/components/ui/skeleton"
 export default function Loading() {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
       <main className="flex-1 py-8 px-4">
         <div className="container mx-auto max-w-7xl">
           {/* Header Skeleton */}

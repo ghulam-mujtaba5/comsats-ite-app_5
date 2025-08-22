@@ -1,4 +1,3 @@
-import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Loader2 } from "lucide-react"
@@ -6,7 +5,6 @@ import { Loader2 } from "lucide-react"
 export default function Loading() {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
       <main className="flex-1 flex items-center justify-center py-16 px-4">
         <Card className="p-12">
           <CardContent className="flex flex-col items-center space-y-4">

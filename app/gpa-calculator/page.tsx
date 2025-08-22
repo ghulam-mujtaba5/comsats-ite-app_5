@@ -1,5 +1,4 @@
 "use client"
-import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { SemesterGPACalculator } from "@/components/gpa/semester-gpa-calculator"
@@ -12,7 +11,6 @@ import { Calculator, TrendingUp, Target, Info, Calendar } from "lucide-react"
 export default function GPACalculatorPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
       <main className="flex-1 py-8 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-8">
