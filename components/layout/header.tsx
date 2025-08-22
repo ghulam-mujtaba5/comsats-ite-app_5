@@ -1,0 +1,189 @@
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useAuth } from "@/contexts/auth-context"
+import { GraduationCap, LogOut, User, Menu, Calculator, FileText, Users, BookOpen, Calendar } from "lucide-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useState } from "react"
+
+const navigationItems = [
+  {
+    name: "Past Papers",
+    href: "/past-papers",
+    icon: FileText,
+    description: "Browse and download past exam papers",
+  },
+  {
+    name: "GPA Calculator",
+    href: "/gpa-calculator",
+    icon: Calculator,
+    description: "Calculate your semester and cumulative GPA",
+  },
+  {
+    name: "Faculty Reviews",
+    href: "/faculty",
+    icon: Users,
+    description: "Read and write faculty reviews",
+  },
+  {
+    name: "Resources",
+    href: "/resources",
+    icon: BookOpen,
+    description: "Access study materials and notes",
+  },
+  {
+    name: "Timetable",
+    href: "/timetable",
+    icon: Calendar,
+    description: "View academic calendar and schedules",
+  },
+]
+
+export function Header() {
+  const { user, logout, isAuthenticated } = useAuth()
+  const pathname = usePathname()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const isActivePath = (path: string) => {
+    return pathname === path || (path !== "/" && pathname.startsWith(path))
+  }
+
+  return (
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+          <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
+            <GraduationCap className="h-6 w-6 text-primary-foreground" />
+          </div>
+          <div className="flex flex-col">
+            <span className="font-bold text-lg leading-tight">COMSATS ITE</span>
+            <span className="text-xs text-muted-foreground leading-tight">Academic Portal</span>
+          </div>
+        </Link>
+
+        <nav className="hidden lg:flex items-center space-x-1">
+          {navigationItems.map((item) => {
+            const Icon = item.icon
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
+                  isActivePath(item.href) ? "bg-accent text-accent-foreground" : "text-muted-foreground"
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                <span>{item.name}</span>
+              </Link>
+            )
+          })}
+        </nav>
+
+        <div className="flex items-center space-x-2">
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="sm" className="lg:hidden">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-80">
+              <div className="flex flex-col space-y-4 mt-8">
+                <div className="flex items-center space-x-3 pb-4 border-b">
+                  <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
+                    <GraduationCap className="h-6 w-6 text-primary-foreground" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-bold text-lg">COMSATS ITE</span>
+                    <span className="text-sm text-muted-foreground">Academic Portal</span>
+                  </div>
+                </div>
+
+                {navigationItems.map((item) => {
+                  const Icon = item.icon
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-start space-x-3 p-3 rounded-lg transition-colors hover:bg-accent ${
+                        isActivePath(item.href) ? "bg-accent" : ""
+                      }`}
+                    >
+                      <Icon className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                      <div className="flex flex-col">
+                        <span className="font-medium">{item.name}</span>
+                        <span className="text-sm text-muted-foreground">{item.description}</span>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          {isAuthenticated && user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                  <Avatar className="h-9 w-9">
+                    <AvatarFallback className="bg-primary text-primary-foreground">
+                      {(() => {
+                        const email = user.email ?? ""
+                        const handle = email.split("@")[0] ?? ""
+                        const parts = handle.split(/[._\-\s]+/).filter(Boolean)
+                        const init = (parts.length ? parts : [handle])
+                          .map((p) => p[0])
+                          .join("")
+                          .slice(0, 2)
+                          .toUpperCase()
+                        return init || "U"
+                      })()}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-64" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{user.email?.split("@")[0] ?? "User"}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <Link href="/profile" className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile Settings</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={logout} className="cursor-pointer text-red-600 focus:text-red-600">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Sign Out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link href="/auth">
+              <Button size="sm" className="font-medium">
+                Sign In
+              </Button>
+            </Link>
+          )}
+        </div>
+      </div>
+    </header>
+  )
+}

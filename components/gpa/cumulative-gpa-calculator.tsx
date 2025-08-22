@@ -1,0 +1,165 @@
+"use client"
+
+import { useState } from "react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
+import { Trash2, Plus, TrendingUp } from "lucide-react"
+import { getGradeFromGPA } from "@/lib/gpa-utils"
+
+interface SemesterInput {
+  id: string
+  name: string
+  gpa: number
+  creditHours: number
+}
+
+export function CumulativeGPACalculator() {
+  const [semesters, setSemesters] = useState<SemesterInput[]>([{ id: "1", name: "Semester 1", gpa: 0, creditHours: 0 }])
+  const [result, setResult] = useState<{ cgpa: number; totalCredits: number } | null>(null)
+
+  const addSemester = () => {
+    const newSemester: SemesterInput = {
+      id: Date.now().toString(),
+      name: `Semester ${semesters.length + 1}`,
+      gpa: 0,
+      creditHours: 0,
+    }
+    setSemesters([...semesters, newSemester])
+  }
+
+  const removeSemester = (id: string) => {
+    if (semesters.length > 1) {
+      setSemesters(semesters.filter((semester) => semester.id !== id))
+    }
+  }
+
+  const updateSemester = (id: string, field: keyof SemesterInput, value: string | number) => {
+    setSemesters(semesters.map((semester) => (semester.id === id ? { ...semester, [field]: value } : semester)))
+  }
+
+  const calculateCGPA = () => {
+    const validSemesters = semesters.filter((sem) => sem.gpa > 0 && sem.creditHours > 0)
+    if (validSemesters.length === 0) {
+      setResult(null)
+      return
+    }
+
+    let totalPoints = 0
+    let totalCredits = 0
+
+    validSemesters.forEach((semester) => {
+      totalPoints += semester.gpa * semester.creditHours
+      totalCredits += semester.creditHours
+    })
+
+    const cgpa = totalCredits > 0 ? totalPoints / totalCredits : 0
+    setResult({ cgpa: Math.round(cgpa * 100) / 100, totalCredits })
+  }
+
+  const resetCalculator = () => {
+    setSemesters([{ id: "1", name: "Semester 1", gpa: 0, creditHours: 0 }])
+    setResult(null)
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <TrendingUp className="h-5 w-5 text-primary" />
+          Cumulative GPA Calculator
+        </CardTitle>
+        <CardDescription>Calculate your overall CGPA by entering your semester GPAs and credit hours</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="space-y-4">
+          {semesters.map((semester, index) => (
+            <div
+              key={semester.id}
+              className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 border border-border rounded-lg"
+            >
+              <div className="md:col-span-4">
+                <Label htmlFor={`semester-${semester.id}`}>Semester Name</Label>
+                <Input
+                  id={`semester-${semester.id}`}
+                  value={semester.name}
+                  onChange={(e) => updateSemester(semester.id, "name", e.target.value)}
+                />
+              </div>
+
+              <div className="md:col-span-3">
+                <Label htmlFor={`gpa-${semester.id}`}>Semester GPA</Label>
+                <Input
+                  id={`gpa-${semester.id}`}
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max="4"
+                  placeholder="0.00"
+                  value={semester.gpa || ""}
+                  onChange={(e) => updateSemester(semester.id, "gpa", Number.parseFloat(e.target.value) || 0)}
+                />
+              </div>
+
+              <div className="md:col-span-3">
+                <Label htmlFor={`credits-${semester.id}`}>Credit Hours</Label>
+                <Input
+                  id={`credits-${semester.id}`}
+                  type="number"
+                  min="1"
+                  placeholder="0"
+                  value={semester.creditHours || ""}
+                  onChange={(e) => updateSemester(semester.id, "creditHours", Number.parseInt(e.target.value) || 0)}
+                />
+              </div>
+
+              <div className="md:col-span-2 flex items-end">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => removeSemester(semester.id)}
+                  disabled={semesters.length === 1}
+                  className="w-full"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button variant="outline" onClick={addSemester} className="flex-1 bg-transparent">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Semester
+          </Button>
+          <Button onClick={calculateCGPA} className="flex-1">
+            Calculate CGPA
+          </Button>
+          <Button variant="outline" onClick={resetCalculator} className="flex-1 bg-transparent">
+            Reset
+          </Button>
+        </div>
+
+        {result && (
+          <Card className="bg-muted/50">
+            <CardContent className="pt-6">
+              <div className="text-center space-y-4">
+                <div>
+                  <div className="text-3xl font-bold text-primary">{result.cgpa.toFixed(2)}</div>
+                  <div className="text-sm text-muted-foreground">Cumulative GPA</div>
+                </div>
+                <div className="flex justify-center gap-4">
+                  <Badge variant="secondary">Grade: {getGradeFromGPA(result.cgpa)}</Badge>
+                  <Badge variant="outline">Total Credits: {result.totalCredits}</Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </CardContent>
+    </Card>
+  )
+}
