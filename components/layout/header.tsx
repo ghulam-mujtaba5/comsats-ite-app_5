@@ -16,7 +16,6 @@ import { GraduationCap, LogOut, User, Menu, Calculator, FileText, Users, BookOpe
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import { isAdminAuthed } from "@/lib/admin"
 
 const navigationItems = [
   {
@@ -58,8 +57,18 @@ export function Header() {
   const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
-    // Local check based on admin session flag
-    setIsAdmin(isAdminAuthed())
+    let mounted = true
+    ;(async () => {
+      try {
+        const res = await fetch('/api/admin/session', { cache: 'no-store' })
+        if (!mounted) return
+        setIsAdmin(res.ok)
+      } catch {
+        if (!mounted) return
+        setIsAdmin(false)
+      }
+    })()
+    return () => { mounted = false }
   }, [])
 
   const isActivePath = (path: string) => {
@@ -69,7 +78,11 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+        <Link
+          href={isAdmin ? "/admin" : "/"}
+          title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
+          className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+        >
           <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
             <GraduationCap className="h-6 w-6 text-primary-foreground" />
           </div>
