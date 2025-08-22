@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useToast } from "@/hooks/use-toast"
+import { validateCUIEmail } from "@/lib/auth"
 import { useAuth } from "@/contexts/auth-context"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
@@ -20,33 +21,40 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState("")
-  const [message, setMessage] = useState("")
+  const { toast } = useToast()
   const [resetLoading, setResetLoading] = useState(false)
   const { login, isLoading } = useAuth()
   const supabase = createClientComponentClient()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError("")
-    setMessage("")
+    // clear previous messages (using toast instead)
+
+    if (!validateCUIEmail(email)) {
+      toast({ title: "Invalid university email", description: "Use format fa22-bse-105@cuilahore.edu.pk", variant: "destructive" })
+      return
+    }
 
     try {
       await login(email, password)
+      toast({ title: "Signed in" })
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed")
+      const msg = err instanceof Error ? err.message : "Login failed"
+      toast({ title: "Login failed", description: msg, variant: "destructive" })
     }
   }
 
   const handleForgotPassword = async () => {
     if (!email) {
-      setError("Please enter your email address first")
+      toast({ title: "Enter email first", variant: "destructive" })
+      return
+    }
+    if (!validateCUIEmail(email)) {
+      toast({ title: "Invalid university email", description: "Use format fa22-bse-105@cuilahore.edu.pk", variant: "destructive" })
       return
     }
 
     setResetLoading(true)
-    setError("")
-    setMessage("")
 
     try {
       // Use server-side API to ensure correct URL
@@ -61,12 +69,12 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
       const data = await response.json()
 
       if (!response.ok) {
-        setError(data.error || 'Failed to send reset email')
+        toast({ title: "Reset failed", description: data.error || 'Failed to send reset email', variant: "destructive" })
       } else {
-        setMessage(data.message)
+        toast({ title: "Reset email sent", description: data.message })
       }
     } catch (err) {
-      setError("Failed to send reset email")
+      toast({ title: "Failed to send reset email", variant: "destructive" })
     } finally {
       setResetLoading(false)
     }
@@ -80,17 +88,7 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <Alert variant={"destructive" as const}>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
-          {message && (
-            <Alert>
-              <AlertDescription>{message}</AlertDescription>
-            </Alert>
-          )}
+          {/* Inline alerts removed; using toast notifications instead */}
 
           <div className="space-y-2">
             <Label htmlFor="email">University Email</Label>

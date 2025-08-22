@@ -6,9 +6,10 @@ export async function GET(req: NextRequest) {
   const supabase = createRouteHandlerClient({ cookies })
   
   try {
-    // Dev hardcoded admin session via cookie
+    // Dev hardcoded admin session via cookie (support both cookies for consistency)
     const devCookie = req.cookies.get('dev_admin')?.value
-    if (devCookie === '1') {
+    const iteCookie = req.cookies.get('ite_admin')?.value
+    if (devCookie === '1' || iteCookie === '1') {
       return NextResponse.json({ ok: true, role: 'super_admin', dev: true })
     }
 
@@ -53,7 +54,7 @@ export async function POST(req: NextRequest) {
           email: 'admin@cuilahore.edu.pk'
         }
       })
-      // Set dev admin cookie to persist session for AdminGuard GET check
+      // Set dev admin cookies to persist session for AdminGuard and admin API checks
       res.cookies.set('dev_admin', '1', {
         httpOnly: true,
         sameSite: 'lax',
@@ -61,6 +62,13 @@ export async function POST(req: NextRequest) {
         // secure in production environments
         secure: process.env.NODE_ENV === 'production',
         // session cookie (clears on browser close)
+      })
+      // Align with other admin API routes that check `ite_admin`
+      res.cookies.set('ite_admin', '1', {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
       })
       return res
     }

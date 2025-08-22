@@ -1,0 +1,71 @@
+..............................................................................................................................................................................................................................
+Manual Testing Version 0.2:
+..............................................................................................................................................................................................................................
+Status Update (2025-08-23 00:27)
+- News links fixed: Home section now points to /news-events; detail page back link updated. Files: components/home/news-section.tsx, app/news/[id]/page.tsx
+- Past Papers course 404: Added dev/mock fallback in API so course pages load without Supabase. File: app/api/past-papers/[courseCode]/route.ts
+- Auth UX and validation: Enforced strict university email format (fa22-bse-105@cuilahore.edu.pk) in frontend and backend; replaced inline alerts with toast popups on register/login/reset. Files: lib/auth.ts, app/api/auth/register/route.ts, components/auth/register-form.tsx, components/auth/login-form.tsx
+- Admin auth: Unified cookies across routes (dev_admin + ite_admin) for consistent admin detection. File: app/api/admin/session/route.ts
+- Next targets: Past Papers upload flow, News/Events admin CRUD & filters, GPA rounding/tests, Timetable schema issue
+- Past Papers upload: Added dev-mode fallback for /api/past-papers/upload so uploads succeed without Supabase; returns mock URL and does not persist storage in dev. File: app/api/past-papers/upload/route.ts
+
+Home Page:
+- logo 
+- Website Name with Logo
+- Navbar (Only Working Features as old Navbar)
+- Hero Page Picture should be outstanding
+- Coming Soon Features Should be placed right below Working features Right now it is below News Section { Coming Soon Features in Features Sections Like (Student Support, News and Events, Blogs Section, Ambassador Program, COMSATS OLX, COMSATS Lost and Found, Help Desk, Discussion Platform) }
+- Use Exact values instead of Hardcoded Values like 1000+ Past Papers etc
+
+
+News Page (Not Found)
+View of any Past Paper(Not Found)
+
+Past Paper Section:
+- When user CLick on any Course it shows(404 - Page Not Found) Routing Issue
+
+Sign in or Up:
+- When Signing Up, Mesage should be Pop Up Instead of Slightly Message shown above page
+- In Uni Email, It is taking every email with end of @cuilahore.edu.pk instead it have to check full format (fa22-bse-105)
+- When Account Created so it would give Pop Up Instead of Slightly Message shown above page 
+
+GPA Calculator:
+- I have calculated GPA (Difference was 0.1 {I think it was cz A- is at 3.66 not 3.67 so correct it })
+- I have calculated CGPA (Difference was 0.1 )
+- Aggregate is working alright
+- No Button to Calculate (GPA Planning Calculator) {For Clarity you can check https://comsats-gpacalculator.vercel.app/}
+- Make the Grading System Right by seeing on this Website {https://comsats-gpacalculator.vercel.app/}
+
+Faculty Reviews Section:
+- In Faculty Reviews, When We provide Review to any Faculty it does not shows pop up on successfully adding it and no review is added on its profile
+
+
+Major Issue:
+- Account is being login by our Email like simple Gmail as well(At Account creation in email section only email with right format should pass only)
+- Peview Page of any section is not working 
+
+Admin Panel:-
+News & Events Management
+- New News & Events Management is not being adding
+- 
+Guidance Management
+- New Guidance is not being added
+- Cancel Button is also not working
+
+Faculty
+- Faculty Management are working alright
+
+Community
+- Manage Community Cards are working alright 
+- Btw, I don't understand for what this feature is for
+
+User
+- User Management is not showing real data (User as well as Admin)
+
+Content Moderation
+- What is Content Moderation?
+
+Timetable 
+- Could not find the table 'public.timetable' in the schema cache
+
+

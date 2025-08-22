@@ -44,7 +44,7 @@ export default function NewsDetailPage() {
       <main className="flex-1 py-10 px-4">
         <div className="container mx-auto max-w-3xl space-y-6">
           <Button variant="outline" className="bg-transparent" asChild>
-            <Link href="/news"><ArrowLeft className="h-4 w-4 mr-2" /> Back to News</Link>
+            <Link href="/news-events"><ArrowLeft className="h-4 w-4 mr-2" /> Back to News</Link>
           </Button>
 
           {loading ? (

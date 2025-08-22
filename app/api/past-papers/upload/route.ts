@@ -1,11 +1,6 @@
 import { createClient } from "@supabase/supabase-js"
 import { NextRequest, NextResponse } from "next/server"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData()
@@ -15,6 +10,36 @@ export async function POST(req: NextRequest) {
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 })
     }
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    // Dev fallback: if Supabase env is missing, accept the upload and return a mock response
+    if (!supabaseUrl || !supabaseAnonKey) {
+      const mockPublicUrl = `https://example.com/mock/${Date.now()}-${encodeURIComponent(file.name)}`
+      const mockPaper = [{
+        id: `mock-${Date.now()}`,
+        title: paperData.title,
+        course_code: paperData.course === 'Other' ? paperData.courseName?.replace(/\s+/g, '-').toUpperCase() : paperData.course,
+        exam_type: paperData.examType,
+        semester: paperData.semester,
+        year: paperData.year,
+        tags: paperData.tags,
+        download_url: mockPublicUrl,
+        department: paperData.department,
+        created_at: new Date().toISOString(),
+      }]
+      return NextResponse.json(
+        {
+          message: "Paper uploaded (dev mode). File not persisted — configure Supabase to enable storage.",
+          paper: mockPaper,
+        },
+        { status: 200 }
+      )
+    }
+
+    // With Supabase configured: proceed with real upload + DB insert
+    const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
     // 1. Upload file to Supabase Storage
     const filePath = `past-papers/${Date.now()}-${file.name}`
@@ -58,3 +83,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "An unexpected error occurred" }, { status: 500 })
   }
 }
+

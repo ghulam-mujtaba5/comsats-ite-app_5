@@ -7,7 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+// Replaced inline alerts with toasts
+import { useToast } from "@/hooks/use-toast"
+import { validateCUIEmail } from "@/lib/auth"
 import {
   Dialog,
   DialogContent,
@@ -30,29 +32,34 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [showSuccessDialog, setShowSuccessDialog] = useState(false)
-  const [error, setError] = useState("")
+  const { toast } = useToast()
   const { register, isLoading } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError("")
+    // clear previous inline errors (now using toast)
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match")
+      toast({ title: "Passwords do not match", variant: "destructive" })
       return
     }
 
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@cuilahore\.edu\.pk$/
-    if (!emailRegex.test(email)) {
-      setError("Please use your university email (e.g., your.name@cuilahore.edu.pk)")
+    if (!validateCUIEmail(email)) {
+      toast({
+        title: "Invalid university email",
+        description: "Use format fa22-bse-105@cuilahore.edu.pk",
+        variant: "destructive",
+      })
       return
     }
 
     try {
       await register(email, password, name)
       setShowSuccessDialog(true)
+      toast({ title: "Registration successful", description: "Check your email for verification." })
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Registration failed")
+      const msg = err instanceof Error ? err.message : "Registration failed"
+      toast({ title: "Registration failed", description: msg, variant: "destructive" })
     }
   }
 
@@ -65,11 +72,7 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <Alert variant={"destructive" as const}>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
+          {/* Inline alert removed; using toast notifications instead */}
 
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>

@@ -1,13 +1,13 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { NextResponse } from "next/server";
+import { validateCUIEmail } from "@/lib/auth";
 
 export async function POST(request: Request) {
   const { email, password, name } = await request.json();
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@cuilahore\.edu\.pk$/;
-  if (!emailRegex.test(email)) {
+  if (!validateCUIEmail(email)) {
     return NextResponse.json(
-      { error: "Please use a valid university email (e.g., your.name@cuilahore.edu.pk)" },
+      { error: "Please use your university email in the format fa22-bse-105@cuilahore.edu.pk" },
       { status: 400 }
     );
   }

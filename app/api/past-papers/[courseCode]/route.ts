@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { getCourseByCode } from '@/lib/past-papers-data'
 
 export async function GET(req: NextRequest, { params }: { params: { courseCode: string } }) {
   const courseCode = params.courseCode
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
+  // If env not configured (dev), fallback to mock data so UI works
   if (!url || !anon) {
-    return NextResponse.json({ error: 'Supabase env missing' }, { status: 500 })
+    const mock = getCourseByCode(courseCode)
+    if (!mock) return NextResponse.json({ error: 'Course not found' }, { status: 404 })
+    return NextResponse.json({ data: mock })
   }
 
   const supabase = createClient(url, anon)
@@ -28,7 +32,10 @@ export async function GET(req: NextRequest, { params }: { params: { courseCode: 
   // If no papers and no course info exists, then it's a 404
   if (!papersData || papersData.length === 0) {
     if (courseError || !courseData) {
-        return NextResponse.json({ error: 'Course not found' }, { status: 404 })
+      // Try mock fallback
+      const mock = getCourseByCode(courseCode)
+      if (mock) return NextResponse.json({ data: mock })
+      return NextResponse.json({ error: 'Course not found' }, { status: 404 })
     }
   }
 

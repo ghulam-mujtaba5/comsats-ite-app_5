@@ -45,7 +45,7 @@ export function NewsSection() {
             </p>
           </div>
           <Button variant="outline" asChild className="hidden sm:flex bg-transparent">
-            <Link href="/news">
+            <Link href="/news-events">
               View All News
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
@@ -93,7 +93,7 @@ export function NewsSection() {
 
         <div className="text-center mt-8 sm:hidden">
           <Button variant="outline" asChild>
-            <Link href="/news">
+            <Link href="/news-events">
               View All News
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
