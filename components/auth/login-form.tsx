@@ -49,14 +49,21 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
     setMessage("")
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/reset-password`,
+      // Use server-side API to ensure correct URL
+      const response = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
       })
 
-      if (error) {
-        setError(error.message)
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.error || 'Failed to send reset email')
       } else {
-        setMessage("Password reset link sent to your email!")
+        setMessage(data.message)
       }
     } catch (err) {
       setError("Failed to send reset email")
