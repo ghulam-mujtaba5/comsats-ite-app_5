@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Link from "next/link"
 
 type News = {
   id: string
@@ -95,6 +96,7 @@ export default function AdminNewsPage() {
                       <Button variant="outline" onClick={() => updateItem(n.id, { status: n.status === 'published' ? 'draft' : 'published' })}>
                         {n.status === 'published' ? 'Unpublish' : 'Publish'}
                       </Button>
+                                            <Button asChild variant="outline"><Link href={`/news/${n.id}`} target="_blank">Preview</Link></Button>
                       <Button variant="destructive" onClick={() => deleteItem(n.id)}>Delete</Button>
                     </div>
                   </div>

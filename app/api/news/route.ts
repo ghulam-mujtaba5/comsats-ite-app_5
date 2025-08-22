@@ -58,10 +58,11 @@ export async function GET(req: NextRequest) {
 
   const admin = isAdmin(req)
   let query = supabase.from('news').select('id,title,content,image_url,status,published_at,created_at,updated_at')
-  if (!admin) {
-    query = query.eq('status', 'published').order('published_at', { ascending: false })
-  } else {
+
+  if (admin) {
     query = query.order('created_at', { ascending: false })
+  } else {
+    query = query.eq('status', 'published').order('published_at', { ascending: false })
   }
 
   const { data, error } = await query

@@ -1,7 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { createClient } from '@supabase/supabase-js'
 
 const COOKIE_NAME = 'ite_admin'
+
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+  const id = params.id
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !anon) return NextResponse.json({ error: 'Supabase env missing' }, { status: 500 })
+  const supabase = createClient(url, anon)
+
+  const { data, error } = await supabase
+    .from('community_cards')
+    .select('id,title,subtitle,description,link_url,sort_order,status,created_at,updated_at')
+    .eq('id', id)
+    .single()
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 404 })
+  return NextResponse.json({ data })
+}
+
 function isAdmin(req: NextRequest) {
   const token = req.cookies.get(COOKIE_NAME)
   return token?.value === '1'

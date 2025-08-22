@@ -14,9 +14,8 @@ const manrope = Manrope({
 })
 
 export const metadata: Metadata = {
-  title: "COMSATS ITE - Academic Portal",
-  description: "Academic resource and utility portal for COMSATS University Lahore students",
-  generator: "v0.app",
+  title: "CampusAxis - COMSATS University Islamabad",
+  description: "Your ultimate guide to COMSATS ITE. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
 }
 
 export default function RootLayout({

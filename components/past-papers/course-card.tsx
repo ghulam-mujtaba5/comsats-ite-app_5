@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { BookOpen, Calendar, FileText, Download, Clock } from "lucide-react"
 import type { CourseWithPapers } from "@/lib/past-papers-data"
 import Link from "next/link"
@@ -13,7 +12,8 @@ interface CourseCardProps {
 
 export function CourseCard({ course }: CourseCardProps) {
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+    <Link href={`/past-papers/${course.code}`} className="block h-full">
+      <Card className="group h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1">
@@ -57,11 +57,9 @@ export function CourseCard({ course }: CourseCardProps) {
 
         <div className="flex items-center justify-between pt-2">
           <span className="text-sm font-medium text-primary">{course.totalPapers} Total Papers</span>
-          <Link href={`/past-papers/${course.code}`}>
-            <Button size="sm">View Papers</Button>
-          </Link>
         </div>
       </CardContent>
     </Card>
+    </Link>
   )
 }

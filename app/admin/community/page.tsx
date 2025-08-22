@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Link from "next/link"
 
 type Card = {
   id: string
@@ -102,6 +103,7 @@ export default function AdminCommunityPage() {
                       <Button variant="outline" onClick={() => updateItem(c.id, { status: c.status === 'published' ? 'draft' : 'published' })}>
                         {c.status === 'published' ? 'Unpublish' : 'Publish'}
                       </Button>
+                                            {c.link_url && <Button asChild variant="outline"><Link href={c.link_url} target="_blank">Preview</Link></Button>}
                       <Button variant="destructive" onClick={() => deleteItem(c.id)}>Delete</Button>
                     </div>
                   </div>

@@ -15,13 +15,13 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   if (!url || !anon) return NextResponse.json({ error: 'Supabase env missing' }, { status: 500 })
   const supabase = createClient(url, anon)
 
-  const admin = isAdmin(req)
-  let query = supabase.from('news').select('id,title,content,image_url,status,published_at,created_at,updated_at').eq('id', id).single()
-  if (!admin) {
-    // ensure only published for public
-    query = supabase.from('news').select('id,title,content,image_url,status,published_at,created_at,updated_at').eq('id', id).eq('status', 'published').single()
+  let query = supabase.from('news').select('id,title,content,image_url,status,published_at,created_at,updated_at').eq('id', id)
+
+  if (!isAdmin(req)) {
+    query = query.eq('status', 'published')
   }
-  const { data, error } = await query
+
+  const { data, error } = await query.single()
   if (error) return NextResponse.json({ error: error.message }, { status: 404 })
   return NextResponse.json({ data })
 }

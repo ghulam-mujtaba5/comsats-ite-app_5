@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useAuth } from "@/contexts/auth-context"
 import {
   Dialog,
@@ -17,21 +17,47 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Upload, Plus, X, LogIn } from "lucide-react"
-import { departments, examTypes, semesters, getCoursesByDepartment } from "@/lib/past-papers-data"
+import { Upload, Plus, X, LogIn, Loader2 } from "lucide-react"
+import { departments, examTypes, semesters, getCoursesByDepartment, type Course, type Department } from "@/lib/past-papers-data"
+import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
 
 interface UploadPaperDialogProps {
   children: React.ReactNode
+  courseCode?: string
 }
 
-export function UploadPaperDialog({ children }: UploadPaperDialogProps) {
+export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogProps) {
   const [open, setOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const { toast } = useToast()
+
+  useEffect(() => {
+    if (courseCode) {
+      let courseInfo: { course: Course; department: Department } | undefined
+      for (const department of departments) {
+        const course = department.courses.find((c) => c.code === courseCode)
+        if (course) {
+          courseInfo = { course, department }
+          break
+        }
+      }
+
+      if (courseInfo) {
+        setFormData((prev) => ({
+          ...prev,
+          department: courseInfo.department.name,
+          course: courseInfo.course.code,
+        }))
+      }
+    }
+  }, [courseCode])
   const { isAuthenticated } = useAuth()
   const [formData, setFormData] = useState({
     title: "",
     department: "",
     course: "",
+    courseName: "",
     semester: "",
     examType: "",
     year: new Date().getFullYear().toString(),
@@ -44,7 +70,19 @@ export function UploadPaperDialog({ children }: UploadPaperDialogProps) {
     formData.department && formData.department !== "All" ? getCoursesByDepartment(formData.department) : []
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+    setFormData((prev) => {
+      const newState = { ...prev, [field]: value }
+      // If course is changed, reset courseName unless it's 'Other'
+      if (field === 'course' && value !== 'Other') {
+        newState.courseName = ''
+      }
+      // If department is changed, reset course and courseName
+      if (field === 'department') {
+        newState.course = ''
+        newState.courseName = ''
+      }
+      return newState
+    })
   }
 
   const addTag = () => {
@@ -69,23 +107,59 @@ export function UploadPaperDialog({ children }: UploadPaperDialogProps) {
     setFormData((prev) => ({ ...prev, file }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically upload the file and save the paper data
-    console.log("Uploading paper:", formData)
-    // Reset form and close dialog
-    setFormData({
-      title: "",
-      department: "",
-      course: "",
-      semester: "",
-      examType: "",
-      year: new Date().getFullYear().toString(),
-      tags: [],
-      newTag: "",
-      file: null,
-    })
-    setOpen(false)
+    if (!formData.file) return
+
+    setIsLoading(true)
+
+    const uploadData = new FormData()
+    uploadData.append("file", formData.file)
+    // Remove file from paperData to avoid sending it twice
+    const { file, ...paperData } = formData
+    uploadData.append("paperData", JSON.stringify(paperData))
+
+    try {
+      const response = await fetch("/api/past-papers/upload", {
+        method: "POST",
+        body: uploadData,
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to upload paper")
+      }
+
+      toast({
+        title: "Success",
+        description: "Past paper uploaded successfully!",
+      })
+
+      // Reset form and close dialog
+      setFormData({
+        title: "",
+        department: "",
+        course: "",
+        courseName: "",
+        semester: "",
+        examType: "",
+        year: new Date().getFullYear().toString(),
+        tags: [],
+        newTag: "",
+        file: null,
+      })
+      setOpen(false)
+      // Refresh the page to show the new paper
+      window.location.reload()
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: "Error",
+        description: "Failed to upload past paper. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleTriggerClick = () => {
@@ -187,9 +261,23 @@ export function UploadPaperDialog({ children }: UploadPaperDialogProps) {
                       {course.code} - {course.name}
                     </SelectItem>
                   ))}
+                  <SelectItem value="Other">Other (Please Specify)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+
+            {formData.course === 'Other' && (
+              <div className="md:col-span-2">
+                <Label htmlFor="courseName">Course Name *</Label>
+                <Input
+                  id="courseName"
+                  placeholder="e.g., Introduction to Business"
+                  value={formData.courseName}
+                  onChange={(e) => handleInputChange('courseName', e.target.value)}
+                  required
+                />
+              </div>
+            )}
 
             <div>
               <Label htmlFor="examType">Exam Type *</Label>
@@ -267,7 +355,9 @@ export function UploadPaperDialog({ children }: UploadPaperDialogProps) {
             <Button type="button" variant="outline" onClick={() => setOpen(false)} className="bg-transparent">
               Cancel
             </Button>
-            <Button type="submit">Upload Paper</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Upload Paper
+            </Button>
           </div>
         </form>
       </DialogContent>

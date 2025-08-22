@@ -5,10 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PaperCard } from "@/components/past-papers/paper-card"
 import { UploadPaperDialog } from "@/components/past-papers/upload-paper-dialog"
-import { getCourseByCode } from "@/lib/past-papers-data"
+import { useEffect, useState } from "react"
+import { CourseWithPapers } from "@/lib/past-papers-data"
 import { ArrowLeft, Upload, FileText, BookOpen, Calendar, Download } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import Loading from "../loading"
 
 interface CoursePageProps {
   params: {
@@ -17,9 +19,34 @@ interface CoursePageProps {
 }
 
 export default function CoursePage({ params }: CoursePageProps) {
-  const course = getCourseByCode(params.courseCode)
+  const [course, setCourse] = useState<CourseWithPapers | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  if (!course) {
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const res = await fetch(`/api/past-papers/${params.courseCode}`)
+        if (!res.ok) {
+          throw new Error('Course not found')
+        }
+        const json = await res.json()
+        setCourse(json.data)
+      } catch (e: any) {
+        setError(e.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCourse()
+  }, [params.courseCode])
+
+  if (loading) {
+    return <Loading />
+  }
+
+  if (error || !course) {
     notFound()
   }
 
@@ -83,7 +110,7 @@ export default function CoursePage({ params }: CoursePageProps) {
                       {course.code} • {course.department} • {course.creditHours} Credit Hours
                     </CardDescription>
                   </div>
-                  <UploadPaperDialog>
+                  <UploadPaperDialog courseCode={course.code}>
                     <Button>
                       <Upload className="h-4 w-4 mr-2" />
                       Upload Paper
@@ -129,7 +156,7 @@ export default function CoursePage({ params }: CoursePageProps) {
                     <p className="text-muted-foreground mb-4">
                       Be the first to upload {type.label.toLowerCase()} for this course.
                     </p>
-                    <UploadPaperDialog>
+                    <UploadPaperDialog courseCode={course.code}>
                       <Button>
                         <Upload className="h-4 w-4 mr-2" />
                         Upload {type.label.slice(0, -1)}

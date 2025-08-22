@@ -1,0 +1,60 @@
+import { createClient } from "@supabase/supabase-js"
+import { NextRequest, NextResponse } from "next/server"
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey)
+
+export async function POST(req: NextRequest) {
+  try {
+    const formData = await req.formData()
+    const file = formData.get("file") as File
+    const paperData = JSON.parse(formData.get("paperData") as string)
+
+    if (!file) {
+      return NextResponse.json({ error: "No file provided" }, { status: 400 })
+    }
+
+    // 1. Upload file to Supabase Storage
+    const filePath = `past-papers/${Date.now()}-${file.name}`
+    const { error: uploadError } = await supabase.storage.from("papers").upload(filePath, file)
+
+    if (uploadError) {
+      console.error("Supabase upload error:", uploadError)
+      return NextResponse.json({ error: "Failed to upload file" }, { status: 500 })
+    }
+
+    // 2. Get public URL of the uploaded file
+    const { data: urlData } = supabase.storage.from("papers").getPublicUrl(filePath)
+
+    // 3. Save paper metadata to the database
+    const { data, error: dbError } = await supabase
+      .from("past_papers")
+      .insert([
+        {
+          title: paperData.title,
+          course_code: paperData.course === 'Other' ? paperData.courseName.replace(/\s+/g, '-').toUpperCase() : paperData.course,
+          exam_type: paperData.examType,
+          semester: paperData.semester,
+          year: paperData.year,
+          tags: paperData.tags,
+          download_url: urlData.publicUrl,
+          department: paperData.department,
+        },
+      ])
+      .select()
+
+    if (dbError) {
+      console.error("Supabase DB error:", dbError)
+      // If DB insert fails, try to delete the uploaded file
+      await supabase.storage.from("papers").remove([filePath])
+      return NextResponse.json({ error: "Failed to save paper data" }, { status: 500 })
+    }
+
+    return NextResponse.json({ message: "Paper uploaded successfully", paper: data }, { status: 200 })
+  } catch (error) {
+    console.error("Upload error:", error)
+    return NextResponse.json({ error: "An unexpected error occurred" }, { status: 500 })
+  }
+}

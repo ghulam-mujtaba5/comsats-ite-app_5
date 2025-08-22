@@ -58,19 +58,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const register = async (email: string, password: string, name: string) => {
-    setIsLoading(true)
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: name,
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      },
-    })
-    setIsLoading(false)
-    if (error) throw error
-  }
+        body: JSON.stringify({ email, password, name }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Registration failed");
+      }
+
+      // Manually update the user session after successful registration
+      await supabase.auth.signInWithPassword({ email, password });
+
+      return data;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const logout = async () => {
     setIsLoading(true)

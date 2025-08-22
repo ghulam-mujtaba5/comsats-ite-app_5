@@ -19,9 +19,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Star, Plus, X, PenTool, LogIn } from "lucide-react"
+import { Star, Plus, X, PenTool, LogIn, CheckCircle } from "lucide-react"
 import type { Faculty } from "@/lib/faculty-data"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { useToast } from "@/hooks/use-toast"
 
@@ -34,7 +35,9 @@ export function WriteReviewDialog({ faculty, children }: WriteReviewDialogProps)
   const [open, setOpen] = useState(false)
   const { isAuthenticated, user } = useAuth()
   const { toast } = useToast()
+  const router = useRouter()
   const [submitting, setSubmitting] = useState(false)
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false)
   const [formData, setFormData] = useState({
     course: "",
     semester: "Fall 2023",
@@ -136,25 +139,8 @@ export function WriteReviewDialog({ faculty, children }: WriteReviewDialogProps)
       }
       const { error } = await supabase.from("reviews").insert(payload)
       if (error) throw error
-      toast({ title: "Review submitted", description: "Thanks for sharing your experience." })
-      // Reset form and close dialog
-      setFormData({
-        course: "",
-        semester: "Fall 2023",
-        rating: 0,
-        teachingQuality: 0,
-        accessibility: 0,
-        courseMaterial: 0,
-        grading: 0,
-        comment: "",
-        pros: [],
-        cons: [],
-        newPro: "",
-        newCon: "",
-        wouldRecommend: false,
-        isAnonymous: false,
-      })
-      setOpen(false)
+      setShowSuccessDialog(true)
+      router.refresh()
     } catch (err: any) {
       toast({ title: "Failed to submit", description: err.message ?? "Unknown error", variant: "destructive" })
     } finally {
@@ -197,7 +183,29 @@ export function WriteReviewDialog({ faculty, children }: WriteReviewDialogProps)
     )
   }
 
+  const closeDialogsAndReset = () => {
+    setShowSuccessDialog(false)
+    setOpen(false)
+    setFormData({
+      course: "",
+      semester: "Fall 2023",
+      rating: 0,
+      teachingQuality: 0,
+      accessibility: 0,
+      courseMaterial: 0,
+      grading: 0,
+      comment: "",
+      pros: [] as string[],
+      cons: [] as string[],
+      newPro: "",
+      newCon: "",
+      wouldRecommend: false,
+      isAnonymous: false,
+    })
+  }
+
   return (
+    <>
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
@@ -373,5 +381,25 @@ export function WriteReviewDialog({ faculty, children }: WriteReviewDialogProps)
         </form>
       </DialogContent>
     </Dialog>
+
+      <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <CheckCircle className="h-6 w-6 text-green-500" />
+              Review Submitted!
+            </DialogTitle>
+            <DialogDescription className="pt-2">
+              Thank you for sharing your experience. Your review will be moderated and published shortly.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="pt-4">
+            <Button className="w-full" onClick={closeDialogsAndReset}>
+              Done
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }

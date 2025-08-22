@@ -77,7 +77,8 @@ export default function NewsListPage() {
           ) : (
             <div className="space-y-4">
               {pageItems.map(n => (
-                <Card key={n.id}>
+                <Link key={n.id} href={`/news/${n.id}`} className="block">
+                  <Card className="hover:shadow-lg transition-all duration-300">
                   <CardHeader>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
                       <Calendar className="h-4 w-4" />
@@ -88,7 +89,8 @@ export default function NewsListPage() {
                   <CardContent>
                     <CardDescription className="whitespace-pre-wrap">{n.content}</CardDescription>
                   </CardContent>
-                </Card>
+                  </Card>
+                </Link>
               ))}
               {pageItems.length === 0 && (
                 <Card><CardContent className="p-6"><CardDescription>No results.</CardDescription></CardContent></Card>

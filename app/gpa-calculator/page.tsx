@@ -1,10 +1,6 @@
 "use client"
 import { Footer } from "@/components/layout/footer"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { SemesterGPACalculator } from "@/components/gpa/semester-gpa-calculator"
-import { CumulativeGPACalculator } from "@/components/gpa/cumulative-gpa-calculator"
-import { AggregateCalculator } from "@/components/gpa/aggregate-calculator"
-import { GPAPlanningCalculator } from "@/components/gpa/gpa-planning-calculator"
+import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calculator, TrendingUp, Target, Info, Calendar } from "lucide-react"
 
@@ -59,42 +55,63 @@ export default function GPACalculatorPage() {
             </Card>
           </div>
 
-          <Tabs defaultValue="semester" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="semester" className="flex items-center gap-2">
-                <Calculator className="h-4 w-4" />
-                Semester GPA
-              </TabsTrigger>
-              <TabsTrigger value="cumulative" className="flex items-center gap-2">
-                <TrendingUp className="h-4 w-4" />
-                Cumulative GPA
-              </TabsTrigger>
-              <TabsTrigger value="aggregate" className="flex items-center gap-2">
-                <Target className="h-4 w-4" />
-                Aggregate
-              </TabsTrigger>
-              <TabsTrigger value="planning" className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                GPA Planning
-              </TabsTrigger>
-            </TabsList>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Link href="/gpa-calculator/semester">
+              <Card className="hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <Calculator className="h-6 w-6 text-primary" />
+                    Semester GPA Calculator
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Calculate your GPA for the current semester.</p>
+                </CardContent>
+              </Card>
+            </Link>
 
-            <TabsContent value="semester">
-              <SemesterGPACalculator />
-            </TabsContent>
+            <Link href="/gpa-calculator/cumulative">
+              <Card className="hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <TrendingUp className="h-6 w-6 text-primary" />
+                    Cumulative GPA Calculator
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Track your overall academic performance.</p>
+                </CardContent>
+              </Card>
+            </Link>
 
-            <TabsContent value="cumulative">
-              <CumulativeGPACalculator />
-            </TabsContent>
+            <Link href="/gpa-calculator/aggregate">
+              <Card className="hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <Target className="h-6 w-6 text-primary" />
+                    Aggregate Calculator
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Calculate your admission aggregate score.</p>
+                </CardContent>
+              </Card>
+            </Link>
 
-            <TabsContent value="aggregate">
-              <AggregateCalculator />
-            </TabsContent>
-
-            <TabsContent value="planning">
-              <GPAPlanningCalculator />
-            </TabsContent>
-          </Tabs>
+            <Link href="/gpa-calculator/planning">
+              <Card className="hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-3">
+                    <Calendar className="h-6 w-6 text-primary" />
+                    GPA Planning Calculator
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Plan your future semesters to achieve your target GPA.</p>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
         </div>
       </main>
       <Footer />

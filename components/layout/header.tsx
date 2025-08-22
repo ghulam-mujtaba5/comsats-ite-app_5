@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from "@/contexts/auth-context"
 import { GraduationCap, LogOut, User, Menu, Calculator, FileText, Users, BookOpen, Calendar, Shield } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -83,9 +84,7 @@ export function Header() {
           title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
           className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
         >
-          <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
-            <GraduationCap className="h-6 w-6 text-primary-foreground" />
-          </div>
+          <Image src="/placeholder-logo.png" alt="COMSATS ITE Logo" width={40} height={40} />
           <div className="flex flex-col">
             <span className="font-bold text-lg leading-tight">COMSATS ITE</span>
             <span className="text-xs text-muted-foreground leading-tight">Academic Portal</span>
@@ -129,9 +128,7 @@ export function Header() {
             <SheetContent side="right" className="w-80">
               <div className="flex flex-col space-y-4 mt-8">
                 <div className="flex items-center space-x-3 pb-4 border-b">
-                  <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
-                    <GraduationCap className="h-6 w-6 text-primary-foreground" />
-                  </div>
+                  <Image src="/placeholder-logo.png" alt="COMSATS ITE Logo" width={40} height={40} />
                   <div className="flex flex-col">
                     <span className="font-bold text-lg">COMSATS ITE</span>
                     <span className="text-sm text-muted-foreground">Academic Portal</span>

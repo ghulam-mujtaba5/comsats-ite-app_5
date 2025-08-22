@@ -5,6 +5,7 @@ import { FeatureCards } from "@/components/home/feature-cards"
 import { NewsSection } from "@/components/home/news-section"
 import { CommunitySection } from "@/components/home/community-section"
 import { FAQSection } from "@/components/home/faq-section"
+import { ComingSoonSection } from "@/components/home/coming-soon-section"
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
         <FeatureCards />
         <CommunitySection />
         <NewsSection />
+        <ComingSoonSection />
         <FAQSection />
       </main>
       <Footer />

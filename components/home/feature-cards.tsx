@@ -1,60 +1,79 @@
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { FileText, Calculator, Users, BookOpen, Calendar, Star, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
-const features = [
-  {
-    title: "Past Papers",
-    description: "Access thousands of past papers organized by course and semester",
-    icon: FileText,
-    href: "/past-papers",
-    color: "text-primary",
-    stats: "1000+ Papers",
-  },
-  {
-    title: "GPA Calculator",
-    description: "Calculate your GPA and aggregate with our comprehensive tools",
-    icon: Calculator,
-    href: "/gpa-calculator",
-    color: "text-accent",
-    stats: "Multiple Calculators",
-  },
-  {
-    title: "Faculty Reviews",
-    description: "Read and share reviews about faculty members and courses",
-    icon: Users,
-    href: "/faculty",
-    color: "text-primary",
-    stats: "500+ Reviews",
-  },
-  {
-    title: "Learning Resources",
-    description: "Curated study materials, notes, and educational content",
-    icon: BookOpen,
-    href: "/resources",
-    color: "text-accent",
-    stats: "Curated Content",
-  },
-  {
-    title: "Academic Calendar",
-    description: "Stay updated with important dates and university events",
-    icon: Calendar,
-    href: "/timetable",
-    color: "text-primary",
-    stats: "Always Updated",
-  },
-  {
-    title: "Student Community",
-    description: "Connect with fellow students and share academic experiences",
-    icon: Star,
-    href: "/community",
-    color: "text-accent",
-    stats: "Growing Community",
-  },
-]
-
 export function FeatureCards() {
+  const [stats, setStats] = useState({ pastPapersCount: 1000, reviewsCount: 500 })
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch("/api/stats")
+        if (response.ok) {
+          const data = await response.json()
+          setStats(data)
+        }
+      } catch (error) {
+        console.error("Failed to fetch stats:", error)
+      }
+    }
+
+    fetchStats()
+  }, [])
+
+  const features = [
+    {
+      title: "Past Papers",
+      description: "Access thousands of past papers organized by course and semester",
+      icon: FileText,
+      href: "/past-papers",
+      color: "text-primary",
+      stats: `${stats.pastPapersCount}+ Papers`,
+    },
+    {
+      title: "GPA Calculator",
+      description: "Calculate your GPA and aggregate with our comprehensive tools",
+      icon: Calculator,
+      href: "/gpa-calculator",
+      color: "text-accent",
+      stats: "Multiple Calculators",
+    },
+    {
+      title: "Faculty Reviews",
+      description: "Read and share reviews about faculty members and courses",
+      icon: Users,
+      href: "/faculty",
+      color: "text-primary",
+      stats: `${stats.reviewsCount}+ Reviews`,
+    },
+    {
+      title: "Learning Resources",
+      description: "Curated study materials, notes, and educational content",
+      icon: BookOpen,
+      href: "/resources",
+      color: "text-accent",
+      stats: "Curated Content",
+    },
+    {
+      title: "Academic Calendar",
+      description: "Stay updated with important dates and university events",
+      icon: Calendar,
+      href: "/timetable",
+      color: "text-primary",
+      stats: "Always Updated",
+    },
+    {
+      title: "Student Community",
+      description: "Connect with fellow students and share academic experiences",
+      icon: Star,
+      href: "/community",
+      color: "text-accent",
+      stats: "Growing Community",
+    },
+  ]
+
   return (
     <section className="py-20 px-4 bg-muted/30">
       <div className="container mx-auto max-w-6xl">

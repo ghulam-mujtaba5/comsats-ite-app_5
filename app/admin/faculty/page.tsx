@@ -5,6 +5,8 @@ import { AdminGuard } from "@/components/admin/admin-guard"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import Link from "next/link"
+
 // Uses secure server API at /api/admin/faculty guarded by HTTP-only admin cookie
 
 // Minimal faculty schema used here must match your Supabase table `faculty`
@@ -278,7 +280,7 @@ export default function AdminFacultyPage() {
               </div>
               <div>
                 <Label>Profile Image URL</Label>
-                <Input value={form.profile_image} onChange={(e) => setForm({ ...form, profile_image: e.target.value })} />
+                                <Input value={form.profile_image || ''} onChange={(e) => setForm({ ...form, profile_image: e.target.value })} />
               </div>
               <div className="flex gap-2">
                 <Button onClick={upsertRow}>{editingId ? "Update" : "Create"}</Button>
@@ -312,6 +314,7 @@ export default function AdminFacultyPage() {
                     <td className="py-2 pr-2">
                       <div className="flex gap-2">
                         <Button size="sm" variant="outline" onClick={() => editRow(r)}>Edit</Button>
+                                                <Button asChild size="sm" variant="outline"><Link href={`/faculty/${r.id}`} target="_blank">Preview</Link></Button>
                         <Button size="sm" variant="destructive" onClick={() => deleteRow(r.id)}>Delete</Button>
                       </div>
                     </td>

@@ -1,0 +1,33 @@
+Home Page:
+- logo 
+- Website Title 
+- Hero Page Picture should be outstanding
+- Coming Soon Features in Features Sections Like (Student Support, News and Events, Blogs Section, Ambassador Program, COMSATS OLX, COMSATS Lost and Found, Help Desk, Discussion Platform)
+- Use Exact values instead of Hardcoded Values like 1000+ Past Papers etc
+
+
+News Page (Not Found) - Fixed
+View of any Past Paper(Not Found) - Fixed
+
+Past Paper Section:
+- Past Paper Section: The entire course card is now clickable. - Fixed
+- In Upload Paper Section, a 'Course Name' field has been added for manual entry. - Fixed
+- Uploaded papers now display correctly and a success message is shown. - Fixed 
+
+Sign in or Up:
+- Password viewer button is now available on sign-in and sign-up forms. - Fixed
+- A pop-up is now displayed for successful account creation. - Fixed 
+
+GPA Calculator:
+- Each GPA calculator feature now has its own separate page for improved SEO. - Fixed
+
+Faculty Reviews Section:
+
+Home Page:
+- The website logo has been updated. - Fixed
+- The website title has been updated. - Fixed
+- The hero page picture has been updated. - Fixed
+- The hardcoded '1000+' past papers count is now dynamic. - Fixed
+- A pop-up is now displayed for successful faculty review submissions, and reviews are saved correctly. - Fixed
+
+
