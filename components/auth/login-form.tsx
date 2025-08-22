@@ -122,6 +122,17 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
             Sign In
           </Button>
 
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={handleForgotPassword}
+              disabled={resetLoading}
+              className="text-sm text-primary hover:underline disabled:opacity-50"
+            >
+              {resetLoading ? "Sending..." : "Forgot your password?"}
+            </button>
+          </div>
+
           <div className="text-center text-sm">
             <span className="text-muted-foreground">Don't have an account? </span>
             <button type="button" onClick={onToggleMode} className="text-primary hover:underline">
