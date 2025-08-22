@@ -125,7 +125,7 @@ export default function FacultyProfilePage({ params }: FacultyProfilePageProps) 
           )}
           {error && (
             <Card className="mb-8">
-              <CardContent className="p-8 text-red-600">{error}</CardContent>
+              <CardContent className="p-8 text-blue-600">{error}</CardContent>
             </Card>
           )}
           {/* Faculty Profile Header */}

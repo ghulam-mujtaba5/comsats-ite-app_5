@@ -487,7 +487,7 @@ export default function CommunityPage() {
                   {loading ? (
                     <Card className="p-8 text-center text-gray-500">Loading posts...</Card>
                   ) : error ? (
-                    <Card className="p-8 text-center text-red-600">{error}</Card>
+                    <Card className="p-8 text-center text-blue-600">{error}</Card>
                   ) : filteredPosts.length === 0 ? (
                     <Card className="p-8 text-center">No posts found.</Card>
                   ) : (

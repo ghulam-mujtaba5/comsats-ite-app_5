@@ -2,11 +2,43 @@
 
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Users, Library, MessageSquare, GraduationCap } from "lucide-react"
+
+interface DashboardStats {
+  totalUsers: number;
+  totalFaculty: number;
+  totalReviews: number;
+  totalResources: number;
+}
 
 export default function AdminDashboardPage() {
   const router = useRouter()
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const response = await fetch('/api/admin/dashboard-stats');
+        if (!response.ok) {
+          throw new Error('Failed to fetch stats');
+        }
+        const data = await response.json();
+        setStats(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchStats();
+  }, []);
+
   return (
     <AdminGuard
       fallback={
@@ -19,11 +51,11 @@ export default function AdminDashboardPage() {
         </div>
       }
     >
-      <div className="container mx-auto p-6 space-y-6">
+      <div className="container mx-auto p-6 space-y-8">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Manage faculty and timetable data.</p>
+            <p className="text-muted-foreground">Welcome back, Admin!</p>
           </div>
           <Button
             variant="outline"
@@ -36,27 +68,71 @@ export default function AdminDashboardPage() {
           </Button>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Link href="/admin/faculty" className="block border rounded-lg p-5 hover:bg-accent">
-            <h2 className="text-xl font-semibold">Faculty Management</h2>
-            <p className="text-muted-foreground">Add/edit faculty, CSV import/export</p>
-          </Link>
-          <Link href="/admin/timetable-docs" className="block border rounded-lg p-5 hover:bg-accent">
-            <h2 className="text-xl font-semibold">Timetable Documents</h2>
-            <p className="text-muted-foreground">Upload/edit/delete PDF schedules</p>
-          </Link>
-          <Link href="/admin/resources" className="block border rounded-lg p-5 hover:bg-accent">
-            <h2 className="text-xl font-semibold">Resources</h2>
-            <p className="text-muted-foreground">Add/edit/delete resources with Google Drive links or files</p>
-          </Link>
-          <Link href="/admin/news" className="block border rounded-lg p-5 hover:bg-accent">
-            <h2 className="text-xl font-semibold">News & Updates</h2>
-            <p className="text-muted-foreground">Create, publish, edit, delete news posts</p>
-          </Link>
-          <Link href="/admin/community" className="block border rounded-lg p-5 hover:bg-accent">
-            <h2 className="text-xl font-semibold">Community Cards</h2>
-            <p className="text-muted-foreground">Manage student community cards and ordering</p>
-          </Link>
+        {/* Stats Section */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+              <Users className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{loading ? '...' : stats?.totalUsers ?? 'N/A'}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Faculty</CardTitle>
+              <GraduationCap className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{loading ? '...' : stats?.totalFaculty ?? 'N/A'}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Reviews</CardTitle>
+              <MessageSquare className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{loading ? '...' : stats?.totalReviews ?? 'N/A'}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Resources</CardTitle>
+              <Library className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{loading ? '...' : stats?.totalResources ?? 'N/A'}</div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Management Links */}
+        <div>
+          <h2 className="text-2xl font-semibold mb-4">Management Sections</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <Link href="/admin/faculty" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">Faculty</h3>
+              <p className="text-muted-foreground">Add, edit, and manage faculty members.</p>
+            </Link>
+            <Link href="/admin/timetable-docs" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">Timetables</h3>
+              <p className="text-muted-foreground">Upload and manage timetable documents.</p>
+            </Link>
+            <Link href="/admin/resources" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">Resources</h3>
+              <p className="text-muted-foreground">Manage learning resources and links.</p>
+            </Link>
+            <Link href="/admin/news" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">News & Updates</h3>
+              <p className="text-muted-foreground">Create and publish news for students.</p>
+            </Link>
+            <Link href="/admin/community" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">Community</h3>
+              <p className="text-muted-foreground">Manage student community cards.</p>
+            </Link>
+          </div>
         </div>
       </div>
     </AdminGuard>

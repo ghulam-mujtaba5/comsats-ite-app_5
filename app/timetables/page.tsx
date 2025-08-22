@@ -38,7 +38,7 @@ export default function TimetablesPage() {
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-4">Department Timetables</h1>
       {loading && <p>Loading…</p>}
-      {error && <p className="text-red-600">{error}</p>}
+      {error && <p className="text-blue-600">{error}</p>}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((d) => (
           <div key={d.id} className="border rounded-lg p-4 space-y-2">

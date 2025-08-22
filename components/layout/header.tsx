@@ -208,7 +208,7 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logout} className="cursor-pointer text-red-600 focus:text-red-600">
+                <DropdownMenuItem onClick={logout} className="cursor-pointer text-blue-600 focus:text-blue-600">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Sign Out</span>
                 </DropdownMenuItem>

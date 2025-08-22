@@ -87,10 +87,10 @@ export function ReviewCard({ review }: ReviewCardProps) {
 
           {review.cons.length > 0 && (
             <div>
-              <h4 className="font-medium text-red-600 mb-2">Cons:</h4>
+              <h4 className="font-medium text-blue-600 mb-2">Cons:</h4>
               <div className="flex flex-wrap gap-1">
                 {review.cons.map((con, index) => (
-                  <Badge key={index} variant="secondary" className="bg-red-50 text-red-700 border-red-200">
+                  <Badge key={index} variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200">
                     {con}
                   </Badge>
                 ))}

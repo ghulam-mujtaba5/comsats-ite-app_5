@@ -318,7 +318,7 @@ export function WriteReviewDialog({ faculty, children }: WriteReviewDialogProps)
                 {formData.pros.map((pro, index) => (
                   <Badge key={index} className="bg-green-50 text-green-700 border-green-200">
                     {pro}
-                    <button type="button" onClick={() => removePro(pro)} className="ml-1 hover:text-red-600">
+                    <button type="button" onClick={() => removePro(pro)} className="ml-1 hover:text-blue-600">
                       <X className="h-3 w-3" />
                     </button>
                   </Badge>
@@ -341,9 +341,9 @@ export function WriteReviewDialog({ faculty, children }: WriteReviewDialogProps)
               </div>
               <div className="flex flex-wrap gap-2">
                 {formData.cons.map((con, index) => (
-                  <Badge key={index} className="bg-red-50 text-red-700 border-red-200">
+                  <Badge key={index} className="bg-blue-50 text-blue-700 border-blue-200">
                     {con}
-                    <button type="button" onClick={() => removeCon(con)} className="ml-1 hover:text-red-600">
+                    <button type="button" onClick={() => removeCon(con)} className="ml-1 hover:text-blue-600">
                       <X className="h-3 w-3" />
                     </button>
                   </Badge>

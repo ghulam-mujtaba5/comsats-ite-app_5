@@ -26,7 +26,7 @@ export default function Error({
           <Card className="p-12">
             <CardContent className="space-y-6">
               <div className="flex justify-center">
-                <AlertTriangle className="h-24 w-24 text-red-500" />
+                <AlertTriangle className="h-24 w-24 text-blue-500" />
               </div>
 
               <div className="space-y-2">

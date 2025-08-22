@@ -84,7 +84,7 @@ export default function CoursePage({ params }: CoursePageProps) {
     { key: "assignments", label: "Assignments", icon: FileText, papers: course.assignments, color: "text-blue-500" },
     { key: "quizzes", label: "Quizzes", icon: BookOpen, papers: course.quizzes, color: "text-green-500" },
     { key: "midterms", label: "Midterms", icon: Calendar, papers: course.midterms, color: "text-orange-500" },
-    { key: "finals", label: "Finals", icon: Download, papers: course.finals, color: "text-red-500" },
+    { key: "finals", label: "Finals", icon: Download, papers: course.finals, color: "text-blue-500" },
   ]
 
   return (

@@ -45,7 +45,7 @@ export function CourseCard({ course }: CourseCardProps) {
             <span>{course.midterms.length} Midterms</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
-            <Download className="h-4 w-4 text-red-500" />
+            <Download className="h-4 w-4 text-blue-500" />
             <span>{course.finals.length} Finals</span>
           </div>
         </div>

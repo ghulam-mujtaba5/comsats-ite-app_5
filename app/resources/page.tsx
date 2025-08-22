@@ -51,7 +51,7 @@ export default function ResourcesPage() {
           </div>
 
           {loading && <p>Loading…</p>}
-          {error && <p className="text-red-600">{error}</p>}
+          {error && <p className="text-blue-600">{error}</p>}
 
           {(!loading && items.length === 0) ? (
             <Card className="p-12 text-center">

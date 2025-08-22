@@ -171,7 +171,7 @@ export default function FacultyPage() {
           {loading ? (
             <Card className="p-12 text-center">Loading faculty...</Card>
           ) : error ? (
-            <Card className="p-12 text-center text-red-600">{error}</Card>
+            <Card className="p-12 text-center text-blue-600">{error}</Card>
           ) : filteredFaculty.length === 0 ? (
             <Card className="p-12 text-center">
               <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4" />

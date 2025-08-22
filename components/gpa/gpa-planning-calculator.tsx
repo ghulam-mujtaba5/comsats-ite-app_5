@@ -349,14 +349,14 @@ export function GPAPlanningCalculator() {
             {/* Target Analysis */}
             {targetGPA && (
               <Card
-                className={`border-l-4 ${calculations.targetAchievable ? "border-l-green-500 bg-green-50/50" : "border-l-red-500 bg-red-50/50"}`}
+                className={`border-l-4 ${calculations.targetAchievable ? "border-l-green-500 bg-green-50/50" : "border-l-blue-500 bg-blue-50/50"}`}
               >
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-2">
                     {calculations.targetAchievable ? (
                       <CheckCircle className="h-5 w-5 text-green-600" />
                     ) : (
-                      <AlertCircle className="h-5 w-5 text-red-600" />
+                      <AlertCircle className="h-5 w-5 text-blue-600" />
                     )}
                     <span className="font-semibold">Target GPA: {targetGPA}</span>
                   </div>

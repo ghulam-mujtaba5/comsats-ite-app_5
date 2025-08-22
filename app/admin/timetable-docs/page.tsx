@@ -142,7 +142,7 @@ export default function AdminTimetableDocsPage() {
           </div>
           <div className="md:col-span-2 flex gap-2">
             <Button type="submit" disabled={loading}>{loading ? 'Uploading…' : 'Upload'}</Button>
-            {error && <span className="text-sm text-red-600 self-center">{error}</span>}
+            {error && <span className="text-sm text-blue-600 self-center">{error}</span>}
           </div>
         </form>
 

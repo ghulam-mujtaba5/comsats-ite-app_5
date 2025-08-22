@@ -224,7 +224,7 @@ export default function AdminTimetablePage() {
         <div className="grid gap-4 md:grid-cols-2">
           <div className="border rounded-lg p-4 space-y-3">
             <h2 className="font-semibold">{editingId ? "Edit Entry" : "Add Entry"}</h2>
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && <p className="text-sm text-blue-600">{error}</p>}
 
             <div className="grid gap-3">
               <div>
