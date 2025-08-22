@@ -144,6 +144,22 @@ export default function AdminDashboardPage() {
               <h3 className="text-xl font-semibold">👥 Users</h3>
               <p className="text-muted-foreground">Manage user accounts and permissions.</p>
             </Link>
+            <Link href="/admin/moderation" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">🛡️ Content Moderation</h3>
+              <p className="text-muted-foreground">Moderate posts, comments, and reports.</p>
+            </Link>
+            <Link href="/admin/resources" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">📁 Resources</h3>
+              <p className="text-muted-foreground">Manage downloadable resources and files.</p>
+            </Link>
+            <Link href="/admin/timetable" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">📅 Timetable</h3>
+              <p className="text-muted-foreground">Manage class schedules and timetables.</p>
+            </Link>
+            <Link href="/admin/settings" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">⚙️ Site Settings</h3>
+              <p className="text-muted-foreground">Configure site-wide settings and preferences.</p>
+            </Link>
           </div>
         </div>
       </div>

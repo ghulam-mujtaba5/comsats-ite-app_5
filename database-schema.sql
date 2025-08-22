@@ -6,6 +6,16 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Create tables
 
+-- Admin Users Table
+CREATE TABLE IF NOT EXISTS admin_users (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE UNIQUE,
+    role VARCHAR(50) NOT NULL CHECK (role IN ('super_admin', 'admin', 'moderator')),
+    permissions TEXT[] DEFAULT '{}',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Lost and Found Items
 CREATE TABLE IF NOT EXISTS lost_found_items (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -239,3 +249,94 @@ CREATE TRIGGER update_support_resources_updated_at BEFORE UPDATE ON support_reso
 CREATE TRIGGER update_support_requests_updated_at BEFORE UPDATE ON support_requests FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_guidance_content_updated_at BEFORE UPDATE ON guidance_content FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_faq_items_updated_at BEFORE UPDATE ON faq_items FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Community and Moderation Tables
+CREATE TABLE IF NOT EXISTS community_posts (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    author_name VARCHAR(255) NOT NULL,
+    author_email VARCHAR(255) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    status VARCHAR(50) DEFAULT 'active' CHECK (status IN ('active', 'flagged', 'hidden', 'deleted')),
+    likes_count INTEGER DEFAULT 0,
+    comments_count INTEGER DEFAULT 0,
+    reports_count INTEGER DEFAULT 0,
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS community_comments (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    content TEXT NOT NULL,
+    author_name VARCHAR(255) NOT NULL,
+    author_email VARCHAR(255) NOT NULL,
+    post_id UUID REFERENCES community_posts(id) ON DELETE CASCADE,
+    status VARCHAR(50) DEFAULT 'active' CHECK (status IN ('active', 'flagged', 'hidden', 'deleted')),
+    reports_count INTEGER DEFAULT 0,
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS content_reports (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    content_type VARCHAR(50) NOT NULL CHECK (content_type IN ('post', 'comment')),
+    content_id UUID NOT NULL,
+    content_title VARCHAR(255) NOT NULL,
+    reason VARCHAR(100) NOT NULL,
+    description TEXT,
+    reporter_email VARCHAR(255) NOT NULL,
+    status VARCHAR(50) DEFAULT 'pending' CHECK (status IN ('pending', 'reviewed', 'dismissed')),
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS moderation_logs (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    content_type VARCHAR(50) NOT NULL CHECK (content_type IN ('post', 'comment')),
+    content_id UUID NOT NULL,
+    action VARCHAR(50) NOT NULL,
+    reason TEXT,
+    moderator_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Indexes for community and moderation tables
+CREATE INDEX IF NOT EXISTS idx_community_posts_status ON community_posts(status);
+CREATE INDEX IF NOT EXISTS idx_community_posts_category ON community_posts(category);
+CREATE INDEX IF NOT EXISTS idx_community_posts_created_at ON community_posts(created_at);
+CREATE INDEX IF NOT EXISTS idx_community_comments_post_id ON community_comments(post_id);
+CREATE INDEX IF NOT EXISTS idx_community_comments_status ON community_comments(status);
+CREATE INDEX IF NOT EXISTS idx_content_reports_status ON content_reports(status);
+CREATE INDEX IF NOT EXISTS idx_content_reports_content_type ON content_reports(content_type);
+CREATE INDEX IF NOT EXISTS idx_moderation_logs_content_type ON moderation_logs(content_type);
+
+-- Add triggers for community tables
+CREATE TRIGGER update_admin_users_updated_at BEFORE UPDATE ON admin_users FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_community_posts_updated_at BEFORE UPDATE ON community_posts FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_community_comments_updated_at BEFORE UPDATE ON community_comments FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_content_reports_updated_at BEFORE UPDATE ON content_reports FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Site Settings Table
+CREATE TABLE IF NOT EXISTS site_settings (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    site_name VARCHAR(255) DEFAULT 'COMSATS ITE App',
+    site_description TEXT DEFAULT 'Student portal for COMSATS University',
+    site_logo_url TEXT,
+    contact_email VARCHAR(255) DEFAULT 'admin@comsats.edu.pk',
+    maintenance_mode BOOLEAN DEFAULT FALSE,
+    registration_enabled BOOLEAN DEFAULT TRUE,
+    max_file_size_mb INTEGER DEFAULT 10,
+    allowed_file_types TEXT[] DEFAULT ARRAY['pdf', 'doc', 'docx', 'jpg', 'png'],
+    theme_color VARCHAR(7) DEFAULT '#3b82f6',
+    announcement_text TEXT,
+    announcement_enabled BOOLEAN DEFAULT FALSE,
+    social_links JSONB DEFAULT '{}',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TRIGGER update_site_settings_updated_at BEFORE UPDATE ON site_settings FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
