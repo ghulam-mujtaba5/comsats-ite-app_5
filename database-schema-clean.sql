@@ -78,6 +78,38 @@ CREATE TABLE IF NOT EXISTS event_registrations (
     UNIQUE(event_id, user_id)
 );
 
+-- Timetable entries (structured timetable rows)
+CREATE TABLE IF NOT EXISTS timetable (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    course_code VARCHAR(50) NOT NULL,
+    course_title VARCHAR(255) NOT NULL,
+    section VARCHAR(20) NOT NULL,
+    day VARCHAR(20) NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    room VARCHAR(50),
+    teacher_name VARCHAR(255),
+    department VARCHAR(100),
+    semester VARCHAR(50),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Timetable documents metadata (PDFs stored in Supabase Storage)
+CREATE TABLE IF NOT EXISTS timetable_docs (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    department VARCHAR(100) NOT NULL,
+    term VARCHAR(50),
+    size_bytes BIGINT,
+    mime_type VARCHAR(100) DEFAULT 'application/pdf',
+    storage_path TEXT,
+    public_url TEXT,
+    uploaded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Support Resources
 CREATE TABLE IF NOT EXISTS support_resources (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -150,6 +182,31 @@ CREATE TABLE IF NOT EXISTS faculty (
     experience TEXT,
     profile_image TEXT,
     is_published BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Faculty Reviews
+CREATE TABLE IF NOT EXISTS reviews (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    faculty_id UUID REFERENCES faculty(id) ON DELETE CASCADE,
+    student_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+    student_name VARCHAR(255),
+    course VARCHAR(255) NOT NULL,
+    semester VARCHAR(50) NOT NULL,
+    rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    teaching_quality INTEGER CHECK (teaching_quality BETWEEN 1 AND 5),
+    accessibility INTEGER CHECK (accessibility BETWEEN 1 AND 5),
+    course_material INTEGER CHECK (course_material BETWEEN 1 AND 5),
+    grading INTEGER CHECK (grading BETWEEN 1 AND 5),
+    comment TEXT NOT NULL,
+    pros TEXT[] DEFAULT '{}',
+    cons TEXT[] DEFAULT '{}',
+    would_recommend BOOLEAN DEFAULT FALSE,
+    is_anonymous BOOLEAN DEFAULT FALSE,
+    helpful INTEGER DEFAULT 0,
+    reported INTEGER DEFAULT 0,
+    status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending','approved','rejected')),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -257,6 +314,9 @@ CREATE INDEX IF NOT EXISTS idx_support_requests_status ON support_requests(statu
 CREATE INDEX IF NOT EXISTS idx_guidance_content_category ON guidance_content(category);
 CREATE INDEX IF NOT EXISTS idx_faq_items_category ON faq_items(category);
 CREATE INDEX IF NOT EXISTS idx_faculty_department ON faculty(department);
+CREATE INDEX IF NOT EXISTS idx_reviews_faculty_id ON reviews(faculty_id);
+CREATE INDEX IF NOT EXISTS idx_reviews_created_at ON reviews(created_at);
+CREATE INDEX IF NOT EXISTS idx_reviews_status ON reviews(status);
 CREATE INDEX IF NOT EXISTS idx_community_posts_status ON community_posts(status);
 CREATE INDEX IF NOT EXISTS idx_community_posts_category ON community_posts(category);
 CREATE INDEX IF NOT EXISTS idx_community_posts_created_at ON community_posts(created_at);
@@ -265,6 +325,14 @@ CREATE INDEX IF NOT EXISTS idx_community_comments_status ON community_comments(s
 CREATE INDEX IF NOT EXISTS idx_content_reports_status ON content_reports(status);
 CREATE INDEX IF NOT EXISTS idx_content_reports_content_type ON content_reports(content_type);
 CREATE INDEX IF NOT EXISTS idx_moderation_logs_content_type ON moderation_logs(content_type);
+
+-- Timetable indexes
+CREATE INDEX IF NOT EXISTS idx_timetable_department ON timetable(department);
+CREATE INDEX IF NOT EXISTS idx_timetable_semester ON timetable(semester);
+CREATE INDEX IF NOT EXISTS idx_timetable_created_at ON timetable(created_at);
+CREATE INDEX IF NOT EXISTS idx_timetable_docs_department ON timetable_docs(department);
+CREATE INDEX IF NOT EXISTS idx_timetable_docs_term ON timetable_docs(term);
+CREATE INDEX IF NOT EXISTS idx_timetable_docs_uploaded_at ON timetable_docs(uploaded_at);
 
 -- Create function for updating updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -285,6 +353,7 @@ CREATE TRIGGER update_support_requests_updated_at BEFORE UPDATE ON support_reque
 CREATE TRIGGER update_guidance_content_updated_at BEFORE UPDATE ON guidance_content FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_faq_items_updated_at BEFORE UPDATE ON faq_items FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_faculty_updated_at BEFORE UPDATE ON faculty FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_reviews_updated_at BEFORE UPDATE ON reviews FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_resources_updated_at BEFORE UPDATE ON resources FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_community_posts_updated_at BEFORE UPDATE ON community_posts FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_community_comments_updated_at BEFORE UPDATE ON community_comments FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
@@ -302,12 +371,15 @@ ALTER TABLE support_requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE guidance_content ENABLE ROW LEVEL SECURITY;
 ALTER TABLE faq_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE faculty ENABLE ROW LEVEL SECURITY;
+ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
 ALTER TABLE resources ENABLE ROW LEVEL SECURITY;
 ALTER TABLE community_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE community_comments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE content_reports ENABLE ROW LEVEL SECURITY;
 ALTER TABLE moderation_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE timetable ENABLE ROW LEVEL SECURITY;
+ALTER TABLE timetable_docs ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies
 
@@ -378,9 +450,29 @@ CREATE POLICY "Only admins can manage faculty" ON faculty FOR ALL USING (
     EXISTS (SELECT 1 FROM admin_users WHERE user_id = auth.uid())
 );
 
+-- Reviews - Public can read approved reviews; users can create their own; admins can manage all; users can read their own
+CREATE POLICY "Anyone can view approved reviews" ON reviews FOR SELECT USING (status = 'approved');
+CREATE POLICY "Users can view their own reviews" ON reviews FOR SELECT USING (auth.uid() = student_id);
+CREATE POLICY "Users can create reviews" ON reviews FOR INSERT WITH CHECK (auth.uid() = student_id);
+CREATE POLICY "Only admins can manage reviews" ON reviews FOR ALL USING (
+    EXISTS (SELECT 1 FROM admin_users WHERE user_id = auth.uid())
+);
+
 -- Resources - Everyone can read resources
 CREATE POLICY "Anyone can view resources" ON resources FOR SELECT USING (true);
 CREATE POLICY "Only admins can manage resources" ON resources FOR ALL USING (
+    EXISTS (SELECT 1 FROM admin_users WHERE user_id = auth.uid())
+);
+
+-- Timetable - restrict management to admins; allow read for all
+CREATE POLICY "Anyone can view timetable" ON timetable FOR SELECT USING (true);
+CREATE POLICY "Only admins can manage timetable" ON timetable FOR ALL USING (
+    EXISTS (SELECT 1 FROM admin_users WHERE user_id = auth.uid())
+);
+
+-- Timetable Docs - public read, admin manage
+CREATE POLICY "Anyone can view timetable docs" ON timetable_docs FOR SELECT USING (true);
+CREATE POLICY "Only admins can manage timetable docs" ON timetable_docs FOR ALL USING (
     EXISTS (SELECT 1 FROM admin_users WHERE user_id = auth.uid())
 );
 

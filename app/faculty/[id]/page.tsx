@@ -12,7 +12,7 @@ import { type Faculty, type Review, calculateReviewStats } from "@/lib/faculty-d
 import { Star, MapPin, Mail, Phone, BookOpen, GraduationCap, Calendar, PenTool, ThumbsUp } from "lucide-react"
 import { notFound } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
-import { supabase } from "@/lib/supabase"
+// Using internal APIs with dev fallbacks instead of direct Supabase client
 
 interface FacultyProfilePageProps {
   params: { id: string }
@@ -28,20 +28,26 @@ export default function FacultyProfilePage({ params }: FacultyProfilePageProps) 
     const load = async () => {
       setLoading(true)
       setError(null)
-      const [{ data: fData, error: fErr }, { data: rData, error: rErr }] = await Promise.all([
-        supabase.from("faculty").select("*").eq("id", params.id).maybeSingle(),
-        supabase
-          .from("reviews")
-          .select("*")
-          .eq("faculty_id", params.id)
-          .order("created_at", { ascending: false }),
-      ])
+      try {
+        const [fRes, rRes] = await Promise.all([
+          fetch(`/api/faculty/${params.id}`, { cache: "no-store" }),
+          fetch(`/api/reviews?facultyId=${params.id}`, { cache: "no-store" }),
+        ])
 
-      if (fErr) {
-        setError(fErr.message)
-        setLoading(false)
-        return
-      }
+        if (!fRes.ok) {
+          const d = await fRes.json().catch(() => ({}))
+          throw new Error(d.error || `Failed to load faculty (${fRes.status})`)
+        }
+        const fJson = await fRes.json()
+        const fData = fJson.data
+
+        if (!rRes.ok) {
+          const d = await rRes.json().catch(() => ({}))
+          throw new Error(d.error || `Failed to load reviews (${rRes.status})`)
+        }
+        const rJson = await rRes.json()
+        const rData = rJson.data || []
+
       if (!fData) {
         setLoading(false)
         setFaculty(null)
@@ -64,10 +70,6 @@ export default function FacultyProfilePage({ params }: FacultyProfilePageProps) 
         averageRating: Number(fData.rating_avg ?? 0),
         totalReviews: Number(fData.rating_count ?? 0),
         joinDate: fData.created_at || new Date().toISOString(),
-      }
-
-      if (rErr) {
-        setError(rErr.message)
       }
 
       const mappedReviews: Review[] = (rData || []).map((row: any) => ({
@@ -95,6 +97,10 @@ export default function FacultyProfilePage({ params }: FacultyProfilePageProps) 
       setFaculty(mappedFaculty)
       setReviews(mappedReviews)
       setLoading(false)
+      } catch (e: any) {
+        setError(e.message ?? "Failed to load")
+        setLoading(false)
+      }
     }
     load()
   }, [params.id])

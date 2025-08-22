@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js"
 import { NextRequest, NextResponse } from "next/server"
+import { revalidatePath } from "next/cache"
 
 export async function POST(req: NextRequest) {
   try {
@@ -58,6 +59,11 @@ export async function POST(req: NextRequest) {
         department: paperData.department,
         created_at: new Date().toISOString(),
       }]
+      // In dev fallback, proactively revalidate the course page route
+      try {
+        const code = paperData.course === 'Other' ? paperData.courseName?.replace(/\s+/g, '-').toUpperCase() : paperData.course
+        if (code) revalidatePath(`/past-papers/${code}`)
+      } catch {}
       return NextResponse.json(
         {
           message: "Paper uploaded (dev mode). File not persisted — configure Supabase to enable storage.",
@@ -105,6 +111,12 @@ export async function POST(req: NextRequest) {
       await supabase.storage.from("papers").remove([filePath])
       return NextResponse.json({ error: "Failed to save paper data" }, { status: 500 })
     }
+
+    // Revalidate the specific course page
+    try {
+      const code = data?.[0]?.course_code || (paperData.course === 'Other' ? paperData.courseName.replace(/\s+/g, '-').toUpperCase() : paperData.course)
+      if (code) revalidatePath(`/past-papers/${code}`)
+    } catch {}
 
     return NextResponse.json({ message: "Paper uploaded successfully", paper: data }, { status: 200 })
   } catch (error) {

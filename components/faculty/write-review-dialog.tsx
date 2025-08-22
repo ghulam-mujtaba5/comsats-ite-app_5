@@ -23,7 +23,6 @@ import { Star, Plus, X, PenTool, LogIn, CheckCircle } from "lucide-react"
 import type { Faculty } from "@/lib/faculty-data"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { supabase } from "@/lib/supabase"
 import { useToast } from "@/hooks/use-toast"
 
 interface WriteReviewDialogProps {
@@ -137,8 +136,16 @@ export function WriteReviewDialog({ faculty, children }: WriteReviewDialogProps)
         would_recommend: formData.wouldRecommend,
         is_anonymous: formData.isAnonymous,
       }
-      const { error } = await supabase.from("reviews").insert(payload)
-      if (error) throw error
+      const res = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data.error || `Failed with status ${res.status}`)
+      }
+      toast({ title: "Review submitted", description: "Thanks for your feedback!" })
       setShowSuccessDialog(true)
       router.refresh()
     } catch (err: any) {

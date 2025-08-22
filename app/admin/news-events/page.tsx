@@ -19,8 +19,7 @@ interface NewsItem {
   title: string
   content: string
   category: string
-  published: boolean
-  created_at: string
+  publishedAt?: string
 }
 
 interface Event {
@@ -31,10 +30,8 @@ interface Event {
   time: string
   location: string
   category: string
-  capacity: number
-  registration_count: number
-  published: boolean
-  created_at: string
+  capacity?: number
+  registered?: number
 }
 
 export default function AdminNewsEventsPage() {
@@ -49,15 +46,21 @@ export default function AdminNewsEventsPage() {
 
   // Form states
   const [formData, setFormData] = useState({
+    // common
     title: "",
+    category: "",
+    // news
     content: "",
+    isImportant: false,
+    imageUrl: "",
+    // events
     description: "",
     date: "",
     time: "",
     location: "",
-    category: "",
+    organizer: "Admin",
     capacity: 50,
-    published: true
+    registrationOpen: true,
   })
 
   useEffect(() => {
@@ -95,14 +98,17 @@ export default function AdminNewsEventsPage() {
   const resetForm = () => {
     setFormData({
       title: "",
+      category: "",
       content: "",
+      isImportant: false,
+      imageUrl: "",
       description: "",
       date: "",
       time: "",
       location: "",
-      category: "",
+      organizer: "Admin",
       capacity: 50,
-      published: true
+      registrationOpen: true,
     })
     setEditingItem(null)
   }
@@ -110,43 +116,50 @@ export default function AdminNewsEventsPage() {
   const handleCreate = async () => {
     setSubmitting(true)
     try {
-      const endpoint = activeTab === "news" ? '/api/news-events/news' : '/api/news-events/events'
-      const payload = activeTab === "news" 
+      const isNews = activeTab === "news"
+      const endpoint = isNews 
+        ? (editingItem ? `/api/news-events/news/${(editingItem as any).id}` : '/api/news-events/news')
+        : (editingItem ? `/api/news-events/events/${(editingItem as any).id}` : '/api/news-events/events')
+
+      const payload = isNews 
         ? {
             title: formData.title,
             content: formData.content,
             category: formData.category,
-            published: formData.published
+            is_important: formData.isImportant,
+            image_url: formData.imageUrl || null,
           }
         : {
             title: formData.title,
             description: formData.description,
-            date: formData.date,
-            time: formData.time,
+            event_date: formData.date,
+            event_time: formData.time,
             location: formData.location,
             category: formData.category,
+            organizer: formData.organizer || 'Admin',
             capacity: formData.capacity,
-            published: formData.published
+            registration_open: formData.registrationOpen,
+            image_url: formData.imageUrl || null,
           }
 
       const response = await fetch(endpoint, {
-        method: 'POST',
+        method: editingItem ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
 
       if (response.ok) {
-        const newItem = await response.json()
-        if (activeTab === "news") {
-          setNews(prev => [newItem, ...prev])
+        const saved = await response.json()
+        if (isNews) {
+          setNews(prev => editingItem ? prev.map(n => n.id === (editingItem as any).id ? saved : n) : [saved, ...prev])
         } else {
-          setEvents(prev => [newItem, ...prev])
+          setEvents(prev => editingItem ? prev.map(e => e.id === (editingItem as any).id ? saved : e) : [saved, ...prev])
         }
         resetForm()
         setShowCreateDialog(false)
         toast({
           title: "Success",
-          description: `${activeTab === "news" ? "News article" : "Event"} created successfully`
+          description: `${isNews ? (editingItem ? 'News article updated' : 'News article created') : (editingItem ? 'Event updated' : 'Event created')}`
         })
       }
     } catch (error) {
@@ -167,27 +180,36 @@ export default function AdminNewsEventsPage() {
       // News item
       setFormData({
         title: item.title,
-        content: item.content,
         category: item.category,
-        published: item.published,
+        content: item.content,
+        isImportant: false,
+        imageUrl: "",
+        // clear event fields
         description: "",
         date: "",
         time: "",
         location: "",
-        capacity: 50
+        organizer: "Admin",
+        capacity: 50,
+        registrationOpen: true,
       })
     } else {
       // Event
       setFormData({
         title: item.title,
+        category: item.category,
+        // event fields
         description: item.description,
         date: item.date,
         time: item.time,
         location: item.location,
-        category: item.category,
-        capacity: item.capacity,
-        published: item.published,
-        content: ""
+        organizer: "Admin",
+        capacity: item.capacity ?? 50,
+        registrationOpen: true,
+        // clear news fields
+        content: "",
+        isImportant: false,
+        imageUrl: "",
       })
     }
     setShowCreateDialog(true)
@@ -265,6 +287,15 @@ export default function AdminNewsEventsPage() {
                       placeholder="Enter news content..."
                       rows={6}
                     />
+                    <div className="mt-4 flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="important"
+                        checked={formData.isImportant}
+                        onChange={(e) => setFormData(prev => ({ ...prev, isImportant: e.target.checked }))}
+                      />
+                      <Label htmlFor="important">Mark as important</Label>
+                    </div>
                   </div>
                 ) : (
                   <>
@@ -308,6 +339,15 @@ export default function AdminNewsEventsPage() {
                       />
                     </div>
                     <div>
+                      <Label htmlFor="organizer">Organizer</Label>
+                      <Input
+                        id="organizer"
+                        value={formData.organizer}
+                        onChange={(e) => setFormData(prev => ({ ...prev, organizer: e.target.value }))}
+                        placeholder="Enter organizer..."
+                      />
+                    </div>
+                    <div>
                       <Label htmlFor="capacity">Capacity</Label>
                       <Input
                         id="capacity"
@@ -316,6 +356,15 @@ export default function AdminNewsEventsPage() {
                         onChange={(e) => setFormData(prev => ({ ...prev, capacity: parseInt(e.target.value) || 50 }))}
                         min="1"
                       />
+                    </div>
+                    <div className="mt-2 flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="registrationOpen"
+                        checked={formData.registrationOpen}
+                        onChange={(e) => setFormData(prev => ({ ...prev, registrationOpen: e.target.checked }))}
+                      />
+                      <Label htmlFor="registrationOpen">Registration open</Label>
                     </div>
                   </>
                 )}
@@ -347,14 +396,14 @@ export default function AdminNewsEventsPage() {
                   </Select>
                 </div>
 
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    id="published"
-                    checked={formData.published}
-                    onChange={(e) => setFormData(prev => ({ ...prev, published: e.target.checked }))}
+                <div>
+                  <Label htmlFor="imageUrl">Image URL (optional)</Label>
+                  <Input
+                    id="imageUrl"
+                    value={formData.imageUrl}
+                    onChange={(e) => setFormData(prev => ({ ...prev, imageUrl: e.target.value }))}
+                    placeholder="https://..."
                   />
-                  <Label htmlFor="published">Published</Label>
                 </div>
 
                 <div className="flex justify-end space-x-2">
@@ -388,10 +437,10 @@ export default function AdminNewsEventsPage() {
                         <div>
                           <CardTitle className="text-lg">{item.title}</CardTitle>
                           <div className="flex gap-2 mt-2">
-                            <Badge variant={item.published ? "default" : "secondary"}>
-                              {item.published ? "Published" : "Draft"}
-                            </Badge>
                             <Badge variant="outline">{item.category}</Badge>
+                            {item.publishedAt && (
+                              <Badge variant="secondary">{new Date(item.publishedAt).toLocaleDateString()}</Badge>
+                            )}
                           </div>
                         </div>
                         <div className="flex gap-2">
@@ -409,9 +458,11 @@ export default function AdminNewsEventsPage() {
                         {item.content.substring(0, 200)}
                         {item.content.length > 200 && "..."}
                       </p>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        Created: {new Date(item.created_at).toLocaleDateString()}
-                      </p>
+                      {item.publishedAt && (
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Published: {new Date(item.publishedAt).toLocaleDateString()}
+                        </p>
+                      )}
                     </CardContent>
                   </Card>
                 ))}
@@ -436,12 +487,9 @@ export default function AdminNewsEventsPage() {
                         <div>
                           <CardTitle className="text-lg">{event.title}</CardTitle>
                           <div className="flex gap-2 mt-2">
-                            <Badge variant={event.published ? "default" : "secondary"}>
-                              {event.published ? "Published" : "Draft"}
-                            </Badge>
                             <Badge variant="outline">{event.category}</Badge>
                             <Badge variant="outline">
-                              {event.registration_count}/{event.capacity} registered
+                              {(event.registered ?? 0)}/{event.capacity ?? 0} registered
                             </Badge>
                           </div>
                         </div>

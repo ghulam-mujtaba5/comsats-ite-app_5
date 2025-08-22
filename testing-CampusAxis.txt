@@ -11,6 +11,18 @@ Status Update (2025-08-23 00:30)
   • Upload button now requires sign-in and shows toast if unauthenticated; client-side file validation (PDF/DOC/DOCX, <=10MB); uses router.refresh() instead of full reload. File: components/past-papers/upload-paper-dialog.tsx
   • Server-side validations on upload API: required fields and course='Other' requires courseName. File: app/api/past-papers/upload/route.ts
   • Course page auto-refreshes after upload using a custom event ('pastpaper:uploaded') and refetch. File: app/past-papers/[courseCode]/page.tsx
+  • Upload dialog now surfaces server error messages in toast when API returns error. File: components/past-papers/upload-paper-dialog.tsx
+
+- News & Events API and page wiring:
+  • Added dev/mock fallbacks and mapping to UI shape for News list. File: app/api/news-events/news/route.ts
+  • Added dev/mock fallbacks and mapping to UI shape for Events list. File: app/api/news-events/events/route.ts
+  • User page fetches from /api/news-events/{news,events} and renders without env in dev. File: app/news-events/page.tsx
+
+Status Update (2025-08-23 01:14)
+- Past Papers count: Added dev fallback for /api/past-papers/count to avoid crashes when env is missing; returns mock count. File: app/api/past-papers/count/route.ts
+- Past Papers revalidation: After successful upload, revalidatePath for the course page so content updates immediately (also in dev fallback). File: app/api/past-papers/upload/route.ts
+- Admin News & Events CRUD: Create, Update, Delete fully implemented with admin checks and dev-admin cookie bypass. Files: app/admin/news-events/page.tsx, app/api/news-events/news/[id]/route.ts, app/api/news-events/events/[id]/route.ts, app/api/news-events/{news,events}/route.ts
+ - GPA calculator: Updated grading scale (A- = 3.66), added consistent 2-decimal rounding across GPA/CGPA/Aggregate, and refined grade mapping to include A+/A-. File: lib/gpa-utils.ts
 
 Home Page:
 - logo 

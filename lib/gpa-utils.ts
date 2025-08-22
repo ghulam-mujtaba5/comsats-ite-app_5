@@ -20,7 +20,7 @@ export interface Semester {
 export const GRADE_POINTS: Record<string, number> = {
   "A+": 4.0,
   A: 4.0,
-  "A-": 3.67,
+  "A-": 3.66,
   "B+": 3.33,
   B: 3.0,
   "B-": 2.67,
@@ -55,7 +55,7 @@ export function calculateSemesterGPA(courses: Course[]): { gpa: number; totalCre
   })
 
   const gpa = totalCredits > 0 ? totalPoints / totalCredits : 0
-  return { gpa: Math.round(gpa * 100) / 100, totalCredits }
+  return { gpa: round2(gpa), totalCredits }
 }
 
 export function calculateCumulativeGPA(semesters: Semester[]): { cgpa: number; totalCredits: number } {
@@ -72,7 +72,7 @@ export function calculateCumulativeGPA(semesters: Semester[]): { cgpa: number; t
   })
 
   const cgpa = totalCredits > 0 ? totalPoints / totalCredits : 0
-  return { cgpa: Math.round(cgpa * 100) / 100, totalCredits }
+  return { cgpa: round2(cgpa), totalCredits }
 }
 
 // Aggregate calculation for admissions (typically Matric + Inter + Entry Test)
@@ -92,11 +92,13 @@ export function calculateAggregate(data: AggregateData): number {
 
   // COMSATS aggregate formula: 10% Matric + 40% Inter + 50% Entry Test
   const aggregate = matricPercentage * 0.1 + interPercentage * 0.4 + entryTestPercentage * 0.5
-  return Math.round(aggregate * 100) / 100
+  return round2(aggregate)
 }
 
 export function getGradeFromGPA(gpa: number): string {
+  if (gpa >= 4.0) return "A+"
   if (gpa >= 3.67) return "A"
+  if (gpa >= 3.66) return "A-"
   if (gpa >= 3.33) return "B+"
   if (gpa >= 3.0) return "B"
   if (gpa >= 2.67) return "B-"
@@ -106,4 +108,9 @@ export function getGradeFromGPA(gpa: number): string {
   if (gpa >= 1.33) return "D+"
   if (gpa >= 1.0) return "D"
   return "F"
+}
+
+// Helper to consistently round to 2 decimals avoiding floating errors
+function round2(n: number): number {
+  return Math.round((n + Number.EPSILON) * 100) / 100
 }
