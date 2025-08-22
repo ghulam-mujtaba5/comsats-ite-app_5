@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from "@/contexts/auth-context"
-import { GraduationCap, LogOut, User, Menu, Calculator, FileText, Users, BookOpen, Calendar, Shield } from "lucide-react"
+import { GraduationCap, LogOut, User, Menu, Calculator, FileText, Users, BookOpen, Calendar, Shield, Search, HelpCircle, Newspaper } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -20,34 +20,40 @@ import { useEffect, useState } from "react"
 
 const navigationItems = [
   {
-    name: "Past Papers",
-    href: "/past-papers",
-    icon: FileText,
-    description: "Browse and download past exam papers",
-  },
-  {
-    name: "GPA Calculator",
-    href: "/gpa-calculator",
-    icon: Calculator,
-    description: "Calculate your semester and cumulative GPA",
+    name: "Community",
+    href: "/community",
+    icon: Users,
+    description: "Connect with fellow students and join discussions",
   },
   {
     name: "Faculty Reviews",
     href: "/faculty",
-    icon: Users,
+    icon: BookOpen,
     description: "Read and write faculty reviews",
   },
   {
-    name: "Resources",
-    href: "/resources",
-    icon: BookOpen,
-    description: "Access study materials and notes",
+    name: "Lost & Found",
+    href: "/lost-found",
+    icon: Search,
+    description: "Report lost items or help others find theirs",
   },
   {
-    name: "Timetable",
-    href: "/timetable",
-    icon: Calendar,
-    description: "View academic calendar and schedules",
+    name: "Help Desk",
+    href: "/help-desk",
+    icon: HelpCircle,
+    description: "Get help with admissions, fees, and queries",
+  },
+  {
+    name: "News & Events",
+    href: "/news-events",
+    icon: Newspaper,
+    description: "Stay updated with campus news and events",
+  },
+  {
+    name: "Past Papers",
+    href: "/past-papers",
+    icon: FileText,
+    description: "Browse and download past exam papers",
   },
 ]
 
