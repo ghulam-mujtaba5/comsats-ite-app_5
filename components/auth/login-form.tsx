@@ -79,6 +79,12 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
             </Alert>
           )}
 
+          {message && (
+            <Alert>
+              <AlertDescription>{message}</AlertDescription>
+            </Alert>
+          )}
+
           <div className="space-y-2">
             <Label htmlFor="email">University Email</Label>
             <Input
