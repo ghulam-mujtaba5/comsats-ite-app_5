@@ -1,0 +1,82 @@
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+import { NextRequest, NextResponse } from 'next/server'
+
+export async function POST(request: NextRequest) {
+  const supabase = createRouteHandlerClient({ cookies })
+  
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = await request.json()
+    const { name, email, category, message, isAnonymous } = body
+
+    if (!message || message.trim().length < 10) {
+      return NextResponse.json({ error: 'Message must be at least 10 characters' }, { status: 400 })
+    }
+
+    const { data, error } = await supabase
+      .from('support_requests')
+      .insert({
+        name: isAnonymous ? null : name,
+        email: isAnonymous ? null : email,
+        category,
+        message: message.trim(),
+        is_anonymous: isAnonymous,
+        user_id: user.id,
+        status: 'pending'
+      })
+      .select()
+      .single()
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 })
+    }
+
+    return NextResponse.json(data, { status: 201 })
+  } catch (error) {
+    console.error('Error creating support request:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}
+
+export async function GET(request: NextRequest) {
+  const supabase = createRouteHandlerClient({ cookies })
+  
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Check if user is admin
+    const { data: adminUser } = await supabase
+      .from('admin_users')
+      .select('id, role')
+      .eq('user_id', user.id)
+      .single()
+
+    if (!adminUser) {
+      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
+    }
+
+    const { data: requests, error } = await supabase
+      .from('support_requests')
+      .select('*')
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 })
+    }
+
+    return NextResponse.json(requests)
+  } catch (error) {
+    console.error('Error fetching support requests:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}
