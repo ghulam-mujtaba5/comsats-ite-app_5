@@ -29,7 +29,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const id = params.id
-  const body = await req.json().catch(() => ({})) as Partial<{ title: string; content: string; status: 'draft' | 'published'; published_at: string | null }>
+  const body = await req.json().catch(() => ({})) as Partial<{ title: string; content: string; image_url: string | null; status: 'draft' | 'published'; published_at: string | null }>
 
   // If status is switching to published and no published_at provided, set now
   if (body.status === 'published' && !body.published_at) {

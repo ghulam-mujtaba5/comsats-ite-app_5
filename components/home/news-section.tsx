@@ -9,6 +9,7 @@ type News = {
   id: string
   title: string
   content: string
+  image_url?: string | null
   status: "draft" | "published"
   published_at: string | null
 }
@@ -55,10 +56,11 @@ export function NewsSection() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {items.map((item) => (
-              <Card key={item.id} className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
+              <Link key={item.id} href={`/news/${item.id}`} className="block">
+              <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
                 <div className="aspect-video relative overflow-hidden">
                   <img
-                    src="/placeholder.svg"
+                    src={item.image_url || "/placeholder.svg"}
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -77,6 +79,7 @@ export function NewsSection() {
                   <CardDescription className="font-serif line-clamp-3">{item.content}</CardDescription>
                 </CardContent>
               </Card>
+              </Link>
             ))}
             {items.length === 0 && (
               <Card>

@@ -97,6 +97,8 @@ export default function AdminCommunityPage() {
                       {c.subtitle && <div className="text-sm text-muted-foreground">{c.subtitle}</div>}
                     </div>
                     <div className="flex gap-2">
+                      <Button variant="outline" onClick={() => updateItem(c.id, { sort_order: c.sort_order - 1 })}>Up</Button>
+                      <Button variant="outline" onClick={() => updateItem(c.id, { sort_order: c.sort_order + 1 })}>Down</Button>
                       <Button variant="outline" onClick={() => updateItem(c.id, { status: c.status === 'published' ? 'draft' : 'published' })}>
                         {c.status === 'published' ? 'Unpublish' : 'Publish'}
                       </Button>

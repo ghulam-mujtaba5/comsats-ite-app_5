@@ -2,6 +2,42 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
+/**
+ * Community Cards API
+ *
+ * Required env vars (set in .env.local):
+ * - NEXT_PUBLIC_SUPABASE_URL
+ * - NEXT_PUBLIC_SUPABASE_ANON_KEY
+ * - SUPABASE_SERVICE_ROLE_KEY (server-only)
+ *
+ * SQL — Run in Supabase SQL editor
+ *
+ * create extension if not exists "uuid-ossp";
+ * create table if not exists community_cards (
+ *   id uuid primary key default uuid_generate_v4(),
+ *   title text not null,
+ *   subtitle text,
+ *   description text,
+ *   link_url text,
+ *   sort_order int not null default 0,
+ *   status text not null default 'published', -- 'draft' | 'published'
+ *   created_at timestamptz not null default now(),
+ *   updated_at timestamptz not null default now()
+ * );
+ * create index if not exists ix_community_cards_sort on community_cards(sort_order asc);
+ * create index if not exists ix_community_cards_status on community_cards(status);
+ *
+ * -- RLS (Row Level Security)
+ * alter table community_cards enable row level security;
+ *
+ * -- Public: read only published items
+ * create policy if not exists community_cards_public_read
+ *   on community_cards for select
+ *   using (status = 'published');
+ *
+ * -- Disallow public writes; admin/API mutations use service role key via this API (bypasses RLS).
+ */
+
 const COOKIE_NAME = 'ite_admin'
 
 // SQL (run in Supabase SQL editor):

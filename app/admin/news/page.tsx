@@ -11,6 +11,7 @@ type News = {
   id: string
   title: string
   content: string
+  image_url?: string | null
   status: "draft" | "published"
   published_at: string | null
   created_at: string
@@ -20,7 +21,7 @@ type News = {
 export default function AdminNewsPage() {
   const [items, setItems] = useState<News[]>([])
   const [loading, setLoading] = useState(true)
-  const [form, setForm] = useState({ title: "", content: "", status: "draft" as "draft" | "published" })
+  const [form, setForm] = useState({ title: "", content: "", image_url: "", status: "draft" as "draft" | "published" })
   const [submitting, setSubmitting] = useState(false)
 
   async function load() {
@@ -35,10 +36,11 @@ export default function AdminNewsPage() {
 
   async function createItem() {
     setSubmitting(true)
-    const res = await fetch("/api/news", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) })
+    const payload = { ...form, image_url: form.image_url || null }
+    const res = await fetch("/api/news", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
     setSubmitting(false)
     if (res.ok) {
-      setForm({ title: "", content: "", status: "draft" })
+      setForm({ title: "", content: "", image_url: "", status: "draft" })
       await load()
     } else {
       alert("Failed to create")
@@ -67,6 +69,7 @@ export default function AdminNewsPage() {
           <h2 className="font-semibold">Create News</h2>
           <Input placeholder="Title" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} />
           <Textarea placeholder="Content" value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} />
+          <Input placeholder="Image URL (optional)" value={form.image_url} onChange={e => setForm(f => ({ ...f, image_url: e.target.value }))} />
           <Select value={form.status} onValueChange={(v: any) => setForm(f => ({ ...f, status: v }))}>
             <SelectTrigger className="w-48"><SelectValue placeholder="Status" /></SelectTrigger>
             <SelectContent>
@@ -100,6 +103,7 @@ export default function AdminNewsPage() {
                     <div className="mt-2 space-y-2">
                       <Input defaultValue={n.title} onBlur={e => updateItem(n.id, { title: e.target.value })} />
                       <Textarea defaultValue={n.content} onBlur={e => updateItem(n.id, { content: e.target.value })} />
+                      <Input defaultValue={n.image_url ?? ''} placeholder="Image URL" onBlur={e => updateItem(n.id, { image_url: e.target.value || null } as any)} />
                     </div>
                   </details>
                 </li>
