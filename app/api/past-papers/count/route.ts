@@ -24,9 +24,6 @@ export async function GET() {
 
     return NextResponse.json({ count })
   } catch (error: any) {
-    return new NextResponse(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    })
+    return NextResponse.json({ count: 0, message: error.message }, { status: 200 })
   }
 }
