@@ -31,12 +31,13 @@ export default function AdminReviewsPage() {
   const [rows, setRows] = useState<ReviewRow[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>("")
+  const [statusFilter, setStatusFilter] = useState<'pending'|'approved'|'rejected'>('pending')
 
   const fetchRows = async () => {
     setLoading(true)
     setError("")
     try {
-      const res = await fetch('/api/admin/moderation/reviews', { cache: 'no-store' })
+      const res = await fetch(`/api/admin/moderation/reviews?status=${statusFilter}`, { cache: 'no-store' })
       const j = await res.json()
       if (!res.ok) throw new Error(j?.error || 'Failed to load')
       setRows(j.data || [])
@@ -49,7 +50,7 @@ export default function AdminReviewsPage() {
 
   useEffect(() => {
     fetchRows()
-  }, [])
+  }, [statusFilter])
 
   const setStatus = async (id: string, status: 'approved'|'rejected'|'pending') => {
     try {
@@ -70,10 +71,22 @@ export default function AdminReviewsPage() {
   return (
     <AdminGuard fallback={<div className="p-6 text-center">Admin access required. <a className="underline" href="/admin/login">Login</a></div>}>
       <div className="container mx-auto p-6 space-y-6">
-        <div>
+        <div className="flex items-center justify-between gap-3">
           <h1 className="text-2xl font-bold">Review Moderation</h1>
-          <p className="text-muted-foreground">Approve or reject pending reviews submitted by students.</p>
+          <div className="flex items-center gap-2">
+            <select
+              className="border rounded px-2 py-1 bg-background"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as any)}
+            >
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            <Button variant="secondary" onClick={fetchRows}>Refresh</Button>
+          </div>
         </div>
+        <p className="text-muted-foreground">Approve or reject reviews submitted by students.</p>
 
         {error && <p className="text-sm text-blue-600">{error}</p>}
         {loading && <p className="text-sm">Loading…</p>}

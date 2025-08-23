@@ -17,12 +17,16 @@ export async function GET(req: NextRequest) {
   if (unauthorized) return unauthorized
 
   try {
+    const { searchParams } = new URL(req.url)
+    const status = (searchParams.get('status') || 'pending').toLowerCase()
+    const allowed = ['pending', 'approved', 'rejected']
+    const statusFilter = allowed.includes(status) ? status : 'pending'
     // Prefer MongoDB if configured
     if (process.env.MONGODB_URI) {
       const db = await getMongoDb(process.env.MONGODB_DB || 'campusaxis0')
       const docs = await db
         .collection('reviews')
-        .find({ status: 'pending' })
+        .find({ status: statusFilter })
         .sort({ created_at: -1 })
         .limit(200)
         .toArray()
@@ -34,7 +38,7 @@ export async function GET(req: NextRequest) {
     const { data, error } = await supabaseAdmin
       .from('reviews')
       .select('*')
-      .eq('status', 'pending')
+      .eq('status', statusFilter)
       .order('created_at', { ascending: false })
       .limit(200)
     if (error) throw error
