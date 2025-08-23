@@ -245,26 +245,66 @@ export default function AdminUsersPage() {
             Manage user accounts, permissions, and admin roles
           </p>
         </div>
-
         <Tabs defaultValue="users" className="space-y-6">
           <TabsList>
             <TabsTrigger value="users">All Users</TabsTrigger>
+            <TabsTrigger value="admins">Admin Users</TabsTrigger>
+          </TabsList>
 
-return (
-  <AdminGuard>
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">User Management</h1>
-        <p className="text-muted-foreground mt-2">
-          Manage user accounts, permissions, and admin roles
-        </p>
-      </div>
+          <TabsContent value="users" className="space-y-6">
+            {/* Search and Filters */}
+            <div className="flex flex-wrap gap-4 mb-6 items-center">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input
+                  placeholder="Search users by email or name..."
+                  value={searchQuery}
+                  onChange={(e) => { setSearchQuery(e.target.value); setPage(1) }}
+                  className="pl-10"
+                />
+              </div>
+              <Select value={filterStatus} onValueChange={(v) => { setFilterStatus(v); setPage(1) }}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Users</SelectItem>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="banned">Banned</SelectItem>
+                  <SelectItem value="unconfirmed">Unconfirmed</SelectItem>
+                  <SelectItem value="admin">Admins</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={String(perPage)} onValueChange={(v) => { setPerPage(parseInt(v)); setPage(1) }}>
+                <SelectTrigger className="w-[120px]">
+                  <SelectValue placeholder="Per page" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="100">100</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={`${sort}:${dir}`} onValueChange={(v) => { const [s,d]=v.split(':') as any; setSort(s); setDir(d); setPage(1) }}>
+                <SelectTrigger className="w-[220px]">
+                  <SelectValue placeholder="Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="created_at:desc">Newest</SelectItem>
+                  <SelectItem value="created_at:asc">Oldest</SelectItem>
+                  <SelectItem value="last_sign_in_at:desc">Last Active ↓</SelectItem>
+                  <SelectItem value="last_sign_in_at:asc">Last Active ↑</SelectItem>
+                  <SelectItem value="email:asc">Email A-Z</SelectItem>
+                  <SelectItem value="email:desc">Email Z-A</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-      <Tabs defaultValue="users" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="users">All Users</TabsTrigger>
-          <TabsTrigger value="admins">Admin Users</TabsTrigger>
-        </TabsList>
+            {/* Users List */}
+            <div className="grid gap-4">
+              {filteredUsers.map((user) => {
+                const userStatus = getUserStatus(user)
                 return (
                   <Card key={user.id} className="hover:shadow-md transition-shadow">
                     <CardHeader>
@@ -306,7 +346,6 @@ return (
                             Promote to Admin
                           </Button>
                         )}
-                        
                         {user.banned_until ? (
                           <Button
                             size="sm"
