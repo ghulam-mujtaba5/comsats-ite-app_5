@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { createContext, useContext, useState, useEffect } from "react"
-import { supabase } from "@/lib/supabase"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import type { AuthChangeEvent, Session, User as SupabaseUser } from "@supabase/supabase-js"
 
 // Using a simplified user type for the context
@@ -25,6 +25,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  // Use auth-helpers client to sync session cookies for server routes
+  const supabase = createClientComponentClient()
 
   useEffect(() => {
     const getSession = async () => {
