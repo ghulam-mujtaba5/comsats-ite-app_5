@@ -29,6 +29,8 @@ export default function TimetablePage() {
   const [file, setFile] = useState<File | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [adminLoading, setAdminLoading] = useState(true)
 
   const loadDocs = async () => {
     setLoading(true)
@@ -47,6 +49,16 @@ export default function TimetablePage() {
 
   useEffect(() => {
     loadDocs()
+    ;(async () => {
+      try {
+        const res = await fetch('/api/admin/session', { cache: 'no-store' })
+        setIsAdmin(res.ok)
+      } catch {
+        setIsAdmin(false)
+      } finally {
+        setAdminLoading(false)
+      }
+    })()
   }, [])
 
   const handlePreview = (doc: TimetableDoc) => {
@@ -102,24 +114,28 @@ export default function TimetablePage() {
             <p className="text-muted-foreground">Upload and preview official timetable PDF files.</p>
           </div>
 
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Upload Timetable PDF</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form className="grid gap-3 md:grid-cols-2" onSubmit={onUpload}>
-                <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-                <Input placeholder="Department" value={department} onChange={(e) => setDepartment(e.target.value)} />
-                <Input placeholder="Term (e.g., Fall 2025)" value={term} onChange={(e) => setTerm(e.target.value)} />
-                <Input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-                <div className="md:col-span-2 flex gap-3 items-center">
-                  <Button type="submit" disabled={uploading}>{uploading ? "Uploading..." : "Upload"}</Button>
-                  {error && <span className="text-red-600 text-sm">{error}</span>}
-                  {message && <span className="text-green-600 text-sm">{message}</span>}
-                </div>
-              </form>
-            </CardContent>
-          </Card>
+          {adminLoading ? (
+            <Card className="mb-8"><CardContent>Checking permissions...</CardContent></Card>
+          ) : isAdmin ? (
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle>Upload Timetable PDF</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form className="grid gap-3 md:grid-cols-2" onSubmit={onUpload}>
+                  <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                  <Input placeholder="Department" value={department} onChange={(e) => setDepartment(e.target.value)} />
+                  <Input placeholder="Term (e.g., Fall 2025)" value={term} onChange={(e) => setTerm(e.target.value)} />
+                  <Input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+                  <div className="md:col-span-2 flex gap-3 items-center">
+                    <Button type="submit" disabled={uploading}>{uploading ? "Uploading..." : "Upload"}</Button>
+                    {error && <span className="text-red-600 text-sm">{error}</span>}
+                    {message && <span className="text-green-600 text-sm">{message}</span>}
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          ) : null}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {loading && (
