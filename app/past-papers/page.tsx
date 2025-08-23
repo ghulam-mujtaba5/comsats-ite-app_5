@@ -1,17 +1,17 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { CourseCard } from "@/components/past-papers/course-card"
 import { UploadPaperDialog } from "@/components/past-papers/upload-paper-dialog"
 import {
-  getCoursesWithPapers,
   departments,
   examTypes,
   semesters,
   years,
   type CourseWithPapers,
+  type PastPaper,
 } from "@/lib/past-papers-data"
 import { Upload, FileText, Download, Users } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -23,8 +23,92 @@ export default function PastPapersPage() {
   const [selectedExamType, setSelectedExamType] = useState("All")
   const [selectedSemester, setSelectedSemester] = useState("All")
   const [selectedYear, setSelectedYear] = useState("All")
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [coursesWithPapers, setCoursesWithPapers] = useState<CourseWithPapers[]>([])
 
-  const coursesWithPapers = useMemo(() => getCoursesWithPapers(), [])
+  // Fetch approved past papers from API and group by course_code
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        const params = new URLSearchParams()
+        // Server will further filter; we also filter client-side for richer UX
+        if (selectedSemester !== "All") params.set("semester", selectedSemester)
+        if (selectedYear !== "All") params.set("year", selectedYear)
+        if (searchTerm) params.set("q", searchTerm)
+        const res = await fetch(`/api/past-papers?${params.toString()}`, { cache: "no-store" })
+        const json = await res.json()
+        const rows: any[] = Array.isArray(json.data) ? json.data : []
+
+        // Map DB rows to PastPaper-like items
+        const papers: PastPaper[] = rows.map((r) => ({
+          id: r.id,
+          title: r.title,
+          course: r.course_name || r.course_code,
+          courseCode: r.course_code,
+          department: r.department || "",
+          semester: r.semester || "",
+          year: Number(r.year) || new Date(r.created_at).getFullYear(),
+          examType: (r.exam_type === 'Midterm' ? 'Mid-Term' : r.exam_type) || 'Mid-Term',
+          uploadedBy: r.uploaded_by || "",
+          uploadDate: r.created_at || new Date().toISOString(),
+          downloadCount: r.download_count || 0,
+          fileSize: r.file_size || "",
+          fileType: (r.file_type || "PDF").toUpperCase(),
+          downloadUrl: r.public_url || r.external_url || undefined,
+          tags: Array.isArray(r.tags) ? r.tags : [],
+        }))
+
+        // Group by courseCode
+        const map = new Map<string, CourseWithPapers>()
+        for (const p of papers) {
+          if (!map.has(p.courseCode)) {
+            map.set(p.courseCode, {
+              id: p.courseCode,
+              name: p.course,
+              code: p.courseCode,
+              creditHours: 3,
+              department: p.department || "",
+              totalPapers: 0,
+              assignments: [],
+              quizzes: [],
+              midterms: [],
+              finals: [],
+              lastUpdated: "1970-01-01",
+            })
+          }
+          const c = map.get(p.courseCode)!
+          c.totalPapers += 1
+          // Normalize exam type buckets
+          switch (p.examType) {
+            case "Assignment":
+              c.assignments.push(p)
+              break
+            case "Quiz":
+              c.quizzes.push(p)
+              break
+            case "Mid-Term":
+              c.midterms.push(p)
+              break
+            case "Final":
+            default:
+              c.finals.push(p)
+          }
+          if (p.uploadDate > c.lastUpdated) c.lastUpdated = p.uploadDate
+        }
+
+        setCoursesWithPapers(Array.from(map.values()))
+      } catch (e: any) {
+        setError(e.message || "Failed to load past papers")
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
+    // Re-run when top-level filters change; department and examType are applied client-side below
+  }, [searchTerm, selectedSemester, selectedYear])
 
   const filteredCourses = useMemo(() => {
     // Filter courses by search term and department first
@@ -181,7 +265,13 @@ export default function PastPapersPage() {
               </h2>
             </div>
 
-            {filteredCourses.length === 0 ? (
+            {loading ? (
+              <Card className="p-12 text-center">
+                <FileText className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2">Loading...</h3>
+                <p className="text-muted-foreground">Fetching past papers from the database.</p>
+              </Card>
+            ) : filteredCourses.length === 0 ? (
               <Card className="p-12 text-center">
                 <FileText className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold mb-2">No Courses Found</h3>

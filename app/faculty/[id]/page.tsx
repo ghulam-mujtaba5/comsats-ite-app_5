@@ -10,7 +10,7 @@ import { ReviewCard } from "@/components/faculty/review-card"
 import { WriteReviewDialog } from "@/components/faculty/write-review-dialog"
 import { type Faculty, type Review, calculateReviewStats } from "@/lib/faculty-data"
 import { Star, MapPin, Mail, Phone, BookOpen, GraduationCap, Calendar, PenTool, ThumbsUp } from "lucide-react"
-import { notFound, useParams } from "next/navigation"
+import { useParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 // Using internal APIs with dev fallbacks instead of direct Supabase client
 
@@ -24,16 +24,31 @@ export default function FacultyProfilePage() {
   const facultyId = Array.isArray(params?.id) ? params.id[0] : (params?.id || "")
 
   useEffect(() => {
+    const fetchWithTimeout = async (url: string, options: RequestInit = {}, timeoutMs = 8000) => {
+      const controller = new AbortController()
+      const id = setTimeout(() => controller.abort(), timeoutMs)
+      try {
+        const res = await fetch(url, { ...options, signal: controller.signal })
+        return res
+      } finally {
+        clearTimeout(id)
+      }
+    }
+
     const load = async () => {
       setLoading(true)
       setError(null)
       try {
         if (!facultyId) throw new Error("Missing faculty id in route")
-        const [fRes, rRes] = await Promise.all([
-          fetch(`/api/faculty/${facultyId}`, { cache: "no-store" }),
-          fetch(`/api/reviews?facultyId=${facultyId}`, { cache: "no-store" }),
+        const [fResSettled, rResSettled] = await Promise.allSettled([
+          fetchWithTimeout(`/api/faculty/${facultyId}`, { cache: "no-store" }, 8000),
+          fetchWithTimeout(`/api/reviews?facultyId=${facultyId}`, { cache: "no-store" }, 8000),
         ])
 
+        if (fResSettled.status !== "fulfilled") {
+          throw new Error(fResSettled.reason?.message || "Failed to load faculty (timeout)")
+        }
+        const fRes = fResSettled.value
         if (!fRes.ok) {
           const d = await fRes.json().catch(() => ({}))
           throw new Error(d.error || `Failed to load faculty (${fRes.status})`)
@@ -41,12 +56,20 @@ export default function FacultyProfilePage() {
         const fJson = await fRes.json()
         const fData = fJson.data
 
-        if (!rRes.ok) {
-          const d = await rRes.json().catch(() => ({}))
-          throw new Error(d.error || `Failed to load reviews (${rRes.status})`)
+        let rData: any[] = []
+        if (rResSettled.status === "fulfilled") {
+          const rRes = rResSettled.value
+          if (rRes.ok) {
+            const rJson = await rRes.json().catch(() => ({ data: [] }))
+            rData = rJson.data || []
+          } else {
+            // Reviews failed; proceed with empty list but surface a soft error
+            const d = await rRes.json().catch(() => ({}))
+            console.warn("Reviews load failed:", d.error || rRes.status)
+          }
+        } else {
+          console.warn("Reviews request timed out or failed:", rResSettled.reason)
         }
-        const rJson = await rRes.json()
-        const rData = rJson.data || []
 
       if (!fData) {
         setLoading(false)
@@ -107,9 +130,7 @@ export default function FacultyProfilePage() {
 
   const stats = useMemo(() => calculateReviewStats(reviews), [reviews])
 
-  if (!loading && !faculty) {
-    notFound()
-  }
+  const notFoundState = !loading && !faculty && !error
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -132,6 +153,14 @@ export default function FacultyProfilePage() {
           {error && (
             <Card className="mb-8">
               <CardContent className="p-8 text-blue-600">{error}</CardContent>
+            </Card>
+          )}
+          {notFoundState && (
+            <Card className="mb-8">
+              <CardContent className="p-8">
+                <h2 className="text-xl font-semibold mb-2">Faculty not found</h2>
+                <p className="text-muted-foreground">The requested faculty profile does not exist.</p>
+              </CardContent>
             </Card>
           )}
           {/* Faculty Profile Header */}

@@ -82,6 +82,7 @@ export async function GET(req: NextRequest) {
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
     if (!url || !anon) {
       // Map mock reviews to DB-like snake_case shape expected by the UI mapper
@@ -111,7 +112,9 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ data })
     }
 
-    const supabase = createClient(url, anon)
+    const supabase = serviceKey
+      ? createClient(url, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } })
+      : createClient(url, anon)
     const { data, error } = await supabase
       .from('reviews')
       .select('*')

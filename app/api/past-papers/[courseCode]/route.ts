@@ -18,8 +18,16 @@ export async function GET(req: NextRequest, context: { params: Promise<{ courseC
 
   // Fetch papers and course details in parallel
   const [papersRes, courseRes] = await Promise.all([
-    supabase.from('past_papers').select('*').eq('course_code', courseCode),
-    supabase.from('courses').select('id, name, code, credit_hours, department').eq('code', courseCode).single(),
+    supabase
+      .from('past_papers')
+      .select('*')
+      .eq('course_code', courseCode)
+      .eq('status', 'approved'),
+    supabase
+      .from('courses')
+      .select('id, name, code, credit_hours, department')
+      .eq('code', courseCode)
+      .single(),
   ])
 
   const { data: papersData, error: papersError } = papersRes
