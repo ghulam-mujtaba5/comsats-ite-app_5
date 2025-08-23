@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { ArrowRight, GraduationCap } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { notifyFetch } from "@/lib/notify"
 
 export function HeroSection() {
   const [pastPapersCount, setPastPapersCount] = useState<number | null>(null)
@@ -10,14 +11,14 @@ export function HeroSection() {
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const response = await fetch("/api/past-papers/count")
+        const response = await notifyFetch("/api/past-papers/count", undefined, { errorMessage: "Failed to load past papers count" })
         if (!response.ok) {
           throw new Error("Failed to fetch count")
         }
         const data = await response.json()
         setPastPapersCount(data.count)
       } catch (error) {
-        console.error("Error fetching past papers count:", error)
+        // notifyFetch already surfaced the error
         // Fallback to a default or hide the count
         setPastPapersCount(1000) // Fallback for display
       }
