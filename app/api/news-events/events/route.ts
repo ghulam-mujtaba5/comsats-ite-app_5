@@ -1,6 +1,8 @@
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
+import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -116,32 +118,30 @@ export async function POST(request: NextRequest) {
         image_url: image_url ?? null,
       }, { status: 201 })
     }
-    // Support dev-admin cookie bypass only in non-production
-    const devCookie = request.cookies.get('dev_admin')?.value
-    const iteCookie = request.cookies.get('ite_admin')?.value
-    const devAdminOk = process.env.NODE_ENV !== 'production' && (devCookie === '1' || iteCookie === '1')
-
-    const { data: { user } } = await supabase.auth.getUser()
-
-    let allow = false
-    if (devAdminOk) {
-      allow = true
-    } else if (user) {
-      // Check if user is admin in DB
-      const { data: isAdmin } = await supabase
-        .from('admin_users')
-        .select('id')
-        .eq('user_id', user.id)
-        .single()
-      allow = !!isAdmin
-    }
-
-    if (!allow) {
+    // Centralized admin access check
+    const access = await requireAdmin(request)
+    if (!access.allow) {
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
 
-    const body = await request.json()
-    const { title, description, event_date, event_time, location, category, organizer, capacity, registration_open, image_url } = body
+    // Validate input
+    const schema = z.object({
+      title: z.string().min(3),
+      description: z.string().min(3),
+      event_date: z.string().min(4),
+      event_time: z.string().min(2),
+      location: z.string().min(2),
+      category: z.string().min(2),
+      organizer: z.string().min(2).optional(),
+      capacity: z.number().int().nonnegative().optional(),
+      registration_open: z.boolean().optional(),
+      image_url: z.string().url().nullable().optional(),
+    })
+    const parsed = schema.safeParse(await request.json())
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Invalid payload', details: parsed.error.flatten() }, { status: 400 })
+    }
+    const { title, description, event_date, event_time, location, category, organizer, capacity, registration_open, image_url } = parsed.data as any
 
     const { data, error } = await supabase
       .from('events')
@@ -156,7 +156,7 @@ export async function POST(request: NextRequest) {
         capacity,
         registration_open,
         image_url,
-        created_by: user?.id ?? 'hardcoded-admin-id'
+        created_by: access.userId ?? 'hardcoded-admin-id'
       })
       .select()
       .single()

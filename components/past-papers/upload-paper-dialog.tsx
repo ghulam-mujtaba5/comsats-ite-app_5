@@ -56,10 +56,13 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
   const [formData, setFormData] = useState({
     title: "",
     department: "",
+    departmentName: "",
     course: "",
     courseName: "",
     semester: "",
+    semesterOther: "",
     examType: "",
+    examTypeOther: "",
     year: new Date().getFullYear().toString(),
     tags: [] as string[],
     newTag: "",
@@ -71,9 +74,12 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
   const canSubmit =
     !!formData.title &&
     !!formData.department &&
+    (formData.department !== 'Other' || !!formData.departmentName) &&
     !!formData.course &&
     !!formData.examType &&
+    (formData.examType !== 'Other' || !!formData.examTypeOther) &&
     !!formData.semester &&
+    (formData.semester !== 'Other' || !!formData.semesterOther) &&
     !!formData.year &&
     (formData.course !== 'Other' || !!formData.courseName) &&
     (!!formData.file || hasValidExternal)
@@ -92,6 +98,7 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
       if (field === 'department') {
         newState.course = ''
         newState.courseName = ''
+        if (value !== 'Other') newState.departmentName = ''
       }
       // If external link is provided, clear file to avoid ambiguity
       if (field === 'externalUrl') {
@@ -159,9 +166,19 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
     if (formData.file) {
       uploadData.append("file", formData.file)
     }
-    // Remove file from paperData to avoid sending it twice
-    const { file, ...paperData } = formData
-    uploadData.append("paperData", JSON.stringify(paperData))
+    // Build resolved payload (with custom overrides)
+    const payload = {
+      title: formData.title,
+      department: formData.department === 'Other' ? formData.departmentName : formData.department,
+      course: formData.course,
+      courseName: formData.course === 'Other' ? formData.courseName : '',
+      semester: formData.semester === 'Other' ? formData.semesterOther : formData.semester,
+      examType: formData.examType === 'Other' ? formData.examTypeOther : formData.examType,
+      year: formData.year,
+      tags: formData.tags,
+      externalUrl: formData.externalUrl,
+    }
+    uploadData.append("paperData", JSON.stringify(payload))
 
     try {
       const response = await fetch("/api/past-papers/upload", {
@@ -188,10 +205,13 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
       setFormData({
         title: "",
         department: "",
+        departmentName: "",
         course: "",
         courseName: "",
         semester: "",
+        semesterOther: "",
         examType: "",
+        examTypeOther: "",
         year: new Date().getFullYear().toString(),
         tags: [],
         newTag: "",
@@ -266,9 +286,23 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
                       {dept.name}
                     </SelectItem>
                   ))}
+                  <SelectItem value="Other">Other (Please Specify)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+
+            {formData.department === 'Other' && (
+              <div className="md:col-span-2">
+                <Label htmlFor="departmentName">Department Name *</Label>
+                <Input
+                  id="departmentName"
+                  placeholder="e.g., Mathematics"
+                  value={formData.departmentName}
+                  onChange={(e) => handleInputChange('departmentName', e.target.value)}
+                  required
+                />
+              </div>
+            )}
 
             <div>
               <Label htmlFor="course">Course *</Label>
@@ -321,9 +355,23 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
                       {type}
                     </SelectItem>
                   ))}
+                  <SelectItem value="Other">Other (Please Specify)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+
+            {formData.examType === 'Other' && (
+              <div>
+                <Label htmlFor="examTypeOther">Custom Type *</Label>
+                <Input
+                  id="examTypeOther"
+                  placeholder="e.g., Makeup, Practice Paper"
+                  value={formData.examTypeOther}
+                  onChange={(e) => handleInputChange('examTypeOther', e.target.value)}
+                  required
+                />
+              </div>
+            )}
 
             <div>
               <Label htmlFor="semester">Semester *</Label>
@@ -341,9 +389,23 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
                       {semester}
                     </SelectItem>
                   ))}
+                  <SelectItem value="Other">Other (Please Specify)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+
+            {formData.semester === 'Other' && (
+              <div>
+                <Label htmlFor="semesterOther">Custom Semester *</Label>
+                <Input
+                  id="semesterOther"
+                  placeholder="e.g., Summer 2022"
+                  value={formData.semesterOther}
+                  onChange={(e) => handleInputChange('semesterOther', e.target.value)}
+                  required
+                />
+              </div>
+            )}
           </div>
 
           <div>
