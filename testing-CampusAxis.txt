@@ -124,4 +124,9 @@ Content Moderation
 Timetable 
 - Could not find the table 'public.timetable' in the schema cache
 
-
+Status Update (2025-08-23 08:58)
+- Timetable schema applied in Supabase (tables + RLS). Admin health endpoint present at /api/health/timetable.
+- Routes verified: /api/timetable-docs (GET), /api/timetable/upload (POST), /api/health/mongo (GET).
+- UI wired: app/timetable/page.tsx lists docs and provides upload form.
+- Remaining setup: Create public Storage bucket "timetable"; ensure .env.local has NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY; restart dev server.
+- Test: Visit /timetable, upload a small PDF (<=15MB). Preview opens new tab, Download saves file. If list empty, re-run: npm run db:seed-timetable after env/bucket are set.

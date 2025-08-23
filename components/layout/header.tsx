@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from "@/contexts/auth-context"
-import { GraduationCap, LogOut, User, Menu, Calculator, FileText, Users, BookOpen, Calendar, Shield, Search, HelpCircle, Newspaper, Info, Heart } from "lucide-react"
+import { LogOut, User, Menu, Calculator, FileText, BookOpen, Calendar, Shield } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -20,10 +20,16 @@ import { useEffect, useState } from "react"
 
 const navigationItems = [
   {
-    name: "Community",
-    href: "/community",
-    icon: Users,
-    description: "Connect with fellow students and join discussions",
+    name: "Past Papers",
+    href: "/past-papers",
+    icon: FileText,
+    description: "Browse and download past exam papers",
+  },
+  {
+    name: "GPA Calculator",
+    href: "/gpa-calculator",
+    icon: Calculator,
+    description: "Calculate GPA/CGPA with the latest scale",
   },
   {
     name: "Faculty Reviews",
@@ -32,34 +38,10 @@ const navigationItems = [
     description: "Read and write faculty reviews",
   },
   {
-    name: "Lost & Found",
-    href: "/lost-found",
-    icon: Search,
-    description: "Report lost items or help others find theirs",
-  },
-  {
-    name: "News & Events",
-    href: "/news-events",
-    icon: Newspaper,
-    description: "Stay updated with campus news and events",
-  },
-  {
-    name: "Guidance Portal",
-    href: "/guidance",
-    icon: Info,
-    description: "Essential policies and student guides",
-  },
-  {
-    name: "Student Support",
-    href: "/student-support",
-    icon: Heart,
-    description: "Mental health and academic support resources",
-  },
-  {
-    name: "Past Papers",
-    href: "/past-papers",
-    icon: FileText,
-    description: "Browse and download past exam papers",
+    name: "Timetable",
+    href: "/timetable",
+    icon: Calendar,
+    description: "Upload, preview, and download timetables (PDF)",
   },
 ]
 
