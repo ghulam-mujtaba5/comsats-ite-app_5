@@ -47,8 +47,6 @@ export async function POST(req: NextRequest) {
       would_recommend: body.would_recommend,
       is_anonymous: body.is_anonymous,
       status: 'approved',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
     } as const
     const { data, error } = await supabase.from('reviews').insert(payload).select('id').single()
     if (error) throw error
