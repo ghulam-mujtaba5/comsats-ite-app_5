@@ -7,18 +7,22 @@ import { useAuth } from "@/contexts/auth-context"
 import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
   const { isAuthenticated, isLoading } = useAuth()
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      router.replace("/")
+      const next = searchParams?.get('next') || '/'
+      // Basic safety: only allow same-origin relative paths
+      const safeNext = next.startsWith('/') ? next : '/'
+      router.replace(safeNext)
     }
-  }, [isAuthenticated, isLoading, router])
+  }, [isAuthenticated, isLoading, router, searchParams])
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-4">
