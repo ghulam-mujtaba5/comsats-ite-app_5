@@ -64,8 +64,10 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
     tags: [] as string[],
     newTag: "",
     file: null as File | null,
+    externalUrl: "",
   })
 
+  const hasValidExternal = !!formData.externalUrl && /^(https?:\/\/).+/.test(formData.externalUrl.trim())
   const canSubmit =
     !!formData.title &&
     !!formData.department &&
@@ -74,7 +76,7 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
     !!formData.semester &&
     !!formData.year &&
     (formData.course !== 'Other' || !!formData.courseName) &&
-    !!formData.file
+    (!!formData.file || hasValidExternal)
 
   const availableCourses =
     formData.department && formData.department !== "All" ? getCoursesByDepartment(formData.department) : []
@@ -130,7 +132,8 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
         return
       }
     }
-    setFormData((prev) => ({ ...prev, file }))
+    // If a file is chosen, we can optionally clear externalUrl to avoid confusion
+    setFormData((prev) => ({ ...prev, file, externalUrl: file ? "" : prev.externalUrl }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -141,8 +144,8 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
     }
 
     if (!canSubmit) {
-      const msg = !formData.file
-        ? "Please select a file to upload."
+      const msg = !formData.file && !hasValidExternal
+        ? "Please attach a file or provide a valid link (https://)."
         : "Please fill all required fields before uploading."
       toast({ title: "Incomplete form", description: msg, variant: "destructive" })
       return
@@ -151,8 +154,9 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
     setIsLoading(true)
 
     const uploadData = new FormData()
-    const fileToUpload = formData.file as File // non-null due to canSubmit guard
-    uploadData.append("file", fileToUpload)
+    if (formData.file) {
+      uploadData.append("file", formData.file)
+    }
     // Remove file from paperData to avoid sending it twice
     const { file, ...paperData } = formData
     uploadData.append("paperData", JSON.stringify(paperData))
@@ -190,6 +194,7 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
         tags: [],
         newTag: "",
         file: null,
+        externalUrl: "",
       })
       setOpen(false)
       // Notify listeners (e.g., course page) to refetch without full reload
