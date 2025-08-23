@@ -2,14 +2,15 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const supabase = createRouteHandlerClient({ cookies })
+  const { id } = await context.params
   
   try {
     const { data, error } = await supabase
       .from('lost_found_items')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .single()
 
     if (error) {
@@ -22,8 +23,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const supabase = createRouteHandlerClient({ cookies })
+  const { id } = await context.params
   
   try {
     const { data: { user } } = await supabase.auth.getUser()
@@ -47,7 +49,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         status,
         image_url
       })
-      .eq('id', params.id)
+      .eq('id', id)
       .eq('user_id', user.id)
       .select()
       .single()
@@ -62,8 +64,9 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const supabase = createRouteHandlerClient({ cookies })
+  const { id } = await context.params
   
   try {
     const { data: { user } } = await supabase.auth.getUser()
@@ -75,7 +78,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     const { error } = await supabase
       .from('lost_found_items')
       .delete()
-      .eq('id', params.id)
+      .eq('id', id)
       .eq('user_id', user.id)
 
     if (error) {

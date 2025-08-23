@@ -9,7 +9,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -66,6 +65,16 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
     newTag: "",
     file: null as File | null,
   })
+
+  const canSubmit =
+    !!formData.title &&
+    !!formData.department &&
+    !!formData.course &&
+    !!formData.examType &&
+    !!formData.semester &&
+    !!formData.year &&
+    (formData.course !== 'Other' || !!formData.courseName) &&
+    !!formData.file
 
   const availableCourses =
     formData.department && formData.department !== "All" ? getCoursesByDepartment(formData.department) : []
@@ -126,17 +135,24 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!formData.file) return
-
     if (!isAuthenticated) {
       toast({ title: "Sign in required", description: "Please sign in to upload a past paper.", variant: "destructive" })
+      return
+    }
+
+    if (!canSubmit) {
+      const msg = !formData.file
+        ? "Please select a file to upload."
+        : "Please fill all required fields before uploading."
+      toast({ title: "Incomplete form", description: msg, variant: "destructive" })
       return
     }
 
     setIsLoading(true)
 
     const uploadData = new FormData()
-    uploadData.append("file", formData.file)
+    const fileToUpload = formData.file as File // non-null due to canSubmit guard
+    uploadData.append("file", fileToUpload)
     // Remove file from paperData to avoid sending it twice
     const { file, ...paperData } = formData
     uploadData.append("paperData", JSON.stringify(paperData))
@@ -207,10 +223,9 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <div onClick={handleTriggerClick}>{children}</div>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={(o) => setOpen(o && isAuthenticated)}>
+      {/* Manual trigger to fully control gating */}
+      <div onClick={handleTriggerClick}>{children}</div>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -366,7 +381,7 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
             <Button type="button" variant="outline" onClick={() => setOpen(false)} className="bg-transparent">
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading || !canSubmit}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Upload Paper
             </Button>
           </div>

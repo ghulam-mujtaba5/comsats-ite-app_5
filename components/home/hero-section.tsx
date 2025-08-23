@@ -48,13 +48,16 @@ export function HeroSection() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button size="lg" className="text-lg px-8" asChild>
-                <Link href="/past-papers">
+                <Link href="/resources">
                   Explore Resources
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
               <Button variant="outline" size="lg" className="text-lg px-8 bg-transparent" asChild>
                 <Link href="/gpa-calculator">Calculate GPA</Link>
+              </Button>
+              <Button variant="outline" size="lg" className="text-lg px-8 bg-transparent" asChild>
+                <a href="https://portal.comsats.edu.pk/" target="_blank" rel="noreferrer">Portal</a>
               </Button>
             </div>
           </div>

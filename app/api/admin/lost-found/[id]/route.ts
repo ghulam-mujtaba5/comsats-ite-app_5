@@ -18,7 +18,7 @@ async function checkAdminAccess(supabase: any) {
   return { isAdmin: !!adminUser, user }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const supabase = createRouteHandlerClient({ cookies })
   
   const { isAdmin } = await checkAdminAccess(supabase)
@@ -28,13 +28,14 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 
   try {
+    const { id } = await context.params
     const body = await request.json()
     const { status } = body
 
     const { data, error } = await supabase
       .from('lost_found_items')
       .update({ status })
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single()
 
@@ -48,7 +49,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const supabase = createRouteHandlerClient({ cookies })
   
   const { isAdmin } = await checkAdminAccess(supabase)
@@ -58,10 +59,11 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   }
 
   try {
+    const { id } = await context.params
     const { error } = await supabase
       .from('lost_found_items')
       .delete()
-      .eq('id', params.id)
+      .eq('id', id)
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 })

@@ -1,4 +1,5 @@
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
       updateData.banned_until = null
     }
 
-    const { error } = await supabase.auth.admin.updateUserById(userId, updateData)
+    const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, updateData)
     
     if (error) {
       throw error

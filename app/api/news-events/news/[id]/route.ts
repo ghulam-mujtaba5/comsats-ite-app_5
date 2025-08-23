@@ -24,12 +24,12 @@ async function ensureAdmin(request: NextRequest) {
   return { supabase, user }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { supabase, user } = await ensureAdmin(request)
   if (!user) return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
 
   try {
-    const id = params.id
+    const { id } = await context.params
     const body = await request.json()
     const { title, content, category, is_important, image_url } = body
 
@@ -47,12 +47,12 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { supabase, user } = await ensureAdmin(request)
   if (!user) return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
 
   try {
-    const id = params.id
+    const { id } = await context.params
     const { error } = await supabase
       .from('news_items')
       .delete()

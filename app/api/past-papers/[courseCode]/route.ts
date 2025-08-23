@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { getCourseByCode } from '@/lib/past-papers-data'
 
-export async function GET(req: NextRequest, { params }: { params: { courseCode: string } }) {
-  const courseCode = params.courseCode
+export async function GET(req: NextRequest, context: { params: Promise<{ courseCode: string }> }) {
+  const { courseCode } = await context.params
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 

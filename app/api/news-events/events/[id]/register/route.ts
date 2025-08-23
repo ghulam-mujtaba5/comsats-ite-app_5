@@ -2,8 +2,9 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const supabase = createRouteHandlerClient({ cookies })
+  const { id } = await context.params
   
   try {
     const { data: { user } } = await supabase.auth.getUser()
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const { data: event, error: eventError } = await supabase
       .from('events')
       .select('capacity, registration_open')
-      .eq('id', params.id)
+      .eq('id', id)
       .single()
 
     if (eventError) {
@@ -35,7 +36,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
       const { count } = await supabase
         .from('event_registrations')
         .select('*', { count: 'exact', head: true })
-        .eq('event_id', params.id)
+        .eq('event_id', id)
 
       if (count && count >= event.capacity) {
         return NextResponse.json({ error: 'Event is full' }, { status: 400 })
@@ -46,7 +47,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     const { data, error } = await supabase
       .from('event_registrations')
       .insert({
-        event_id: params.id,
+        event_id: id,
         user_id: user.id,
         student_name,
         student_id

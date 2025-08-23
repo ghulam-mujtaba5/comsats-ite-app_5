@@ -47,6 +47,16 @@ export function Footer() {
                   Timetable
                 </Link>
               </li>
+              <li>
+                <a
+                  href="https://portal.comsats.edu.pk/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Portal
+                </a>
+              </li>
             </ul>
           </div>
 

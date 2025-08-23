@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { mockFaculty, mockReviews } from '@/lib/faculty-data'
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    const id = params.id
+    const { id } = await context.params
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { FileText, Calculator, Users, BookOpen, Calendar, Star, ArrowRight } from "lucide-react"
+import { FileText, Calculator, Users, BookOpen, Calendar, Star, ArrowRight, ExternalLink } from "lucide-react"
 import Link from "next/link"
 
 export function FeatureCards() {
@@ -56,6 +56,22 @@ export function FeatureCards() {
       color: "text-primary",
       stats: "Live Uploads",
     },
+    {
+      title: "Resources",
+      description: "Study material and documents shared by departments",
+      icon: BookOpen,
+      href: "/resources",
+      color: "text-accent",
+      stats: "New Uploads",
+    },
+    {
+      title: "Portal",
+      description: "Quick access to the official COMSATS student portal",
+      icon: ExternalLink,
+      href: "https://portal.comsats.edu.pk/",
+      color: "text-primary",
+      stats: "External",
+    },
   ]
 
   return (
@@ -88,10 +104,17 @@ export function FeatureCards() {
               </CardHeader>
               <CardContent className="pt-0">
                 <Button variant="ghost" className="w-full justify-between group-hover:bg-accent/10" asChild>
-                  <Link href={feature.href}>
-                    Explore
-                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
+                  {feature.href.startsWith('http') ? (
+                    <a href={feature.href} target="_blank" rel="noreferrer">
+                      Explore
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                  ) : (
+                    <Link href={feature.href}>
+                      Explore
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  )}
                 </Button>
               </CardContent>
             </Card>

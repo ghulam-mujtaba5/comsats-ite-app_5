@@ -1,4 +1,5 @@
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -45,7 +46,7 @@ export async function GET(request: NextRequest) {
     const adminUsersWithDetails = await Promise.all(
       adminUsers.map(async (adminUser) => {
         try {
-          const { data: userData } = await supabase.auth.admin.getUserById(adminUser.user_id)
+          const { data: userData } = await supabaseAdmin.auth.admin.getUserById(adminUser.user_id)
           return {
             ...adminUser,
             user: userData.user

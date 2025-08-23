@@ -17,12 +17,12 @@ async function ensureAdmin(req: NextRequest) {
   return !!adminUser
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const isAdmin = await ensureAdmin(req)
     if (!isAdmin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const id = params.id
+    const { id } = await context.params
     const body = await req.json()
 
     const supabase = createRouteHandlerClient({ cookies })
@@ -48,12 +48,12 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const isAdmin = await ensureAdmin(req)
     if (!isAdmin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const id = params.id
+    const { id } = await context.params
     const supabase = createRouteHandlerClient({ cookies })
     const { error } = await supabase
       .from('guidance_content')
