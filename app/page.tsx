@@ -13,9 +13,9 @@ export default function HomePage() {
       <main className="flex-1">
         <HeroSection />
         <FeatureCards />
+        <ComingSoonSection />
         <CommunitySection />
         <NewsSection />
-        <ComingSoonSection />
         <FAQSection />
       </main>
       <Footer />

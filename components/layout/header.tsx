@@ -18,6 +18,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 
+// Show only stable, fully available sections in the top navigation.
 const navigationItems = [
   {
     name: "Past Papers",
@@ -31,18 +32,7 @@ const navigationItems = [
     icon: Calculator,
     description: "Calculate GPA/CGPA with the latest scale",
   },
-  {
-    name: "Faculty Reviews",
-    href: "/faculty",
-    icon: BookOpen,
-    description: "Read and write faculty reviews",
-  },
-  {
-    name: "Timetable",
-    href: "/timetable",
-    icon: Calendar,
-    description: "Upload, preview, and download timetables (PDF)",
-  },
+  // In-progress sections (e.g., Faculty Reviews, Timetable) can be accessed from Home > Beta Testing Area
 ]
 
 export function Header() {

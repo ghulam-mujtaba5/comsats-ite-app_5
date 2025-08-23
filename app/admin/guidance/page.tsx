@@ -280,7 +280,12 @@ export default function AdminGuidancePage() {
         <TabsContent value="guides" className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold">Guidance Sections</h2>
-            <Dialog open={showGuideDialog} onOpenChange={setShowGuideDialog}>
+            <Dialog open={showGuideDialog} onOpenChange={(open) => {
+              setShowGuideDialog(open)
+              if (!open) {
+                setEditingGuide(null)
+              }
+            }}>
               <DialogTrigger asChild>
                 <Button onClick={() => setEditingGuide(newGuide())}>
                   <Plus className="h-4 w-4 mr-2" />
@@ -362,7 +367,10 @@ export default function AdminGuidancePage() {
                   </div>
                 )}
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setShowGuideDialog(false)}>
+                  <Button variant="outline" onClick={() => {
+                    setShowGuideDialog(false)
+                    setEditingGuide(null)
+                  }}>
                     <X className="h-4 w-4 mr-2" />
                     Cancel
                   </Button>
@@ -432,7 +440,12 @@ export default function AdminGuidancePage() {
         <TabsContent value="faqs" className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold">FAQ Items</h2>
-            <Dialog open={showFaqDialog} onOpenChange={setShowFaqDialog}>
+            <Dialog open={showFaqDialog} onOpenChange={(open) => {
+              setShowFaqDialog(open)
+              if (!open) {
+                setEditingFaq(null)
+              }
+            }}>
               <DialogTrigger asChild>
                 <Button onClick={() => setEditingFaq(newFaq())}>
                   <Plus className="h-4 w-4 mr-2" />
@@ -504,7 +517,10 @@ export default function AdminGuidancePage() {
                   </div>
                 )}
                 <DialogFooter>
-                  <Button variant="outline" onClick={() => setShowFaqDialog(false)}>
+                  <Button variant="outline" onClick={() => {
+                    setShowFaqDialog(false)
+                    setEditingFaq(null)
+                  }}>
                     <X className="h-4 w-4 mr-2" />
                     Cancel
                   </Button>
