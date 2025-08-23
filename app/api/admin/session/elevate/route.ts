@@ -1,0 +1,46 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+
+export async function POST(req: NextRequest) {
+  // Use Next 15 dynamic cookies API correctly
+  const cookieStore = await (cookies() as any)
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
+  const isProd = ((process.env as any).NODE_ENV as string) === 'production'
+
+  try {
+    // Must be signed in already
+    const { data: { user }, error } = await supabase.auth.getUser()
+    if (error) {
+      return NextResponse.json({ error: 'Auth error' }, { status: 401 })
+    }
+    if (!user) {
+      return NextResponse.json({ error: 'Not signed in' }, { status: 401 })
+    }
+
+    // Verify admin role in database
+    const { data: adminUser, error: adminErr } = await supabase
+      .from('admin_users')
+      .select('id, role')
+      .eq('user_id', user.id)
+      .single()
+
+    if (adminErr || !adminUser) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+
+    // Issue short-lived dedicated admin cookie
+    const res = NextResponse.json({ ok: true, role: (adminUser as any).role })
+    res.cookies.set('ite_admin', '1', {
+      httpOnly: true,
+      sameSite: 'lax',
+      path: '/',
+      secure: isProd,
+      maxAge: 60 * 60 * 2, // 2 hours
+    })
+    return res
+  } catch (e) {
+    console.error('admin elevate error:', e)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}

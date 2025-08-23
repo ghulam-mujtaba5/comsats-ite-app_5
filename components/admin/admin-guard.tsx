@@ -17,13 +17,13 @@ export function AdminGuard({ children, fallback }: { children: React.ReactNode; 
         if (!mounted) return
         setOk(res.ok)
         if (!res.ok) {
-          // Seamless redirect to the unified auth flow
-          router.replace('/auth?next=/admin')
+          // Redirect to dedicated admin auth flow
+          router.replace('/admin/auth')
         }
       } catch {
         if (!mounted) return
         setOk(false)
-        router.replace('/auth?next=/admin')
+        router.replace('/admin/auth')
       } finally {
         if (mounted) setReady(true)
       }
