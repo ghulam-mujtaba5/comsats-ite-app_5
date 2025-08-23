@@ -57,15 +57,26 @@ export default function AdminDashboardPage() {
             <h1 className="text-3xl font-bold">Admin Dashboard</h1>
             <p className="text-muted-foreground">Welcome back, Admin!</p>
           </div>
-          <Button
-            variant="outline"
-            onClick={async () => {
-              await fetch('/api/admin/session', { method: 'DELETE' })
-              router.replace('/admin/login')
-            }}
-          >
-            Logout
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={async () => {
+                await fetch('/api/admin/session/admin-logout', { method: 'POST' })
+                router.replace('/admin/auth')
+              }}
+            >
+              Admin Logout
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={async () => {
+                await fetch('/api/admin/session', { method: 'DELETE' })
+                router.replace('/auth')
+              }}
+            >
+              Sign out
+            </Button>
+          </div>
         </div>
 
         {/* Stats Section */}

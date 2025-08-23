@@ -15,6 +15,11 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ ok: true, role: 'super_admin', dev: true })
     }
 
+    // If dedicated admin elevation cookie is present, consider ok
+    if (iteCookie === '1') {
+      return NextResponse.json({ ok: true })
+    }
+
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
