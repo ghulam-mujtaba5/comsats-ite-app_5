@@ -18,9 +18,9 @@ export async function POST(req: NextRequest) {
     if (!description) return NextResponse.json({ error: "Missing field: description" }, { status: 400 })
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-    if (!url || !anonKey) {
+    if (!url || !serviceKey) {
       // Dev fallback: accept and return mock
       const doc = {
         id: `mock-${Date.now()}`,
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Issue submitted (dev mode)", issue: doc }, { status: 200 })
     }
 
-    const supabase = createClient(url, anonKey)
+    const supabase = createClient(url, serviceKey)
     const { data, error } = await supabase
       .from("issue_reports")
       .insert([{ title, description, category, email, status: "open" }])
@@ -71,13 +71,13 @@ export async function GET(req: NextRequest) {
     if (!isAdmin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-    if (!url || !anonKey) {
+    if (!url || !serviceKey) {
       return NextResponse.json({ issues: [] }, { status: 200 })
     }
 
-    const supabase = createClient(url, anonKey)
+    const supabase = createClient(url, serviceKey)
     const { data, error } = await supabase
       .from("issue_reports")
       .select("id, title, description, category, email, status, created_at")

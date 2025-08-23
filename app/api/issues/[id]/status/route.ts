@@ -36,14 +36,14 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     if (!isAdmin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-    if (!url || !anonKey) {
+    if (!url || !serviceKey) {
       // Dev fallback
       return NextResponse.json({ message: 'Updated (dev mode)', id, status }, { status: 200 })
     }
 
-    const supabase = createClient(url, anonKey)
+    const supabase = createClient(url, serviceKey)
     const { data, error } = await supabase
       .from('issue_reports')
       .update({ status })
