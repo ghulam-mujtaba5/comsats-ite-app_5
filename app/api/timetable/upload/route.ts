@@ -32,19 +32,23 @@ export async function POST(req: NextRequest) {
     const title = String(formData.get('title') || '').trim()
     const department = String(formData.get('department') || '').trim()
     const term = String(formData.get('term') || '').trim()
+    const externalUrlRaw = String(formData.get('externalUrl') || '').trim()
+    const hasExternal = !!externalUrlRaw && /^https?:\/\//.test(externalUrlRaw)
 
-    if (!file) return NextResponse.json({ error: 'No file provided' }, { status: 400 })
+    if (!file && !hasExternal) return NextResponse.json({ error: 'Provide a PDF file or a valid external link (https://)' }, { status: 400 })
     if (!title) return NextResponse.json({ error: 'Missing field: title' }, { status: 400 })
     if (!department) return NextResponse.json({ error: 'Missing field: department' }, { status: 400 })
 
     const allowed = ['application/pdf']
     const maxSizeBytes = 15 * 1024 * 1024 // 15 MB
     const anyFile = file as any
-    if (!allowed.includes(anyFile.type)) {
-      return NextResponse.json({ error: 'Invalid file type. Only PDF allowed.' }, { status: 400 })
-    }
-    if (anyFile.size > maxSizeBytes) {
-      return NextResponse.json({ error: 'File too large. Max size is 15MB.' }, { status: 400 })
+    if (file) {
+      if (!allowed.includes(anyFile.type)) {
+        return NextResponse.json({ error: 'Invalid file type. Only PDF allowed.' }, { status: 400 })
+      }
+      if (anyFile.size > maxSizeBytes) {
+        return NextResponse.json({ error: 'File too large. Max size is 15MB.' }, { status: 400 })
+      }
     }
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -53,7 +57,7 @@ export async function POST(req: NextRequest) {
 
     // Dev fallback: if env is missing, accept and return a mock response
     if (!url || !anonKey || !serviceKey) {
-      const mockUrl = `https://example.com/timetable/${Date.now()}-${encodeURIComponent(anyFile.name)}`
+      const mockUrl = hasExternal ? externalUrlRaw : `https://example.com/timetable/${Date.now()}-${encodeURIComponent(anyFile.name)}`
       return NextResponse.json({
         message: 'Timetable uploaded (dev mode). File not persisted — configure Supabase env and a Storage bucket named "timetable".',
         doc: {
@@ -61,9 +65,9 @@ export async function POST(req: NextRequest) {
           title,
           department,
           term,
-          size_bytes: anyFile.size,
-          mime_type: anyFile.type,
-          storage_path: `timetable/mock/${Date.now()}-${anyFile.name}`,
+          size_bytes: hasExternal ? null : anyFile.size,
+          mime_type: hasExternal ? null : anyFile.type,
+          storage_path: hasExternal ? null : `timetable/mock/${Date.now()}-${anyFile.name}`,
           public_url: mockUrl,
           uploaded_at: new Date().toISOString(),
         },
@@ -72,20 +76,26 @@ export async function POST(req: NextRequest) {
 
     const supabase = createClient(url, serviceKey)
 
-    // Upload to Storage bucket "timetable"
-    const storagePath = `pdfs/${Date.now()}-${anyFile.name}`
-    const { error: uploadErr } = await supabase.storage.from('timetable').upload(storagePath, file, {
-      contentType: anyFile.type || 'application/pdf',
-      upsert: false,
-    })
-    if (uploadErr) {
-      return NextResponse.json({ error: 'Failed to upload file to Storage', hint: 'Ensure Storage bucket named "timetable" exists and you have permissions.' }, { status: 500 })
-    }
+    let publicUrl: string
+    let storagePath: string | null = null
+    if (hasExternal) {
+      publicUrl = externalUrlRaw
+    } else {
+      // Upload to Storage bucket "timetable"
+      storagePath = `pdfs/${Date.now()}-${anyFile.name}`
+      const { error: uploadErr } = await supabase.storage.from('timetable').upload(storagePath, file as File, {
+        contentType: anyFile.type || 'application/pdf',
+        upsert: false,
+      })
+      if (uploadErr) {
+        return NextResponse.json({ error: 'Failed to upload file to Storage', hint: 'Ensure Storage bucket named "timetable" exists and you have permissions.' }, { status: 500 })
+      }
 
-    // Public URL
-    const anonClient = createClient(url, anonKey)
-    const { data: publicUrlData } = anonClient.storage.from('timetable').getPublicUrl(storagePath)
-    const publicUrl = publicUrlData.publicUrl
+      // Public URL
+      const anonClient = createClient(url, anonKey)
+      const { data: publicUrlData } = anonClient.storage.from('timetable').getPublicUrl(storagePath)
+      publicUrl = publicUrlData.publicUrl
+    }
 
     // Insert row to timetable_docs using service role (bypass RLS for insert)
     const { data, error: dbErr } = await supabase
@@ -95,8 +105,8 @@ export async function POST(req: NextRequest) {
           title,
           department,
           term: term || null,
-          size_bytes: anyFile.size,
-          mime_type: anyFile.type || 'application/pdf',
+          size_bytes: hasExternal ? null : anyFile.size,
+          mime_type: hasExternal ? null : (anyFile.type || 'application/pdf'),
           storage_path: storagePath,
           public_url: publicUrl,
         },
@@ -105,7 +115,7 @@ export async function POST(req: NextRequest) {
 
     if (dbErr) {
       // best-effort cleanup: remove file
-      try { await supabase.storage.from('timetable').remove([storagePath]) } catch {}
+      try { if (storagePath) await supabase.storage.from('timetable').remove([storagePath]) } catch {}
       return NextResponse.json({ error: 'Failed to save document metadata' }, { status: 500 })
     }
 
