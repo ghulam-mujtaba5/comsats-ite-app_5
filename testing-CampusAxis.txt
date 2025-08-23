@@ -24,6 +24,37 @@ Status Update (2025-08-23 01:14)
 - Admin News & Events CRUD: Create, Update, Delete fully implemented with admin checks and dev-admin cookie bypass. Files: app/admin/news-events/page.tsx, app/api/news-events/news/[id]/route.ts, app/api/news-events/events/[id]/route.ts, app/api/news-events/{news,events}/route.ts
  - GPA calculator: Updated grading scale (A- = 3.66), added consistent 2-decimal rounding across GPA/CGPA/Aggregate, and refined grade mapping to include A+/A-. File: lib/gpa-utils.ts
 
+Status Update (2025-08-23 09:18)
+- Timetable PDF Upload/Preview: Implemented upload API at app/api/timetable/upload/route.ts (PDF only, 15MB max). Uses Supabase Storage bucket "timetable" and inserts metadata into timetable_docs. Falls back to mock if env missing.
+- Timetable Page Simplified: app/timetable/page.tsx now lists docs from /api/timetable-docs with Preview/Download and includes a minimal upload form (title, department, term, PDF).
+- Home Page Pruned: components/home/feature-cards.tsx now shows only fully working features: Past Papers, GPA Calculator, Faculty Reviews, Timetable (PDF).
+- How to verify:
+  • Ensure Supabase has Storage bucket named "timetable" set to public (or expose public URLs via policy).
+  • Apply schema if not yet: database-schema-clean.sql (includes timetable_docs table & policies).
+  • Upload from /timetable page; expect success toast and list refresh. Preview opens new tab. Download saves PDF.
+  • In dev without env, upload returns mock response so UI still works.
+
+Status Update (2025-08-23 08:31)
+ - Timetable health check: Added GET /api/health/timetable to verify Supabase env and check existence/read access for 'timetable' and 'timetable_docs' with counts and per-table status. File: app/api/health/timetable/route.ts
+ - Missing tables hint: If either table is missing (relation does not exist), API responds with hint to apply SQL: run database-schema-clean.sql in Supabase SQL editor to create required tables/policies.
+ - Env guidance: When NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY are missing, API returns ok: false with a hint to set them in .env.local and restart dev server.
+ - Next steps: Apply schema to resolve 'public.timetable' missing, add seed data for timetable/timetable_docs, and wire an admin UI check to surface health status.
+
+ Status Update (2025-08-23 08:35)
+ - MongoDB libraries: Installed mongoose; added native MongoDB helper at lib/mongodb.ts and a Mongoose singleton at lib/mongo.ts for future models.
+ - Mongo health API: Confirmed route at app/api/health/mongo/route.ts uses getMongoDb() and pings admin with { ping: 1 }.
+ - Env cleanup: Resolved duplicate MONGODB_URI in .env.local (kept single active value, commented placeholder). Keys: MONGODB_URI, MONGODB_DB.
+ - Next steps: Visit /api/health/mongo to verify ok: true; add first model/collection as needed.
+
+ Status Update (2025-08-23 08:37)
+ - Admin System Health card: Added to admin dashboard to surface statuses for Postgres timetable and MongoDB.
+   • File: app/admin/dashboard/page.tsx (fetches /api/health/timetable and /api/health/mongo)
+   • Shows OK/error, row counts for timetable, and hints when schema/env missing.
+ - Verification steps:
+   • Open /admin/dashboard and confirm System Health shows OK for both services.
+   • Directly hit /api/health/timetable and /api/health/mongo for raw JSON.
+   • CLI: node scripts/mongo-ping.js should print successful ping.
+
 Home Page:
 - logo 
 - Website Name with Logo
@@ -31,6 +62,16 @@ Home Page:
 - Hero Page Picture should be outstanding
 - Coming Soon Features Should be placed right below Working features Right now it is below News Section { Coming Soon Features in Features Sections Like (Student Support, News and Events, Blogs Section, Ambassador Program, COMSATS OLX, COMSATS Lost and Found, Help Desk, Discussion Platform) }
 - Use Exact values instead of Hardcoded Values like 1000+ Past Papers etc
+
+
+Status Update (2025-08-23 09:05)
+- Timetable seed script: Added scripts/seed-timetable.ts and npm script "db:seed-timetable".
+- How to apply and verify:
+  • In Supabase SQL editor, run database-schema-clean.sql to create timetable and timetable_docs with RLS and policies.
+  • Locally, run: npm run db:seed-timetable (requires .env.local with NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY).
+  • Visit /api/health/timetable and confirm ok: true with non-zero counts.
+  • Admin: open /admin/dashboard to see System Health reflect OK for Timetable.
+- MongoDB: Verify connectivity via node scripts/mongo-ping.js and /api/health/mongo.
 
 
 News Page (Not Found)

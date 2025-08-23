@@ -49,28 +49,12 @@ export function FeatureCards() {
       stats: `${stats.reviewsCount}+ Reviews`,
     },
     {
-      title: "Learning Resources",
-      description: "Curated study materials, notes, and educational content",
-      icon: BookOpen,
-      href: "/resources",
-      color: "text-accent",
-      stats: "Curated Content",
-    },
-    {
-      title: "Academic Calendar",
-      description: "Stay updated with important dates and university events",
+      title: "Timetable (PDF)",
+      description: "Upload and preview official timetable PDFs by department/term",
       icon: Calendar,
       href: "/timetable",
       color: "text-primary",
-      stats: "Always Updated",
-    },
-    {
-      title: "Student Community",
-      description: "Connect with fellow students and share academic experiences",
-      icon: Star,
-      href: "/community",
-      color: "text-accent",
-      stats: "Growing Community",
+      stats: "Live Uploads",
     },
   ]
 
