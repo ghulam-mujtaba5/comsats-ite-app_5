@@ -1,10 +1,19 @@
-import { supabase } from "@/lib/supabase";
 import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (!url || !anon) {
+      return NextResponse.json({ pastPapersCount: 0, reviewsCount: 0 })
+    }
+
+    const supabase = createClient(url, anon)
+
     const { count: pastPapersCount, error: pastPapersError } = await supabase
       .from("past_papers")
       .select("*", { count: "exact", head: true });
@@ -22,9 +31,9 @@ export async function GET() {
       reviewsCount: reviewsCount ?? 0,
     });
   } catch (error: any) {
-    return new NextResponse(
-      JSON.stringify({ message: error.message || "Failed to fetch stats" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return NextResponse.json(
+      { message: error.message || "Failed to fetch stats", pastPapersCount: 0, reviewsCount: 0 },
+      { status: 200 }
+    )
   }
 }
