@@ -2,8 +2,44 @@ import { createClient } from "@supabase/supabase-js"
 import { NextRequest, NextResponse } from "next/server"
 import { revalidatePath } from "next/cache"
 
+// Simple in-memory rate limiter per IP (10 uploads per hour)
+const RATE_LIMIT = 10
+const WINDOW_MS = 60 * 60 * 1000
+type Bucket = { count: number; resetAt: number }
+const rateBuckets: Map<string, Bucket> = (globalThis as any).__pp_rate_buckets__ || new Map<string, Bucket>()
+;(globalThis as any).__pp_rate_buckets__ = rateBuckets
+
+function getClientIp(req: NextRequest): string {
+  const fwd = req.headers.get('x-forwarded-for') || ''
+  const ip = fwd.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'anonymous'
+  return ip
+}
+
+function checkRateLimit(ip: string): { ok: boolean; bucket: Bucket } {
+  const now = Date.now()
+  const b = rateBuckets.get(ip)
+  if (!b || now > b.resetAt) {
+    const fresh = { count: 0, resetAt: now + WINDOW_MS }
+    rateBuckets.set(ip, fresh)
+    return { ok: true, bucket: fresh }
+  }
+  if (b.count >= RATE_LIMIT) return { ok: false, bucket: b }
+  return { ok: true, bucket: b }
+}
+
 export async function POST(req: NextRequest) {
   try {
+    // Rate limit anonymous uploads
+    const ip = getClientIp(req)
+    const { ok: allowed, bucket } = checkRateLimit(ip)
+    if (!allowed) {
+      const res = NextResponse.json({ error: "Rate limit exceeded. Try again later." }, { status: 429 })
+      res.headers.set('X-RateLimit-Limit', String(RATE_LIMIT))
+      res.headers.set('X-RateLimit-Remaining', '0')
+      res.headers.set('X-RateLimit-Reset', String(bucket.resetAt))
+      return res
+    }
+
     const formData = await req.formData()
     const file = formData.get("file") as File | null
     const paperData = JSON.parse(formData.get("paperData") as string)
@@ -156,7 +192,13 @@ export async function POST(req: NextRequest) {
       if (code) revalidatePath(`/past-papers/${code}`)
     } catch {}
 
-    return NextResponse.json({ message: "Paper uploaded successfully", paper: data }, { status: 200 })
+    // Increment rate bucket on success and return rate headers
+    bucket.count += 1
+    const res = NextResponse.json({ message: "Paper uploaded successfully", paper: data }, { status: 200 })
+    res.headers.set('X-RateLimit-Limit', String(RATE_LIMIT))
+    res.headers.set('X-RateLimit-Remaining', String(Math.max(0, RATE_LIMIT - bucket.count)))
+    res.headers.set('X-RateLimit-Reset', String(bucket.resetAt))
+    return res
   } catch (error) {
     console.error("Upload error:", error)
     return NextResponse.json({ error: "An unexpected error occurred" }, { status: 500 })
