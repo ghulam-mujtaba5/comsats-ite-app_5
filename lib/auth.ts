@@ -9,5 +9,7 @@ export const validateCUIEmail = (email: string): boolean => {
   // - program: 2-5 letters (e.g., bse, bscs, bba)
   // - roll: three digits
   const strict = /^[a-zA-Z]{2}\d{2}-[a-zA-Z]{2,5}-\d{3}@cuilahore\.edu\.pk$/
-  return strict.test(email)
+  // Allow any address at the university domain (for staff/admin formats)
+  const domainOnly = /^[^@]+@cuilahore\.edu\.pk$/
+  return strict.test(email) || domainOnly.test(email)
 }

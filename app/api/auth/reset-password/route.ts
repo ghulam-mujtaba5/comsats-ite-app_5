@@ -1,10 +1,7 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
 export async function POST(request: NextRequest) {
-  const supabase = createRouteHandlerClient({ cookies })
-  
   try {
     const { email } = await request.json()
 
@@ -12,8 +9,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 })
     }
 
-    // Force production URL
-    const resetUrl = 'https://campusaxis.vercel.app/auth/reset-password'
+    // Prefer request origin for local/dev, fallback to production
+    const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+    const resetUrl = `${origin}/auth/reset-password`
+
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (!url || !anon) {
+      return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 })
+    }
+    const supabase = createClient(url, anon, { auth: { persistSession: false, autoRefreshToken: false } })
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: resetUrl,
