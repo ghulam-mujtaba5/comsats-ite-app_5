@@ -93,7 +93,9 @@ export function Header() {
           <Image src="/placeholder-logo.png" alt="COMSATS ITE Logo" width={40} height={40} />
           <div className="flex flex-col">
             <span className="font-bold text-lg leading-tight">COMSATS ITE</span>
-            <span className="text-xs text-muted-foreground leading-tight">Academic Portal</span>
+            {pathname !== '/' && (
+              <span className="text-xs text-muted-foreground leading-tight">Academic Portal</span>
+            )}
           </div>
         </Link>
 
@@ -137,7 +139,9 @@ export function Header() {
                   <Image src="/placeholder-logo.png" alt="COMSATS ITE Logo" width={40} height={40} />
                   <div className="flex flex-col">
                     <span className="font-bold text-lg">COMSATS ITE</span>
-                    <span className="text-sm text-muted-foreground">Academic Portal</span>
+                    {pathname !== '/' && (
+                      <span className="text-sm text-muted-foreground">Academic Portal</span>
+                    )}
                   </div>
                 </div>
 

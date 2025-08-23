@@ -94,6 +94,25 @@ export default function AdminUsersPage() {
     }
   }
 
+  const handleDeleteUser = async (userId: string) => {
+    const ok = typeof window !== 'undefined' ? window.confirm('Are you sure you want to permanently delete this user? This action cannot be undone.') : true
+    if (!ok) return
+    try {
+      const response = await fetch(`/api/admin/users/${userId}`, { method: 'DELETE' })
+      if (response.ok) {
+        toast({ title: 'Success', description: 'User deleted successfully' })
+        // Refresh both user and admin lists in case the user was an admin
+        fetchUsers()
+        fetchAdminUsers()
+      } else {
+        const err = await response.json().catch(() => ({} as any))
+        throw new Error(err?.error || 'Failed to delete user')
+      }
+    } catch (error) {
+      toast({ title: 'Error', description: 'Failed to delete user', variant: 'destructive' })
+    }
+  }
+
   const fetchAdminUsers = async () => {
     try {
       const response = await fetch('/api/admin/admin-users')
@@ -365,6 +384,14 @@ export default function AdminUsersPage() {
                             Ban User
                           </Button>
                         )}
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleDeleteUser(user.id)}
+                        >
+                          <AlertTriangle className="h-4 w-4 mr-1" />
+                          Delete User
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>

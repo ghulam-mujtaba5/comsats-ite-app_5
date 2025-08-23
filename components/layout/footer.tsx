@@ -2,7 +2,11 @@ import { GraduationCap, Mail, Phone, MapPin, Users } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
-export function Footer() {
+type FooterProps = {
+  hidePortalSubtitle?: boolean
+}
+
+export function Footer({ hidePortalSubtitle = false }: FooterProps) {
   return (
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-12">
@@ -31,7 +35,9 @@ export function Footer() {
               <GraduationCap className="h-8 w-8 text-primary" />
               <div>
                 <div className="font-bold text-lg">COMSATS ITE</div>
-                <div className="text-sm text-muted-foreground">Academic Portal</div>
+                {!hidePortalSubtitle && (
+                  <div className="text-sm text-muted-foreground">Academic Portal</div>
+                )}
               </div>
             </div>
             <p className="text-sm text-muted-foreground font-serif">
@@ -126,7 +132,9 @@ export function Footer() {
         </div>
 
         <div className="border-t border-border mt-8 pt-8 text-center">
-          <p className="text-sm text-muted-foreground">© 2024 COMSATS ITE Academic Portal. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">
+            © 2024 COMSATS ITE{hidePortalSubtitle ? '' : ' Academic Portal'}. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
