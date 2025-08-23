@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { BookOpen, Upload, ExternalLink, Download } from "lucide-react"
 import { AdvancedFilterBar, type Option } from "@/components/search/advanced-filter-bar"
+import { notifyFetch } from "@/lib/notify"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 
 type Resource = {
@@ -32,7 +33,7 @@ export default function ResourcesPage() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch('/api/resources', { cache: 'no-store' })
+        const res = await notifyFetch('/api/resources', { cache: 'no-store' }, { errorMessage: 'Failed to load resources' })
         const j = await res.json()
         if (!res.ok) throw new Error(j?.error || 'Failed to load resources')
         setItems(j.data || [])
