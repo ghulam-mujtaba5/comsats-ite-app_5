@@ -6,7 +6,8 @@ export async function POST(req: NextRequest) {
   // Use Next 15 dynamic cookies API correctly
   const cookieStore = await (cookies() as any)
   const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
-  const isProd = ((process.env as any).NODE_ENV as string) === 'production'
+  const forwardedProto = req.headers.get('x-forwarded-proto')
+  const isHttps = forwardedProto === 'https' || req.nextUrl.protocol === 'https:'
 
   try {
     // Must be signed in already
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       sameSite: 'lax',
       path: '/',
-      secure: isProd,
+      secure: isHttps,
       maxAge: 60 * 60 * 2, // 2 hours
     })
     return res

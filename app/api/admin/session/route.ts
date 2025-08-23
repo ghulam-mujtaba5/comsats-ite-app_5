@@ -45,7 +45,8 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const isProd = ((process.env as any).NODE_ENV as string) === 'production'
+    const forwardedProto = req.headers.get('x-forwarded-proto')
+    const isHttps = forwardedProto === 'https' || req.nextUrl.protocol === 'https:'
     const { username, password } = await req.json()
 
     if (!username || !password) {
@@ -53,6 +54,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Hardcoded super admin credentials for development (non-production only)
+    const isProd = ((process.env as any).NODE_ENV as string) === 'production'
     if (!isProd && username === 'admin@cuilahore.edu.pk' && password === 'admin123') {
       const res = NextResponse.json({ 
         ok: true, 
@@ -67,8 +69,7 @@ export async function POST(req: NextRequest) {
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
-        // secure in production environments
-        secure: isProd,
+        secure: isHttps,
         // session cookie (clears on browser close)
       })
       // Align with other admin API routes that check `ite_admin`
@@ -76,7 +77,7 @@ export async function POST(req: NextRequest) {
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
-        secure: isProd,
+        secure: isHttps,
       })
       return res
     }
