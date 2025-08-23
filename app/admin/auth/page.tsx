@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/contexts/auth-context"
 
 export default function AdminAuthPage() {
@@ -12,6 +13,7 @@ export default function AdminAuthPage() {
   const next = searchParams?.get('next') || '/admin'
   const { isAuthenticated, isLoading } = useAuth()
   const [elevating, setElevating] = useState(false)
+  const { toast } = useToast()
 
   useEffect(() => {
     let mounted = true
@@ -36,9 +38,29 @@ export default function AdminAuthPage() {
         return
       }
       if (res.status === 401) {
+        toast({
+          title: 'Sign-in required',
+          description: 'Please sign in to continue, then try elevating admin access again.',
+          variant: 'destructive',
+        })
         router.replace(`/auth?next=/admin/auth`)
         return
       }
+      if (res.status === 403) {
+        // Not admin-enabled
+        let msg = 'Your account is not admin-enabled. Contact an administrator to grant access.'
+        try {
+          const body = await res.json()
+          if (body?.error) msg = body.error
+        } catch {}
+        toast({ title: 'Access denied', description: msg, variant: 'destructive' })
+        return
+      }
+      toast({
+        title: `Unexpected error (${res.status})`,
+        description: 'Please try again or contact support if the issue persists.',
+        variant: 'destructive',
+      })
     } finally {
       setElevating(false)
     }
