@@ -64,7 +64,7 @@ function isAdmin(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  if (!url || !anon) return NextResponse.json({ error: 'Supabase env missing' }, { status: 500 })
+  if (!url || !anon) return NextResponse.json({ data: [] })
   const supabase = createClient(url, anon)
 
   const admin = isAdmin(req)
