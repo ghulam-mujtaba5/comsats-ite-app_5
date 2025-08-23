@@ -82,3 +82,22 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  const supabase = createRouteHandlerClient({ cookies: async () => await cookies() })
+  const isProd = ((process.env as any).NODE_ENV as string) === 'production'
+  try {
+    // Best-effort sign out of Supabase auth (if a session exists)
+    try {
+      await supabase.auth.signOut()
+    } catch {}
+
+    const res = NextResponse.json({ ok: true })
+    // Clear dev admin cookies
+    res.cookies.set('dev_admin', '', { path: '/', maxAge: 0, httpOnly: true, sameSite: 'lax', secure: isProd })
+    res.cookies.set('ite_admin', '', { path: '/', maxAge: 0, httpOnly: true, sameSite: 'lax', secure: isProd })
+    return res
+  } catch {
+    return NextResponse.json({ ok: false }, { status: 500 })
+  }
+}
