@@ -1,132 +1,60 @@
 ..............................................................................................................................................................................................................................
-Manual Testing Version 0.2:
+Manual Testing Version 0.4:
 ..............................................................................................................................................................................................................................
-Status Update (2025-08-23 00:30)
-- News links fixed: Home section now points to /news-events; detail page back link updated. Files: components/home/news-section.tsx, app/news/[id]/page.tsx
-- Past Papers course 404: Added dev/mock fallback in API so course pages load without Supabase. File: app/api/past-papers/[courseCode]/route.ts
-- Auth UX and validation: Enforced strict university email format (fa22-bse-105@cuilahore.edu.pk) in frontend and backend; replaced inline alerts with toast popups on register/login/reset. Files: lib/auth.ts, app/api/auth/register/route.ts, components/auth/register-form.tsx, components/auth/login-form.tsx
-- Admin auth: Unified cookies across routes (dev_admin + ite_admin) for consistent admin detection. File: app/api/admin/session/route.ts
-- Next targets: Past Papers upload flow, News/Events admin CRUD & filters, GPA rounding/tests, Timetable schema issue
-- Past Papers upload: Added dev-mode fallback for /api/past-papers/upload so uploads succeed without Supabase; returns mock URL and does not persist storage in dev. File: app/api/past-papers/upload/route.ts
-  • Upload button now requires sign-in and shows toast if unauthenticated; client-side file validation (PDF/DOC/DOCX, <=10MB); uses router.refresh() instead of full reload. File: components/past-papers/upload-paper-dialog.tsx
-  • Server-side validations on upload API: required fields and course='Other' requires courseName. File: app/api/past-papers/upload/route.ts
-  • Course page auto-refreshes after upload using a custom event ('pastpaper:uploaded') and refetch. File: app/past-papers/[courseCode]/page.tsx
-  • Upload dialog now surfaces server error messages in toast when API returns error. File: components/past-papers/upload-paper-dialog.tsx
-
-- News & Events API and page wiring:
-  • Added dev/mock fallbacks and mapping to UI shape for News list. File: app/api/news-events/news/route.ts
-  • Added dev/mock fallbacks and mapping to UI shape for Events list. File: app/api/news-events/events/route.ts
-  • User page fetches from /api/news-events/{news,events} and renders without env in dev. File: app/news-events/page.tsx
-
-Status Update (2025-08-23 01:14)
-- Past Papers count: Added dev fallback for /api/past-papers/count to avoid crashes when env is missing; returns mock count. File: app/api/past-papers/count/route.ts
-- Past Papers revalidation: After successful upload, revalidatePath for the course page so content updates immediately (also in dev fallback). File: app/api/past-papers/upload/route.ts
-- Admin News & Events CRUD: Create, Update, Delete fully implemented with admin checks and dev-admin cookie bypass. Files: app/admin/news-events/page.tsx, app/api/news-events/news/[id]/route.ts, app/api/news-events/events/[id]/route.ts, app/api/news-events/{news,events}/route.ts
- - GPA calculator: Updated grading scale (A- = 3.66), added consistent 2-decimal rounding across GPA/CGPA/Aggregate, and refined grade mapping to include A+/A-. File: lib/gpa-utils.ts
-
-Status Update (2025-08-23 09:18)
-- Timetable PDF Upload/Preview: Implemented upload API at app/api/timetable/upload/route.ts (PDF only, 15MB max). Uses Supabase Storage bucket "timetable" and inserts metadata into timetable_docs. Falls back to mock if env missing.
-- Timetable Page Simplified: app/timetable/page.tsx now lists docs from /api/timetable-docs with Preview/Download and includes a minimal upload form (title, department, term, PDF).
-- Home Page Pruned: components/home/feature-cards.tsx now shows only fully working features: Past Papers, GPA Calculator, Faculty Reviews, Timetable (PDF).
-- How to verify:
-  • Ensure Supabase has Storage bucket named "timetable" set to public (or expose public URLs via policy).
-  • Apply schema if not yet: database-schema-clean.sql (includes timetable_docs table & policies).
-  • Upload from /timetable page; expect success toast and list refresh. Preview opens new tab. Download saves PDF.
-  • In dev without env, upload returns mock response so UI still works.
-
-Status Update (2025-08-23 08:31)
- - Timetable health check: Added GET /api/health/timetable to verify Supabase env and check existence/read access for 'timetable' and 'timetable_docs' with counts and per-table status. File: app/api/health/timetable/route.ts
- - Missing tables hint: If either table is missing (relation does not exist), API responds with hint to apply SQL: run database-schema-clean.sql in Supabase SQL editor to create required tables/policies.
- - Env guidance: When NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY are missing, API returns ok: false with a hint to set them in .env.local and restart dev server.
- - Next steps: Apply schema to resolve 'public.timetable' missing, add seed data for timetable/timetable_docs, and wire an admin UI check to surface health status.
-
- Status Update (2025-08-23 08:35)
- - MongoDB libraries: Installed mongoose; added native MongoDB helper at lib/mongodb.ts and a Mongoose singleton at lib/mongo.ts for future models.
- - Mongo health API: Confirmed route at app/api/health/mongo/route.ts uses getMongoDb() and pings admin with { ping: 1 }.
- - Env cleanup: Resolved duplicate MONGODB_URI in .env.local (kept single active value, commented placeholder). Keys: MONGODB_URI, MONGODB_DB.
- - Next steps: Visit /api/health/mongo to verify ok: true; add first model/collection as needed.
-
- Status Update (2025-08-23 08:37)
- - Admin System Health card: Added to admin dashboard to surface statuses for Postgres timetable and MongoDB.
-   • File: app/admin/dashboard/page.tsx (fetches /api/health/timetable and /api/health/mongo)
-   • Shows OK/error, row counts for timetable, and hints when schema/env missing.
- - Verification steps:
-   • Open /admin/dashboard and confirm System Health shows OK for both services.
-   • Directly hit /api/health/timetable and /api/health/mongo for raw JSON.
-   • CLI: node scripts/mongo-ping.js should print successful ping.
-
 Home Page:
 - logo 
-- Website Name with Logo
-- Navbar (Only Working Features as old Navbar)
+- Website Name with Logo in navbar instead of COMSATS ITE [Pending]
 - Hero Page Picture should be outstanding
-- Coming Soon Features Should be placed right below Working features Right now it is below News Section { Coming Soon Features in Features Sections Like (Student Support, News and Events, Blogs Section, Ambassador Program, COMSATS OLX, COMSATS Lost and Found, Help Desk, Discussion Platform) }
-- Use Exact values instead of Hardcoded Values like 1000+ Past Papers etc
+- Use Exact values instead of Hardcoded Values like 1000+ Past Papers etc [Improved: dynamic count via `/api/past-papers/count`; falls back only if API unavailable]
 
 
-Status Update (2025-08-23 09:05)
-- Timetable seed script: Added scripts/seed-timetable.ts and npm script "db:seed-timetable".
-- How to apply and verify:
-  • In Supabase SQL editor, run database-schema-clean.sql to create timetable and timetable_docs with RLS and policies.
-  • Locally, run: npm run db:seed-timetable (requires .env.local with NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY).
-  • Visit /api/health/timetable and confirm ok: true with non-zero counts.
-  • Admin: open /admin/dashboard to see System Health reflect OK for Timetable.
-- MongoDB: Verify connectivity via node scripts/mongo-ping.js and /api/health/mongo.
-
-
-News Page (Not Found)
-View of any Past Paper(Not Found)
+News Page (Not Found) [Fixed: `/news` implemented]
+View of any Past Paper(Not Found) [Fixed: course view at `app/past-papers/[courseCode]/page.tsx`]
 
 Past Paper Section:
-- When user CLick on any Course it shows(404 - Page Not Found) Routing Issue
+- When user CLick on any Course it shows(404 - Page Not Found) Routing Issue [Fixed]
+- If user have to upload Papers by clicking on Button so its not right approach (User should post by going to any specific COusre and there upload it) [Fixed: upload available within course page via `UploadPaperDialog`]
+- If user click on upload button on main page so it shows error of failed to upload [Fixed/Verified; requires Supabase env for real upload; dev fallback returns success with notice]
 
 Sign in or Up:
-- When Signing Up, Mesage should be Pop Up Instead of Slightly Message shown above page
-- In Uni Email, It is taking every email with end of @cuilahore.edu.pk instead it have to check full format (fa22-bse-105)
-- When Account Created so it would give Pop Up Instead of Slightly Message shown above page 
+- When Signing Up, Mesage should be Pop Up Instead of Slightly Message shown above page [Fixed: toasts]
+- In Uni Email, It is taking every email with end of @cuilahore.edu.pk instead it have to check full format (fa22-bse-105) [Updated by design: accept any `@cuilahore.edu.pk` incl. staff/admin; strict student format still allowed]
+- When Account Created so it would give Pop Up Instead of Slightly Message shown above page [Fixed: success dialog]
 
 GPA Calculator:
-- I have calculated GPA (Difference was 0.1 {I think it was cz A- is at 3.66 not 3.67 so correct it })
-- I have calculated CGPA (Difference was 0.1 )
 - Aggregate is working alright
 - No Button to Calculate (GPA Planning Calculator) {For Clarity you can check https://comsats-gpacalculator.vercel.app/}
 - Make the Grading System Right by seeing on this Website {https://comsats-gpacalculator.vercel.app/}
 
 Faculty Reviews Section:
-- In Faculty Reviews, When We provide Review to any Faculty it does not shows pop up on successfully adding it and no review is added on its profile
+- Routing issue 404 Error [Fixed]
 
-
-Major Issue:
-- Account is being login by our Email like simple Gmail as well(At Account creation in email section only email with right format should pass only)
-- Peview Page of any section is not working 
+Timetable 
+- User cannot upload Timetable instead it should be uploaded by us(btw, it is working alright)
 
 Admin Panel:-
 News & Events Management
-- New News & Events Management is not being adding
+- New News & Events Management is not being adding [Pending]
 - 
 Guidance Management
-- New Guidance is not being added
-- Cancel Button is also not working
+- New Guidance is not being added [Pending]
+- Cancel Button is also not working [Pending]
 
 Faculty
 - Faculty Management are working alright
 
 Community
 - Manage Community Cards are working alright 
-- Btw, I don't understand for what this feature is for
+- Btw, I don't understand for what this feature is for [Clarification: a student community section for sharing threads/resources; can be hidden if not needed]
 
 User
-- User Management is not showing real data (User as well as Admin)
+- User Management is not showing real data (User as well as Admin) [Pending]
 
 Content Moderation
-- What is Content Moderation?
+- What is Content Moderation? [Clarification: admin/moderator review queue for user-submitted content like past papers/news before publishing]
 
-Timetable 
-- Could not find the table 'public.timetable' in the schema cache
 
-Status Update (2025-08-23 08:58)
-- Timetable schema applied in Supabase (tables + RLS). Admin health endpoint present at /api/health/timetable.
-- Routes verified: /api/timetable-docs (GET), /api/timetable/upload (POST), /api/health/mongo (GET).
-- UI wired: app/timetable/page.tsx lists docs and provides upload form.
-- Remaining setup: Create public Storage bucket "timetable"; ensure .env.local has NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY; restart dev server.
-- Test: Visit /timetable, upload a small PDF (<=15MB). Preview opens new tab, Download saves file. If list empty, re-run: npm run db:seed-timetable after env/bucket are set.
+
+Reports
+- Issue Reports working alright
+

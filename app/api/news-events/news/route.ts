@@ -81,6 +81,23 @@ export async function POST(request: NextRequest) {
   const supabase = createRouteHandlerClient({ cookies })
   
   try {
+    // Dev fallback: if Supabase env is not configured, echo back a mock created item
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (!url || !anon) {
+      const body = await request.json()
+      const { title, content, category, is_important, image_url } = body
+      return NextResponse.json({
+        id: `mock-${Math.random().toString(36).slice(2, 9)}`,
+        title,
+        content,
+        category,
+        is_important: !!is_important,
+        image_url: image_url ?? null,
+        published_at: new Date().toISOString(),
+        author_name: 'Admin'
+      }, { status: 201 })
+    }
     // Support dev-admin cookie bypass to align with AdminGuard during local/dev
     const devCookie = request.cookies.get('dev_admin')?.value
     const iteCookie = request.cookies.get('ite_admin')?.value

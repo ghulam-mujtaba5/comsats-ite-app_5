@@ -149,11 +149,32 @@ export default function AdminNewsEventsPage() {
       })
 
       if (response.ok) {
-        const saved = await response.json()
+        const raw = await response.json()
+        // Normalize server response to UI shape
+        const saved = isNews
+          ? {
+              id: raw.id,
+              title: raw.title,
+              content: raw.content,
+              category: raw.category,
+              publishedAt: raw.publishedAt ?? raw.published_at ?? new Date().toISOString(),
+            }
+          : {
+              id: raw.id,
+              title: raw.title,
+              description: raw.description,
+              date: raw.date ?? raw.event_date,
+              time: raw.time ?? raw.event_time,
+              location: raw.location,
+              category: raw.category,
+              capacity: raw.capacity,
+              registered: raw.registered ?? 0,
+            }
+
         if (isNews) {
-          setNews(prev => editingItem ? prev.map(n => n.id === (editingItem as any).id ? saved : n) : [saved, ...prev])
+          setNews(prev => editingItem ? prev.map(n => n.id === (editingItem as any).id ? saved : n) : [saved as any, ...prev])
         } else {
-          setEvents(prev => editingItem ? prev.map(e => e.id === (editingItem as any).id ? saved : e) : [saved, ...prev])
+          setEvents(prev => editingItem ? prev.map(e => e.id === (editingItem as any).id ? (saved as any) : e) : [saved as any, ...prev])
         }
         resetForm()
         setShowCreateDialog(false)
@@ -161,6 +182,13 @@ export default function AdminNewsEventsPage() {
           title: "Success",
           description: `${isNews ? (editingItem ? 'News article updated' : 'News article created') : (editingItem ? 'Event updated' : 'Event created')}`
         })
+      } else {
+        let msg = 'Failed to create item'
+        try {
+          const err = await response.json()
+          msg = err?.error || msg
+        } catch {}
+        toast({ title: 'Error', description: msg, variant: 'destructive' })
       }
     } catch (error) {
       console.error('Error creating item:', error)
