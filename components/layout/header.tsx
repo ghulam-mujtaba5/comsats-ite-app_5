@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from "@/contexts/auth-context"
-import { LogOut, User, Menu, Calculator, FileText, BookOpen, Calendar, Shield } from "lucide-react"
+import { LogOut, User, Menu, Calculator, FileText, BookOpen, Calendar, Shield, Users } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -36,6 +36,12 @@ const navigationItems = [
     href: "/faculty",
     icon: BookOpen,
     description: "Read and write faculty reviews",
+  },
+  {
+    name: "Contribute",
+    href: "/contribute",
+    icon: Users,
+    description: "Share content or become a moderator/admin",
   },
   {
     name: "Timetable",

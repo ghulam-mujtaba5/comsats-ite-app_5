@@ -148,6 +148,10 @@ export default function AdminDashboardPage() {
               <h3 className="text-xl font-semibold">🛡️ Content Moderation</h3>
               <p className="text-muted-foreground">Moderate posts, comments, and reports.</p>
             </Link>
+            <Link href="/admin/reviews" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">📝 Review Moderation</h3>
+              <p className="text-muted-foreground">Approve or reject faculty reviews.</p>
+            </Link>
             <Link href="/admin/resources" className="block border rounded-lg p-5 hover:bg-accent">
               <h3 className="text-xl font-semibold">📁 Resources</h3>
               <p className="text-muted-foreground">Manage downloadable resources and files.</p>

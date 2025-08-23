@@ -22,7 +22,8 @@ export async function GET() {
 
     const { count: reviewsCount, error: reviewsError } = await supabase
       .from("reviews")
-      .select("*", { count: "exact", head: true });
+      .select("*", { count: "exact", head: true })
+      .eq('status', 'approved');
 
     if (reviewsError) throw reviewsError;
 
