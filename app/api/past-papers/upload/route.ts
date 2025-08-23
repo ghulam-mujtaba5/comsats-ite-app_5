@@ -5,24 +5,30 @@ import { revalidatePath } from "next/cache"
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData()
-    const file = formData.get("file") as File
+    const file = formData.get("file") as File | null
     const paperData = JSON.parse(formData.get("paperData") as string)
 
-    if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 })
+    const externalUrl: string | undefined = typeof paperData?.externalUrl === 'string' ? paperData.externalUrl.trim() : undefined
+    const hasExternal = !!externalUrl && /^https?:\/\//.test(externalUrl)
+
+    // Validate file if provided
+    if (file) {
+      const allowed = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ]
+      const maxSizeBytes = 10 * 1024 * 1024 // 10MB
+      if (!(allowed as any).includes((file as any).type)) {
+        return NextResponse.json({ error: "Invalid file type. Only PDF, DOC, DOCX are allowed." }, { status: 400 })
+      }
+      if ((file as any).size > maxSizeBytes) {
+        return NextResponse.json({ error: "File too large. Max size is 10MB." }, { status: 400 })
+      }
     }
-    // File validation: type and size
-    const allowed = [
-      "application/pdf",
-      "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ]
-    const maxSizeBytes = 10 * 1024 * 1024 // 10MB
-    if (!allowed.includes((file as any).type)) {
-      return NextResponse.json({ error: "Invalid file type. Only PDF, DOC, DOCX are allowed." }, { status: 400 })
-    }
-    if ((file as any).size > maxSizeBytes) {
-      return NextResponse.json({ error: "File too large. Max size is 10MB." }, { status: 400 })
+    // Must provide either a file or an external link
+    if (!file && !hasExternal) {
+      return NextResponse.json({ error: "Provide a file or a valid external link (https://)" }, { status: 400 })
     }
 
     // Validate required fields
@@ -46,7 +52,7 @@ export async function POST(req: NextRequest) {
 
     // Dev fallback: if Supabase env is missing, accept the upload and return a mock response
     if (!supabaseUrl || !supabaseAnonKey) {
-      const mockPublicUrl = `https://example.com/mock/${Date.now()}-${encodeURIComponent(file.name)}`
+      const mockPublicUrl = file ? `https://example.com/mock/${Date.now()}-${encodeURIComponent(file.name)}` : (externalUrl as string)
       const mockPaper = [{
         id: `mock-${Date.now()}`,
         title: paperData.title,
@@ -76,17 +82,22 @@ export async function POST(req: NextRequest) {
     // With Supabase configured: proceed with real upload + DB insert
     const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-    // 1. Upload file to Supabase Storage
-    const filePath = `past-papers/${Date.now()}-${file.name}`
-    const { error: uploadError } = await supabase.storage.from("papers").upload(filePath, file)
-
-    if (uploadError) {
-      console.error("Supabase upload error:", uploadError)
-      return NextResponse.json({ error: "Failed to upload file" }, { status: 500 })
+    let publicUrl: string
+    let filePath: string | undefined
+    if (hasExternal) {
+      publicUrl = externalUrl as string
+    } else {
+      // Upload file to Supabase Storage
+      filePath = `past-papers/${Date.now()}-${(file as File).name}`
+      const { error: uploadError } = await supabase.storage.from("papers").upload(filePath, file as File)
+      if (uploadError) {
+        console.error("Supabase upload error:", uploadError)
+        return NextResponse.json({ error: "Failed to upload file" }, { status: 500 })
+      }
+      // Get public URL of the uploaded file
+      const { data: urlData } = supabase.storage.from("papers").getPublicUrl(filePath)
+      publicUrl = urlData.publicUrl
     }
-
-    // 2. Get public URL of the uploaded file
-    const { data: urlData } = supabase.storage.from("papers").getPublicUrl(filePath)
 
     // 3. Save paper metadata to the database
     const { data, error: dbError } = await supabase
@@ -99,7 +110,7 @@ export async function POST(req: NextRequest) {
           semester: paperData.semester,
           year: paperData.year,
           tags: paperData.tags,
-          download_url: urlData.publicUrl,
+          download_url: publicUrl,
           department: paperData.department,
         },
       ])
@@ -108,7 +119,7 @@ export async function POST(req: NextRequest) {
     if (dbError) {
       console.error("Supabase DB error:", dbError)
       // If DB insert fails, try to delete the uploaded file
-      await supabase.storage.from("papers").remove([filePath])
+      if (filePath) await supabase.storage.from("papers").remove([filePath])
       return NextResponse.json({ error: "Failed to save paper data" }, { status: 500 })
     }
 

@@ -93,6 +93,12 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
         newState.course = ''
         newState.courseName = ''
       }
+      // If external link is provided, clear file to avoid ambiguity
+      if (field === 'externalUrl') {
+        if (value && value.trim().length > 0) {
+          newState.file = null
+        }
+      }
       return newState
     })
   }
@@ -377,9 +383,21 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
           </div>
 
           <div>
-            <Label htmlFor="file">Upload File *</Label>
-            <Input id="file" type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} required />
+            <Label htmlFor="file">Upload File {hasValidExternal ? '' : '*'}</Label>
+            <Input id="file" type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} disabled={!!formData.externalUrl} />
             <p className="text-sm text-muted-foreground mt-1">Accepted formats: PDF, DOC, DOCX (Max size: 10MB)</p>
+          </div>
+
+          <div>
+            <Label htmlFor="externalUrl">Or paste an External Link</Label>
+            <Input
+              id="externalUrl"
+              type="url"
+              placeholder="https://drive.google.com/... or https://..."
+              value={formData.externalUrl}
+              onChange={(e) => handleInputChange('externalUrl', e.target.value)}
+            />
+            <p className="text-sm text-muted-foreground mt-1">Provide a public link (Google Drive, OneDrive, etc.). Either upload a file or provide a link.</p>
           </div>
 
           <div className="flex justify-end gap-2">
