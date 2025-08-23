@@ -164,9 +164,9 @@ export default function AdminDashboardPage() {
               <h3 className="text-xl font-semibold">📁 Resources</h3>
               <p className="text-muted-foreground">Manage downloadable resources and files.</p>
             </Link>
-            <Link href="/admin/timetable" className="block border rounded-lg p-5 hover:bg-accent">
-              <h3 className="text-xl font-semibold">📅 Timetable</h3>
-              <p className="text-muted-foreground">Manage class schedules and timetables.</p>
+            <Link href="/admin/timetable-docs" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">📅 Timetable PDFs</h3>
+              <p className="text-muted-foreground">Upload and manage official timetable PDF files.</p>
             </Link>
             <Link href="/admin/issues" className="block border rounded-lg p-5 hover:bg-accent">
               <h3 className="text-xl font-semibold">🐞 Issues</h3>
