@@ -6,6 +6,7 @@ import "./globals.css"
 import { AuthProvider } from "@/contexts/auth-context"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/layout/header"
+import { Toaster } from "@/components/ui/toaster"
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ html {
           <AuthProvider>
             <Header />
             {children}
+            <Toaster />
           </AuthProvider>
         </ThemeProvider>
       </body>

@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from "@/contexts/auth-context"
-import { LogOut, User, Menu, Calculator, FileText, BookOpen, Calendar, Shield, ExternalLink } from "lucide-react"
+import { LogOut, User, Menu, Calculator, FileText, BookOpen, Calendar, Shield } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -107,17 +107,6 @@ export function Header() {
               </Link>
             )
           })}
-          {/* External Portal quick link */}
-          <a
-            href="https://portal.comsats.edu.pk/"
-            target="_blank"
-            rel="noreferrer"
-            className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground text-muted-foreground`}
-            title="Open COMSATS Portal"
-          >
-            <ExternalLink className="h-4 w-4" />
-            <span>Portal</span>
-          </a>
         </nav>
 
         <div className="flex items-center space-x-2">
@@ -166,20 +155,6 @@ export function Header() {
                   )
                 })}
 
-                {/* External Portal quick link (mobile) */}
-                <a
-                  href="https://portal.comsats.edu.pk/"
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-start space-x-3 p-3 rounded-lg transition-colors hover:bg-accent"
-                >
-                  <ExternalLink className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="font-medium">Portal</span>
-                    <span className="text-sm text-muted-foreground">Open COMSATS Portal</span>
-                  </div>
-                </a>
 
                 {isAdmin && (
                   <Link
