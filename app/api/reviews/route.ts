@@ -9,17 +9,16 @@ export async function POST(req: NextRequest) {
     const mongoUri = process.env.MONGODB_URI
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-    const hasModeration = !!process.env.REVIEW_ADMIN_TOKEN
+    // Force auto-approve regardless of env
+    const hasModeration = false
 
     // Prefer MongoDB if configured
     if (mongoUri) {
       const db = await getMongoDb(process.env.MONGODB_DB || 'campusaxis0')
       const res = await db.collection('reviews').insertOne({
         ...body,
-        // Auto-approve unless moderation is explicitly enabled via REVIEW_ADMIN_TOKEN
-        status: hasModeration
-          ? (body.status || (process.env.NODE_ENV === 'production' ? 'pending' : 'approved'))
-          : 'approved',
+        user_id: body.user_id || body.student_id || body.uid || null,
+        status: 'approved',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
@@ -32,13 +31,25 @@ export async function POST(req: NextRequest) {
     }
     const supabase = createClient(url, serviceKey)
     const payload = {
-      ...body,
-      status: hasModeration
-        ? (body.status || (process.env.NODE_ENV === 'production' ? 'pending' : 'approved'))
-        : 'approved',
+      user_id: body.user_id || body.student_id || body.uid || null,
+      faculty_id: body.faculty_id,
+      student_name: body.student_name ?? null,
+      course: body.course,
+      semester: body.semester,
+      rating: body.rating,
+      teaching_quality: body.teaching_quality,
+      accessibility: body.accessibility,
+      course_material: body.course_material,
+      grading: body.grading,
+      comment: body.comment,
+      pros: body.pros,
+      cons: body.cons,
+      would_recommend: body.would_recommend,
+      is_anonymous: body.is_anonymous,
+      status: 'approved',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-    }
+    } as const
     const { data, error } = await supabase.from('reviews').insert(payload).select('id').single()
     if (error) throw error
 

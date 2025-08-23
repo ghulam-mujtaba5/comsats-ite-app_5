@@ -10,29 +10,28 @@ import { ReviewCard } from "@/components/faculty/review-card"
 import { WriteReviewDialog } from "@/components/faculty/write-review-dialog"
 import { type Faculty, type Review, calculateReviewStats } from "@/lib/faculty-data"
 import { Star, MapPin, Mail, Phone, BookOpen, GraduationCap, Calendar, PenTool, ThumbsUp } from "lucide-react"
-import { notFound } from "next/navigation"
+import { notFound, useParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 // Using internal APIs with dev fallbacks instead of direct Supabase client
 
-interface FacultyProfilePageProps {
-  params: { id: string }
-}
-
-export default function FacultyProfilePage({ params }: FacultyProfilePageProps) {
+export default function FacultyProfilePage() {
   const [faculty, setFaculty] = useState<Faculty | null>(null)
   const [reviews, setReviews] = useState<Review[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
+  const params = useParams<{ id: string | string[] }>()
+  const facultyId = Array.isArray(params?.id) ? params.id[0] : (params?.id || "")
 
   useEffect(() => {
     const load = async () => {
       setLoading(true)
       setError(null)
       try {
+        if (!facultyId) throw new Error("Missing faculty id in route")
         const [fRes, rRes] = await Promise.all([
-          fetch(`/api/faculty/${params.id}`, { cache: "no-store" }),
-          fetch(`/api/reviews?facultyId=${params.id}`, { cache: "no-store" }),
+          fetch(`/api/faculty/${facultyId}`, { cache: "no-store" }),
+          fetch(`/api/reviews?facultyId=${facultyId}`, { cache: "no-store" }),
         ])
 
         if (!fRes.ok) {
@@ -104,7 +103,7 @@ export default function FacultyProfilePage({ params }: FacultyProfilePageProps) 
       }
     }
     load()
-  }, [params.id, refreshKey])
+  }, [facultyId, refreshKey])
 
   const stats = useMemo(() => calculateReviewStats(reviews), [reviews])
 

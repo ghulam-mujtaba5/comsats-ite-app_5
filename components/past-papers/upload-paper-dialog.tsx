@@ -144,10 +144,6 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!isAuthenticated) {
-      toast({ title: "Sign in required", description: "Please sign in to upload a past paper.", variant: "destructive" })
-      return
-    }
 
     if (!canSubmit) {
       const msg = !formData.file && !hasValidExternal
@@ -222,19 +218,12 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
   }
 
   const handleTriggerClick = () => {
-    if (!isAuthenticated) {
-      toast({
-        title: "Sign in required",
-        description: "Please sign in to upload a past paper.",
-        variant: "destructive",
-      })
-      return
-    }
+    // Allow anonymous users to open and submit; server enforces rate limits and validation
     setOpen(true)
   }
 
   return (
-    <Dialog open={open} onOpenChange={(o) => setOpen(o && isAuthenticated)}>
+    <Dialog open={open} onOpenChange={setOpen}>
       {/* Manual trigger to fully control gating */}
       <div onClick={handleTriggerClick}>{children}</div>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">

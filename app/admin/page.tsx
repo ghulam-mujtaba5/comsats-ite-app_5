@@ -124,7 +124,7 @@ export default function AdminDashboardPage() {
               <h3 className="text-xl font-semibold">📰 News & Events</h3>
               <p className="text-muted-foreground">Create and manage news and events.</p>
             </Link>
-            <Link href="/admin/student-support" className="block border rounded-lg p-5 hover:bg-accent">
+            <Link href="/admin/support" className="block border rounded-lg p-5 hover:bg-accent">
               <h3 className="text-xl font-semibold">❤️ Student Support</h3>
               <p className="text-muted-foreground">Manage support resources and requests.</p>
             </Link>
