@@ -28,9 +28,10 @@ import { useToast } from "@/hooks/use-toast"
 interface WriteReviewDialogProps {
   faculty: Faculty
   children: React.ReactNode
+  onSubmitted?: () => void
 }
 
-export function WriteReviewDialog({ faculty, children }: WriteReviewDialogProps) {
+export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteReviewDialogProps) {
   const [open, setOpen] = useState(false)
   const { isAuthenticated, user } = useAuth()
   const { toast } = useToast()
@@ -147,6 +148,9 @@ export function WriteReviewDialog({ faculty, children }: WriteReviewDialogProps)
       }
       toast({ title: "Review submitted", description: "Thanks for your feedback!" })
       setShowSuccessDialog(true)
+      // Inform parent (client page) to refetch
+      try { onSubmitted?.() } catch (_) {}
+      // Also refresh in case parent is a server component somewhere up the tree
       router.refresh()
     } catch (err: any) {
       toast({ title: "Failed to submit", description: err.message ?? "Unknown error", variant: "destructive" })

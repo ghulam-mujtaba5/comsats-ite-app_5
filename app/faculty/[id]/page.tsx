@@ -23,6 +23,7 @@ export default function FacultyProfilePage({ params }: FacultyProfilePageProps) 
   const [reviews, setReviews] = useState<Review[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     const load = async () => {
@@ -103,7 +104,7 @@ export default function FacultyProfilePage({ params }: FacultyProfilePageProps) 
       }
     }
     load()
-  }, [params.id])
+  }, [params.id, refreshKey])
 
   const stats = useMemo(() => calculateReviewStats(reviews), [reviews])
 
@@ -193,7 +194,10 @@ export default function FacultyProfilePage({ params }: FacultyProfilePageProps) 
                       </div>
                     </div>
 
-                    <WriteReviewDialog faculty={faculty}>
+                    <WriteReviewDialog
+                      faculty={faculty}
+                      onSubmitted={() => setRefreshKey((k) => k + 1)}
+                    >
                       <Button className="h-10 px-6">
                         <PenTool className="h-5 w-5 mr-2" />
                         Write Review
@@ -295,7 +299,10 @@ export default function FacultyProfilePage({ params }: FacultyProfilePageProps) 
                     Be the first to share your experience with {faculty?.name}
                   </p>
                   {faculty && (
-                    <WriteReviewDialog faculty={faculty}>
+                    <WriteReviewDialog
+                      faculty={faculty}
+                      onSubmitted={() => setRefreshKey((k) => k + 1)}
+                    >
                       <Button>Write First Review</Button>
                     </WriteReviewDialog>
                   )}
