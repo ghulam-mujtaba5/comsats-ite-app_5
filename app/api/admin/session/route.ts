@@ -3,7 +3,8 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
-  const supabase = createRouteHandlerClient({ cookies: async () => await cookies() })
+  const cookieStore = await (cookies() as any)
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
   const isProd = ((process.env as any).NODE_ENV as string) === 'production'
   
   try {
@@ -84,7 +85,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const supabase = createRouteHandlerClient({ cookies: async () => await cookies() })
+  const cookieStore = await (cookies() as any)
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
   const isProd = ((process.env as any).NODE_ENV as string) === 'production'
   try {
     // Best-effort sign out of Supabase auth (if a session exists)

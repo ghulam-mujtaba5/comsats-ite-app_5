@@ -19,7 +19,8 @@ export async function requireAdmin(req: NextRequest): Promise<AdminAccess> {
   const devAdmin = !isProd && (devCookie === '1' || iteCookie === '1')
   if (devAdmin) return { allow: true, devAdmin: true }
 
-  const supabase = createRouteHandlerClient({ cookies: async () => await cookies() })
+  const cookieStore = await (cookies() as any)
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { allow: false, devAdmin: false }
 
