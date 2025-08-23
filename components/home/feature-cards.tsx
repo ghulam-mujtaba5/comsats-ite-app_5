@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { FileText, Calculator, Users, BookOpen, Calendar, Star, ArrowRight, ExternalLink, Bug } from "lucide-react"
+import { FileText, Calculator, Users, BookOpen, Calendar, ArrowRight, Bug } from "lucide-react"
 import Link from "next/link"
 import { notifyFetch } from "@/lib/notify"
 
@@ -77,14 +77,6 @@ export function FeatureCards() {
       href: "/resources",
       color: "text-accent",
       stats: "New Uploads",
-    },
-    {
-      title: "Portal",
-      description: "Quick access to the official COMSATS student portal",
-      icon: ExternalLink,
-      href: "https://portal.comsats.edu.pk/",
-      color: "text-primary",
-      stats: "External",
     },
   ]
 
