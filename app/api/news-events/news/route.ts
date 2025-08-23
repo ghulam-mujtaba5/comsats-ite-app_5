@@ -7,8 +7,11 @@ export async function GET(request: NextRequest) {
   const category = searchParams.get('category')
   const search = searchParams.get('search')
 
-  // Dev/mock fallback helper
+  // Dev/mock fallback helper (non-production only)
   const devFallback = () => {
+    if (process.env.NODE_ENV === 'production') {
+      return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
+    }
     const sample = [
       {
         id: 'mock-1',
@@ -37,7 +40,7 @@ export async function GET(request: NextRequest) {
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    if (!url || !anon) {
+    if (process.env.NODE_ENV !== 'production' && (!url || !anon)) {
       return devFallback()
     }
 
@@ -81,10 +84,10 @@ export async function POST(request: NextRequest) {
   const supabase = createRouteHandlerClient({ cookies })
   
   try {
-    // Dev fallback: if Supabase env is not configured, echo back a mock created item
+    // Dev fallback (non-production only): if Supabase env is not configured, echo back a mock created item
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    if (!url || !anon) {
+    if (process.env.NODE_ENV !== 'production' && (!url || !anon)) {
       const body = await request.json()
       const { title, content, category, is_important, image_url } = body
       return NextResponse.json({
@@ -98,10 +101,10 @@ export async function POST(request: NextRequest) {
         author_name: 'Admin'
       }, { status: 201 })
     }
-    // Support dev-admin cookie bypass to align with AdminGuard during local/dev
+    // Support dev-admin cookie bypass only in non-production
     const devCookie = request.cookies.get('dev_admin')?.value
     const iteCookie = request.cookies.get('ite_admin')?.value
-    const devAdminOk = devCookie === '1' || iteCookie === '1'
+    const devAdminOk = process.env.NODE_ENV !== 'production' && (devCookie === '1' || iteCookie === '1')
 
     const { data: { user } } = await supabase.auth.getUser()
 

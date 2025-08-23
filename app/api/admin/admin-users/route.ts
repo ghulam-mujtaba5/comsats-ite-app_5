@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   const service = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !anon || !service) {
+  if (process.env.NODE_ENV !== 'production' && (!url || !anon || !service)) {
     const now = new Date().toISOString()
     return NextResponse.json([
       {
@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   const service = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !anon || !service) {
+  if (process.env.NODE_ENV !== 'production' && (!url || !anon || !service)) {
     const { userId, role, permissions } = await request.json()
     if (!userId || !role) {
       return NextResponse.json({ error: 'User ID and role are required' }, { status: 400 })
@@ -110,6 +110,9 @@ export async function POST(request: NextRequest) {
       permissions: permissions || [],
       created_at: now,
     })
+  }
+  if (!url || !anon || !service) {
+    return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 })
   }
 
   const supabase = createRouteHandlerClient({ cookies })

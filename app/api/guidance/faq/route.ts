@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
 async function ensureAdmin(req: NextRequest) {
   const devCookie = req.cookies.get('dev_admin')?.value
   const iteCookie = req.cookies.get('ite_admin')?.value
-  if (devCookie === '1' || iteCookie === '1') return true
+  if (process.env.NODE_ENV !== 'production' && (devCookie === '1' || iteCookie === '1')) return true
   const supabase = createRouteHandlerClient({ cookies })
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return false
@@ -53,10 +53,10 @@ async function ensureAdmin(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    // Dev fallback: allow creating mock FAQ when Supabase env is missing
+    // Dev fallback (non-production only): allow creating mock FAQ when Supabase env is missing
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    if (!url || !anon) {
+    if (process.env.NODE_ENV !== 'production' && (!url || !anon)) {
       const body = await req.json()
       const {
         question = '',
