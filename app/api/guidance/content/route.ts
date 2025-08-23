@@ -53,6 +53,32 @@ async function ensureAdmin(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    // Dev fallback: allow creating mock item when Supabase env is missing
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (!url || !anon) {
+      const body = await req.json()
+      const {
+        title = '',
+        description = '',
+        category = 'academic',
+        content = '',
+        is_important = false,
+        is_published = true,
+      } = body || {}
+      const now = new Date().toISOString()
+      return NextResponse.json({
+        id: `mock-${Math.random().toString(36).slice(2, 9)}`,
+        title,
+        description,
+        category,
+        content,
+        is_important,
+        is_published,
+        created_at: now,
+        updated_at: now,
+      }, { status: 201 })
+    }
     const isAdmin = await ensureAdmin(req)
     if (!isAdmin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

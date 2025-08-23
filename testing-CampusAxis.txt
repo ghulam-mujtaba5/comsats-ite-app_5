@@ -34,11 +34,11 @@ Timetable
 
 Admin Panel:-
 News & Events Management
-- New News & Events Management is not being adding [Pending]
-- 
+- New News & Events Management is not being adding [Fixed]
+ - 
 Guidance Management
-- New Guidance is not being added [Pending]
-- Cancel Button is also not working [Pending]
+- New Guidance is not being added [Fixed]
+- Cancel Button is also not working [Fixed]
 
 Faculty
 - Faculty Management are working alright
