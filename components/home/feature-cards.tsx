@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { FileText, Calculator, Users, BookOpen, Calendar, Star, ArrowRight, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { notifyFetch } from "@/lib/notify"
 
 export function FeatureCards() {
   const [stats, setStats] = useState({ pastPapersCount: 1000, reviewsCount: 500 })
@@ -10,13 +11,13 @@ export function FeatureCards() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch("/api/stats")
+        const response = await notifyFetch("/api/stats", undefined, { errorMessage: "Failed to load site stats" })
         if (response.ok) {
           const data = await response.json()
           setStats(data)
         }
       } catch (error) {
-        console.error("Failed to fetch stats:", error)
+        // Errors are already shown via notifyFetch
       }
     }
 
