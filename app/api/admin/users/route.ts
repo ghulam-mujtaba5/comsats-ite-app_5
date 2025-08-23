@@ -20,10 +20,38 @@ async function checkAdminAccess(supabase: any) {
 }
 
 export async function GET(request: NextRequest) {
+  // Dev fallback: if Supabase env is missing, return mock users for local testing
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const service = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !anon || !service) {
+    const now = new Date().toISOString()
+    return NextResponse.json({ users: [
+      {
+        id: 'mock-user-1',
+        email: 'student1@cuilahore.edu.pk',
+        created_at: now,
+        last_sign_in_at: now,
+        email_confirmed_at: now,
+        banned_until: null,
+        user_metadata: { full_name: 'Student One' },
+        app_metadata: { provider: 'email', providers: ['email'] }
+      },
+      {
+        id: 'mock-user-2',
+        email: 'student2@cuilahore.edu.pk',
+        created_at: now,
+        last_sign_in_at: now,
+        email_confirmed_at: null,
+        banned_until: null,
+        user_metadata: { full_name: 'Student Two' },
+        app_metadata: { provider: 'email', providers: ['email'] }
+      }
+    ] })
+  }
+
   const supabase = createRouteHandlerClient({ cookies })
-  
   const { isAdmin } = await checkAdminAccess(supabase)
-  
   if (!isAdmin) {
     return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })
   }
