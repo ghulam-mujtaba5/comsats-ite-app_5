@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { FileText, Calculator, Users, BookOpen, Calendar, Star, ArrowRight, ExternalLink } from "lucide-react"
+import { FileText, Calculator, Users, BookOpen, Calendar, Star, ArrowRight, ExternalLink, Bug } from "lucide-react"
 import Link from "next/link"
 import { notifyFetch } from "@/lib/notify"
 
@@ -32,6 +32,7 @@ export function FeatureCards() {
       href: "/past-papers",
       color: "text-primary",
       stats: `${stats.pastPapersCount}+ Papers`,
+      cta: "Explore",
     },
     {
       title: "GPA Calculator",
@@ -40,6 +41,7 @@ export function FeatureCards() {
       href: "/gpa-calculator",
       color: "text-accent",
       stats: "Multiple Calculators",
+      cta: "Explore",
     },
     {
       title: "Faculty Reviews",
@@ -48,14 +50,25 @@ export function FeatureCards() {
       href: "/faculty",
       color: "text-primary",
       stats: `${stats.reviewsCount}+ Reviews`,
+      cta: "Explore",
     },
     {
-      title: "Timetable (PDF)",
-      description: "Upload and preview official timetable PDFs by department/term",
+      title: "Timetable",
+      description: "Find and download the latest departmental timetables",
       icon: Calendar,
       href: "/timetable",
       color: "text-primary",
       stats: "Live Uploads",
+      cta: "View",
+    },
+    {
+      title: "Report an Issue",
+      description: "Found a bug or have a suggestion? Help us improve CampusAxis.",
+      icon: Bug,
+      href: "/report-issue",
+      color: "text-primary",
+      stats: "",
+      cta: "Report",
     },
     {
       title: "Resources",

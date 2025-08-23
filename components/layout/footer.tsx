@@ -64,6 +64,11 @@ export function Footer() {
             <h3 className="font-semibold text-foreground mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
               <li>
+                <Link href="/report-issue" className="text-muted-foreground hover:text-primary transition-colors">
+                  Report an Issue
+                </Link>
+              </li>
+              <li>
                 <Link href="/help" className="text-muted-foreground hover:text-primary transition-colors">
                   Help Center
                 </Link>
