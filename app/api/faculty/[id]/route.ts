@@ -40,9 +40,36 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
     const supabase = serviceKey
       ? createClient(url, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } })
       : createClient(url, anon)
-    const { data: fData, error: fErr } = await supabase.from('faculty').select('*').eq('id', id).maybeSingle()
+    let { data: fData, error: fErr } = await supabase.from('faculty').select('*').eq('id', id).maybeSingle()
     if (fErr) throw fErr
-    if (!fData) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    if (!fData) {
+      // Optional auto-seed if enabled and we have service role
+      if (process.env.AUTO_SEED_FACULTY === '1' && serviceKey) {
+        const placeholder = {
+          id,
+          name: `Faculty ${id.slice(0, 6)}`,
+          department: 'Unknown',
+          title: '',
+          email: null,
+          office: null,
+          phone: null,
+          specialization: [],
+          courses: [],
+          education: [],
+          experience: '',
+          profile_image: null,
+        }
+        const { data: seeded, error: seedErr } = await supabase
+          .from('faculty')
+          .upsert(placeholder, { onConflict: 'id' })
+          .select('*')
+          .maybeSingle()
+        if (seedErr) throw seedErr
+        fData = seeded || placeholder
+      } else {
+        return NextResponse.json({ error: 'Not found' }, { status: 404 })
+      }
+    }
 
     const { data: stats, error: sErr } = await supabase
       .from('reviews')
