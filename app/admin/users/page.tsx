@@ -46,6 +46,11 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [filterStatus, setFilterStatus] = useState<string>("all")
+  const [page, setPage] = useState(1)
+  const [perPage, setPerPage] = useState(20)
+  const [sort, setSort] = useState<'created_at' | 'email' | 'last_sign_in_at'>('created_at')
+  const [dir, setDir] = useState<'asc' | 'desc'>('desc')
+  const [hasMore, setHasMore] = useState(false)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [isPromoteDialogOpen, setIsPromoteDialogOpen] = useState(false)
   const [newAdminRole, setNewAdminRole] = useState("admin")
@@ -56,12 +61,26 @@ export default function AdminUsersPage() {
     fetchAdminUsers()
   }, [])
 
+  // Refetch when filters/pagination change
+  useEffect(() => {
+    fetchUsers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, filterStatus, page, perPage, sort, dir])
+
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/admin/users')
+      const params = new URLSearchParams()
+      if (searchQuery) params.set('q', searchQuery)
+      if (filterStatus) params.set('status', filterStatus)
+      params.set('page', String(page))
+      params.set('perPage', String(perPage))
+      params.set('sort', sort)
+      params.set('dir', dir)
+      const response = await fetch(`/api/admin/users?${params.toString()}`)
       if (response.ok) {
         const data = await response.json()
         setUsers(data.users || [])
+        if (typeof data.hasMore === 'boolean') setHasMore(data.hasMore)
       }
     } catch (error) {
       console.error('Error fetching users:', error)
@@ -230,39 +249,22 @@ export default function AdminUsersPage() {
         <Tabs defaultValue="users" className="space-y-6">
           <TabsList>
             <TabsTrigger value="users">All Users</TabsTrigger>
-            <TabsTrigger value="admins">Admin Users</TabsTrigger>
-          </TabsList>
 
-          <TabsContent value="users" className="space-y-6">
-            {/* Search and Filters */}
-            <div className="flex gap-4 mb-6">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input
-                  placeholder="Search users by email or name..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <Select value={filterStatus} onValueChange={setFilterStatus}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Users</SelectItem>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="banned">Banned</SelectItem>
-                  <SelectItem value="unconfirmed">Unconfirmed</SelectItem>
-                  <SelectItem value="admin">Admins</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+return (
+  <AdminGuard>
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold">User Management</h1>
+        <p className="text-muted-foreground mt-2">
+          Manage user accounts, permissions, and admin roles
+        </p>
+      </div>
 
-            {/* Users List */}
-            <div className="grid gap-4">
-              {filteredUsers.map((user) => {
-                const userStatus = getUserStatus(user)
+      <Tabs defaultValue="users" className="space-y-6">
+        <TabsList>
+          <TabsTrigger value="users">All Users</TabsTrigger>
+          <TabsTrigger value="admins">Admin Users</TabsTrigger>
+        </TabsList>
                 return (
                   <Card key={user.id} className="hover:shadow-md transition-shadow">
                     <CardHeader>
@@ -329,6 +331,19 @@ export default function AdminUsersPage() {
                   </Card>
                 )
               })}
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="flex items-center justify-between pt-2">
+              <div className="text-sm text-muted-foreground">Page {page}</div>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1}>
+                  Previous
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => setPage((p) => p + 1)} disabled={!hasMore}>
+                  Next
+                </Button>
+              </div>
             </div>
           </TabsContent>
 
