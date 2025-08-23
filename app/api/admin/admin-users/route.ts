@@ -47,14 +47,16 @@ export async function GET(request: NextRequest) {
     ])
   }
 
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = await (cookies() as any)
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
   const { isAdmin } = await checkAdminAccess(supabase)
   if (!isAdmin) {
     return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })
   }
 
   try {
-    const { data: adminUsers, error } = await supabase
+    // Use service role to read all admin users regardless of RLS
+    const { data: adminUsers, error } = await supabaseAdmin
       .from('admin_users')
       .select(`
         id,
@@ -115,7 +117,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 })
   }
 
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = await (cookies() as any)
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
   const { isAdmin } = await checkAdminAccess(supabase)
   if (!isAdmin) {
     return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })
@@ -128,13 +131,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User ID and role are required' }, { status: 400 })
     }
 
-    const { data, error } = await supabase
+    // Use service role to upsert regardless of RLS
+    const { data, error } = await supabaseAdmin
       .from('admin_users')
-      .insert({
+      .upsert({
         user_id: userId,
         role,
         permissions: permissions || []
-      })
+      }, { onConflict: 'user_id' })
       .select()
       .single()
 
@@ -143,6 +147,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(data)
   } catch (error: any) {
     console.error('Error creating admin user:', error)
+    // If it's a duplicate or constraint error, return a friendly message
+    const msg = (error?.message || '').toLowerCase()
+    if (msg.includes('duplicate') || msg.includes('unique')) {
+      return NextResponse.json({ error: 'User is already an admin' }, { status: 409 })
+    }
     return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 })
   }
 }
