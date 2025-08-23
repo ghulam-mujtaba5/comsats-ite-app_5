@@ -110,8 +110,11 @@ export async function POST(req: NextRequest) {
           semester: paperData.semester,
           year: paperData.year,
           tags: paperData.tags,
+          // Prefer download_url; some UIs might read file_url
           download_url: publicUrl,
+          file_url: publicUrl,
           department: paperData.department,
+          status: 'pending',
         },
       ])
       .select()
