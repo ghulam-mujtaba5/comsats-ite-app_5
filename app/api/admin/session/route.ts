@@ -3,13 +3,14 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
-  const supabase = createRouteHandlerClient({ cookies: () => cookies() })
+  const supabase = createRouteHandlerClient({ cookies: async () => await cookies() })
+  const isProd = ((process.env as any).NODE_ENV as string) === 'production'
   
   try {
     // Dev hardcoded admin session via cookie (support both cookies for consistency)
     const devCookie = req.cookies.get('dev_admin')?.value
     const iteCookie = req.cookies.get('ite_admin')?.value
-    if (process.env.NODE_ENV !== 'production' && (devCookie === '1' || iteCookie === '1')) {
+    if (!isProd && (devCookie === '1' || iteCookie === '1')) {
       return NextResponse.json({ ok: true, role: 'super_admin', dev: true })
     }
 
@@ -38,6 +39,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const isProd = ((process.env as any).NODE_ENV as string) === 'production'
     const { username, password } = await req.json()
 
     if (!username || !password) {
@@ -45,7 +47,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Hardcoded super admin credentials for development (non-production only)
-    if (process.env.NODE_ENV !== 'production' && username === 'admin@cuilahore.edu.pk' && password === 'admin123') {
+    if (!isProd && username === 'admin@cuilahore.edu.pk' && password === 'admin123') {
       const res = NextResponse.json({ 
         ok: true, 
         role: 'super_admin',
@@ -60,7 +62,7 @@ export async function POST(req: NextRequest) {
         sameSite: 'lax',
         path: '/',
         // secure in production environments
-        secure: process.env.NODE_ENV === 'production',
+        secure: isProd,
         // session cookie (clears on browser close)
       })
       // Align with other admin API routes that check `ite_admin`
@@ -68,7 +70,7 @@ export async function POST(req: NextRequest) {
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
-        secure: process.env.NODE_ENV === 'production',
+        secure: isProd,
       })
       return res
     }
