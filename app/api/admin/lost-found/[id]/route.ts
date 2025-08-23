@@ -19,7 +19,8 @@ async function checkAdminAccess(supabase: any) {
 }
 
 export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = await (cookies() as any)
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
   
   const { isAdmin } = await checkAdminAccess(supabase)
   
@@ -50,7 +51,8 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
 }
 
 export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = await (cookies() as any)
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
   
   const { isAdmin } = await checkAdminAccess(supabase)
   

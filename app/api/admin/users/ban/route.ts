@@ -35,7 +35,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 })
   }
 
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = await (cookies() as any)
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
   const { isAdmin } = await checkAdminAccess(supabase)
   if (!isAdmin) {
     return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })

@@ -19,7 +19,8 @@ async function checkAdminAccess(supabase: any) {
 }
 
 export async function GET(request: NextRequest) {
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = await (cookies() as any)
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
   const { searchParams } = new URL(request.url)
   
   const { isAdmin } = await checkAdminAccess(supabase)

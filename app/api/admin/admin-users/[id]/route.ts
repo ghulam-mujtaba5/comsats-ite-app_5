@@ -22,7 +22,8 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = await (cookies() as any)
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
   
   const { isAdmin } = await checkAdminAccess(supabase)
   
