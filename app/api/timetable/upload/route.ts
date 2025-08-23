@@ -54,6 +54,8 @@ export async function POST(req: NextRequest) {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const BUCKET = process.env.SUPABASE_TIMETABLES_BUCKET || 'timetables'
+    const USE_SIGNED_URLS = String(process.env.SUPABASE_USE_SIGNED_URLS || '').toLowerCase() === 'true'
 
     // Dev fallback: if env is missing, accept and return a mock response
     if (!url || !anonKey || !serviceKey) {
@@ -76,25 +78,45 @@ export async function POST(req: NextRequest) {
 
     const supabase = createClient(url, serviceKey)
 
+    // Ensure bucket exists (align with admin API behavior)
+    try {
+      const { data: buckets } = await supabase.storage.listBuckets()
+      const exists = !!buckets?.find(b => (b as any).name === BUCKET)
+      if (!exists) {
+        await supabase.storage.createBucket(BUCKET, { public: !USE_SIGNED_URLS })
+      }
+    } catch (e) {
+      // Non-fatal; upload will still attempt and return a clearer error if it fails
+    }
+
     let publicUrl: string
     let storagePath: string | null = null
     if (hasExternal) {
       publicUrl = externalUrlRaw
     } else {
-      // Upload to Storage bucket "timetable"
+      // Upload to Storage bucket (standardized)
       storagePath = `pdfs/${Date.now()}-${anyFile.name}`
-      const { error: uploadErr } = await supabase.storage.from('timetable').upload(storagePath, file as File, {
+      const { error: uploadErr } = await supabase.storage.from(BUCKET).upload(storagePath, file as File, {
         contentType: anyFile.type || 'application/pdf',
         upsert: false,
       })
       if (uploadErr) {
-        return NextResponse.json({ error: 'Failed to upload file to Storage', hint: 'Ensure Storage bucket named "timetable" exists and you have permissions.' }, { status: 500 })
+        return NextResponse.json({
+          error: 'Failed to upload file to Storage',
+          hint: `Ensure Storage bucket named "${BUCKET}" exists and that your Service Role key is valid. ${uploadErr.message || ''}`.trim(),
+        }, { status: 500 })
       }
 
-      // Public URL
-      const anonClient = createClient(url, anonKey)
-      const { data: publicUrlData } = anonClient.storage.from('timetable').getPublicUrl(storagePath)
-      publicUrl = publicUrlData.publicUrl
+      // Public or signed URL
+      if (USE_SIGNED_URLS) {
+        const { data: signed, error: sErr } = await supabase.storage.from(BUCKET).createSignedUrl(storagePath, 60 * 60 * 24 * 7)
+        if (sErr) return NextResponse.json({ error: 'Failed to create signed URL' }, { status: 500 })
+        publicUrl = signed.signedUrl
+      } else {
+        const anonClient = createClient(url, anonKey)
+        const { data: publicUrlData } = anonClient.storage.from(BUCKET).getPublicUrl(storagePath)
+        publicUrl = publicUrlData.publicUrl
+      }
     }
 
     // Insert row to timetable_docs using service role (bypass RLS for insert)
@@ -115,7 +137,7 @@ export async function POST(req: NextRequest) {
 
     if (dbErr) {
       // best-effort cleanup: remove file
-      try { if (storagePath) await supabase.storage.from('timetable').remove([storagePath]) } catch {}
+      try { if (storagePath) await supabase.storage.from(BUCKET).remove([storagePath]) } catch {}
       return NextResponse.json({ error: 'Failed to save document metadata' }, { status: 500 })
     }
 
