@@ -156,6 +156,10 @@ export default function AdminDashboardPage() {
               <h3 className="text-xl font-semibold">📅 Timetable</h3>
               <p className="text-muted-foreground">Manage class schedules and timetables.</p>
             </Link>
+            <Link href="/admin/issues" className="block border rounded-lg p-5 hover:bg-accent">
+              <h3 className="text-xl font-semibold">🐞 Issues</h3>
+              <p className="text-muted-foreground">Review public reports and update their status.</p>
+            </Link>
             <Link href="/admin/settings" className="block border rounded-lg p-5 hover:bg-accent">
               <h3 className="text-xl font-semibold">⚙️ Site Settings</h3>
               <p className="text-muted-foreground">Configure site-wide settings and preferences.</p>
