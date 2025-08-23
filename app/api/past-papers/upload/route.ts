@@ -49,9 +49,12 @@ export async function POST(req: NextRequest) {
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const BUCKET = process.env.SUPABASE_PAST_PAPERS_BUCKET || 'papers'
+    const USE_SIGNED_URLS = String(process.env.SUPABASE_USE_SIGNED_URLS || '').toLowerCase() === 'true'
 
     // Dev fallback: if Supabase env is missing, accept the upload and return a mock response
-    if (!supabaseUrl || !supabaseAnonKey) {
+    if (!supabaseUrl || !supabaseAnonKey || !serviceKey) {
       const mockPublicUrl = file ? `https://example.com/mock/${Date.now()}-${encodeURIComponent(file.name)}` : (externalUrl as string)
       const mockPaper = [{
         id: `mock-${Date.now()}`,
@@ -80,7 +83,19 @@ export async function POST(req: NextRequest) {
     }
 
     // With Supabase configured: proceed with real upload + DB insert
-    const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    const supabaseAdmin = createClient(supabaseUrl, serviceKey)
+    const supabaseAnon = createClient(supabaseUrl, supabaseAnonKey)
+
+    // Ensure bucket exists
+    try {
+      const { data: buckets } = await supabaseAdmin.storage.listBuckets()
+      const exists = !!buckets?.find((b: any) => b.name === BUCKET)
+      if (!exists) {
+        await supabaseAdmin.storage.createBucket(BUCKET, { public: !USE_SIGNED_URLS })
+      }
+    } catch (e) {
+      // non-fatal; upload will still attempt
+    }
 
     let publicUrl: string
     let filePath: string | undefined
@@ -89,18 +104,27 @@ export async function POST(req: NextRequest) {
     } else {
       // Upload file to Supabase Storage
       filePath = `past-papers/${Date.now()}-${(file as File).name}`
-      const { error: uploadError } = await supabase.storage.from("papers").upload(filePath, file as File)
+      const { error: uploadError } = await supabaseAdmin.storage.from(BUCKET).upload(filePath, file as File, {
+        contentType: (file as any).type || 'application/pdf',
+        upsert: false,
+      })
       if (uploadError) {
         console.error("Supabase upload error:", uploadError)
-        return NextResponse.json({ error: "Failed to upload file" }, { status: 500 })
+        return NextResponse.json({ error: "Failed to upload file", hint: `Check Storage bucket \"${BUCKET}\" exists and permissions are correct.` }, { status: 500 })
       }
-      // Get public URL of the uploaded file
-      const { data: urlData } = supabase.storage.from("papers").getPublicUrl(filePath)
-      publicUrl = urlData.publicUrl
+      // Get public or signed URL of the uploaded file
+      if (USE_SIGNED_URLS) {
+        const { data: signed, error: sErr } = await supabaseAdmin.storage.from(BUCKET).createSignedUrl(filePath, 60 * 60 * 24 * 7)
+        if (sErr) return NextResponse.json({ error: 'Failed to create signed URL' }, { status: 500 })
+        publicUrl = signed.signedUrl
+      } else {
+        const { data: urlData } = supabaseAnon.storage.from(BUCKET).getPublicUrl(filePath)
+        publicUrl = urlData.publicUrl
+      }
     }
 
     // 3. Save paper metadata to the database
-    const { data, error: dbError } = await supabase
+    const { data, error: dbError } = await supabaseAdmin
       .from("past_papers")
       .insert([
         {
@@ -122,7 +146,7 @@ export async function POST(req: NextRequest) {
     if (dbError) {
       console.error("Supabase DB error:", dbError)
       // If DB insert fails, try to delete the uploaded file
-      if (filePath) await supabase.storage.from("papers").remove([filePath])
+      if (filePath) await supabaseAdmin.storage.from(BUCKET).remove([filePath])
       return NextResponse.json({ error: "Failed to save paper data" }, { status: 500 })
     }
 
