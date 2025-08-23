@@ -1,10 +1,30 @@
-import { GraduationCap, Mail, Phone, MapPin } from "lucide-react"
+import { GraduationCap, Mail, Phone, MapPin, Users } from "lucide-react"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 export function Footer() {
   return (
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-12">
+        <div className="mb-10 p-4 md:p-6 bg-accent/10 border border-accent/30 rounded-xl flex flex-col md:flex-row items-center justify-between gap-3">
+          <div className="text-center md:text-left">
+            <div className="font-semibold text-foreground flex items-center justify-center md:justify-start gap-2">
+              <Users className="h-5 w-5 text-primary" />
+              Want to contribute or become a moderator?
+            </div>
+            <p className="text-sm text-muted-foreground font-serif">Help other students and shape CampusAxis with your contributions.</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button asChild>
+              <Link href="/contribute">Contribute</Link>
+            </Button>
+            <a href="mailto:campusaxis0@gmail.com?subject=Contribute%20to%20CampusAxis" rel="noreferrer">
+              <Button variant="outline">
+                <Mail className="h-4 w-4 mr-2" /> Email Us
+              </Button>
+            </a>
+          </div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
@@ -48,14 +68,9 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <a
-                  href="https://portal.comsats.edu.pk/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Portal
-                </a>
+                <Link href="/contribute" className="text-muted-foreground hover:text-primary transition-colors">
+                  Contribute
+                </Link>
               </li>
             </ul>
           </div>
