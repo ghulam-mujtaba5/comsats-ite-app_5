@@ -7,6 +7,7 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
     const { id } = await context.params
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
     if (!url || !anon) {
       const f = mockFaculty.find((x) => x.id === id)
@@ -35,7 +36,10 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
       return NextResponse.json({ data: row })
     }
 
-    const supabase = createClient(url, anon)
+    // Prefer service role on server to avoid RLS-related errors
+    const supabase = serviceKey
+      ? createClient(url, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } })
+      : createClient(url, anon)
     const { data: fData, error: fErr } = await supabase.from('faculty').select('*').eq('id', id).maybeSingle()
     if (fErr) throw fErr
     if (!fData) return NextResponse.json({ error: 'Not found' }, { status: 404 })
