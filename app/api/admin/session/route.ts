@@ -3,13 +3,13 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
-  const supabase = createRouteHandlerClient({ cookies })
+  const supabase = createRouteHandlerClient({ cookies: () => cookies() })
   
   try {
     // Dev hardcoded admin session via cookie (support both cookies for consistency)
     const devCookie = req.cookies.get('dev_admin')?.value
     const iteCookie = req.cookies.get('ite_admin')?.value
-    if (devCookie === '1' || iteCookie === '1') {
+    if (process.env.NODE_ENV !== 'production' && (devCookie === '1' || iteCookie === '1')) {
       return NextResponse.json({ ok: true, role: 'super_admin', dev: true })
     }
 
@@ -44,8 +44,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 })
     }
 
-    // Hardcoded super admin credentials for development
-    if (username === 'admin@cuilahore.edu.pk' && password === 'admin123') {
+    // Hardcoded super admin credentials for development (non-production only)
+    if (process.env.NODE_ENV !== 'production' && username === 'admin@cuilahore.edu.pk' && password === 'admin123') {
       const res = NextResponse.json({ 
         ok: true, 
         role: 'super_admin',
