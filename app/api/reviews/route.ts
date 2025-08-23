@@ -9,13 +9,17 @@ export async function POST(req: NextRequest) {
     const mongoUri = process.env.MONGODB_URI
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const hasModeration = !!process.env.REVIEW_ADMIN_TOKEN
 
     // Prefer MongoDB if configured
     if (mongoUri) {
       const db = await getMongoDb(process.env.MONGODB_DB || 'campusaxis0')
       const res = await db.collection('reviews').insertOne({
         ...body,
-        status: process.env.NODE_ENV === 'production' ? (body.status || 'pending') : 'approved',
+        // Auto-approve unless moderation is explicitly enabled via REVIEW_ADMIN_TOKEN
+        status: hasModeration
+          ? (body.status || (process.env.NODE_ENV === 'production' ? 'pending' : 'approved'))
+          : 'approved',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
@@ -27,7 +31,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true, id: 'dev-mock-id' }, { status: 201 })
     }
     const supabase = createClient(url, serviceKey)
-    const { data, error } = await supabase.from('reviews').insert(body).select('id').single()
+    const payload = {
+      ...body,
+      status: hasModeration
+        ? (body.status || (process.env.NODE_ENV === 'production' ? 'pending' : 'approved'))
+        : 'approved',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    }
+    const { data, error } = await supabase.from('reviews').insert(payload).select('id').single()
     if (error) throw error
 
     return NextResponse.json({ ok: true, id: data.id }, { status: 201 })
