@@ -11,7 +11,6 @@ import { useToast } from "@/hooks/use-toast"
 import { validateCUIEmail } from "@/lib/auth"
 import { useAuth } from "@/contexts/auth-context"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 interface LoginFormProps {
   onToggleMode: () => void
@@ -24,7 +23,6 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   const { toast } = useToast()
   const [resetLoading, setResetLoading] = useState(false)
   const { login, isLoading } = useAuth()
-  const supabase = createClientComponentClient()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
