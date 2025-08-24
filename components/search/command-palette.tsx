@@ -93,6 +93,31 @@ export function CommandPalette() {
     }
   }
 
+  // Admin command definitions with optional allowedRoles for fine-grained RBAC
+  const adminCommands: Array<{
+    label: string
+    value: string
+    allowedRoles?: string[]
+  }> = [
+    { label: "Admin Dashboard", value: "go:/admin" },
+    { label: "Users", value: "go:/admin/users", allowedRoles: ["superadmin", "admin", "support"] },
+    { label: "Faculty", value: "go:/admin/faculty", allowedRoles: ["superadmin", "admin", "content"] },
+    { label: "Reviews (Moderation)", value: "go:/admin/reviews", allowedRoles: ["superadmin", "admin", "moderator"] },
+    { label: "Resources", value: "go:/admin/resources", allowedRoles: ["superadmin", "admin", "content"] },
+    { label: "Past Papers", value: "go:/admin/past-papers", allowedRoles: ["superadmin", "admin", "content"] },
+    { label: "News", value: "go:/admin/news", allowedRoles: ["superadmin", "admin", "content"] },
+    { label: "News & Events", value: "go:/admin/news-events", allowedRoles: ["superadmin", "admin", "content"] },
+    { label: "Community Moderation", value: "go:/admin/moderation", allowedRoles: ["superadmin", "admin", "moderator"] },
+    { label: "Issues / Reports", value: "go:/admin/issues", allowedRoles: ["superadmin", "admin", "support"] },
+    { label: "Timetable", value: "go:/admin/timetable", allowedRoles: ["superadmin", "admin", "content"] },
+    { label: "Settings", value: "go:/admin/settings", allowedRoles: ["superadmin", "admin"] },
+  ]
+
+  const canSeeAdminCommand = (roles?: string[]) => {
+    if (!roles || roles.length === 0) return true
+    return !!adminRole && roles.includes(adminRole)
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="p-0 overflow-hidden">
@@ -107,24 +132,41 @@ export function CommandPalette() {
               autoFocus
             />
           </div>
-          <Command.List className="max-h-[60vh] overflow-y-auto">
+          <Command.List className="max-h-[60vh] overflow-y-auto fade-in">
             <Command.Empty className="px-3 py-2 text-sm text-muted-foreground">
               No results found.
             </Command.Empty>
 
             <Command.Group heading="Go to">
-              <Command.Item onSelect={() => onSelect("go:/")}>Home</Command.Item>
-              <Command.Item onSelect={() => onSelect("go:/past-papers")}>Past Papers</Command.Item>
-              <Command.Item onSelect={() => onSelect("go:/resources")}>Resources</Command.Item>
-              <Command.Item onSelect={() => onSelect("go:/faculty")}>Faculty Reviews</Command.Item>
-              <Command.Item onSelect={() => onSelect("go:/gpa-calculator")}>GPA Calculator</Command.Item>
-              <Command.Item onSelect={() => onSelect("go:/timetable")}>Timetable</Command.Item>
-              <Command.Item onSelect={() => onSelect("go:/community")}>Community</Command.Item>
-              <Command.Item onSelect={() => onSelect("go:/search")}>Search Page</Command.Item>
+              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/")}>
+                Home
+              </Command.Item>
+              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/past-papers")}>
+                Past Papers
+              </Command.Item>
+              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/resources")}>
+                Resources
+              </Command.Item>
+              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/faculty")}>
+                Faculty Reviews
+              </Command.Item>
+              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/gpa-calculator")}>
+                GPA Calculator
+              </Command.Item>
+              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/timetable")}>
+                Timetable
+              </Command.Item>
+              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/community")}>
+                Community
+              </Command.Item>
+              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/search")}>
+                Search Page
+              </Command.Item>
             </Command.Group>
 
             <Command.Group heading="Actions">
               <Command.Item
+                className="interactive hover-lift"
                 onSelect={() => onSelect("search:")}
                 // Disable when there's nothing to search for
                 disabled={!inputValue.trim()}
@@ -135,18 +177,15 @@ export function CommandPalette() {
 
             {isAdmin && (
               <Command.Group heading="Admin">
-                <Command.Item onSelect={() => onSelect("go:/admin")}>Admin Dashboard</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/users")}>Users</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/faculty")}>Faculty</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/reviews")}>Reviews (Moderation)</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/resources")}>Resources</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/past-papers")}>Past Papers</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/news")}>News</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/news-events")}>News & Events</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/moderation")}>Community Moderation</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/issues")}>Issues / Reports</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/timetable")}>Timetable</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/settings")}>Settings</Command.Item>
+                {adminCommands.filter((c) => canSeeAdminCommand(c.allowedRoles)).map((cmd) => (
+                  <Command.Item
+                    key={cmd.value}
+                    className="interactive hover-lift"
+                    onSelect={() => onSelect(cmd.value)}
+                  >
+                    {cmd.label}
+                  </Command.Item>
+                ))}
               </Command.Group>
             )}
           </Command.List>

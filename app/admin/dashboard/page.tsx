@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { AdminGuard } from "@/components/admin/admin-guard"
@@ -27,10 +28,12 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true)
   const [loadingHealth, setLoadingHealth] = useState(true)
   const [health, setHealth] = useState<{ timetable?: any; mongo?: any }>({})
+  const [adminRole, setAdminRole] = useState<string | null>(null)
 
   useEffect(() => {
     fetchStats()
     fetchHealth()
+    fetchAdminRole()
   }, [])
 
   const fetchStats = async () => {
@@ -62,6 +65,25 @@ export default function AdminDashboardPage() {
       setHealth({ timetable: { ok: false, error: 'Failed to fetch' }, mongo: { ok: false, error: 'Failed to fetch' } })
     } finally {
       setLoadingHealth(false)
+    }
+  }
+
+  // Fetch current admin role for RBAC-aware UI
+  const fetchAdminRole = async () => {
+    try {
+      const res = await fetch('/api/admin/session', { cache: 'no-store' })
+      if (res.ok) {
+        const data = await res.json().catch(() => null)
+        if (data && typeof data.role === 'string') {
+          setAdminRole(data.role)
+        } else {
+          setAdminRole(null)
+        }
+      } else {
+        setAdminRole(null)
+      }
+    } catch {
+      setAdminRole(null)
     }
   }
 
@@ -108,6 +130,20 @@ export default function AdminDashboardPage() {
     }
   ]
 
+  const roleAllows = (roles?: string[]) => {
+    if (!roles || roles.length === 0) return true
+    return !!adminRole && roles.includes(adminRole)
+  }
+
+  const quickActions: Array<{ label: string; href: string; roles?: string[] }> = [
+    { label: "📰 Create News Article", href: "/admin/news-events", roles: ["superadmin", "admin", "content"] },
+    { label: "📅 Add New Event", href: "/admin/news-events", roles: ["superadmin", "admin", "content"] },
+    { label: "📚 Add Guidance Content", href: "/admin/guidance", roles: ["superadmin", "admin", "content"] },
+    { label: "🆘 Manage Support Resources", href: "/admin/student-support", roles: ["superadmin", "admin", "support"] },
+    { label: "👥 Manage Users", href: "/admin/users", roles: ["superadmin", "admin", "support"] },
+    { label: "🧹 Review Moderation Queue", href: "/admin/reviews", roles: ["superadmin", "admin", "moderator"] },
+  ]
+
   return (
     <AdminGuard>
       <div className="container mx-auto px-4 py-8 fade-in">
@@ -123,27 +159,34 @@ export default function AdminDashboardPage() {
           {statCards.map((card) => {
             const Icon = card.icon
             return (
-              <Card key={card.title} className="hover:shadow-lg transition-shadow cursor-pointer slide-up interactive hover-lift">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    {card.title}
-                  </CardTitle>
-                  <Icon className={`h-4 w-4 ${card.color}`} />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{loading ? "..." : card.value}</div>
-                  <p className="text-xs text-muted-foreground">
-                    {card.description}
-                  </p>
-                </CardContent>
-              </Card>
+              <Link
+                key={card.title}
+                href={card.href}
+                aria-label={`${card.title} — ${card.description}`}
+                className="block outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md slide-up"
+              >
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer interactive hover-lift">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">
+                      {card.title}
+                    </CardTitle>
+                    <Icon className={`h-4 w-4 ${card.color}`} />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{loading ? "..." : card.value}</div>
+                    <p className="text-xs text-muted-foreground">
+                      {card.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
             )
           })}
         </div>
 
         {/* Quick Actions */}
         <div className="grid gap-6 md:grid-cols-2" aria-live="polite">
-          <Card>
+          <Card className="slide-up">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-orange-500" />
@@ -168,24 +211,21 @@ export default function AdminDashboardPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="slide-up">
             <CardHeader>
               <CardTitle>Quick Actions</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2">
-                <a href="/admin/news-events" className="block p-2 rounded hover:bg-accent transition-colors interactive hover-lift">
-                  📰 Create News Article
-                </a>
-                <a href="/admin/news-events" className="block p-2 rounded hover:bg-accent transition-colors interactive hover-lift">
-                  📅 Add New Event
-                </a>
-                <a href="/admin/guidance" className="block p-2 rounded hover:bg-accent transition-colors interactive hover-lift">
-                  📚 Add Guidance Content
-                </a>
-                <a href="/admin/student-support" className="block p-2 rounded hover:bg-accent transition-colors interactive hover-lift">
-                  🆘 Manage Support Resources
-                </a>
+              <div className="space-y-2" aria-live="polite">
+                {quickActions.filter(q => roleAllows(q.roles)).map((qa) => (
+                  <Link
+                    key={qa.href + qa.label}
+                    href={qa.href}
+                    className="block p-2 rounded hover:bg-accent transition-colors interactive hover-lift focus-visible:ring-2 focus-visible:ring-ring outline-none"
+                  >
+                    {qa.label}
+                  </Link>
+                ))}
               </div>
             </CardContent>
           </Card>
