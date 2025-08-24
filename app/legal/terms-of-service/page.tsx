@@ -1,4 +1,4 @@
-import { Footer } from "@/components/layout/footer";
+// Footer is provided by the root layout; avoid importing locally to prevent duplicates
 
 export default function TermsOfServicePage() {
   return (
@@ -63,7 +63,6 @@ export default function TermsOfServicePage() {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

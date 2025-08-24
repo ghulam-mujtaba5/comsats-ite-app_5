@@ -171,7 +171,21 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <div onClick={handleTriggerClick}>{children}</div>
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={handleTriggerClick}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                handleTriggerClick()
+              }
+            }}
+            className="interactive"
+            aria-label="Open write review dialog (sign in required)"
+          >
+            {children}
+          </div>
         </DialogTrigger>
         <DialogContent className="max-w-md">
           <DialogHeader>

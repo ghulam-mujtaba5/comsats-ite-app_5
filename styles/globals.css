@@ -178,6 +178,22 @@ body {
   transition-timing-function: var(--ease-productive);
 }
 
+/* Cursor behavior for interactive elements */
+a[href] { cursor: pointer; }
+button, [role="button"] { cursor: pointer; }
+.interactive { cursor: pointer; }
+/* Preserve default text cursor for text-like inputs/areas */
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="url"],
+input[type="number"],
+input[type="password"],
+textarea { cursor: text; }
+/* Disabled states */
+[aria-disabled="true"], :disabled { cursor: not-allowed !important; }
+a[aria-disabled="true"] { pointer-events: none; }
+
 .hover-lift {
   will-change: transform, box-shadow;
 }

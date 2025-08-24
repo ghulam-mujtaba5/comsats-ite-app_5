@@ -245,7 +245,21 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {/* Manual trigger to fully control gating */}
-      <div onClick={handleTriggerClick}>{children}</div>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={handleTriggerClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleTriggerClick()
+          }
+        }}
+        className="interactive"
+        aria-label="Open upload past paper dialog"
+      >
+        {children}
+      </div>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
