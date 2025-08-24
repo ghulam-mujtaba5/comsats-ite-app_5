@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/auth-context"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/layout/header"
 import { Toaster } from "@/components/ui/toaster"
+import { jsonLdOrganization, jsonLdWebSite } from "@/lib/seo"
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -14,9 +15,89 @@ const manrope = Manrope({
   variable: "--font-manrope",
 })
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+
 export const metadata: Metadata = {
-  title: "CampusAxis - COMSATS University Islamabad",
-  description: "Your ultimate guide to COMSATS ITE. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "CampusAxis - COMSATS University Islamabad",
+    template: "%s | CampusAxis",
+  },
+  description:
+    "Your ultimate guide to COMSATS ITE. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
+  keywords: [
+    "COMSATS University Islamabad",
+    "CampusAxis",
+    "COMSATS ITE",
+    "past papers",
+    "GPA calculator",
+    "faculty reviews",
+    "course resources",
+    "university guides",
+  ],
+  applicationName: "CampusAxis",
+  generator: "Next.js",
+  authors: [{ name: "CampusAxis" }],
+  creator: "CampusAxis",
+  publisher: "CampusAxis",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    title: "CampusAxis - COMSATS University Islamabad",
+    description:
+      "Your ultimate guide to COMSATS ITE. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
+    siteName: "CampusAxis",
+    images: [
+      {
+        url: "/placeholder-7ca42.png",
+        width: 1200,
+        height: 630,
+        alt: "CampusAxis preview",
+      },
+    ],
+    locale: "en_PK",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@CampusAxis",
+    creator: "@CampusAxis",
+    title: "CampusAxis - COMSATS University Islamabad",
+    description:
+      "Your ultimate guide to COMSATS ITE. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
+    images: [
+      {
+        url: "/placeholder-7ca42.png",
+        alt: "CampusAxis preview",
+      },
+    ],
+  },
+  icons: {
+    icon: [
+      { url: "/placeholder-logo.png", type: "image/png" },
+      { url: "/placeholder-logo.svg", type: "image/svg+xml" },
+    ],
+    shortcut: [
+      { url: "/placeholder-logo.png", type: "image/png" },
+    ],
+    apple: [{ url: "/placeholder-logo.png", type: "image/png" }],
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
+  category: "education",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0b0b" },
+  ],
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  manifest: "/manifest.webmanifest",
 }
 
 export default function RootLayout({
@@ -34,6 +115,14 @@ html {
   --font-serif: ${manrope.variable};
 }
         `}</style>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization()) }}
+        />
       </head>
       <body className={`${GeistSans.variable} ${manrope.variable} antialiased bg-background text-foreground`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
