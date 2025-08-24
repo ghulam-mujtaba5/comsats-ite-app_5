@@ -30,6 +30,17 @@ export function SearchClient() {
     }
   }, [params])
 
+  // Debounced URL sync while typing to preserve shareable/back-forward state
+  useEffect(() => {
+    const current = params.get("q") || ""
+    if (q === current) return
+    const h = setTimeout(() => {
+      const next = q.trim()
+      router.replace(next ? `/search?q=${encodeURIComponent(next)}` : "/search")
+    }, 300)
+    return () => clearTimeout(h)
+  }, [q, params, router])
+
   // Load recent searches from localStorage
   useEffect(() => {
     try {
@@ -177,7 +188,14 @@ function SearchResults({ query }: { query: string }) {
     if (idx === -1) return 0
     // proximity to start boosts score; multiple occurrences add small bonus
     const occurrences = s.split(t).length - 1
-    return 100 - idx + occurrences * 5
+    let score = 100 - idx + occurrences * 5
+    // word-boundary boost
+    try {
+      const escaped = t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+      const wb = new RegExp(`\\b${escaped}\\b`, "i")
+      if (wb.test(text)) score += 50
+    } catch {}
+    return score
   }
 
   const resourceResults = useMemo<LearningResource[]>(() => {
@@ -250,12 +268,21 @@ function SearchResults({ query }: { query: string }) {
       ) : (
         <div className="mt-4 space-y-8">
           {resourceResults.length > 0 && (
-            <ResultGroup title="Learning Resources" count={resourceResults.length} viewAllHref="/resources">
+            <ResultGroup
+              title="Learning Resources"
+              count={resourceResults.length}
+              viewAllHref="/resources"
+              viewAllAriaLabel={`View all learning resources matching ${q}`}
+            >
               <ul className="space-y-2">
                 {resourceResults.slice(0, 5).map((r) => (
                   <li key={r.id} className="rounded-md border p-3">
                     <div className="flex items-center justify-between gap-2">
-                      <div className="font-medium">{highlight(r.title, q)}</div>
+                      <div className="font-medium">
+                        <Link href={r.downloadUrl || "/resources"} className="hover:underline" aria-label={`Open ${r.title}`}>
+                          {highlight(r.title, q)}
+                        </Link>
+                      </div>
                       <span className="text-xs text-muted-foreground">{r.type}</span>
                     </div>
                     <p className="text-sm text-muted-foreground line-clamp-2">{highlight(r.description, q)}</p>
@@ -269,12 +296,21 @@ function SearchResults({ query }: { query: string }) {
           )}
 
           {paperResults.length > 0 && (
-            <ResultGroup title="Past Papers" count={paperResults.length} viewAllHref="/past-papers">
+            <ResultGroup
+              title="Past Papers"
+              count={paperResults.length}
+              viewAllHref="/past-papers"
+              viewAllAriaLabel={`View all past papers matching ${q}`}
+            >
               <ul className="space-y-2">
                 {paperResults.slice(0, 5).map((p) => (
                   <li key={p.id} className="rounded-md border p-3">
                     <div className="flex items-center justify-between gap-2">
-                      <div className="font-medium">{highlight(p.title, q)}</div>
+                      <div className="font-medium">
+                        <Link href={p.downloadUrl || "/past-papers"} className="hover:underline" aria-label={`Open ${p.title}`}>
+                          {highlight(p.title, q)}
+                        </Link>
+                      </div>
                       <span className="text-xs text-muted-foreground">{p.examType}</span>
                     </div>
                     <div className="text-sm text-muted-foreground">
@@ -288,11 +324,20 @@ function SearchResults({ query }: { query: string }) {
           )}
 
           {facultyResults.length > 0 && (
-            <ResultGroup title="Faculty" count={facultyResults.length} viewAllHref="/faculty">
+            <ResultGroup
+              title="Faculty"
+              count={facultyResults.length}
+              viewAllHref="/faculty"
+              viewAllAriaLabel={`View all faculty matching ${q}`}
+            >
               <ul className="space-y-2">
                 {facultyResults.slice(0, 5).map((f) => (
                   <li key={f.id} className="rounded-md border p-3">
-                    <div className="font-medium">{highlight(f.name, q)}</div>
+                    <div className="font-medium">
+                      <Link href="/faculty" className="hover:underline" aria-label={`Open faculty list for ${f.department}`}>
+                        {highlight(f.name, q)}
+                      </Link>
+                    </div>
                     <div className="text-sm text-muted-foreground">{f.title} • {f.department}</div>
                     <div className="mt-1 text-xs text-muted-foreground">
                       Specializations: {highlight(f.specialization.slice(0, 3).join(", "), q)}
@@ -311,11 +356,13 @@ function SearchResults({ query }: { query: string }) {
 function ResultGroup({
   title,
   count,
+  viewAllAriaLabel,
   viewAllHref,
   children,
 }: {
   title: string
   count: number
+  viewAllAriaLabel?: string
   viewAllHref?: string
   children: React.ReactNode
 }) {
@@ -326,7 +373,7 @@ function ResultGroup({
         <div className="flex items-center gap-3">
           <div className="text-xs text-muted-foreground">{count} result{count === 1 ? "" : "s"}</div>
           {viewAllHref && (
-            <Link href={viewAllHref} className="text-xs text-primary hover:underline">
+            <Link href={viewAllHref} className="text-xs text-primary hover:underline" aria-label={viewAllAriaLabel}>
               View all
             </Link>
           )}
