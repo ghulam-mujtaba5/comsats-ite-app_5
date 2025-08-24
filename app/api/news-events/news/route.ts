@@ -43,25 +43,29 @@ export async function GET(request: NextRequest) {
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    if (process.env.NODE_ENV !== 'production' && (!url || !anon)) {
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    // In dev, only fallback if we truly cannot talk to Supabase (no URL or neither anon nor service key)
+    if (process.env.NODE_ENV !== 'production' && (!url || (!anon && !serviceKey))) {
       return devFallback()
     }
 
     const cookieStore = await (cookies() as any)
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-      {
-        cookies: {
-          get(name: string) { return cookieStore.get(name)?.value },
-          set(name: string, value: string, options: any) { cookieStore.set(name, value, options) },
-          remove(name: string, options: any) { cookieStore.set(name, '', { ...options, maxAge: 0 }) },
-        },
-      }
-    )
+    // Prefer service role for server-side read if available; else use anon server client
+    const supabase = serviceKey
+      ? createServiceClient(url || '', serviceKey)
+      : createServerClient(url || '', anon || '', {
+          cookies: {
+            get(name: string) { return cookieStore.get(name)?.value },
+            set(name: string, value: string, options: any) { cookieStore.set(name, value, options) },
+            remove(name: string, options: any) { cookieStore.set(name, '', { ...options, maxAge: 0 }) },
+          },
+        })
+
+    // Attempt with author_name first; if column missing, we'll retry without it
+    let selectColumns = 'id,title,content,category,is_important,image_url,published_at,author_name'
     let query = supabase
       .from('news_items')
-      .select('id,title,content,category,is_important,image_url,published_at,author_name')
+      .select(selectColumns)
       .order('published_at', { ascending: false })
 
     if (category && category !== 'all') {
@@ -71,7 +75,20 @@ export async function GET(request: NextRequest) {
       query = query.or(`title.ilike.%${search}%,content.ilike.%${search}%`)
     }
 
-    const { data, error } = await query
+    let { data, error } = await query
+    if (error) {
+      const msg = (error as any)?.message || ''
+      const missingColumn = typeof msg === 'string' && msg.toLowerCase().includes('author_name')
+      if (missingColumn) {
+        // Retry without author_name
+        const retry = await supabase
+          .from('news_items')
+          .select('id,title,content,category,is_important,image_url,published_at')
+          .order('published_at', { ascending: false })
+        data = retry.data as any
+        error = retry.error as any
+      }
+    }
     if (error) {
       return devFallback()
     }
@@ -112,7 +129,8 @@ export async function GET(request: NextRequest) {
     }
 
     if (!mapped.length) {
-      return devFallback()
+      // No rows found: return empty list rather than mock fallback
+      return NextResponse.json([])
     }
 
     return NextResponse.json(mapped)
