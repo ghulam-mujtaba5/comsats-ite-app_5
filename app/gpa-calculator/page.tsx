@@ -1,17 +1,10 @@
 "use client"
-import type { Metadata } from "next"
-import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
-import { Footer } from "@/components/layout/footer"
+
+import { jsonLdBreadcrumb } from "@/lib/seo"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calculator, TrendingUp, Target, Info, Calendar } from "lucide-react"
 
-export const metadata: Metadata = createMetadata({
-  title: "GPA Calculator — COMSATS ITE",
-  description: "COMSATS GPA calculators: semester GPA, CGPA, aggregate, and GPA planning with COMSATS grading scale.",
-  path: "/gpa-calculator",
-  keywords: ["COMSATS GPA", "GPA calculator", "CGPA", "aggregate", "grading scale", "CampusAxis"],
-})
 
 export default function GPACalculatorPage() {
   return (
@@ -139,7 +132,6 @@ export default function GPACalculatorPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "GPA Calculator", path: "/gpa-calculator" }])) }}
       />
-      <Footer />
     </div>
   )
 }

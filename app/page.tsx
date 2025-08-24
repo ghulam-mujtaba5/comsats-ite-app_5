@@ -1,5 +1,4 @@
 "use client"
-import { Footer } from "@/components/layout/footer"
 import { HeroSection } from "@/components/home/hero-section"
 import { FeatureCards } from "@/components/home/feature-cards"
 import { NewsSection } from "@/components/home/news-section"
@@ -18,7 +17,6 @@ export default function HomePage() {
         <NewsSection />
         <FAQSection />
       </main>
-      <Footer hidePortalSubtitle />
     </div>
   )
 }

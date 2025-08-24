@@ -1,6 +1,5 @@
 "use client"
 
-import type { Metadata } from "next"
 import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -40,12 +39,7 @@ interface Event {
 
 // All data now comes from backend - no more mock data
 
-export const metadata: Metadata = createMetadata({
-  title: "News & Events — COMSATS ITE",
-  description: "Stay updated with the latest campus news, announcements, and upcoming events.",
-  path: "/news-events",
-  keywords: ["news", "events", "announcements", "COMSATS"],
-})
+ 
 
 export default function NewsEventsPage() {
   const [searchQuery, setSearchQuery] = useState("")

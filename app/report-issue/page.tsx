@@ -1,7 +1,6 @@
 "use client"
 
-import type { Metadata } from "next"
-import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
+import { jsonLdBreadcrumb } from "@/lib/seo"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,14 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { notify, notifyFetch } from "@/lib/notify"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Footer } from "@/components/layout/footer"
-
-export const metadata: Metadata = createMetadata({
-  title: "Report an Issue — CampusAxis",
-  description: "Report bugs or suggest improvements to help us improve CampusAxis.",
-  path: "/report-issue",
-  keywords: ["report issue", "bug report", "suggestion", "support", "CampusAxis"],
-})
+ 
 
 const categories = [
   { value: "General", label: "General" },
@@ -109,7 +101,6 @@ export default function ReportIssuePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "Support", path: "/support" }, { name: "Report an Issue", path: "/report-issue" }])) }}
       />
-      <Footer />
     </div>
   )
 }

@@ -1,7 +1,6 @@
 "use client"
 
-import type { Metadata } from "next"
-import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
+import { jsonLdBreadcrumb } from "@/lib/seo"
 import { useEffect, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -11,12 +10,7 @@ import { notifyFetch } from "@/lib/notify"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 
-export const metadata: Metadata = createMetadata({
-  title: "Resources — COMSATS ITE",
-  description: "Download study materials and useful documents shared by the department.",
-  path: "/resources",
-  keywords: ["resources", "study materials", "documents", "COMSATS"],
-})
+ 
 
 type Resource = {
   id: string

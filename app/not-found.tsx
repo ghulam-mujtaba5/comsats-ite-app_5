@@ -1,6 +1,5 @@
 "use client"
 
-import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { FileQuestion, Home, ArrowLeft } from "lucide-react"
@@ -72,7 +71,6 @@ export default function NotFound() {
           </Card>
         </div>
       </main>
-      <Footer />
     </div>
   )
 }
