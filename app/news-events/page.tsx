@@ -57,7 +57,7 @@ export default function NewsEventsPage() {
       try {
         const [newsResponse, eventsResponse] = await Promise.all([
           fetch('/api/news-events/news'),
-          fetch('/api/news-events/events')
+          fetch('/api/news-events/events?includePast=1')
         ])
         
         if (newsResponse.ok) {

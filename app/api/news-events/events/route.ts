@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const category = searchParams.get('category')
   const search = searchParams.get('search')
+  const includePast = searchParams.get('includePast')
 
   const devFallback = () => {
     if (process.env.NODE_ENV === 'production') {
@@ -78,8 +79,12 @@ export async function GET(request: NextRequest) {
         id,title,description,event_date,event_time,location,category,organizer,capacity,registration_open,image_url,
         event_registrations(count)
       `)
-      .gte('event_date', new Date().toISOString().split('T')[0])
       .order('event_date', { ascending: true })
+
+    // Only filter out past events if includePast is not requested
+    if (!includePast) {
+      query = query.gte('event_date', new Date().toISOString().split('T')[0])
+    }
 
     if (category && category !== 'all') {
       query = query.eq('category', category)

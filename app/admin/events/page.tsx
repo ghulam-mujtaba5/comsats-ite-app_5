@@ -57,10 +57,28 @@ export default function AdminEventsPage() {
   const fetchEvents = async () => {
     setLoading(true)
     try {
-      const response = await fetch('/api/news-events/events')
+      // Include past events so admins can see and manage all entries
+      const response = await fetch('/api/news-events/events?includePast=1')
       if (response.ok) {
         const data = await response.json()
-        setEvents(data)
+        // Map API response (public shape) to admin interface shape
+        const mapped: Event[] = (data || []).map((e: any) => ({
+          id: e.id,
+          title: e.title,
+          description: e.description,
+          event_date: e.event_date ?? e.date ?? '',
+          event_time: e.event_time ?? e.time ?? '',
+          location: e.location,
+          category: e.category,
+          organizer: e.organizer,
+          capacity: e.capacity,
+          registration_open: e.registration_open ?? e.registrationOpen ?? true,
+          image_url: e.image_url ?? e.imageUrl ?? '',
+          created_at: e.created_at ?? '',
+          updated_at: e.updated_at ?? '',
+          registered_count: e.registered_count ?? e.registered ?? 0,
+        }))
+        setEvents(mapped)
       } else {
         throw new Error('Failed to fetch events')
       }
