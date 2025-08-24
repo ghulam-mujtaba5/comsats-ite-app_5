@@ -100,7 +100,7 @@ async function seedDatabase() {
     console.log('Lost & Found items seeded successfully')
 
 
-    // Seed News Items
+    // Seed News Items (legacy table used elsewhere)
     const newsItems = [
       {
         title: "Spring 2024 Semester Registration Opens",
@@ -116,7 +116,32 @@ async function seedDatabase() {
       .upsert(newsItems)
 
     if (newsError) throw newsError
-    console.log('News items seeded successfully')
+    console.log('News items (legacy) seeded successfully')
+
+    // Seed homepage News (correct table expected by /api/news)
+    const homepageNews = [
+      {
+        title: 'Welcome to CampusAxis',
+        content: 'We are rolling out new features across the portal.',
+        image_url: null,
+        status: 'published' as const,
+        published_at: new Date().toISOString(),
+      },
+      {
+        title: 'Orientation Schedule',
+        content: 'Don\'t miss the orientation sessions this week.',
+        image_url: null,
+        status: 'published' as const,
+        published_at: new Date().toISOString(),
+      },
+    ]
+
+    const { error: homepageNewsError } = await supabase
+      .from('news')
+      .upsert(homepageNews)
+
+    if (homepageNewsError) throw homepageNewsError
+    console.log('Homepage news seeded successfully')
 
     // Seed Events
     const events = [
@@ -180,7 +205,7 @@ async function seedDatabase() {
     if (guidanceError) throw guidanceError
     console.log('Guidance content seeded successfully')
 
-    // Seed FAQ Items
+    // Seed FAQ Items (legacy table used elsewhere)
     const faqItems = [
       {
         question: "How do I apply for admission?",
@@ -196,7 +221,48 @@ async function seedDatabase() {
       .upsert(faqItems)
 
     if (faqError) throw faqError
-    console.log('FAQ items seeded successfully')
+    console.log('FAQ items (legacy) seeded successfully')
+
+    // Seed homepage FAQs (correct table expected by /api/faqs)
+    const homepageFaqs = [
+      { question: 'What is CampusAxis?', answer: 'A student portal for COMSATS.', sort_order: 1 },
+      { question: 'How to sign in?', answer: 'Use your university email.', sort_order: 2 },
+      { question: 'Who can post news?', answer: 'Admins can post and publish news.', sort_order: 3 },
+    ]
+
+    const { error: homepageFaqsError } = await supabase
+      .from('faqs')
+      .upsert(homepageFaqs)
+
+    if (homepageFaqsError) throw homepageFaqsError
+    console.log('Homepage FAQs seeded successfully')
+
+    // Seed Community Cards (correct table expected by /api/community-cards)
+    const communityCards = [
+      {
+        title: 'Join our Discord',
+        subtitle: 'Chat with peers',
+        description: 'Connect with fellow students in real-time.',
+        link_url: 'https://discord.gg/example',
+        sort_order: 1,
+        status: 'published' as const,
+      },
+      {
+        title: 'Share your notes',
+        subtitle: 'Help the community',
+        description: 'Upload summaries and study guides to support others.',
+        link_url: '/community',
+        sort_order: 2,
+        status: 'published' as const,
+      },
+    ]
+
+    const { error: communityCardsError } = await supabase
+      .from('community_cards')
+      .upsert(communityCards)
+
+    if (communityCardsError) throw communityCardsError
+    console.log('Community cards seeded successfully')
 
     console.log('✅ Complete database seeding finished successfully!')
 

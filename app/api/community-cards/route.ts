@@ -64,7 +64,35 @@ function isAdmin(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  if (!url || !anon) return NextResponse.json({ data: [] })
+  if (!url || !anon) {
+    // Dev fallback: serve minimal community cards so UI renders during local setup
+    return NextResponse.json({
+      data: [
+        {
+          id: 'dev-comm-1',
+          title: 'Join our Discord',
+          subtitle: 'Chat with peers',
+          description: 'Connect with fellow students in real-time.',
+          link_url: 'https://discord.gg/example',
+          sort_order: 1,
+          status: 'published',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: 'dev-comm-2',
+          title: 'Share your notes',
+          subtitle: 'Help the community',
+          description: 'Upload summaries and study guides to support others.',
+          link_url: '/community',
+          sort_order: 2,
+          status: 'published',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+      ],
+    })
+  }
   const supabase = createClient(url, anon)
 
   const admin = isAdmin(req)
