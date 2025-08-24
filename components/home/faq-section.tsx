@@ -11,6 +11,34 @@ export function FAQSection() {
   const [faqs, setFaqs] = useState<FAQ[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  // Curated static fallback suitable for the home page
+  const STATIC_FAQS: FAQ[] = [
+    {
+      id: "how-to-login",
+      question: "How do I sign in to CampusAxis?",
+      answer: "Click the Sign In button and use your official COMSATS email to authenticate. You can browse most areas without signing in, but some actions require it.",
+    },
+    {
+      id: "past-papers",
+      question: "Where can I find past papers?",
+      answer: "Go to the Past Papers section from the Explore area in the footer or the top navigation. Filter by department, course, exam type, and semester.",
+    },
+    {
+      id: "timetable-upload",
+      question: "How can I upload a timetable or report an issue?",
+      answer: "Use the Timetable page to view the latest files. If you need to upload a new one, use the Upload option. To report problems, open the Report Issue page and submit the form.",
+    },
+    {
+      id: "news-events",
+      question: "What shows up in News & Events?",
+      answer: "Official announcements, academic deadlines, workshops and campus events. Use filters to narrow down by category.",
+    },
+    {
+      id: "feedback-support",
+      question: "How do I share feedback or get support?",
+      answer: "Use the Student Support page to submit requests or feedback. You can also email campusaxis0@gmail.com for general queries.",
+    },
+  ]
 
   useEffect(() => {
     const fetchFaqs = async () => {
@@ -20,11 +48,19 @@ export function FAQSection() {
           throw new Error(`Failed to load FAQs (${response.status})`)
         }
         const { data } = await response.json()
-        setFaqs(data || [])
+        const list: FAQ[] = Array.isArray(data) ? data : []
+        // Use static fallback if API returns no FAQs (e.g., empty table)
+        if (list.length === 0) {
+          setFaqs(STATIC_FAQS)
+        } else {
+          setFaqs(list)
+        }
         setError(null)
       } catch (error) {
         console.error("Failed to fetch FAQs:", error)
-        setError("We couldn't load FAQs at the moment. Please try again later.")
+        // On error, still show static fallback to avoid empty home section
+        setFaqs(STATIC_FAQS)
+        setError(null)
       } finally {
         setLoading(false)
       }
