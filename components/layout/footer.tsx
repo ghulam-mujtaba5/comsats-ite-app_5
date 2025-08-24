@@ -32,7 +32,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
         ? 'bg-blue-500/15 text-blue-500 border-blue-500/30'
         : 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30'
     return (
-      <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] border ${cls}`}>
+      <span className={`inline-flex items-center px-1.5 py-px rounded-md text-[10px] border ${cls}`}>
         {label}
       </span>
     )
@@ -80,7 +80,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             </a>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <GraduationCap className="h-8 w-8 text-primary" />
@@ -115,10 +115,10 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="font-semibold text-foreground mb-3">Quick Links</h3>
+            <ul className="space-y-1 text-[13px]">
               {groups.core.concat(groups.student).map(link => (
-                <li key={link.href} className="flex items-center justify-between gap-2">
+                <li key={link.href} className="flex items-center justify-between gap-2 py-0.5 leading-tight">
                   <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
                     {link.label}
                   </Link>
@@ -129,10 +129,10 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-4">Community</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="font-semibold text-foreground mb-3">Community</h3>
+            <ul className="space-y-1 text-[13px]">
               {groups.community.map(link => (
-                <li key={link.href} className="flex items-center justify-between gap-2">
+                <li key={link.href} className="flex items-center justify-between gap-2 py-0.5 leading-tight">
                   <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
                     {link.label}
                   </Link>
@@ -143,10 +143,10 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-4">Support</h3>
-            <ul className="space-y-2 text-sm">
+            <h3 className="font-semibold text-foreground mb-3">Support</h3>
+            <ul className="space-y-1 text-[13px]">
               {groups.support.map(link => (
-                <li key={link.href} className="flex items-center justify-between gap-2">
+                <li key={link.href} className="flex items-center justify-between gap-2 py-0.5 leading-tight">
                   <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
                     {link.label}
                   </Link>
