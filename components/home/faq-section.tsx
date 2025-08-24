@@ -11,6 +11,7 @@ export function FAQSection() {
   const [faqs, setFaqs] = useState<FAQ[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isFallback, setIsFallback] = useState(false)
   // Curated static fallback suitable for the home page
   const STATIC_FAQS: FAQ[] = [
     {
@@ -52,14 +53,17 @@ export function FAQSection() {
         // Use static fallback if API returns no FAQs (e.g., empty table)
         if (list.length === 0) {
           setFaqs(STATIC_FAQS)
+          setIsFallback(true)
         } else {
           setFaqs(list)
+          setIsFallback(false)
         }
         setError(null)
       } catch (error) {
         console.error("Failed to fetch FAQs:", error)
         // On error, still show static fallback to avoid empty home section
         setFaqs(STATIC_FAQS)
+        setIsFallback(true)
         setError(null)
       } finally {
         setLoading(false)
@@ -76,6 +80,11 @@ export function FAQSection() {
           <p className="text-lg text-muted-foreground font-serif">
             Find answers to common questions about using the CampusAxis portal
           </p>
+          {isFallback && (
+            <div className="mt-3 text-xs border border-yellow-300 bg-yellow-50 text-yellow-900 rounded px-3 py-2">
+              Showing default FAQs while live FAQs are unavailable.
+            </div>
+          )}
         </div>
 
         {loading ? (
