@@ -25,11 +25,10 @@ export const metadata: Metadata = {
     template: "%s | CampusAxis",
   },
   description:
-    "Your ultimate guide to COMSATS ITE. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
+    "Your ultimate academic portal. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
   keywords: [
     "COMSATS University Islamabad",
     "CampusAxis",
-    "COMSATS ITE",
     "past papers",
     "GPA calculator",
     "faculty reviews",
@@ -49,13 +48,11 @@ export const metadata: Metadata = {
     url: siteUrl,
     title: "CampusAxis - COMSATS University Islamabad",
     description:
-      "Your ultimate guide to COMSATS ITE. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
+      "Your ultimate academic portal. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
     siteName: "CampusAxis",
     images: [
       {
-        url: "/placeholder-7ca42.png",
-        width: 1200,
-        height: 630,
+        url: "/university-faculty-workshop.png",
         alt: "CampusAxis preview",
       },
     ],
@@ -67,23 +64,22 @@ export const metadata: Metadata = {
     creator: "@CampusAxis",
     title: "CampusAxis - COMSATS University Islamabad",
     description:
-      "Your ultimate guide to COMSATS ITE. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
+      "Your ultimate academic portal. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
     images: [
       {
-        url: "/placeholder-7ca42.png",
+        url: "/university-faculty-workshop.png",
         alt: "CampusAxis preview",
       },
     ],
   },
   icons: {
     icon: [
-      { url: "/placeholder-logo.png", type: "image/png" },
-      { url: "/placeholder-logo.svg", type: "image/svg+xml" },
+      { url: "/logo.jpg.svg", type: "image/svg+xml" },
     ],
     shortcut: [
-      { url: "/placeholder-logo.png", type: "image/png" },
+      { url: "/logo.jpg.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: "/placeholder-logo.png", type: "image/png" }],
+    apple: [{ url: "/logo.jpg.svg", type: "image/svg+xml" }],
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,

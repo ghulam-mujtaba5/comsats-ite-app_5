@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "CampusAxis",
     short_name: "CampusAxis",
     description:
-      "Your ultimate guide to COMSATS ITE. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
+      "Your ultimate academic portal. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
     start_url: "/",
     scope: "/",
     display: "standalone",
@@ -15,21 +15,10 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: "en-PK",
     icons: [
       {
-        src: "/placeholder-logo.png",
-        sizes: "192x192",
-        type: "image/png",
-        purpose: "maskable",
-      },
-      {
-        src: "/placeholder-logo.png",
-        sizes: "512x512",
-        type: "image/png",
-        purpose: "maskable",
-      },
-      {
-        src: "/placeholder-logo.svg",
+        src: "/logo.jpg.svg",
         sizes: "any",
         type: "image/svg+xml",
+        purpose: "any",
       },
     ],
   }

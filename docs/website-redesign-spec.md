@@ -4,10 +4,45 @@ Use this as the single source of truth to redesign and refine the public-facing 
 
 ---
 
+## Global Search & Command Palette
+
+### Entry Points
+- Header Search button linking to `app/search/page.tsx` (route: `/search`).
+- Keyboard shortcuts:
+  - Cmd/Ctrl+K opens the Command Palette globally.
+  - Slash `/` opens the palette when not typing; on `/search`, it focuses the input.
+
+### Search Page (`app/search/page.tsx` + `app/search/search-client.tsx`)
+- Server component provides metadata via `createMetadata()` from `lib/seo.ts`.
+- Client component handles input, query param sync, and focus management.
+- Accessibility:
+  - `role="search"`, associated label, and visible placeholder.
+  - Keyboard shortcuts: focuses input (Cmd/Ctrl+K, `/`), announced with tooltip in header.
+  - URL updates (`?q=`) without full reload to preserve history/back.
+
+### Command Palette (`components/search/command-palette.tsx`)
+- Opens via Cmd/Ctrl+K or `/` (when not typing in an input/textarea/contenteditable).
+- Provides quick navigation to key routes and a "Search site" action routing to `/search?q=...`.
+- Focus is trapped within dialog; Esc closes; restores focus to trigger.
+- Accessible via `cmdk` semantics; labeled dialog with descriptive title.
+
+### Header Integration (`components/layout/header.tsx`)
+- Search button shows tooltip: "Search (Ctrl/⌘ K)" using `components/ui/tooltip.tsx`.
+- Exposes `aria-keyshortcuts="Control+K Meta+K"` on the button for AT discoverability.
+
+### QA Checklist
+- Cmd/Ctrl+K opens palette on all public pages; Esc closes and restores focus.
+- `/` opens palette only when not focused in a text-editing field.
+- On `/search` with empty `?q`, input autofocuses; typing updates `?q` and preserves history.
+- Header tooltip renders correctly and does not obstruct pointer events; correct on light/dark.
+- No duplicate global footers or conflicting global shortcuts.
+
+---
+
 ## Status Progress
 - Owner: Web Team
 
-Last updated: 2025-08-24T11:57:18+05:00
+Last updated: 2025-08-24T12:47:04+05:00
 
 
 ### Checklist
@@ -18,6 +53,7 @@ Last updated: 2025-08-24T11:57:18+05:00
 - [ ] Component library alignment (buttons, cards, forms, tables, list views)
 - [x] Theme support (light/dark/system), zero CLS
 - [ ] Critical flows: search, filter, contact, contribution, report issue
+- [x] Global search entry point (/search) + command palette (Cmd/Ctrl+K)
 - [ ] Accessibility pass (WCAG 2.2 AA+)
 - [ ] Performance budgets & Lighthouse CI
 - [ ] Tests (unit/a11y/e2e)
@@ -81,7 +117,7 @@ Last updated: 2025-08-24T11:57:18+05:00
 
 ## Information Architecture & Navigation
 - Global Header
-  - Primary nav (order): Home, Past Papers, Resources, News & Events, Faculty, GPA Calculator, Contribute
+  - Primary nav (order): Home, Past Papers, Resources, News & Events, Faculty, GPA Calculator, Timetable
   - Utilities: Search entry, Theme Toggle, Auth (Sign In/Profile), Admin (if role)
   - Active state: aria-current="page" and visual highlight (implemented)
   - Mobile: collapsible sheet with the same structure and descriptions (implemented)
@@ -94,8 +130,9 @@ Last updated: 2025-08-24T11:57:18+05:00
   - Structure: Home > Section > Page/ID
   - Include JSON-LD (already present) + visual breadcrumbs component
 - Search
-  - Global search affordance in Header opens search route or command palette
-  - Section-scoped search bars remain on `resources`, `past-papers`, `news-events`
+  - Global search affordance in Header opens the `/search` route. A command palette is available globally (Cmd/Ctrl+K, or `/` when not typing).
+  - Header search button shows a tooltip "Search (Ctrl/⌘ K)" and exposes `aria-keyshortcuts`.
+  - Section-scoped search bars remain on `resources`, `past-papers`, `news-events`.
 
 ---
 

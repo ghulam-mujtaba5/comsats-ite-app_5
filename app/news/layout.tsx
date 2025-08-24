@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "News — COMSATS ITE",
+  title: "News — CampusAxis",
   description: "Latest news and updates: announcements, schedules, and important updates.",
   path: "/news",
   keywords: ["news", "announcements", "updates", "COMSATS"],

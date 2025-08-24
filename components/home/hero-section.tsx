@@ -57,9 +57,6 @@ export function HeroSection() {
               <Button variant="outline" size="lg" className="text-lg px-8 bg-transparent" asChild>
                 <Link href="/gpa-calculator">Calculate GPA</Link>
               </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 bg-transparent" asChild>
-                <a href="https://portal.comsats.edu.pk/" target="_blank" rel="noreferrer">Portal</a>
-              </Button>
             </div>
           </div>
 

@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Cumulative GPA Calculator — COMSATS ITE",
+  title: "Cumulative GPA Calculator — CampusAxis",
   description: "Calculate your cumulative GPA based on your semester performance.",
   path: "/gpa-calculator/cumulative",
   keywords: ["CGPA", "cumulative GPA", "COMSATS GPA", "CampusAxis"],

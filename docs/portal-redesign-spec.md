@@ -4,9 +4,38 @@ Use this as the single source of truth to redesign and refine the internal, auth
 
 ---
 
+## Command Palette (Admin)
+
+### Goals
+- Provide fast navigation and actions across Admin sections with the same shortcut model as the public site.
+
+### Shortcuts
+- Cmd/Ctrl+K opens the palette globally within the Portal UI.
+- Slash `/` opens only when not focused in an editable field.
+
+### Behavior
+- Palette appears as a modal dialog; focus is trapped; Esc closes and returns focus to trigger.
+- Items include: Go to Dashboard, Users, Faculty, Reviews (Moderation), Resources, Past Papers, News, News & Events, Community Moderation, Issues/Reports, Timetable, Settings.
+- Actions (future): Create Resource, Invite User, Open Settings pane, Toggle Theme, View Logs.
+- RBAC: show only items allowed by the current user's role; hide or disable others.
+- Search action: typing filters items; optional global entity search can route to section pages with query params.
+
+### Accessibility
+- Labeled dialog; keyboard reachable; `aria-activedescendant` managed by list; screen reader-friendly.
+- Announce open/close; maintain focus order; respect reduced motion.
+
+### QA Checklist
+- Cmd/Ctrl+K opens on all admin routes; Esc closes and restores focus.
+- `/` does not interfere with text inputs or editors.
+- RBAC correctly filters actions and destinations per role.
+- Navigation items route correctly; no hydration warnings or console errors.
+- Theme and density work within the palette across light/dark.
+
+---
+
 ## Status Progress
 - Owner: Portal Team
-- Last updated: 2025-08-24 11:44 (+05:00)
+- Last updated: 2025-08-24 12:47 (+05:00)
 
 ### Checklist
 - [x] Create canonical spec file at `docs/portal-redesign-spec.md`
@@ -16,6 +45,7 @@ Use this as the single source of truth to redesign and refine the internal, auth
 - [x] Draft component inventory from `app/admin/**`, `components/admin/**`
 - [ ] Theming audit (tokens, variables, system pref, no CLS)
 - [ ] Navigation scaffolding (sidebar/topbar/breadcrumbs/command palette)
+- [x] Command palette shortcut (Cmd/Ctrl+K) alignment with public site
 - [ ] Dashboard KPIs + data wire-up
 - [ ] Data tables (sort/filter/paginate/search)
 - [ ] Forms/wizards (inline validation, optimistic)

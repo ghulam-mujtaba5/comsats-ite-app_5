@@ -40,8 +40,8 @@ export async function GET(request: NextRequest) {
 
     // Return default settings if none exist
     const defaultSettings = {
-      site_name: "COMSATS ITE App",
-      site_description: "Student portal for COMSATS University",
+      site_name: "CampusAxis",
+      site_description: "Academic portal for COMSATS University",
       site_logo_url: "",
       contact_email: "admin@comsats.edu.pk",
       maintenance_mode: false,

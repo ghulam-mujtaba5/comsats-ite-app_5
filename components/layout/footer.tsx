@@ -34,7 +34,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             <div className="flex items-center space-x-2">
               <GraduationCap className="h-8 w-8 text-primary" />
               <div>
-                <div className="font-bold text-lg">COMSATS ITE</div>
+                <div className="font-bold text-lg">CampusAxis</div>
                 {!hidePortalSubtitle && (
                   <div className="text-sm text-muted-foreground">Academic Portal</div>
                 )}
@@ -133,7 +133,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
 
         <div className="border-t border-border mt-8 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © 2024 COMSATS ITE{hidePortalSubtitle ? '' : ' Academic Portal'}. All rights reserved.
+            © 2024 CampusAxis{hidePortalSubtitle ? '' : ' Academic Portal'}. All rights reserved.
           </p>
         </div>
       </div>

@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Past Papers — COMSATS ITE",
+  title: "Past Papers — CampusAxis",
   description: "Browse and download organized past papers: assignments, quizzes, midterms, and finals.",
   path: "/past-papers",
   keywords: ["past papers", "COMSATS", "quizzes", "midterm", "final", "CampusAxis"],

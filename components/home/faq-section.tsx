@@ -34,7 +34,7 @@ export function FAQSection() {
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">Frequently Asked Questions</h2>
           <p className="text-lg text-muted-foreground font-serif">
-            Find answers to common questions about using the COMSATS ITE portal
+            Find answers to common questions about using the CampusAxis portal
           </p>
         </div>
 

@@ -2,11 +2,11 @@ import type { Metadata } from "next"
 import { createMetadata, jsonLdBreadcrumb, jsonLdFAQ } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Help Center — COMSATS ITE",
+  title: "Help Center — CampusAxis",
   description:
     "Find answers to common questions about CampusAxis: community moderation, past papers, GPA calculator, faculty reviews, and more.",
   path: "/help",
-  keywords: ["help center", "faq", "support", "CampusAxis", "COMSATS ITE"],
+  keywords: ["help center", "faq", "support", "CampusAxis"],
 })
 
 export default function HelpPage() {

@@ -13,11 +13,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useAuth } from "@/contexts/auth-context"
-import { LogOut, User, Menu, Calculator, FileText, BookOpen, Calendar, Shield, Users, Newspaper } from "lucide-react"
+import { LogOut, User, Menu, Calculator, FileText, BookOpen, Calendar, Shield, Users, Newspaper, Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
+import { CommandPalette } from "@/components/search/command-palette"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 const navigationItems = [
   {
@@ -51,12 +53,6 @@ const navigationItems = [
     description: "Calculate GPA/CGPA with the latest scale",
   },
   {
-    name: "Contribute",
-    href: "/contribute",
-    icon: Users,
-    description: "Share content or become a moderator/admin",
-  },
-  {
     name: "Timetable",
     href: "/timetable",
     icon: Calendar,
@@ -85,6 +81,8 @@ export function Header() {
     return () => { mounted = false }
   }, [])
 
+
+
   const isActivePath = (path: string) => {
     return pathname === path || (path !== "/" && pathname.startsWith(path))
   }
@@ -97,9 +95,9 @@ export function Header() {
           title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
           className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
         >
-          <Image src="/placeholder-logo.png" alt="COMSATS ITE Logo" width={40} height={40} />
+          <Image src="/logo.jpg.svg" alt="CampusAxis Logo" width={40} height={40} />
           <div className="flex flex-col">
-            <span className="font-bold text-lg leading-tight">COMSATS ITE</span>
+            <span className="font-bold text-lg leading-tight">CampusAxis</span>
             {pathname !== '/' && (
               <span className="text-xs text-muted-foreground leading-tight">Academic Portal</span>
             )}
@@ -126,6 +124,17 @@ export function Header() {
         </nav>
 
         <div className="flex items-center space-x-2">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href="/search" title="Search (Ctrl/⌘ K)" className="hidden lg:inline-flex">
+                <Button variant="ghost" size="sm" className="px-2" aria-keyshortcuts="Control+K Meta+K">
+                  <Search className="h-5 w-5" />
+                  <span className="sr-only">Search</span>
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent sideOffset={6}>Search (Ctrl/⌘ K)</TooltipContent>
+          </Tooltip>
           {isAdmin && (
             <Link href="/admin" title="Admin Panel" className="hidden lg:inline-flex">
               <Button variant="ghost" size="sm" className="px-2">
@@ -145,9 +154,9 @@ export function Header() {
             <SheetContent side="right" className="w-80">
               <div className="flex flex-col space-y-4 mt-8">
                 <div className="flex items-center space-x-3 pb-4 border-b">
-                  <Image src="/placeholder-logo.png" alt="COMSATS ITE Logo" width={40} height={40} />
+                  <Image src="/logo.jpg.svg" alt="CampusAxis Logo" width={40} height={40} />
                   <div className="flex flex-col">
-                    <span className="font-bold text-lg">COMSATS ITE</span>
+                    <span className="font-bold text-lg">CampusAxis</span>
                     {pathname !== '/' && (
                       <span className="text-sm text-muted-foreground">Academic Portal</span>
                     )}
@@ -244,6 +253,7 @@ export function Header() {
           )}
         </div>
       </div>
+      <CommandPalette />
     </header>
   )
 }

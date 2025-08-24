@@ -114,7 +114,7 @@ export default function AdminDashboardPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
           <p className="text-muted-foreground mt-2">
-            Manage all aspects of the COMSATS ITE App
+            Manage all aspects of the CampusAxis portal
           </p>
         </div>
 

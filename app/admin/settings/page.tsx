@@ -36,8 +36,8 @@ interface SiteSettings {
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<SiteSettings>({
-    site_name: "COMSATS ITE App",
-    site_description: "Student portal for COMSATS University",
+    site_name: "CampusAxis",
+    site_description: "Academic portal for COMSATS University",
     site_logo_url: "",
     contact_email: "admin@comsats.edu.pk",
     maintenance_mode: false,

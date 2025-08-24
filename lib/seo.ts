@@ -61,7 +61,7 @@ export function jsonLdOrganization() {
     "@type": "Organization",
     name: "CampusAxis",
     url: siteUrl,
-    logo: `${siteUrl}/placeholder-logo.png`,
+    logo: `${siteUrl}/logo.jpg.svg`,
   }
 }
 

@@ -68,7 +68,7 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
       <Card className="w-full max-w-md">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
-        <CardDescription>Join the COMSATS ITE community</CardDescription>
+        <CardDescription>Join the CampusAxis community</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
