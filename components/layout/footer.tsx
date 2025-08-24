@@ -80,7 +80,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             </a>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <GraduationCap className="h-8 w-8 text-primary" />
@@ -94,6 +94,24 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             <p className="text-sm text-muted-foreground font-serif">
               Empowering COMSATS University Lahore students with comprehensive academic resources and tools.
             </p>
+            {/* Moved Contact Info here */}
+            <div>
+              <h3 className="font-semibold text-foreground mb-3">Contact Info</h3>
+              <ul className="space-y-3 text-sm">
+                <li className="flex items-center space-x-2">
+                  <MapPin className="h-4 w-4 text-primary" />
+                  <span className="text-muted-foreground">COMSATS University Lahore</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <Mail className="h-4 w-4 text-primary" />
+                  <span className="text-muted-foreground">campusaxis0@gmail.com</span>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <Phone className="h-4 w-4 text-primary" />
+                  <span className="text-muted-foreground">+92-42-111-001-007</span>
+                </li>
+              </ul>
+            </div>
           </div>
 
           <div>
@@ -138,23 +156,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             </ul>
           </div>
 
-          <div>
-            <h3 className="font-semibold text-foreground mb-4">Contact Info</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-center space-x-2">
-                <MapPin className="h-4 w-4 text-primary" />
-                <span className="text-muted-foreground">COMSATS University Lahore</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <Mail className="h-4 w-4 text-primary" />
-                <span className="text-muted-foreground">campusaxis0@gmail.com</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <Phone className="h-4 w-4 text-primary" />
-                <span className="text-muted-foreground">+92-42-111-001-007</span>
-              </li>
-            </ul>
-          </div>
+          
         </div>
 
         {/* Explore - minimal pills with More popover */}
