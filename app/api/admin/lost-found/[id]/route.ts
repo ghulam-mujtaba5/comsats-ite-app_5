@@ -1,4 +1,4 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -20,7 +20,23 @@ async function checkAdminAccess(supabase: any) {
 
 export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const cookieStore = await (cookies() as any)
-  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+        set(name: string, value: string, options: any) {
+          cookieStore.set(name, value, options)
+        },
+        remove(name: string, options: any) {
+          cookieStore.set(name, '', { ...(options || {}), maxAge: 0 })
+        },
+      },
+    }
+  )
   
   const { isAdmin } = await checkAdminAccess(supabase)
   
@@ -52,7 +68,23 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
 
 export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const cookieStore = await (cookies() as any)
-  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+        set(name: string, value: string, options: any) {
+          cookieStore.set(name, value, options)
+        },
+        remove(name: string, options: any) {
+          cookieStore.set(name, '', { ...(options || {}), maxAge: 0 })
+        },
+      },
+    }
+  )
   
   const { isAdmin } = await checkAdminAccess(supabase)
   
