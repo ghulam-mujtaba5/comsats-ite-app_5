@@ -43,7 +43,19 @@ export function FAQSection() {
         </div>
 
         {loading ? (
-          <p role="status" aria-live="polite" className="text-muted-foreground">Loading FAQs…</p>
+          <div role="status" aria-live="polite" className="space-y-3">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={`fsk-${i}`} className="skeleton p-4">
+                <div className="sk-title w-2/3 rounded mb-2" />
+                <div className="sk-line w-full rounded mb-1" />
+                <div className="sk-line w-5/6 rounded" />
+              </div>
+            ))}
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <div className="loader-ring sm" />
+              <span>Loading FAQs…</span>
+            </div>
+          </div>
         ) : error ? (
           <div role="alert" className="text-sm text-destructive">
             {error}

@@ -167,32 +167,47 @@ export default function AdminDashboardPage() {
 
         {/* Stats Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8" aria-live="polite">
-          {statCards.map((card) => {
-            const Icon = card.icon
-            return (
-              <Link
-                key={card.title}
-                href={card.href}
-                aria-label={`${card.title} — ${card.description}`}
-                className="block outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md slide-up"
-              >
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer interactive hover-lift">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      {card.title}
-                    </CardTitle>
-                    <Icon className={`h-4 w-4 ${card.color}`} />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{loading ? "..." : (statsError ? "—" : card.value)}</div>
-                    <p className="text-xs text-muted-foreground">
-                      {card.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-            )
-          })}
+          {loading ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <div key={`sk-${i}`} className="slide-up">
+                <div className="skeleton p-5 border border-border">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="sk-line w-24 rounded" />
+                    <div className="loader-ring sm" />
+                  </div>
+                  <div className="sk-title w-20 rounded mb-2" />
+                  <div className="sk-line w-32 rounded" />
+                </div>
+              </div>
+            ))
+          ) : (
+            statCards.map((card) => {
+              const Icon = card.icon
+              return (
+                <Link
+                  key={card.title}
+                  href={card.href}
+                  aria-label={`${card.title} — ${card.description}`}
+                  className="block outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md slide-up"
+                >
+                  <Card className="hover:shadow-lg transition-shadow cursor-pointer interactive hover-lift">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                      <CardTitle className="text-sm font-medium">
+                        {card.title}
+                      </CardTitle>
+                      <Icon className={`h-4 w-4 ${card.color}`} />
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-2xl font-bold">{statsError ? "—" : card.value}</div>
+                      <p className="text-xs text-muted-foreground">
+                        {card.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              )
+            })
+          )}
         </div>
 
         {/* Quick Actions */}

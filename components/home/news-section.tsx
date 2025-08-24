@@ -52,7 +52,24 @@ export function NewsSection() {
           </Button>
         </div>
         {loading ? (
-          <p>Loading…</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={`nsk-${i}`} className="slide-up">
+                <div className="border border-border rounded-lg overflow-hidden">
+                  <div className="sk-thumb skeleton" />
+                  <div className="p-5 space-y-3">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="loader-ring sm" />
+                      <div className="sk-line w-24 rounded" />
+                    </div>
+                    <div className="sk-title w-3/4 rounded" />
+                    <div className="sk-line w-full rounded" />
+                    <div className="sk-line w-5/6 rounded" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {items.map((item) => (
