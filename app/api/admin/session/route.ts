@@ -1,10 +1,26 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   const cookieStore = await (cookies() as any)
-  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+        set(name: string, value: string, options: any) {
+          cookieStore.set(name, value, options)
+        },
+        remove(name: string, options: any) {
+          cookieStore.set(name, '', { ...(options || {}), maxAge: 0 })
+        },
+      },
+    }
+  )
   const isProd = ((process.env as any).NODE_ENV as string) === 'production'
   
   try {
@@ -92,7 +108,23 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const cookieStore = await (cookies() as any)
-  const supabase = createRouteHandlerClient({ cookies: () => cookieStore } as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+        set(name: string, value: string, options: any) {
+          cookieStore.set(name, value, options)
+        },
+        remove(name: string, options: any) {
+          cookieStore.set(name, '', { ...(options || {}), maxAge: 0 })
+        },
+      },
+    }
+  )
   const isProd = ((process.env as any).NODE_ENV as string) === 'production'
   try {
     // Best-effort sign out of Supabase auth (if a session exists)
