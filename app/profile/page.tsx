@@ -5,6 +5,7 @@ import { useAuth } from "@/contexts/auth-context"
 import { Button } from "@/components/ui/button"
 import { DeleteAccountButton } from "@/components/auth/delete-account-button"
 import Link from "next/link"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function ProfilePage() {
   const { user, logout, isAuthenticated, isLoading } = useAuth()
@@ -25,9 +26,15 @@ export default function ProfilePage() {
         <div className="space-y-8">
           {/* Header */}
           <div className="flex items-start justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-bold">Your Profile</h1>
-              <p className="text-muted-foreground">Manage your account and activity.</p>
+            <div className="flex items-center gap-3">
+              <Avatar className="size-12">
+                <AvatarImage src={(user as any)?.user_metadata?.avatar_url || "/male-student-avatar.png"} alt={user?.email || "Profile"} />
+                <AvatarFallback>{(user?.email || "").slice(0,2).toUpperCase() || "U"}</AvatarFallback>
+              </Avatar>
+              <div>
+                <h1 className="text-3xl font-bold">Your Profile</h1>
+                <p className="text-muted-foreground">Manage your account and activity.</p>
+              </div>
             </div>
             <div className="flex gap-3">
               <Button onClick={logout} disabled={isLoading || !isAuthenticated}>
