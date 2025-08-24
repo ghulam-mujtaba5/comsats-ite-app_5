@@ -18,6 +18,7 @@ export function NewsSection() {
   const [items, setItems] = useState<News[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isMock, setIsMock] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -29,6 +30,7 @@ export function NewsSection() {
           setItems([])
           return
         }
+        setIsMock(res.headers.get('X-Mock-Data') === '1')
         const json = await res.json()
         const data: News[] = json.data || []
         // Only show up to 4 latest
@@ -51,6 +53,11 @@ export function NewsSection() {
             <p className="text-lg text-muted-foreground font-serif">
               Stay informed about important announcements and events
             </p>
+            {isMock && (
+              <div className="mt-3 text-xs border border-yellow-300 bg-yellow-50 text-yellow-900 rounded px-3 py-2">
+                Mock fallback data (non-persistent) is being shown.
+              </div>
+            )}
           </div>
           <Button variant="outline" asChild className="hidden sm:flex bg-transparent">
             <Link href="/news-events">

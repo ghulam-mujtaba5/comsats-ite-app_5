@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
         imageUrl: null,
       },
     ]
-    return NextResponse.json(sample)
+    return NextResponse.json(sample, { headers: { 'X-Mock-Data': '1' } })
   }
 
   try {

@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
           updated_at: new Date().toISOString(),
         },
       ],
-    })
+    }, { headers: { 'X-Mock-Data': '1' } })
   }
   const supabase = createClient(url, anon)
 

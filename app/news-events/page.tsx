@@ -49,6 +49,7 @@ export default function NewsEventsPage() {
   const [events, setEvents] = useState<Event[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [mockBanner, setMockBanner] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,6 +75,16 @@ export default function NewsEventsPage() {
           )
           // Bail early to avoid attempting to parse JSON from failed responses
           return
+        }
+
+        // Detect mock fallback header
+        const mockFlags: string[] = []
+        if (newsResponse.headers.get('X-Mock-Data') === '1') mockFlags.push('News')
+        if (eventsResponse.headers.get('X-Mock-Data') === '1') mockFlags.push('Events')
+        if (mockFlags.length) {
+          setMockBanner(`${mockFlags.join(' & ')} are mock fallback data (non-persistent).`)
+        } else {
+          setMockBanner(null)
         }
 
         const [newsData, eventsData] = await Promise.all([
@@ -167,6 +178,11 @@ export default function NewsEventsPage() {
         <p className="text-muted-foreground mt-2">
           Stay updated with the latest campus news, announcements, and upcoming events
         </p>
+        {mockBanner && (
+          <div className="mt-3 text-sm border border-yellow-300 bg-yellow-50 text-yellow-900 rounded p-3">
+            {mockBanner}
+          </div>
+        )}
       </div>
 
       {/* Search Bar */}

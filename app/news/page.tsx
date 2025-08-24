@@ -29,6 +29,7 @@ export default function NewsListPage() {
   const [error, setError] = useState<string | null>(null)
   const [q, setQ] = useState("")
   const [page, setPage] = useState(1)
+  const [isMock, setIsMock] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -40,6 +41,7 @@ export default function NewsListPage() {
           setItems([])
           return
         }
+        setIsMock(res.headers.get('X-Mock-Data') === '1')
         const json = await res.json()
         setItems(json.data || [])
       } finally {
@@ -71,6 +73,11 @@ export default function NewsListPage() {
             <div>
               <h1 className="text-3xl font-bold">Latest News & Updates</h1>
               <p className="text-muted-foreground">Announcements, schedules, and important updates</p>
+              {isMock && (
+                <div className="mt-2 text-xs border border-yellow-300 bg-yellow-50 text-yellow-900 rounded px-3 py-2">
+                  Mock fallback data (non-persistent) is being shown.
+                </div>
+              )}
             </div>
             <Button asChild variant="outline" className="bg-transparent hidden sm:flex">
               <Link href="/">
