@@ -1,9 +1,26 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = await (cookies() as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+        set(name: string, value: string, options?: any) {
+          cookieStore.set({ name, value, ...options })
+        },
+        remove(name: string, options?: any) {
+          cookieStore.set({ name, value: '', ...options })
+        },
+      },
+    }
+  )
   const { searchParams } = new URL(request.url)
   
   const category = searchParams.get('category')
@@ -40,7 +57,24 @@ async function ensureAdmin(req: NextRequest) {
   const devCookie = req.cookies.get('dev_admin')?.value
   const iteCookie = req.cookies.get('ite_admin')?.value
   if (process.env.NODE_ENV !== 'production' && (devCookie === '1' || iteCookie === '1')) return true
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = await (cookies() as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+        set(name: string, value: string, options?: any) {
+          cookieStore.set({ name, value, ...options })
+        },
+        remove(name: string, options?: any) {
+          cookieStore.set({ name, value: '', ...options })
+        },
+      },
+    }
+  )
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return false
   const { data: adminUser } = await supabase
@@ -89,7 +123,24 @@ export async function POST(req: NextRequest) {
       is_published = true,
     } = body || {}
 
-    const supabase = createRouteHandlerClient({ cookies })
+    const cookieStorePost = await (cookies() as any)
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStorePost.get(name)?.value
+          },
+          set(name: string, value: string, options?: any) {
+            cookieStorePost.set({ name, value, ...options })
+          },
+          remove(name: string, options?: any) {
+            cookieStorePost.set({ name, value: '', ...options })
+          },
+        },
+      }
+    )
     const { data, error } = await supabase
       .from('faq_items')
       .insert({
