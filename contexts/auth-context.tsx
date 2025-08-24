@@ -1,9 +1,8 @@
 "use client"
 
 import type React from "react"
-import { createContext, useContext, useState, useEffect } from "react"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import type { AuthChangeEvent, Session, User as SupabaseUser } from "@supabase/supabase-js"
+import { createContext, useContext, useState, useEffect, useMemo } from "react"
+import { createBrowserClient } from "@supabase/ssr"
 
 // Using a simplified user type for the context
 export interface User {
@@ -25,27 +24,35 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  // Use auth-helpers client to sync session cookies for server routes
-  const supabase = createClientComponentClient()
+  // Create Supabase browser client
+  const supabase = useMemo(() => {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (!url || !anon) {
+      // In dev, surface a clear message in console; app still functions without auth
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn("Supabase env vars missing: NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY")
+      }
+    }
+    return createBrowserClient(url || "", anon || "")
+  }, [])
 
   useEffect(() => {
     const getSession = async () => {
-      const { data } = await supabase.auth.getSession()
-      if (data.session?.user) {
-        setUser({ id: data.session.user.id, email: data.session.user.email })
+      const { data, error } = await supabase.auth.getSession()
+      if (!error && data.session?.user) {
+        setUser({ id: data.session.user.id, email: data.session.user.email || undefined })
       }
       setIsLoading(false)
     }
 
     getSession()
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event: AuthChangeEvent, session: Session | null) => {
-        const currentUser = session?.user
-        setUser(currentUser ? { id: currentUser.id, email: currentUser.email } : null)
-        setIsLoading(false)
-      }
-    )
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      const currentUser = session?.user
+      setUser(currentUser ? { id: currentUser.id, email: currentUser.email || undefined } : null)
+      setIsLoading(false)
+    })
 
     return () => {
       authListener.subscription.unsubscribe()
