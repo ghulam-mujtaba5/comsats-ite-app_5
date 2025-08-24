@@ -19,6 +19,7 @@ export function NewsSection() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isMock, setIsMock] = useState(false)
+  const [maxCount, setMaxCount] = useState(4)
 
   useEffect(() => {
     ;(async () => {
@@ -43,8 +44,8 @@ export function NewsSection() {
           status: 'published',
           published_at: n.publishedAt ?? null,
         }))
-        // Only show up to 4 latest
-        setItems(mapped.slice(0, 4))
+        // Items will be further sliced by maxCount effect
+        setItems(mapped)
       } catch (e: any) {
         setError(e?.message || 'Failed to load news')
         setItems([])
@@ -52,6 +53,15 @@ export function NewsSection() {
         setLoading(false)
       }
     })()
+  }, [])
+
+  // Responsively limit count: 2 on small screens, 4 on md+
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 768px)')
+    const apply = () => setMaxCount(mql.matches ? 4 : 2)
+    apply()
+    mql.addEventListener('change', apply)
+    return () => mql.removeEventListener('change', apply)
   }, [])
 
   return (
@@ -97,7 +107,7 @@ export function NewsSection() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {items.map((item) => (
+            {items.slice(0, maxCount).map((item) => (
               <Link key={item.id} href={`/news/${item.id}`} className="block">
               <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
                 <div className="aspect-video relative overflow-hidden">
