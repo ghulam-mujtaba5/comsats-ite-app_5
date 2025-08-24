@@ -33,7 +33,7 @@ export function FAQSection() {
     fetchFaqs()
   }, [])
   return (
-    <section className="py-20 px-4 bg-muted/30">
+    <section className="py-20 px-4 bg-muted/30 fade-in">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">Frequently Asked Questions</h2>
@@ -51,11 +51,11 @@ export function FAQSection() {
         ) : (
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
-              <AccordionItem key={faq.id} value={`item-${index}`} className="bg-card border border-border rounded-lg px-6">
-                <AccordionTrigger className="text-left hover:text-primary transition-colors">
+              <AccordionItem key={faq.id} value={`item-${index}`} className="bg-card border border-border rounded-lg px-6 slide-up">
+                <AccordionTrigger className="text-left hover:text-primary transition-colors interactive">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground font-serif">{faq.answer}</AccordionContent>
+                <AccordionContent className="text-muted-foreground font-serif slide-up">{faq.answer}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

@@ -92,7 +92,7 @@ export function SearchClient() {
   }
 
   return (
-    <main className="container mx-auto max-w-3xl px-4 py-10">
+    <main className="container mx-auto max-w-3xl px-4 py-10 fade-in">
       <h1 className="text-3xl font-bold mb-4">Search</h1>
       <p className="text-muted-foreground mb-6">Find past papers, resources, faculty reviews, and more.</p>
 
@@ -105,22 +105,23 @@ export function SearchClient() {
           aria-label="Search CampusAxis"
           title="Search (Ctrl/⌘ K or /)"
           aria-keyshortcuts="Control+K Meta+K /"
+          className="interactive"
         />
-        <Button type="submit">
+        <Button type="submit" className="interactive hover-lift">
           <Search className="h-4 w-4 mr-2" />
           Search
         </Button>
       </form>
 
       {recent.length > 0 && (
-        <div className="mt-3">
+        <div className="mt-3 fade-in">
           <div className="mb-2 flex items-center justify-between">
             <div className="text-xs text-muted-foreground">Recent searches</div>
             <Button
               type="button"
               variant="ghost"
               size="sm"
-              className="h-7 px-2 text-xs"
+              className="h-7 px-2 text-xs interactive"
               onClick={() => {
                 setRecent([])
                 try {
@@ -139,6 +140,7 @@ export function SearchClient() {
                 type="button"
                 variant="outline"
                 size="sm"
+                className="interactive hover-lift"
                 onClick={() => {
                   setQ(item)
                   router.replace(`/search?q=${encodeURIComponent(item)}`)
@@ -239,7 +241,7 @@ function SearchResults({ query }: { query: string }) {
   if (!q) return null
 
   return (
-    <section className="mt-8" aria-live="polite">
+    <section className="mt-8 fade-in" aria-live="polite">
       <h2 className="text-lg font-semibold">Results for “{q}”</h2>
       <p className="text-xs text-muted-foreground mt-1">{total} total result{total === 1 ? "" : "s"}</p>
       {total === 0 ? (
@@ -276,7 +278,7 @@ function SearchResults({ query }: { query: string }) {
             >
               <ul className="space-y-2">
                 {resourceResults.slice(0, 5).map((r) => (
-                  <li key={r.id} className="rounded-md border p-3">
+                  <li key={r.id} className="rounded-md border p-3 interactive hover-lift">
                     <div className="flex items-center justify-between gap-2">
                       <div className="font-medium">
                         <Link href={r.downloadUrl || "/resources"} className="hover:underline" aria-label={`Open ${r.title}`}>
@@ -304,7 +306,7 @@ function SearchResults({ query }: { query: string }) {
             >
               <ul className="space-y-2">
                 {paperResults.slice(0, 5).map((p) => (
-                  <li key={p.id} className="rounded-md border p-3">
+                  <li key={p.id} className="rounded-md border p-3 interactive hover-lift">
                     <div className="flex items-center justify-between gap-2">
                       <div className="font-medium">
                         <Link href={p.downloadUrl || "/past-papers"} className="hover:underline" aria-label={`Open ${p.title}`}>
@@ -332,7 +334,7 @@ function SearchResults({ query }: { query: string }) {
             >
               <ul className="space-y-2">
                 {facultyResults.slice(0, 5).map((f) => (
-                  <li key={f.id} className="rounded-md border p-3">
+                  <li key={f.id} className="rounded-md border p-3 interactive hover-lift">
                     <div className="font-medium">
                       <Link href="/faculty" className="hover:underline" aria-label={`Open faculty list for ${f.department}`}>
                         {highlight(f.name, q)}
@@ -367,7 +369,7 @@ function ResultGroup({
   children: React.ReactNode
 }) {
   return (
-    <div>
+    <div className="slide-up">
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-base font-semibold">{title}</h3>
         <div className="flex items-center gap-3">
