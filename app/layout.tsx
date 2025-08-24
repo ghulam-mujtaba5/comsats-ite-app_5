@@ -1,5 +1,6 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
+import { Suspense } from "react"
 import { GeistSans } from "geist/font/sans"
 import { Manrope } from "next/font/google"
 import "./globals.css"
@@ -87,16 +88,18 @@ export const metadata: Metadata = {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
   category: "education",
+  manifest: "/manifest.webmanifest",
+}
+
+// Next.js 15: Use dedicated viewport export instead of metadata.themeColor/metadata.viewport
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0b0b0b" },
   ],
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
-  manifest: "/manifest.webmanifest",
 }
 
 export default function RootLayout({
@@ -106,6 +109,7 @@ export default function RootLayout({
 }>) {
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
   const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+  const isProd = process.env.NODE_ENV === 'production'
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -146,8 +150,8 @@ html {
         />
       </head>
       <body className={`${GeistSans.variable} ${manrope.variable} antialiased bg-background text-foreground`}>
-        {/* Google Tag Manager (preferred) */}
-        {GTM_ID ? (
+        {/* Google Tag Manager (preferred) - only in production */}
+        {isProd && (GTM_ID ? (
           <>
             <Script id="gtm-init" strategy="afterInteractive">
               {`
@@ -169,8 +173,8 @@ html {
             </noscript>
           </>
         ) : (
-          /* Google Analytics 4 */
-          GA_ID && (
+          /* Google Analytics 4 - only in production */
+          (isProd && GA_ID) && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
@@ -186,7 +190,7 @@ html {
             </Script>
           </>
           )
-        )}
+        ))}
         {/* Skip to content for keyboard users */}
         <a
           href="#main"
@@ -202,11 +206,15 @@ html {
             </div>
             <Footer />
             <Toaster />
-            {/* Client-side route change tracking */}
-            <AnalyticsTracker />
-          </AuthProvider>
-        </ThemeProvider>
-      </body>
-    </html>
-  )
+            {/* Client-side route change tracking - only in production */}
+          {isProd && (
+            <Suspense fallback={null}>
+              <AnalyticsTracker />
+            </Suspense>
+          )}
+        </AuthProvider>
+      </ThemeProvider>
+    </body>
+  </html>
+)
 }

@@ -8,7 +8,11 @@ const getWin = (): any | undefined => {
   return window as any
 }
 
+const isProd = process.env.NODE_ENV === 'production'
+const analyticsDisabled = process.env.NEXT_PUBLIC_DISABLE_ANALYTICS === 'true'
+
 export function trackEvent(event: string, params: AnalyticsEventParams = {}): void {
+  if (!isProd || analyticsDisabled) return
   const w = getWin()
   if (!w) return
 
@@ -25,6 +29,7 @@ export function trackEvent(event: string, params: AnalyticsEventParams = {}): vo
 }
 
 export function trackPageview(path: string, params: AnalyticsEventParams = {}): void {
+  if (!isProd || analyticsDisabled) return
   const w = getWin()
   if (!w) return
 
