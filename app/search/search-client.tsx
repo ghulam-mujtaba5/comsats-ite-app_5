@@ -1,10 +1,17 @@
 "use client"
 
 import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Search } from "lucide-react"
+import {
+  mockLearningResources,
+  filterResources,
+  type LearningResource,
+} from "@/lib/resources-data"
+import { mockPastPapers, filterPapers, type PastPaper } from "@/lib/past-papers-data"
+import { mockFaculty, searchFaculty, type Faculty } from "@/lib/faculty-data"
 
 export function SearchClient() {
   const router = useRouter()
@@ -133,12 +140,116 @@ export function SearchClient() {
         </div>
       )}
 
-      {q && (
-        <section className="mt-8">
-          <h2 className="text-lg font-semibold">Results for “{q}”</h2>
-          <p className="text-muted-foreground">Integrate your search backend to display results here.</p>
-        </section>
-      )}
+      {/* Results */}
+      <SearchResults query={q} />
     </main>
+  )
+}
+
+function SearchResults({ query }: { query: string }) {
+  const q = query.trim()
+
+  const resourceResults = useMemo<LearningResource[]>(() => {
+    if (!q) return []
+    return filterResources(mockLearningResources, { search: q })
+  }, [q])
+
+  const paperResults = useMemo<PastPaper[]>(() => {
+    if (!q) return []
+    return filterPapers(mockPastPapers, { search: q })
+  }, [q])
+
+  const facultyResults = useMemo<Faculty[]>(() => {
+    if (!q) return []
+    return searchFaculty(mockFaculty, q)
+  }, [q])
+
+  const total = resourceResults.length + paperResults.length + facultyResults.length
+
+  if (!q) return null
+
+  return (
+    <section className="mt-8">
+      <h2 className="text-lg font-semibold">Results for “{q}”</h2>
+      {total === 0 ? (
+        <p className="text-muted-foreground mt-2">No results. Try a different term.</p>
+      ) : (
+        <div className="mt-4 space-y-8">
+          {resourceResults.length > 0 && (
+            <ResultGroup title="Learning Resources" count={resourceResults.length}>
+              <ul className="space-y-2">
+                {resourceResults.slice(0, 5).map((r) => (
+                  <li key={r.id} className="rounded-md border p-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="font-medium">{r.title}</div>
+                      <span className="text-xs text-muted-foreground">{r.type}</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{r.description}</p>
+                    <div className="mt-1 text-xs text-muted-foreground">
+                      {r.course} • {r.department} • {r.difficulty}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </ResultGroup>
+          )}
+
+          {paperResults.length > 0 && (
+            <ResultGroup title="Past Papers" count={paperResults.length}>
+              <ul className="space-y-2">
+                {paperResults.slice(0, 5).map((p) => (
+                  <li key={p.id} className="rounded-md border p-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="font-medium">{p.title}</div>
+                      <span className="text-xs text-muted-foreground">{p.examType}</span>
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {p.course} ({p.courseCode}) • {p.department} • {p.semester}
+                    </div>
+                    <div className="mt-1 text-xs text-muted-foreground">Year {p.year} • {p.fileType}</div>
+                  </li>
+                ))}
+              </ul>
+            </ResultGroup>
+          )}
+
+          {facultyResults.length > 0 && (
+            <ResultGroup title="Faculty" count={facultyResults.length}>
+              <ul className="space-y-2">
+                {facultyResults.slice(0, 5).map((f) => (
+                  <li key={f.id} className="rounded-md border p-3">
+                    <div className="font-medium">{f.name}</div>
+                    <div className="text-sm text-muted-foreground">{f.title} • {f.department}</div>
+                    <div className="mt-1 text-xs text-muted-foreground">
+                      Specializations: {f.specialization.slice(0, 3).join(", ")}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </ResultGroup>
+          )}
+        </div>
+      )}
+    </section>
+  )
+}
+
+function ResultGroup({
+  title,
+  count,
+  children,
+}: {
+  title: string
+  count: number
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className="text-base font-semibold">{title}</h3>
+        <div className="text-xs text-muted-foreground">{count} result{count === 1 ? "" : "s"}</div>
+      </div>
+      {children}
+    </div>
   )
 }
