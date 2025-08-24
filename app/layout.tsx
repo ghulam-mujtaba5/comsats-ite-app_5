@@ -10,6 +10,7 @@ import { Footer } from "@/components/layout/footer"
 import { Toaster } from "@/components/ui/toaster"
 import { jsonLdOrganization, jsonLdWebSite } from "@/lib/seo"
 import Script from "next/script"
+import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -201,6 +202,8 @@ html {
             </div>
             <Footer />
             <Toaster />
+            {/* Client-side route change tracking */}
+            <AnalyticsTracker />
           </AuthProvider>
         </ThemeProvider>
       </body>
