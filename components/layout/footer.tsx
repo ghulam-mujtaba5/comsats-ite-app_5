@@ -1,12 +1,38 @@
-import { GraduationCap, Mail, Phone, MapPin, Users } from "lucide-react"
+import { GraduationCap, Mail, Phone, MapPin, Users, ArrowUpRight } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { SITE_LINKS, type PageStatus } from "@/lib/site-map"
 
 type FooterProps = {
   hidePortalSubtitle?: boolean
 }
 
 export function Footer({ hidePortalSubtitle = false }: FooterProps) {
+  const groups = {
+    core: SITE_LINKS.filter(l => l.group === 'core'),
+    student: SITE_LINKS.filter(l => l.group === 'student'),
+    community: SITE_LINKS.filter(l => l.group === 'community'),
+    support: SITE_LINKS.filter(l => l.group === 'support'),
+  }
+
+  const StatusBadge = ({ status }: { status?: PageStatus }) => {
+    if (!status) return null
+    const label = status === 'beta' ? 'Beta' : status === 'coming_soon' ? 'Coming soon' : status === 'working' ? 'Working' : 'Live'
+    const cls =
+      status === 'beta'
+        ? 'bg-amber-500/15 text-amber-500 border-amber-500/30'
+        : status === 'coming_soon'
+        ? 'bg-muted text-muted-foreground border-border'
+        : status === 'working'
+        ? 'bg-blue-500/15 text-blue-500 border-blue-500/30'
+        : 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30'
+    return (
+      <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] border ${cls}`}>
+        {label}
+      </span>
+    )
+  }
+
   return (
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-12">
@@ -48,67 +74,28 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/past-papers" className="text-muted-foreground hover:text-primary transition-colors">
-                  Past Papers
-                </Link>
-              </li>
-              <li>
-                <Link href="/gpa-calculator" className="text-muted-foreground hover:text-primary transition-colors">
-                  GPA Calculator
-                </Link>
-              </li>
-              <li>
-                <Link href="/resources" className="text-muted-foreground hover:text-primary transition-colors">
-                  Learning Resources
-                </Link>
-              </li>
-              <li>
-                <Link href="/faculty" className="text-muted-foreground hover:text-primary transition-colors">
-                  Faculty Reviews
-                </Link>
-              </li>
-              <li>
-                <Link href="/timetable" className="text-muted-foreground hover:text-primary transition-colors">
-                  Timetable
-                </Link>
-              </li>
-              <li>
-                <Link href="/contribute" className="text-muted-foreground hover:text-primary transition-colors">
-                  Contribute
-                </Link>
-              </li>
+              {groups.core.concat(groups.student).map(link => (
+                <li key={link.href} className="flex items-center justify-between gap-2">
+                  <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
+                    {link.label}
+                  </Link>
+                  <StatusBadge status={link.status} />
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
             <h3 className="font-semibold text-foreground mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/report-issue" className="text-muted-foreground hover:text-primary transition-colors">
-                  Report an Issue
-                </Link>
-              </li>
-              <li>
-                <Link href="/help" className="text-muted-foreground hover:text-primary transition-colors">
-                  Help Center
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
-                  Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/legal/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/legal/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">
-                  Terms of Service
-                </Link>
-              </li>
+              {groups.support.map(link => (
+                <li key={link.href} className="flex items-center justify-between gap-2">
+                  <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
+                    {link.label}
+                  </Link>
+                  <StatusBadge status={link.status} />
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -129,6 +116,29 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
               </li>
             </ul>
           </div>
+        </div>
+
+        {/* Explore - minimal pills */}
+        <div className="mt-10">
+          <h3 className="font-semibold text-foreground mb-3">Explore</h3>
+          {(() => {
+            const exploreLinks = SITE_LINKS.filter(l => ['core','student','community'].includes(l.group)).slice(0, 8)
+            return (
+              <ul className="flex flex-wrap gap-2">
+                {exploreLinks.map(link => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="inline-flex items-center gap-2 border border-border rounded-full px-3 py-1 text-xs text-muted-foreground hover:text-primary hover:border-primary/40 hover:bg-accent/10 transition-colors"
+                    >
+                      <span className="font-medium">{link.label}</span>
+                      <StatusBadge status={link.status} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )
+          })()}
         </div>
 
         <div className="border-t border-border mt-8 pt-8 text-center">
