@@ -1,4 +1,13 @@
+import type { Metadata } from "next"
+import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { Footer } from "@/components/layout/footer";
+
+export const metadata: Metadata = createMetadata({
+  title: "About CampusAxis — COMSATS ITE",
+  description: "Learn about CampusAxis: our mission, what we offer, and our commitment to COMSATS University Lahore students.",
+  path: "/about",
+  keywords: ["About CampusAxis", "COMSATS Lahore", "student portal", "mission", "features"],
+})
 
 export default function AboutUsPage() {
   return (
@@ -59,6 +68,10 @@ export default function AboutUsPage() {
           </div>
         </div>
       </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "About", path: "/about" }])) }}
+      />
       <Footer />
     </div>
   );

@@ -1,5 +1,7 @@
 "use client"
 
+import type { Metadata } from "next"
+import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { useEffect, useMemo, useState } from "react"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
@@ -8,6 +10,13 @@ import { BookOpen, Upload, ExternalLink, Download } from "lucide-react"
 import { AdvancedFilterBar, type Option } from "@/components/search/advanced-filter-bar"
 import { notifyFetch } from "@/lib/notify"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
+
+export const metadata: Metadata = createMetadata({
+  title: "Resources — COMSATS ITE",
+  description: "Download study materials and useful documents shared by the department.",
+  path: "/resources",
+  keywords: ["resources", "study materials", "documents", "COMSATS"],
+})
 
 type Resource = {
   id: string
@@ -146,6 +155,10 @@ export default function ResourcesPage() {
           )}
         </div>
       </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "Resources", path: "/resources" }])) }}
+      />
       <Footer />
     </div>
   )

@@ -1,5 +1,7 @@
 "use client"
 
+import type { Metadata } from "next"
+import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,6 +14,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Heart, Phone, MessageCircle, BookOpen, Users, Shield, Clock, Mail } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
+
+export const metadata: Metadata = createMetadata({
+  title: "Student Support — COMSATS ITE",
+  description: "Find mental health, academic, financial, and career support resources for COMSATS Lahore students.",
+  path: "/student-support",
+  keywords: ["student support", "counseling", "financial aid", "tutoring", "COMSATS Lahore"],
+})
 
 interface SupportResource {
   id: string
@@ -346,6 +355,10 @@ export default function StudentSupportPage() {
           )}
         </div>
       </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "Student Support", path: "/student-support" }])) }}
+      />
     </div>
   )
 }

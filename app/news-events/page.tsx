@@ -1,5 +1,7 @@
 "use client"
 
+import type { Metadata } from "next"
+import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -36,6 +38,13 @@ interface Event {
 }
 
 // All data now comes from backend - no more mock data
+
+export const metadata: Metadata = createMetadata({
+  title: "News & Events — COMSATS ITE",
+  description: "Stay updated with the latest campus news, announcements, and upcoming events.",
+  path: "/news-events",
+  keywords: ["news", "events", "announcements", "COMSATS"],
+})
 
 export default function NewsEventsPage() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -142,6 +151,7 @@ export default function NewsEventsPage() {
   }
 
   return (
+    <>
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold">News & Events</h1>
@@ -344,5 +354,10 @@ export default function NewsEventsPage() {
         </div>
       )}
     </div>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "News & Events", path: "/news-events" }])) }}
+    />
+    </>
   )
 }

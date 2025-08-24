@@ -1,5 +1,7 @@
 "use client"
 
+import type { Metadata } from "next"
+import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { useEffect, useMemo, useState } from "react"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
@@ -16,6 +18,13 @@ import {
 import { Upload, FileText, Download, Users } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
+
+export const metadata: Metadata = createMetadata({
+  title: "Past Papers — COMSATS ITE",
+  description: "Browse and download organized past papers: assignments, quizzes, midterms, and finals.",
+  path: "/past-papers",
+  keywords: ["past papers", "COMSATS", "quizzes", "midterm", "final", "CampusAxis"],
+})
 
 export default function PastPapersPage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -300,6 +309,10 @@ export default function PastPapersPage() {
           </div>
         </div>
       </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "Past Papers", path: "/past-papers" }])) }}
+      />
       <Footer />
     </div>
   )

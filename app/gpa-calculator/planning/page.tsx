@@ -1,11 +1,26 @@
 import { GPAPlanningCalculator } from "@/components/gpa/gpa-planning-calculator"
-import { Metadata } from "next"
+import type { Metadata } from "next"
+import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 
-export const metadata: Metadata = {
-  title: "GPA Planning Calculator - COMSATS ITE App",
+export const metadata: Metadata = createMetadata({
+  title: "GPA Planning Calculator — COMSATS ITE",
   description: "Plan your future GPA by setting targets and estimating your performance.",
-}
+  path: "/gpa-calculator/planning",
+  keywords: ["GPA planning", "target GPA", "COMSATS GPA", "CampusAxis"],
+})
 
 export default function GpaPlanningCalculatorPage() {
-  return <GPAPlanningCalculator />
+  return (
+    <>
+      <GPAPlanningCalculator />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([
+          { name: "Home", path: "/" },
+          { name: "GPA Calculator", path: "/gpa-calculator" },
+          { name: "Planning", path: "/gpa-calculator/planning" },
+        ])) }}
+      />
+    </>
+  )
 }

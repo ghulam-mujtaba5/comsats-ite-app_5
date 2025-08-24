@@ -1,5 +1,7 @@
 "use client"
 
+import type { Metadata } from "next"
+import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -18,6 +20,13 @@ type News = {
 }
 
 const PAGE_SIZE = 10
+
+export const metadata: Metadata = createMetadata({
+  title: "News — COMSATS ITE",
+  description: "Latest news and updates: announcements, schedules, and important updates.",
+  path: "/news",
+  keywords: ["news", "announcements", "updates", "COMSATS"],
+})
 
 export default function NewsListPage() {
   const [items, setItems] = useState<News[]>([])
@@ -107,6 +116,10 @@ export default function NewsListPage() {
           )}
         </div>
       </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "News", path: "/news" }])) }}
+      />
       <Footer />
     </div>
   )
