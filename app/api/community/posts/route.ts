@@ -1,10 +1,27 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const supabase = createRouteHandlerClient({ cookies })
-  
+  const cookieStore = await (cookies() as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+        set(name: string, value: string, options?: any) {
+          cookieStore.set({ name, value, ...options })
+        },
+        remove(name: string, options?: any) {
+          cookieStore.set({ name, value: '', ...options })
+        },
+      },
+    }
+  )
+
   try {
     const { data: posts, error } = await supabase
       .from('community_posts')
@@ -15,7 +32,7 @@ export async function GET(request: NextRequest) {
     if (error) throw error
 
     // Transform data to match frontend interface
-    const transformedPosts = posts.map(post => ({
+    const transformedPosts = (posts as any[]).map((post: any) => ({
       id: post.id.toString(),
       author: post.author_name || 'Anonymous',
       avatar: post.avatar_url || '/student-avatar.png',
@@ -39,8 +56,25 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const supabase = createRouteHandlerClient({ cookies })
-  
+  const cookieStore = await (cookies() as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+        set(name: string, value: string, options?: any) {
+          cookieStore.set({ name, value, ...options })
+        },
+        remove(name: string, options?: any) {
+          cookieStore.set({ name, value: '', ...options })
+        },
+      },
+    }
+  )
+
   try {
     const { data: { user } } = await supabase.auth.getUser()
     
