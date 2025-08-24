@@ -7,7 +7,7 @@ import "./globals.css"
 import { AuthProvider } from "@/contexts/auth-context"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/layout/header"
-import { Footer } from "@/components/layout/footer"
+import { FooterConditional } from "@/components/layout/footer-conditional"
 import { Toaster } from "@/components/ui/toaster"
 import { jsonLdOrganization, jsonLdWebSite } from "@/lib/seo"
 import Script from "next/script"
@@ -204,7 +204,7 @@ html {
             <div id="main" className="min-h-[60vh]">
               {children}
             </div>
-            <Footer />
+            <FooterConditional />
             <Toaster />
             {/* Client-side route change tracking - only in production */}
           {isProd && (
