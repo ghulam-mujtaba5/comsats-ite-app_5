@@ -46,6 +46,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.72 0.12 255);
+  /* Motion tokens */
+  --dur-1: 120ms;
+  --dur-2: 180ms;
+  --dur-3: 240ms;
+  --ease-productive: cubic-bezier(0.2, 0, 0, 1);
+  --ease-expressive: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark {
@@ -163,4 +169,35 @@ body {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Reusable micro-interaction utilities */
+.interactive {
+  transition-property: color, background-color, border-color, outline-color, box-shadow, transform, opacity;
+  transition-duration: var(--dur-2);
+  transition-timing-function: var(--ease-productive);
+}
+
+.hover-lift {
+  will-change: transform, box-shadow;
+}
+.hover-lift:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px oklch(0 0 0 / 0.06), 0 2px 8px oklch(0 0 0 / 0.04);
+}
+
+@keyframes ca-fade-in {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+.fade-in {
+  animation: ca-fade-in var(--dur-3) var(--ease-expressive) both;
+}
+
+@keyframes ca-slide-up {
+  from { opacity: 0; transform: translateY(6px) }
+  to { opacity: 1; transform: translateY(0) }
+}
+.slide-up {
+  animation: ca-slide-up var(--dur-3) var(--ease-expressive) both;
 }

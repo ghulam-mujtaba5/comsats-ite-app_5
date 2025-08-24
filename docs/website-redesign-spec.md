@@ -19,14 +19,25 @@ Use this as the single source of truth to redesign and refine the public-facing 
 - Accessibility:
   - `role="search"`, associated label, and visible placeholder.
   - Keyboard shortcuts: focuses input (Cmd/Ctrl+K, `/`), announced with tooltip in header.
-  - URL updates (`?q=`) without full reload to preserve history/back.
+  - URL updates (`?q=`) without full reload to preserve history/back (debounced ~300ms while typing).
   - Recent searches stored in `localStorage` with clear action; clickable chips route to `/search?q=…`.
+  - Results region uses `aria-live="polite"` and surfaces a total results summary.
+  - Empty-state shows suggested example query chips.
+
+- Results UX:
+  - Grouped by category: Learning Resources, Past Papers, Faculty (top 5 each).
+  - Query highlighting in titles, descriptions, and key fields.
+  - Per-item deep links:
+    - Resources/Past Papers → `downloadUrl` when available; fallback to list page.
+    - Faculty → `/faculty` (until detail pages exist).
+  - "View all" links per group with contextual `aria-label`s.
 
 ### Command Palette (`components/search/command-palette.tsx`)
 - Opens via Cmd/Ctrl+K or `/` (when not typing in an input/textarea/contenteditable).
 - Provides quick navigation to key routes and a "Search site" action routing to `/search?q=...`.
 - Focus is trapped within dialog; Esc closes; restores focus to trigger.
 - Accessible via `cmdk` semantics; labeled dialog with descriptive title.
+ - Admin group is shown only when an admin session is active (localStorage flag for demo).
 
 ### Header Integration (`components/layout/header.tsx`)
 - Search button shows tooltip: "Search (Ctrl/⌘ K)" using `components/ui/tooltip.tsx`.
@@ -38,13 +49,18 @@ Use this as the single source of truth to redesign and refine the public-facing 
 - On `/search` with empty `?q`, input autofocuses; typing updates `?q` and preserves history.
 - Header tooltip renders correctly and does not obstruct pointer events; correct on light/dark.
 - No duplicate global footers or conflicting global shortcuts.
+ - Recent searches persist, render as chips, and Clear removes them.
+ - Search results announce total count and update via `aria-live`.
+ - Empty-state example queries are visible and clickable.
+ - Grouped results show max 5 per group with working "View all" links.
+ - Per-item links open correct targets (download where available).
 
 ---
 
 ## Status Progress
 - Owner: Web Team
 
-Last updated: 2025-08-24T12:49:49+05:00
+Last updated: 2025-08-24T12:59:53+05:00
 
 
 ### Checklist

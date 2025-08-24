@@ -10,17 +10,21 @@ type FAQ = {
 export function FAQSection() {
   const [faqs, setFaqs] = useState<FAQ[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchFaqs = async () => {
       try {
         const response = await fetch("/api/faqs")
-        if (response.ok) {
-          const { data } = await response.json()
-          setFaqs(data || [])
+        if (!response.ok) {
+          throw new Error(`Failed to load FAQs (${response.status})`)
         }
+        const { data } = await response.json()
+        setFaqs(data || [])
+        setError(null)
       } catch (error) {
         console.error("Failed to fetch FAQs:", error)
+        setError("We couldn't load FAQs at the moment. Please try again later.")
       } finally {
         setLoading(false)
       }
@@ -39,7 +43,11 @@ export function FAQSection() {
         </div>
 
         {loading ? (
-          <p>Loading FAQs...</p>
+          <p role="status" aria-live="polite" className="text-muted-foreground">Loading FAQs…</p>
+        ) : error ? (
+          <div role="alert" className="text-sm text-destructive">
+            {error}
+          </div>
         ) : (
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (

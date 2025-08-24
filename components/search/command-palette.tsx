@@ -11,6 +11,7 @@ export function CommandPalette() {
   const [open, setOpen] = React.useState(false)
   const router = useRouter()
   const [isAdmin, setIsAdmin] = React.useState(false)
+  const [inputValue, setInputValue] = React.useState("")
 
   // Global shortcuts to toggle/open
   React.useEffect(() => {
@@ -52,7 +53,8 @@ export function CommandPalette() {
     if (value.startsWith("go:")) {
       router.push(value.replace(/^go:/, ""))
     } else if (value.startsWith("search:")) {
-      const q = value.replace(/^search:/, "").trim()
+      // Use the current input field value for searching to match user intent
+      const q = inputValue.trim() || value.replace(/^search:/, "").trim()
       router.push(q ? `/search?q=${encodeURIComponent(q)}` : "/search")
     }
   }
@@ -63,7 +65,12 @@ export function CommandPalette() {
         <Command label="Global Command Menu" shouldFilter={true} className="rounded-md">
           <div className="flex items-center gap-2 px-3 py-2 border-b">
             <Search className="h-4 w-4 text-muted-foreground" />
-            <Command.Input placeholder="Type a command or search…" autoFocus />
+            <Command.Input
+              placeholder="Type a command or search…"
+              value={inputValue}
+              onValueChange={setInputValue}
+              autoFocus
+            />
           </div>
           <Command.List className="max-h-[60vh] overflow-y-auto">
             <Command.Empty className="px-3 py-2 text-sm text-muted-foreground">
@@ -82,8 +89,12 @@ export function CommandPalette() {
             </Command.Group>
 
             <Command.Group heading="Actions">
-              <Command.Item onSelect={(val) => onSelect("search:" + val)}>
-                Search site for typed query
+              <Command.Item
+                onSelect={() => onSelect("search:")}
+                // Disable when there's nothing to search for
+                disabled={!inputValue.trim()}
+              >
+                {inputValue.trim() ? `Search site for “${inputValue.trim()}”` : "Search site"}
               </Command.Item>
             </Command.Group>
 
@@ -91,9 +102,15 @@ export function CommandPalette() {
               <Command.Group heading="Admin">
                 <Command.Item onSelect={() => onSelect("go:/admin")}>Admin Dashboard</Command.Item>
                 <Command.Item onSelect={() => onSelect("go:/admin/users")}>Users</Command.Item>
-                <Command.Item onSelect={() => onSelect("go:/admin/moderation")}>Moderation</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/faculty")}>Faculty</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/reviews")}>Reviews (Moderation)</Command.Item>
                 <Command.Item onSelect={() => onSelect("go:/admin/resources")}>Resources</Command.Item>
                 <Command.Item onSelect={() => onSelect("go:/admin/past-papers")}>Past Papers</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/news")}>News</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/news-events")}>News & Events</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/moderation")}>Community Moderation</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/issues")}>Issues / Reports</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/timetable")}>Timetable</Command.Item>
                 <Command.Item onSelect={() => onSelect("go:/admin/settings")}>Settings</Command.Item>
               </Command.Group>
             )}

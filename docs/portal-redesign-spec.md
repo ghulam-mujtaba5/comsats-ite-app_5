@@ -19,6 +19,7 @@ Use this as the single source of truth to redesign and refine the internal, auth
 - Actions (future): Create Resource, Invite User, Open Settings pane, Toggle Theme, View Logs.
 - RBAC: show only items allowed by the current user's role; hide or disable others.
 - Search action: typing filters items; optional global entity search can route to section pages with query params.
+ - Parity with public site: a "Search site for …" action may route to the public `/search?q=…` page which handles debounced URL sync, grouped results, highlighting, and a11y announcements.
 
 ### Accessibility
 - Labeled dialog; keyboard reachable; `aria-activedescendant` managed by list; screen reader-friendly.
@@ -30,12 +31,13 @@ Use this as the single source of truth to redesign and refine the internal, auth
 - RBAC correctly filters actions and destinations per role.
 - Navigation items route correctly; no hydration warnings or console errors.
 - Theme and density work within the palette across light/dark.
+ - "Search site for …" routes to `/search?q=…` (public) and target page announces results via `aria-live`.
 
 ---
 
 ## Status Progress
 - Owner: Portal Team
-- Last updated: 2025-08-24 12:47 (+05:00)
+- Last updated: 2025-08-24 13:00 (+05:00)
 
 ### Checklist
 - [x] Create canonical spec file at `docs/portal-redesign-spec.md`
