@@ -1,9 +1,26 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 async function ensureAdmin(request: NextRequest) {
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = await (cookies() as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+        set(name: string, value: string, options?: any) {
+          cookieStore.set({ name, value, ...options })
+        },
+        remove(name: string, options?: any) {
+          cookieStore.set({ name, value: '', ...options })
+        },
+      },
+    }
+  )
   const devCookie = request.cookies.get('dev_admin')?.value
   const iteCookie = request.cookies.get('ite_admin')?.value
   const devAdminOk = devCookie === '1' || iteCookie === '1'
