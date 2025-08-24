@@ -136,10 +136,10 @@ export default function NewsEventsPage() {
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center py-12">
+      <div className="container mx-auto px-4 py-8 fade-in">
+        <div className="text-center py-12" role="alert">
           <p className="text-red-500 mb-4">Error: {error}</p>
-          <Button onClick={() => window.location.reload()}>Try Again</Button>
+          <Button onClick={() => window.location.reload()} className="interactive hover-lift">Try Again</Button>
         </div>
       </div>
     )
@@ -163,7 +163,7 @@ export default function NewsEventsPage() {
           placeholder="Search news and events..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10"
+          className="pl-10 interactive"
         />
       </div>
 
@@ -175,12 +175,13 @@ export default function NewsEventsPage() {
 
         <TabsContent value="news" className="space-y-6">
           {/* News Filter */}
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-2 flex-wrap" aria-live="polite">
             <Button
               variant={newsFilter === "all" ? "default" : "outline"}
               size="sm"
               onClick={() => setNewsFilter("all")}
               aria-pressed={newsFilter === "all"}
+              className="interactive hover-lift"
             >
               All
             </Button>
@@ -189,6 +190,7 @@ export default function NewsEventsPage() {
               size="sm"
               onClick={() => setNewsFilter("academic")}
               aria-pressed={newsFilter === "academic"}
+              className="interactive hover-lift"
             >
               Academic
             </Button>
@@ -197,6 +199,7 @@ export default function NewsEventsPage() {
               size="sm"
               onClick={() => setNewsFilter("event")}
               aria-pressed={newsFilter === "event"}
+              className="interactive hover-lift"
             >
               Events
             </Button>
@@ -205,6 +208,7 @@ export default function NewsEventsPage() {
               size="sm"
               onClick={() => setNewsFilter("announcement")}
               aria-pressed={newsFilter === "announcement"}
+              className="interactive hover-lift"
             >
               Announcements
             </Button>
@@ -213,15 +217,16 @@ export default function NewsEventsPage() {
               size="sm"
               onClick={() => setNewsFilter("deadline")}
               aria-pressed={newsFilter === "deadline"}
+              className="interactive hover-lift"
             >
               Deadlines
             </Button>
           </div>
 
           {/* News List */}
-          <div className="space-y-4">
+          <div className="space-y-4" aria-live="polite">
             {filteredNews.map((item) => (
-              <Card key={item.id} className={`hover:shadow-md transition-shadow ${item.isImportant ? 'border-red-200 bg-red-50/50' : ''}`}>
+              <Card key={item.id} className={`hover:shadow-md transition-shadow slide-up ${item.isImportant ? 'border-red-200 bg-red-50/50' : ''}`}>
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div className="space-y-2">
@@ -248,7 +253,7 @@ export default function NewsEventsPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground mb-4">{item.content}</p>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" className="interactive hover-lift">
                     <ExternalLink className="mr-2 h-4 w-4" />
                     Read More
                   </Button>
@@ -260,12 +265,13 @@ export default function NewsEventsPage() {
 
         <TabsContent value="events" className="space-y-6">
           {/* Events Filter */}
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-2 flex-wrap" aria-live="polite">
             <Button
               variant={eventsFilter === "all" ? "default" : "outline"}
               size="sm"
               onClick={() => setEventsFilter("all")}
               aria-pressed={eventsFilter === "all"}
+              className="interactive hover-lift"
             >
               All
             </Button>
@@ -274,6 +280,7 @@ export default function NewsEventsPage() {
               size="sm"
               onClick={() => setEventsFilter("academic")}
               aria-pressed={eventsFilter === "academic"}
+              className="interactive hover-lift"
             >
               Academic
             </Button>
@@ -282,6 +289,7 @@ export default function NewsEventsPage() {
               size="sm"
               onClick={() => setEventsFilter("cultural")}
               aria-pressed={eventsFilter === "cultural"}
+              className="interactive hover-lift"
             >
               Cultural
             </Button>
@@ -290,6 +298,7 @@ export default function NewsEventsPage() {
               size="sm"
               onClick={() => setEventsFilter("sports")}
               aria-pressed={eventsFilter === "sports"}
+              className="interactive hover-lift"
             >
               Sports
             </Button>
@@ -298,15 +307,16 @@ export default function NewsEventsPage() {
               size="sm"
               onClick={() => setEventsFilter("workshop")}
               aria-pressed={eventsFilter === "workshop"}
+              className="interactive hover-lift"
             >
               Workshops
             </Button>
           </div>
 
           {/* Events Grid */}
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" aria-live="polite">
             {filteredEvents.map((event) => (
-              <Card key={event.id} className="hover:shadow-lg transition-shadow">
+              <Card key={event.id} className="hover:shadow-lg transition-shadow slide-up">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <CardTitle className="text-lg">{event.title}</CardTitle>
@@ -341,7 +351,7 @@ export default function NewsEventsPage() {
                     )}
                   </div>
                   <Button 
-                    className="w-full" 
+                    className="w-full interactive hover-lift" 
                     disabled={!event.registrationOpen}
                     variant={event.registrationOpen ? "default" : "secondary"}
                   >
@@ -355,7 +365,7 @@ export default function NewsEventsPage() {
       </Tabs>
 
       {filteredNews.length === 0 && filteredEvents.length === 0 && (
-        <div className="text-center py-12">
+        <div className="text-center py-12 fade-in" aria-live="polite">
           <p className="text-muted-foreground">No items found matching your search.</p>
         </div>
       )}
