@@ -88,12 +88,12 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 fade-in">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link
           href={isAdmin ? "/admin" : "/"}
           title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
-          className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+          className="flex items-center space-x-3 hover:opacity-80 transition-opacity interactive"
         >
           <Image src="/logo.jpg.svg" alt="CampusAxis Logo" width={40} height={40} />
           <div className="flex flex-col">
@@ -111,7 +111,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
+                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground interactive hover-lift ${
                   isActivePath(item.href) ? "bg-accent text-accent-foreground" : "text-muted-foreground"
                 }`}
                 aria-current={isActivePath(item.href) ? "page" : undefined}
@@ -127,7 +127,7 @@ export function Header() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Link href="/search" title="Search (Ctrl/⌘ K)" className="hidden lg:inline-flex">
-                <Button variant="ghost" size="sm" className="px-2" aria-keyshortcuts="Control+K Meta+K">
+                <Button variant="ghost" size="sm" className="px-2 interactive hover-lift" aria-keyshortcuts="Control+K Meta+K">
                   <Search className="h-5 w-5" />
                   <span className="sr-only">Search</span>
                 </Button>
@@ -147,7 +147,7 @@ export function Header() {
           </span>
           {isAdmin && (
             <Link href="/admin" title="Admin Panel" className="hidden lg:inline-flex">
-              <Button variant="ghost" size="sm" className="px-2">
+              <Button variant="ghost" size="sm" className="px-2 interactive hover-lift">
                 <Shield className="h-5 w-5" />
                 <span className="sr-only">Admin Panel</span>
               </Button>
@@ -156,7 +156,7 @@ export function Header() {
           <ThemeToggle />
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="lg:hidden">
+              <Button variant="ghost" size="sm" className="lg:hidden interactive">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
@@ -180,7 +180,7 @@ export function Header() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-start space-x-3 p-3 rounded-lg transition-colors hover:bg-accent ${
+                      className={`flex items-start space-x-3 p-3 rounded-lg transition-colors hover:bg-accent interactive hover-lift ${
                         isActivePath(item.href) ? "bg-accent" : ""
                       }`}
                       aria-current={isActivePath(item.href) ? "page" : undefined}
@@ -199,7 +199,7 @@ export function Header() {
                   <Link
                     href="/admin"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-start space-x-3 p-3 rounded-lg transition-colors hover:bg-accent"
+                    className="flex items-start space-x-3 p-3 rounded-lg transition-colors hover:bg-accent interactive hover-lift"
                   >
                     <Shield className="h-5 w-5 mt-0.5 flex-shrink-0" />
                     <div className="flex flex-col">
@@ -215,7 +215,7 @@ export function Header() {
           {isAuthenticated && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                <Button variant="ghost" className="relative h-9 w-9 rounded-full interactive hover-lift">
                   <Avatar className="h-9 w-9">
                     <AvatarFallback className="bg-primary text-primary-foreground">
                       {(() => {
@@ -248,15 +248,15 @@ export function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logout} className="cursor-pointer text-blue-600 focus:text-blue-600">
+                <DropdownMenuItem onClick={logout} className="cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Sign Out</span>
+                  <span>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Link href="/auth">
-              <Button size="sm" className="font-medium">
+              <Button size="sm" className="font-medium interactive hover-lift">
                 Sign In
               </Button>
             </Link>
