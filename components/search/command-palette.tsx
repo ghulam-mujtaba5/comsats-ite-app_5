@@ -11,6 +11,7 @@ export function CommandPalette() {
   const [open, setOpen] = React.useState(false)
   const router = useRouter()
   const [isAdmin, setIsAdmin] = React.useState(false)
+  const [adminRole, setAdminRole] = React.useState<string | null>(null)
   const [inputValue, setInputValue] = React.useState("")
 
   // Global shortcuts to toggle/open
@@ -36,16 +37,49 @@ export function CommandPalette() {
     return () => window.removeEventListener("keydown", onKeyDown)
   }, [])
 
-  // Read admin status on mount
+  // Read admin status on mount (local fallback) and try server RBAC session for accuracy
   React.useEffect(() => {
+    // Local fallback for dev/admin
     setIsAdmin(isAdminAuthed())
+
+    // Listen for localStorage changes (dev/admin toggle)
     const onStorage = (e: StorageEvent) => {
       if (e.key === "__ite_admin_session__") {
         setIsAdmin(isAdminAuthed())
       }
     }
     window.addEventListener("storage", onStorage)
-    return () => window.removeEventListener("storage", onStorage)
+
+    // Server check for real RBAC
+    let mounted = true
+    ;(async () => {
+      try {
+        const res = await fetch("/api/admin/session", { cache: "no-store" })
+        if (!mounted) return
+        if (res.ok) {
+          setIsAdmin(true)
+          // Attempt to read role if the API returns it
+          try {
+            const data = await res.json().catch(() => null)
+            if (data && typeof data.role === "string") {
+              setAdminRole(data.role)
+            }
+          } catch { /* noop */ }
+        } else {
+          setIsAdmin(isAdminAuthed())
+          setAdminRole(null)
+        }
+      } catch {
+        // Network/API unavailable; keep fallback
+        setIsAdmin(isAdminAuthed())
+        setAdminRole(null)
+      }
+    })()
+
+    return () => {
+      mounted = false
+      window.removeEventListener("storage", onStorage)
+    }
   }, [])
 
   const onSelect = (value: string) => {
@@ -69,6 +103,7 @@ export function CommandPalette() {
               placeholder="Type a command or search…"
               value={inputValue}
               onValueChange={setInputValue}
+              className="interactive"
               autoFocus
             />
           </div>
