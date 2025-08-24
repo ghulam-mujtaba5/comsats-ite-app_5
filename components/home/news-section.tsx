@@ -17,16 +17,24 @@ type News = {
 export function NewsSection() {
   const [items, setItems] = useState<News[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     ;(async () => {
       try {
         const res = await fetch('/api/news')
+        if (!res.ok) {
+          const body = await res.text().catch(() => '')
+          setError(`Failed to load news: ${res.status} ${res.statusText}${body ? ` - ${body}` : ''}`)
+          setItems([])
+          return
+        }
         const json = await res.json()
         const data: News[] = json.data || []
         // Only show up to 4 latest
         setItems(data.slice(0, 4))
-      } catch (e) {
+      } catch (e: any) {
+        setError(e?.message || 'Failed to load news')
         setItems([])
       } finally {
         setLoading(false)
@@ -101,7 +109,7 @@ export function NewsSection() {
             {items.length === 0 && (
               <Card>
                 <CardContent className="p-6">
-                  <CardDescription>No news yet.</CardDescription>
+                  <CardDescription>{error ? error : 'No news yet.'}</CardDescription>
                 </CardContent>
               </Card>
             )}

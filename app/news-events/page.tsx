@@ -59,16 +59,29 @@ export default function NewsEventsPage() {
           fetch('/api/news-events/news'),
           fetch('/api/news-events/events?includePast=1')
         ])
-        
-        if (newsResponse.ok) {
-          const newsData = await newsResponse.json()
-          setNews(newsData)
+
+        // If any endpoint fails, show an error with status codes for visibility
+        if (!newsResponse.ok || !eventsResponse.ok) {
+          const newsStatus = `${newsResponse.status} ${newsResponse.statusText}`
+          const eventsStatus = `${eventsResponse.status} ${eventsResponse.statusText}`
+          // Try to read error bodies (non-fatal if it fails)
+          let newsErr = ''
+          let eventsErr = ''
+          try { newsErr = await newsResponse.text() } catch {}
+          try { eventsErr = await eventsResponse.text() } catch {}
+          setError(
+            `Failed to load data. News: ${newsStatus}${newsErr ? ` - ${newsErr}` : ''}; Events: ${eventsStatus}${eventsErr ? ` - ${eventsErr}` : ''}`
+          )
+          // Bail early to avoid attempting to parse JSON from failed responses
+          return
         }
-        
-        if (eventsResponse.ok) {
-          const eventsData = await eventsResponse.json()
-          setEvents(eventsData)
-        }
+
+        const [newsData, eventsData] = await Promise.all([
+          newsResponse.json(),
+          eventsResponse.json()
+        ])
+        setNews(Array.isArray(newsData) ? newsData : [])
+        setEvents(Array.isArray(eventsData) ? eventsData : [])
       } catch (e: any) {
         setError(e?.message || "Failed to load news and events")
       } finally {

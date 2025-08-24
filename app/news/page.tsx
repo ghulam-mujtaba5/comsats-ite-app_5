@@ -26,6 +26,7 @@ const PAGE_SIZE = 10
 export default function NewsListPage() {
   const [items, setItems] = useState<News[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [q, setQ] = useState("")
   const [page, setPage] = useState(1)
 
@@ -33,6 +34,12 @@ export default function NewsListPage() {
     ;(async () => {
       try {
         const res = await fetch('/api/news')
+        if (!res.ok) {
+          const body = await res.text().catch(() => '')
+          setError(`Failed to load news: ${res.status} ${res.statusText}${body ? ` - ${body}` : ''}`)
+          setItems([])
+          return
+        }
         const json = await res.json()
         setItems(json.data || [])
       } finally {
@@ -83,6 +90,13 @@ export default function NewsListPage() {
             </div>
           ) : (
             <div className="space-y-4">
+              {error && (
+                <Card>
+                  <CardContent className="p-6">
+                    <CardDescription>{error}</CardDescription>
+                  </CardContent>
+                </Card>
+              )}
               {pageItems.map(n => (
                 <Link key={n.id} href={`/news/${n.id}`} className="block">
                   <Card className="hover:shadow-lg transition-all duration-300">
@@ -99,7 +113,7 @@ export default function NewsListPage() {
                   </Card>
                 </Link>
               ))}
-              {pageItems.length === 0 && (
+              {pageItems.length === 0 && !error && (
                 <Card><CardContent className="p-6"><CardDescription>No results.</CardDescription></CardContent></Card>
               )}
 
