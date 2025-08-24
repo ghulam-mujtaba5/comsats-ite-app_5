@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search, Calendar, MapPin, Users, Clock, ExternalLink } from "lucide-react"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
+import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 
 interface NewsItem {
   id: string
@@ -153,6 +154,7 @@ export default function NewsEventsPage() {
   return (
     <>
     <div className="container mx-auto px-4 py-8">
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "News & Events" }]} className="mb-4" />
       <div className="mb-8">
         <h1 className="text-3xl font-bold">News & Events</h1>
         <p className="text-muted-foreground mt-2">
@@ -184,6 +186,7 @@ export default function NewsEventsPage() {
               variant={newsFilter === "all" ? "default" : "outline"}
               size="sm"
               onClick={() => setNewsFilter("all")}
+              aria-pressed={newsFilter === "all"}
             >
               All
             </Button>
@@ -191,6 +194,7 @@ export default function NewsEventsPage() {
               variant={newsFilter === "academic" ? "default" : "outline"}
               size="sm"
               onClick={() => setNewsFilter("academic")}
+              aria-pressed={newsFilter === "academic"}
             >
               Academic
             </Button>
@@ -198,6 +202,7 @@ export default function NewsEventsPage() {
               variant={newsFilter === "event" ? "default" : "outline"}
               size="sm"
               onClick={() => setNewsFilter("event")}
+              aria-pressed={newsFilter === "event"}
             >
               Events
             </Button>
@@ -205,6 +210,7 @@ export default function NewsEventsPage() {
               variant={newsFilter === "announcement" ? "default" : "outline"}
               size="sm"
               onClick={() => setNewsFilter("announcement")}
+              aria-pressed={newsFilter === "announcement"}
             >
               Announcements
             </Button>
@@ -212,6 +218,7 @@ export default function NewsEventsPage() {
               variant={newsFilter === "deadline" ? "default" : "outline"}
               size="sm"
               onClick={() => setNewsFilter("deadline")}
+              aria-pressed={newsFilter === "deadline"}
             >
               Deadlines
             </Button>
@@ -264,6 +271,7 @@ export default function NewsEventsPage() {
               variant={eventsFilter === "all" ? "default" : "outline"}
               size="sm"
               onClick={() => setEventsFilter("all")}
+              aria-pressed={eventsFilter === "all"}
             >
               All
             </Button>
@@ -271,6 +279,7 @@ export default function NewsEventsPage() {
               variant={eventsFilter === "academic" ? "default" : "outline"}
               size="sm"
               onClick={() => setEventsFilter("academic")}
+              aria-pressed={eventsFilter === "academic"}
             >
               Academic
             </Button>
@@ -278,6 +287,7 @@ export default function NewsEventsPage() {
               variant={eventsFilter === "cultural" ? "default" : "outline"}
               size="sm"
               onClick={() => setEventsFilter("cultural")}
+              aria-pressed={eventsFilter === "cultural"}
             >
               Cultural
             </Button>
@@ -285,6 +295,7 @@ export default function NewsEventsPage() {
               variant={eventsFilter === "sports" ? "default" : "outline"}
               size="sm"
               onClick={() => setEventsFilter("sports")}
+              aria-pressed={eventsFilter === "sports"}
             >
               Sports
             </Button>
@@ -292,6 +303,7 @@ export default function NewsEventsPage() {
               variant={eventsFilter === "workshop" ? "default" : "outline"}
               size="sm"
               onClick={() => setEventsFilter("workshop")}
+              aria-pressed={eventsFilter === "workshop"}
             >
               Workshops
             </Button>

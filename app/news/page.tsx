@@ -8,7 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Calendar, ArrowLeft } from "lucide-react"
-import { Footer } from "@/components/layout/footer"
+import { CenteredLoader } from "@/components/ui/loading-spinner"
+import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 
 type News = {
   id: string
@@ -64,6 +65,7 @@ export default function NewsListPage() {
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 py-10 px-4">
         <div className="container mx-auto max-w-5xl space-y-6">
+          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "News" }]} />
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold">Latest News & Updates</h1>
@@ -82,7 +84,9 @@ export default function NewsListPage() {
           </div>
 
           {loading ? (
-            <p>Loading…</p>
+            <div aria-live="polite">
+              <CenteredLoader message="Loading news..." />
+            </div>
           ) : (
             <div className="space-y-4">
               {pageItems.map(n => (
@@ -107,9 +111,27 @@ export default function NewsListPage() {
 
               {totalPages > 1 && (
                 <div className="flex items-center justify-between pt-2">
-                  <Button variant="outline" className="bg-transparent" disabled={page === 1} onClick={() => setPage(p => Math.max(1, p - 1))}>Previous</Button>
-                  <div className="text-sm text-muted-foreground">Page {page} of {totalPages}</div>
-                  <Button variant="outline" className="bg-transparent" disabled={page === totalPages} onClick={() => setPage(p => Math.min(totalPages, p + 1))}>Next</Button>
+                  <Button
+                    variant="outline"
+                    className="bg-transparent"
+                    disabled={page === 1}
+                    aria-label="Go to previous page"
+                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                  >
+                    Previous
+                  </Button>
+                  <div className="text-sm text-muted-foreground" aria-live="polite">
+                    Page {page} of {totalPages}
+                  </div>
+                  <Button
+                    variant="outline"
+                    className="bg-transparent"
+                    disabled={page === totalPages}
+                    aria-label="Go to next page"
+                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                  >
+                    Next
+                  </Button>
                 </div>
               )}
             </div>
@@ -120,7 +142,6 @@ export default function NewsListPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "News", path: "/news" }])) }}
       />
-      <Footer />
     </div>
   )
 }

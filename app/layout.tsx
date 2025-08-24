@@ -6,6 +6,7 @@ import "./globals.css"
 import { AuthProvider } from "@/contexts/auth-context"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/layout/header"
+import { Footer } from "@/components/layout/footer"
 import { Toaster } from "@/components/ui/toaster"
 import { jsonLdOrganization, jsonLdWebSite } from "@/lib/seo"
 
@@ -115,6 +116,26 @@ html {
   --font-serif: ${manrope.variable};
 }
         `}</style>
+        {/* Zero-CLS theme pre-injection: sets initial theme class before hydration */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(() => {
+  try {
+    const stored = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored === 'light' || stored === 'dark' ? stored : (systemDark ? 'dark' : 'light');
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  } catch (_) {}
+})();
+            `,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite()) }}
@@ -125,10 +146,20 @@ html {
         />
       </head>
       <body className={`${GeistSans.variable} ${manrope.variable} antialiased bg-background text-foreground`}>
+        {/* Skip to content for keyboard users */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:rounded-md focus:bg-primary focus:text-primary-foreground"
+        >
+          Skip to content
+        </a>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <AuthProvider>
             <Header />
-            {children}
+            <div id="main" className="min-h-[60vh]">
+              {children}
+            </div>
+            <Footer />
             <Toaster />
           </AuthProvider>
         </ThemeProvider>

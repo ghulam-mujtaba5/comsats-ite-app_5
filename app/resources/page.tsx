@@ -3,13 +3,13 @@
 import type { Metadata } from "next"
 import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { useEffect, useMemo, useState } from "react"
-import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { BookOpen, Upload, ExternalLink, Download } from "lucide-react"
 import { AdvancedFilterBar, type Option } from "@/components/search/advanced-filter-bar"
 import { notifyFetch } from "@/lib/notify"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
+import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 
 export const metadata: Metadata = createMetadata({
   title: "Resources — COMSATS ITE",
@@ -58,6 +58,7 @@ export default function ResourcesPage() {
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 py-8 px-4">
         <div className="container mx-auto max-w-7xl">
+          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Resources" }]} className="mb-4" />
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-foreground mb-2">Resources</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -96,8 +97,12 @@ export default function ResourcesPage() {
             />
           </div>
 
-          {loading && <CenteredLoader message="Loading resources..." />}
-          {error && <p className="text-blue-600">{error}</p>}
+          {loading && (
+            <div aria-live="polite">
+              <CenteredLoader message="Loading resources..." />
+            </div>
+          )}
+          {error && <p className="text-blue-600" role="alert">{error}</p>}
 
           {(!loading && items.length === 0) ? (
             <Card className="p-12 text-center">
@@ -159,7 +164,6 @@ export default function ResourcesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "Resources", path: "/resources" }])) }}
       />
-      <Footer />
     </div>
   )
 }

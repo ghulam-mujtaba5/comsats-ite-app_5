@@ -1,20 +1,10 @@
 "use client"
-
-import type { Metadata } from "next"
-import { createMetadata } from "@/lib/seo"
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/contexts/auth-context"
-
-export const metadata: Metadata = createMetadata({
-  title: "Admin Sign-in — CampusAxis",
-  description: "Restricted admin authentication portal.",
-  path: "/admin/auth",
-  noindex: true,
-})
 
 export default function AdminAuthPage() {
   const router = useRouter()

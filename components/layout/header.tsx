@@ -11,8 +11,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useAuth } from "@/contexts/auth-context"
-import { LogOut, User, Menu, Calculator, FileText, BookOpen, Calendar, Shield, Users } from "lucide-react"
+import { LogOut, User, Menu, Calculator, FileText, BookOpen, Calendar, Shield, Users, Newspaper } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -26,16 +27,28 @@ const navigationItems = [
     description: "Browse and download past exam papers",
   },
   {
-    name: "GPA Calculator",
-    href: "/gpa-calculator",
-    icon: Calculator,
-    description: "Calculate GPA/CGPA with the latest scale",
+    name: "Resources",
+    href: "/resources",
+    icon: BookOpen,
+    description: "Study material and documents shared by departments",
+  },
+  {
+    name: "News & Events",
+    href: "/news-events",
+    icon: Newspaper,
+    description: "Latest announcements and upcoming events",
   },
   {
     name: "Faculty Reviews",
     href: "/faculty",
     icon: BookOpen,
     description: "Read and write faculty reviews",
+  },
+  {
+    name: "GPA Calculator",
+    href: "/gpa-calculator",
+    icon: Calculator,
+    description: "Calculate GPA/CGPA with the latest scale",
   },
   {
     name: "Contribute",
@@ -48,12 +61,6 @@ const navigationItems = [
     href: "/timetable",
     icon: Calendar,
     description: "Upload, preview, and download timetables (PDF)",
-  },
-  {
-    name: "Resources",
-    href: "/resources",
-    icon: BookOpen,
-    description: "Study material and documents shared by departments",
   },
 ]
 
@@ -99,7 +106,7 @@ export function Header() {
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center space-x-1">
+        <nav className="hidden lg:flex items-center space-x-1" aria-label="Primary">
           {navigationItems.map((item) => {
             const Icon = item.icon
             return (
@@ -109,6 +116,7 @@ export function Header() {
                 className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground ${
                   isActivePath(item.href) ? "bg-accent text-accent-foreground" : "text-muted-foreground"
                 }`}
+                aria-current={isActivePath(item.href) ? "page" : undefined}
               >
                 <Icon className="h-4 w-4" />
                 <span>{item.name}</span>
@@ -126,6 +134,7 @@ export function Header() {
               </Button>
             </Link>
           )}
+          <ThemeToggle />
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="sm" className="lg:hidden">
@@ -155,6 +164,7 @@ export function Header() {
                       className={`flex items-start space-x-3 p-3 rounded-lg transition-colors hover:bg-accent ${
                         isActivePath(item.href) ? "bg-accent" : ""
                       }`}
+                      aria-current={isActivePath(item.href) ? "page" : undefined}
                     >
                       <Icon className="h-5 w-5 mt-0.5 flex-shrink-0" />
                       <div className="flex flex-col">
