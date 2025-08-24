@@ -50,10 +50,10 @@ export default function ResourcesPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <main className="flex-1 py-8 px-4">
+      <main className="flex-1 py-8 px-4 fade-in">
         <div className="container mx-auto max-w-7xl">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Resources" }]} className="mb-4" />
-          <div className="text-center mb-8">
+          <div className="text-center mb-8 slide-up">
             <h1 className="text-4xl font-bold text-foreground mb-2">Resources</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Download study material and useful documents shared by the department.
@@ -99,13 +99,13 @@ export default function ResourcesPage() {
           {error && <p className="text-blue-600" role="alert">{error}</p>}
 
           {(!loading && items.length === 0) ? (
-            <Card className="p-12 text-center">
+            <Card className="p-12 text-center slide-up" aria-live="polite">
               <BookOpen className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">No Resources Yet</h3>
               <p className="text-muted-foreground">Check back later.</p>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" aria-live="polite">
               {useMemo(() => {
                 const s = search.toLowerCase().trim()
                 return items
@@ -117,7 +117,7 @@ export default function ResourcesPage() {
                   .filter((r) => (dept === "All" ? true : (r.department || "General") === dept))
                   .filter((r) => (term === "All" ? true : (r.term || "Unspecified") === term))
               }, [items, search, dept, term]).map((r) => (
-                <Card key={r.id} className="p-4">
+                <Card key={r.id} className="p-4 slide-up">
                   <div className="space-y-2">
                     <h2 className="text-lg font-semibold">{r.title}</h2>
                     {r.description && <p className="text-sm text-muted-foreground line-clamp-3">{r.description}</p>}
@@ -126,7 +126,7 @@ export default function ResourcesPage() {
                     </p>
                     <div className="flex flex-wrap gap-2 pt-2">
                       {r.external_url && (
-                        <Button asChild variant="outline" size="sm" className="transition-all hover:-translate-y-0.5">
+                        <Button asChild variant="outline" size="sm" className="interactive hover-lift">
                           <a href={r.external_url} target="_blank" rel="noreferrer">
                             <ExternalLink className="size-4" /> Open Link
                           </a>
@@ -134,12 +134,12 @@ export default function ResourcesPage() {
                       )}
                       {r.file_url && (
                         <>
-                          <Button asChild variant="secondary" size="sm" className="transition-all hover:-translate-y-0.5">
+                          <Button asChild variant="secondary" size="sm" className="interactive hover-lift">
                             <a href={r.file_url} target="_blank" rel="noreferrer">
                               <BookOpen className="size-4" /> Preview
                             </a>
                           </Button>
-                          <Button asChild variant="default" size="sm" className="transition-all hover:-translate-y-0.5">
+                          <Button asChild variant="default" size="sm" className="interactive hover-lift">
                             <a href={r.file_url} download>
                               <Download className="size-4" /> Download
                             </a>

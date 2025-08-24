@@ -39,13 +39,13 @@ export function AdvancedFilterBar({
           placeholder={searchPlaceholder}
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-10"
+          className="pl-10 interactive"
         />
       </div>
       {left}
       {selects.map((s) => (
         <Select key={s.id} value={s.value} onValueChange={s.onChange}>
-          <SelectTrigger className={"w-full md:w-56 " + (s.className || "") }>
+          <SelectTrigger className={"w-full md:w-56 interactive hover-lift " + (s.className || "") }>
             <SelectValue placeholder={s.placeholder || "Select"} />
           </SelectTrigger>
           <SelectContent>
