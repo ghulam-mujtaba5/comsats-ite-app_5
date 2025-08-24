@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation"
 import { Command } from "cmdk"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { Search } from "lucide-react"
+import { isAdminAuthed } from "@/lib/admin"
 
 export function CommandPalette() {
   const [open, setOpen] = React.useState(false)
   const router = useRouter()
+  const [isAdmin, setIsAdmin] = React.useState(false)
 
   // Global shortcuts to toggle/open
   React.useEffect(() => {
@@ -31,6 +33,18 @@ export function CommandPalette() {
     }
     window.addEventListener("keydown", onKeyDown)
     return () => window.removeEventListener("keydown", onKeyDown)
+  }, [])
+
+  // Read admin status on mount
+  React.useEffect(() => {
+    setIsAdmin(isAdminAuthed())
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "__ite_admin_session__") {
+        setIsAdmin(isAdminAuthed())
+      }
+    }
+    window.addEventListener("storage", onStorage)
+    return () => window.removeEventListener("storage", onStorage)
   }, [])
 
   const onSelect = (value: string) => {
@@ -72,6 +86,17 @@ export function CommandPalette() {
                 Search site for typed query
               </Command.Item>
             </Command.Group>
+
+            {isAdmin && (
+              <Command.Group heading="Admin">
+                <Command.Item onSelect={() => onSelect("go:/admin")}>Admin Dashboard</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/users")}>Users</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/moderation")}>Moderation</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/resources")}>Resources</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/past-papers")}>Past Papers</Command.Item>
+                <Command.Item onSelect={() => onSelect("go:/admin/settings")}>Settings</Command.Item>
+              </Command.Group>
+            )}
           </Command.List>
         </Command>
       </DialogContent>

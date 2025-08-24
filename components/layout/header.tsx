@@ -135,6 +135,16 @@ export function Header() {
             </TooltipTrigger>
             <TooltipContent sideOffset={6}>Search (Ctrl/⌘ K)</TooltipContent>
           </Tooltip>
+          <span
+            className="hidden lg:inline-flex select-none items-center gap-1 rounded-md border px-2 py-1 text-[11px] leading-none text-muted-foreground/90"
+            aria-hidden="true"
+          >
+            <span className="font-mono">Ctrl</span>
+            <span>/</span>
+            <span className="font-mono">⌘</span>
+            <span>+</span>
+            <span className="font-mono">K</span>
+          </span>
           {isAdmin && (
             <Link href="/admin" title="Admin Panel" className="hidden lg:inline-flex">
               <Button variant="ghost" size="sm" className="px-2">

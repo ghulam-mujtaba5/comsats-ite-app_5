@@ -10,6 +10,7 @@ export function SearchClient() {
   const router = useRouter()
   const params = useSearchParams()
   const [q, setQ] = useState<string>("")
+  const [recent, setRecent] = useState<string[]>([])
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
@@ -20,6 +21,17 @@ export function SearchClient() {
       inputRef.current?.focus()
     }
   }, [params])
+
+  // Load recent searches from localStorage
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("recentSearches")
+      if (raw) {
+        const parsed = JSON.parse(raw) as string[]
+        if (Array.isArray(parsed)) setRecent(parsed.slice(0, 8))
+      }
+    } catch {}
+  }, [])
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -48,6 +60,16 @@ export function SearchClient() {
     const next = q.trim()
     router.replace(next ? `/search?q=${encodeURIComponent(next)}` : "/search")
     // TODO: hook into your actual search backend or client filtering
+    if (next) {
+      // persist to recent searches (dedupe, keep last 8)
+      setRecent((prev) => {
+        const updated = [next, ...prev.filter((x) => x.toLowerCase() !== next.toLowerCase())].slice(0, 8)
+        try {
+          localStorage.setItem("recentSearches", JSON.stringify(updated))
+        } catch {}
+        return updated
+      })
+    }
   }
 
   return (
@@ -70,6 +92,46 @@ export function SearchClient() {
           Search
         </Button>
       </form>
+
+      {recent.length > 0 && (
+        <div className="mt-3">
+          <div className="mb-2 flex items-center justify-between">
+            <div className="text-xs text-muted-foreground">Recent searches</div>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="h-7 px-2 text-xs"
+              onClick={() => {
+                setRecent([])
+                try {
+                  localStorage.removeItem("recentSearches")
+                } catch {}
+              }}
+              aria-label="Clear recent searches"
+            >
+              Clear
+            </Button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {recent.map((item) => (
+              <Button
+                key={item}
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setQ(item)
+                  router.replace(`/search?q=${encodeURIComponent(item)}`)
+                }}
+                aria-label={`Search for ${item}`}
+              >
+                {item}
+              </Button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {q && (
         <section className="mt-8">

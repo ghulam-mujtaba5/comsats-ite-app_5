@@ -11,6 +11,7 @@ Use this as the single source of truth to redesign and refine the public-facing 
 - Keyboard shortcuts:
   - Cmd/Ctrl+K opens the Command Palette globally.
   - Slash `/` opens the palette when not typing; on `/search`, it focuses the input.
+  - Visible kbd hint next to header Search on lg+ screens.
 
 ### Search Page (`app/search/page.tsx` + `app/search/search-client.tsx`)
 - Server component provides metadata via `createMetadata()` from `lib/seo.ts`.
@@ -19,6 +20,7 @@ Use this as the single source of truth to redesign and refine the public-facing 
   - `role="search"`, associated label, and visible placeholder.
   - Keyboard shortcuts: focuses input (Cmd/Ctrl+K, `/`), announced with tooltip in header.
   - URL updates (`?q=`) without full reload to preserve history/back.
+  - Recent searches stored in `localStorage` with clear action; clickable chips route to `/search?q=…`.
 
 ### Command Palette (`components/search/command-palette.tsx`)
 - Opens via Cmd/Ctrl+K or `/` (when not typing in an input/textarea/contenteditable).
@@ -42,7 +44,7 @@ Use this as the single source of truth to redesign and refine the public-facing 
 ## Status Progress
 - Owner: Web Team
 
-Last updated: 2025-08-24T12:47:04+05:00
+Last updated: 2025-08-24T12:49:49+05:00
 
 
 ### Checklist
