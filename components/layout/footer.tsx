@@ -1,13 +1,17 @@
-import { GraduationCap, Mail, Phone, MapPin, Users, ArrowUpRight } from "lucide-react"
+"use client"
+import { GraduationCap, Mail, Phone, MapPin, Users, Github, Twitter, Instagram, Sparkles, BookOpen, Users2 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { SITE_LINKS, type PageStatus } from "@/lib/site-map"
+import { usePathname } from "next/navigation"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 type FooterProps = {
   hidePortalSubtitle?: boolean
 }
 
 export function Footer({ hidePortalSubtitle = false }: FooterProps) {
+  const pathname = usePathname()
   const groups = {
     core: SITE_LINKS.filter(l => l.group === 'core'),
     student: SITE_LINKS.filter(l => l.group === 'student'),
@@ -15,14 +19,15 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
     support: SITE_LINKS.filter(l => l.group === 'support'),
   }
 
-  const StatusBadge = ({ status }: { status?: PageStatus }) => {
+  const StatusBadge = ({ status, hideLive = false }: { status?: PageStatus; hideLive?: boolean }) => {
     if (!status) return null
+    if (hideLive && status === 'live') return null
     const label = status === 'beta' ? 'Beta' : status === 'coming_soon' ? 'Coming soon' : status === 'working' ? 'Working' : 'Live'
     const cls =
       status === 'beta'
         ? 'bg-amber-500/15 text-amber-500 border-amber-500/30'
         : status === 'coming_soon'
-        ? 'bg-muted text-muted-foreground border-border'
+        ? 'bg-zinc-500/15 text-zinc-300 border-zinc-500/30'
         : status === 'working'
         ? 'bg-blue-500/15 text-blue-500 border-blue-500/30'
         : 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30'
@@ -31,6 +36,26 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
         {label}
       </span>
     )
+  }
+
+  const year = new Date().getFullYear()
+
+  const iconForGroup = (group: 'core' | 'student' | 'community' | 'support') => {
+    switch (group) {
+      case 'student':
+        return <BookOpen className="h-3.5 w-3.5 opacity-70" />
+      case 'community':
+        return <Users2 className="h-3.5 w-3.5 opacity-70" />
+      case 'support':
+        return <Sparkles className="h-3.5 w-3.5 opacity-70" />
+      default:
+        return <GraduationCap className="h-3.5 w-3.5 opacity-70" />
+    }
+  }
+
+  const isActive = (href: string) => {
+    if (href === '/') return pathname === '/'
+    return pathname?.startsWith(href)
   }
 
   return (
@@ -86,6 +111,20 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           </div>
 
           <div>
+            <h3 className="font-semibold text-foreground mb-4">Community</h3>
+            <ul className="space-y-2 text-sm">
+              {groups.community.map(link => (
+                <li key={link.href} className="flex items-center justify-between gap-2">
+                  <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
+                    {link.label}
+                  </Link>
+                  <StatusBadge status={link.status} />
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
             <h3 className="font-semibold text-foreground mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
               {groups.support.map(link => (
@@ -118,32 +157,95 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           </div>
         </div>
 
-        {/* Explore - minimal pills */}
+        {/* Explore - minimal pills with More popover */}
         <div className="mt-10">
           <h3 className="font-semibold text-foreground mb-3">Explore</h3>
           {(() => {
-            const exploreLinks = SITE_LINKS.filter(l => ['core','student','community'].includes(l.group)).slice(0, 8)
+            const allExplore = SITE_LINKS.filter(l => ['core','student','community'].includes(l.group))
+            const topSet = new Set([
+              '/news-events',
+              '/past-papers',
+              '/timetable',
+              '/gpa-calculator',
+              '/resources',
+              '/lost-found',
+              '/faculty',
+              '/community',
+            ])
+            const top = allExplore.filter(l => topSet.has(l.href)).slice(0, 6)
+            const rest = allExplore.filter(l => !topSet.has(l.href))
             return (
-              <ul className="flex flex-wrap gap-2">
-                {exploreLinks.map(link => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="inline-flex items-center gap-2 border border-border rounded-full px-3 py-1 text-xs text-muted-foreground hover:text-primary hover:border-primary/40 hover:bg-accent/10 transition-colors"
-                    >
-                      <span className="font-medium">{link.label}</span>
-                      <StatusBadge status={link.status} />
-                    </Link>
-                  </li>
+              <div className="flex flex-wrap items-center gap-2">
+                {top.map(link => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={
+                      `inline-flex items-center gap-2 border rounded-full px-3 py-1 text-xs transition-colors ` +
+                      (isActive(link.href)
+                        ? 'border-primary/50 bg-primary/10 text-primary'
+                        : 'border-border text-muted-foreground hover:text-primary hover:border-primary/40 hover:bg-accent/10')
+                    }
+                    aria-current={isActive(link.href) ? 'page' : undefined}
+                  >
+                    {iconForGroup(link.group)}
+                    <span className="font-medium">{link.label}</span>
+                    <StatusBadge status={link.status} />
+                  </Link>
                 ))}
-              </ul>
+
+                {rest.length > 0 && (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button size="sm" variant="outline" className="h-7 px-3 text-xs">More</Button>
+                    </PopoverTrigger>
+                    <PopoverContent align="start" className="w-72 p-2">
+                      <ul className="max-h-64 overflow-auto space-y-1">
+                        {rest.map(link => (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              className={
+                                `flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm transition-colors ` +
+                                (isActive(link.href)
+                                  ? 'bg-primary/10 text-primary'
+                                  : 'hover:bg-accent/10 text-muted-foreground hover:text-primary')
+                              }
+                              aria-current={isActive(link.href) ? 'page' : undefined}
+                            >
+                              <span className="inline-flex items-center gap-2">
+                                {iconForGroup(link.group)}
+                                {link.label}
+                              </span>
+                              <StatusBadge status={link.status} />
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </PopoverContent>
+                  </Popover>
+                )}
+              </div>
             )
           })()}
         </div>
 
+        {/* Social links */}
+        <div className="mt-8 flex items-center justify-center gap-4">
+          <Link href="https://github.com/" aria-label="GitHub" className="text-muted-foreground hover:text-primary transition-colors" target="_blank" rel="noreferrer">
+            <Github className="h-5 w-5" />
+          </Link>
+          <Link href="https://twitter.com/" aria-label="Twitter" className="text-muted-foreground hover:text-primary transition-colors" target="_blank" rel="noreferrer">
+            <Twitter className="h-5 w-5" />
+          </Link>
+          <Link href="https://instagram.com/" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors" target="_blank" rel="noreferrer">
+            <Instagram className="h-5 w-5" />
+          </Link>
+        </div>
+
         <div className="border-t border-border mt-8 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © 2024 CampusAxis{hidePortalSubtitle ? '' : ' Academic Portal'}. All rights reserved.
+            © {year} CampusAxis{hidePortalSubtitle ? '' : ' Academic Portal'}. All rights reserved.
           </p>
         </div>
       </div>

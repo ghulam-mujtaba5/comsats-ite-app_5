@@ -20,10 +20,6 @@ export const SITE_LINKS: SiteLink[] = [
   { label: 'Past Papers', href: '/past-papers', status: 'live', group: 'student' },
   { label: 'Timetable', href: '/timetable', status: 'live', group: 'student' },
   { label: 'GPA Calculator', href: '/gpa-calculator', status: 'live', group: 'student' },
-  { label: 'GPA: Semester', href: '/gpa-calculator/semester', status: 'live', group: 'student' },
-  { label: 'GPA: Cumulative', href: '/gpa-calculator/cumulative', status: 'live', group: 'student' },
-  { label: 'GPA: Aggregate', href: '/gpa-calculator/aggregate', status: 'live', group: 'student' },
-  { label: 'GPA: Planning', href: '/gpa-calculator/planning', status: 'beta', group: 'student' },
   { label: 'Resources', href: '/resources', status: 'beta', group: 'student' },
   { label: 'Guidance', href: '/guidance', status: 'coming_soon', group: 'student' },
 
@@ -39,6 +35,4 @@ export const SITE_LINKS: SiteLink[] = [
   { label: 'Help Center', href: '/help', status: 'coming_soon', group: 'support' },
   { label: 'Privacy Policy', href: '/legal/privacy-policy', status: 'live', group: 'support' },
   { label: 'Terms of Service', href: '/legal/terms-of-service', status: 'live', group: 'support' },
-  { label: 'Privacy (alt)', href: '/privacy', status: 'live', group: 'support' },
-  { label: 'Terms (alt)', href: '/terms', status: 'live', group: 'support' },
 ]
