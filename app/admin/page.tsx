@@ -147,10 +147,6 @@ export default function AdminDashboardPage() {
               <h3 className="text-xl font-semibold">👨‍🏫 Faculty</h3>
               <p className="text-muted-foreground">Add, edit, and manage faculty members.</p>
             </Link>
-            <Link href="/admin/faculty/seed" className="block border rounded-lg p-5 hover:bg-accent">
-              <h3 className="text-xl font-semibold">🌱 Seed Faculty</h3>
-              <p className="text-muted-foreground">Quickly upsert faculty by ID to resolve profile 404s.</p>
-            </Link>
             <Link href="/admin/community" className="block border rounded-lg p-5 hover:bg-accent">
               <h3 className="text-xl font-semibold">💬 Community</h3>
               <p className="text-muted-foreground">Manage student community posts.</p>

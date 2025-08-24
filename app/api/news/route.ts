@@ -53,7 +53,23 @@ function isAdmin(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  if (!url || !anon) return NextResponse.json({ data: [] })
+  if (!url || !anon) {
+    // Dev fallback: serve minimal published news so UI renders during local setup
+    return NextResponse.json({
+      data: [
+        {
+          id: 'dev-1',
+          title: 'Welcome to CampusAxis',
+          content: 'We are rolling out new features across the portal.',
+          image_url: null,
+          status: 'published',
+          published_at: new Date().toISOString(),
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+      ],
+    })
+  }
   const supabase = createClient(url, anon)
 
   const admin = isAdmin(req)
