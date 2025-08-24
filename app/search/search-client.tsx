@@ -1,6 +1,7 @@
 "use client"
 
 import { useRouter, useSearchParams } from "next/navigation"
+import Link from "next/link"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -146,22 +147,73 @@ export function SearchClient() {
   )
 }
 
+function highlight(text: string, query: string) {
+  if (!text || !query) return text
+  try {
+    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+    const regex = new RegExp(`(${escaped})`, "ig")
+    const parts = text.split(regex)
+    return parts.map((part, i) =>
+      regex.test(part) ? (
+        <mark key={i} className="bg-yellow-200/60 dark:bg-yellow-300/30 rounded px-0.5">{part}</mark>
+      ) : (
+        <span key={i}>{part}</span>
+      ),
+    )
+  } catch {
+    return text
+  }
+}
+
 function SearchResults({ query }: { query: string }) {
   const q = query.trim()
 
+  // basic scoring: title matches > other fields
+  const scoreText = (text: string, term: string) => {
+    if (!text) return 0
+    const t = term.toLowerCase()
+    const s = text.toLowerCase()
+    const idx = s.indexOf(t)
+    if (idx === -1) return 0
+    // proximity to start boosts score; multiple occurrences add small bonus
+    const occurrences = s.split(t).length - 1
+    return 100 - idx + occurrences * 5
+  }
+
   const resourceResults = useMemo<LearningResource[]>(() => {
     if (!q) return []
-    return filterResources(mockLearningResources, { search: q })
+    const filtered = filterResources(mockLearningResources, { search: q })
+    return filtered
+      .slice()
+      .sort(
+        (a, b) =>
+          (scoreText(b.title, q) + scoreText(b.description, q)) -
+          (scoreText(a.title, q) + scoreText(a.description, q)),
+      )
   }, [q])
 
   const paperResults = useMemo<PastPaper[]>(() => {
     if (!q) return []
-    return filterPapers(mockPastPapers, { search: q })
+    const filtered = filterPapers(mockPastPapers, { search: q })
+    return filtered
+      .slice()
+      .sort(
+        (a, b) =>
+          (scoreText(b.title, q) + scoreText(b.course, q) + scoreText(b.courseCode, q)) -
+          (scoreText(a.title, q) + scoreText(a.course, q) + scoreText(a.courseCode, q)),
+      )
   }, [q])
 
   const facultyResults = useMemo<Faculty[]>(() => {
     if (!q) return []
-    return searchFaculty(mockFaculty, q)
+    const filtered = searchFaculty(mockFaculty, q)
+    return filtered
+      .slice()
+      .sort(
+        (a, b) =>
+          (scoreText(b.name, q) + scoreText(b.department, q)) -
+          (scoreText(a.name, q) + scoreText(a.department, q)),
+      )
   }, [q])
 
   const total = resourceResults.length + paperResults.length + facultyResults.length
@@ -169,24 +221,46 @@ function SearchResults({ query }: { query: string }) {
   if (!q) return null
 
   return (
-    <section className="mt-8">
+    <section className="mt-8" aria-live="polite">
       <h2 className="text-lg font-semibold">Results for “{q}”</h2>
+      <p className="text-xs text-muted-foreground mt-1">{total} total result{total === 1 ? "" : "s"}</p>
       {total === 0 ? (
-        <p className="text-muted-foreground mt-2">No results. Try a different term.</p>
+        <div className="text-muted-foreground mt-2">
+          <p>No results. Try a different term, e.g.:</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {[
+              "C++",
+              "Data Structures",
+              "Database",
+              "Circuit",
+              "Accounting",
+              "Machine Learning",
+            ].map((ex) => (
+              <Link
+                key={ex}
+                href={`/search?q=${encodeURIComponent(ex)}`}
+                className="text-xs rounded border px-2 py-1 hover:bg-muted"
+                aria-label={`Search for ${ex}`}
+              >
+                {ex}
+              </Link>
+            ))}
+          </div>
+        </div>
       ) : (
         <div className="mt-4 space-y-8">
           {resourceResults.length > 0 && (
-            <ResultGroup title="Learning Resources" count={resourceResults.length}>
+            <ResultGroup title="Learning Resources" count={resourceResults.length} viewAllHref="/resources">
               <ul className="space-y-2">
                 {resourceResults.slice(0, 5).map((r) => (
                   <li key={r.id} className="rounded-md border p-3">
                     <div className="flex items-center justify-between gap-2">
-                      <div className="font-medium">{r.title}</div>
+                      <div className="font-medium">{highlight(r.title, q)}</div>
                       <span className="text-xs text-muted-foreground">{r.type}</span>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2">{r.description}</p>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{highlight(r.description, q)}</p>
                     <div className="mt-1 text-xs text-muted-foreground">
-                      {r.course} • {r.department} • {r.difficulty}
+                      {highlight(r.course, q)} • {r.department} • {r.difficulty}
                     </div>
                   </li>
                 ))}
@@ -195,16 +269,16 @@ function SearchResults({ query }: { query: string }) {
           )}
 
           {paperResults.length > 0 && (
-            <ResultGroup title="Past Papers" count={paperResults.length}>
+            <ResultGroup title="Past Papers" count={paperResults.length} viewAllHref="/past-papers">
               <ul className="space-y-2">
                 {paperResults.slice(0, 5).map((p) => (
                   <li key={p.id} className="rounded-md border p-3">
                     <div className="flex items-center justify-between gap-2">
-                      <div className="font-medium">{p.title}</div>
+                      <div className="font-medium">{highlight(p.title, q)}</div>
                       <span className="text-xs text-muted-foreground">{p.examType}</span>
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      {p.course} ({p.courseCode}) • {p.department} • {p.semester}
+                      {highlight(p.course, q)} ({highlight(p.courseCode, q)}) • {p.department} • {p.semester}
                     </div>
                     <div className="mt-1 text-xs text-muted-foreground">Year {p.year} • {p.fileType}</div>
                   </li>
@@ -214,14 +288,14 @@ function SearchResults({ query }: { query: string }) {
           )}
 
           {facultyResults.length > 0 && (
-            <ResultGroup title="Faculty" count={facultyResults.length}>
+            <ResultGroup title="Faculty" count={facultyResults.length} viewAllHref="/faculty">
               <ul className="space-y-2">
                 {facultyResults.slice(0, 5).map((f) => (
                   <li key={f.id} className="rounded-md border p-3">
-                    <div className="font-medium">{f.name}</div>
+                    <div className="font-medium">{highlight(f.name, q)}</div>
                     <div className="text-sm text-muted-foreground">{f.title} • {f.department}</div>
                     <div className="mt-1 text-xs text-muted-foreground">
-                      Specializations: {f.specialization.slice(0, 3).join(", ")}
+                      Specializations: {highlight(f.specialization.slice(0, 3).join(", "), q)}
                     </div>
                   </li>
                 ))}
@@ -237,17 +311,26 @@ function SearchResults({ query }: { query: string }) {
 function ResultGroup({
   title,
   count,
+  viewAllHref,
   children,
 }: {
   title: string
   count: number
+  viewAllHref?: string
   children: React.ReactNode
 }) {
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-base font-semibold">{title}</h3>
-        <div className="text-xs text-muted-foreground">{count} result{count === 1 ? "" : "s"}</div>
+        <div className="flex items-center gap-3">
+          <div className="text-xs text-muted-foreground">{count} result{count === 1 ? "" : "s"}</div>
+          {viewAllHref && (
+            <Link href={viewAllHref} className="text-xs text-primary hover:underline">
+              View all
+            </Link>
+          )}
+        </div>
       </div>
       {children}
     </div>
