@@ -1,4 +1,4 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
@@ -53,7 +53,25 @@ export async function GET(request: NextRequest) {
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     if (process.env.NODE_ENV !== 'production' && (!url || !anon)) return devFallback()
 
-    const supabase = createRouteHandlerClient({ cookies })
+    const cookieStore = await (cookies() as any)
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStore.get(name)?.value
+          },
+          set(name: string, value: string, options?: any) {
+            cookieStore.set({ name, value, ...options })
+          },
+          remove(name: string, options?: any) {
+            cookieStore.set({ name, value: '', ...options })
+          },
+        },
+      }
+    )
+
     let query = supabase
       .from('events')
       .select(`
@@ -95,8 +113,25 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const supabase = createRouteHandlerClient({ cookies })
-  
+  const cookieStore = await (cookies() as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+        set(name: string, value: string, options?: any) {
+          cookieStore.set({ name, value, ...options })
+        },
+        remove(name: string, options?: any) {
+          cookieStore.set({ name, value: '', ...options })
+        },
+      },
+    }
+  )
+
   try {
     // Dev fallback (non-production only): allow creating mock event when Supabase env is missing
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
