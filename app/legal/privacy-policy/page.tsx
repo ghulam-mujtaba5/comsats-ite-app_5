@@ -1,4 +1,4 @@
-import { Footer } from "@/components/layout/footer";
+ 
 
 export default function PrivacyPolicyPage() {
   return (
@@ -69,7 +69,6 @@ export default function PrivacyPolicyPage() {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
