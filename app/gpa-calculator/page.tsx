@@ -16,6 +16,18 @@ export default function GPACalculatorPage() {
             </p>
           </div>
 
+          {/* SEO bullet points */}
+          <div className="mb-10 grid gap-3 bg-muted/30 border rounded-lg p-5">
+            <div className="font-semibold">Why use our COMSATS GPA calculators?</div>
+            <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
+              <li>Accurate GPA calculation based on COMSATS grading scale (A+ to F)</li>
+              <li>Semester, cumulative (CGPA), aggregate and GPA planning in one place</li>
+              <li>Mobile-friendly and fast — no login required to start</li>
+              <li>Plan target GPA with what-if analysis for upcoming semesters</li>
+              <li>Free tool for COMSATS University Lahore (CUI Lahore) students</li>
+            </ul>
+          </div>
+
           <div className="mb-8">
             <Card className="bg-muted/30">
               <CardHeader>

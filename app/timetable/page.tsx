@@ -66,12 +66,8 @@ export default function TimetablePage() {
   }
 
   const handleDownload = (doc: TimetableDoc) => {
-    const link = document.createElement("a")
-    link.href = doc.public_url
-    link.download = `${doc.title}.pdf`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    // Open the file in a new tab instead of forcing download
+    window.open(doc.public_url, "_blank")
   }
 
   const onUpload = async (e: React.FormEvent) => {
@@ -112,6 +108,18 @@ export default function TimetablePage() {
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-foreground mb-2">Timetable PDFs</h1>
             <p className="text-muted-foreground">Upload and preview official timetable PDF files.</p>
+          </div>
+
+          {/* SEO bullet points */}
+          <div className="mb-8 grid gap-3 bg-muted/30 border rounded-lg p-5">
+            <div className="font-semibold">COMSATS Timetable PDFs — fast access</div>
+            <ul className="list-disc pl-5 text-sm text-muted-foreground space-y-1">
+              <li>Latest official timetable PDFs for COMSATS University Lahore</li>
+              <li>Preview in browser or open download in a new tab instantly</li>
+              <li>Department and term tags for quick filtering</li>
+              <li>Optimized for students on mobile and desktop</li>
+              <li>Free academic utility maintained by CampusAxis</li>
+            </ul>
           </div>
 
           {adminLoading ? (
