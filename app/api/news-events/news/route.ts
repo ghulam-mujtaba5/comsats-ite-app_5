@@ -1,4 +1,5 @@
 import { createServerClient } from '@supabase/ssr'
+import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
@@ -135,10 +136,11 @@ export async function POST(request: NextRequest) {
   )
   
   try {
-    // Dev fallback (non-production only): if Supabase env is not configured, echo back a mock created item
+    // Dev fallback (non-production only): if public env is not configured AND no service key, echo back a mock created item
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    if (process.env.NODE_ENV !== 'production' && (!url || !anon)) {
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    if (process.env.NODE_ENV !== 'production' && (!url || !anon) && !serviceKey) {
       const body = await request.json()
       const { title, content, category, is_important, image_url } = body
       return NextResponse.json({
@@ -172,16 +174,23 @@ export async function POST(request: NextRequest) {
     }
     const { title, content, category, is_important, image_url } = parsed.data as any
 
-    const { data, error } = await supabase
+    const payload: any = {
+      title,
+      content,
+      category,
+      is_important,
+      image_url,
+    }
+    if (access.userId) payload.author_id = access.userId
+
+    // Use service-role for writes if available to bypass RLS safely (endpoint still gated by requireAdmin)
+    const writeClient = serviceKey
+      ? createServiceClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', serviceKey)
+      : supabase
+
+    const { data, error } = await writeClient
       .from('news_items')
-      .insert({
-        title,
-        content,
-        category,
-        is_important,
-        image_url,
-        author_id: access.userId ?? 'hardcoded-admin-id'
-      })
+      .insert(payload)
       .select()
       .single()
 

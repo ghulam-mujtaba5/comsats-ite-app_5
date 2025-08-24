@@ -1,4 +1,5 @@
 import { createServerClient } from '@supabase/ssr'
+import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
@@ -183,21 +184,29 @@ export async function POST(request: NextRequest) {
     }
     const { title, description, event_date, event_time, location, category, organizer, capacity, registration_open, image_url } = parsed.data as any
 
-    const { data, error } = await supabase
+    const payload: any = {
+      title,
+      description,
+      event_date,
+      event_time,
+      location,
+      category,
+      organizer,
+      capacity,
+      registration_open,
+      image_url,
+    }
+    if (access.userId) payload.created_by = access.userId
+
+    // Use service-role for writes if available to bypass RLS safely (endpoint still gated by requireAdmin)
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const writeClient = serviceKey
+      ? createServiceClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey)
+      : supabase
+
+    const { data, error } = await writeClient
       .from('events')
-      .insert({
-        title,
-        description,
-        event_date,
-        event_time,
-        location,
-        category,
-        organizer,
-        capacity,
-        registration_open,
-        image_url,
-        created_by: access.userId ?? 'hardcoded-admin-id'
-      })
+      .insert(payload)
       .select()
       .single()
 
