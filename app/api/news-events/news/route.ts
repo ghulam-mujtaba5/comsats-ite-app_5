@@ -60,12 +60,11 @@ export async function GET(request: NextRequest) {
     }
 
     const { data, error } = await query
-    if (error || !data) {
+    if (error) {
       return devFallback()
     }
 
-    // Map DB fields -> UI expected shape
-    const mapped = data.map((n: any) => ({
+    let mapped = (data || []).map((n: any) => ({
       id: n.id,
       title: n.title,
       content: n.content,
@@ -75,6 +74,34 @@ export async function GET(request: NextRequest) {
       imageUrl: n.image_url ?? undefined,
       isImportant: !!n.is_important,
     }))
+
+    // Compatibility fallback: if the newer 'news_items' table is empty,
+    // read from legacy 'news' table (used by /api/news) so published items show up.
+    if (!mapped.length) {
+      const { data: legacy, error: legacyErr } = await supabase
+        .from('news')
+        .select('id,title,content,image_url,status,published_at,created_at,updated_at')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false })
+
+      if (!legacyErr && legacy && legacy.length) {
+        mapped = legacy.map((n: any) => ({
+          id: n.id,
+          title: n.title,
+          content: n.content,
+          // default to 'announcement' if no category
+          category: 'announcement',
+          publishedAt: n.published_at,
+          author: 'Admin',
+          imageUrl: n.image_url ?? undefined,
+          isImportant: false,
+        }))
+      }
+    }
+
+    if (!mapped.length) {
+      return devFallback()
+    }
 
     return NextResponse.json(mapped)
   } catch {
