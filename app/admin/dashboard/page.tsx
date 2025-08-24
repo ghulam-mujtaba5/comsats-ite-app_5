@@ -110,7 +110,7 @@ export default function AdminDashboardPage() {
 
   return (
     <AdminGuard>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 fade-in">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
           <p className="text-muted-foreground mt-2">
@@ -119,11 +119,11 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8" aria-live="polite">
           {statCards.map((card) => {
             const Icon = card.icon
             return (
-              <Card key={card.title} className="hover:shadow-lg transition-shadow cursor-pointer">
+              <Card key={card.title} className="hover:shadow-lg transition-shadow cursor-pointer slide-up interactive hover-lift">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     {card.title}
@@ -142,7 +142,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2" aria-live="polite">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -174,16 +174,16 @@ export default function AdminDashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <a href="/admin/news-events" className="block p-2 rounded hover:bg-accent transition-colors">
+                <a href="/admin/news-events" className="block p-2 rounded hover:bg-accent transition-colors interactive hover-lift">
                   📰 Create News Article
                 </a>
-                <a href="/admin/news-events" className="block p-2 rounded hover:bg-accent transition-colors">
+                <a href="/admin/news-events" className="block p-2 rounded hover:bg-accent transition-colors interactive hover-lift">
                   📅 Add New Event
                 </a>
-                <a href="/admin/guidance" className="block p-2 rounded hover:bg-accent transition-colors">
+                <a href="/admin/guidance" className="block p-2 rounded hover:bg-accent transition-colors interactive hover-lift">
                   📚 Add Guidance Content
                 </a>
-                <a href="/admin/student-support" className="block p-2 rounded hover:bg-accent transition-colors">
+                <a href="/admin/student-support" className="block p-2 rounded hover:bg-accent transition-colors interactive hover-lift">
                   🆘 Manage Support Resources
                 </a>
               </div>
@@ -201,7 +201,7 @@ export default function AdminDashboardPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2" aria-live="polite">
                 <div>
                   <div className="text-sm font-semibold">Timetable (Postgres)</div>
                   {loadingHealth ? (
@@ -209,7 +209,7 @@ export default function AdminDashboardPage() {
                   ) : health.timetable?.ok ? (
                     <div className="text-sm text-green-600">OK {typeof health.timetable?.timetable?.count === 'number' ? `(rows: ${health.timetable.timetable.count})` : ''}</div>
                   ) : (
-                    <div className="text-sm text-red-600">{health.timetable?.error || 'Not OK'}</div>
+                    <div className="text-sm text-red-600" role="alert">{health.timetable?.error || 'Not OK'}</div>
                   )}
                   {health.timetable?.hint && (
                     <div className="text-xs text-muted-foreground mt-1">Hint: {health.timetable.hint}</div>
@@ -222,7 +222,7 @@ export default function AdminDashboardPage() {
                   ) : health.mongo?.ok ? (
                     <div className="text-sm text-green-600">OK</div>
                   ) : (
-                    <div className="text-sm text-red-600">{health.mongo?.error || 'Not OK'}</div>
+                    <div className="text-sm text-red-600" role="alert">{health.mongo?.error || 'Not OK'}</div>
                   )}
                 </div>
               </div>
