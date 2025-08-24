@@ -29,6 +29,7 @@ export default function AdminDashboardPage() {
   const [loadingHealth, setLoadingHealth] = useState(true)
   const [health, setHealth] = useState<{ timetable?: any; mongo?: any }>({})
   const [adminRole, setAdminRole] = useState<string | null>(null)
+  const [statsError, setStatsError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchStats()
@@ -39,12 +40,17 @@ export default function AdminDashboardPage() {
   const fetchStats = async () => {
     try {
       const response = await fetch('/api/admin/dashboard/stats')
-      if (response.ok) {
+      if (!response.ok) {
+        const msg = `HTTP ${response.status}`
+        setStatsError(msg)
+      } else {
         const data = await response.json()
+        setStatsError(null)
         setStats(data)
       }
     } catch (error) {
       console.error('Error fetching stats:', error)
+      setStatsError('Failed to fetch')
     } finally {
       setLoading(false)
     }
@@ -152,6 +158,11 @@ export default function AdminDashboardPage() {
           <p className="text-muted-foreground mt-2">
             Manage all aspects of the CampusAxis portal
           </p>
+          {statsError && (
+            <div role="alert" className="mt-3 text-sm text-destructive">
+              Failed to load KPI stats: {statsError}
+            </div>
+          )}
         </div>
 
         {/* Stats Grid */}
@@ -173,7 +184,7 @@ export default function AdminDashboardPage() {
                     <Icon className={`h-4 w-4 ${card.color}`} />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{loading ? "..." : card.value}</div>
+                    <div className="text-2xl font-bold">{loading ? "..." : (statsError ? "—" : card.value)}</div>
                     <p className="text-xs text-muted-foreground">
                       {card.description}
                     </p>
