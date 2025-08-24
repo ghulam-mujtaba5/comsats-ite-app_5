@@ -82,7 +82,42 @@ export async function GET(req: NextRequest) {
   }
 
   const { data, error } = await query
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (error) {
+    const msg = (error as any)?.message || ''
+    const code = (error as any)?.code || ''
+    // Fallback when table is missing or schema cache not ready
+    if (
+      msg.includes("relation \"news\" does not exist") ||
+      msg.includes("Could not find the table 'public.news'") ||
+      code === '42P01'
+    ) {
+      return NextResponse.json({
+        data: [
+          {
+            id: 'mock-1',
+            title: 'Welcome to CampusAxis',
+            content: 'We are rolling out new features across the portal.',
+            image_url: null,
+            status: 'published',
+            published_at: new Date().toISOString(),
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          },
+          {
+            id: 'mock-2',
+            title: 'Student Services Update',
+            content: 'Timetable uploads and GPA tools received minor fixes.',
+            image_url: null,
+            status: 'published',
+            published_at: new Date().toISOString(),
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          },
+        ],
+      }, { headers: { 'X-Mock-Data': '1' } })
+    }
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
   return NextResponse.json({ data })
 }
 

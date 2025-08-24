@@ -23,7 +23,8 @@ export function NewsSection() {
   useEffect(() => {
     ;(async () => {
       try {
-        const res = await fetch('/api/news')
+        // Use the same source as /news-events page for consistency
+        const res = await fetch('/api/news-events/news')
         if (!res.ok) {
           const body = await res.text().catch(() => '')
           setError(`Failed to load news: ${res.status} ${res.statusText}${body ? ` - ${body}` : ''}`)
@@ -32,9 +33,18 @@ export function NewsSection() {
         }
         setIsMock(res.headers.get('X-Mock-Data') === '1')
         const json = await res.json()
-        const data: News[] = json.data || []
+        // The /api/news-events/news endpoint returns an array of items with fields: id, title, content, imageUrl, publishedAt
+        const arr: any[] = Array.isArray(json) ? json : []
+        const mapped: News[] = arr.map((n) => ({
+          id: n.id,
+          title: n.title,
+          content: n.content,
+          image_url: n.imageUrl ?? null,
+          status: 'published',
+          published_at: n.publishedAt ?? null,
+        }))
         // Only show up to 4 latest
-        setItems(data.slice(0, 4))
+        setItems(mapped.slice(0, 4))
       } catch (e: any) {
         setError(e?.message || 'Failed to load news')
         setItems([])
