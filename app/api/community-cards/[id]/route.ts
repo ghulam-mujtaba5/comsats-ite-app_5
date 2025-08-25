@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { createClient } from '@supabase/supabase-js'
-
-const COOKIE_NAME = 'ite_admin'
+import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
@@ -21,13 +20,9 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
   return NextResponse.json({ data })
 }
 
-function isAdmin(req: NextRequest) {
-  const token = req.cookies.get(COOKIE_NAME)
-  return token?.value === '1'
-}
-
 export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
-  if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const auth = await requireAdmin(req)
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { id } = await context.params
   const body = await req.json().catch(() => ({})) as Partial<{ title: string; subtitle: string | null; description: string | null; link_url: string | null; sort_order: number; status: 'draft' | 'published' }>
 
@@ -43,7 +38,8 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
 }
 
 export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
-  if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const auth = await requireAdmin(req)
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { id } = await context.params
   const { error } = await supabaseAdmin.from('community_cards').delete().eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

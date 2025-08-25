@@ -1,54 +1,37 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { requireAdmin } from '@/lib/admin-access'
 
-async function ensureAdmin(request: NextRequest) {
-  const cookieStore = await (cookies() as any)
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value
-        },
-        set(name: string, value: string, options?: any) {
-          cookieStore.set({ name, value, ...options })
-        },
-        remove(name: string, options?: any) {
-          cookieStore.set({ name, value: '', ...options })
-        },
-      },
-    }
-  )
-  const devCookie = request.cookies.get('dev_admin')?.value
-  const iteCookie = request.cookies.get('ite_admin')?.value
-  const devAdminOk = devCookie === '1' || iteCookie === '1'
-
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (devAdminOk) return { supabase, user: user ?? { id: 'hardcoded-admin-id' } }
-
-  if (!user) return { supabase, user: null }
-
-  const { data: isAdmin } = await supabase
-    .from('admin_users')
-    .select('id')
-    .eq('user_id', user.id)
-    .single()
-
-  if (!isAdmin) return { supabase, user: null }
-  return { supabase, user }
-}
+// Authorization centralized via requireAdmin
 
 export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const { supabase, user } = await ensureAdmin(request)
-  if (!user) return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
+  const auth = await requireAdmin(request)
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
     const { id } = await context.params
     const body = await request.json()
     const { title, description, event_date, event_time, location, category, organizer, capacity, registration_open, image_url } = body
+
+    const cookieStore = await (cookies() as any)
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStore.get(name)?.value
+          },
+          set(name: string, value: string, options?: any) {
+            cookieStore.set({ name, value, ...options })
+          },
+          remove(name: string, options?: any) {
+            cookieStore.set({ name, value: '', ...options })
+          },
+        },
+      }
+    )
 
     const { data, error } = await supabase
       .from('events')
@@ -65,11 +48,29 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
 }
 
 export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const { supabase, user } = await ensureAdmin(request)
-  if (!user) return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
+  const auth = await requireAdmin(request)
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
     const { id } = await context.params
+    const cookieStore = await (cookies() as any)
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStore.get(name)?.value
+          },
+          set(name: string, value: string, options?: any) {
+            cookieStore.set({ name, value, ...options })
+          },
+          remove(name: string, options?: any) {
+            cookieStore.set({ name, value: '', ...options })
+          },
+        },
+      }
+    )
     const { error } = await supabase
       .from('events')
       .delete()

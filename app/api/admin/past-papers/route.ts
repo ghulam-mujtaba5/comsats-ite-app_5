@@ -1,19 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-
-const COOKIE_NAME = 'ite_admin'
-
-function assertAdmin(req: NextRequest) {
-  const token = req.cookies.get(COOKIE_NAME)
-  if (token?.value !== '1') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-  return null
-}
+import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(req: NextRequest) {
-  const unauthorized = assertAdmin(req)
-  if (unauthorized) return unauthorized
+  const auth = await requireAdmin(req)
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
     const { searchParams } = new URL(req.url)
@@ -33,8 +24,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const unauthorized = assertAdmin(req)
-  if (unauthorized) return unauthorized
+  const auth = await requireAdmin(req)
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
     const body = await req.json()
@@ -63,8 +54,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const unauthorized = assertAdmin(req)
-  if (unauthorized) return unauthorized
+  const auth = await requireAdmin(req)
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
     const { searchParams } = new URL(req.url)
@@ -78,3 +69,4 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: e.message || 'Failed to delete past paper' }, { status: 400 })
   }
 }
+

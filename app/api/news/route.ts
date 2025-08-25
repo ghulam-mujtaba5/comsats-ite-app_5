@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { requireAdmin } from '@/lib/admin-access'
 
 /**
  * News API
@@ -38,17 +39,10 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
  * -- Admin/API mutations use service role key via this API (bypasses RLS).
  */
 
-const COOKIE_NAME = 'ite_admin'
-
 //   updated_at timestamptz not null default now()
 // );
 // create index if not exists ix_news_published_at on news(published_at desc);
 // create index if not exists ix_news_status on news(status);
-
-function isAdmin(req: NextRequest) {
-  const token = req.cookies.get(COOKIE_NAME)
-  return token?.value === '1'
-}
 
 export async function GET(req: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -72,7 +66,7 @@ export async function GET(req: NextRequest) {
   }
   const supabase = createClient(url, anon)
 
-  const admin = isAdmin(req)
+  const admin = (await requireAdmin(req)).allow
   let query = supabase.from('news').select('id,title,content,image_url,status,published_at,created_at,updated_at')
 
   if (admin) {
@@ -122,7 +116,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const auth = await requireAdmin(req)
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const body = await req.json().catch(() => null) as { title?: string; content?: string; image_url?: string | null; status?: 'draft' | 'published'; published_at?: string | null }
   if (!body?.title || !body?.content) return NextResponse.json({ error: 'title and content are required' }, { status: 400 })
 

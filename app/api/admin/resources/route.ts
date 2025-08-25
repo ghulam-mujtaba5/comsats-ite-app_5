@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { requireAdmin } from '@/lib/admin-access'
 
-const COOKIE_NAME = 'ite_admin'
 const BUCKET = process.env.SUPABASE_RESOURCES_BUCKET || 'resources'
 const USE_SIGNED_URLS = String(process.env.SUPABASE_USE_SIGNED_URLS || '').toLowerCase() === 'true'
 const MAX_FILE_BYTES = 50 * 1024 * 1024 // 50 MB
@@ -35,14 +35,6 @@ function normalizeDriveUrl(url: string): string {
   return url
 }
 
-function assertAdmin(req: NextRequest) {
-  const token = req.cookies.get(COOKIE_NAME)
-  if (token?.value !== '1') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-  return null
-}
-
 async function ensureBucket() {
   const { data: buckets } = await supabaseAdmin.storage.listBuckets()
   const exists = !!buckets?.find((b) => b.name === BUCKET)
@@ -53,8 +45,8 @@ async function ensureBucket() {
 
 // List resources
 export async function GET(req: NextRequest) {
-  const unauth = assertAdmin(req)
-  if (unauth) return unauth
+  const access = await requireAdmin(req)
+  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { searchParams } = new URL(req.url)
   if (searchParams.get('debug') === '1') {
     const { data: buckets, error: bErr } = await supabaseAdmin.storage.listBuckets()
@@ -76,8 +68,8 @@ export async function GET(req: NextRequest) {
 
 // Create resource: either external_url OR uploaded file
 export async function POST(req: NextRequest) {
-  const unauth = assertAdmin(req)
-  if (unauth) return unauth
+  const access = await requireAdmin(req)
+  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const form = await req.formData()
   const title = String(form.get('title') || '')
@@ -139,8 +131,8 @@ export async function POST(req: NextRequest) {
 
 // Update resource; optionally replace file
 export async function PUT(req: NextRequest) {
-  const unauth = assertAdmin(req)
-  if (unauth) return unauth
+  const access = await requireAdmin(req)
+  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const form = await req.formData()
   const id = String(form.get('id') || '')
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
@@ -217,8 +209,8 @@ export async function PUT(req: NextRequest) {
 
 // Delete resource + file if any
 export async function DELETE(req: NextRequest) {
-  const unauth = assertAdmin(req)
-  if (unauth) return unauth
+  const access = await requireAdmin(req)
+  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { searchParams } = new URL(req.url)
   const id = searchParams.get('id')
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })

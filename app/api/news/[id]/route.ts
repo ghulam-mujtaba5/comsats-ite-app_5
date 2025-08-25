@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { createClient } from '@supabase/supabase-js'
-
-const COOKIE_NAME = 'ite_admin'
-function isAdmin(req: NextRequest) {
-  const token = req.cookies.get(COOKIE_NAME)
-  return token?.value === '1'
-}
+import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
@@ -17,7 +12,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
 
   let query = supabase.from('news').select('id,title,content,image_url,status,published_at,created_at,updated_at').eq('id', id)
 
-  if (!isAdmin(req)) {
+  if (!(await requireAdmin(req)).allow) {
     query = query.eq('status', 'published')
   }
 
@@ -27,7 +22,8 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
 }
 
 export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
-  if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const auth = await requireAdmin(req)
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { id } = await context.params
   const body = await req.json().catch(() => ({})) as Partial<{ title: string; content: string; image_url: string | null; status: 'draft' | 'published'; published_at: string | null }>
 
@@ -48,7 +44,8 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
 }
 
 export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
-  if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const auth = await requireAdmin(req)
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { id } = await context.params
   const { error } = await supabaseAdmin.from('news').delete().eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

@@ -1,19 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-
-const COOKIE_NAME = 'ite_admin'
-
-function unauthorized(req: NextRequest) {
-  const token = req.cookies.get(COOKIE_NAME)
-  if (token?.value !== '1') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-  return null
-}
+import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(req: NextRequest) {
-  const unauth = unauthorized(req)
-  if (unauth) return unauth
+  const access = await requireAdmin(req)
+  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { data, error } = await supabaseAdmin
     .from('timetable')
     .select('id,course_code,course_title,section,day,start_time,end_time,room,teacher_name,department,semester,created_at')
@@ -23,8 +14,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const unauth = unauthorized(req)
-  if (unauth) return unauth
+  const access = await requireAdmin(req)
+  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const body = await req.json().catch(() => null)
   if (!body) return NextResponse.json({ error: 'Invalid body' }, { status: 400 })
   const { data, error } = await supabaseAdmin.from('timetable').insert(body).select('*')
@@ -33,8 +24,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  const unauth = unauthorized(req)
-  if (unauth) return unauth
+  const access = await requireAdmin(req)
+  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const body = await req.json().catch(() => null)
   if (!body || !body.id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
   const id = body.id
@@ -45,8 +36,8 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const unauth = unauthorized(req)
-  if (unauth) return unauth
+  const access = await requireAdmin(req)
+  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { searchParams } = new URL(req.url)
   const id = searchParams.get('id')
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })

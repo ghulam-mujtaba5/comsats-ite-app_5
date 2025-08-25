@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { requireAdmin } from '@/lib/admin-access'
 
 /**
  * Community Cards API
@@ -38,7 +39,7 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
  * -- Disallow public writes; admin/API mutations use service role key via this API (bypasses RLS).
  */
 
-const COOKIE_NAME = 'ite_admin'
+// Admin actions are authorized via requireAdmin()
 
 // SQL (run in Supabase SQL editor):
 // create extension if not exists "uuid-ossp";
@@ -56,10 +57,7 @@ const COOKIE_NAME = 'ite_admin'
 // create index if not exists ix_community_cards_sort on community_cards(sort_order asc);
 // create index if not exists ix_community_cards_status on community_cards(status);
 
-function isAdmin(req: NextRequest) {
-  const token = req.cookies.get(COOKIE_NAME)
-  return token?.value === '1'
-}
+// isAdmin replaced by requireAdmin
 
 export async function GET(req: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -94,8 +92,7 @@ export async function GET(req: NextRequest) {
     })
   }
   const supabase = createClient(url, anon)
-
-  const admin = isAdmin(req)
+  const admin = (await requireAdmin(req)).allow
   let query = supabase.from('community_cards').select('id,title,subtitle,description,link_url,sort_order,status,created_at,updated_at')
   if (!admin) {
     query = query.eq('status', 'published').order('sort_order', { ascending: true })
@@ -109,7 +106,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  if (!isAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const auth = await requireAdmin(req)
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const body = await req.json().catch(() => null) as { title?: string; subtitle?: string | null; description?: string | null; link_url?: string | null; sort_order?: number; status?: 'draft' | 'published' }
   if (!body?.title) return NextResponse.json({ error: 'title is required' }, { status: 400 })
 

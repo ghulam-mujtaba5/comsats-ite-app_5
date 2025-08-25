@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@supabase/supabase-js"
-import { createServerClient } from "@supabase/ssr"
-import { cookies } from "next/headers"
+import { requireAdmin } from "@/lib/admin-access"
 
 // POST /api/issues  -> public: create a new issue report
 // GET  /api/issues  -> admin: list issue reports
@@ -50,36 +49,8 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   // Admin only
   try {
-    let isAdmin = false
-    const devCookie = req.cookies.get('dev_admin')?.value
-    const iteCookie = req.cookies.get('ite_admin')?.value
-    isAdmin = devCookie === '1' || iteCookie === '1'
-
-    if (!isAdmin) {
-      const cookieStore = await (cookies() as any)
-      const rhc = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-        {
-          cookies: {
-            get(name: string) { return cookieStore.get(name)?.value },
-            set(name: string, value: string, options: any) { cookieStore.set(name, value, options) },
-            remove(name: string, options: any) { cookieStore.set(name, '', { ...options, maxAge: 0 }) },
-          },
-        }
-      )
-      const { data: { user } } = await rhc.auth.getUser()
-      if (user) {
-        const { data: adminUser } = await rhc
-          .from('admin_users')
-          .select('id')
-          .eq('user_id', user.id)
-          .single()
-        isAdmin = !!adminUser
-      }
-    }
-
-    if (!isAdmin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const auth = await requireAdmin(req)
+    if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY

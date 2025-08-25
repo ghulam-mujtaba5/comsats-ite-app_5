@@ -1,42 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { requireAdmin } from '@/lib/admin-access'
 
 export async function POST(req: NextRequest) {
   try {
-    // Admin-only: allow if dev admin cookies set OR authenticated admin in DB
-    const devCookie = req.cookies.get('dev_admin')?.value
-    const iteCookie = req.cookies.get('ite_admin')?.value
-    let isAdmin = devCookie === '1' || iteCookie === '1'
-
-    if (!isAdmin) {
-      const cookieStore = await (cookies() as any)
-      const rhc = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-          cookies: {
-            get(name: string) { return cookieStore.get(name)?.value },
-            set(name: string, value: string, options?: any) { cookieStore.set({ name, value, ...options }) },
-            remove(name: string, options?: any) { cookieStore.set({ name, value: '', ...options }) },
-          },
-        }
-      )
-      const { data: { user } } = await rhc.auth.getUser()
-      if (user) {
-        const { data: adminUser } = await rhc
-          .from('admin_users')
-          .select('id')
-          .eq('user_id', user.id)
-          .single()
-        isAdmin = !!adminUser
-      }
-    }
-
-    if (!isAdmin) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    // Centralized RBAC
+    const access = await requireAdmin(req)
+    if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const formData = await req.formData()
     const file = formData.get('file') as File | null
