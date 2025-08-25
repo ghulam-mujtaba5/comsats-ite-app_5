@@ -152,9 +152,8 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
                 <Instagram className="h-5 w-5" />
               </Link>
               <span className="mx-1 h-4 w-px bg-border" />
-              <Link href="/admin/login" aria-label="Admin Login" className="inline-flex items-center gap-1.5 text-xs hover:text-primary transition-colors">
-                <ShieldCheck className="h-4 w-4" />
-                <span>Admin Login</span>
+              <Link href="/admin/login" aria-label="Admin Login" className="hover:text-primary transition-colors">
+                <ShieldCheck className="h-5 w-5" />
               </Link>
             </div>
           </div>
