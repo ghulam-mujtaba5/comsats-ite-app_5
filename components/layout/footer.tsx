@@ -1,5 +1,5 @@
 "use client"
-import { GraduationCap, Mail, Phone, MapPin, Users, Github, Twitter, Instagram, Sparkles, BookOpen, Users2, Shield } from "lucide-react"
+import { GraduationCap, Mail, Phone, MapPin, Users, Github, Twitter, Instagram, Sparkles, BookOpen, Users2, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { SITE_LINKS, type PageStatus } from "@/lib/site-map"
@@ -140,6 +140,23 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
                 </li>
               ))}
             </ul>
+            {/* Social + Admin inline to save space */}
+            <div className="mt-4 flex items-center gap-3 text-muted-foreground">
+              <Link href="https://github.com/" aria-label="GitHub" className="hover:text-primary transition-colors" target="_blank" rel="noreferrer">
+                <Github className="h-5 w-5" />
+              </Link>
+              <Link href="https://twitter.com/" aria-label="Twitter" className="hover:text-primary transition-colors" target="_blank" rel="noreferrer">
+                <Twitter className="h-5 w-5" />
+              </Link>
+              <Link href="https://instagram.com/" aria-label="Instagram" className="hover:text-primary transition-colors" target="_blank" rel="noreferrer">
+                <Instagram className="h-5 w-5" />
+              </Link>
+              <span className="mx-1 h-4 w-px bg-border" />
+              <Link href="/admin/login" aria-label="Admin Login" className="inline-flex items-center gap-1.5 text-xs hover:text-primary transition-colors">
+                <ShieldCheck className="h-4 w-4" />
+                <span>Admin Login</span>
+              </Link>
+            </div>
           </div>
 
           <div>
@@ -230,27 +247,6 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
               </div>
             )
           })()}
-        </div>
-
-        {/* Social links */}
-        <div className="mt-8 flex items-center justify-center gap-4">
-          <Link href="https://github.com/" aria-label="GitHub" className="text-muted-foreground hover:text-primary transition-colors" target="_blank" rel="noreferrer">
-            <Github className="h-5 w-5" />
-          </Link>
-          <Link href="https://twitter.com/" aria-label="Twitter" className="text-muted-foreground hover:text-primary transition-colors" target="_blank" rel="noreferrer">
-            <Twitter className="h-5 w-5" />
-          </Link>
-          <Link href="https://instagram.com/" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors" target="_blank" rel="noreferrer">
-            <Instagram className="h-5 w-5" />
-          </Link>
-        </div>
-
-        {/* Admin login - minimal */}
-        <div className="mt-4 flex items-center justify-center">
-          <Link href="/admin/login" className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors">
-            <Shield className="h-4 w-4" />
-            <span>Admin Login</span>
-          </Link>
         </div>
 
         <div className="border-t border-border mt-8 pt-8 text-center">
