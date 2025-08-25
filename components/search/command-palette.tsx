@@ -100,17 +100,17 @@ export function CommandPalette() {
     allowedRoles?: string[]
   }> = [
     { label: "Admin Dashboard", value: "go:/admin" },
-    { label: "Users", value: "go:/admin/users", allowedRoles: ["superadmin", "admin", "support"] },
-    { label: "Faculty", value: "go:/admin/faculty", allowedRoles: ["superadmin", "admin", "content"] },
-    { label: "Reviews (Moderation)", value: "go:/admin/reviews", allowedRoles: ["superadmin", "admin", "moderator"] },
-    { label: "Resources", value: "go:/admin/resources", allowedRoles: ["superadmin", "admin", "content"] },
-    { label: "Past Papers", value: "go:/admin/past-papers", allowedRoles: ["superadmin", "admin", "content"] },
-    { label: "News", value: "go:/admin/news", allowedRoles: ["superadmin", "admin", "content"] },
-    { label: "News & Events", value: "go:/admin/news-events", allowedRoles: ["superadmin", "admin", "content"] },
-    { label: "Community Moderation", value: "go:/admin/moderation", allowedRoles: ["superadmin", "admin", "moderator"] },
-    { label: "Issues / Reports", value: "go:/admin/issues", allowedRoles: ["superadmin", "admin", "support"] },
-    { label: "Timetable", value: "go:/admin/timetable", allowedRoles: ["superadmin", "admin", "content"] },
-    { label: "Settings", value: "go:/admin/settings", allowedRoles: ["superadmin", "admin"] },
+    { label: "Users", value: "go:/admin/users", allowedRoles: ["super_admin", "admin", "support"] },
+    { label: "Faculty", value: "go:/admin/faculty", allowedRoles: ["super_admin", "admin", "content"] },
+    { label: "Reviews (Moderation)", value: "go:/admin/reviews", allowedRoles: ["super_admin", "admin", "moderator"] },
+    { label: "Resources", value: "go:/admin/resources", allowedRoles: ["super_admin", "admin", "content"] },
+    { label: "Past Papers", value: "go:/admin/past-papers", allowedRoles: ["super_admin", "admin", "content"] },
+    { label: "News", value: "go:/admin/news", allowedRoles: ["super_admin", "admin", "content"] },
+    { label: "News & Events", value: "go:/admin/news-events", allowedRoles: ["super_admin", "admin", "content"] },
+    { label: "Community Moderation", value: "go:/admin/moderation", allowedRoles: ["super_admin", "admin", "moderator"] },
+    { label: "Issues / Reports", value: "go:/admin/issues", allowedRoles: ["super_admin", "admin", "support"] },
+    { label: "Timetable", value: "go:/admin/timetable", allowedRoles: ["super_admin", "admin", "content"] },
+    { label: "Settings", value: "go:/admin/settings", allowedRoles: ["super_admin", "admin"] },
   ]
 
   const canSeeAdminCommand = (roles?: string[]) => {

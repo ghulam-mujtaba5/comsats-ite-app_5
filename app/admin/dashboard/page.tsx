@@ -142,12 +142,12 @@ export default function AdminDashboardPage() {
   }
 
   const quickActions: Array<{ label: string; href: string; roles?: string[] }> = [
-    { label: "📰 Create News Article", href: "/admin/news-events", roles: ["superadmin", "admin", "content"] },
-    { label: "📅 Add New Event", href: "/admin/news-events", roles: ["superadmin", "admin", "content"] },
-    { label: "📚 Add Guidance Content", href: "/admin/guidance", roles: ["superadmin", "admin", "content"] },
-    { label: "🆘 Manage Support Resources", href: "/admin/student-support", roles: ["superadmin", "admin", "support"] },
-    { label: "👥 Manage Users", href: "/admin/users", roles: ["superadmin", "admin", "support"] },
-    { label: "🧹 Review Moderation Queue", href: "/admin/reviews", roles: ["superadmin", "admin", "moderator"] },
+    { label: "📰 Create News Article", href: "/admin/news-events", roles: ["super_admin", "admin", "content"] },
+    { label: "📅 Add New Event", href: "/admin/news-events", roles: ["super_admin", "admin", "content"] },
+    { label: "📚 Add Guidance Content", href: "/admin/guidance", roles: ["super_admin", "admin", "content"] },
+    { label: "🆘 Manage Support Resources", href: "/admin/student-support", roles: ["super_admin", "admin", "support"] },
+    { label: "👥 Manage Users", href: "/admin/users", roles: ["super_admin", "admin", "support"] },
+    { label: "🧹 Review Moderation Queue", href: "/admin/reviews", roles: ["super_admin", "admin", "moderator"] },
   ]
 
   return (

@@ -1,20 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getMongoDb } from '@/lib/mongodb'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-
-const COOKIE_NAME = 'ite_admin'
-
-function assertAdmin(req: NextRequest) {
-  const token = req.cookies.get(COOKIE_NAME)
-  if (token?.value !== '1') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-  return null
-}
+import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(req: NextRequest) {
-  const unauthorized = assertAdmin(req)
-  if (unauthorized) return unauthorized
+  const access = await requireAdmin(req)
+  if (!access.allow) {
+    return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })
+  }
 
   try {
     const { searchParams } = new URL(req.url)
@@ -49,8 +42,10 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const unauthorized = assertAdmin(req)
-  if (unauthorized) return unauthorized
+  const access = await requireAdmin(req)
+  if (!access.allow) {
+    return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })
+  }
 
   try {
     const { id, status } = await req.json()
