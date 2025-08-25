@@ -1,5 +1,5 @@
 "use client"
-import { GraduationCap, Mail, Phone, MapPin, Users, Github, Twitter, Instagram, Sparkles, BookOpen, Users2 } from "lucide-react"
+import { GraduationCap, Mail, Phone, MapPin, Users, Github, Twitter, Instagram, Sparkles, BookOpen, Users2, Shield } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { SITE_LINKS, type PageStatus } from "@/lib/site-map"
@@ -242,6 +242,14 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           </Link>
           <Link href="https://instagram.com/" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors" target="_blank" rel="noreferrer">
             <Instagram className="h-5 w-5" />
+          </Link>
+        </div>
+
+        {/* Admin login - minimal */}
+        <div className="mt-4 flex items-center justify-center">
+          <Link href="/admin/login" className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors">
+            <Shield className="h-4 w-4" />
+            <span>Admin Login</span>
           </Link>
         </div>
 
