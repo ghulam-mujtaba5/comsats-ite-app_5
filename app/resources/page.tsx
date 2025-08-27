@@ -257,7 +257,10 @@ export default function ResourcesPage() {
                   )
                   .filter((r) => (dept === "All" ? true : (r.department || "General") === dept))
                   .filter((r) => (term === "All" ? true : (r.term || "Unspecified") === term))
-              }, [items, search, dept, term]).map((r) => (
+                  .filter((r) => (difficulty === "All" ? true : r.difficulty === difficulty))
+                  .filter((r) => (resourceType === "All" ? true : r.type === resourceType))
+                  .filter((r) => (!showVerifiedOnly ? true : r.is_verified === true))
+              }, [items, search, dept, term, difficulty, resourceType, showVerifiedOnly]).map((r) => (
                 <Card key={r.id} className="p-4 slide-up">
                   <div className="space-y-2">
                     <h2 className="text-lg font-semibold">{r.title}</h2>

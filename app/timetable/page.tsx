@@ -486,10 +486,9 @@ export default function TimetablePage() {
           <Card className="mb-8 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg">
             <CardContent className="p-8">
               <AdvancedFilterBar
-                searchQuery={searchQuery}
+                search={searchQuery}
                 onSearchChange={setSearchQuery}
-                filters={filterOptions}
-                onFilterChange={handleFilterChange}
+                selects={filterOptions}
                 sortOptions={sortOptions}
                 currentSort={currentSort}
                 onSortChange={handleSortChange}
