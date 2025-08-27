@@ -121,3 +121,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .surface {
+    @apply bg-background/80 backdrop-blur-lg;
+  }
+
+  .surface-soft {
+    @apply bg-muted/80 backdrop-blur-lg;
+  }
+
+  .surface-glass {
+    @apply bg-white/5 backdrop-blur-2xl border-white/10 shadow-2xl shadow-black/20;
+  }
+
+  .app-container {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
