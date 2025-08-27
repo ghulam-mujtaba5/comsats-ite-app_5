@@ -15,9 +15,9 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: "en-PK",
     icons: [
       {
-        src: "/logo.jpg.svg",
+        src: "/new%20logo.jpg",
         sizes: "any",
-        type: "image/svg+xml",
+        type: "image/jpeg",
         purpose: "any",
       },
     ],
