@@ -4,6 +4,7 @@ import { jsonLdBreadcrumb } from "@/lib/seo"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -309,10 +310,25 @@ export default function StudentSupportPage() {
         </div>
 
         {/* Support Resources */}
-        <div>
+        <div aria-live="polite" {...(loading ? ({ 'aria-busy': 'true' } as any) : {})}>
           <h2 className="text-xl font-semibold mb-4">Available Support Resources</h2>
           {loading ? (
-            <CenteredLoader message="Loading support resources..." />
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Card key={`sk-${i}`} className="p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <Skeleton className="h-5 w-40" />
+                    <Skeleton className="h-5 w-20" />
+                  </div>
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <Skeleton className="h-4 w-5/6 mb-4" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-64" />
+                    <Skeleton className="h-4 w-48" />
+                  </div>
+                </Card>
+              ))}
+            </div>
           ) : error ? (
             <div className="text-center py-8 text-destructive">{error}</div>
           ) : regularResources.length === 0 ? (
@@ -320,7 +336,7 @@ export default function StudentSupportPage() {
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {regularResources.map((resource) => (
-                <Card key={resource.id} className="hover:shadow-lg transition-shadow">
+                <Card key={resource.id} className="hover:shadow-lg transition-shadow interactive hover-lift">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <CardTitle className="text-lg">{resource.title}</CardTitle>
