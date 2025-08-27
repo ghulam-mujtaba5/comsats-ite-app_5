@@ -225,7 +225,7 @@ export default function AdminEventsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="app-container section">
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Events Management</h1>
         <p className="text-muted-foreground mt-2">
@@ -400,7 +400,7 @@ export default function AdminEventsPage() {
       ) : (
         <div className="grid gap-4">
           {filteredEvents.map((event) => (
-            <Card key={event.id} className="hover:shadow-lg transition-shadow">
+            <Card key={event.id} variant="elevated" className="transition-shadow">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -468,9 +468,9 @@ export default function AdminEventsPage() {
             </Card>
           ))}
           {filteredEvents.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              No events found matching your criteria
-            </div>
+            <Card variant="soft" className="p-8 text-center">
+              <div className="text-muted-foreground">No events found matching your criteria</div>
+            </Card>
           )}
         </div>
       )}

@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useToast } from '@/hooks/use-toast'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 // Columns for CSV templates
 const facultyColumns = [
@@ -160,85 +161,112 @@ export default function BulkImportPage() {
   }
 
   return (
-    <div className="container mx-auto max-w-4xl py-8 space-y-6">
+    <div className="app-container section space-y-6">
       <h1 className="text-2xl font-semibold">Bulk Import</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Label>Entity</Label>
-          <Select value={entity} onValueChange={(v: any) => setEntity(v)}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="faculty">Faculty</SelectItem>
-              <SelectItem value="reviews">Reviews</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      <Card variant="elevated">
+        <CardHeader>
+          <CardTitle>Configuration</CardTitle>
+          <CardDescription>Select entity, options and provide data as file or paste.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label>Entity</Label>
+              <Select value={entity} onValueChange={(v: any) => setEntity(v)}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="faculty">Faculty</SelectItem>
+                  <SelectItem value="reviews">Reviews</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-        {entity === 'reviews' && (
-          <div>
-            <Label>Default Review Status</Label>
-            <Select value={defaultStatus} onValueChange={(v: any) => setDefaultStatus(v)}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="approved">approved</SelectItem>
-                <SelectItem value="pending">pending</SelectItem>
-                <SelectItem value="rejected">rejected</SelectItem>
-              </SelectContent>
-            </Select>
+            {entity === 'reviews' && (
+              <div>
+                <Label>Default Review Status</Label>
+                <Select value={defaultStatus} onValueChange={(v: any) => setDefaultStatus(v)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="approved">approved</SelectItem>
+                    <SelectItem value="pending">pending</SelectItem>
+                    <SelectItem value="rejected">rejected</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
           </div>
-        )}
-      </div>
 
-      <div className="flex items-center gap-4">
-        <div className="flex items-center space-x-2">
-          <Checkbox id="dry" checked={dryRun} onCheckedChange={(v) => setDryRun(!!v)} />
-          <Label htmlFor="dry">Dry run</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Checkbox id="upsert" checked={upsert} onCheckedChange={(v) => setUpsert(!!v)} />
-          <Label htmlFor="upsert">Upsert by id</Label>
-        </div>
-        <Button variant="outline" onClick={handleDownloadTemplate}>Download CSV template</Button>
-      </div>
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center space-x-2">
+              <Checkbox id="dry" checked={dryRun} onCheckedChange={(v) => setDryRun(!!v)} />
+              <Label htmlFor="dry">Dry run</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="upsert" checked={upsert} onCheckedChange={(v) => setUpsert(!!v)} />
+              <Label htmlFor="upsert">Upsert by id</Label>
+            </div>
+            <Button variant="outline" onClick={handleDownloadTemplate}>Download CSV template</Button>
+          </div>
 
-      <div className="space-y-2">
-        <Label>Upload JSON/CSV file</Label>
-        <Input type="file" accept=".json,.csv" onChange={(e) => {
-          const f = e.target.files?.[0]
-          if (f) { setFile(f); loadFile(f) }
-        }} />
-      </div>
+          <div className="space-y-2">
+            <Label>Upload JSON/CSV file</Label>
+            <Input type="file" accept=".json,.csv" onChange={(e) => {
+              const f = e.target.files?.[0]
+              if (f) { setFile(f); loadFile(f) }
+            }} />
+          </div>
 
-      <div className="space-y-2">
-        <Label>Or paste JSON/CSV</Label>
-        <Textarea rows={10} value={text} onChange={(e) => setText(e.target.value)} placeholder="[ { ... }, ... ] or CSV rows" />
-      </div>
+          <div className="space-y-2">
+            <Label>Or paste JSON/CSV</Label>
+            <Textarea rows={10} value={text} onChange={(e) => setText(e.target.value)} placeholder="[ { ... }, ... ] or CSV rows" />
+          </div>
 
-      <div className="flex gap-2">
-        <Button onClick={handleSubmit} disabled={submitting}>{submitting ? 'Processing...' : (dryRun ? 'Validate (Dry Run)' : 'Import')}</Button>
-      </div>
+          <div className="flex gap-2">
+            <Button onClick={handleSubmit} disabled={submitting}>{submitting ? 'Processing...' : (dryRun ? 'Validate (Dry Run)' : 'Import')}</Button>
+          </div>
+        </CardContent>
+      </Card>
 
-      {result && (
-        <div className="rounded-md border p-4 text-sm">
-          <pre className="whitespace-pre-wrap break-all">{JSON.stringify(result, null, 2)}</pre>
-        </div>
-      )}
+      <Card variant="elevated">
+        <CardHeader>
+          <CardTitle>Result</CardTitle>
+          <CardDescription>Output from the last validation or import.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {result ? (
+            <div className="rounded-md border p-4 text-sm">
+              <pre className="whitespace-pre-wrap break-all">{JSON.stringify(result, null, 2)}</pre>
+            </div>
+          ) : (
+            <Card variant="soft" className="p-8 text-center">
+              <div className="text-muted-foreground">No result yet — run a dry validation or import.</div>
+            </Card>
+          )}
+        </CardContent>
+      </Card>
 
-      <section className="prose max-w-none">
-        <h2 className="text-xl font-semibold">Validation Rules</h2>
-        <ul className="list-disc pl-6">
-          <li><b>Faculty required</b>: name, department. Arrays use | in CSV (e.g., specialization, courses, education).</li>
-          <li><b>Review required</b>: faculty_id, course, semester, rating, teaching_quality, accessibility, course_material, grading, comment.</li>
-          <li><b>Ratings</b>: integers 1-5. Booleans: true/false. Empty cells treated as missing.</li>
-          <li><b>Upsert</b>: if checked, rows with existing id update; otherwise insert new rows.</li>
-          <li><b>Dry run</b>: validates and shows counts without writing to DB.</li>
-        </ul>
-      </section>
+      <Card variant="elevated">
+        <CardHeader>
+          <CardTitle>Validation Rules</CardTitle>
+          <CardDescription>What is required and how values are interpreted.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <section className="prose max-w-none">
+            <ul className="list-disc pl-6">
+              <li><b>Faculty required</b>: name, department. Arrays use | in CSV (e.g., specialization, courses, education).</li>
+              <li><b>Review required</b>: faculty_id, course, semester, rating, teaching_quality, accessibility, course_material, grading, comment.</li>
+              <li><b>Ratings</b>: integers 1-5. Booleans: true/false. Empty cells treated as missing.</li>
+              <li><b>Upsert</b>: if checked, rows with existing id update; otherwise insert new rows.</li>
+              <li><b>Dry run</b>: validates and shows counts without writing to DB.</li>
+            </ul>
+          </section>
+        </CardContent>
+      </Card>
     </div>
   )
 }

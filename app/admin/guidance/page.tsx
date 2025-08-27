@@ -237,7 +237,7 @@ export default function AdminGuidancePage() {
   })
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="app-container section">
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Guidance Management</h1>
         <p className="text-muted-foreground mt-2">
@@ -385,10 +385,14 @@ export default function AdminGuidancePage() {
 
           {loading ? (
             <div className="text-center py-8">Loading guidance sections...</div>
+          ) : filteredGuideSections.length === 0 ? (
+            <Card variant="soft" className="p-8 text-center">
+              <div className="text-muted-foreground">No guidance sections found</div>
+            </Card>
           ) : (
             <div className="grid gap-4">
               {filteredGuideSections.map((section) => (
-                <Card key={section.id}>
+                <Card key={section.id} variant="elevated">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
@@ -535,10 +539,14 @@ export default function AdminGuidancePage() {
 
           {loading ? (
             <div className="text-center py-8">Loading FAQ items...</div>
+          ) : filteredFaqs.length === 0 ? (
+            <Card variant="soft" className="p-8 text-center">
+              <div className="text-muted-foreground">No FAQs found</div>
+            </Card>
           ) : (
             <div className="grid gap-4">
               {filteredFaqs.map((faq) => (
-                <Card key={faq.id}>
+                <Card key={faq.id} variant="elevated">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>

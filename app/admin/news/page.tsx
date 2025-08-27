@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 
 type News = {
@@ -63,56 +64,72 @@ export default function AdminNewsPage() {
 
   return (
     <AdminGuard>
-      <div className="container mx-auto p-6 space-y-6">
+      <div className="app-container section space-y-6">
         <h1 className="text-2xl font-bold">Manage News</h1>
 
-        <div className="border rounded p-4 space-y-3">
-          <h2 className="font-semibold">Create News</h2>
-          <Input placeholder="Title" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} />
-          <Textarea placeholder="Content" value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} />
-          <Input placeholder="Image URL (optional)" value={form.image_url} onChange={e => setForm(f => ({ ...f, image_url: e.target.value }))} />
-          <Select value={form.status} onValueChange={(v: any) => setForm(f => ({ ...f, status: v }))}>
-            <SelectTrigger className="w-48"><SelectValue placeholder="Status" /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="draft">Draft</SelectItem>
-              <SelectItem value="published">Published</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button onClick={createItem} disabled={submitting || !form.title || !form.content}>Create</Button>
-        </div>
+        <Card variant="elevated">
+          <CardHeader>
+            <CardTitle>Create News</CardTitle>
+            <CardDescription>Add new announcements and publish when ready.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Input placeholder="Title" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} />
+            <Textarea placeholder="Content" value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} />
+            <Input placeholder="Image URL (optional)" value={form.image_url} onChange={e => setForm(f => ({ ...f, image_url: e.target.value }))} />
+            <Select value={form.status} onValueChange={(v: any) => setForm(f => ({ ...f, status: v }))}>
+              <SelectTrigger className="w-48"><SelectValue placeholder="Status" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="published">Published</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button onClick={createItem} disabled={submitting || !form.title || !form.content}>Create</Button>
+          </CardContent>
+        </Card>
 
-        <div className="space-y-3">
-          <h2 className="font-semibold">Existing</h2>
-          {loading ? <p>Loading…</p> : (
-            <ul className="space-y-2">
-              {items.map(n => (
-                <li key={n.id} className="border rounded p-3">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <div className="font-medium">{n.title}</div>
-                      <div className="text-sm text-muted-foreground">{n.status} {n.published_at ? `• ${new Date(n.published_at).toLocaleString()}` : ""}</div>
+        <Card variant="elevated">
+          <CardHeader>
+            <CardTitle>Existing</CardTitle>
+            <CardDescription>Review, publish/unpublish, edit or delete news items.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <p>Loading…</p>
+            ) : items.length === 0 ? (
+              <Card variant="soft" className="p-8 text-center">
+                <div className="text-muted-foreground">No news items yet</div>
+              </Card>
+            ) : (
+              <ul className="space-y-2">
+                {items.map(n => (
+                  <li key={n.id} className="border rounded p-3">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1">
+                        <div className="font-medium">{n.title}</div>
+                        <div className="text-sm text-muted-foreground">{n.status} {n.published_at ? `• ${new Date(n.published_at).toLocaleString()}` : ""}</div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button variant="outline" onClick={() => updateItem(n.id, { status: n.status === 'published' ? 'draft' : 'published' })}>
+                          {n.status === 'published' ? 'Unpublish' : 'Publish'}
+                        </Button>
+                        <Button asChild variant="outline"><Link href={`/news/${n.id}`} target="_blank">Preview</Link></Button>
+                        <Button variant="destructive" onClick={() => deleteItem(n.id)}>Delete</Button>
+                      </div>
                     </div>
-                    <div className="flex gap-2">
-                      <Button variant="outline" onClick={() => updateItem(n.id, { status: n.status === 'published' ? 'draft' : 'published' })}>
-                        {n.status === 'published' ? 'Unpublish' : 'Publish'}
-                      </Button>
-                                            <Button asChild variant="outline"><Link href={`/news/${n.id}`} target="_blank">Preview</Link></Button>
-                      <Button variant="destructive" onClick={() => deleteItem(n.id)}>Delete</Button>
-                    </div>
-                  </div>
-                  <details className="mt-2">
-                    <summary className="cursor-pointer text-sm underline">Edit</summary>
-                    <div className="mt-2 space-y-2">
-                      <Input defaultValue={n.title} onBlur={e => updateItem(n.id, { title: e.target.value })} />
-                      <Textarea defaultValue={n.content} onBlur={e => updateItem(n.id, { content: e.target.value })} />
-                      <Input defaultValue={n.image_url ?? ''} placeholder="Image URL" onBlur={e => updateItem(n.id, { image_url: e.target.value || null } as any)} />
-                    </div>
-                  </details>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+                    <details className="mt-2">
+                      <summary className="cursor-pointer text-sm underline">Edit</summary>
+                      <div className="mt-2 space-y-2">
+                        <Input defaultValue={n.title} onBlur={e => updateItem(n.id, { title: e.target.value })} />
+                        <Textarea defaultValue={n.content} onBlur={e => updateItem(n.id, { content: e.target.value })} />
+                        <Input defaultValue={n.image_url ?? ''} placeholder="Image URL" onBlur={e => updateItem(n.id, { image_url: e.target.value || null } as any)} />
+                      </div>
+                    </details>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </AdminGuard>
   )

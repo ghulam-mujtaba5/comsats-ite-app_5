@@ -121,7 +121,7 @@ export default function AdminLostFoundPage() {
 
   return (
     <AdminGuard>
-      <div className="container mx-auto px-4 py-8">
+      <div className="app-container section">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Lost & Found Management</h1>
           <p className="text-muted-foreground mt-2">
@@ -164,83 +164,91 @@ export default function AdminLostFoundPage() {
         </div>
 
         {/* Items Table */}
-        <Card>
+        <Card variant="elevated">
           <CardHeader>
             <CardTitle>Items ({items.length})</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Location</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {items.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell className="font-medium">{item.title}</TableCell>
-                    <TableCell>
-                      <Badge variant={item.category === "lost" ? "destructive" : "default"}>
-                        {item.category}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>{item.item_type}</TableCell>
-                    <TableCell>{item.location}</TableCell>
-                    <TableCell>
-                      <Badge variant={
-                        item.status === "active" ? "default" :
-                        item.status === "resolved" ? "secondary" : "outline"
-                      }>
-                        {item.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      {new Date(item.created_at).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => setSelectedItem(item)}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        {item.status === "active" && (
+            {loading ? (
+              <div className="py-10 text-center text-muted-foreground">Loading…</div>
+            ) : items.length === 0 ? (
+              <Card variant="soft" className="p-8 text-center">
+                <div className="text-muted-foreground">No items found.</div>
+              </Card>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {items.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell className="font-medium">{item.title}</TableCell>
+                      <TableCell>
+                        <Badge variant={item.category === "lost" ? "destructive" : "default"}>
+                          {item.category}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{item.item_type}</TableCell>
+                      <TableCell>{item.location}</TableCell>
+                      <TableCell>
+                        <Badge variant={
+                          item.status === "active" ? "default" :
+                          item.status === "resolved" ? "secondary" : "outline"
+                        }>
+                          {item.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        {new Date(item.created_at).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex gap-2">
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => updateItemStatus(item.id, "resolved")}
+                            onClick={() => setSelectedItem(item)}
                           >
-                            <CheckCircle className="h-4 w-4" />
+                            <Eye className="h-4 w-4" />
                           </Button>
-                        )}
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => updateItemStatus(item.id, "closed")}
-                        >
-                          <XCircle className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => deleteItem(item.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                          {item.status === "active" && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => updateItemStatus(item.id, "resolved")}
+                            >
+                              <CheckCircle className="h-4 w-4" />
+                            </Button>
+                          )}
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateItemStatus(item.id, "closed")}
+                          >
+                            <XCircle className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => deleteItem(item.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
           </CardContent>
         </Card>
 
