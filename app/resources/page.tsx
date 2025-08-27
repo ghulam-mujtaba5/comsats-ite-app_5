@@ -76,15 +76,23 @@ export default function ResourcesPage() {
           
           {/* Enhanced Header Section */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-200 dark:border-green-700/30 text-sm font-medium text-green-700 dark:text-green-300 mb-6">
-              <BookOpen className="h-4 w-4" />
-              Study Materials
+            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-card border border-white/20 dark:border-white/10 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 text-sm font-medium text-emerald-700 dark:text-emerald-300 mb-8">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full blur opacity-30 animate-pulse" />
+                <div className="relative bg-gradient-to-r from-emerald-500 to-teal-500 p-2 rounded-full">
+                  <BookOpen className="h-4 w-4 text-white" />
+                </div>
+              </div>
+              Study Materials Hub
             </div>
             <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
-              Learning <span className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">Resources</span>
+              Learning{" "}
+              <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent animate-pulse">
+                Resources
+              </span>
             </h1>
             <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto mb-8 font-medium leading-relaxed">
-              Download study materials, useful documents, and resources shared by departments and faculty members.
+              Discover curated study materials, useful documents, and resources shared by departments and faculty members to enhance your learning journey.
             </p>
           </div>
 
