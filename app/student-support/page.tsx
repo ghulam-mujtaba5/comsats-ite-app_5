@@ -169,9 +169,36 @@ export default function StudentSupportPage() {
 
   const filteredResources = supportResources.filter((resource) => {
     const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         resource.description.toLowerCase().includes(searchQuery.toLowerCase())
+                         resource.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         resource.tags?.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
     const matchesCategory = selectedCategory === "all" || resource.category === selectedCategory
-    return matchesSearch && matchesCategory
+    const matchesPriority = selectedPriority === "all" || resource.priority === selectedPriority
+    const matchesEmergency = !showEmergencyOnly || resource.isEmergency
+    
+    return matchesSearch && matchesCategory && matchesPriority && matchesEmergency
+  }).sort((a, b) => {
+    let result = 0
+    switch (currentSort) {
+      case 'priority-desc':
+        const priorityOrder = { high: 3, medium: 2, low: 1 }
+        result = (priorityOrder[b.priority || 'medium'] || 2) - (priorityOrder[a.priority || 'medium'] || 2)
+        break
+      case 'title-asc':
+        result = a.title.localeCompare(b.title)
+        break
+      case 'category-asc':
+        result = a.category.localeCompare(b.category)
+        break
+      case 'rating-desc':
+        result = (b.rating || 0) - (a.rating || 0)
+        break
+      case 'updated-desc':
+        result = new Date(b.lastUpdated || '').getTime() - new Date(a.lastUpdated || '').getTime()
+        break
+      default:
+        result = 0
+    }
+    return sortDirection === 'desc' ? -result : result
   })
 
   const emergencyResources = supportResources.filter(resource => resource.isEmergency)
@@ -195,14 +222,68 @@ export default function StudentSupportPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Student Support</h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Get the help and support you need for your academic and personal well-being
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
+      <div className="container mx-auto px-4 py-12 max-w-7xl">
+        {/* Enhanced Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30 border border-red-200 dark:border-red-700/30 text-sm font-medium text-red-700 dark:text-red-300 mb-6">
+            <Heart className="h-4 w-4" />
+            Student Wellbeing
+          </div>
+          <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
+            Student <span className="bg-gradient-to-r from-red-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">Support</span>
+          </h1>
+          <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto mb-8 font-medium leading-relaxed">
+            Get the help and support you need for your academic and personal well-being. We're here to help you succeed.
           </p>
+        </div>
+
+        {/* Enhanced Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+            <CardContent className="flex items-center gap-4 p-6">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-red-500/20 to-pink-600/20 border border-red-200/30 dark:border-red-700/30">
+                <Heart className="h-8 w-8 text-red-600 dark:text-red-400" />
+              </div>
+              <div>
+                <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{supportResources.length}</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Support Services</div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+            <CardContent className="flex items-center gap-4 p-6">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-600/20 border border-orange-200/30 dark:border-orange-700/30">
+                <AlertTriangle className="h-8 w-8 text-orange-600 dark:text-orange-400" />
+              </div>
+              <div>
+                <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{emergencyResources.length}</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Emergency Resources</div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+            <CardContent className="flex items-center gap-4 p-6">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30">
+                <Users className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{supportResources.filter(r => r.category === 'mental-health').length}</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Mental Health</div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+            <CardContent className="flex items-center gap-4 p-6">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30 dark:border-green-700/30">
+                <BookOpen className="h-8 w-8 text-green-600 dark:text-green-400" />
+              </div>
+              <div>
+                <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{supportResources.filter(r => r.category === 'academic').length}</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Academic Support</div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Emergency Resources */}
@@ -232,31 +313,101 @@ export default function StudentSupportPage() {
           </div>
         )}
 
-        {/* Search and Filters */}
-        <div className="mb-6 flex gap-4">
-          <div className="flex-1">
-            <Input
-              placeholder="Search support resources..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full"
-              aria-label="Search support resources"
-            />
-          </div>
-          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-48" aria-label="Filter by category">
-              <SelectValue placeholder="Filter by category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              <SelectItem value="mental-health">Mental Health</SelectItem>
-              <SelectItem value="academic">Academic</SelectItem>
-              <SelectItem value="financial">Financial</SelectItem>
-              <SelectItem value="career">Career</SelectItem>
-              <SelectItem value="personal">Personal</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        {/* Enhanced Search and Filters */}
+        <AdvancedFilterBar
+          search={searchQuery}
+          onSearchChange={setSearchQuery}
+          searchPlaceholder="Search support resources by title, description, or tags..."
+          selects={[
+            {
+              ...standardFilters.supportCategories,
+              value: selectedCategory,
+              onChange: setSelectedCategory,
+              label: "Support Category",
+              description: "Filter by type of support needed",
+              options: [...standardFilters.supportCategories.options] as Array<{ label: string; value: string; description?: string }>
+            },
+            {
+              id: "priority",
+              value: selectedPriority,
+              onChange: setSelectedPriority,
+              placeholder: "All Priorities",
+              label: "Priority Level",
+              description: "Filter by urgency level",
+              options: [
+                { label: "All Priorities", value: "all" },
+                { label: "High Priority", value: "high", description: "Urgent support needed" },
+                { label: "Medium Priority", value: "medium", description: "Important but not urgent" },
+                { label: "Low Priority", value: "low", description: "General information" }
+              ]
+            }
+          ]}
+          sortOptions={[
+            { label: "Priority (High to Low)", value: "priority-desc" },
+            { label: "Title A-Z", value: "title-asc" },
+            { label: "Category", value: "category-asc" },
+            { label: "Highest Rated", value: "rating-desc" },
+            { label: "Recently Updated", value: "updated-desc" }
+          ]}
+          currentSort={currentSort}
+          onSortChange={setCurrentSort}
+          sortDirection={sortDirection}
+          onSortDirectionChange={setSortDirection}
+          filterPresets={[
+            {
+              id: 'emergency',
+              name: 'Emergency Only',
+              filters: { priority: 'high' },
+              description: 'High priority emergency resources'
+            },
+            {
+              id: 'mental-health',
+              name: 'Mental Health',
+              filters: { category: 'mental-health' },
+              description: 'Mental health and wellness support'
+            },
+            {
+              id: 'academic',
+              name: 'Academic Help',
+              filters: { category: 'academic' },
+              description: 'Academic support and tutoring'
+            }
+          ]}
+          showActiveFilterCount={true}
+          collapsible={true}
+          defaultCollapsed={false}
+          className="mb-10"
+          right={
+            <div className="flex items-center gap-4">
+              {/* Emergency Only Toggle */}
+              <Button
+                variant={showEmergencyOnly ? "default" : "outline"}
+                size="sm"
+                onClick={() => setShowEmergencyOnly(!showEmergencyOnly)}
+                className="flex items-center gap-2"
+              >
+                <AlertTriangle className="h-4 w-4" />
+                Emergency Only
+              </Button>
+              
+              {/* Quick Clear Filters */}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setSearchQuery("")
+                  setSelectedCategory("all")
+                  setSelectedPriority("all")
+                  setShowEmergencyOnly(false)
+                }}
+                className="flex items-center gap-2 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20"
+              >
+                <RotateCcw className="h-4 w-4" />
+                Clear All
+              </Button>
+            </div>
+          }
+        />
 
         {/* Request Support Button */}
         <div className="mb-8">

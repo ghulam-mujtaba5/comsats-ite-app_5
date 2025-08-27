@@ -151,14 +151,16 @@ export default function ResourcesPage() {
                 value: resourceType,
                 onChange: setResourceType,
                 label: "Resource Type",
-                description: "Filter by resource type"
+                description: "Filter by resource type",
+                options: [...standardFilters.resourceTypes.options] as Array<{ label: string; value: string; description?: string }>
               },
               {
                 ...standardFilters.difficulty,
                 value: difficulty,
                 onChange: setDifficulty,
                 label: "Difficulty Level",
-                description: "Filter by difficulty level"
+                description: "Filter by difficulty level",
+                options: [...standardFilters.difficulty.options] as Array<{ label: string; value: string; description?: string }>
               },
               {
                 id: "term",
@@ -178,7 +180,20 @@ export default function ResourcesPage() {
             onSortChange={setCurrentSort}
             sortDirection={sortDirection}
             onSortDirectionChange={setSortDirection}
-            filterPresets={filterPresets.resources}
+            filterPresets={[
+              {
+                id: 'verified-docs',
+                name: 'Verified Documents',
+                filters: { type: 'Document', verified: 'true' },
+                description: 'Verified document resources'
+              },
+              {
+                id: 'beginner-videos',
+                name: 'Beginner Videos',
+                filters: { type: 'Video', difficulty: 'Beginner' },
+                description: 'Video tutorials for beginners'
+              }
+            ]}
             showActiveFilterCount={true}
             collapsible={true}
             defaultCollapsed={false}

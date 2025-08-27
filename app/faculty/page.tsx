@@ -84,7 +84,9 @@ export default function FacultyPage() {
     
     if (experienceLevel !== "All") {
       faculty = faculty.filter((f) => {
-        const years = f.experience || 0
+        // Extract numeric years from experience string (e.g., "15 years" -> 15)
+        const experienceStr = f.experience || "0"
+        const years = parseInt(experienceStr.match(/\d+/)?.[0] || "0", 10)
         switch (experienceLevel) {
           case "Junior": return years < 5
           case "Mid-level": return years >= 5 && years < 10
@@ -96,7 +98,7 @@ export default function FacultyPage() {
     }
     
     if (coursesTaught !== "All") {
-      faculty = faculty.filter((f) => f.coursesTaught?.some(course => course.toLowerCase().includes(coursesTaught.toLowerCase())))
+      faculty = faculty.filter((f) => f.courses?.some((course: string) => course.toLowerCase().includes(coursesTaught.toLowerCase())))
     }
     
     // Apply search
@@ -121,7 +123,10 @@ export default function FacultyPage() {
           result = b.totalReviews - a.totalReviews
           break
         case 'experience-desc':
-          result = (b.experience || 0) - (a.experience || 0)
+          // Extract numeric years from experience strings for comparison
+          const aYears = parseInt((a.experience || "0").match(/\d+/)?.[0] || "0", 10)
+          const bYears = parseInt((b.experience || "0").match(/\d+/)?.[0] || "0", 10)
+          result = bYears - aYears
           break
         case 'department-asc':
           result = a.department.localeCompare(b.department)

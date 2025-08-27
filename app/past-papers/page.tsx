@@ -3,6 +3,7 @@
 import { jsonLdBreadcrumb } from "@/lib/seo"
 import { useEffect, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { CourseCard } from "@/components/past-papers/course-card"
 import { UploadPaperDialog } from "@/components/past-papers/upload-paper-dialog"
 import {
@@ -333,28 +334,32 @@ export default function PastPapersPage() {
                 value: selectedDepartment,
                 onChange: setSelectedDepartment,
                 label: "Department",
-                description: "Filter by academic department"
+                description: "Filter by academic department",
+                options: [...standardFilters.departments.options] as Array<{ label: string; value: string; description?: string }>
               },
               {
                 ...standardFilters.examTypes,
                 value: selectedExamType,
                 onChange: setSelectedExamType,
                 label: "Exam Type",
-                description: "Filter by examination type"
+                description: "Filter by examination type",
+                options: [...standardFilters.examTypes.options] as Array<{ label: string; value: string; description?: string }>
               },
               {
                 ...standardFilters.semesters,
                 value: selectedSemester,
                 onChange: setSelectedSemester,
                 label: "Semester",
-                description: "Filter by academic semester"
+                description: "Filter by academic semester",
+                options: [...standardFilters.semesters.options] as Array<{ label: string; value: string; description?: string }>
               },
               {
                 ...standardFilters.academicYears,
                 value: selectedYear,
                 onChange: setSelectedYear,
                 label: "Year",
-                description: "Filter by academic year"
+                description: "Filter by academic year",
+                options: [...standardFilters.academicYears.options] as Array<{ label: string; value: string; description?: string }>
               }
             ]}
             sortOptions={sortOptions.pastPapers}
@@ -362,7 +367,26 @@ export default function PastPapersPage() {
             onSortChange={setCurrentSort}
             sortDirection={sortDirection}
             onSortDirectionChange={setSortDirection}
-            filterPresets={filterPresets.pastPapers}
+            filterPresets={[
+              {
+                id: 'recent-cs',
+                name: 'Recent CS Papers',
+                filters: { department: 'Computer Science', semester: 'Fall 2024' },
+                description: 'Latest Computer Science papers'
+              },
+              {
+                id: 'midterms-all',
+                name: 'All Midterms',
+                filters: { examType: 'Mid-Term' },
+                description: 'Mid-term examinations only'
+              },
+              {
+                id: 'programming-papers',
+                name: 'Programming Papers',
+                filters: { search: 'programming', department: 'Computer Science' },
+                description: 'Programming related papers'
+              }
+            ]}
             showActiveFilterCount={true}
             collapsible={true}
             defaultCollapsed={false}

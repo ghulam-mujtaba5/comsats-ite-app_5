@@ -135,7 +135,6 @@ export interface FilterConfig {
     label: string
     value: string
     description?: string
-    icon?: any
   }>
 }
 
@@ -151,8 +150,7 @@ export const standardFilters = {
       ...departments.map(dept => ({
         label: dept.name,
         value: dept.name,
-        description: dept.description,
-        icon: dept.icon
+        description: dept.description
       }))
     ]
   },

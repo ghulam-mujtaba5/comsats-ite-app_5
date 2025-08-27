@@ -10,7 +10,7 @@ import { Search, Filter, X, ChevronDown, SortAsc, SortDesc, RotateCcw, BookmarkP
 import { ReactNode, useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 
-export type Option = { label: string; value: string; description?: string; icon?: ReactNode }
+export type Option = { label: string; value: string; description?: string }
 
 export type SortOption = {
   label: string
@@ -204,7 +204,6 @@ export function AdvancedFilterBar({
                     {select.options.map((opt) => (
                       <SelectItem key={opt.value} value={opt.value} className="flex items-center gap-2">
                         <div className="flex items-center gap-2">
-                          {opt.icon}
                           <div>
                             <div>{opt.label}</div>
                             {opt.description && (
