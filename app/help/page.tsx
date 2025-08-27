@@ -1,5 +1,7 @@
 "use client"
 
+"use client"
+
 import { useState } from "react"
 // Metadata imports removed due to "use client" directive
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"

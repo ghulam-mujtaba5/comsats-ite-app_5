@@ -9,8 +9,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Search, Plus, Users, Shield, Ban, CheckCircle, AlertTriangle, Mail, Calendar, Settings } from "lucide-react"
+import { Search, Plus, Users, Shield, Ban, CheckCircle, AlertTriangle, Mail, Calendar, Settings, Filter, SortAsc, MoreHorizontal, UserCheck, UserX, Crown, Sparkles, Activity, TrendingUp } from "lucide-react"
 import { AdminGuard } from "@/components/admin/admin-guard"
+import { AdminPageHeader } from "@/components/admin/admin-page-header"
+import { AdminActionCard } from "@/components/admin/admin-action-card"
+import { AdminLoading } from "@/components/admin/admin-loading"
+import { AdminEmptyState } from "@/components/admin/admin-empty-state"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -253,251 +257,230 @@ export default function AdminUsersPage() {
 
   return (
     <AdminGuard>
-      <div className="app-container section space-y-6 fade-in" role="main" aria-labelledby="users-heading">
-        <div className="space-y-1">
-          <h1 id="users-heading" className="text-3xl font-bold text-balance">User Management</h1>
-          <p className="text-muted-foreground">
-            Manage user accounts, permissions, and admin roles
-          </p>
-        </div>
-        <Tabs defaultValue="users" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="users">All Users</TabsTrigger>
-            <TabsTrigger value="admins">Admin Users</TabsTrigger>
-          </TabsList>
+      <AdminPageHeader
+        title="User Management"
+        description="Comprehensive user account administration and control"
+        icon={Users}
+        iconGradient="from-blue-600 to-purple-600"
+        badges={[
+          {
+            label: "Total Users",
+            value: users.length,
+            icon: Activity,
+            color: "border-blue-200 dark:border-blue-800"
+          },
+          {
+            label: "Admins",
+            value: adminUsers.length,
+            icon: Shield,
+            color: "border-green-200 dark:border-green-800"
+          }
+        ]}
+      />
+        
+        {/* Enhanced User Management Interface */}
+        <div className="app-container space-y-8 pb-12">
+          <Tabs defaultValue="users" className="space-y-6">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+              <TabsList className="glass-card bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40 grid w-full lg:w-auto grid-cols-2">
+                <TabsTrigger value="users" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-lg">
+                  <Users className="h-4 w-4" />
+                  All Users
+                </TabsTrigger>
+                <TabsTrigger value="admins" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-lg">
+                  <Crown className="h-4 w-4" />
+                  Admin Users
+                </TabsTrigger>
+              </TabsList>
+              
+              <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                <div className="relative flex-1 lg:w-80">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 dark:text-slate-400" />
+                  <Input
+                    placeholder="Search users by email or name..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-9 glass-input bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 focus:bg-white/70 dark:focus:bg-slate-800/70"
+                  />
+                </div>
+                <Select value={filterStatus} onValueChange={setFilterStatus}>
+                  <SelectTrigger className="glass-button bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 w-full sm:w-40">
+                    <Filter className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="Filter" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="banned">Banned</SelectItem>
+                    <SelectItem value="unconfirmed">Unconfirmed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
 
           <TabsContent value="users" className="space-y-6">
-            {/* Search and Filters */}
-            <div className="flex flex-wrap gap-4 mb-6 items-center">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input
-                  placeholder="Search users by email or name..."
-                  value={searchQuery}
-                  onChange={(e) => { setSearchQuery(e.target.value); setPage(1) }}
-                  className="pl-10"
-                />
+            {/* Enhanced Users List */}
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Platform Users</h2>
+                  <p className="text-slate-600 dark:text-slate-300">Manage all registered user accounts</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Badge variant="outline" className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300">
+                    <TrendingUp className="h-3 w-3 mr-1" />
+                    {filteredUsers.length} Results
+                  </Badge>
+                </div>
               </div>
-              <Select value={filterStatus} onValueChange={(v) => { setFilterStatus(v); setPage(1) }}>
-                <SelectTrigger className="w-[180px]" aria-label="Filter users by status">
-                <SelectValue />
-              </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Users</SelectItem>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="banned">Banned</SelectItem>
-                  <SelectItem value="unconfirmed">Unconfirmed</SelectItem>
-                  <SelectItem value="admin">Admins</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select value={String(perPage)} onValueChange={(v) => { setPerPage(parseInt(v)); setPage(1) }}>
-                <SelectTrigger className="w-[120px]" aria-label="Results per page">
-                <SelectValue placeholder="Per page" />
-              </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="10">10</SelectItem>
-                  <SelectItem value="20">20</SelectItem>
-                  <SelectItem value="50">50</SelectItem>
-                  <SelectItem value="100">100</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select value={`${sort}:${dir}`} onValueChange={(v) => { const [s,d]=v.split(':') as any; setSort(s); setDir(d); setPage(1) }}>
-                <SelectTrigger className="w-[220px]" aria-label="Sort users">
-                <SelectValue placeholder="Sort" />
-              </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="created_at:desc">Newest</SelectItem>
-                  <SelectItem value="created_at:asc">Oldest</SelectItem>
-                  <SelectItem value="last_sign_in_at:desc">Last Active ↓</SelectItem>
-                  <SelectItem value="last_sign_in_at:asc">Last Active ↑</SelectItem>
-                  <SelectItem value="email:asc">Email A-Z</SelectItem>
-                  <SelectItem value="email:desc">Email Z-A</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Users List */}
-            {loading ? (
-              <div className="grid gap-4" aria-live="polite">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <Card key={`user-sk-${i}`} className="p-5">
-                    <div className="flex justify-between items-start">
-                      <div className="space-y-2 w-full">
-                        <div className="flex items-center gap-2">
-                          <Skeleton className="h-4 w-4 rounded-full" />
-                          <Skeleton className="h-5 w-64" />
-                          <Skeleton className="h-5 w-20" />
-                        </div>
-                        <div className="flex gap-2">
-                          <Skeleton className="h-8 w-40" />
-                          <Skeleton className="h-8 w-28" />
-                          <Skeleton className="h-8 w-28" />
-                          <Skeleton className="h-8 w-32" />
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
+              
+              <div className="grid gap-4">
+                {loading ? (
+                  <AdminLoading message="Loading users..." />
+                ) : filteredUsers.length > 0 ? (
+                  filteredUsers.map((user) => {
+                    const userStatus = getUserStatus(user)
+                    const actions = []
+                    
+                    // Add promote action if not admin
+                    if (!isUserAdmin(user.id)) {
+                      actions.push({
+                        label: "Promote",
+                        icon: Shield,
+                        onClick: () => {
+                          setSelectedUser(user)
+                          setIsPromoteDialogOpen(true)
+                        },
+                        variant: "outline" as const
+                      })
+                    }
+                    
+                    // Add ban/unban action
+                    if (user.banned_until) {
+                      actions.push({
+                        label: "Unban",
+                        icon: UserCheck,
+                        onClick: () => handleBanUser(user.id, false),
+                        className: "bg-green-600 hover:bg-green-700 text-white"
+                      })
+                    } else {
+                      actions.push({
+                        label: "Ban",
+                        icon: Ban,
+                        onClick: () => handleBanUser(user.id, true),
+                        variant: "destructive" as const
+                      })
+                    }
+                    
+                    // Add delete action
+                    actions.push({
+                      label: "Delete",
+                      icon: UserX,
+                      onClick: () => handleDeleteUser(user.id),
+                      variant: "destructive" as const
+                    })
+                    
+                    const badges = []
+                    if (user.banned_until) {
+                      badges.push({
+                        label: "Banned",
+                        variant: "destructive" as const
+                      })
+                    }
+                    
+                    return (
+                      <AdminActionCard
+                        key={user.id}
+                        title={user.user_metadata?.full_name || 'Unnamed User'}
+                        description={user.email}
+                        icon={user.email_confirmed_at ? CheckCircle : Mail}
+                        badges={badges}
+                        actions={actions}
+                        metadata={`Joined ${new Date(user.created_at).toLocaleDateString()}`}
+                        isProblematic={!!user.banned_until}
+                      />
+                    )
+                  })
+                ) : (
+                  <AdminEmptyState
+                    title="No Users Found"
+                    description="No users match your search criteria."
+                    emoji="👥"
+                  />
+                )}  
+              </div>           
+            
+            {/* Pagination */}
+            {hasMore && (
+              <div className="flex justify-center">
+                <Button
+                  onClick={() => setPage(p => p + 1)}
+                  variant="outline"
+                  className="glass-button"
+                >
+                  Load More Users
+                </Button>
               </div>
-            ) : (
-            <div className="grid gap-4">
-              {filteredUsers.map((user) => {
-                const userStatus = getUserStatus(user)
-                return (
-                  <Card key={user.id} variant="elevated" className="transition-shadow hover:shadow-lg interactive hover-lift slide-up">
-                    <CardHeader>
-                      <div className="flex justify-between items-start">
-                        <div className="space-y-1">
-                          <CardTitle className="text-lg flex items-center gap-2">
-                            <Mail className="h-4 w-4" />
-                            {user.email}
-                          </CardTitle>
-                          <CardDescription>
-                            {user.user_metadata?.full_name && (
-                              <span className="font-medium">{user.user_metadata.full_name} • </span>
-                            )}
-                            Joined {new Date(user.created_at).toLocaleDateString()}
-                            {user.last_sign_in_at && (
-                              <span> • Last active {new Date(user.last_sign_in_at).toLocaleDateString()}</span>
-                            )}
-                          </CardDescription>
-                        </div>
-                        <div className="flex gap-2">
-                          <Badge variant={userStatus.color as "default" | "destructive" | "outline" | "secondary"}>
-                            {userStatus.status}
-                          </Badge>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex gap-2">
-                        {!isUserAdmin(user.id) && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => {
-                              setSelectedUser(user)
-                              setIsPromoteDialogOpen(true)
-                            }}
-                            aria-label={`Promote ${user.email} to admin`}
-                          >
-                            <Shield className="h-4 w-4 mr-1" />
-                            Promote to Admin
-                          </Button>
-                        )}
-                        {user.banned_until ? (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleBanUser(user.id, false)}
-                            aria-label={`Unban user ${user.email}`}
-                          >
-                            <CheckCircle className="h-4 w-4 mr-1" />
-                            Unban User
-                          </Button>
-                        ) : (
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={() => handleBanUser(user.id, true)}
-                            aria-label={`Ban user ${user.email}`}
-                          >
-                            <Ban className="h-4 w-4 mr-1" />
-                            Ban User
-                          </Button>
-                        )}
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => handleDeleteUser(user.id)}
-                          aria-label={`Delete user ${user.email}`}
-                        >
-                          <AlertTriangle className="h-4 w-4 mr-1" />
-                          Delete User
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )
-              })}
-              {filteredUsers.length === 0 && (
-                <Card variant="soft" className="p-8 text-center">
-                  <div className="text-muted-foreground">No users match the current filters</div>
-                </Card>
-              )}
-            </div>
             )}
-
-            {/* Pagination Controls */}
-            <div className="flex items-center justify-between pt-2">
-              <div className="text-sm text-muted-foreground">Page {page}</div>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1}>
-                  Previous
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => setPage((p) => p + 1)} disabled={!hasMore}>
-                  Next
-                </Button>
-              </div>
             </div>
           </TabsContent>
 
           <TabsContent value="admins" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Administrative Users</h2>
+                <p className="text-slate-600 dark:text-slate-300">Manage admin privileges and permissions</p>
+              </div>
+              <Badge variant="outline" className="bg-purple-50 dark:bg-purple-950/50 border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300">
+                <Crown className="h-3 w-3 mr-1" />
+                {adminUsers.length} Administrators
+              </Badge>
+            </div>
+
             <div className="grid gap-4">
               {adminUsers.map((adminUser) => (
-                <Card key={adminUser.id} variant="elevated" className="transition-shadow hover:shadow-lg interactive hover-lift slide-up">
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div className="space-y-1">
-                        <CardTitle className="text-lg flex items-center gap-2">
-                          <Shield className="h-4 w-4" />
-                          {adminUser.user?.email || 'Unknown User'}
-                        </CardTitle>
-                        <CardDescription>
-                          Role: {adminUser.role} • Added {new Date(adminUser.created_at).toLocaleDateString()}
-                        </CardDescription>
-                      </div>
-                      <Badge variant="default">{adminUser.role}</Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div>
-                        <Label className="text-sm font-medium">Permissions:</Label>
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {adminUser.permissions.map((permission) => (
-                            <Badge key={permission} variant="outline" className="text-xs">
-                              {permission.replace('_', ' ')}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => handleRevokeAdmin(adminUser.id)}
-                      >
-                        <AlertTriangle className="h-4 w-4 mr-1" />
-                        Revoke Admin Access
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                <AdminActionCard
+                  key={adminUser.id}
+                  title={adminUser.user?.user_metadata?.full_name || 'Admin User'}
+                  description={adminUser.user?.email || 'No email available'}
+                  icon={Crown}
+                  badges={[
+                    {
+                      label: adminUser.role,
+                      className: "bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0"
+                    }
+                  ]}
+                  actions={[
+                    {
+                      label: "Revoke Access",
+                      icon: UserX,
+                      onClick: () => handleRevokeAdmin(adminUser.id),
+                      variant: "outline"
+                    }
+                  ]}
+                  metadata={`Admin since ${new Date(adminUser.created_at).toLocaleDateString()}`}
+                />
               ))}
+              
               {adminUsers.length === 0 && (
-                <Card variant="soft" className="p-8 text-center">
-                  <div className="text-muted-foreground">No admin users yet</div>
-                </Card>
+                <AdminEmptyState
+                  title="No Admin Users"
+                  description="No administrative users have been configured yet."
+                  emoji="👑"
+                />
               )}
             </div>
           </TabsContent>
         </Tabs>
 
-        {/* Promote to Admin Dialog */}
+        {/* Enhanced Promote Dialog */}
         <Dialog open={isPromoteDialogOpen} onOpenChange={setIsPromoteDialogOpen}>
-          <DialogContent>
+          <DialogContent className="glass-card border border-white/20 dark:border-white/10 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
             <DialogHeader>
-              <DialogTitle>Promote User to Admin</DialogTitle>
+              <DialogTitle className="flex items-center gap-2">
+                <Crown className="h-5 w-5" />
+                Promote User to Admin
+              </DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <div>
@@ -531,7 +514,8 @@ export default function AdminUsersPage() {
                 <Button variant="outline" onClick={() => setIsPromoteDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handlePromoteToAdmin}>
+                <Button onClick={handlePromoteToAdmin} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                  <Crown className="h-4 w-4 mr-1" />
                   Promote to Admin
                 </Button>
               </div>

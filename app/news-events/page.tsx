@@ -1,6 +1,6 @@
 "use client"
 
-import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
+// Metadata imports removed due to "use client" directive
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -945,11 +945,6 @@ export default function NewsEventsPage() {
           </CardContent>
         </Card>
       </div>
-      
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "News & Events", path: "/news-events" }])) }}
-      />
     </div>
   )
 }

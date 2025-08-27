@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { jsonLdBreadcrumb } from "@/lib/seo";
+// jsonLdBreadcrumb import removed due to "use client" directive
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -38,19 +38,7 @@ export function ContactPageClient() {
 
   useEffect(() => {
     setIsVisible(true);
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(
-      jsonLdBreadcrumb([
-        { name: "Home", path: "/" },
-        { name: "Contact", path: "/contact" }
-      ])
-    );
-    document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
-    };
+    // JSON-LD script removed due to "use client" directive
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {

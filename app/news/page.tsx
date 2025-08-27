@@ -1,6 +1,6 @@
 "use client"
 
-import { jsonLdBreadcrumb } from "@/lib/seo"
+// Metadata imports removed due to "use client" directive
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -318,10 +318,7 @@ export default function NewsListPage() {
           )}
         </div>
       </main>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "News", path: "/news" }])) }}
-      />
+      {/* JSON-LD removed due to "use client" directive */}
     </div>
   )
 }

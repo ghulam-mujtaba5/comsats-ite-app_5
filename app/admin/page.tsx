@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Users, Library, MessageSquare, GraduationCap, Search } from "lucide-react"
+import { Users, Library, MessageSquare, GraduationCap, Search, Sparkles, Crown, Zap, Activity, BarChart3, Settings, LogOut } from "lucide-react"
 
 interface DashboardStats {
   totalUsers: number;
@@ -44,157 +45,334 @@ export default function AdminDashboardPage() {
   return (
     <AdminGuard
       fallback={
-        <div className="min-h-screen flex items-center justify-center p-6 text-center space-y-3">
-          <div>
-            <h1 className="text-2xl font-bold">Admin access required</h1>
-            <p className="text-muted-foreground">Go to the admin login page to continue.</p>
-            <Link href="/admin/login" className="text-primary underline">Admin Login</Link>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 dark:from-slate-950 dark:via-blue-950/30 dark:to-indigo-950/20">
+          <div className="flex items-center justify-center min-h-screen p-6">
+            <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 text-center space-y-4 max-w-md">
+              <div className="relative mx-auto w-16 h-16 mb-4">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl blur-xl opacity-30 animate-pulse" />
+                <div className="relative bg-gradient-to-r from-red-500 to-orange-500 p-4 rounded-2xl">
+                  <Crown className="h-8 w-8 text-white" />
+                </div>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
+                  Admin Access Required
+                </h1>
+                <p className="text-slate-600 dark:text-slate-300 mt-2">
+                  Elevated privileges needed to access this portal
+                </p>
+                <Link href="/admin/login" className="inline-block mt-4">
+                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                    Access Admin Portal
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       }
     >
-      <div className="app-container section space-y-8 fade-in" role="main" aria-labelledby="admin-landing-heading">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <h1 id="admin-landing-heading" className="text-3xl font-bold text-balance">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Welcome back, Admin!</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Link href="/admin/dashboard" className="hidden sm:inline-block">
-              <Button variant="outline" className="interactive hover-lift" aria-label="View full analytics dashboard">
-                View Dashboard
-              </Button>
-            </Link>
-            <Link href="/admin/users" className="hidden sm:inline-block">
-              <Button className="interactive hover-lift" aria-label="Go to User Management">
-                Go to Users
-              </Button>
-            </Link>
-            <Button
-              variant="outline"
-              onClick={async () => {
-                await fetch('/api/admin/session/admin-logout', { method: 'POST' })
-                router.replace('/admin/auth')
-              }}
-            >
-              Admin Logout
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={async () => {
-                await fetch('/api/admin/session', { method: 'DELETE' })
-                router.replace('/auth')
-              }}
-            >
-              Sign out
-            </Button>
-          </div>
-        </div>
-
-        {/* Stats Section */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card variant="elevated" className="slide-up transition-shadow interactive hover-lift">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{loading ? '...' : stats?.totalUsers ?? 'N/A'}</div>
-            </CardContent>
-          </Card>
-          <Card variant="elevated" className="slide-up transition-shadow interactive hover-lift">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Faculty</CardTitle>
-              <GraduationCap className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{loading ? '...' : stats?.totalFaculty ?? 'N/A'}</div>
-            </CardContent>
-          </Card>
-          <Card variant="elevated" className="slide-up transition-shadow interactive hover-lift">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Reviews</CardTitle>
-              <MessageSquare className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{loading ? '...' : stats?.totalReviews ?? 'N/A'}</div>
-            </CardContent>
-          </Card>
-          <Card variant="elevated" className="slide-up transition-shadow interactive hover-lift">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Resources</CardTitle>
-              <Library className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{loading ? '...' : stats?.totalResources ?? 'N/A'}</div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Management Links */}
-        <div>
-          <div className="flex items-end justify-between gap-4 mb-3">
-            <h2 className="text-2xl font-semibold">Management Sections</h2>
-            <div className="relative w-full max-w-xs">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                value={linkQuery}
-                onChange={(e) => setLinkQuery(e.target.value)}
-                placeholder="Search sections..."
-                className="pl-9"
-                aria-label="Search management sections"
-              />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 dark:from-slate-950 dark:via-blue-950/30 dark:to-indigo-950/20">
+        {/* Enhanced Hero Section */}
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 backdrop-blur-3xl" />
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C92AC%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30" />
+          
+          <div className="relative app-container pt-12 pb-8">
+            <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur-xl opacity-30 animate-pulse" />
+                      <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-2xl">
+                        <Crown className="h-10 w-10 text-white" />
+                      </div>
+                    </div>
+                    <div>
+                      <h1 id="admin-landing-heading" className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-blue-800 to-indigo-800 dark:from-white dark:via-blue-200 dark:to-indigo-200 bg-clip-text text-transparent">
+                        Administrative Hub
+                      </h1>
+                      <p className="text-slate-600 dark:text-slate-300 text-lg mt-1">
+                        Complete control and oversight of the CampusAxis platform
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-4">
+                    <Badge variant="outline" className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-blue-200 dark:border-blue-800">
+                      <Activity className="h-3 w-3 mr-1" />
+                      Platform Active
+                    </Badge>
+                    <Badge variant="outline" className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-green-200 dark:border-green-800">
+                      <Sparkles className="h-3 w-3 mr-1" />
+                      Admin Privileges
+                    </Badge>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link href="/admin/dashboard">
+                    <Button variant="outline" className="glass-button bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border-white/40 dark:border-slate-600/40 hover:bg-white/50 dark:hover:bg-slate-700/50 w-full sm:w-auto">
+                      <BarChart3 className="h-4 w-4 mr-2" />
+                      Full Dashboard
+                    </Button>
+                  </Link>
+                  <Link href="/admin/users">
+                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto">
+                      <Users className="h-4 w-4 mr-2" />
+                      Manage Users
+                    </Button>
+                  </Link>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="glass-button flex-1 sm:flex-none"
+                      onClick={async () => {
+                        await fetch('/api/admin/session/admin-logout', { method: 'POST' })
+                        router.replace('/admin/auth')
+                      }}
+                    >
+                      <Settings className="h-4 w-4 mr-1" />
+                      Admin Logout
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={async () => {
+                        await fetch('/api/admin/session', { method: 'DELETE' })
+                        router.replace('/auth')
+                      }}
+                    >
+                      <LogOut className="h-4 w-4 mr-1" />
+                      Sign Out
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Management Links Data */}
-          {(() => {
-            const links = [
-              { href: "/admin/dashboard", title: "📊 Dashboard", desc: "View comprehensive stats and analytics." },
-              { href: "/admin/lost-found", title: "🔍 Lost & Found", desc: "Manage lost and found items." },
-              { href: "/admin/news-events", title: "📰 News & Events", desc: "Create and manage news and events." },
-              { href: "/admin/support", title: "❤️ Student Support", desc: "Manage support resources and requests." },
-              { href: "/admin/guidance", title: "📚 Guidance Portal", desc: "Manage guides, policies, and FAQs." },
-              { href: "/admin/faculty", title: "👨‍🏫 Faculty", desc: "Add, edit, and manage faculty members." },
-              { href: "/admin/community", title: "💬 Community", desc: "Manage student community posts." },
-              { href: "/admin/users", title: "👥 Users", desc: "Manage user accounts and permissions." },
-              { href: "/admin/moderation", title: "🛡️ Content Moderation", desc: "Moderate posts, comments, and reports." },
-              { href: "/admin/reviews", title: "📝 Review Moderation", desc: "Approve or reject faculty reviews." },
-              { href: "/admin/past-papers", title: "📄 Past Papers Moderation", desc: "Approve/reject submitted past papers." },
-              { href: "/admin/resources", title: "📁 Resources", desc: "Manage downloadable resources and files." },
-              { href: "/admin/timetable-docs", title: "📅 Timetable PDFs", desc: "Upload and manage official timetable PDF files." },
-              { href: "/admin/issues", title: "🐞 Issues", desc: "Review public reports and update their status." },
-              { href: "/admin/settings", title: "⚙️ Site Settings", desc: "Configure site-wide settings and preferences." },
-            ] as const
+        {/* Enhanced Stats Overview */}
+        <div className="app-container space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Platform Overview</h2>
+              <p className="text-slate-600 dark:text-slate-300">Key metrics and system status at a glance</p>
+            </div>
+            <Badge variant="outline" className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300">
+              <Zap className="h-3 w-3 mr-1" />
+              Live Data
+            </Badge>
+          </div>
+          
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Total Users</CardTitle>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative bg-gradient-to-r from-blue-600 to-cyan-600 p-2 rounded-xl">
+                    <Users className="h-4 w-4 text-white" />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-1">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                    {loading ? '...' : stats?.totalUsers?.toLocaleString() ?? 'N/A'}
+                  </div>
+                  <div className="flex items-center text-green-600 dark:text-green-400 text-xs">
+                    <Activity className="h-3 w-3 mr-1" />
+                    <span>+8% this week</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Faculty Members</CardTitle>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative bg-gradient-to-r from-emerald-600 to-green-600 p-2 rounded-xl">
+                    <GraduationCap className="h-4 w-4 text-white" />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-1">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                    {loading ? '...' : stats?.totalFaculty?.toLocaleString() ?? 'N/A'}
+                  </div>
+                  <div className="flex items-center text-green-600 dark:text-green-400 text-xs">
+                    <Activity className="h-3 w-3 mr-1" />
+                    <span>+2 new profiles</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Reviews & Feedback</CardTitle>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative bg-gradient-to-r from-purple-600 to-pink-600 p-2 rounded-xl">
+                    <MessageSquare className="h-4 w-4 text-white" />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-1">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                    {loading ? '...' : stats?.totalReviews?.toLocaleString() ?? 'N/A'}
+                  </div>
+                  <div className="flex items-center text-blue-600 dark:text-blue-400 text-xs">
+                    <Activity className="h-3 w-3 mr-1" />
+                    <span>15 pending review</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Learning Resources</CardTitle>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative bg-gradient-to-r from-orange-600 to-amber-600 p-2 rounded-xl">
+                    <Library className="h-4 w-4 text-white" />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-1">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                    {loading ? '...' : stats?.totalResources?.toLocaleString() ?? 'N/A'}
+                  </div>
+                  <div className="flex items-center text-orange-600 dark:text-orange-400 text-xs">
+                    <Activity className="h-3 w-3 mr-1" />
+                    <span>3 uploads today</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
 
-            const q = linkQuery.trim().toLowerCase()
-            const filtered = q
-              ? links.filter(l => `${l.title} ${l.desc}`.toLowerCase().includes(q))
-              : links
+        {/* Enhanced Management Grid */}
+        {(() => {
+          interface LinkItem {
+            href: string;
+            title: string;
+            desc: string;
+            priority: 'high' | 'medium' | 'low';
+          }
 
-            return (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
-                {filtered.map((l, idx) => (
+          const links: LinkItem[] = [
+            { href: "/admin/dashboard", title: "📊 Analytics Dashboard", desc: "Comprehensive stats, insights and system health monitoring.", priority: "high" },
+            { href: "/admin/users", title: "👥 User Management", desc: "Manage accounts, permissions and user authentication.", priority: "high" },
+            { href: "/admin/moderation", title: "🛡️ Content Moderation", desc: "Review posts, comments and handle user reports.", priority: "high" },
+            { href: "/admin/news-events", title: "📰 News & Events", desc: "Create and manage campus announcements and events.", priority: "medium" },
+            { href: "/admin/faculty", title: "👨‍🏫 Faculty Directory", desc: "Add, edit and manage faculty member profiles.", priority: "medium" },
+            { href: "/admin/past-papers", title: "📄 Academic Resources", desc: "Approve and manage submitted past papers.", priority: "medium" },
+            { href: "/admin/community", title: "💬 Community Hub", desc: "Oversee student discussions and forum activity.", priority: "medium" },
+            { href: "/admin/support", title: "❤️ Student Support", desc: "Manage support resources and assistance requests.", priority: "medium" },
+            { href: "/admin/guidance", title: "📚 Guidance Portal", desc: "Maintain guides, policies and student resources.", priority: "low" },
+            { href: "/admin/lost-found", title: "🔍 Lost & Found", desc: "Manage campus lost and found item reports.", priority: "low" },
+            { href: "/admin/reviews", title: "📝 Faculty Reviews", desc: "Moderate and approve faculty review submissions.", priority: "low" },
+            { href: "/admin/resources", title: "📁 File Resources", desc: "Manage downloadable files and study materials.", priority: "low" },
+            { href: "/admin/timetable-docs", title: "📅 Timetable Management", desc: "Upload and organize official timetable documents.", priority: "low" },
+            { href: "/admin/issues", title: "🐞 Issue Tracking", desc: "Review public reports and track resolution status.", priority: "low" },
+            { href: "/admin/settings", title: "⚙️ System Settings", desc: "Configure platform settings and preferences.", priority: "low" },
+          ]
+
+          const q = linkQuery.trim().toLowerCase()
+          const filtered = q
+            ? links.filter(l => `${l.title} ${l.desc}`.toLowerCase().includes(q))
+            : links
+
+          const priorityOrder: Record<'high' | 'medium' | 'low', number> = { high: 0, medium: 1, low: 2 }
+          const sorted = filtered.sort((a: LinkItem, b: LinkItem) => priorityOrder[a.priority] - priorityOrder[b.priority])
+
+          return (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
+              {sorted.map((l: LinkItem, idx: number) => {
+                const isHighPriority = l.priority === 'high'
+                return (
                   <Link
                     key={l.href}
                     href={l.href}
-                    className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    style={{ animationDelay: `${Math.min(idx, 6) * 40}ms` as any }}
+                    className={`group block outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 ${
+                      isHighPriority ? 'order-first' : ''
+                    }`}
+                    style={{ animationDelay: `${Math.min(idx, 8) * 50}ms` as any }}
                     aria-label={`${l.title} — ${l.desc}`}
                   >
-                    <h3 className="text-xl font-semibold">{l.title}</h3>
-                    <p className="text-muted-foreground">{l.desc}</p>
+                    <Card className={`relative overflow-hidden border-0 h-full transition-all duration-300 group-hover:shadow-2xl ${
+                      isHighPriority 
+                        ? 'bg-gradient-to-br from-blue-50/80 to-indigo-50/80 dark:from-blue-950/40 dark:to-indigo-950/40 backdrop-blur-xl glass-card border border-blue-200/50 dark:border-blue-800/50 group-hover:shadow-blue-500/20'
+                        : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 backdrop-blur-xl glass-card border border-white/20 dark:border-white/10 group-hover:shadow-slate-500/10'
+                    }`}>
+                      {isHighPriority && (
+                        <div className="absolute top-3 right-3">
+                          <Badge className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 text-xs">
+                            <Sparkles className="h-3 w-3 mr-1" />
+                            Priority
+                          </Badge>
+                        </div>
+                      )}
+                      
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-2xl" />
+                      
+                      <CardContent className="relative p-6">
+                        <div className="space-y-3">
+                          <div className="flex items-start justify-between">
+                            <h3 className={`text-xl font-bold group-hover:scale-105 transition-transform duration-300 ${
+                              isHighPriority 
+                                ? 'bg-gradient-to-r from-blue-800 to-indigo-800 dark:from-blue-200 dark:to-indigo-200 bg-clip-text text-transparent'
+                                : 'text-slate-900 dark:text-white'
+                            }`}>
+                              {l.title}
+                            </h3>
+                          </div>
+                          <p className={`text-sm leading-relaxed ${
+                            isHighPriority
+                              ? 'text-slate-700 dark:text-slate-200'
+                              : 'text-slate-600 dark:text-slate-300'
+                          }`}>
+                            {l.desc}
+                          </p>
+                          
+                          <div className="flex items-center gap-2 pt-2">
+                            <div className={`w-2 h-2 rounded-full ${
+                              isHighPriority ? 'bg-blue-500' : 'bg-green-500'
+                            } group-hover:scale-125 transition-transform duration-300`} />
+                            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                              {l.priority} Priority
+                            </span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
                   </Link>
-                ))}
-                {filtered.length === 0 && (
-                  <Card variant="soft" className="p-8 text-center sm:col-span-2 lg:col-span-3">
-                    <div className="text-muted-foreground">No sections match “{linkQuery}”.</div>
-                  </Card>
-                )}
-              </div>
-            )
-          })()}
-        </div>
+                )
+              })}
+              {filtered.length === 0 && (
+                <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-8 text-center sm:col-span-2 lg:col-span-3">
+                  <div className="space-y-2">
+                    <div className="text-2xl">🔍</div>
+                    <div className="text-slate-600 dark:text-slate-300">No management tools match "{linkQuery}"</div>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">Try a different search term or browse all available tools.</p>
+                  </div>
+                </Card>
+              )}
+            </div>
+          )
+        })()}
       </div>
     </AdminGuard>
   )

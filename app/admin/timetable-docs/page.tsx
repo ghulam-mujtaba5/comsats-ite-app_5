@@ -2,10 +2,16 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { AdminGuard } from "@/components/admin/admin-guard"
+import { AdminPageHeader } from "@/components/admin/admin-page-header"
+import { AdminActionCard } from "@/components/admin/admin-action-card"
+import { AdminLoading } from "@/components/admin/admin-loading"
+import { AdminEmptyState } from "@/components/admin/admin-empty-state"
+import { GlassCard } from "@/components/admin/glass-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { FileText, Upload, Download, Eye, Edit3, Trash2, Calendar, Building2, FolderOpen } from "lucide-react"
 
 type Row = {
   id: string
@@ -116,125 +122,231 @@ export default function AdminTimetableDocsPage() {
 
   return (
     <AdminGuard fallback={<div className="p-6 text-center">Admin access required. <a className="underline" href="/admin/login">Login</a></div>}>
-      <div className="app-container section space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Timetable Documents</h1>
-            <p className="text-muted-foreground">Upload, edit, and delete PDF schedules.</p>
-          </div>
-        </div>
+      <AdminPageHeader
+        title="Timetable Documents"
+        description="Upload, edit, and delete PDF schedules for comprehensive academic planning"
+        icon={FileText}
+        iconGradient="from-green-600 to-emerald-600"
+        badges={[
+          {
+            label: "Total Documents",
+            value: rows.length,
+            icon: FolderOpen,
+            color: "border-green-200 dark:border-green-800"
+          },
+          {
+            label: "Total Size",
+            value: `${(rows.reduce((acc, r) => acc + r.size_bytes, 0) / 1024 / 1024).toFixed(1)} MB`,
+            icon: FileText,
+            color: "border-blue-200 dark:border-blue-800"
+          }
+        ]}
+        actions={[
+          {
+            label: "Upload New Document",
+            icon: Upload,
+            onClick: () => {},
+            gradient: "from-green-600 to-emerald-600"
+          }
+        ]}
+      />
+      
+      <div className="app-container space-y-8 pb-12">
+        <GlassCard 
+          title="Upload New Document"
+          description="Add a new timetable PDF"
+          icon={Upload}
+          iconGradient="from-green-600 to-emerald-600"
+        >
+          <form onSubmit={onUpload} className="grid gap-4 md:grid-cols-2">
+            <div>
+              <Label>Title</Label>
+              <Input 
+                value={title} 
+                onChange={(e) => setTitle(e.target.value)} 
+                placeholder="Fall 2024 - Computer Science Timetable" 
+                required 
+                className="glass-input"
+              />
+            </div>
+            <div>
+              <Label>Department</Label>
+              <Input 
+                value={department} 
+                onChange={(e) => setDepartment(e.target.value)} 
+                placeholder="Computer Science" 
+                required 
+                className="glass-input"
+              />
+            </div>
+            <div>
+              <Label>Term</Label>
+              <Input 
+                value={term} 
+                onChange={(e) => setTerm(e.target.value)} 
+                placeholder="Fall 2024" 
+                required 
+                className="glass-input"
+              />
+            </div>
+            <div>
+              <Label>File (PDF)</Label>
+              <Input 
+                type="file" 
+                accept="application/pdf" 
+                onChange={(e) => setFile(e.target.files?.[0] || null)} 
+                required 
+                className="glass-input"
+              />
+            </div>
+            <div className="md:col-span-2 flex gap-2 items-center">
+              <Button 
+                type="submit" 
+                disabled={loading}
+                className="glass-button bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white border-0"
+              >
+                <Upload className="h-4 w-4 mr-2" />
+                {loading ? 'Uploading…' : 'Upload Document'}
+              </Button>
+              {error && (
+                <Badge variant="destructive" className="text-sm">
+                  {error}
+                </Badge>
+              )}
+            </div>
+          </form>
+        </GlassCard>
 
-        <Card variant="elevated">
-          <CardHeader>
-            <CardTitle>Upload New Document</CardTitle>
-            <CardDescription>Add a new timetable PDF.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={onUpload} className="grid gap-3 md:grid-cols-2">
+        <GlassCard 
+          title="Documents Library"
+          description="Existing timetable PDFs"
+          icon={FolderOpen}
+          iconGradient="from-blue-600 to-indigo-600"
+        >
+          {loading ? (
+            <AdminLoading message="Loading documents..." />
+          ) : rowsView.length === 0 ? (
+            <AdminEmptyState
+              title="No Documents Found"
+              description="No timetable documents have been uploaded yet"
+              emoji="📄"
+            />
+          ) : (
+            <div className="space-y-4">
+              {rowsView.map((r) => (
+                <AdminActionCard
+                  key={r.id}
+                  title={r.title}
+                  description={`${r.department} - ${r.term}`}
+                  icon={FileText}
+                  badges={[
+                    {
+                      label: `${(r.size_bytes/1024/1024).toFixed(1)} MB`,
+                      variant: "outline"
+                    },
+                    {
+                      label: new Date(r.uploaded_at).toLocaleDateString(),
+                      variant: "secondary"
+                    }
+                  ]}
+                  actions={[
+                    {
+                      label: "Preview",
+                      icon: Eye,
+                      onClick: () => window.open(r.public_url, '_blank'),
+                      variant: "outline"
+                    },
+                    {
+                      label: "Download",
+                      icon: Download,
+                      onClick: () => {
+                        const a = document.createElement('a')
+                        a.href = r.public_url
+                        a.download = r.title
+                        a.click()
+                      },
+                      variant: "outline"
+                    },
+                    {
+                      label: "Edit",
+                      icon: Edit3,
+                      onClick: () => setEditing(r),
+                      variant: "outline"
+                    },
+                    {
+                      label: "Delete",
+                      icon: Trash2,
+                      onClick: () => onDelete(r.id),
+                      variant: "destructive"
+                    }
+                  ]}
+                  metadata={`Uploaded ${new Date(r.uploaded_at).toLocaleDateString()}`}
+                />
+              ))}
+            </div>
+          )}
+        </GlassCard>
+
+        {editing && (
+          <GlassCard 
+            title="Edit Document"
+            description="Update details or replace the file"
+            icon={Edit3}
+            iconGradient="from-blue-600 to-indigo-600"
+          >
+            <form onSubmit={onUpdate} className="grid gap-4">
               <div>
                 <Label>Title</Label>
-                <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Fall 2024 - Computer Science Timetable" required />
+                <Input 
+                  value={editing.title} 
+                  onChange={(e) => setEditing({ ...editing, title: e.target.value })} 
+                  className="glass-input"
+                />
               </div>
               <div>
                 <Label>Department</Label>
-                <Input value={department} onChange={(e) => setDepartment(e.target.value)} placeholder="Computer Science" required />
+                <Input 
+                  value={editing.department} 
+                  onChange={(e) => setEditing({ ...editing, department: e.target.value })} 
+                  className="glass-input"
+                />
               </div>
               <div>
                 <Label>Term</Label>
-                <Input value={term} onChange={(e) => setTerm(e.target.value)} placeholder="Fall 2024" required />
+                <Input 
+                  value={editing.term} 
+                  onChange={(e) => setEditing({ ...editing, term: e.target.value })} 
+                  className="glass-input"
+                />
               </div>
               <div>
-                <Label>File (PDF)</Label>
-                <Input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} required />
+                <Label>Replace File (optional)</Label>
+                <Input 
+                  type="file" 
+                  accept="application/pdf" 
+                  onChange={(e) => setNewFile(e.target.files?.[0] || null)} 
+                  className="glass-input"
+                />
               </div>
-              <div className="md:col-span-2 flex gap-2">
-                <Button type="submit" disabled={loading}>{loading ? 'Uploading…' : 'Upload'}</Button>
-                {error && <span className="text-sm text-blue-600 self-center">{error}</span>}
+              <div className="flex gap-2">
+                <Button 
+                  type="submit"
+                  className="glass-button bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-0"
+                >
+                  <Edit3 className="h-4 w-4 mr-2" />
+                  Save Changes
+                </Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => { setEditing(null); setNewFile(null) }}
+                  className="glass-button"
+                >
+                  Cancel
+                </Button>
               </div>
             </form>
-          </CardContent>
-        </Card>
-
-        <Card variant="elevated">
-          <CardHeader>
-            <CardTitle>Documents</CardTitle>
-            <CardDescription>Existing timetable PDFs.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {loading && <p className="text-sm">Loading…</p>}
-            {rowsView.length === 0 && !loading ? (
-              <Card variant="soft" className="p-8 text-center">
-                <div className="text-muted-foreground">No documents uploaded yet</div>
-              </Card>
-            ) : (
-              <div className="overflow-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left border-b">
-                      <th className="py-2 pr-2">Title</th>
-                      <th className="py-2 pr-2">Department</th>
-                      <th className="py-2 pr-2">Term</th>
-                      <th className="py-2 pr-2">Size</th>
-                      <th className="py-2 pr-2">Uploaded</th>
-                      <th className="py-2 pr-2">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rowsView.map((r) => (
-                      <tr key={r.id} className="border-b last:border-none">
-                        <td className="py-2 pr-2">{r.title}</td>
-                        <td className="py-2 pr-2">{r.department}</td>
-                        <td className="py-2 pr-2">{r.term}</td>
-                        <td className="py-2 pr-2">{(r.size_bytes/1024/1024).toFixed(1)} MB</td>
-                        <td className="py-2 pr-2">{new Date(r.uploaded_at).toLocaleDateString()}</td>
-                        <td className="py-2 pr-2">
-                          <div className="flex gap-2">
-                            <a className="underline" href={r.public_url} target="_blank" rel="noreferrer">Preview</a>
-                            <a className="underline" href={r.public_url} download>Download</a>
-                            <Button size="sm" variant="outline" onClick={() => setEditing(r)}>Edit</Button>
-                            <Button size="sm" variant="destructive" onClick={() => onDelete(r.id)}>Delete</Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {editing && (
-          <Card variant="elevated">
-            <CardHeader>
-              <CardTitle>Edit Document</CardTitle>
-              <CardDescription>Update details or replace the file.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={onUpdate} className="grid gap-3">
-                <div>
-                  <Label>Title</Label>
-                  <Input value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Department</Label>
-                  <Input value={editing.department} onChange={(e) => setEditing({ ...editing, department: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Term</Label>
-                  <Input value={editing.term} onChange={(e) => setEditing({ ...editing, term: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Replace File (optional)</Label>
-                  <Input type="file" accept="application/pdf" onChange={(e) => setNewFile(e.target.files?.[0] || null)} />
-                </div>
-                <div className="flex gap-2">
-                  <Button type="submit">Save</Button>
-                  <Button type="button" variant="outline" onClick={() => { setEditing(null); setNewFile(null) }}>Cancel</Button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
+          </GlassCard>
         )}
       </div>
     </AdminGuard>

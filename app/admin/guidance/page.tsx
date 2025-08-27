@@ -11,7 +11,28 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
-import { Search, Plus, Edit, Trash2, BookOpen, FileText, Save, X } from "lucide-react"
+import { 
+  Search, 
+  Plus, 
+  Edit, 
+  Trash2, 
+  BookOpen, 
+  FileText, 
+  Save, 
+  X,
+  Compass,
+  HelpCircle,
+  Activity,
+  Sparkles,
+  Eye,
+  Filter,
+  Settings,
+  Calendar,
+  Globe,
+  Lock,
+  Star,
+  RefreshCw
+} from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -238,151 +259,257 @@ export default function AdminGuidancePage() {
   })
 
   return (
-    <div className="app-container section" role="main" aria-labelledby="guidance-heading">
-      <div className="mb-8">
-        <h1 id="guidance-heading" className="text-3xl font-bold">Guidance Management</h1>
-        <p className="text-muted-foreground mt-2">
-          Manage guidance content and FAQ items for students
-        </p>
-      </div>
-
-      {/* Search and Filters */}
-      <div className="mb-6 flex gap-4">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-          <Input
-            placeholder="Search guides and FAQs..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="w-48">
-            <SelectValue placeholder="Select category" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Categories</SelectItem>
-            <SelectItem value="academic">Academic</SelectItem>
-            <SelectItem value="admission">Admission</SelectItem>
-            <SelectItem value="campus">Campus</SelectItem>
-            <SelectItem value="financial">Financial</SelectItem>
-            <SelectItem value="policies">Policies</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <Tabs defaultValue="guides" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="guides">Guidance Sections</TabsTrigger>
-          <TabsTrigger value="faqs">FAQ Items</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="guides" className="space-y-6">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold">Guidance Sections</h2>
-            <Dialog open={showGuideDialog} onOpenChange={(open) => {
-              setShowGuideDialog(open)
-              if (!open) {
-                setEditingGuide(null)
-              }
-            }}>
-              <DialogTrigger asChild>
-                <Button onClick={() => setEditingGuide(newGuide())}>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Guide
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>
-                    {editingGuide?.id ? 'Edit Guide' : 'Create New Guide'}
-                  </DialogTitle>
-                  <DialogDescription>
-                    Fill in the details for the guidance section
-                  </DialogDescription>
-                </DialogHeader>
-                {editingGuide && (
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="title">Title</Label>
-                      <Input
-                        id="title"
-                        value={editingGuide.title}
-                        onChange={(e) => setEditingGuide({...editingGuide, title: e.target.value})}
-                        placeholder="Guide title"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="description">Description</Label>
-                      <Input
-                        id="description"
-                        value={editingGuide.description}
-                        onChange={(e) => setEditingGuide({...editingGuide, description: e.target.value})}
-                        placeholder="Brief description"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="category">Category</Label>
-                      <Select value={editingGuide.category} onValueChange={(value: any) => setEditingGuide({...editingGuide, category: value})}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="academic">Academic</SelectItem>
-                          <SelectItem value="admission">Admission</SelectItem>
-                          <SelectItem value="campus">Campus</SelectItem>
-                          <SelectItem value="financial">Financial</SelectItem>
-                          <SelectItem value="policies">Policies</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <Label htmlFor="content">Content</Label>
-                      <Textarea
-                        id="content"
-                        value={editingGuide.content}
-                        onChange={(e) => setEditingGuide({...editingGuide, content: e.target.value})}
-                        placeholder="Guide content (supports markdown)"
-                        rows={8}
-                      />
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <div className="flex items-center space-x-2">
-                        <Switch
-                          id="important"
-                          checked={editingGuide.is_important}
-                          onCheckedChange={(checked) => setEditingGuide({...editingGuide, is_important: checked})}
-                        />
-                        <Label htmlFor="important">Mark as Important</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Switch
-                          id="published"
-                          checked={editingGuide.is_published}
-                          onCheckedChange={(checked) => setEditingGuide({...editingGuide, is_published: checked})}
-                        />
-                        <Label htmlFor="published">Published</Label>
-                      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 dark:from-slate-950 dark:via-blue-950/30 dark:to-indigo-950/20">
+      {/* Hero Section with Glassmorphism */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 backdrop-blur-3xl" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM5QzkyQUMiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
+        
+        <div className="relative app-container pt-12 pb-8">
+          <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-2xl blur-xl opacity-30 animate-pulse" />
+                    <div className="relative bg-gradient-to-r from-teal-600 to-cyan-600 p-3 rounded-2xl">
+                      <Compass className="h-8 w-8 text-white" />
                     </div>
                   </div>
-                )}
-                <DialogFooter>
-                  <Button variant="outline" onClick={() => {
-                    setShowGuideDialog(false)
-                    setEditingGuide(null)
-                  }}>
-                    <X className="h-4 w-4 mr-2" />
-                    Cancel
-                  </Button>
-                  <Button onClick={handleSaveGuide}>
-                    <Save className="h-4 w-4 mr-2" />
-                    Save Guide
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+                  <div>
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-teal-800 to-cyan-800 dark:from-white dark:via-teal-200 dark:to-cyan-200 bg-clip-text text-transparent">
+                      Guidance Management
+                    </h1>
+                    <p className="text-slate-600 dark:text-slate-300 text-lg">
+                      Manage comprehensive guidance content and FAQ for students
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                  <Badge variant="outline" className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-teal-200 dark:border-teal-800">
+                    <Activity className="h-3 w-3 mr-1" />
+                    {guideSections.length} Guides
+                  </Badge>
+                  <Badge variant="outline" className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-cyan-200 dark:border-cyan-800">
+                    <HelpCircle className="h-3 w-3 mr-1" />
+                    {faqs.length} FAQs
+                  </Badge>
+                  <Badge variant="outline" className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-blue-200 dark:border-blue-800">
+                    <Sparkles className="h-3 w-3 mr-1" />
+                    Content System
+                  </Badge>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <Button size="sm" variant="outline" className="glass-button bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border-white/40 dark:border-slate-600/40 hover:bg-white/50 dark:hover:bg-slate-700/50">
+                  <Eye className="h-4 w-4 mr-2" />
+                  Preview Site
+                </Button>
+                <Button size="sm" onClick={fetchData} className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Refresh
+                </Button>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
+
+      {/* Enhanced Content Management Interface */}
+      <div className="app-container space-y-6 pb-12">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Content Management</h2>
+            <p className="text-slate-600 dark:text-slate-300">Create and manage guidance content for students</p>
+          </div>
+          <Badge variant="outline" className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300">
+            <BookOpen className="h-3 w-3 mr-1" />
+            Live Content
+          </Badge>
+        </div>
+
+        {/* Enhanced Search and Filters */}
+        <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 hover:shadow-xl transition-all duration-300">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-2xl" />
+          
+          <CardContent className="relative p-6">
+            <div className="flex flex-col lg:flex-row gap-4">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-slate-400 h-4 w-4" />
+                <Input
+                  placeholder="Search guides and FAQs..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 glass-input bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 focus:bg-white/70 dark:focus:bg-slate-800/70"
+                />
+              </div>
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="glass-button bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 w-full lg:w-48">
+                  <Filter className="h-4 w-4 mr-2" />
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  <SelectItem value="academic">Academic</SelectItem>
+                  <SelectItem value="admission">Admission</SelectItem>
+                  <SelectItem value="campus">Campus</SelectItem>
+                  <SelectItem value="financial">Financial</SelectItem>
+                  <SelectItem value="policies">Policies</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Tabs defaultValue="guides" className="space-y-6">
+          <TabsList className="glass-card bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40 grid w-full lg:w-auto grid-cols-2">
+            <TabsTrigger value="guides" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-lg">
+              <BookOpen className="h-4 w-4" />
+              Guidance Sections
+              <Badge variant="outline" className="text-xs ml-1">{guideSections.length}</Badge>
+            </TabsTrigger>
+            <TabsTrigger value="faqs" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-lg">
+              <HelpCircle className="h-4 w-4" />
+              FAQ Items
+              <Badge variant="outline" className="text-xs ml-1">{faqs.length}</Badge>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="guides" className="space-y-6">
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 hover:shadow-xl transition-all duration-300">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-2xl" />
+              
+              <CardHeader className="relative">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl blur-lg opacity-30" />
+                      <div className="relative bg-gradient-to-r from-emerald-500 to-teal-500 p-2 rounded-xl">
+                        <BookOpen className="h-5 w-5 text-white" />
+                      </div>
+                    </div>
+                    <div>
+                      <CardTitle className="text-xl text-slate-900 dark:text-white">Guidance Sections</CardTitle>
+                      <CardDescription className="text-slate-600 dark:text-slate-300">Manage comprehensive guidance content for students</CardDescription>
+                    </div>
+                  </div>
+                  
+                  <Dialog open={showGuideDialog} onOpenChange={(open) => {
+                    setShowGuideDialog(open)
+                    if (!open) {
+                      setEditingGuide(null)
+                    }
+                  }}>
+                    <DialogTrigger asChild>
+                      <Button onClick={() => setEditingGuide(newGuide())} className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Guide
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl glass-card border border-white/20 dark:border-white/10 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
+                      <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                          <BookOpen className="h-5 w-5 text-emerald-600" />
+                          {editingGuide?.id ? 'Edit Guide' : 'Create New Guide'}
+                        </DialogTitle>
+                        <DialogDescription>
+                          Fill in the details for the guidance section
+                        </DialogDescription>
+                      </DialogHeader>
+                      {editingGuide && (
+                        <div className="space-y-6">
+                          <div>
+                            <Label htmlFor="title" className="text-sm font-medium text-slate-700 dark:text-slate-200">Title</Label>
+                            <Input
+                              id="title"
+                              value={editingGuide.title}
+                              onChange={(e) => setEditingGuide({...editingGuide, title: e.target.value})}
+                              placeholder="Guide title"
+                              className="glass-input bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 focus:bg-white/70 dark:focus:bg-slate-800/70"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="description" className="text-sm font-medium text-slate-700 dark:text-slate-200">Description</Label>
+                            <Input
+                              id="description"
+                              value={editingGuide.description}
+                              onChange={(e) => setEditingGuide({...editingGuide, description: e.target.value})}
+                              placeholder="Brief description"
+                              className="glass-input bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 focus:bg-white/70 dark:focus:bg-slate-800/70"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="category" className="text-sm font-medium text-slate-700 dark:text-slate-200">Category</Label>
+                            <Select value={editingGuide.category} onValueChange={(value: any) => setEditingGuide({...editingGuide, category: value})}>
+                              <SelectTrigger className="glass-button bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="academic">Academic</SelectItem>
+                                <SelectItem value="admission">Admission</SelectItem>
+                                <SelectItem value="campus">Campus</SelectItem>
+                                <SelectItem value="financial">Financial</SelectItem>
+                                <SelectItem value="policies">Policies</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <Label htmlFor="content" className="text-sm font-medium text-slate-700 dark:text-slate-200">Content</Label>
+                            <Textarea
+                              id="content"
+                              value={editingGuide.content}
+                              onChange={(e) => setEditingGuide({...editingGuide, content: e.target.value})}
+                              placeholder="Guide content (supports markdown)"
+                              rows={8}
+                              className="glass-input bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 focus:bg-white/70 dark:focus:bg-slate-800/70"
+                            />
+                          </div>
+                          <div className="flex items-center space-x-6">
+                            <div className="flex items-center justify-between p-4 bg-white/50 dark:bg-slate-800/50 rounded-xl border border-white/40 dark:border-slate-600/40 flex-1">
+                              <div className="space-y-1">
+                                <Label htmlFor="important" className="text-sm font-medium text-slate-700 dark:text-slate-200">Important</Label>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Mark this guide as important</p>
+                              </div>
+                              <Switch
+                                id="important"
+                                checked={editingGuide.is_important}
+                                onCheckedChange={(checked) => setEditingGuide({...editingGuide, is_important: checked})}
+                              />
+                            </div>
+                            <div className="flex items-center justify-between p-4 bg-white/50 dark:bg-slate-800/50 rounded-xl border border-white/40 dark:border-slate-600/40 flex-1">
+                              <div className="space-y-1">
+                                <Label htmlFor="published" className="text-sm font-medium text-slate-700 dark:text-slate-200">Published</Label>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">Make this guide visible to students</p>
+                              </div>
+                              <Switch
+                                id="published"
+                                checked={editingGuide.is_published}
+                                onCheckedChange={(checked) => setEditingGuide({...editingGuide, is_published: checked})}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => {
+                          setShowGuideDialog(false)
+                          setEditingGuide(null)
+                        }} className="glass-button">
+                          <X className="h-4 w-4 mr-2" />
+                          Cancel
+                        </Button>
+                        <Button onClick={handleSaveGuide} className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 border-0">
+                          <Save className="h-4 w-4 mr-2" />
+                          Save Guide
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </CardHeader>
+            </Card>
 
           {loading ? (
             <div className="grid gap-4" aria-live="polite">
@@ -645,6 +772,7 @@ export default function AdminGuidancePage() {
           )}
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   )
 }
