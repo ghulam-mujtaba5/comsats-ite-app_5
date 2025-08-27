@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search, Plus, Users, Shield, Ban, CheckCircle, AlertTriangle, Mail, Calendar, Settings } from "lucide-react"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { useToast } from "@/hooks/use-toast"
-import { CenteredLoader } from "@/components/ui/loading-spinner"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface User {
   id: string
@@ -251,15 +251,11 @@ export default function AdminUsersPage() {
     return adminUsers.some(admin => admin.user_id === userId)
   }
 
-  if (loading) {
-    return <CenteredLoader message="Loading users..." />
-  }
-
   return (
     <AdminGuard>
-      <div className="app-container section">
+      <div className="app-container section" role="main" aria-labelledby="users-heading">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold">User Management</h1>
+          <h1 id="users-heading" className="text-3xl font-bold">User Management</h1>
           <p className="text-muted-foreground mt-2">
             Manage user accounts, permissions, and admin roles
           </p>
@@ -283,9 +279,9 @@ export default function AdminUsersPage() {
                 />
               </div>
               <Select value={filterStatus} onValueChange={(v) => { setFilterStatus(v); setPage(1) }}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue />
-                </SelectTrigger>
+                <SelectTrigger className="w-[180px]" aria-label="Filter users by status">
+                <SelectValue />
+              </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Users</SelectItem>
                   <SelectItem value="active">Active</SelectItem>
@@ -295,9 +291,9 @@ export default function AdminUsersPage() {
                 </SelectContent>
               </Select>
               <Select value={String(perPage)} onValueChange={(v) => { setPerPage(parseInt(v)); setPage(1) }}>
-                <SelectTrigger className="w-[120px]">
-                  <SelectValue placeholder="Per page" />
-                </SelectTrigger>
+                <SelectTrigger className="w-[120px]" aria-label="Results per page">
+                <SelectValue placeholder="Per page" />
+              </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="10">10</SelectItem>
                   <SelectItem value="20">20</SelectItem>
@@ -306,9 +302,9 @@ export default function AdminUsersPage() {
                 </SelectContent>
               </Select>
               <Select value={`${sort}:${dir}`} onValueChange={(v) => { const [s,d]=v.split(':') as any; setSort(s); setDir(d); setPage(1) }}>
-                <SelectTrigger className="w-[220px]">
-                  <SelectValue placeholder="Sort" />
-                </SelectTrigger>
+                <SelectTrigger className="w-[220px]" aria-label="Sort users">
+                <SelectValue placeholder="Sort" />
+              </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="created_at:desc">Newest</SelectItem>
                   <SelectItem value="created_at:asc">Oldest</SelectItem>
@@ -321,11 +317,34 @@ export default function AdminUsersPage() {
             </div>
 
             {/* Users List */}
+            {loading ? (
+              <div className="grid gap-4" aria-live="polite">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <Card key={`user-sk-${i}`} className="p-5">
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-2 w-full">
+                        <div className="flex items-center gap-2">
+                          <Skeleton className="h-4 w-4 rounded-full" />
+                          <Skeleton className="h-5 w-64" />
+                          <Skeleton className="h-5 w-20" />
+                        </div>
+                        <div className="flex gap-2">
+                          <Skeleton className="h-8 w-40" />
+                          <Skeleton className="h-8 w-28" />
+                          <Skeleton className="h-8 w-28" />
+                          <Skeleton className="h-8 w-32" />
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            ) : (
             <div className="grid gap-4">
               {filteredUsers.map((user) => {
                 const userStatus = getUserStatus(user)
                 return (
-                  <Card key={user.id} variant="elevated">
+                  <Card key={user.id} variant="elevated" className="transition-shadow hover:shadow-lg interactive hover-lift slide-up">
                     <CardHeader>
                       <div className="flex justify-between items-start">
                         <div className="space-y-1">
@@ -360,6 +379,7 @@ export default function AdminUsersPage() {
                               setSelectedUser(user)
                               setIsPromoteDialogOpen(true)
                             }}
+                            aria-label={`Promote ${user.email} to admin`}
                           >
                             <Shield className="h-4 w-4 mr-1" />
                             Promote to Admin
@@ -370,6 +390,7 @@ export default function AdminUsersPage() {
                             size="sm"
                             variant="outline"
                             onClick={() => handleBanUser(user.id, false)}
+                            aria-label={`Unban user ${user.email}`}
                           >
                             <CheckCircle className="h-4 w-4 mr-1" />
                             Unban User
@@ -379,6 +400,7 @@ export default function AdminUsersPage() {
                             size="sm"
                             variant="destructive"
                             onClick={() => handleBanUser(user.id, true)}
+                            aria-label={`Ban user ${user.email}`}
                           >
                             <Ban className="h-4 w-4 mr-1" />
                             Ban User
@@ -388,6 +410,7 @@ export default function AdminUsersPage() {
                           size="sm"
                           variant="destructive"
                           onClick={() => handleDeleteUser(user.id)}
+                          aria-label={`Delete user ${user.email}`}
                         >
                           <AlertTriangle className="h-4 w-4 mr-1" />
                           Delete User
@@ -403,6 +426,7 @@ export default function AdminUsersPage() {
                 </Card>
               )}
             </div>
+            )}
 
             {/* Pagination Controls */}
             <div className="flex items-center justify-between pt-2">
@@ -421,7 +445,7 @@ export default function AdminUsersPage() {
           <TabsContent value="admins" className="space-y-6">
             <div className="grid gap-4">
               {adminUsers.map((adminUser) => (
-                <Card key={adminUser.id} variant="elevated">
+                <Card key={adminUser.id} variant="elevated" className="transition-shadow hover:shadow-lg interactive hover-lift slide-up">
                   <CardHeader>
                     <div className="flex justify-between items-start">
                       <div className="space-y-1">

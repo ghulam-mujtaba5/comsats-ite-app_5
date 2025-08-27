@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Search, Plus, Edit, Trash2, BookOpen, FileText, Save, X } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface GuideSection {
   id: string
@@ -237,9 +238,9 @@ export default function AdminGuidancePage() {
   })
 
   return (
-    <div className="app-container section">
+    <div className="app-container section" role="main" aria-labelledby="guidance-heading">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Guidance Management</h1>
+        <h1 id="guidance-heading" className="text-3xl font-bold">Guidance Management</h1>
         <p className="text-muted-foreground mt-2">
           Manage guidance content and FAQ items for students
         </p>
@@ -384,7 +385,28 @@ export default function AdminGuidancePage() {
           </div>
 
           {loading ? (
-            <div className="text-center py-8" aria-live="polite">Loading guidance sections...</div>
+            <div className="grid gap-4" aria-live="polite">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Card key={`g-sk-${i}`} className="p-5">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Skeleton className="h-5 w-5 rounded-full" />
+                        <Skeleton className="h-5 w-48" />
+                        <Skeleton className="h-5 w-20" />
+                        <Skeleton className="h-5 w-16" />
+                      </div>
+                      <Skeleton className="h-4 w-3/4 mb-1" />
+                      <Skeleton className="h-4 w-1/2" />
+                    </div>
+                    <div className="flex gap-2">
+                      <Skeleton className="h-8 w-8" />
+                      <Skeleton className="h-8 w-8" />
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
           ) : filteredGuideSections.length === 0 ? (
             <Card variant="soft" className="p-8 text-center">
               <div className="text-muted-foreground">No guidance sections found</div>
@@ -392,7 +414,7 @@ export default function AdminGuidancePage() {
           ) : (
             <div className="grid gap-4">
               {filteredGuideSections.map((section) => (
-                <Card key={section.id} variant="elevated">
+                <Card key={section.id} variant="elevated" className="transition-shadow hover:shadow-lg interactive hover-lift slide-up">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
@@ -416,6 +438,7 @@ export default function AdminGuidancePage() {
                             setEditingGuide(section)
                             setShowGuideDialog(true)
                           }}
+                          aria-label={`Edit guide ${section.title}`}
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -423,6 +446,7 @@ export default function AdminGuidancePage() {
                           size="sm"
                           variant="outline"
                           onClick={() => handleDeleteGuide(section.id)}
+                          aria-label={`Delete guide ${section.title}`}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -538,7 +562,27 @@ export default function AdminGuidancePage() {
           </div>
 
           {loading ? (
-            <div className="text-center py-8" aria-live="polite">Loading FAQ items...</div>
+            <div className="grid gap-4" aria-live="polite">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Card key={`f-sk-${i}`} className="p-5">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Skeleton className="h-5 w-5 rounded-full" />
+                        <Skeleton className="h-5 w-56" />
+                        <Skeleton className="h-5 w-20" />
+                      </div>
+                      <Skeleton className="h-4 w-3/4 mb-1" />
+                      <Skeleton className="h-4 w-2/3" />
+                    </div>
+                    <div className="flex gap-2">
+                      <Skeleton className="h-8 w-8" />
+                      <Skeleton className="h-8 w-8" />
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
           ) : filteredFaqs.length === 0 ? (
             <Card variant="soft" className="p-8 text-center">
               <div className="text-muted-foreground">No FAQs found</div>
@@ -546,7 +590,7 @@ export default function AdminGuidancePage() {
           ) : (
             <div className="grid gap-4">
               {filteredFaqs.map((faq) => (
-                <Card key={faq.id} variant="elevated">
+                <Card key={faq.id} variant="elevated" className="transition-shadow hover:shadow-lg interactive hover-lift slide-up">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
@@ -567,6 +611,7 @@ export default function AdminGuidancePage() {
                             setEditingFaq(faq)
                             setShowFaqDialog(true)
                           }}
+                          aria-label={`Edit FAQ ${faq.question}`}
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -574,6 +619,7 @@ export default function AdminGuidancePage() {
                           size="sm"
                           variant="outline"
                           onClick={() => handleDeleteFaq(faq.id)}
+                          aria-label={`Delete FAQ ${faq.question}`}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

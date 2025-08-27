@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Search, Plus, Edit, Trash2, Calendar, MapPin, Users, Clock, Save, X } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { Skeleton } from "@/components/ui/skeleton"
 
 
 interface Event {
@@ -399,20 +400,30 @@ export default function AdminEventsPage() {
       {loading ? (
         <div className="grid gap-4" aria-live="polite">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={`sk-${i}`} className="skeleton p-5 border border-border rounded-md">
+            <Card key={`sk-${i}`} className="p-5">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <div className="sk-title w-40 rounded mb-2" />
-                  <div className="sk-line w-3/4 rounded mb-1" />
-                  <div className="sk-line w-1/2 rounded" />
+                  <div className="flex items-center gap-2 mb-2">
+                    <Skeleton className="h-5 w-5 rounded-full" />
+                    <Skeleton className="h-5 w-40" />
+                    <Skeleton className="h-6 w-20" />
+                    <Skeleton className="h-6 w-28" />
+                  </div>
+                  <Skeleton className="h-4 w-3/4 mb-1" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <div className="flex items-center gap-4 mt-2">
+                    <Skeleton className="h-4 w-40" />
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-4 w-28" />
+                  </div>
                 </div>
                 <div className="flex gap-2">
-                  <div className="sk-pill w-24 h-8 rounded" />
-                  <div className="sk-icon w-8 h-8 rounded" />
-                  <div className="sk-icon w-8 h-8 rounded" />
+                  <Skeleton className="h-8 w-28 rounded-md" />
+                  <Skeleton className="h-8 w-8 rounded-md" />
+                  <Skeleton className="h-8 w-8 rounded-md" />
                 </div>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       ) : (

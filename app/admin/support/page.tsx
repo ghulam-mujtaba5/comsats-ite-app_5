@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/components/ui/label"
 import { Search, Eye, MessageSquare, Clock, CheckCircle, AlertCircle } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface SupportRequest {
   id: string
@@ -170,9 +171,9 @@ export default function AdminSupportPage() {
   }
 
   return (
-    <div className="app-container section">
+    <div className="app-container section" role="main" aria-labelledby="support-heading">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Support Request Management</h1>
+        <h1 id="support-heading" className="text-3xl font-bold">Support Request Management</h1>
         <p className="text-muted-foreground mt-2">
           Manage and respond to student support requests
         </p>
@@ -271,11 +272,33 @@ export default function AdminSupportPage() {
 
       {/* Requests List */}
       {loading ? (
-        <div className="text-center py-8">Loading support requests...</div>
+        <div className="grid gap-4" aria-live="polite">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={`sr-sk-${i}`} className="p-5">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Skeleton className="h-5 w-5 rounded-full" />
+                    <Skeleton className="h-5 w-56" />
+                    <Skeleton className="h-6 w-20" />
+                    <Skeleton className="h-6 w-24" />
+                  </div>
+                  <Skeleton className="h-4 w-3/4 mb-1" />
+                  <Skeleton className="h-4 w-2/3" />
+                  <Skeleton className="h-3 w-40 mt-2" />
+                </div>
+                <div className="flex gap-2">
+                  <Skeleton className="h-8 w-24" />
+                  <Skeleton className="h-9 w-32" />
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
       ) : (
         <div className="grid gap-4">
           {filteredRequests.map((request) => (
-            <Card key={request.id} variant="elevated">
+            <Card key={request.id} variant="elevated" className="transition-shadow hover:shadow-lg interactive hover-lift slide-up">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -305,6 +328,7 @@ export default function AdminSupportPage() {
                           size="sm"
                           variant="outline"
                           onClick={() => setSelectedRequest(request)}
+                          aria-label={`View details for support request ${request.id}`}
                         >
                           <Eye className="h-4 w-4 mr-1" />
                           View
@@ -397,7 +421,7 @@ export default function AdminSupportPage() {
                       value={request.status}
                       onValueChange={(value) => updateRequestStatus(request.id, value)}
                     >
-                      <SelectTrigger className="w-32">
+                      <SelectTrigger className="w-32" aria-label={`Change status for request ${request.id}`}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
