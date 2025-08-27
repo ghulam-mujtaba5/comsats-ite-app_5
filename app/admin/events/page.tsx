@@ -225,9 +225,9 @@ export default function AdminEventsPage() {
   }
 
   return (
-    <div className="app-container section">
+    <div className="app-container section" role="main" aria-labelledby="events-heading">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Events Management</h1>
+        <h1 id="events-heading" className="text-3xl font-bold">Events Management</h1>
         <p className="text-muted-foreground mt-2">
           Manage campus events and track registrations
         </p>

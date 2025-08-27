@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Settings, Globe, Shield, Mail, Database, Palette } from "lucide-react"
 
+
 interface SiteSettings {
   site_name: string
   site_description: string
@@ -162,7 +163,7 @@ export default function AdminSettingsPage() {
                 <CardTitle>General Settings</CardTitle>
                 <CardDescription>Basic site configuration</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4" aria-busy={!!saving}>
+              <CardContent className="space-y-4" {...(saving ? { 'aria-busy': 'true' } as any : {})}>
                 <div>
                   <Label htmlFor="site_name">Site Name</Label>
                   <Input
@@ -219,7 +220,7 @@ export default function AdminSettingsPage() {
                 <CardTitle>Security Settings</CardTitle>
                 <CardDescription>User registration and access controls</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4" aria-busy={!!saving}>
+              <CardContent className="space-y-4" {...(saving ? { 'aria-busy': 'true' } as any : {})}>
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="registration_enabled"
@@ -241,7 +242,7 @@ export default function AdminSettingsPage() {
                 <CardTitle>Email Settings</CardTitle>
                 <CardDescription>Configure email notifications and templates</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4" aria-busy={!!saving}>
+              <CardContent className="space-y-4" {...(saving ? { 'aria-busy': 'true' } as any : {})}>
                 <div>
                   <Label id="email_provider_label">Email Provider</Label>
                   <Select defaultValue="supabase">
@@ -268,7 +269,7 @@ export default function AdminSettingsPage() {
                 <CardTitle>File Upload Settings</CardTitle>
                 <CardDescription>Configure file upload limits and allowed types</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4" aria-busy={!!saving}>
+              <CardContent className="space-y-4" {...(saving ? { 'aria-busy': 'true' } as any : {})}>
                 <div>
                   <Label htmlFor="max_file_size">Maximum File Size (MB)</Label>
                   <Input
@@ -302,7 +303,7 @@ export default function AdminSettingsPage() {
                 <CardTitle>Appearance Settings</CardTitle>
                 <CardDescription>Customize the look and feel of your site</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4" aria-busy={!!saving}>
+              <CardContent className="space-y-4" {...(saving ? { 'aria-busy': 'true' } as any : {})}>
                 <div>
                   <Label id="theme_color_label" htmlFor="theme_color">Primary Theme Color</Label>
                   <div className="flex gap-2">

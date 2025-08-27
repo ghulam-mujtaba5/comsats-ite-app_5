@@ -152,9 +152,9 @@ export default function AdminDashboardPage() {
 
   return (
     <AdminGuard>
-      <div className="container mx-auto px-4 py-8 fade-in">
+      <div className="container mx-auto px-4 py-8 fade-in" role="main" aria-labelledby="dashboard-heading">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <h1 id="dashboard-heading" className="text-3xl font-bold">Admin Dashboard</h1>
           <p className="text-muted-foreground mt-2">
             Manage all aspects of the CampusAxis portal
           </p>
@@ -271,7 +271,7 @@ export default function AdminDashboardPage() {
                 <div>
                   <div className="text-sm font-semibold">Timetable (Postgres)</div>
                   {loadingHealth ? (
-                    <div className="text-sm text-muted-foreground">Loading...</div>
+                    <div className="text-sm text-muted-foreground" aria-live="polite">Loading...</div>
                   ) : health.timetable?.ok ? (
                     <div className="text-sm text-green-600">OK {typeof health.timetable?.timetable?.count === 'number' ? `(rows: ${health.timetable.timetable.count})` : ''}</div>
                   ) : (
@@ -284,7 +284,7 @@ export default function AdminDashboardPage() {
                 <div>
                   <div className="text-sm font-semibold">MongoDB</div>
                   {loadingHealth ? (
-                    <div className="text-sm text-muted-foreground">Loading...</div>
+                    <div className="text-sm text-muted-foreground" aria-live="polite">Loading...</div>
                   ) : health.mongo?.ok ? (
                     <div className="text-sm text-green-600">OK</div>
                   ) : (
