@@ -80,6 +80,7 @@ export default function PastPapersModerationPage() {
           <div className="flex items-center gap-2">
             <select
               className="border rounded px-2 py-1 bg-background"
+              aria-label="Filter by status"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -92,7 +93,7 @@ export default function PastPapersModerationPage() {
         </div>
 
         {loading && <div>Loading…</div>}
-        {error && <div className="text-red-600">{error}</div>}
+        {error && <div className="text-destructive">{error}</div>}
 
         {!loading && items.length === 0 && (
           <div className="text-muted-foreground">No items found.</div>

@@ -136,7 +136,7 @@ export default function TimetablePage() {
                   <Input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} />
                   <div className="md:col-span-2 flex gap-3 items-center">
                     <Button type="submit" disabled={uploading}>{uploading ? "Uploading..." : "Upload"}</Button>
-                    {error && <span className="text-red-600 text-sm">{error}</span>}
+                    {error && <span className="text-destructive text-sm">{error}</span>}
                     {message && <span className="text-green-600 text-sm">{message}</span>}
                   </div>
                 </form>

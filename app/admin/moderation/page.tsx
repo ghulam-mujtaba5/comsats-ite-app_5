@@ -287,7 +287,7 @@ export default function AdminModerationPage() {
                         By {post.author_name} • {new Date(post.created_at).toLocaleDateString()} • 
                         {post.likes_count} likes • {post.comments_count} comments
                         {post.reports_count > 0 && (
-                          <span className="text-red-600 font-medium"> • {post.reports_count} reports</span>
+                          <span className="text-destructive font-medium"> • {post.reports_count} reports</span>
                         )}
                       </CardDescription>
                     </div>
@@ -333,7 +333,7 @@ export default function AdminModerationPage() {
                       <CardDescription>
                         By {comment.author_name} • {new Date(comment.created_at).toLocaleDateString()}
                         {comment.reports_count > 0 && (
-                          <span className="text-red-600 font-medium"> • {comment.reports_count} reports</span>
+                          <span className="text-destructive font-medium"> • {comment.reports_count} reports</span>
                         )}
                       </CardDescription>
                     </div>

@@ -12,6 +12,7 @@ import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 import { useToast } from "@/hooks/use-toast"
 
+
 interface NewsItem {
   id: string
   title: string
@@ -275,7 +276,7 @@ export default function NewsEventsPage() {
     return (
       <div className="container mx-auto px-4 py-8 fade-in">
         <div className="text-center py-12" role="alert">
-          <p className="text-red-500 mb-4">Error: {error}</p>
+          <p className="text-destructive mb-4">Error: {error}</p>
           <Button onClick={() => window.location.reload()} className="interactive hover-lift">Try Again</Button>
         </div>
       </div>
@@ -368,7 +369,7 @@ export default function NewsEventsPage() {
           {/* News List */}
           <div className="space-y-4" aria-live="polite">
             {filteredNews.map((item) => (
-              <Card key={item.id} className={`hover:shadow-md transition-shadow slide-up ${item.isImportant ? 'border-red-200 bg-red-50/50' : ''}`}>
+              <Card key={item.id} className={`hover:shadow-md transition-shadow slide-up ${item.isImportant ? 'border-destructive/30 bg-destructive/10' : ''}`}>
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div className="space-y-2">

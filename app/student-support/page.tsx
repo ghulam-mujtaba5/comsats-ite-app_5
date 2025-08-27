@@ -178,23 +178,23 @@ export default function StudentSupportPage() {
         {/* Emergency Resources */}
         {emergencyResources.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-red-600 mb-4 flex items-center">
+            <h2 className="text-xl font-semibold text-primary mb-4 flex items-center">
               <Shield className="h-5 w-5 mr-2" />
               Emergency Support
             </h2>
             <div className="grid gap-4 md:grid-cols-2">
               {emergencyResources.map((resource) => (
-                <Card key={resource.id} className="border-red-200 bg-red-50">
+                <Card key={resource.id} className="border-primary/30 bg-primary/10 dark:bg-primary/15">
                   <CardHeader>
-                    <CardTitle className="text-red-800 flex items-center">
+                    <CardTitle className="text-primary flex items-center">
                       <Phone className="h-4 w-4 mr-2" />
                       {resource.title}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-red-700 mb-2">{resource.description}</p>
-                    <p className="text-sm text-red-600 font-medium">{resource.contactInfo}</p>
-                    <p className="text-xs text-red-500 mt-1">{resource.availability}</p>
+                    <p className="text-primary mb-2">{resource.description}</p>
+                    <p className="text-sm text-primary font-medium">{resource.contactInfo}</p>
+                    <p className="text-xs text-primary/80 mt-1">{resource.availability}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -289,10 +289,11 @@ export default function StudentSupportPage() {
                   <input
                     type="checkbox"
                     id="anonymous"
+                    aria-labelledby="anonymous-label"
                     checked={requestForm.isAnonymous}
                     onChange={(e) => setRequestForm(prev => ({ ...prev, isAnonymous: e.target.checked }))}
                   />
-                  <Label htmlFor="anonymous">Submit anonymously</Label>
+                  <Label id="anonymous-label" htmlFor="anonymous">Submit anonymously</Label>
                 </div>
                 <div className="flex justify-end space-x-2">
                   <Button variant="outline" onClick={() => setShowRequestDialog(false)}>
@@ -313,7 +314,7 @@ export default function StudentSupportPage() {
           {loading ? (
             <CenteredLoader message="Loading support resources..." />
           ) : error ? (
-            <div className="text-center py-8 text-red-600">{error}</div>
+            <div className="text-center py-8 text-destructive">{error}</div>
           ) : regularResources.length === 0 ? (
             <div className="text-center py-8 text-gray-500">No support resources found matching your criteria</div>
           ) : (

@@ -182,7 +182,7 @@ export default function GuidancePage() {
       case "financial":
         return "bg-yellow-100 text-yellow-800 border-yellow-200"
       case "policies":
-        return "bg-red-100 text-red-800 border-red-200"
+        return "bg-primary/10 text-primary border-primary/20"
       default:
         return "bg-gray-100 text-gray-800 border-gray-200"
     }
@@ -266,7 +266,7 @@ export default function GuidancePage() {
             {loading ? (
               <CenteredLoader message="Loading guidance content..." />
             ) : error ? (
-              <div className="text-center py-8 text-red-600">{error}</div>
+              <div className="text-center py-8 text-destructive">{error}</div>
             ) : filteredSections.length === 0 ? (
               <div className="text-center py-8 text-gray-500">No guidance sections found matching your criteria</div>
             ) : (
@@ -311,7 +311,7 @@ export default function GuidancePage() {
             {loading ? (
               <CenteredLoader message="Loading FAQs..." />
             ) : error ? (
-              <div className="text-center py-8 text-red-600">{error}</div>
+              <div className="text-center py-8 text-destructive">{error}</div>
             ) : filteredFaqs.length === 0 ? (
               <div className="text-center py-8 text-gray-500">No FAQs found matching your criteria</div>
             ) : (

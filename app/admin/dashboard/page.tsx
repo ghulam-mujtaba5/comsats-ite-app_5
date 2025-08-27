@@ -115,7 +115,7 @@ export default function AdminDashboardPage() {
       value: stats.supportRequests,
       description: "Student support requests",
       icon: Heart,
-      color: "text-red-600",
+      color: "text-primary",
       href: "/admin/student-support"
     },
     {
@@ -275,7 +275,7 @@ export default function AdminDashboardPage() {
                   ) : health.timetable?.ok ? (
                     <div className="text-sm text-green-600">OK {typeof health.timetable?.timetable?.count === 'number' ? `(rows: ${health.timetable.timetable.count})` : ''}</div>
                   ) : (
-                    <div className="text-sm text-red-600" role="alert">{health.timetable?.error || 'Not OK'}</div>
+                    <div className="text-sm text-destructive" role="alert">{health.timetable?.error || 'Not OK'}</div>
                   )}
                   {health.timetable?.hint && (
                     <div className="text-xs text-muted-foreground mt-1">Hint: {health.timetable.hint}</div>
@@ -288,7 +288,7 @@ export default function AdminDashboardPage() {
                   ) : health.mongo?.ok ? (
                     <div className="text-sm text-green-600">OK</div>
                   ) : (
-                    <div className="text-sm text-red-600" role="alert">{health.mongo?.error || 'Not OK'}</div>
+                    <div className="text-sm text-destructive" role="alert">{health.mongo?.error || 'Not OK'}</div>
                   )}
                 </div>
               </div>
