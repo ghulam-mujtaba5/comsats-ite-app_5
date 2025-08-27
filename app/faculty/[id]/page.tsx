@@ -1,6 +1,5 @@
 "use client"
 
-import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -183,10 +182,14 @@ export default function FacultyProfilePage() {
                   <div className="flex-1 space-y-4">
                     <div>
                       <h1 className="text-3xl font-bold text-foreground mb-2">{faculty.name}</h1>
-                      <p className="text-xl text-muted-foreground mb-2">{faculty.title}</p>
-                      <Badge className="text-base px-3 py-1 bg-secondary text-secondary-foreground border-transparent">
-                        {faculty.department}
-                      </Badge>
+                      {faculty.title && (
+                        <p className="text-xl text-muted-foreground mb-2">{faculty.title}</p>
+                      )}
+                      {!!faculty.department && (
+                        <Badge className="text-base px-3 py-1 bg-secondary text-secondary-foreground border-transparent">
+                          {faculty.department}
+                        </Badge>
+                      )}
                     </div>
 
                     <div className="flex items-center gap-4">
@@ -240,58 +243,64 @@ export default function FacultyProfilePage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Faculty Details */}
             <div className="lg:col-span-1 space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <BookOpen className="h-5 w-5" />
-                    Specialization
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    {faculty?.specialization.map((spec, index) => (
-                      <Badge key={index} className="border">
-                        {spec}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              {!!faculty?.specialization?.length && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <BookOpen className="h-5 w-5" />
+                      Specialization
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {faculty.specialization.map((spec, index) => (
+                        <Badge key={index} className="border">
+                          {spec}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <GraduationCap className="h-5 w-5" />
-                    Education
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm">
-                    {faculty?.education.map((edu, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                        {edu}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+              {!!faculty?.education?.length && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <GraduationCap className="h-5 w-5" />
+                      Education
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm">
+                      {faculty.education.map((edu, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                          {edu}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Courses Taught</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm">
-                    {faculty?.courses.map((course, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
-                        {course}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+              {!!faculty?.courses?.length && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Courses Taught</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm">
+                      {faculty.courses.map((course, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
+                          {course}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
 
               {/* Rating Breakdown */}
               <Card>
@@ -346,7 +355,6 @@ export default function FacultyProfilePage() {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   )
 }

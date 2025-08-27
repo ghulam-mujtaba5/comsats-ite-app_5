@@ -9,7 +9,8 @@
     "start": "next start",
     "db:seed": "tsx scripts/seed.ts",
     "db:seed-complete": "tsx scripts/seed-complete.ts",
-    "db:seed-timetable": "tsx scripts/seed-timetable.ts"
+    "db:seed-timetable": "tsx scripts/seed-timetable.ts",
+    "schema:introspect": "node scripts/introspect-schema.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
