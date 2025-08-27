@@ -57,15 +57,32 @@ export default function CoursePage({ params }: any) {
     // Find the paper across all paper types
     const allPapers = [...course.assignments, ...course.quizzes, ...course.midterms, ...course.finals]
     const paper = allPapers.find((p) => p.id === paperId)
-    if (!paper) return
+    if (!paper) {
+      console.error('Paper not found:', paperId)
+      return
+    }
 
-    // Create a temporary link element to trigger download
-    const link = document.createElement("a")
-    link.href = paper.downloadUrl || `/placeholder-paper-${paperId}.pdf`
-    link.download = `${paper.title}.${paper.fileType?.toLowerCase() || "pdf"}`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    const downloadUrl = paper.downloadUrl
+    if (!downloadUrl || downloadUrl === 'undefined') {
+      console.error('No download URL available for paper:', paper.title)
+      alert('Download link not available for this paper.')
+      return
+    }
+
+    // Handle different URL types
+    if (downloadUrl.startsWith('http')) {
+      // External URL - open in new tab
+      window.open(downloadUrl, '_blank')
+    } else {
+      // Create a temporary link element to trigger download
+      const link = document.createElement("a")
+      link.href = downloadUrl
+      link.download = `${paper.title}.${paper.fileType?.toLowerCase() || "pdf"}`
+      link.target = '_blank'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
 
     console.log(`Downloaded paper: ${paper.title}`)
   }
@@ -74,12 +91,20 @@ export default function CoursePage({ params }: any) {
     // Find the paper across all paper types
     const allPapers = [...course.assignments, ...course.quizzes, ...course.midterms, ...course.finals]
     const paper = allPapers.find((p) => p.id === paperId)
-    if (!paper) return
+    if (!paper) {
+      console.error('Paper not found:', paperId)
+      return
+    }
+
+    const viewUrl = paper.downloadUrl
+    if (!viewUrl || viewUrl === 'undefined') {
+      console.error('No view URL available for paper:', paper.title)
+      alert('Preview not available for this paper.')
+      return
+    }
 
     // Open paper in new tab for preview
-    const previewUrl = paper.downloadUrl || `/placeholder-paper-${paperId}.pdf`
-    window.open(previewUrl, "_blank")
-
+    window.open(viewUrl, "_blank")
     console.log(`Previewing paper: ${paper.title}`)
   }
 

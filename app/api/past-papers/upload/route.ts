@@ -166,15 +166,21 @@ export async function POST(req: NextRequest) {
         {
           title: paperData.title,
           course_code: paperData.course === 'Other' ? paperData.courseName.replace(/\s+/g, '-').toUpperCase() : paperData.course,
+          course_name: paperData.course === 'Other' ? paperData.courseName : paperData.course,
           exam_type: paperData.examType,
           semester: paperData.semester,
           year: paperData.year,
           tags: paperData.tags,
-          // Prefer download_url; some UIs might read file_url
-          download_url: publicUrl,
           file_url: publicUrl,
+          public_url: publicUrl,
+          external_url: hasExternal ? publicUrl : null,
+          link_url: hasExternal ? publicUrl : null,
           department: paperData.department,
-          status: 'pending',
+          file_type: file ? (file.type.includes('pdf') ? 'PDF' : file.type.includes('doc') ? 'DOC' : 'DOCX') : 'Link',
+          file_size: file ? `${(file.size / 1024 / 1024).toFixed(2)} MB` : null,
+          uploaded_by: 'Anonymous', // TODO: Get from auth context
+          download_count: 0,
+          status: 'approved', // Changed from 'pending' to 'approved' so papers show up immediately
         },
       ])
       .select()

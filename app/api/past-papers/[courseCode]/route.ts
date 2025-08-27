@@ -55,13 +55,37 @@ export async function GET(req: NextRequest, context: { params: Promise<{ courseC
     department: 'Unknown',
   }
 
-  // Organize papers by type
+  // Organize papers by type and map to PastPaper interface
+  const mapPaperData = (papers: any[]) => {
+    return papers.map((p) => ({
+      id: p.id || `paper-${Math.random().toString(36).slice(2, 9)}`,
+      title: p.title || 'Untitled Paper',
+      course: p.course_name || finalCourseData.name,
+      courseCode: p.course_code || courseCode,
+      department: p.department || finalCourseData.department,
+      semester: p.semester || 'Unknown Semester',
+      year: Number(p.year) || new Date(p.created_at).getFullYear(),
+      examType: (p.exam_type === 'Midterm' ? 'Mid-Term' : p.exam_type) || 'Mid-Term',
+      uploadedBy: p.uploaded_by || 'Anonymous',
+      uploadDate: p.created_at || new Date().toISOString(),
+      downloadCount: p.download_count || 0,
+      fileSize: p.file_size || 'Unknown',
+      fileType: (p.file_type || 'PDF').toUpperCase(),
+      downloadUrl: p.file_url || p.public_url || p.external_url || p.link_url || undefined,
+      tags: Array.isArray(p.tags) ? p.tags : (p.tags ? [p.tags] : []),
+    }));
+  };
+
   const courseWithPapers = {
-    ...finalCourseData,
-    assignments: papersData?.filter((p) => p.exam_type === 'Assignment') || [],
-    quizzes: papersData?.filter((p) => p.exam_type === 'Quiz') || [],
-    midterms: papersData?.filter((p) => p.exam_type === 'Mid-Term') || [],
-    finals: papersData?.filter((p) => p.exam_type === 'Final') || [],
+    id: finalCourseData.id || courseCode,
+    name: finalCourseData.name,
+    code: finalCourseData.code || courseCode,
+    creditHours: Number(finalCourseData.credit_hours) || 3,
+    department: finalCourseData.department,
+    assignments: mapPaperData(papersData?.filter((p) => p.exam_type === 'Assignment') || []),
+    quizzes: mapPaperData(papersData?.filter((p) => p.exam_type === 'Quiz') || []),
+    midterms: mapPaperData(papersData?.filter((p) => p.exam_type === 'Mid-Term' || p.exam_type === 'Midterm') || []),
+    finals: mapPaperData(papersData?.filter((p) => p.exam_type === 'Final') || []),
     totalPapers: papersData?.length || 0,
     lastUpdated: papersData?.[0]?.created_at || new Date().toISOString(),
   }

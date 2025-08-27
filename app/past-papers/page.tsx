@@ -13,7 +13,7 @@ import {
   type CourseWithPapers,
   type PastPaper,
 } from "@/lib/past-papers-data"
-import { Upload, FileText, Download, Users, TrendingUp } from "lucide-react"
+import { Upload, FileText, Download, Users, TrendingUp, RefreshCw } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 
@@ -30,87 +30,106 @@ export default function PastPapersPage() {
   const [coursesWithPapers, setCoursesWithPapers] = useState<CourseWithPapers[]>([])
 
   // Fetch approved past papers from API and group by course_code
-  useEffect(() => {
-    const load = async () => {
-      setLoading(true)
-      setError(null)
-      try {
-        const params = new URLSearchParams()
-        // Server will further filter; we also filter client-side for richer UX
-        if (selectedSemester !== "All") params.set("semester", selectedSemester)
-        if (selectedYear !== "All") params.set("year", selectedYear)
-        if (searchTerm) params.set("q", searchTerm)
-        const res = await fetch(`/api/past-papers?${params.toString()}`, { cache: "no-store" })
-        const json = await res.json()
-        const rows: any[] = Array.isArray(json.data) ? json.data : []
-
-        // Map DB rows to PastPaper-like items
-        const papers: PastPaper[] = rows.map((r) => ({
-          id: r.id,
-          title: r.title,
-          course: r.course_name || r.course_code,
-          courseCode: r.course_code,
-          department: r.department || "",
-          semester: r.semester || "",
-          year: Number(r.year) || new Date(r.created_at).getFullYear(),
-          examType: (r.exam_type === 'Midterm' ? 'Mid-Term' : r.exam_type) || 'Mid-Term',
-          uploadedBy: r.uploaded_by || "",
-          uploadDate: r.created_at || new Date().toISOString(),
-          downloadCount: r.download_count || 0,
-          fileSize: r.file_size || "",
-          fileType: (r.file_type || "PDF").toUpperCase(),
-          downloadUrl: r.public_url || r.external_url || undefined,
-          tags: Array.isArray(r.tags) ? r.tags : [],
-        }))
-
-        // Group by courseCode
-        const map = new Map<string, CourseWithPapers>()
-        for (const p of papers) {
-          if (!map.has(p.courseCode)) {
-            map.set(p.courseCode, {
-              id: p.courseCode,
-              name: p.course,
-              code: p.courseCode,
-              creditHours: 3,
-              department: p.department || "",
-              totalPapers: 0,
-              assignments: [],
-              quizzes: [],
-              midterms: [],
-              finals: [],
-              lastUpdated: "1970-01-01",
-            })
-          }
-          const c = map.get(p.courseCode)!
-          c.totalPapers += 1
-          // Normalize exam type buckets
-          switch (p.examType) {
-            case "Assignment":
-              c.assignments.push(p)
-              break
-            case "Quiz":
-              c.quizzes.push(p)
-              break
-            case "Mid-Term":
-              c.midterms.push(p)
-              break
-            case "Final":
-            default:
-              c.finals.push(p)
-          }
-          if (p.uploadDate > c.lastUpdated) c.lastUpdated = p.uploadDate
-        }
-
-        setCoursesWithPapers(Array.from(map.values()))
-      } catch (e: any) {
-        setError(e.message || "Failed to load past papers")
-      } finally {
-        setLoading(false)
+  const loadPapers = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const params = new URLSearchParams()
+      // Server will further filter; we also filter client-side for richer UX
+      if (selectedSemester !== "All") params.set("semester", selectedSemester)
+      if (selectedYear !== "All") params.set("year", selectedYear)
+      if (searchTerm) params.set("q", searchTerm)
+      const res = await fetch(`/api/past-papers?${params.toString()}`, { cache: "no-store" })
+      const json = await res.json()
+      
+      console.log('API Response:', json) // Debug log
+      
+      if (!res.ok) {
+        throw new Error(json.error || 'Failed to fetch papers')
       }
+      
+      const rows: any[] = Array.isArray(json.data) ? json.data : []
+
+      // Map DB rows to PastPaper-like items
+      const papers: PastPaper[] = rows.map((r) => ({
+        id: r.id || `paper-${Math.random().toString(36).slice(2, 9)}`,
+        title: r.title || 'Untitled Paper',
+        course: r.course_name || r.course_code || 'Unknown Course',
+        courseCode: r.course_code || 'UNKNOWN',
+        department: r.department || 'Unknown Department',
+        semester: r.semester || 'Unknown Semester',
+        year: Number(r.year) || new Date(r.created_at).getFullYear(),
+        examType: (r.exam_type === 'Midterm' ? 'Mid-Term' : r.exam_type) || 'Mid-Term',
+        uploadedBy: r.uploaded_by || 'Anonymous',
+        uploadDate: r.created_at || new Date().toISOString(),
+        downloadCount: r.download_count || 0,
+        fileSize: r.file_size || 'Unknown',
+        fileType: (r.file_type || 'PDF').toUpperCase() as 'PDF' | 'DOC' | 'DOCX',
+        downloadUrl: r.file_url || r.public_url || r.external_url || r.link_url || undefined,
+        tags: Array.isArray(r.tags) ? r.tags : (r.tags ? [r.tags] : []),
+      }))
+
+      // Group by courseCode
+      const map = new Map<string, CourseWithPapers>()
+      for (const p of papers) {
+        if (!map.has(p.courseCode)) {
+          map.set(p.courseCode, {
+            id: p.courseCode,
+            name: p.course,
+            code: p.courseCode,
+            creditHours: 3,
+            department: p.department || "",
+            totalPapers: 0,
+            assignments: [],
+            quizzes: [],
+            midterms: [],
+            finals: [],
+            lastUpdated: "1970-01-01",
+          })
+        }
+        const c = map.get(p.courseCode)!
+        c.totalPapers += 1
+        // Normalize exam type buckets
+        switch (p.examType) {
+          case "Assignment":
+            c.assignments.push(p)
+            break
+          case "Quiz":
+            c.quizzes.push(p)
+            break
+          case "Mid-Term":
+            c.midterms.push(p)
+            break
+          case "Final":
+          default:
+            c.finals.push(p)
+        }
+        if (p.uploadDate > c.lastUpdated) c.lastUpdated = p.uploadDate
+      }
+
+      setCoursesWithPapers(Array.from(map.values()))
+    } catch (e: any) {
+      setError(e.message || "Failed to load past papers")
+    } finally {
+      setLoading(false)
     }
-    load()
+  }
+
+  useEffect(() => {
+    loadPapers()
     // Re-run when top-level filters change; department and examType are applied client-side below
   }, [searchTerm, selectedSemester, selectedYear])
+
+  // Listen for paper upload events to refresh the data
+  useEffect(() => {
+    const handlePaperUploaded = () => {
+      console.log('Paper uploaded, refreshing data...')
+      loadPapers()
+    }
+    
+    window.addEventListener('pastpaper:uploaded', handlePaperUploaded)
+    return () => window.removeEventListener('pastpaper:uploaded', handlePaperUploaded)
+  }, [])
 
   const filteredCourses = useMemo(() => {
     // Filter courses by search term and department first
@@ -172,12 +191,24 @@ export default function PastPapersPage() {
             <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto mb-8 font-medium leading-relaxed">
               Browse courses and access organized past papers including assignments, quizzes, midterms, and finals.
             </p>
-            <UploadPaperDialog>
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl text-lg px-8 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1">
-                <Upload className="h-5 w-5 mr-2" />
-                Upload Paper
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <UploadPaperDialog>
+                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl text-lg px-8 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1">
+                  <Upload className="h-5 w-5 mr-2" />
+                  Upload Paper
+                </Button>
+              </UploadPaperDialog>
+              <Button 
+                variant="outline" 
+                size="lg" 
+                onClick={loadPapers}
+                disabled={loading}
+                className="px-6 py-4 rounded-2xl border-blue-200 dark:border-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300"
+              >
+                <RefreshCw className={`h-5 w-5 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                Refresh
               </Button>
-            </UploadPaperDialog>
+            </div>
           </div>
 
           {/* Enhanced Stats Cards */}
@@ -227,6 +258,30 @@ export default function PastPapersPage() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Debug Section - Remove in production */}
+          {process.env.NODE_ENV === 'development' && (
+            <Card className="mb-8 bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-700">
+              <CardContent className="p-4">
+                <h3 className="font-semibold mb-2 text-yellow-800 dark:text-yellow-200">Debug Info:</h3>
+                <div className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1">
+                  <p>Total courses loaded: {coursesWithPapers.length}</p>
+                  <p>Filtered courses: {filteredCourses.length}</p>
+                  <p>Total papers: {totalPapers}</p>
+                  <p>Loading: {loading.toString()}</p>
+                  <p>Error: {error || 'None'}</p>
+                  {coursesWithPapers.length > 0 && (
+                    <details className="mt-2">
+                      <summary className="cursor-pointer">Raw course data</summary>
+                      <pre className="mt-2 p-2 bg-yellow-100 dark:bg-yellow-800 rounded text-xs overflow-auto max-h-32">
+                        {JSON.stringify(coursesWithPapers.slice(0, 2), null, 2)}
+                      </pre>
+                    </details>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Enhanced Search and Filters */}
           <Card className="mb-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">

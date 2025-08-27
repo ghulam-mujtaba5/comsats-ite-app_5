@@ -36,9 +36,13 @@ export async function GET(req: NextRequest) {
     if (q) query = query.or(`title.ilike.%${q}%,course_code.ilike.%${q}%`)
 
     const { data, error } = await query
-    if (error) throw error
+    if (error) {
+      console.error('Supabase query error:', error)
+      throw error
+    }
 
-    return NextResponse.json({ data })
+    console.log(`Found ${data?.length || 0} papers in database`) // Debug log
+    return NextResponse.json({ data: data || [] })
   } catch (e: any) {
     return NextResponse.json({ error: e.message || 'Failed to fetch past papers', data: [] }, { status: 200 })
   }
