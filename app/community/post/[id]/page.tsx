@@ -29,6 +29,10 @@ export default function PostPage() {
   const [error, setError] = useState<string | null>(null)
   const [newReply, setNewReply] = useState("")
   const { user } = useAuth()
+  const [replyLimit] = useState(20)
+  const [replyOffset, setReplyOffset] = useState(0)
+  const [hasMoreReplies, setHasMoreReplies] = useState(true)
+  const [loadingMoreReplies, setLoadingMoreReplies] = useState(false)
 
   useEffect(() => {
     if (postId == null) return
@@ -47,28 +51,57 @@ export default function PostPage() {
       }
 
       try {
-        const resR = await fetch(`/api/community/replies?post_id=${postId}`, { cache: "no-store" })
+        const resR = await fetch(`/api/community/replies?post_id=${postId}&limit=${replyLimit}&offset=0`, { cache: "no-store" })
         const jsonR = await resR.json()
         if (!resR.ok) throw new Error(jsonR?.error || "Failed to load replies")
         const rows = (jsonR.data || []) as any[]
-        setReplies(
-          rows.map((r) => ({
-            id: String(r.id),
-            postId: String(r.post_id),
-            author: r.author_name || "Anonymous",
-            avatar: r.avatar_url || "/student-avatar.png",
-            time: r.created_at ? new Date(r.created_at).toLocaleString() : "",
-            content: r.content || "",
-            likes: Number(r.likes ?? 0),
-            liked: !!r.liked,
-          }))
-        )
+        const mapped = rows.map((r) => ({
+          id: String(r.id),
+          postId: String(r.post_id),
+          author: r.author_name || "Anonymous",
+          avatar: r.avatar_url || "/student-avatar.png",
+          time: r.created_at ? new Date(r.created_at).toLocaleString() : "",
+          content: r.content || "",
+          likes: Number(r.likes ?? 0),
+          liked: !!r.liked,
+        }))
+        setReplies(mapped)
+        setHasMoreReplies(rows.length === replyLimit)
+        setReplyOffset(rows.length)
       } catch (e: any) {
         setError(e?.message || "Failed to load replies")
       }
     }
     load()
   }, [postId])
+
+  const loadMoreReplies = async () => {
+    if (!postId || loadingMoreReplies || !hasMoreReplies) return
+    setLoadingMoreReplies(true)
+    try {
+      const res = await fetch(`/api/community/replies?post_id=${postId}&limit=${replyLimit}&offset=${replyOffset}`, { cache: 'no-store' })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json?.error || 'Failed to load more replies')
+      const rows = (json.data || []) as any[]
+      const mapped = rows.map((r) => ({
+        id: String(r.id),
+        postId: String(r.post_id),
+        author: r.author_name || 'Anonymous',
+        avatar: r.avatar_url || '/student-avatar.png',
+        time: r.created_at ? new Date(r.created_at).toLocaleString() : '',
+        content: r.content || '',
+        likes: Number(r.likes ?? 0),
+        liked: !!r.liked,
+      }))
+      setReplies((prev) => [...prev, ...mapped])
+      setReplyOffset((prev) => prev + mapped.length)
+      setHasMoreReplies(mapped.length === replyLimit)
+    } catch (e: any) {
+      toast({ title: 'Failed to load more replies', description: e?.message || 'Please try again.', variant: 'destructive' })
+    } finally {
+      setLoadingMoreReplies(false)
+    }
+  }
 
   const handleLike = async () => {
     if (!post) return
@@ -243,6 +276,14 @@ export default function PostPage() {
                     </div>
                   </div>
                 ))
+              )}
+
+              {hasMoreReplies && (
+                <div className="flex justify-center">
+                  <Button onClick={loadMoreReplies} disabled={loadingMoreReplies} variant="outline">
+                    {loadingMoreReplies ? 'Loading…' : 'Load more replies'}
+                  </Button>
+                </div>
               )}
 
               <div className="pt-4 border-t mt-2 space-y-2">
