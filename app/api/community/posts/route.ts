@@ -23,11 +23,15 @@ export async function GET(request: NextRequest) {
   )
 
   try {
+    const { searchParams } = new URL(request.url)
+    const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '20', 10), 1), 100)
+    const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10), 0)
+
     const { data: posts, error } = await supabase
       .from('community_posts')
       .select('*')
       .order('created_at', { ascending: false })
-      .limit(100)
+      .range(offset, offset + limit - 1)
 
     if (error) throw error
 
