@@ -75,7 +75,10 @@ export default function AdminReviewsPage() {
         <div className="flex items-center justify-between gap-3">
           <h1 className="text-2xl font-bold">Review Moderation</h1>
           <div className="flex items-center gap-2">
+            <label htmlFor="statusFilter" className="sr-only">Filter reviews by status</label>
             <select
+              id="statusFilter"
+              aria-label="Filter reviews by status"
               className="border rounded px-2 py-1 bg-background"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as any)}
@@ -89,8 +92,8 @@ export default function AdminReviewsPage() {
         </div>
         <p className="text-muted-foreground">Approve or reject reviews submitted by students.</p>
 
-        {error && <p className="text-sm text-blue-600">{error}</p>}
-        {loading && <p className="text-sm">Loading…</p>}
+        {error && <p className="text-sm text-blue-600" role="alert" aria-live="assertive">{error}</p>}
+        {loading && <p className="text-sm" aria-live="polite">Loading…</p>}
 
         {rows.length === 0 && !loading ? (
           <Card variant="soft" className="p-8 text-center">
@@ -105,6 +108,7 @@ export default function AdminReviewsPage() {
             <CardContent>
               <div className="overflow-auto">
                 <table className="w-full text-sm">
+                  <caption className="sr-only">Reviews moderation table</caption>
                   <thead>
                     <tr className="text-left border-b">
                       <th className="py-2 px-3">Rating</th>
