@@ -54,7 +54,7 @@ export default function AdminIssuesPage() {
         className="app-container section space-y-6"
         role="main"
         aria-labelledby="issues-heading"
-        aria-busy={loading ? true : undefined}
+        {...(loading ? { 'aria-busy': 'true' } as any : {})}
      >
         <h1 id="issues-heading" className="text-2xl font-bold">Issue Reports</h1>
         {loading ? (
