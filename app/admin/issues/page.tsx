@@ -50,10 +50,15 @@ export default function AdminIssuesPage() {
 
   return (
     <AdminGuard fallback={<div className="p-6">Unauthorized</div>}>
-      <div className="app-container section space-y-6">
-        <h1 className="text-2xl font-bold">Issue Reports</h1>
+      <div
+        className="app-container section space-y-6"
+        role="main"
+        aria-labelledby="issues-heading"
+        aria-busy={loading ? true : undefined}
+     >
+        <h1 id="issues-heading" className="text-2xl font-bold">Issue Reports</h1>
         {loading ? (
-          <div>Loading...</div>
+          <div aria-live="polite">Loading...</div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {issues.map((it) => (
