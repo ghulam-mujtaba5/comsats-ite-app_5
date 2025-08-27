@@ -25,22 +25,39 @@ const toggleGroupVariants = cva("flex items-center justify-center gap-1", {
   },
 })
 
+type ToggleGroupProps = (
+  ToggleGroupPrimitive.ToggleGroupSingleProps | ToggleGroupPrimitive.ToggleGroupMultipleProps
+) & VariantProps<typeof toggleGroupVariants> & { className?: string }
+
 const ToggleGroup = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root> & VariantProps<typeof toggleGroupVariants>
+  ToggleGroupProps
 >(({ className, variant, size, children, ...props }, ref) => (
-  <ToggleGroupPrimitive.Root ref={ref} className={cn(toggleGroupVariants({ variant, size, className }))} {...props}>
+  <ToggleGroupPrimitive.Root
+    ref={ref}
+    className={cn(toggleGroupVariants({ variant, size, className }))}
+    {...(props as any)}
+  >
     {children}
   </ToggleGroupPrimitive.Root>
 ))
 
 ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName
 
+type ToggleGroupItemBase = React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item>
+type ToggleGroupItemProps = Omit<ToggleGroupItemBase, 'value'> &
+  { value?: string } &
+  VariantProps<typeof toggleVariants>
+
 const ToggleGroupItem = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item> & VariantProps<typeof toggleVariants>
+  ToggleGroupItemProps
 >(({ className, children, variant, size, ...props }, ref) => (
-  <ToggleGroupPrimitive.Item ref={ref} className={cn(toggleVariants({ variant, size }), className)} {...props}>
+  <ToggleGroupPrimitive.Item
+    ref={ref}
+    className={cn(toggleVariants({ variant, size }), className)}
+    {...(props as any)}
+  >
     {children}
   </ToggleGroupPrimitive.Item>
 ))

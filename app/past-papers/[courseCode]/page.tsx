@@ -11,13 +11,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import Loading from "../loading"
 
-interface CoursePageProps {
-  params: {
-    courseCode: string
-  }
-}
-
-export default function CoursePage({ params }: CoursePageProps) {
+export default function CoursePage({ params }: any) {
   const [course, setCourse] = useState<CourseWithPapers | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
