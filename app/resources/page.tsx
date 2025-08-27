@@ -98,10 +98,13 @@ export default function ResourcesPage() {
 
           {/* Enhanced Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl">
               <CardContent className="flex items-center gap-4 p-6">
-                <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30 dark:border-green-700/30">
-                  <FileText className="h-8 w-8 text-green-600 dark:text-green-400" />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative p-3 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600">
+                    <FileText className="h-8 w-8 text-white" />
+                  </div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{items.length}</div>
@@ -109,10 +112,14 @@ export default function ResourcesPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+            
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl">
               <CardContent className="flex items-center gap-4 p-6">
-                <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30">
-                  <Shield className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative p-3 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600">
+                    <Shield className="h-8 w-8 text-white" />
+                  </div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{items.filter(r => r.is_verified).length}</div>
@@ -120,10 +127,14 @@ export default function ResourcesPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+            
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl">
               <CardContent className="flex items-center gap-4 p-6">
-                <div className="p-3 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-200/30 dark:border-purple-700/30">
-                  <Download className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative p-3 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600">
+                    <Download className="h-8 w-8 text-white" />
+                  </div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{items.reduce((sum, r) => sum + (r.download_count || 0), 0)}</div>
@@ -131,10 +142,14 @@ export default function ResourcesPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+            
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl">
               <CardContent className="flex items-center gap-4 p-6">
-                <div className="p-3 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-600/20 border border-orange-200/30 dark:border-orange-700/30">
-                  <Star className="h-8 w-8 text-orange-600 dark:text-orange-400" />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative p-3 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600">
+                    <Star className="h-8 w-8 text-white" />
+                  </div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{(items.reduce((sum, r) => sum + (r.rating || 0), 0) / items.filter(r => r.rating).length || 0).toFixed(1)}</div>
