@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "@/lib/cva"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 interactive hover-lift",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 interactive hover-lift active:scale-[.99]",
   {
     variants: {
       variant: {
@@ -19,6 +19,9 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         soft: "bg-primary/10 text-primary hover:bg-primary/15 dark:bg-primary/15 dark:hover:bg-primary/20",
         subtle: "bg-muted text-foreground/90 hover:bg-muted/80 dark:text-foreground",
+        success: "bg-[--success] text-[--success-foreground] hover:bg-[color-mix(in_oklab,var(--success)_85%,black_15%)]",
+        warning: "bg-[--warning] text-[--warning-foreground] hover:bg-[color-mix(in_oklab,var(--warning)_85%,black_15%)]",
+        info: "bg-[--info] text-[--info-foreground] hover:bg-[color-mix(in_oklab,var(--info)_85%,black_15%)]",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
