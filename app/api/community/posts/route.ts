@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '20', 10), 1), 100)
     const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10), 0)
+    const withMeta = (searchParams.get('meta') || '') === '1'
 
     const { data: posts, error } = await supabase
       .from('community_posts')
@@ -66,6 +67,19 @@ export async function GET(request: NextRequest) {
       liked: likedSet.has(String(post.id)),
       type: post.type || 'general'
     }))
+
+    if (withMeta) {
+      const pageLen = transformedPosts.length
+      return NextResponse.json({
+        data: transformedPosts,
+        meta: {
+          limit,
+          offset,
+          nextOffset: offset + pageLen,
+          hasMore: pageLen === limit,
+        },
+      })
+    }
 
     return NextResponse.json(transformedPosts)
   } catch (error) {

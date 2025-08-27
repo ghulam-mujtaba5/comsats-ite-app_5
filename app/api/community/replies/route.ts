@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
   const postId = searchParams.get('post_id')
   const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '20', 10), 1), 100)
   const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10), 0)
+  const withMeta = (searchParams.get('meta') || '') === '1'
   if (!postId) {
     return NextResponse.json({ error: 'post_id is required' }, { status: 400 })
   }
@@ -34,6 +35,20 @@ export async function GET(req: NextRequest) {
     .range(offset, offset + limit - 1)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+
+  if (withMeta) {
+    const pageLen = Array.isArray(data) ? data.length : 0
+    return NextResponse.json({
+      data,
+      meta: {
+        limit,
+        offset,
+        nextOffset: offset + pageLen,
+        hasMore: pageLen === limit,
+      },
+    })
+  }
+
   return NextResponse.json({ data })
 }
 
