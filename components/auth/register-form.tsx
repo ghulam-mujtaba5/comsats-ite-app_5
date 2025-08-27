@@ -18,7 +18,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { useAuth } from "@/contexts/auth-context"
-import { Eye, EyeOff, Loader2, CheckCircle } from "lucide-react"
+import { Eye, EyeOff, Loader2, CheckCircle, User, Mail, Lock, UserPlus } from "lucide-react"
 
 interface RegisterFormProps {
   onToggleMode: () => void
@@ -65,16 +65,23 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
 
   return (
     <>
-      <div className="w-full space-y-6">
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Create Account</h2>
-          <p className="text-slate-600 dark:text-slate-300">Join the CampusAxis community</p>
+      <div className="w-full space-y-8">
+        <div className="text-center">
+          <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-3 tracking-tight">
+            Create Account
+          </h2>
+          <p className="text-muted-foreground font-serif leading-relaxed">
+            Join the CampusAxis community
+          </p>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Inline alert removed; using toast notifications instead */}
-
-          <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm font-medium text-slate-700 dark:text-slate-200">Full Name</Label>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Enhanced Name Input */}
+          <div className="space-y-3">
+            <Label htmlFor="name" className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <User className="h-4 w-4 text-primary" />
+              Full Name
+            </Label>
             <Input
               id="name"
               type="text"
@@ -82,12 +89,16 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="h-12 bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-xl"
+              className="input-modern h-12 rounded-xl text-base pl-4"
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-medium text-slate-700 dark:text-slate-200">University Email</Label>
+          {/* Enhanced Email Input */}
+          <div className="space-y-3">
+            <Label htmlFor="email" className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Mail className="h-4 w-4 text-primary" />
+              University Email
+            </Label>
             <Input
               id="email"
               type="email"
@@ -95,89 +106,135 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="h-12 bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-xl"
+              className="input-modern h-12 rounded-xl text-base pl-4"
             />
           </div>
 
-          <div className="space-y-2 relative">
-            <Label htmlFor="password" className="text-sm font-medium text-slate-700 dark:text-slate-200">Password</Label>
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="At least 6 characters"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="h-12 bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-xl pr-12"
-            />
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="absolute top-8 right-2 h-8 w-8 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </Button>
+          {/* Enhanced Password Input */}
+          <div className="space-y-3">
+            <Label htmlFor="password" className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Lock className="h-4 w-4 text-primary" />
+              Password
+            </Label>
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="At least 6 characters"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="input-modern h-12 pr-12 rounded-xl text-base pl-4"
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg hover:bg-muted/50 transition-all duration-200"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <Eye className="h-4 w-4 text-muted-foreground" />
+                )}
+              </Button>
+            </div>
           </div>
 
-          <div className="space-y-2 relative">
-            <Label htmlFor="confirmPassword" className="text-sm font-medium text-slate-700 dark:text-slate-200">Confirm Password</Label>
-            <Input
-              id="confirmPassword"
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirm your password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              className="h-12 bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-xl pr-12"
-            />
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="absolute top-8 right-2 h-8 w-8 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            >
-              {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </Button>
+          {/* Enhanced Confirm Password Input */}
+          <div className="space-y-3">
+            <Label htmlFor="confirmPassword" className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <Lock className="h-4 w-4 text-primary" />
+              Confirm Password
+            </Label>
+            <div className="relative">
+              <Input
+                id="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                className="input-modern h-12 pr-12 rounded-xl text-base pl-4"
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg hover:bg-muted/50 transition-all duration-200"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? (
+                  <EyeOff className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <Eye className="h-4 w-4 text-muted-foreground" />
+                )}
+              </Button>
+            </div>
           </div>
 
-          <Button type="submit" className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Create Account
+          {/* Enhanced Submit Button */}
+          <Button 
+            type="submit" 
+            className="w-full h-12 bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-primary-foreground font-semibold rounded-xl transition-all duration-300 hover-lift shadow-lg hover:shadow-xl text-base" 
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div className="flex items-center gap-3">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Creating Account...
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <UserPlus className="h-5 w-5" />
+                Create Account
+              </div>
+            )}
           </Button>
 
-          <div className="text-center text-sm">
-            <span className="text-slate-600 dark:text-slate-400">Already have an account? </span>
-            <button type="button" onClick={onToggleMode} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline font-medium">
-              Sign in
+          {/* Enhanced Toggle Link */}
+          <div className="text-center text-sm p-4 rounded-xl bg-muted/30 border border-border/30">
+            <span className="text-muted-foreground">Already have an account? </span>
+            <button 
+              type="button" 
+              onClick={onToggleMode} 
+              className="text-primary hover:text-primary/80 hover:underline font-semibold transition-colors duration-200"
+            >
+              Sign in now
             </button>
           </div>
         </form>
       </div>
 
-<Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <CheckCircle className="h-6 w-6 text-green-500" />
-              Registration Successful
+      <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+        <DialogContent className="card-modern border-0 backdrop-blur-sm rounded-3xl">
+          <DialogHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-200/30">
+                <CheckCircle className="h-8 w-8 text-green-600" />
+              </div>
+            </div>
+            <DialogTitle className="text-2xl font-bold text-foreground mb-2">
+              Registration Successful!
             </DialogTitle>
-            <DialogDescription className="pt-2">
-              Your account has been created. Please check your university email for a verification link to complete the
-              registration.
+            <DialogDescription className="text-base text-muted-foreground font-serif leading-relaxed">
+              Your account has been created successfully. Please check your university email for a verification link to complete the
+              registration process.
             </DialogDescription>
           </DialogHeader>
-          <div className="pt-4">
+          <div className="pt-6">
             <Button
-              className="w-full"
+              className="w-full h-12 bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 rounded-xl transition-all duration-300 hover-lift shadow-lg hover:shadow-xl text-base font-semibold"
               onClick={() => {
                 setShowSuccessDialog(false)
                 onToggleMode()
               }}
             >
-              Proceed to Sign In
+              <div className="flex items-center gap-3">
+                <CheckCircle className="h-5 w-5" />
+                Proceed to Sign In
+              </div>
             </Button>
           </div>
         </DialogContent>

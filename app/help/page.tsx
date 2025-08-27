@@ -192,37 +192,64 @@ export default function HelpPage() {
     return matchesCategory && matchesSearch
   })
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
-      <main className="container mx-auto max-w-6xl px-4 py-12">
+    <div className="min-h-screen bg-mesh overflow-hidden relative">
+      {/* Enhanced animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-green-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '4s' }} />
+        
+        {/* Floating geometric shapes */}
+        <div className="absolute top-20 right-20 w-4 h-4 bg-primary/30 rotate-45 animate-bounce" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-32 left-20 w-6 h-6 bg-blue-500/30 rounded-full animate-bounce" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-500/30 rotate-45 animate-bounce" style={{ animationDelay: '5s' }} />
+      </div>
+
+      {/* Modern gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
+      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
+
+      <main className="container mx-auto max-w-6xl px-4 py-24 relative z-10">
         {/* Enhanced Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6 hover:from-primary/20 hover:to-blue-500/20 transition-all duration-300 hover-lift">
             <HelpCircle className="h-4 w-4" />
             Support Center
           </div>
-          <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
-            Help & <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Support</span>
+          <h1 className="text-5xl lg:text-8xl font-bold leading-[0.9] text-balance mb-6">
+            Help &{" "}
+            <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              Support
+            </span>
           </h1>
-          <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mb-8 font-medium leading-relaxed">
-            Find answers to common questions and get the help you need to make the most of CampusAxis
+          <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-4xl mx-auto mb-4">
+            Find answers to common questions and get the help you need to make 
+            the most of your CampusAxis experience.
+          </p>
+          <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto">
+            Fast, accurate, and always here to help
           </p>
         </div>
 
-        {/* Search Section */}
-        <Card className="mb-12 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg">
+        {/* Enhanced Search Section */}
+        <Card className="card-modern border-0 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-500 mb-12 rounded-3xl">
           <CardContent className="p-8">
             <div className="relative mb-6">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+              <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 h-6 w-6 text-muted-foreground/70" />
               <Input
                 placeholder="Search for help topics, features, or common questions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-14 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 rounded-2xl text-lg focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                className="pl-16 h-16 bg-background/50 backdrop-blur-sm border-border/50 focus:border-primary/50 rounded-2xl text-lg font-medium focus:ring-2 focus:ring-primary/20 transition-all duration-300"
               />
+              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 flex items-center gap-2 text-sm text-muted-foreground">
+                <Lightbulb className="h-4 w-4" />
+                <span className="font-medium">Smart Search</span>
+              </div>
             </div>
             
-            {/* Category Pills */}
-            <div className="flex flex-wrap gap-3">
+            {/* Enhanced Category Pills */}
+            <div className="flex flex-wrap gap-4">
               {categories.map((category) => {
                 const Icon = category.icon
                 return (
@@ -231,17 +258,21 @@ export default function HelpPage() {
                     variant={selectedCategory === category.id ? "default" : "outline"}
                     onClick={() => setSelectedCategory(category.id)}
                     className={cn(
-                      "h-12 px-6 rounded-xl transition-all duration-200",
+                      "h-12 px-6 rounded-2xl transition-all duration-300 hover-lift",
                       selectedCategory === category.id
-                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
-                        : "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 hover:bg-primary/10"
+                        ? "bg-gradient-to-r from-primary to-blue-600 text-primary-foreground shadow-lg hover:shadow-xl"
+                        : "bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30"
                     )}
                   >
-                    <Icon className="h-4 w-4 mr-2" />
-                    {category.name}
-                    <Badge variant="secondary" className="ml-2 text-xs">
-                      {category.count}
-                    </Badge>
+                    <div className="flex items-center gap-3">
+                      <div className="p-1 rounded-lg bg-primary/10">
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      {category.name}
+                      <Badge variant="secondary" className="text-xs font-medium">
+                        {category.count}
+                      </Badge>
+                    </div>
                   </Button>
                 )
               })}
@@ -253,60 +284,76 @@ export default function HelpPage() {
           {/* FAQ Section */}
           <div className="lg:col-span-2">
             <div className="mb-8">
-              <h2 className="text-3xl font-bold tracking-tight mb-2 text-slate-900 dark:text-white">
-                {filteredFAQs.length} Helpful <span className="text-blue-600 dark:text-blue-400">Answers</span>
+              <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-3 text-foreground">
+                {filteredFAQs.length} Helpful{" "}
+                <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                  Answers
+                </span>
               </h2>
-              <p className="text-slate-700 dark:text-slate-200 font-medium">
+              <p className="text-muted-foreground font-serif text-lg leading-relaxed">
                 Find solutions to the most common questions from our community
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-6">
               {filteredFAQs.map((faq) => (
-                <Card key={faq.id} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+                <Card key={faq.id} className="card-modern border-0 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-500 rounded-2xl group hover-lift">
                   <Collapsible open={openItems.includes(faq.id)} onOpenChange={() => toggleItem(faq.id)}>
                     <CollapsibleTrigger asChild>
-                      <CardHeader className="p-6 cursor-pointer hover:bg-white/50 dark:hover:bg-slate-700/30 transition-colors duration-200 rounded-t-2xl">
+                      <CardHeader className="p-6 cursor-pointer hover:bg-background/30 transition-all duration-300 rounded-t-2xl">
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
-                            <CardTitle className="text-lg font-semibold text-slate-900 dark:text-white mb-2 text-left">
+                            <CardTitle className="text-lg lg:text-xl font-bold text-foreground mb-3 text-left group-hover:text-primary transition-colors duration-300">
                               {faq.question}
                             </CardTitle>
-                            <div className="flex items-center gap-2">
-                              <Badge variant="outline" className="text-xs capitalize">
+                            <div className="flex items-center gap-3 flex-wrap">
+                              <Badge 
+                                variant="outline" 
+                                className="text-xs capitalize font-medium px-3 py-1 rounded-xl bg-primary/5 border-primary/20 text-primary"
+                              >
                                 {faq.category}
                               </Badge>
                               {faq.helpful && (
-                                <div className="flex items-center gap-1 text-xs text-slate-500">
-                                  <Heart className="h-3 w-3" />
-                                  {faq.helpful} helpful
+                                <div className="flex items-center gap-2 text-xs text-muted-foreground px-3 py-1 rounded-xl bg-muted/30">
+                                  <Heart className="h-3 w-3 text-red-500" />
+                                  <span className="font-medium">{faq.helpful} helpful</span>
                                 </div>
                               )}
                             </div>
                           </div>
-                          {openItems.includes(faq.id) ? (
-                            <ChevronDown className="h-5 w-5 text-slate-500 transition-transform duration-200" />
-                          ) : (
-                            <ChevronRight className="h-5 w-5 text-slate-500 transition-transform duration-200" />
-                          )}
+                          <div className="ml-4">
+                            {openItems.includes(faq.id) ? (
+                              <ChevronDown className="h-6 w-6 text-primary transition-transform duration-300" />
+                            ) : (
+                              <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-all duration-300" />
+                            )}
+                          </div>
                         </div>
                       </CardHeader>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <CardContent className="px-6 pb-6">
-                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                        <p className="text-muted-foreground leading-relaxed mb-6 font-serif text-base">
                           {faq.answer}
                         </p>
                         <div className="flex items-center justify-between">
-                          <div className="flex flex-wrap gap-1">
+                          <div className="flex flex-wrap gap-2">
                             {faq.tags.map((tag) => (
-                              <Badge key={tag} variant="secondary" className="text-xs">
+                              <Badge 
+                                key={tag} 
+                                variant="secondary" 
+                                className="text-xs px-2 py-1 rounded-lg bg-muted/50 hover:bg-muted transition-colors cursor-pointer"
+                              >
                                 #{tag}
                               </Badge>
                             ))}
                           </div>
                           <div className="flex items-center gap-2">
-                            <Button variant="ghost" size="sm" className="text-xs">
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="text-xs hover:bg-red-50 hover:text-red-600 transition-all duration-200 rounded-xl"
+                            >
                               <Heart className="h-3 w-3 mr-1" />
                               Helpful
                             </Button>
@@ -320,22 +367,23 @@ export default function HelpPage() {
             </div>
 
             {filteredFAQs.length === 0 && (
-              <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl shadow-lg">
+              <Card className="card-modern border-0 backdrop-blur-sm rounded-2xl shadow-lg">
                 <CardContent className="p-12 text-center">
-                  <div className="p-4 rounded-full bg-gradient-to-br from-slate-400/20 to-slate-500/20 border border-slate-400/30 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-                    <Search className="h-10 w-10 text-slate-400" />
+                  <div className="p-6 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                    <Search className="h-10 w-10 text-muted-foreground" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">No Results Found</h3>
-                  <p className="text-slate-600 dark:text-slate-300 mb-6 font-medium max-w-md mx-auto">
-                    Try adjusting your search terms or browse different categories.
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">No Results Found</h3>
+                  <p className="text-muted-foreground mb-6 font-serif text-base leading-relaxed max-w-md mx-auto">
+                    Try adjusting your search terms or browse different categories to find what you're looking for.
                   </p>
                   <Button
                     onClick={() => {
                       setSearchQuery("")
                       setSelectedCategory("all")
                     }}
-                    className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl px-6 py-3"
+                    className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl px-8 py-3 hover-lift"
                   >
+                    <Search className="h-4 w-4 mr-2" />
                     Clear Search
                   </Button>
                 </CardContent>

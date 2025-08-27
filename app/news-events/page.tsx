@@ -293,109 +293,194 @@ export default function NewsEventsPage() {
   }
 
   if (loading) {
-    return <CenteredLoader message="Loading news and events..." />
+    return (
+      <div className="min-h-screen bg-mesh overflow-hidden relative flex items-center justify-center">
+        {/* Enhanced animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
+        </div>
+        <div className="relative z-10">
+          <CenteredLoader message="Loading news and events..." />
+        </div>
+      </div>
+    )
   }
 
   if (error) {
     return (
-      <div className="app-container section fade-in">
-        <div className="text-center py-12" role="alert">
-          <p className="text-destructive mb-4">Error: {error}</p>
-          <Button onClick={() => window.location.reload()} className="interactive hover-lift">Try Again</Button>
+      <div className="min-h-screen bg-mesh overflow-hidden relative flex items-center justify-center">
+        {/* Enhanced animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
+        </div>
+        
+        <div className="container mx-auto max-w-2xl px-4 relative z-10">
+          <Card className="card-modern border-0 backdrop-blur-sm text-center">
+            <CardContent className="p-12">
+              <div className="p-6 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 w-20 h-20 mx-auto mb-8 flex items-center justify-center">
+                <AlertCircle className="h-10 w-10 text-red-500" />
+              </div>
+              <h2 className="text-2xl font-bold text-foreground mb-4">Failed to Load Content</h2>
+              <p className="text-red-600 mb-8 font-medium">{error}</p>
+              <Button 
+                onClick={() => window.location.reload()} 
+                className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 rounded-xl transition-all duration-300 hover-lift"
+              >
+                Try Again
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
-      <div className="app-container section py-12">
+    <div className="min-h-screen bg-mesh overflow-hidden relative">
+      {/* Enhanced animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-green-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '4s' }} />
+        
+        {/* Floating geometric shapes */}
+        <div className="absolute top-20 right-20 w-4 h-4 bg-primary/30 rotate-45 animate-bounce" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-32 left-20 w-6 h-6 bg-blue-500/30 rounded-full animate-bounce" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-500/30 rotate-45 animate-bounce" style={{ animationDelay: '5s' }} />
+      </div>
+
+      {/* Modern gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
+      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
+
+      <div className="container mx-auto max-w-7xl px-4 py-24 relative z-10">
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "News & Events" }]} />
+        
         {/* Enhanced Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6 hover:from-primary/20 hover:to-blue-500/20 transition-all duration-300 hover-lift">
             <BookOpen className="h-4 w-4" />
-            Campus Updates
+            Campus Hub
           </div>
-          <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
-            News & <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Events</span>
+          <h1 className="text-5xl lg:text-8xl font-bold leading-[0.9] text-balance mb-6">
+            News &{" "}
+            <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              Events
+            </span>
           </h1>
-          <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mb-8 font-medium leading-relaxed">
-            Stay updated with the latest campus news, announcements, and exciting upcoming events
+          <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-4xl mx-auto mb-4">
+            Stay connected with the latest campus news, exciting events, important announcements, 
+            and academic deadlines all in one place.
+          </p>
+          <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto">
+            Your gateway to campus life and academic excellence
           </p>
           
           {mockBanner && (
-            <div className="max-w-2xl mx-auto mb-8">
-              <Card className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-2xl shadow-lg">
+            <div className="mt-8 max-w-2xl mx-auto">
+              <Card className="card-modern border-0 backdrop-blur-sm">
                 <CardContent className="p-4 flex items-center gap-3">
-                  <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
-                  <span className="text-sm text-yellow-700 dark:text-yellow-300 font-medium">{mockBanner}</span>
+                  <div className="p-2 rounded-xl bg-gradient-to-br from-yellow-500/20 to-orange-500/20">
+                    <AlertCircle className="h-5 w-5 text-yellow-600" />
+                  </div>
+                  <span className="text-sm text-yellow-700 font-medium">{mockBanner}</span>
                 </CardContent>
               </Card>
             </div>
           )}
         </div>
 
-        {/* Enhanced Search and Filter Section */}
-        <Card className="mb-8 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg">
+        {/* Enhanced Search and Stats Section */}
+        <Card className="card-modern border-0 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-500 mb-10">
           <CardContent className="p-8">
-            <div className="relative mb-6">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+            {/* Enhanced Search Bar */}
+            <div className="relative mb-8">
+              <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 h-6 w-6 text-muted-foreground/70" />
               <Input
-                placeholder="Search news, events, announcements, and more..."
+                placeholder="Search news, events, announcements, and campus updates..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-14 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 rounded-2xl text-lg focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                className="pl-16 h-16 bg-background/50 backdrop-blur-sm border-border/50 focus:border-primary/50 rounded-2xl text-lg font-medium focus:ring-2 focus:ring-primary/20 transition-all duration-300"
               />
+              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 flex items-center gap-2 text-sm text-muted-foreground">
+                <Globe className="h-4 w-4" />
+                <span className="font-medium">Live Search</span>
+              </div>
             </div>
             
-            {/* Stats Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-slate-900 dark:text-white">{news.length}</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">News Articles</div>
+            {/* Enhanced Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <Card className="card-modern border-0 backdrop-blur-sm hover-lift transition-all duration-300 group">
+                <CardContent className="p-6 text-center">
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-blue-500/20 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Megaphone className="h-8 w-8 text-primary" />
+                  </div>
+                  <div className="text-3xl font-bold text-foreground mb-1">{news.length}</div>
+                  <div className="text-sm text-muted-foreground font-medium">News Articles</div>
                 </CardContent>
               </Card>
-              <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-slate-900 dark:text-white">{events.length}</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">Events</div>
+              
+              <Card className="card-modern border-0 backdrop-blur-sm hover-lift transition-all duration-300 group">
+                <CardContent className="p-6 text-center">
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <CalendarDays className="h-8 w-8 text-green-600" />
+                  </div>
+                  <div className="text-3xl font-bold text-foreground mb-1">{events.length}</div>
+                  <div className="text-sm text-muted-foreground font-medium">Events</div>
                 </CardContent>
               </Card>
-              <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-slate-900 dark:text-white">{myRegs.length}</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">My Registrations</div>
+              
+              <Card className="card-modern border-0 backdrop-blur-sm hover-lift transition-all duration-300 group">
+                <CardContent className="p-6 text-center">
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <UserCheck className="h-8 w-8 text-purple-600" />
+                  </div>
+                  <div className="text-3xl font-bold text-foreground mb-1">{myRegs.length}</div>
+                  <div className="text-sm text-muted-foreground font-medium">My Registrations</div>
                 </CardContent>
               </Card>
-              <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-slate-900 dark:text-white">{events.filter(e => e.registrationOpen).length}</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">Open Registration</div>
+              
+              <Card className="card-modern border-0 backdrop-blur-sm hover-lift transition-all duration-300 group">
+                <CardContent className="p-6 text-center">
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <CheckCircle2 className="h-8 w-8 text-orange-600" />
+                  </div>
+                  <div className="text-3xl font-bold text-foreground mb-1">{events.filter(e => e.registrationOpen).length}</div>
+                  <div className="text-sm text-muted-foreground font-medium">Open Registration</div>
                 </CardContent>
               </Card>
             </div>
           </CardContent>
         </Card>
 
-        {/* Enhanced Tabs */}
-        <Card className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg">
+        {/* Enhanced Tabs Section */}
+        <Card className="card-modern border-0 backdrop-blur-sm shadow-xl">
           <CardContent className="p-8">
             <Tabs defaultValue="news" className="space-y-8">
-              <TabsList className="grid w-full grid-cols-2 bg-slate-100/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-1">
+              <TabsList className="grid w-full grid-cols-2 bg-muted/30 backdrop-blur-sm rounded-2xl p-2 border border-border/30">
                 <TabsTrigger 
                   value="news" 
-                  className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-md transition-all duration-200"
+                  className="rounded-xl data-[state=active]:bg-background data-[state=active]:shadow-lg transition-all duration-300 py-4 text-base font-medium"
                 >
-                  <Megaphone className="h-4 w-4 mr-2" />
-                  News & Announcements
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5">
+                      <Megaphone className="h-4 w-4 text-primary" />
+                    </div>
+                    News & Announcements
+                  </div>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="events" 
-                  className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-md transition-all duration-200"
+                  className="rounded-xl data-[state=active]:bg-background data-[state=active]:shadow-lg transition-all duration-300 py-4 text-base font-medium"
                 >
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Upcoming Events
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-gradient-to-br from-green-500/10 to-green-400/5">
+                      <Calendar className="h-4 w-4 text-green-600" />
+                    </div>
+                    Upcoming Events
+                  </div>
                 </TabsTrigger>
               </TabsList>
 

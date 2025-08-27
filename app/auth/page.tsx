@@ -46,158 +46,181 @@ export default function AuthPage() {
   ]
 
   return (
-    <div className="min-h-screen flex relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
+    <div className="min-h-screen bg-mesh overflow-hidden relative">
       {/* Enhanced animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-full blur-3xl animate-pulse float" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-cyan-500/10 to-teal-500/10 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '4s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-green-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '4s' }} />
         
-        {/* Floating geometric shapes */}
-        <div className="absolute top-20 right-20 w-6 h-6 bg-blue-500/40 rotate-45 animate-bounce" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-32 left-20 w-8 h-8 bg-indigo-500/40 rounded-full animate-bounce" style={{ animationDelay: '3s' }} />
+        {/* Enhanced floating geometric shapes */}
+        <div className="absolute top-20 right-20 w-6 h-6 bg-primary/40 rotate-45 animate-bounce" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-32 left-20 w-8 h-8 bg-blue-500/40 rounded-full animate-bounce" style={{ animationDelay: '3s' }} />
         <div className="absolute top-1/3 right-1/3 w-4 h-4 bg-purple-500/40 rotate-45 animate-bounce" style={{ animationDelay: '5s' }} />
+        <div className="absolute top-2/3 left-1/4 w-5 h-5 bg-green-500/40 rounded-full animate-bounce" style={{ animationDelay: '7s' }} />
       </div>
 
-      {/* Enhanced gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-indigo-600/5" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.8)_100%)] dark:bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.3)_100%)]" />
+      {/* Modern gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
+      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
 
-      {/* Left side - Enhanced Auth Forms */}
-      <div className="flex-1 flex items-center justify-center p-6 lg:p-12 relative z-10">
-        <div className="w-full max-w-md space-y-8">
-          {/* Enhanced back button */}
-          <div className="mb-6">
-            <Button
-              variant="ghost"
-              onClick={() => router.back()}
-              className="flex items-center gap-3 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 px-4 py-3 rounded-2xl hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm border border-white/20 dark:border-slate-700/30"
-            >
-              <ArrowLeft className="h-5 w-5" />
-              <span className="font-medium">Back to Home</span>
-            </Button>
-          </div>
+      <div className="flex min-h-screen relative z-10">
 
-          {/* Enhanced logo and title */}
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-4 mb-8">
-              <div className="p-6 rounded-3xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 hover:from-blue-500/30 hover:to-indigo-600/30 transition-all duration-300 shadow-xl border border-white/30 dark:border-slate-700/30 backdrop-blur-sm">
-                <GraduationCap className="h-12 w-12 text-blue-600 dark:text-blue-400" />
-              </div>
+        {/* Enhanced Left side - Auth Forms */}
+        <div className="flex-1 flex items-center justify-center p-6 lg:p-12">
+          <div className="w-full max-w-md space-y-8">
+            {/* Enhanced back button */}
+            <div className="mb-6">
+              <Button
+                variant="ghost"
+                onClick={() => router.back()}
+                className="flex items-center gap-3 text-muted-foreground hover:text-foreground px-4 py-3 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift shadow-lg"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span className="font-medium">Back to Home</span>
+              </Button>
             </div>
-            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
-              Welcome to <span className="text-blue-600 dark:text-blue-400 font-extrabold drop-shadow-sm">CampusAxis</span>
-            </h1>
-            <p className="text-slate-700 dark:text-slate-200 text-lg font-medium leading-relaxed max-w-md mx-auto">
-              Your gateway to academic excellence at COMSATS University Lahore
-            </p>
-          </div>
 
-          {/* Enhanced auth forms */}
-          <div className="mb-8">
-            <Card className="p-8 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-white/30 dark:border-slate-700/50 shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-3xl">
-              <div className="mb-6 text-center">
-                <div className="flex justify-center mb-6">
-                  <div className="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl">
-                    <button
-                      onClick={() => setIsLogin(true)}
-                      className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                        isLogin 
-                          ? 'bg-blue-600 text-white shadow-lg hover:bg-blue-700' 
-                          : 'text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
-                      }`}
-                    >
-                      Sign In
-                    </button>
-                    <button
-                      onClick={() => setIsLogin(false)}
-                      className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                        !isLogin 
-                          ? 'bg-blue-600 text-white shadow-lg hover:bg-blue-700' 
-                          : 'text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
-                      }`}
-                    >
-                      Sign Up
-                    </button>
-                  </div>
+            {/* Enhanced Logo and Title */}
+            <div className="text-center mb-8">
+              <div className="flex items-center justify-center gap-4 mb-8">
+                <div className="p-6 rounded-3xl bg-gradient-to-br from-primary/20 to-blue-600/20 hover:from-primary/30 hover:to-blue-600/30 transition-all duration-300 shadow-xl border border-primary/30 backdrop-blur-sm hover-lift">
+                  <GraduationCap className="h-12 w-12 text-primary" />
                 </div>
               </div>
-              {isLogin ? (
-                <LoginForm onToggleMode={() => setIsLogin(false)} />
-              ) : (
-                <RegisterForm onToggleMode={() => setIsLogin(true)} />
-              )}
-            </Card>
-          </div>
+              <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-4 tracking-tight leading-[0.9]">
+                Welcome to{" "}
+                <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent block">
+                  CampusAxis
+                </span>
+              </h1>
+              <p className="text-muted-foreground text-lg font-serif leading-relaxed max-w-md mx-auto">
+                Your gateway to academic excellence at COMSATS University Lahore
+              </p>
+            </div>
 
-          {/* Enhanced trust indicators */}
-          <div className="flex items-center justify-center gap-4 text-sm">
-            <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300">
-              <Shield className="h-5 w-5 text-green-600 dark:text-green-400" />
-              <span className="font-medium text-slate-700 dark:text-slate-300">Secure</span>
+            {/* Enhanced Auth Forms */}
+            <div className="mb-8">
+              <Card className="card-modern border-0 backdrop-blur-sm shadow-2xl hover:shadow-3xl transition-all duration-500 p-8 rounded-3xl">
+                <div className="mb-8 text-center">
+                  <div className="flex justify-center mb-6">
+                    <div className="inline-flex p-2 bg-muted/30 backdrop-blur-sm rounded-2xl border border-border/30">
+                      <button
+                        onClick={() => setIsLogin(true)}
+                        className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 ${
+                          isLogin 
+                            ? 'bg-gradient-to-r from-primary to-blue-600 text-primary-foreground shadow-lg hover:shadow-xl hover-lift' 
+                            : 'text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl'
+                        }`}
+                      >
+                        Sign In
+                      </button>
+                      <button
+                        onClick={() => setIsLogin(false)}
+                        className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 ${
+                          !isLogin 
+                            ? 'bg-gradient-to-r from-primary to-blue-600 text-primary-foreground shadow-lg hover:shadow-xl hover-lift' 
+                            : 'text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl'
+                        }`}
+                      >
+                        Sign Up
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                {isLogin ? (
+                  <LoginForm onToggleMode={() => setIsLogin(false)} />
+                ) : (
+                  <RegisterForm onToggleMode={() => setIsLogin(true)} />
+                )}
+              </Card>
             </div>
-            <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300">
-              <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              <span className="font-medium text-slate-700 dark:text-slate-300">5,000+ Students</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300">
-              <Sparkles className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-              <span className="font-medium text-slate-700 dark:text-slate-300">Free</span>
+
+            {/* Enhanced Trust Indicators */}
+            <div className="flex items-center justify-center gap-4 text-sm flex-wrap">
+              <div className="flex items-center gap-2 px-4 py-3 rounded-2xl card-modern border-0 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover-lift">
+                <div className="p-1 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20">
+                  <Shield className="h-4 w-4 text-green-600" />
+                </div>
+                <span className="font-medium text-foreground">Secure</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-3 rounded-2xl card-modern border-0 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover-lift">
+                <div className="p-1 rounded-lg bg-gradient-to-br from-primary/20 to-blue-500/20">
+                  <Users className="h-4 w-4 text-primary" />
+                </div>
+                <span className="font-medium text-foreground">5,000+ Students</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-3 rounded-2xl card-modern border-0 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover-lift">
+                <div className="p-1 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20">
+                  <Sparkles className="h-4 w-4 text-purple-600" />
+                </div>
+                <span className="font-medium text-foreground">Free</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Right side - Enhanced Features showcase (hidden on mobile) */}
-      <div className="hidden lg:flex flex-1 items-center justify-center p-8 relative z-10">
-        <div className="max-w-lg space-y-8">
-          {/* Enhanced header */}
-          <div className="text-center">
-            <Badge className="mb-6 px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-200 dark:border-blue-700/30 text-blue-700 dark:text-blue-300">
-              <Sparkles className="h-4 w-4 mr-2" />
-              Academic Portal
-            </Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
-              Empowering Your <span className="text-blue-600 dark:text-blue-400">Academic Journey</span>
-            </h2>
-            <p className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-              Join thousands of COMSATS students who trust CampusAxis for their academic needs.
-            </p>
-          </div>
-
-          {/* Enhanced features */}
-          <div className="space-y-6">
-            {features.map((feature, index) => {
-              const Icon = feature.icon
-              return (
-                <Card 
-                  key={index} 
-                  className="p-6 bg-white/70 dark:bg-slate-800/70 backdrop-blur-xl border border-white/30 dark:border-slate-700/30 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl group hover:-translate-y-1"
-                >
-                  <div className="flex items-start gap-5">
-                    <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30 flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                      <Icon className="h-7 w-7 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg mb-2 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{feature.title}</h3>
-                      <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{feature.description}</p>
-                    </div>
-                  </div>
-                </Card>
-              )
-            })}
-          </div>
-
-          {/* Enhanced call to action */}
-          <div className="text-center">
-            <Card className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 backdrop-blur-xl border border-white/30 dark:border-slate-700/30 shadow-xl rounded-2xl">
-              <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-blue-500/20 to-indigo-600/20 rounded-2xl flex items-center justify-center border border-blue-200/30 dark:border-blue-700/30">
-                <GraduationCap className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+        {/* Enhanced Right side - Features showcase (hidden on mobile) */}
+        <div className="hidden lg:flex flex-1 items-center justify-center p-8">
+          <div className="max-w-lg space-y-8">
+            {/* Enhanced Header */}
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6 hover:from-primary/20 hover:to-blue-500/20 transition-all duration-300 hover-lift">
+                <Sparkles className="h-4 w-4" />
+                Academic Portal
               </div>
-              <h4 className="font-bold text-xl mb-3 text-slate-900 dark:text-white">Ready to get started?</h4>
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+              <h2 className="text-4xl lg:text-6xl font-bold text-foreground mb-6 tracking-tight leading-[0.9]">
+                Empowering Your{" "}
+                <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent block">
+                  Academic Journey
+                </span>
+              </h2>
+              <p className="text-xl text-muted-foreground leading-relaxed font-serif">
+                Join thousands of COMSATS students who trust CampusAxis for their academic needs.
+              </p>
+            </div>
+
+            {/* Enhanced Features */}
+            <div className="space-y-6">
+              {features.map((feature, index) => {
+                const Icon = feature.icon
+                return (
+                  <Card 
+                    key={index} 
+                    className="card-modern border-0 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-500 p-6 rounded-2xl group hover-lift"
+                  >
+                    <div className="flex items-start gap-5">
+                      <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-blue-600/20 border border-primary/30 flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                        <Icon className="h-7 w-7 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-lg mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
+                          {feature.title}
+                        </h3>
+                        <p className="text-muted-foreground leading-relaxed font-serif">
+                          {feature.description}
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                )
+              })}
+            </div>
+
+            {/* Enhanced Call to Action */}
+            <Card className="card-modern border-0 backdrop-blur-sm shadow-xl p-8 rounded-2xl text-center hover-lift transition-all duration-500">
+              <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-blue-600/20 rounded-2xl flex items-center justify-center border border-primary/30">
+                <GraduationCap className="h-8 w-8 text-primary" />
+              </div>
+              <h4 className="font-bold text-xl mb-3 text-foreground">Ready to get started?</h4>
+              <p className="text-muted-foreground leading-relaxed font-serif">
                 Join the CampusAxis community and unlock your academic potential.
               </p>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
             </Card>
           </div>
         </div>

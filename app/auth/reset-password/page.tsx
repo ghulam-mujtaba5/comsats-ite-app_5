@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { ArrowLeft, Eye, EyeOff } from "lucide-react"
+import { ArrowLeft, Eye, EyeOff, Shield, CheckCircle, Lock, Sparkles } from "lucide-react"
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState("")
@@ -88,42 +88,85 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-4">
-      <div className="w-full max-w-md">
-        <div className="mb-6">
+    <div className="min-h-screen bg-mesh overflow-hidden relative flex items-center justify-center">
+      {/* Enhanced animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-green-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '4s' }} />
+        
+        {/* Floating geometric shapes */}
+        <div className="absolute top-20 right-20 w-4 h-4 bg-primary/30 rotate-45 animate-bounce" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-32 left-20 w-6 h-6 bg-blue-500/30 rounded-full animate-bounce" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-500/30 rotate-45 animate-bounce" style={{ animationDelay: '5s' }} />
+      </div>
+
+      {/* Modern gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
+      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
+
+      <div className="w-full max-w-md p-6 relative z-10">
+        {/* Enhanced Back Button */}
+        <div className="mb-8">
           <Button
             variant="ghost"
             onClick={() => router.push("/auth")}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+            className="flex items-center gap-3 text-muted-foreground hover:text-foreground px-4 py-3 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift shadow-lg"
           >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Login
+            <ArrowLeft className="h-5 w-5" />
+            <span className="font-medium">Back to Login</span>
           </Button>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Reset Your Password</CardTitle>
-            <CardDescription>
-              Enter your new password below
+        {/* Enhanced Main Card */}
+        <Card className="card-modern border-0 backdrop-blur-sm shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-3xl">
+          <CardHeader className="p-8 pb-6 text-center">
+            {/* Enhanced Security Icon */}
+            <div className="flex justify-center mb-6">
+              <div className="p-6 rounded-3xl bg-gradient-to-br from-primary/20 to-blue-600/20 hover:from-primary/30 hover:to-blue-600/30 transition-all duration-300 shadow-xl border border-primary/30 backdrop-blur-sm hover-lift">
+                <Shield className="h-12 w-12 text-primary" />
+              </div>
+            </div>
+            
+            <CardTitle className="text-3xl lg:text-4xl font-bold text-foreground mb-4 tracking-tight">
+              Reset Your{" "}
+              <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                Password
+              </span>
+            </CardTitle>
+            <CardDescription className="text-base text-muted-foreground font-serif leading-relaxed">
+              Enter your new password below to secure your account
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+          
+          <CardContent className="p-8 pt-0">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Enhanced Error Alert */}
               {error && (
-                <Alert variant="destructive">
-                  <AlertDescription>{error}</AlertDescription>
+                <Alert variant="destructive" className="border-0 bg-gradient-to-r from-red-500/10 to-orange-500/10 backdrop-blur-sm rounded-xl">
+                  <div className="p-2 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/20 mr-3">
+                    <Shield className="h-4 w-4 text-red-600" />
+                  </div>
+                  <AlertDescription className="font-medium">{error}</AlertDescription>
                 </Alert>
               )}
               
+              {/* Enhanced Success Alert */}
               {message && (
-                <Alert>
-                  <AlertDescription>{message}</AlertDescription>
+                <Alert className="border-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 backdrop-blur-sm rounded-xl">
+                  <div className="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-green-600/20 mr-3">
+                    <CheckCircle className="h-4 w-4 text-green-600" />
+                  </div>
+                  <AlertDescription className="font-medium text-green-700">{message}</AlertDescription>
                 </Alert>
               )}
 
-              <div className="space-y-2">
-                <Label htmlFor="password">New Password</Label>
+              {/* Enhanced Password Input */}
+              <div className="space-y-3">
+                <Label htmlFor="password" className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <Lock className="h-4 w-4 text-primary" />
+                  New Password
+                </Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -133,25 +176,30 @@ export default function ResetPasswordPage() {
                     placeholder="Enter new password"
                     required
                     minLength={6}
+                    className="input-modern h-12 pr-12 rounded-xl text-base"
                   />
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg hover:bg-muted/50 transition-all duration-200"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
+                      <EyeOff className="h-4 w-4 text-muted-foreground" />
                     ) : (
-                      <Eye className="h-4 w-4" />
+                      <Eye className="h-4 w-4 text-muted-foreground" />
                     )}
                   </Button>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm New Password</Label>
+              {/* Enhanced Confirm Password Input */}
+              <div className="space-y-3">
+                <Label htmlFor="confirmPassword" className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <Lock className="h-4 w-4 text-primary" />
+                  Confirm New Password
+                </Label>
                 <div className="relative">
                   <Input
                     id="confirmPassword"
@@ -161,27 +209,55 @@ export default function ResetPasswordPage() {
                     placeholder="Confirm new password"
                     required
                     minLength={6}
+                    className="input-modern h-12 pr-12 rounded-xl text-base"
                   />
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg hover:bg-muted/50 transition-all duration-200"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
                     {showConfirmPassword ? (
-                      <EyeOff className="h-4 w-4" />
+                      <EyeOff className="h-4 w-4 text-muted-foreground" />
                     ) : (
-                      <Eye className="h-4 w-4" />
+                      <Eye className="h-4 w-4 text-muted-foreground" />
                     )}
                   </Button>
                 </div>
               </div>
 
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Updating..." : "Update Password"}
+              {/* Enhanced Submit Button */}
+              <Button 
+                type="submit" 
+                className="w-full h-12 bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 rounded-xl transition-all duration-300 hover-lift shadow-lg hover:shadow-xl text-base font-semibold" 
+                disabled={loading}
+              >
+                {loading ? (
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Updating...
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <Shield className="h-5 w-5" />
+                    Update Password
+                  </div>
+                )}
               </Button>
             </form>
+            
+            {/* Enhanced Security Notice */}
+            <div className="mt-8 p-4 rounded-xl bg-gradient-to-r from-primary/5 to-blue-500/5 border border-primary/20">
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                </div>
+                <span className="font-medium">
+                  Your password will be encrypted and stored securely
+                </span>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>

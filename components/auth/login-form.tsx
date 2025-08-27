@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast"
 import { validateCUIEmail } from "@/lib/auth"
 import { useAuth } from "@/contexts/auth-context"
-import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { Eye, EyeOff, Loader2, Mail, Lock, ArrowRight } from "lucide-react"
 
 interface LoginFormProps {
   onToggleMode: () => void
@@ -79,71 +79,108 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   }
 
   return (
-    <div className="w-full space-y-6">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Welcome Back</h2>
-        <p className="text-slate-600 dark:text-slate-300">Sign in to your CampusAxis account</p>
+    <div className="w-full space-y-8">
+      <div className="text-center">
+        <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-3 tracking-tight">
+          Welcome Back
+        </h2>
+        <p className="text-muted-foreground font-serif leading-relaxed">
+          Sign in to your CampusAxis account
+        </p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Inline alerts removed; using toast notifications instead */}
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Enhanced Email Input */}
+        <div className="space-y-3">
+          <Label htmlFor="email" className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <Mail className="h-4 w-4 text-primary" />
+            University Email
+          </Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="your.name@cuilahore.edu.pk"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="input-modern h-12 rounded-xl text-base pl-4"
+          />
+        </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-medium text-slate-700 dark:text-slate-200">University Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="your.name@cuilahore.edu.pk"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="h-12 bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-xl"
-            />
-          </div>
-
-          <div className="space-y-2 relative">
-            <Label htmlFor="password" className="text-sm font-medium text-slate-700 dark:text-slate-200">Password</Label>
+        {/* Enhanced Password Input */}
+        <div className="space-y-3">
+          <Label htmlFor="password" className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <Lock className="h-4 w-4 text-primary" />
+            Password
+          </Label>
+          <div className="relative">
             <Input
               id="password"
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="h-12 bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-xl pr-12"
+              className="input-modern h-12 pr-12 rounded-xl text-base pl-4"
             />
             <Button
               type="button"
               variant="ghost"
-              size="icon"
-              className="absolute top-8 right-2 h-8 w-8 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+              size="sm"
+              className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg hover:bg-muted/50 transition-all duration-200"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              {showPassword ? (
+                <EyeOff className="h-4 w-4 text-muted-foreground" />
+              ) : (
+                <Eye className="h-4 w-4 text-muted-foreground" />
+              )}
             </Button>
           </div>
+        </div>
 
-          <Button type="submit" className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Sign In
-          </Button>
+        {/* Enhanced Submit Button */}
+        <Button 
+          type="submit" 
+          className="w-full h-12 bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-primary-foreground font-semibold rounded-xl transition-all duration-300 hover-lift shadow-lg hover:shadow-xl text-base" 
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <div className="flex items-center gap-3">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              Signing In...
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <span>Sign In</span>
+              <ArrowRight className="h-5 w-5" />
+            </div>
+          )}
+        </Button>
 
-          <div className="text-center">
-            <button
-              type="button"
-              onClick={handleForgotPassword}
-              disabled={resetLoading}
-              className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline disabled:opacity-50 font-medium"
-            >
-              {resetLoading ? "Sending..." : "Forgot your password?"}
-            </button>
-          </div>
+        {/* Enhanced Forgot Password */}
+        <div className="text-center">
+          <button
+            type="button"
+            onClick={handleForgotPassword}
+            disabled={resetLoading}
+            className="text-sm text-primary hover:text-primary/80 hover:underline disabled:opacity-50 font-medium transition-colors duration-200"
+          >
+            {resetLoading ? "Sending reset email..." : "Forgot your password?"}
+          </button>
+        </div>
 
-          <div className="text-center text-sm">
-            <span className="text-slate-600 dark:text-slate-400">Don't have an account? </span>
-            <button type="button" onClick={onToggleMode} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline font-medium">
-              Sign up
-            </button>
-          </div>
-        </form>
+        {/* Enhanced Toggle Link */}
+        <div className="text-center text-sm p-4 rounded-xl bg-muted/30 border border-border/30">
+          <span className="text-muted-foreground">Don't have an account? </span>
+          <button 
+            type="button" 
+            onClick={onToggleMode} 
+            className="text-primary hover:text-primary/80 hover:underline font-semibold transition-colors duration-200"
+          >
+            Sign up now
+          </button>
+        </div>
+      </form>
     </div>
   )
 }
