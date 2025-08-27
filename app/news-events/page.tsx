@@ -182,8 +182,32 @@ export default function NewsEventsPage() {
       if (!res.ok) throw new Error(json?.error || 'Failed to cancel registration')
       toast({ title: 'Registration cancelled' })
       const r = await fetch('/api/news-events/registrations/me', { cache: 'no-store' })
-      const data = await r.json().catch(() => [])
-      setMyRegs(Array.isArray(data) ? data : [])
+      const data = await r.json().catch(() => ({}))
+      const regsArray = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.data)
+          ? data.data
+          : []
+      setMyRegs(
+        regsArray.map((r: any) => ({
+          id: String(r.id),
+          event_id: String(r.event_id),
+          registered_at: r.registered_at,
+          event: r.events
+            ? {
+                id: String(r.event_id),
+                title: r.events.title,
+                description: '',
+                date: r.events.event_date,
+                time: r.events.event_time,
+                location: r.events.location,
+                category: 'academic',
+                organizer: '',
+                registrationOpen: true,
+              }
+            : undefined,
+        }))
+      )
       // best-effort decrement registered count locally
       setEvents((prev) => prev.map((ev) => ev.id === eventId ? { ...ev, registered: Math.max(0, (ev.registered || 0) - 1) } : ev))
     } catch (e: any) {
