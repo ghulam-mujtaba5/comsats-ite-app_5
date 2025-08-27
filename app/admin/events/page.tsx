@@ -396,7 +396,7 @@ export default function AdminEventsPage() {
 
       {/* Events List */}
       {loading ? (
-        <div className="text-center py-8">Loading events...</div>
+        <div className="text-center py-8" aria-live="polite">Loading events...</div>
       ) : (
         <div className="grid gap-4">
           {filteredEvents.map((event) => (

@@ -384,7 +384,7 @@ export default function AdminGuidancePage() {
           </div>
 
           {loading ? (
-            <div className="text-center py-8">Loading guidance sections...</div>
+            <div className="text-center py-8" aria-live="polite">Loading guidance sections...</div>
           ) : filteredGuideSections.length === 0 ? (
             <Card variant="soft" className="p-8 text-center">
               <div className="text-muted-foreground">No guidance sections found</div>
@@ -538,7 +538,7 @@ export default function AdminGuidancePage() {
           </div>
 
           {loading ? (
-            <div className="text-center py-8">Loading FAQ items...</div>
+            <div className="text-center py-8" aria-live="polite">Loading FAQ items...</div>
           ) : filteredFaqs.length === 0 ? (
             <Card variant="soft" className="p-8 text-center">
               <div className="text-muted-foreground">No FAQs found</div>
