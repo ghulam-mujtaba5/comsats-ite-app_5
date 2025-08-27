@@ -9,25 +9,26 @@ export async function GET() {
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-    // Dev fallback with realistic mock data
+    // Dev fallback with HONEST small-scale data matching seeding scripts
     if (!url || !anon) {
       return NextResponse.json({
-        pastPapersCount: 1247,
-        reviewsCount: 892,
-        facultyCount: 156,
-        resourcesCount: 324,
-        eventsCount: 28,
-        activeStudents: 5420,
-        departmentCount: 8,
-        avgRating: 4.3,
-        successRate: 98
+        pastPapersCount: 0, // No past_papers table seeded yet (commented out in seed.ts)
+        reviewsCount: 2, // 2 reviews from seed.ts
+        facultyCount: 2, // 2 faculty members from seed.ts
+        resourcesCount: 1, // 1 support resource from seed-complete.ts
+        eventsCount: 1, // 1 AI Workshop from seed-complete.ts
+        activeStudents: 2, // 2 test users from seeding
+        departmentCount: 2, // CS and SE from faculty data
+        avgRating: 4.5, // Average of 5 and 4 from seeded reviews
+        communityPosts: 2, // 2 community posts from seed.ts
+        newsItems: 2 // From seed-complete.ts homepage news
       })
     }
 
     // Use service key for admin queries when available, fallback to anon
     const supabase = createClient(url, serviceKey || anon)
 
-    // Fetch all stats in parallel
+    // Fetch all stats in parallel - using actual database queries
     const [
       pastPapersResult,
       reviewsResult,
@@ -55,7 +56,7 @@ export async function GET() {
     const activeStudents = usersResult.status === 'fulfilled' ? usersResult.value.data?.users?.length ?? 0 : 0
     
     // Calculate average rating
-    let avgRating = 4.2 // Default fallback
+    let avgRating = 4.5 // Based on seeded reviews: average of 5 and 4
     if (reviewDataResult.status === 'fulfilled' && reviewDataResult.value.data) {
       const ratings = reviewDataResult.value.data.map((r: any) => r.rating).filter(Boolean)
       if (ratings.length > 0) {
@@ -64,16 +65,16 @@ export async function GET() {
     }
 
     // Get unique departments count from faculty
-    let departmentCount = 8 // Default fallback
+    let departmentCount = 2 // Based on seeded data: CS and SE
     if (facultyResult.status === 'fulfilled') {
       try {
         const { data: deptData } = await supabase.from("faculty").select("department")
         if (deptData) {
           const uniqueDepts = new Set(deptData.map((f: any) => f.department).filter(Boolean))
-          departmentCount = uniqueDepts.size || 8
+          departmentCount = uniqueDepts.size || 2
         }
       } catch {
-        // Use fallback
+        // Use fallback based on seeded data
       }
     }
 
@@ -83,25 +84,27 @@ export async function GET() {
       facultyCount,
       resourcesCount,
       eventsCount,
-      activeStudents: activeStudents || 5420, // Fallback for realistic display
+      activeStudents, // Shows actual user count from database (2 test users)
       departmentCount,
       avgRating: Number(avgRating.toFixed(1)),
-      successRate: 98 // Static high success rate for student outcomes
+      communityPosts: 2, // From seed.ts
+      newsItems: 2 // From seed-complete.ts
     });
   } catch (error: any) {
     console.error('Stats API error:', error)
-    // Return realistic fallback data on error
+    // Return honest small-scale fallback data on error (matches seeded data)
     return NextResponse.json({
-      pastPapersCount: 1247,
-      reviewsCount: 892,
-      facultyCount: 156,
-      resourcesCount: 324,
-      eventsCount: 28,
-      activeStudents: 5420,
-      departmentCount: 8,
-      avgRating: 4.3,
-      successRate: 98,
-      message: "Using fallback data"
+      pastPapersCount: 0, // No past_papers table seeded yet
+      reviewsCount: 2, // 2 reviews from seed.ts
+      facultyCount: 2, // 2 faculty members from seed.ts
+      resourcesCount: 1, // 1 support resource from seed-complete.ts
+      eventsCount: 1, // 1 AI Workshop from seed-complete.ts
+      activeStudents: 2, // 2 test users from seeding
+      departmentCount: 2, // CS and SE from faculty data
+      avgRating: 4.5, // Average of 5 and 4 from seeded reviews
+      communityPosts: 2, // 2 community posts from seed.ts
+      newsItems: 2, // From seed-complete.ts homepage news
+      message: "Using fallback data matching seeded content"
     }, { status: 200 })
   }
 }

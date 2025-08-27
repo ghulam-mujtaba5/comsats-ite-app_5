@@ -19,7 +19,8 @@ export function HeroSection() {
     activeStudents: number
     departmentCount: number
     avgRating: number
-    successRate: number
+    communityPosts: number
+    newsItems: number
   } | null>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -37,17 +38,18 @@ export function HeroSection() {
         setStats(data)
       } catch (error) {
         // notifyFetch already surfaced the error
-        // Fallback to realistic mock data
+        // Honest fallback data matching actual seeded database content
         setStats({
-          pastPapersCount: 1247,
-          reviewsCount: 892,
-          facultyCount: 156,
-          resourcesCount: 324,
-          eventsCount: 28,
-          activeStudents: 5420,
-          departmentCount: 8,
-          avgRating: 4.3,
-          successRate: 98
+          pastPapersCount: 0, // No past papers seeded yet
+          reviewsCount: 2, // 2 reviews from seed.ts
+          facultyCount: 2, // 2 faculty members from seed.ts
+          resourcesCount: 1, // 1 support resource from seed-complete.ts
+          eventsCount: 1, // 1 AI Workshop from seed-complete.ts
+          activeStudents: 2, // 2 test users from seeding
+          departmentCount: 2, // CS and SE departments
+          avgRating: 4.5, // Average of 5 and 4 from seeded reviews
+          communityPosts: 2, // 2 community posts from seed.ts
+          newsItems: 2 // From seed-complete.ts homepage news
         })
       } finally {
         setIsLoading(false)
@@ -61,13 +63,13 @@ export function HeroSection() {
     {
       icon: Users,
       label: "Active Students",
-      value: stats ? `${(Math.floor(stats.activeStudents / 1000) * 1000).toLocaleString()}+` : "...",
+      value: stats ? (stats.activeStudents > 100 ? `${(Math.floor(stats.activeStudents / 100) * 100).toLocaleString()}+` : `${stats.activeStudents}`) : "...",
       color: "text-blue-500"
     },
     {
       icon: FileText,
       label: "Past Papers",
-      value: stats ? `${(Math.floor(stats.pastPapersCount / 100) * 100).toLocaleString()}+` : "...",
+      value: stats ? (stats.pastPapersCount > 0 ? `${stats.pastPapersCount}+` : "Coming Soon") : "...",
       color: "text-green-500"
     },
     {
@@ -149,7 +151,7 @@ export function HeroSection() {
                 all in one comprehensive academic portal designed specifically for COMSATS students.
               </p>
               <p className="text-lg text-muted-foreground/80 font-light max-w-xl">
-                Join thousands of students who trust CampusAxis for their academic success.
+                A growing platform for COMSATS students to share resources and connect with faculty.
               </p>
             </div>
 
@@ -241,16 +243,16 @@ export function HeroSection() {
 
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 gap-4">
-                    {/* Success Rate Card */}
+                    {/* Community Engagement Card */}
                     <div className="relative group/stat p-4 rounded-2xl bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200/50 dark:border-green-700/30 hover:from-green-100 hover:to-emerald-100 dark:hover:from-green-900/30 dark:hover:to-emerald-900/30 transition-all duration-300">
                       <div className="flex items-center justify-between mb-2">
                         <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" />
-                        <span className="text-xs font-medium text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/40 px-2 py-1 rounded-full">Live</span>
+                        <span className="text-xs font-medium text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/40 px-2 py-1 rounded-full">Active</span>
                       </div>
                       <div className="text-2xl font-bold text-green-700 dark:text-green-300 mb-1">
-                        {isLoading ? '...' : `${stats?.successRate || 98}%`}
+                        {isLoading ? '...' : `${stats?.communityPosts || 2}`}
                       </div>
-                      <div className="text-xs text-green-600 dark:text-green-400 font-medium">Success Rate</div>
+                      <div className="text-xs text-green-600 dark:text-green-400 font-medium">Community Posts</div>
                     </div>
 
                     {/* Faculty Rating Card */}
@@ -276,7 +278,7 @@ export function HeroSection() {
                         <span className="text-xs font-medium text-purple-700 dark:text-purple-300 bg-purple-100 dark:bg-purple-900/40 px-2 py-1 rounded-full">Active</span>
                       </div>
                       <div className="text-2xl font-bold text-purple-700 dark:text-purple-300 mb-1">
-                        {isLoading ? '...' : `${stats?.eventsCount || 28}`}
+                        {isLoading ? '...' : `${stats?.eventsCount || 1}`}
                       </div>
                       <div className="text-xs text-purple-600 dark:text-purple-400 font-medium">Live Events</div>
                     </div>
@@ -285,10 +287,10 @@ export function HeroSection() {
                     <div className="relative group/stat p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border border-blue-200/50 dark:border-blue-700/30 hover:from-blue-100 hover:to-cyan-100 dark:hover:from-blue-900/30 dark:hover:to-cyan-900/30 transition-all duration-300">
                       <div className="flex items-center justify-between mb-2">
                         <GraduationCap className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                        <span className="text-xs font-medium text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/40 px-2 py-1 rounded-full">{stats?.departmentCount || 8} Depts</span>
+                        <span className="text-xs font-medium text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/40 px-2 py-1 rounded-full">{stats?.departmentCount || 2} Depts</span>
                       </div>
                       <div className="text-2xl font-bold text-blue-700 dark:text-blue-300 mb-1">
-                        {isLoading ? '...' : `${stats?.facultyCount || 156}`}
+                        {isLoading ? '...' : `${stats?.facultyCount || 2}`}
                       </div>
                       <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">Faculty Members</div>
                     </div>
@@ -304,7 +306,7 @@ export function HeroSection() {
                             <FileText className="h-4 w-4 text-primary group-hover/action:scale-110 transition-transform" />
                             <div>
                               <div className="text-sm font-semibold text-slate-900 dark:text-white">Papers</div>
-                              <div className="text-xs text-slate-600 dark:text-slate-400">{isLoading ? '...' : `${stats?.pastPapersCount || 1247}+`}</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400">{isLoading ? '...' : (stats?.pastPapersCount === 0 ? 'Soon' : `${stats?.pastPapersCount}+`)}</div>
                             </div>
                           </div>
                         </div>
@@ -331,7 +333,7 @@ export function HeroSection() {
                         <span className="text-xs font-medium text-green-600 dark:text-green-400">Live</span>
                       </div>
                       <span className="text-xs text-slate-500 dark:text-slate-400">•</span>
-                      <span className="text-xs font-medium text-slate-700 dark:text-slate-300">Trusted by {isLoading ? '...' : `${stats?.activeStudents || 5420}+`} students</span>
+                      <span className="text-xs font-medium text-slate-700 dark:text-slate-300">Trusted by {isLoading ? '...' : `${stats?.activeStudents || 2}`} students</span>
                     </div>
                     <div className="text-xs text-slate-600 dark:text-slate-400">Real-time data from COMSATS Lahore</div>
                   </div>
