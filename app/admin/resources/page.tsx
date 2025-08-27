@@ -184,7 +184,7 @@ export default function AdminResourcesPage() {
                 <div className="text-muted-foreground">No resources yet. Create one above.</div>
               </Card>
             ) : (
-              <div className="overflow-auto" aria-busy={!!loading}>
+              <div className="overflow-auto" {...(loading ? { 'aria-busy': 'true' } as any : {})}>
                 <table className="w-full text-sm">
                   <caption className="sr-only">Resources table</caption>
                   <thead>

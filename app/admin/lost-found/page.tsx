@@ -176,7 +176,7 @@ export default function AdminLostFoundPage() {
                 <div className="text-muted-foreground">No items found.</div>
               </Card>
             ) : (
-              <div className="overflow-auto" aria-busy={!!loading}>
+              <div className="overflow-auto" {...(loading ? { 'aria-busy': 'true' } as any : {})}>
                 <Table>
                   <caption className="sr-only">Lost and found items table</caption>
                   <TableHeader>
