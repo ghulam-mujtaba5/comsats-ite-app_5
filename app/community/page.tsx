@@ -85,15 +85,17 @@ export default function CommunityPage() {
       setError(null)
       try {
         const [postsResponse, eventsResponse] = await Promise.all([
-          fetch(`/api/community/posts?limit=${postLimit}&offset=0`),
+          fetch(`/api/community/posts?limit=${postLimit}&offset=0&meta=1`),
           fetch('/api/news-events/events')
         ])
         
         if (postsResponse.ok) {
           const postsData = await postsResponse.json()
-          setPosts(postsData)
-          setHasMorePosts(Array.isArray(postsData) && postsData.length === postLimit)
-          setPostOffset(Array.isArray(postsData) ? postsData.length : 0)
+          const rows = Array.isArray(postsData) ? postsData : Array.isArray(postsData?.data) ? postsData.data : []
+          const meta = postsData && postsData.meta ? postsData.meta : { hasMore: rows.length === postLimit, nextOffset: rows.length }
+          setPosts(rows)
+          setHasMorePosts(!!meta.hasMore)
+          setPostOffset(Number.isFinite(meta.nextOffset) ? meta.nextOffset : rows.length)
         }
         
         if (eventsResponse.ok) {
@@ -137,12 +139,13 @@ export default function CommunityPage() {
     if (loadingMorePosts || !hasMorePosts) return
     setLoadingMorePosts(true)
     try {
-      const res = await fetch(`/api/community/posts?limit=${postLimit}&offset=${postOffset}`, { cache: 'no-store' })
-      const data = await res.json().catch(() => [])
-      const rows = Array.isArray(data) ? data : []
+      const res = await fetch(`/api/community/posts?limit=${postLimit}&offset=${postOffset}&meta=1`, { cache: 'no-store' })
+      const data = await res.json().catch(() => ({}))
+      const rows = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : []
+      const meta = data && data.meta ? data.meta : { hasMore: rows.length === postLimit, nextOffset: postOffset + rows.length }
       setPosts((prev) => [...prev, ...rows])
-      setPostOffset((prev) => prev + rows.length)
-      setHasMorePosts(rows.length === postLimit)
+      setPostOffset(Number.isFinite(meta.nextOffset) ? meta.nextOffset : postOffset + rows.length)
+      setHasMorePosts(!!meta.hasMore)
     } catch {}
     finally {
       setLoadingMorePosts(false)

@@ -51,7 +51,7 @@ export default function PostPage() {
       }
 
       try {
-        const resR = await fetch(`/api/community/replies?post_id=${postId}&limit=${replyLimit}&offset=0`, { cache: "no-store" })
+        const resR = await fetch(`/api/community/replies?post_id=${postId}&limit=${replyLimit}&offset=0&meta=1`, { cache: "no-store" })
         const jsonR = await resR.json()
         if (!resR.ok) throw new Error(jsonR?.error || "Failed to load replies")
         const rows = (jsonR.data || []) as any[]
@@ -66,8 +66,9 @@ export default function PostPage() {
           liked: !!r.liked,
         }))
         setReplies(mapped)
-        setHasMoreReplies(rows.length === replyLimit)
-        setReplyOffset(rows.length)
+        const meta = jsonR && jsonR.meta ? jsonR.meta : { hasMore: rows.length === replyLimit, nextOffset: rows.length }
+        setHasMoreReplies(!!meta.hasMore)
+        setReplyOffset(Number.isFinite(meta.nextOffset) ? meta.nextOffset : rows.length)
       } catch (e: any) {
         setError(e?.message || "Failed to load replies")
       }
@@ -79,7 +80,7 @@ export default function PostPage() {
     if (!postId || loadingMoreReplies || !hasMoreReplies) return
     setLoadingMoreReplies(true)
     try {
-      const res = await fetch(`/api/community/replies?post_id=${postId}&limit=${replyLimit}&offset=${replyOffset}`, { cache: 'no-store' })
+      const res = await fetch(`/api/community/replies?post_id=${postId}&limit=${replyLimit}&offset=${replyOffset}&meta=1`, { cache: 'no-store' })
       const json = await res.json()
       if (!res.ok) throw new Error(json?.error || 'Failed to load more replies')
       const rows = (json.data || []) as any[]
@@ -94,8 +95,9 @@ export default function PostPage() {
         liked: !!r.liked,
       }))
       setReplies((prev) => [...prev, ...mapped])
-      setReplyOffset((prev) => prev + mapped.length)
-      setHasMoreReplies(mapped.length === replyLimit)
+      const meta = json && json.meta ? json.meta : { hasMore: mapped.length === replyLimit, nextOffset: replyOffset + mapped.length }
+      setReplyOffset(Number.isFinite(meta.nextOffset) ? meta.nextOffset : replyOffset + mapped.length)
+      setHasMoreReplies(!!meta.hasMore)
     } catch (e: any) {
       toast({ title: 'Failed to load more replies', description: e?.message || 'Please try again.', variant: 'destructive' })
     } finally {
