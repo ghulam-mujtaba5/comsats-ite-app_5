@@ -278,9 +278,9 @@ export default function PastPapersPage() {
           {/* Enhanced Results */}
           <div className="mb-8">
             <h2 className="text-3xl font-bold tracking-tight mb-2 text-slate-900 dark:text-white">
-              {filteredCourses.length} Course{filteredCourses.length !== 1 ? "s" : ""} Found
+              {filteredCourses.length} Course{filteredCourses.length !== 1 ? "s" : ""} <span className="text-blue-600 dark:text-blue-400">Found</span>
             </h2>
-            <p className="text-slate-600 dark:text-slate-300 font-medium">
+            <p className="text-slate-700 dark:text-slate-200 font-medium">
               Discover academic resources shared by your fellow students
             </p>
           </div>
@@ -292,10 +292,10 @@ export default function PastPapersPage() {
                 <p className="text-muted-foreground">Fetching past papers from the database.</p>
               </Card>
             ) : filteredCourses.length === 0 ? (
-              <Card className="p-16 text-center card-modern border-0 backdrop-blur-sm">
-                <FileText className="h-20 w-20 text-muted-foreground mx-auto mb-6 opacity-50" />
-                <h3 className="text-2xl font-bold mb-4">No Courses Found</h3>
-                <p className="text-muted-foreground mb-6 font-serif text-lg max-w-md mx-auto">
+              <Card className="p-16 text-center bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-2xl shadow-lg">
+                <FileText className="h-20 w-20 text-slate-400 dark:text-slate-500 mx-auto mb-6" />
+                <h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">No Courses Found</h3>
+                <p className="text-slate-600 dark:text-slate-300 mb-6 font-serif text-lg max-w-md mx-auto">
                   Try adjusting your search terms or department filter to find more courses.
                 </p>
                 <Button
@@ -306,7 +306,7 @@ export default function PastPapersPage() {
                     setSelectedSemester("All")
                     setSelectedYear("All")
                   }}
-                  className="button-modern bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90"
+                  className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl px-6 py-3"
                   size="lg"
                 >
                   Clear Filters

@@ -86,35 +86,35 @@ export default function AuthPage() {
               </div>
             </div>
             <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
-              Welcome to <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">CampusAxis</span>
+              Welcome to <span className="text-blue-600 dark:text-blue-400 font-extrabold drop-shadow-sm">CampusAxis</span>
             </h1>
-            <p className="text-slate-600 dark:text-slate-300 text-lg font-medium leading-relaxed max-w-md mx-auto">
+            <p className="text-slate-700 dark:text-slate-200 text-lg font-medium leading-relaxed max-w-md mx-auto">
               Your gateway to academic excellence at COMSATS University Lahore
             </p>
           </div>
 
           {/* Enhanced auth forms */}
           <div className="mb-8">
-            <Card className="p-8 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-3xl">
+            <Card className="p-8 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-white/30 dark:border-slate-700/50 shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-3xl">
               <div className="mb-6 text-center">
                 <div className="flex justify-center mb-6">
                   <div className="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl">
                     <button
                       onClick={() => setIsLogin(true)}
-                      className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                      className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                         isLogin 
-                          ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-lg' 
-                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                          ? 'bg-blue-600 text-white shadow-lg hover:bg-blue-700' 
+                          : 'text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                       }`}
                     >
                       Sign In
                     </button>
                     <button
                       onClick={() => setIsLogin(false)}
-                      className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                      className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                         !isLogin 
-                          ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-lg' 
-                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                          ? 'bg-blue-600 text-white shadow-lg hover:bg-blue-700' 
+                          : 'text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                       }`}
                     >
                       Sign Up
@@ -158,7 +158,7 @@ export default function AuthPage() {
               Academic Portal
             </Badge>
             <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
-              Empowering Your Academic Journey
+              Empowering Your <span className="text-blue-600 dark:text-blue-400">Academic Journey</span>
             </h2>
             <p className="text-xl text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
               Join thousands of COMSATS students who trust CampusAxis for their academic needs.
