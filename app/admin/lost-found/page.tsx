@@ -170,27 +170,29 @@ export default function AdminLostFoundPage() {
           </CardHeader>
           <CardContent>
             {loading ? (
-              <div className="py-10 text-center text-muted-foreground">Loading…</div>
+              <div className="py-10 text-center text-muted-foreground" aria-live="polite">Loading…</div>
             ) : items.length === 0 ? (
               <Card variant="soft" className="p-8 text-center">
                 <div className="text-muted-foreground">No items found.</div>
               </Card>
             ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Location</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {items.map((item) => (
-                    <TableRow key={item.id}>
+              <div className="overflow-auto" aria-busy={loading ? true : undefined}>
+                <Table>
+                  <caption className="sr-only">Lost and found items table</caption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead scope="col">Title</TableHead>
+                      <TableHead scope="col">Category</TableHead>
+                      <TableHead scope="col">Type</TableHead>
+                      <TableHead scope="col">Location</TableHead>
+                      <TableHead scope="col">Status</TableHead>
+                      <TableHead scope="col">Date</TableHead>
+                      <TableHead scope="col">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {items.map((item) => (
+                      <TableRow key={item.id}>
                       <TableCell className="font-medium">{item.title}</TableCell>
                       <TableCell>
                         <Badge variant={item.category === "lost" ? "destructive" : "default"}>
@@ -246,8 +248,9 @@ export default function AdminLostFoundPage() {
                       </TableCell>
                     </TableRow>
                   ))}
-                </TableBody>
-              </Table>
+                  </TableBody>
+                </Table>
+              </div>
             )}
           </CardContent>
         </Card>
