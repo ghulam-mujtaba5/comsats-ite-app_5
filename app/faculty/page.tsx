@@ -8,7 +8,6 @@ import { FacultyCard } from "@/components/faculty/faculty-card"
 import { departments, type Faculty, searchFaculty } from "@/lib/faculty-data"
 import { Users, Star, MessageSquare, Filter } from "lucide-react"
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
-import { supabase } from "@/lib/supabase"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 
 export default function FacultyPage() {
@@ -41,31 +40,19 @@ export default function FacultyPage() {
     const load = async () => {
       setLoading(true)
       setError(null)
-      const { data, error } = await supabase.from("faculty").select("*")
-      if (error) {
-        setError(error.message)
+      try {
+        const res = await fetch('/api/faculty', { cache: 'no-store' })
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}))
+          throw new Error(body?.error || 'Failed to fetch faculty')
+        }
+        const data = await res.json()
+        setFacultyList(Array.isArray(data) ? data : [])
+      } catch (e: any) {
+        setError(e?.message || 'Failed to load faculty')
+      } finally {
         setLoading(false)
-        return
       }
-      const mapped: Faculty[] = (data || []).map((row: any) => ({
-        id: row.id,
-        name: row.name,
-        title: row.title || "",
-        department: row.department || "",
-        email: row.email || "",
-        office: row.office || "",
-        phone: row.phone || undefined,
-        specialization: row.specialization || [],
-        courses: row.courses || [],
-        education: row.education || [],
-        experience: row.experience || "",
-        profileImage: row.profile_image || undefined,
-        averageRating: Number(row.rating_avg ?? 0),
-        totalReviews: Number(row.rating_count ?? 0),
-        joinDate: row.created_at || new Date().toISOString(),
-      }))
-      setFacultyList(mapped)
-      setLoading(false)
     }
     load()
   }, [])
