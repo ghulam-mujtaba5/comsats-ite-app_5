@@ -84,3 +84,40 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
+
+// DELETE /api/news-events/events/[id]/register
+// Cancels current user's registration for the event
+export async function DELETE(_request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const cookieStore = await (cookies() as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+        set(name: string, value: string, options?: any) {
+          cookieStore.set({ name, value, ...options })
+        },
+        remove(name: string, options?: any) {
+          cookieStore.set({ name, value: '', ...options })
+        },
+      },
+    }
+  )
+
+  const { id } = await context.params
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const { error } = await supabase
+    .from('event_registrations')
+    .delete()
+    .eq('event_id', id)
+    .eq('user_id', user.id)
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+
+  return NextResponse.json({ ok: true })
+}
