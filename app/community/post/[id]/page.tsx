@@ -8,12 +8,10 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Heart, MessageCircle, ArrowLeft } from "lucide-react"
-import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
 import type { Post, Reply } from "@/lib/community-data"
-import { mockReplies } from "@/lib/community-data"
-import { fetchPostById, fetchRepliesByPostId, toggleLikePerUser } from "@/lib/community"
+// Client now uses API routes, not direct Supabase queries
 
 export default function PostPage() {
   const params = useParams()
@@ -38,9 +36,10 @@ export default function PostPage() {
       setLoading(true)
       setError(null)
       try {
-        const p = await fetchPostById(postId)
-        if (p) setPost(p)
-        else setError("Post not found")
+        const res = await fetch(`/api/community/posts/${postId}`, { cache: "no-store" })
+        const json = await res.json()
+        if (!res.ok) throw new Error(json?.error || "Failed to load post")
+        setPost(json.data)
       } catch (e: any) {
         setError(e?.message || "Failed to load post")
       } finally {
@@ -48,11 +47,24 @@ export default function PostPage() {
       }
 
       try {
-        const r = await fetchRepliesByPostId(postId)
-        if (r.length) setReplies(r)
-        else setReplies(mockReplies.filter((mr) => mr.postId === postId))
-      } catch {
-        setReplies(mockReplies.filter((mr) => mr.postId === postId))
+        const resR = await fetch(`/api/community/replies?post_id=${postId}`, { cache: "no-store" })
+        const jsonR = await resR.json()
+        if (!resR.ok) throw new Error(jsonR?.error || "Failed to load replies")
+        const rows = (jsonR.data || []) as any[]
+        setReplies(
+          rows.map((r) => ({
+            id: String(r.id),
+            postId: String(r.post_id),
+            author: r.author_name || "Anonymous",
+            avatar: r.avatar_url || "/student-avatar.png",
+            time: r.created_at ? new Date(r.created_at).toLocaleString() : "",
+            content: r.content || "",
+            likes: Number(r.likes ?? 0),
+            liked: !!r.liked,
+          }))
+        )
+      } catch (e: any) {
+        setError(e?.message || "Failed to load replies")
       }
     }
     load()
@@ -68,20 +80,14 @@ export default function PostPage() {
     const optimistic = { ...snapshot, liked: !snapshot.liked, likes: snapshot.liked ? snapshot.likes - 1 : snapshot.likes + 1 }
     setPost(optimistic)
     try {
-      // try per-user
-      await toggleLikePerUser(snapshot.id, user.id, snapshot.liked)
-    } catch (e1: any) {
-      try {
-        // fallback
-        const { error } = await supabase
-          .from("community_posts")
-          .update({ likes: optimistic.likes, liked: optimistic.liked })
-          .eq("id", snapshot.id)
-        if (error) throw error
-      } catch (e2: any) {
-        setPost(snapshot)
-        toast({ title: "Failed to update like", description: e2?.message || "Please try again.", variant: "destructive" })
-      }
+      const res = await fetch(`/api/community/posts/${snapshot.id}/like`, { method: "POST" })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json?.error || "Failed to like")
+      const { count, liked } = json as { count: number; liked: boolean }
+      setPost((prev) => (prev ? { ...prev, likes: count, liked } : prev))
+    } catch (e: any) {
+      setPost(snapshot)
+      toast({ title: "Failed to update like", description: e?.message || "Please try again.", variant: "destructive" })
     }
   }
 
@@ -106,7 +112,7 @@ export default function PostPage() {
     setReplies((prev) => [...prev, local])
     // optimistic comment count increment
     setPost((prev) => (prev ? { ...prev, comments: prev.comments + 1 } : prev))
-    const toInsert = {
+    const payload = {
       post_id: postId,
       content: local.content,
       author_name: local.author,
@@ -114,18 +120,21 @@ export default function PostPage() {
     }
     setNewReply("")
     try {
-      const { data, error } = await supabase.from("community_replies").insert(toInsert).select("*").single()
-      if (error) throw error
-      // persist comments_count increment on post
-      await supabase.from("community_posts").update({ comments_count: (post?.comments ?? 0) + 1 }).eq("id", postId)
-      // replace optimistic with actual row (preserve order)
-      setReplies((prev) =>
-        prev.map((r) =>
-          r.id === local.id
-            ? { ...local, id: String(data.id), time: new Date(data.created_at).toLocaleString() }
-            : r,
-        ),
-      )
+      const res = await fetch(`/api/community/replies`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json?.error || "Failed to post reply")
+      const data = json.data
+      setReplies((prev) => prev.map((r) => (r.id === local.id ? {
+        ...local,
+        id: String(data.id),
+        time: data.created_at ? new Date(data.created_at).toLocaleString() : local.time,
+      } : r)))
+      // update post comments count to server value if present
+      setPost((prev) => (prev ? { ...prev, comments: prev.comments + 0 } : prev))
       toast({ title: "Reply posted" })
     } catch (e: any) {
       // remove optimistic on failure

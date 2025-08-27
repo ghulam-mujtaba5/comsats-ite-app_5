@@ -33,8 +33,9 @@ import {
 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
-import { supabase } from "@/lib/supabase"
-import { fetchPosts, fetchGroups, toggleLikePerUser } from "@/lib/community"
+// Client now uses API routes; avoid direct Supabase from the browser
+// import { supabase } from "@/lib/supabase"
+// import { fetchPosts, fetchGroups, toggleLikePerUser } from "@/lib/community"
 import type { Post } from "@/lib/community-data"
 import { ThreadCard } from "@/components/community/thread-card"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
@@ -146,31 +147,18 @@ export default function CommunityPage() {
     }
 
     try {
-      const payload = {
-        content: newPost,
-        type: postType,
-        tags: extractTags(newPost),
-        user_id: user.id,
-        author_name: user.email?.split("@")[0] ?? "Anonymous",
-        avatar_url: "/student-avatar.png",
-      }
-      const { data, error } = await supabase.from("community_posts").insert(payload).select("*").single()
-      if (error) throw error
-      const inserted: Post = {
-        id: String(data.id),
-        author: data.author_name,
-        avatar: data.avatar_url,
-        department: data.department || "",
-        semester: data.semester || "",
-        time: data.created_at ? new Date(data.created_at).toLocaleString() : "Just now",
-        content: data.content,
-        likes: Number(data.likes ?? 0),
-        comments: Number(data.comments_count ?? 0),
-        shares: Number(data.shares ?? 0),
-        tags: Array.isArray(data.tags) ? data.tags : [],
-        liked: false,
-        type: data.type || "general",
-      }
+      const res = await fetch("/api/community/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: newPost,
+          type: postType,
+          tags: extractTags(newPost),
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json?.error || "Failed to create post")
+      const inserted: Post = json
       setPosts((prev) => [inserted, ...prev])
       setNewPost("")
       setIsCreatePostOpen(false)
@@ -207,37 +195,17 @@ export default function CommunityPage() {
     })
 
     try {
-      const current = (list: typeof posts) => list.find((x) => x.id === postId)
-      const after = current(
-        optimisticPrev.map((post) =>
-          post.id === postId
-            ? { ...post, liked: !post.liked, likes: post.liked ? post.likes - 1 : post.likes + 1 }
-            : post,
-        ),
+      const res = await fetch(`/api/community/posts/${postId}/like`, { method: "POST" })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json?.error || "Failed to like")
+      const { count, liked } = json as { count: number; liked: boolean }
+      setPosts((prev) =>
+        prev.map((p) => (p.id === postId ? { ...p, likes: count, liked } : p))
       )
-      // Try per-user like first
-      await toggleLikePerUser(postId, user.id, !(after?.liked === true ? true : false))
-    } catch (e1: any) {
-      try {
-        // Fallback to column-based update
-        const current = (list: typeof posts) => list.find((x) => x.id === postId)
-        const after = current(
-          optimisticPrev.map((post) =>
-            post.id === postId
-              ? { ...post, liked: !post.liked, likes: post.liked ? post.likes - 1 : post.likes + 1 }
-              : post,
-          ),
-        )
-        const { error } = await supabase
-          .from("community_posts")
-          .update({ likes: after?.likes, liked: after?.liked })
-          .eq("id", postId)
-        if (error) throw error
-      } catch (e2: any) {
-        // revert on failure
-        setPosts((_) => optimisticPrev)
-        toast({ title: "Failed to update like", description: e2?.message || "Please try again.", variant: "destructive" })
-      }
+    } catch (e: any) {
+      // revert on failure
+      setPosts((_) => optimisticPrev)
+      toast({ title: "Failed to update like", description: e?.message || "Please try again.", variant: "destructive" })
     }
   }
 
