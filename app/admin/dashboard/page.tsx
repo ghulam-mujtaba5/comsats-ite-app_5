@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { Users, MessageSquare, Search, HelpCircle, Newspaper, Heart, FileText, AlertTriangle, Server } from "lucide-react"
@@ -167,21 +166,19 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Stats Grid */}
-        <div
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8"
-          aria-live="polite"
-          {...(loading ? ({ 'aria-busy': 'true' } as any) : {})}
-        >
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8" aria-live="polite">
           {loading ? (
             Array.from({ length: 6 }).map((_, i) => (
-              <Card key={`sk-${i}`} className="p-5 slide-up">
-                <div className="flex items-center justify-between mb-4">
-                  <Skeleton className="h-4 w-24" />
-                  <Skeleton className="h-4 w-4 rounded-full" />
+              <div key={`sk-${i}`} className="slide-up">
+                <div className="skeleton p-5 border border-border">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="sk-line w-24 rounded" />
+                    <div className="loader-ring sm" />
+                  </div>
+                  <div className="sk-title w-20 rounded mb-2" />
+                  <div className="sk-line w-32 rounded" />
                 </div>
-                <Skeleton className="h-6 w-20 mb-2" />
-                <Skeleton className="h-4 w-32" />
-              </Card>
+              </div>
             ))
           ) : (
             statCards.map((card) => {
@@ -263,7 +260,7 @@ export default function AdminDashboardPage() {
 
         {/* System Health */}
         <div className="mt-8">
-          <Card className="interactive hover-lift">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
                 <Server className="h-4 w-4 text-muted-foreground" />
@@ -271,18 +268,11 @@ export default function AdminDashboardPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div
-                className="grid gap-4 md:grid-cols-2"
-                aria-live="polite"
-                {...(loadingHealth ? ({ 'aria-busy': 'true' } as any) : {})}
-              >
+              <div className="grid gap-4 md:grid-cols-2" aria-live="polite">
                 <div>
                   <div className="text-sm font-semibold">Timetable (Postgres)</div>
                   {loadingHealth ? (
-                    <div className="mt-2 space-y-2">
-                      <Skeleton className="h-4 w-40" />
-                      <Skeleton className="h-3 w-56" />
-                    </div>
+                    <div className="text-sm text-muted-foreground" aria-live="polite">Loading...</div>
                   ) : health.timetable?.ok ? (
                     <div className="text-sm text-green-600">OK {typeof health.timetable?.timetable?.count === 'number' ? `(rows: ${health.timetable.timetable.count})` : ''}</div>
                   ) : (
@@ -295,9 +285,7 @@ export default function AdminDashboardPage() {
                 <div>
                   <div className="text-sm font-semibold">MongoDB</div>
                   {loadingHealth ? (
-                    <div className="mt-2 space-y-2">
-                      <Skeleton className="h-4 w-24" />
-                    </div>
+                    <div className="text-sm text-muted-foreground" aria-live="polite">Loading...</div>
                   ) : health.mongo?.ok ? (
                     <div className="text-sm text-green-600">OK</div>
                   ) : (

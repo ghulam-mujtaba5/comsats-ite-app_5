@@ -1,7 +1,7 @@
 "use client"
 
 import { jsonLdBreadcrumb } from "@/lib/seo"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -26,6 +26,7 @@ interface SupportResource {
 }
 
 export default function StudentSupportPage() {
+  const triggerRef = useRef<HTMLButtonElement>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
   const [supportResources, setSupportResources] = useState<SupportResource[]>([])
@@ -141,6 +142,7 @@ export default function StudentSupportPage() {
         })
         setRequestForm({ name: "", email: "", category: "", message: "", isAnonymous: false })
         setShowRequestDialog(false)
+        setTimeout(() => triggerRef.current?.focus(), 0)
       } else {
         throw new Error('Failed to submit request')
       }
@@ -165,6 +167,23 @@ export default function StudentSupportPage() {
   const emergencyResources = supportResources.filter(resource => resource.isEmergency)
   const regularResources = filteredResources.filter(resource => !resource.isEmergency)
 
+  // Create actionable links for contact info where possible
+  const contactToHref = (contact: string): { href?: string; text: string } => {
+    const trimmed = contact.trim()
+    // Basic email detection
+    const emailMatch = trimmed.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)
+    if (emailMatch) {
+      return { href: `mailto:${emailMatch[0]}`, text: trimmed }
+    }
+    // Basic phone detection (digits, +, spaces, hyphens)
+    const phoneMatch = trimmed.match(/\+?[0-9][0-9\-\s()]{5,}/)
+    if (phoneMatch && !trimmed.toLowerCase().includes('ext')) {
+      const digits = phoneMatch[0].replace(/[^0-9+]/g, '')
+      return { href: `tel:${digits}`, text: trimmed }
+    }
+    return { text: trimmed }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8">
@@ -178,7 +197,7 @@ export default function StudentSupportPage() {
 
         {/* Emergency Resources */}
         {emergencyResources.length > 0 && (
-          <div className="mb-8">
+          <div className="mb-8" aria-live="polite" {...(loading ? ({ 'aria-busy': 'true' } as any) : {})}>
             <h2 className="text-xl font-semibold text-primary mb-4 flex items-center">
               <Shield className="h-5 w-5 mr-2" />
               Emergency Support
@@ -211,10 +230,11 @@ export default function StudentSupportPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full"
+              aria-label="Search support resources"
             />
           </div>
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-48">
+            <SelectTrigger className="w-48" aria-label="Filter by category">
               <SelectValue placeholder="Filter by category" />
             </SelectTrigger>
             <SelectContent>
@@ -232,7 +252,7 @@ export default function StudentSupportPage() {
         <div className="mb-8">
           <Dialog open={showRequestDialog} onOpenChange={setShowRequestDialog}>
             <DialogTrigger asChild>
-              <Button className="w-full md:w-auto">
+              <Button ref={triggerRef} className="w-full md:w-auto">
                 <MessageCircle className="h-4 w-4 mr-2" />
                 Request Support
               </Button>
@@ -249,6 +269,9 @@ export default function StudentSupportPage() {
                     value={requestForm.name}
                     onChange={(e) => setRequestForm(prev => ({ ...prev, name: e.target.value }))}
                     placeholder="Your full name"
+                    required
+                    aria-required="true"
+                    autoComplete="name"
                   />
                 </div>
                 <div>
@@ -259,6 +282,9 @@ export default function StudentSupportPage() {
                     value={requestForm.email}
                     onChange={(e) => setRequestForm(prev => ({ ...prev, email: e.target.value }))}
                     placeholder="your.email@student.cuilahore.edu.pk"
+                    required
+                    aria-required="true"
+                    autoComplete="email"
                   />
                 </div>
                 <div>
@@ -284,6 +310,9 @@ export default function StudentSupportPage() {
                     onChange={(e) => setRequestForm(prev => ({ ...prev, message: e.target.value }))}
                     placeholder="Describe your situation and how we can help..."
                     rows={4}
+                    required
+                    aria-required="true"
+                    autoComplete="off"
                   />
                 </div>
                 <div className="flex items-center space-x-2">
@@ -300,7 +329,7 @@ export default function StudentSupportPage() {
                   <Button variant="outline" onClick={() => setShowRequestDialog(false)}>
                     Cancel
                   </Button>
-                  <Button onClick={handleSubmitRequest} disabled={submitting}>
+                  <Button onClick={handleSubmitRequest} disabled={submitting || !requestForm.name || !requestForm.email || !requestForm.message}>
                     {submitting ? "Submitting..." : "Submit Request"}
                   </Button>
                 </div>
@@ -312,6 +341,9 @@ export default function StudentSupportPage() {
         {/* Support Resources */}
         <div aria-live="polite" {...(loading ? ({ 'aria-busy': 'true' } as any) : {})}>
           <h2 className="text-xl font-semibold mb-4">Available Support Resources</h2>
+          <div className="sr-only" role="status" aria-live="polite">
+            {regularResources.length} resources shown
+          </div>
           {loading ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 6 }).map((_, i) => (
@@ -350,7 +382,14 @@ export default function StudentSupportPage() {
                     <div className="space-y-2">
                       <div className="flex items-center text-sm">
                         <Mail className="h-4 w-4 mr-2 text-blue-500" />
-                        <span className="text-blue-600">{resource.contactInfo}</span>
+                        {(() => {
+                          const c = contactToHref(resource.contactInfo)
+                          return c.href ? (
+                            <a href={c.href} className="text-blue-600 underline underline-offset-2" aria-label={`Contact ${resource.title}: ${resource.contactInfo}`}>{c.text}</a>
+                          ) : (
+                            <span className="text-blue-600">{resource.contactInfo}</span>
+                          )
+                        })()}
                       </div>
                       <div className="flex items-center text-sm">
                         <Clock className="h-4 w-4 mr-2 text-green-500" />
