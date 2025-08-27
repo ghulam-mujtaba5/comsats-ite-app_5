@@ -204,24 +204,118 @@ export default function FacultyPage() {
           </div>
 
           {/* Enhanced Search and Filters */}
-          <Card className="mb-10 card-modern border-0 backdrop-blur-sm">
-            <CardContent className="p-8">
-              <AdvancedFilterBar
-                search={searchQuery}
-                onSearchChange={setSearchQuery}
-                searchPlaceholder="Search faculty by name, specialization, or courses..."
-                selects={[
-                  {
-                    id: "department",
-                    value: selectedDepartment,
-                    onChange: setSelectedDepartment,
-                    placeholder: "All Departments",
-                    options: departments.map((d) => ({ label: d, value: d })),
-                  },
-                ]}
-              />
-            </CardContent>
-          </Card>
+          <AdvancedFilterBar
+            search={searchQuery}
+            onSearchChange={setSearchQuery}
+            searchPlaceholder="Search faculty by name, specialization, courses, or research interests..."
+            selects={[
+              {
+                ...standardFilters.departments,
+                value: selectedDepartment,
+                onChange: setSelectedDepartment,
+                label: "Department",
+                description: "Filter by academic department",
+                options: departments.map((d) => ({ label: d, value: d }))
+              },
+              {
+                id: "specialization",
+                value: selectedSpecialization,
+                onChange: setSelectedSpecialization,
+                placeholder: "All Specializations",
+                label: "Specialization",
+                description: "Filter by faculty specialization area",
+                options: useMemo(() => {
+                  const specializations = Array.from(new Set(
+                    facultyList.flatMap(f => f.specialization || [])
+                  )).sort()
+                  return [
+                    { label: "All Specializations", value: "All" },
+                    ...specializations.map(s => ({ label: s, value: s }))
+                  ]
+                }, [facultyList])
+              },
+              {
+                id: "rating",
+                value: minRating,
+                onChange: setMinRating,
+                placeholder: "Any Rating",
+                label: "Minimum Rating",
+                description: "Filter by minimum rating",
+                options: [
+                  { label: "Any Rating", value: "All" },
+                  { label: "4.5+ Stars", value: "4.5", description: "Excellent" },
+                  { label: "4.0+ Stars", value: "4.0", description: "Very Good" },
+                  { label: "3.5+ Stars", value: "3.5", description: "Good" },
+                  { label: "3.0+ Stars", value: "3.0", description: "Average" }
+                ]
+              },
+              {
+                id: "experience",
+                value: experienceLevel,
+                onChange: setExperienceLevel,
+                placeholder: "Any Experience",
+                label: "Experience Level",
+                description: "Filter by years of experience",
+                options: [
+                  { label: "Any Experience", value: "All" },
+                  { label: "Junior (0-5 years)", value: "Junior", description: "New faculty" },
+                  { label: "Mid-level (5-10 years)", value: "Mid-level", description: "Experienced" },
+                  { label: "Senior (10-20 years)", value: "Senior", description: "Highly experienced" },
+                  { label: "Expert (20+ years)", value: "Expert", description: "Distinguished faculty" }
+                ]
+              }
+            ]}
+            sortOptions={sortOptions.faculty}
+            currentSort={currentSort}
+            onSortChange={setCurrentSort}
+            sortDirection={sortDirection}
+            onSortDirectionChange={setSortDirection}
+            filterPresets={[
+              {
+                id: 'highly-rated',
+                name: 'Highly Rated',
+                filters: { rating: '4.0' },
+                description: 'Faculty with 4+ star ratings'
+              },
+              {
+                id: 'cs-faculty',
+                name: 'CS Faculty',
+                filters: { department: 'Computer Science' },
+                description: 'Computer Science department faculty'
+              },
+              {
+                id: 'senior-faculty',
+                name: 'Senior Faculty',
+                filters: { experience: 'Senior' },
+                description: 'Experienced faculty members'
+              }
+            ]}
+            showActiveFilterCount={true}
+            collapsible={true}
+            defaultCollapsed={false}
+            className="mb-10"
+            right={
+              <div className="flex items-center gap-4">
+                {/* Quick Clear Filters */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setSearchQuery("")
+                    setSelectedDepartment("All")
+                    setSelectedSpecialization("All")
+                    setMinRating("All")
+                    setExperienceLevel("All")
+                    setCoursesTaught("All")
+                  }}
+                  className="flex items-center gap-2 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                  Clear All
+                </Button>
+              </div>
+            }
+          />
 
           {/* Enhanced Results */}
           <div className="mb-8">
@@ -248,6 +342,10 @@ export default function FacultyPage() {
                 onClick={() => {
                   setSearchQuery("")
                   setSelectedDepartment("All")
+                  setSelectedSpecialization("All")
+                  setMinRating("All")
+                  setExperienceLevel("All")
+                  setCoursesTaught("All")
                 }}
                 className="button-modern bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90"
                 size="lg"
