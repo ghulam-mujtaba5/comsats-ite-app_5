@@ -227,8 +227,12 @@ export default function AdminFacultyPage() {
             <h1 className="text-2xl font-bold">Faculty Management</h1>
             <p className="text-muted-foreground">Add/edit faculty, or import/export CSV.</p>
           </div>
-          <div className="flex gap-2">
-            <input type="file" accept=".csv" onChange={setCsvFile} />
+          <div className="flex gap-2 items-center">
+            <div>
+              <Label htmlFor="facultyCsv" className="sr-only">Import faculty CSV</Label>
+              <input id="facultyCsv" type="file" accept=".csv" onChange={setCsvFile} aria-describedby="facultyCsvHelp" />
+              <span id="facultyCsvHelp" className="sr-only">Select a .csv file to import faculty records</span>
+            </div>
             <Button variant="outline" onClick={downloadCSV}>Export CSV</Button>
           </div>
         </div>
@@ -302,21 +306,22 @@ export default function AdminFacultyPage() {
               <CardDescription>View, edit, and delete faculty records.</CardDescription>
             </CardHeader>
             <CardContent>
-              {loading && <p className="text-sm">Loading…</p>}
+              {loading && <p className="text-sm" aria-live="polite">Loading…</p>}
               {rowsView.length === 0 && !loading ? (
                 <Card variant="soft" className="p-8 text-center">
                   <div className="text-muted-foreground">No faculty found</div>
                 </Card>
               ) : (
-                <div className="overflow-auto">
+                <div className="overflow-auto" aria-busy={loading}>
                   <table className="w-full text-sm">
+                    <caption className="sr-only">Faculty records table</caption>
                     <thead>
                       <tr className="text-left border-b">
-                        <th className="py-2 pr-2">Name</th>
-                        <th className="py-2 pr-2">Title</th>
-                        <th className="py-2 pr-2">Dept</th>
-                        <th className="py-2 pr-2">Email</th>
-                        <th className="py-2 pr-2">Actions</th>
+                        <th scope="col" className="py-2 pr-2">Name</th>
+                        <th scope="col" className="py-2 pr-2">Title</th>
+                        <th scope="col" className="py-2 pr-2">Dept</th>
+                        <th scope="col" className="py-2 pr-2">Email</th>
+                        <th scope="col" className="py-2 pr-2">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
