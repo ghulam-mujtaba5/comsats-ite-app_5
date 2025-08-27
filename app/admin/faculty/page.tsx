@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
+import { Skeleton } from "@/components/ui/skeleton"
 
 // Uses secure server API at /api/admin/faculty guarded by HTTP-only admin cookie
 
@@ -221,16 +222,16 @@ export default function AdminFacultyPage() {
 
   return (
     <AdminGuard fallback={<div className="p-6 text-center">Admin access required. <a className="underline" href="/admin/login">Login</a></div>}>
-      <div className="app-container section space-y-6">
+      <div className="app-container section space-y-6" role="main" aria-labelledby="faculty-heading">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Faculty Management</h1>
+            <h1 id="faculty-heading" className="text-2xl font-bold">Faculty Management</h1>
             <p className="text-muted-foreground">Add/edit faculty, or import/export CSV.</p>
           </div>
           <div className="flex gap-2 items-center">
             <div>
               <Label htmlFor="facultyCsv" className="sr-only">Import faculty CSV</Label>
-              <input id="facultyCsv" type="file" accept=".csv" onChange={setCsvFile} aria-describedby="facultyCsvHelp" />
+              <input id="facultyCsv" type="file" accept=".csv" onChange={setCsvFile} aria-describedby="facultyCsvHelp" aria-label="Import faculty CSV file" />
               <span id="facultyCsvHelp" className="sr-only">Select a .csv file to import faculty records</span>
             </div>
             <Button variant="outline" onClick={downloadCSV}>Export CSV</Button>
@@ -238,7 +239,7 @@ export default function AdminFacultyPage() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Card variant="elevated">
+          <Card variant="elevated" className="transition-shadow hover:shadow-lg interactive hover-lift slide-up">
             <CardHeader>
               <CardTitle>{editingId ? "Edit Faculty" : "Add Faculty"}</CardTitle>
               <CardDescription>Manage faculty records.</CardDescription>
@@ -300,19 +301,18 @@ export default function AdminFacultyPage() {
             </CardContent>
           </Card>
 
-          <Card variant="elevated">
+          <Card variant="elevated" className="transition-shadow hover:shadow-lg interactive hover-lift slide-up">
             <CardHeader>
               <CardTitle>Faculty List</CardTitle>
               <CardDescription>View, edit, and delete faculty records.</CardDescription>
             </CardHeader>
             <CardContent>
-              {loading && <p className="text-sm" aria-live="polite">Loading…</p>}
               {rowsView.length === 0 && !loading ? (
                 <Card variant="soft" className="p-8 text-center">
                   <div className="text-muted-foreground">No faculty found</div>
                 </Card>
               ) : (
-                <div className="overflow-auto" {...(loading ? { 'aria-busy': 'true' } as any : {})}>
+                <div className="overflow-auto" aria-live="polite" {...(loading ? { 'aria-busy': 'true' } as any : {})}>
                   <table className="w-full text-sm">
                     <caption className="sr-only">Faculty records table</caption>
                     <thead>
@@ -325,21 +325,39 @@ export default function AdminFacultyPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {rowsView.map((r) => (
-                        <tr key={r.id} className="border-b last:border-none">
-                          <td className="py-2 pr-2">{r.name}</td>
-                          <td className="py-2 pr-2">{r.title}</td>
-                          <td className="py-2 pr-2">{r.department}</td>
-                          <td className="py-2 pr-2">{r.email}</td>
-                          <td className="py-2 pr-2">
-                            <div className="flex gap-2">
-                              <Button size="sm" variant="outline" onClick={() => editRow(r)}>Edit</Button>
-                              <Button asChild size="sm" variant="outline"><Link href={`/faculty/${r.id}`} target="_blank">Preview</Link></Button>
-                              <Button size="sm" variant="destructive" onClick={() => deleteRow(r.id)}>Delete</Button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                      {loading
+                        ? Array.from({ length: 6 }).map((_, i) => (
+                            <tr key={`sk-${i}`} className="border-b last:border-none">
+                              <td className="py-2 pr-2"><Skeleton className="h-4 w-40" /></td>
+                              <td className="py-2 pr-2"><Skeleton className="h-4 w-32" /></td>
+                              <td className="py-2 pr-2"><Skeleton className="h-4 w-24" /></td>
+                              <td className="py-2 pr-2"><Skeleton className="h-4 w-56" /></td>
+                              <td className="py-2 pr-2">
+                                <div className="flex gap-2">
+                                  <Skeleton className="h-8 w-16" />
+                                  <Skeleton className="h-8 w-20" />
+                                  <Skeleton className="h-8 w-16" />
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                        : rowsView.map((r) => (
+                            <tr key={r.id} className="border-b last:border-none">
+                              <td className="py-2 pr-2">{r.name}</td>
+                              <td className="py-2 pr-2">{r.title}</td>
+                              <td className="py-2 pr-2">{r.department}</td>
+                              <td className="py-2 pr-2">{r.email}</td>
+                              <td className="py-2 pr-2">
+                                <div className="flex gap-2">
+                                  <Button size="sm" variant="outline" onClick={() => editRow(r)} aria-label={`Edit faculty ${r.name}`}>Edit</Button>
+                                  <Button asChild size="sm" variant="outline" aria-label={`Preview faculty ${r.name}`}>
+                                    <Link href={`/faculty/${r.id}`} target="_blank">Preview</Link>
+                                  </Button>
+                                  <Button size="sm" variant="destructive" onClick={() => deleteRow(r.id)} aria-label={`Delete faculty ${r.name}`}>Delete</Button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
                     </tbody>
                   </table>
                 </div>
