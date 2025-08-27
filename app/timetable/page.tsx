@@ -201,15 +201,21 @@ export default function TimetablePage() {
   const departments = [...new Set(docs.map(doc => doc.department))].sort()
   const terms = [...new Set(docs.map(doc => doc.term).filter(Boolean))].sort()
 
-  // Advanced filter options
-  const filterOptions = [
+  // Advanced filter options for AdvancedFilterBar
+  const filterSelects = [
     {
       id: "department",
+      value: selectedDepartment,
+      onChange: setSelectedDepartment,
+      placeholder: "Select Department",
       label: "Department",
       options: ["All", ...departments].map(dept => ({ value: dept, label: dept }))
     },
     {
       id: "term",
+      value: selectedTerm,
+      onChange: setSelectedTerm,
+      placeholder: "Select Term",
       label: "Term",
       options: ["All", ...terms].map(term => ({ value: term, label: term }))
     }
@@ -224,16 +230,7 @@ export default function TimetablePage() {
     { value: "department-desc", label: "Department Z-A" }
   ]
 
-  const handleFilterChange = (filterId: string, value: string) => {
-    switch (filterId) {
-      case "department":
-        setSelectedDepartment(value)
-        break
-      case "term":
-        setSelectedTerm(value)
-        break
-    }
-  }
+
 
   const handleSortChange = (value: string) => {
     setCurrentSort(value)
@@ -488,7 +485,7 @@ export default function TimetablePage() {
               <AdvancedFilterBar
                 search={searchQuery}
                 onSearchChange={setSearchQuery}
-                selects={filterOptions}
+                selects={filterSelects}
                 sortOptions={sortOptions}
                 currentSort={currentSort}
                 onSortChange={handleSortChange}
