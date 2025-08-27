@@ -282,7 +282,7 @@ export default function CommunityPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
+      <div className="app-container section">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Student Community</h1>
@@ -292,7 +292,7 @@ export default function CommunityPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
+          <Card variant="elevated">
             <CardContent className="p-6">
               <div className="flex items-center">
                 <Users className="h-8 w-8 text-blue-600" />
@@ -303,7 +303,7 @@ export default function CommunityPage() {
               </div>
             </CardContent>
           </Card>
-          <Card>
+          <Card variant="elevated">
             <CardContent className="p-6">
               <div className="flex items-center">
                 <MessageSquare className="h-8 w-8 text-green-600" />
@@ -314,7 +314,7 @@ export default function CommunityPage() {
               </div>
             </CardContent>
           </Card>
-          <Card>
+          <Card variant="elevated">
             <CardContent className="p-6">
               <div className="flex items-center">
                 <TrendingUp className="h-8 w-8 text-purple-600" />
@@ -325,7 +325,7 @@ export default function CommunityPage() {
               </div>
             </CardContent>
           </Card>
-          <Card>
+          <Card variant="elevated">
             <CardContent className="p-6">
               <div className="flex items-center">
                 <Calendar className="h-8 w-8 text-orange-600" />
@@ -349,7 +349,7 @@ export default function CommunityPage() {
               </TabsList>
 
               <TabsContent value="feed" className="space-y-6">
-                <Card>
+                <Card variant="elevated">
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <CardTitle className="flex items-center gap-2">
@@ -376,7 +376,7 @@ export default function CommunityPage() {
                   <CardContent>
                     <Dialog open={isCreatePostOpen} onOpenChange={setIsCreatePostOpen}>
                       <DialogTrigger asChild>
-                        <Button className="w-full bg-transparent border">
+                        <Button className="w-full" variant="soft">
                           <Plus className="h-4 w-4 mr-2" />
                           Create New Post
                         </Button>
@@ -422,9 +422,9 @@ export default function CommunityPage() {
                   {loading ? (
                     <CenteredLoader message="Loading community posts..." />
                   ) : error ? (
-                    <Card className="p-8 text-center text-blue-600">{error}</Card>
+                    <Card variant="soft" className="p-8 text-center text-blue-600">{error}</Card>
                   ) : filteredPosts.length === 0 ? (
-                    <Card className="p-8 text-center">No posts found.</Card>
+                    <Card variant="soft" className="p-8 text-center">No posts found.</Card>
                   ) : (
                     filteredPosts.map((post) => (
                       <Link href={`/community/post/${post.id}`} key={post.id} className="block">
@@ -434,7 +434,7 @@ export default function CommunityPage() {
                   )}
                   {hasMorePosts && (
                     <div className="flex justify-center pt-4">
-                      <Button onClick={loadMorePosts} disabled={loadingMorePosts} className="bg-transparent border">
+                      <Button onClick={loadMorePosts} disabled={loadingMorePosts} variant="soft">
                         {loadingMorePosts ? 'Loading...' : 'Load more'}
                       </Button>
                     </div>
@@ -445,7 +445,7 @@ export default function CommunityPage() {
               <TabsContent value="groups" className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredGroups.map((group) => (
-                    <Card key={group.id} className="hover:shadow-lg transition-shadow">
+                    <Card key={group.id} variant="elevated" className="transition-shadow">
                       <CardHeader>
                         <div className="flex justify-between items-start">
                           <div className="flex-1">
@@ -477,7 +477,8 @@ export default function CommunityPage() {
                           <div className="text-xs text-gray-400">Last activity: {group.recentActivity}</div>
                           <Button
                             onClick={() => handleJoinGroup(group.id)}
-                            className={`w-full text-sm ${group.isJoined ? "border" : "bg-primary text-primary-foreground"}`}
+                            className="w-full text-sm"
+                            variant={group.isJoined ? "outline" : "default"}
                           >
                             {group.isJoined ? "Leave Group" : "Join Group"}
                           </Button>
@@ -491,7 +492,7 @@ export default function CommunityPage() {
               <TabsContent value="events" className="space-y-6">
                 <div className="space-y-4">
                   {events.map((event: Event) => (
-                    <Card key={event.id} className="hover:shadow-lg transition-shadow">
+                    <Card key={event.id} variant="elevated" className="transition-shadow">
                       <CardContent className="p-6">
                         <div className="flex items-start justify-between">
                           <div className="flex items-start space-x-4">
@@ -518,7 +519,7 @@ export default function CommunityPage() {
                               </div>
                             </div>
                           </div>
-                          <Button className="text-sm">Join Event</Button>
+                          <Button className="text-sm" variant="soft">Join Event</Button>
                         </div>
                       </CardContent>
                     </Card>
@@ -530,7 +531,7 @@ export default function CommunityPage() {
 
           <div className="space-y-6">
             {/* Search */}
-            <Card>
+            <Card variant="soft">
               <CardHeader>
                 <CardTitle className="text-lg">Search Community</CardTitle>
               </CardHeader>
@@ -548,7 +549,7 @@ export default function CommunityPage() {
             </Card>
 
             {/* Popular Tags */}
-            <Card>
+            <Card variant="soft">
               <CardHeader>
                 <CardTitle className="text-lg">Popular Tags</CardTitle>
               </CardHeader>
@@ -579,52 +580,40 @@ export default function CommunityPage() {
             </Card>
 
             {/* Quick Actions */}
-            <Card>
+            <Card variant="soft">
               <CardHeader>
                 <CardTitle className="text-lg">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button
-                  className="w-full justify-start bg-transparent hover:bg-blue-50 border"
-                  onClick={() => setIsCreatePostOpen(true)}
-                >
+                <Button className="w-full justify-start" variant="soft" onClick={() => setIsCreatePostOpen(true)}>
                   <Plus className="h-4 w-4 mr-2" />
                   Create Post
                 </Button>
-                <Button
-                  className="w-full justify-start bg-transparent hover:bg-green-50 border"
-                  onClick={() => {
+                <Button className="w-full justify-start" variant="soft" onClick={() => {
                     setPostType("study")
                     setIsCreatePostOpen(true)
-                  }}
-                >
+                  }}>
                   <Users className="h-4 w-4 mr-2" />
                   Find Study Partners
                 </Button>
-                <Button
-                  className="w-full justify-start bg-transparent hover:bg-purple-50 border"
-                  onClick={() => {
+                <Button className="w-full justify-start" variant="soft" onClick={() => {
                     setPostType("general")
                     setIsCreatePostOpen(true)
-                  }}
-                >
+                  }}>
                   <MessageSquare className="h-4 w-4 mr-2" />
                   Ask a Question
                 </Button>
-                <Button
-                  className="w-full justify-start bg-transparent hover:bg-orange-50 border"
-                  onClick={() => {
+                <Button className="w-full justify-start" variant="soft" onClick={() => {
                     setPostType("achievement")
                     setIsCreatePostOpen(true)
-                  }}
-                >
+                  }}>
                   <TrendingUp className="h-4 w-4 mr-2" />
                   Share Achievement
                 </Button>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card variant="soft">
               <CardHeader>
                 <CardTitle className="text-lg">My Groups</CardTitle>
               </CardHeader>
