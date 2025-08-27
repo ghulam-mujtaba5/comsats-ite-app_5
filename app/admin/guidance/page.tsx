@@ -237,7 +237,7 @@ export default function AdminGuidancePage() {
   })
 
   return (
-    <div className="app-container section">
+    <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Guidance Management</h1>
         <p className="text-muted-foreground mt-2">
@@ -388,7 +388,7 @@ export default function AdminGuidancePage() {
           ) : (
             <div className="grid gap-4">
               {filteredGuideSections.map((section) => (
-                <Card key={section.id} variant="elevated">
+                <Card key={section.id}>
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
@@ -433,11 +433,6 @@ export default function AdminGuidancePage() {
                   </CardContent>
                 </Card>
               ))}
-              {filteredGuideSections.length === 0 && (
-                <Card variant="soft" className="p-8 text-center">
-                  <div className="text-muted-foreground">No guidance sections match your filters</div>
-                </Card>
-              )}
             </div>
           )}
         </TabsContent>
@@ -543,7 +538,7 @@ export default function AdminGuidancePage() {
           ) : (
             <div className="grid gap-4">
               {filteredFaqs.map((faq) => (
-                <Card key={faq.id} variant="elevated">
+                <Card key={faq.id}>
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
@@ -592,11 +587,6 @@ export default function AdminGuidancePage() {
                   </CardContent>
                 </Card>
               ))}
-              {filteredFaqs.length === 0 && (
-                <Card variant="soft" className="p-8 text-center">
-                  <div className="text-muted-foreground">No FAQ items match your filters</div>
-                </Card>
-              )}
             </div>
           )}
         </TabsContent>

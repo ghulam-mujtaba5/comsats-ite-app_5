@@ -5,7 +5,6 @@ import { AdminGuard } from "@/components/admin/admin-guard"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 
 // Uses secure server API at /api/admin/faculty guarded by HTTP-only admin cookie
@@ -221,7 +220,7 @@ export default function AdminFacultyPage() {
 
   return (
     <AdminGuard fallback={<div className="p-6 text-center">Admin access required. <a className="underline" href="/admin/login">Login</a></div>}>
-      <div className="app-container section">
+      <div className="container mx-auto p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Faculty Management</h1>
@@ -234,111 +233,96 @@ export default function AdminFacultyPage() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Card variant="elevated">
-            <CardHeader>
-              <CardTitle>{editingId ? "Edit Faculty" : "Add Faculty"}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {error && <p className="text-sm text-blue-600">{error}</p>}
-              <div className="grid gap-3">
-                <div>
-                  <Label>Name</Label>
-                  <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Title</Label>
-                  <Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Department</Label>
-                  <Input value={form.department} onChange={(e) => setForm({ ...form, department: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Email</Label>
-                  <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Office</Label>
-                  <Input value={form.office} onChange={(e) => setForm({ ...form, office: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Phone</Label>
-                  <Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Specialization (semicolon ; separated)</Label>
-                  <Input value={(form.specialization || []).join(";")} onChange={(e) => setForm({ ...form, specialization: e.target.value.split(";").filter(Boolean) })} />
-                </div>
-                <div>
-                  <Label>Courses (semicolon ; separated)</Label>
-                  <Input value={(form.courses || []).join(";")} onChange={(e) => setForm({ ...form, courses: e.target.value.split(";").filter(Boolean) })} />
-                </div>
-                <div>
-                  <Label>Education (semicolon ; separated)</Label>
-                  <Input value={(form.education || []).join(";")} onChange={(e) => setForm({ ...form, education: e.target.value.split(";").filter(Boolean) })} />
-                </div>
-                <div>
-                  <Label>Experience</Label>
-                  <Input value={form.experience} onChange={(e) => setForm({ ...form, experience: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Profile Image URL</Label>
-                  <Input value={form.profile_image || ''} onChange={(e) => setForm({ ...form, profile_image: e.target.value })} />
-                </div>
-                <div className="flex gap-2">
-                  <Button onClick={upsertRow}>{editingId ? "Update" : "Create"}</Button>
-                  {editingId && (
-                    <Button variant="outline" onClick={resetForm}>Cancel</Button>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="border rounded-lg p-4 space-y-3">
+            <h2 className="font-semibold">{editingId ? "Edit Faculty" : "Add Faculty"}</h2>
+            {error && <p className="text-sm text-blue-600">{error}</p>}
 
-          <Card variant="elevated">
-            <CardHeader>
-              <CardTitle>Faculty List</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {loading && <p className="text-sm">Loading…</p>}
-              {rowsView.length === 0 && !loading ? (
-                <Card variant="soft" className="p-8 text-center">
-                  <div className="text-muted-foreground">No faculty records yet</div>
-                </Card>
-              ) : (
-                <div className="overflow-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="text-left border-b">
-                        <th className="py-2 pr-2">Name</th>
-                        <th className="py-2 pr-2">Title</th>
-                        <th className="py-2 pr-2">Dept</th>
-                        <th className="py-2 pr-2">Email</th>
-                        <th className="py-2 pr-2">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowsView.map((r) => (
-                        <tr key={r.id} className="border-b last:border-none">
-                          <td className="py-2 pr-2">{r.name}</td>
-                          <td className="py-2 pr-2">{r.title}</td>
-                          <td className="py-2 pr-2">{r.department}</td>
-                          <td className="py-2 pr-2">{r.email}</td>
-                          <td className="py-2 pr-2">
-                            <div className="flex gap-2">
-                              <Button size="sm" variant="outline" onClick={() => editRow(r)}>Edit</Button>
-                              <Button asChild size="sm" variant="outline"><Link href={`/faculty/${r.id}`} target="_blank">Preview</Link></Button>
-                              <Button size="sm" variant="destructive" onClick={() => deleteRow(r.id)}>Delete</Button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+            <div className="grid gap-3">
+              <div>
+                <Label>Name</Label>
+                <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+              </div>
+              <div>
+                <Label>Title</Label>
+                <Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
+              </div>
+              <div>
+                <Label>Department</Label>
+                <Input value={form.department} onChange={(e) => setForm({ ...form, department: e.target.value })} />
+              </div>
+              <div>
+                <Label>Email</Label>
+                <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+              </div>
+              <div>
+                <Label>Office</Label>
+                <Input value={form.office} onChange={(e) => setForm({ ...form, office: e.target.value })} />
+              </div>
+              <div>
+                <Label>Phone</Label>
+                <Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+              </div>
+              <div>
+                <Label>Specialization (semicolon ; separated)</Label>
+                <Input value={(form.specialization || []).join(";")} onChange={(e) => setForm({ ...form, specialization: e.target.value.split(";").filter(Boolean) })} />
+              </div>
+              <div>
+                <Label>Courses (semicolon ; separated)</Label>
+                <Input value={(form.courses || []).join(";")} onChange={(e) => setForm({ ...form, courses: e.target.value.split(";").filter(Boolean) })} />
+              </div>
+              <div>
+                <Label>Education (semicolon ; separated)</Label>
+                <Input value={(form.education || []).join(";")} onChange={(e) => setForm({ ...form, education: e.target.value.split(";").filter(Boolean) })} />
+              </div>
+              <div>
+                <Label>Experience</Label>
+                <Input value={form.experience} onChange={(e) => setForm({ ...form, experience: e.target.value })} />
+              </div>
+              <div>
+                <Label>Profile Image URL</Label>
+                                <Input value={form.profile_image || ''} onChange={(e) => setForm({ ...form, profile_image: e.target.value })} />
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={upsertRow}>{editingId ? "Update" : "Create"}</Button>
+                {editingId && (
+                  <Button variant="outline" onClick={resetForm}>Cancel</Button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="border rounded-lg p-4 overflow-auto">
+            <h2 className="font-semibold mb-3">Faculty List</h2>
+            {loading && <p className="text-sm">Loading…</p>}
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left border-b">
+                  <th className="py-2 pr-2">Name</th>
+                  <th className="py-2 pr-2">Title</th>
+                  <th className="py-2 pr-2">Dept</th>
+                  <th className="py-2 pr-2">Email</th>
+                  <th className="py-2 pr-2">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rowsView.map((r) => (
+                  <tr key={r.id} className="border-b last:border-none">
+                    <td className="py-2 pr-2">{r.name}</td>
+                    <td className="py-2 pr-2">{r.title}</td>
+                    <td className="py-2 pr-2">{r.department}</td>
+                    <td className="py-2 pr-2">{r.email}</td>
+                    <td className="py-2 pr-2">
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline" onClick={() => editRow(r)}>Edit</Button>
+                                                <Button asChild size="sm" variant="outline"><Link href={`/faculty/${r.id}`} target="_blank">Preview</Link></Button>
+                        <Button size="sm" variant="destructive" onClick={() => deleteRow(r.id)}>Delete</Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </AdminGuard>
