@@ -178,23 +178,24 @@ export default function AdminResourcesPage() {
             <CardDescription>Manage, preview, or delete uploaded resources.</CardDescription>
           </CardHeader>
           <CardContent>
-            {loading && <p className="text-sm">Loading…</p>}
+            {loading && <p className="text-sm" aria-live="polite">Loading…</p>}
             {rowsView.length === 0 && !loading ? (
               <Card variant="soft" className="p-8 text-center">
                 <div className="text-muted-foreground">No resources yet. Create one above.</div>
               </Card>
             ) : (
-              <div className="overflow-auto">
+              <div className="overflow-auto" aria-busy={!!loading}>
                 <table className="w-full text-sm">
+                  <caption className="sr-only">Resources table</caption>
                   <thead>
                     <tr className="text-left border-b">
-                      <th className="py-2 pr-2">Title</th>
-                      <th className="py-2 pr-2">Department</th>
-                      <th className="py-2 pr-2">Term</th>
-                      <th className="py-2 pr-2">Link/File</th>
-                      <th className="py-2 pr-2">Size</th>
-                      <th className="py-2 pr-2">Uploaded</th>
-                      <th className="py-2 pr-2">Actions</th>
+                      <th scope="col" className="py-2 pr-2">Title</th>
+                      <th scope="col" className="py-2 pr-2">Department</th>
+                      <th scope="col" className="py-2 pr-2">Term</th>
+                      <th scope="col" className="py-2 pr-2">Link/File</th>
+                      <th scope="col" className="py-2 pr-2">Size</th>
+                      <th scope="col" className="py-2 pr-2">Uploaded</th>
+                      <th scope="col" className="py-2 pr-2">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
