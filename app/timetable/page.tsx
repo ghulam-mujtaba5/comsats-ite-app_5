@@ -209,7 +209,7 @@ export default function TimetablePage() {
       onChange: setSelectedDepartment,
       placeholder: "Select Department",
       label: "Department",
-      options: ["All", ...departments].map(dept => ({ value: dept, label: dept }))
+      options: ["All", ...departments].map(dept => ({ value: dept || "", label: dept || "" }))
     },
     {
       id: "term",
@@ -217,7 +217,7 @@ export default function TimetablePage() {
       onChange: setSelectedTerm,
       placeholder: "Select Term",
       label: "Term",
-      options: ["All", ...terms].map(term => ({ value: term, label: term }))
+      options: ["All", ...terms].map(term => ({ value: term || "", label: term || "" }))
     }
   ]
 
@@ -517,8 +517,8 @@ export default function TimetablePage() {
                     </div>
                   </CardContent>
                 </Card>
-              ))
-            )}
+              ))}
+            </div>
           ) : filteredDocs.length === 0 ? (
             <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl shadow-lg">
               <CardContent className="p-16 text-center">
