@@ -276,7 +276,7 @@ export default function ResourcesPage() {
               <p className="text-muted-foreground">Check back later.</p>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" aria-live="polite">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" aria-live="polite">
               {useMemo(() => {
                 const s = search.toLowerCase().trim()
                 return items
@@ -290,32 +290,123 @@ export default function ResourcesPage() {
                   .filter((r) => (difficulty === "All" ? true : r.difficulty === difficulty))
                   .filter((r) => (resourceType === "All" ? true : r.type === resourceType))
                   .filter((r) => (!showVerifiedOnly ? true : r.is_verified === true))
-              }, [items, search, dept, term, difficulty, resourceType, showVerifiedOnly]).map((r) => (
-                <Card key={r.id} className="p-4 slide-up">
-                  <div className="space-y-2">
-                    <h2 className="text-lg font-semibold">{r.title}</h2>
-                    {r.description && <p className="text-sm text-muted-foreground line-clamp-3">{r.description}</p>}
-                    <p className="text-xs text-muted-foreground">
-                      {(r.department || 'General')}{r.term ? ` • ${r.term}` : ''} • {new Date(r.uploaded_at).toLocaleDateString()}
-                    </p>
-                    <div className="flex flex-wrap gap-2 pt-2">
+              }, [items, search, dept, term, difficulty, resourceType, showVerifiedOnly]).map((r, index) => (
+                <Card key={r.id} className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl overflow-hidden" style={{ animationDelay: `${index * 100}ms` }}>
+                  {/* Resource Header */}
+                  <div className="relative p-6 pb-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 space-y-3">
+                        <div className="flex items-center gap-2">
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg blur opacity-30" />
+                            <div className="relative bg-gradient-to-r from-emerald-500 to-teal-500 p-2 rounded-lg">
+                              {r.type === 'Video' ? (
+                                <Upload className="h-4 w-4 text-white" />
+                              ) : r.type === 'Presentation' ? (
+                                <FileText className="h-4 w-4 text-white" />
+                              ) : (
+                                <BookOpen className="h-4 w-4 text-white" />
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {r.is_verified && (
+                              <Badge className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0 text-xs">
+                                <Shield className="h-3 w-3 mr-1" />
+                                Verified
+                              </Badge>
+                            )}
+                            {r.type && (
+                              <Badge variant="outline" className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 text-xs">
+                                {r.type}
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors leading-tight">
+                          {r.title}
+                        </h2>
+                      </div>
+                      
+                      {r.rating && (
+                        <div className="flex items-center gap-1 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 px-2 py-1 rounded-lg">
+                          <Star className="h-3 w-3 text-amber-500 fill-current" />
+                          <span className="text-xs font-semibold text-amber-700 dark:text-amber-300">{r.rating}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Resource Content */}
+                  <div className="px-6 py-2 space-y-4">
+                    {r.description && (
+                      <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4">
+                        <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed line-clamp-3">
+                          {r.description}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {/* Resource Meta */}
+                    <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                      <div className="flex items-center gap-3">
+                        <span className="font-medium">{r.department || 'General'}</span>
+                        {r.term && (
+                          <>
+                            <span>•</span>
+                            <span>{r.term}</span>
+                          </>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {r.download_count && (
+                          <div className="flex items-center gap-1">
+                            <Download className="h-3 w-3" />
+                            <span>{r.download_count}</span>
+                          </div>
+                        )}
+                        <span>{new Date(r.uploaded_at).toLocaleDateString()}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="p-6 pt-4">
+                    <div className="flex flex-wrap gap-3">
                       {r.external_url && (
-                        <Button asChild variant="outline" size="sm" className="interactive hover-lift">
+                        <Button 
+                          asChild 
+                          size="sm" 
+                          className="glass-button bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 hover:bg-white/70 dark:hover:bg-slate-700/70 flex-1 transition-all duration-300"
+                        >
                           <a href={r.external_url} target="_blank" rel="noreferrer">
-                            <ExternalLink className="size-4" /> Open Link
+                            <ExternalLink className="h-4 w-4 mr-2" /> 
+                            Open Link
                           </a>
                         </Button>
                       )}
                       {r.file_url && (
                         <>
-                          <Button asChild variant="secondary" size="sm" className="interactive hover-lift">
+                          <Button 
+                            asChild 
+                            variant="outline" 
+                            size="sm" 
+                            className="glass-button bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 hover:bg-blue-50 dark:hover:bg-blue-950/20 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-800 flex-1 transition-all duration-300"
+                          >
                             <a href={r.file_url} target="_blank" rel="noreferrer">
-                              <BookOpen className="size-4" /> Preview
+                              <BookOpen className="h-4 w-4 mr-2" /> 
+                              Preview
                             </a>
                           </Button>
-                          <Button asChild variant="default" size="sm" className="interactive hover-lift">
+                          <Button 
+                            asChild 
+                            size="sm" 
+                            className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 flex-1"
+                          >
                             <a href={r.file_url} download>
-                              <Download className="size-4" /> Download
+                              <Download className="h-4 w-4 mr-2" /> 
+                              Download
                             </a>
                           </Button>
                         </>
