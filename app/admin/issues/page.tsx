@@ -62,13 +62,13 @@ export default function AdminIssuesPage() {
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {issues.map((it) => (
-              <Card key={it.id} variant="elevated">
+              <Card key={it.id} variant="elevated" className="slide-up">
                 <CardHeader className="flex flex-row items-center justify-between gap-4">
                   <div className="space-y-1">
                     <CardTitle className="text-lg">{it.title}</CardTitle>
                     <div className="text-sm text-muted-foreground">{new Date(it.created_at).toLocaleString()} • {it.category}</div>
                   </div>
-                  <Badge variant={it.status === 'resolved' ? 'secondary' : it.status === 'in_progress' ? 'default' : 'outline'}>
+                  <Badge variant={it.status === 'resolved' ? 'success' : it.status === 'in_progress' ? 'info' : 'warning'}>
                     {it.status}
                   </Badge>
                 </CardHeader>

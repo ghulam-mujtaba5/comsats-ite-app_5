@@ -307,10 +307,10 @@ export default function AdminSupportPage() {
                       <CardTitle className="text-lg">
                         {request.is_anonymous ? "Anonymous Request" : request.name || "Student Request"}
                       </CardTitle>
-                      <Badge className={getStatusColor(request.status)}>
+                      <Badge variant={request.status === 'resolved' ? 'success' : request.status === 'in-progress' ? 'info' : 'warning'}>
                         {request.status}
                       </Badge>
-                      <Badge className={getCategoryColor(request.category)} variant="outline">
+                      <Badge variant="muted">
                         {request.category}
                       </Badge>
                     </div>
@@ -358,9 +358,7 @@ export default function AdminSupportPage() {
                               </div>
                               <div>
                                 <Label>Category</Label>
-                                <Badge className={getCategoryColor(selectedRequest.category)} variant="outline">
-                                  {selectedRequest.category}
-                                </Badge>
+                                <Badge variant="muted">{selectedRequest.category}</Badge>
                               </div>
                               <div>
                                 <Label>Status</Label>
@@ -381,13 +379,13 @@ export default function AdminSupportPage() {
                             </div>
                             <div>
                               <Label>Message</Label>
-                              <div className="mt-1 p-3 bg-gray-50 rounded-md">
+                              <div className="mt-1 p-3 bg-muted rounded-md">
                                 <p className="text-sm whitespace-pre-wrap">{selectedRequest.message}</p>
                               </div>
                             </div>
                             <div>
                               <Label>Submitted</Label>
-                              <p className="text-sm text-gray-600">
+                              <p className="text-sm text-muted-foreground">
                                 {new Date(selectedRequest.created_at).toLocaleString()}
                               </p>
                             </div>

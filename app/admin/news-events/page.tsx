@@ -459,7 +459,7 @@ export default function AdminNewsEventsPage() {
             ) : (
               <div className="grid gap-4">
                 {news.map((item) => (
-                  <Card key={item.id} variant="elevated">
+                  <Card key={item.id} variant="elevated" className="slide-up">
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div>
@@ -509,7 +509,7 @@ export default function AdminNewsEventsPage() {
             ) : (
               <div className="grid gap-4">
                 {events.map((event) => (
-                  <Card key={event.id} variant="elevated">
+                  <Card key={event.id} variant="elevated" className="slide-up">
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div>
