@@ -106,7 +106,7 @@ export default function AdminReviewsPage() {
               <CardDescription>Moderate submitted reviews.</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="overflow-auto" aria-busy={loading ? true : undefined}>
+              <div className="overflow-auto" aria-busy={!!loading}>
                 <table className="w-full text-sm">
                   <caption className="sr-only">Reviews moderation table</caption>
                   <thead>
