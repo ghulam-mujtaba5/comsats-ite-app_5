@@ -3,16 +3,24 @@
 import { useEffect, useMemo, useState } from "react"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { FacultyCard } from "@/components/faculty/faculty-card"
 import { departments, type Faculty, searchFaculty } from "@/lib/faculty-data"
-import { Users, Star, MessageSquare, Filter } from "lucide-react"
+import { standardFilters, sortOptions, filterPresets } from "@/lib/filter-data"
+import { Users, Star, MessageSquare, Filter, Award, BookOpen, RotateCcw, GraduationCap } from "lucide-react"
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 
 export default function FacultyPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("All")
+  const [selectedSpecialization, setSelectedSpecialization] = useState("All")
+  const [minRating, setMinRating] = useState("All")
+  const [experienceLevel, setExperienceLevel] = useState("All")
+  const [coursesTaught, setCoursesTaught] = useState("All")
+  const [currentSort, setCurrentSort] = useState("name-asc")
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [facultyList, setFacultyList] = useState<Faculty[]>([])
   const [stats, setStats] = useState({ facultyCount: 0, totalReviews: 0, averageRating: 0, departmentCount: 0 })
   const [statsLoading, setStatsLoading] = useState(true)
@@ -58,12 +66,74 @@ export default function FacultyPage() {
   }, [])
 
   const filteredFaculty = useMemo(() => {
-    let faculty = selectedDepartment === "All" ? facultyList : facultyList.filter((f) => f.department === selectedDepartment)
+    let faculty = [...facultyList]
+    
+    // Apply filters
+    if (selectedDepartment !== "All") {
+      faculty = faculty.filter((f) => f.department === selectedDepartment)
+    }
+    
+    if (selectedSpecialization !== "All") {
+      faculty = faculty.filter((f) => f.specialization?.includes(selectedSpecialization))
+    }
+    
+    if (minRating !== "All") {
+      const rating = parseFloat(minRating)
+      faculty = faculty.filter((f) => f.averageRating >= rating)
+    }
+    
+    if (experienceLevel !== "All") {
+      faculty = faculty.filter((f) => {
+        const years = f.experience || 0
+        switch (experienceLevel) {
+          case "Junior": return years < 5
+          case "Mid-level": return years >= 5 && years < 10
+          case "Senior": return years >= 10 && years < 20
+          case "Expert": return years >= 20
+          default: return true
+        }
+      })
+    }
+    
+    if (coursesTaught !== "All") {
+      faculty = faculty.filter((f) => f.coursesTaught?.some(course => course.toLowerCase().includes(coursesTaught.toLowerCase())))
+    }
+    
+    // Apply search
     if (searchQuery.trim()) {
       faculty = searchFaculty(faculty, searchQuery)
     }
+    
+    // Apply sorting
+    faculty = faculty.sort((a, b) => {
+      let result = 0
+      switch (currentSort) {
+        case 'name-asc':
+          result = a.name.localeCompare(b.name)
+          break
+        case 'name-desc':
+          result = b.name.localeCompare(a.name)
+          break
+        case 'rating-desc':
+          result = b.averageRating - a.averageRating
+          break
+        case 'reviews-desc':
+          result = b.totalReviews - a.totalReviews
+          break
+        case 'experience-desc':
+          result = (b.experience || 0) - (a.experience || 0)
+          break
+        case 'department-asc':
+          result = a.department.localeCompare(b.department)
+          break
+        default:
+          result = 0
+      }
+      return sortDirection === 'desc' ? -result : result
+    })
+    
     return faculty
-  }, [searchQuery, selectedDepartment, facultyList])
+  }, [searchQuery, selectedDepartment, selectedSpecialization, minRating, experienceLevel, coursesTaught, currentSort, sortDirection, facultyList])
 
 
   return (
