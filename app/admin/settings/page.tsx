@@ -121,9 +121,9 @@ export default function AdminSettingsPage() {
 
   return (
     <AdminGuard>
-      <div className="app-container section">
+      <div className="app-container section" role="main" aria-labelledby="settings-heading">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold flex items-center gap-2">
+          <h1 id="settings-heading" className="text-3xl font-bold flex items-center gap-2">
             <Settings className="h-8 w-8" />
             Site Settings
           </h1>
@@ -162,7 +162,7 @@ export default function AdminSettingsPage() {
                 <CardTitle>General Settings</CardTitle>
                 <CardDescription>Basic site configuration</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4" aria-busy={!!saving}>
                 <div>
                   <Label htmlFor="site_name">Site Name</Label>
                   <Input
@@ -219,7 +219,7 @@ export default function AdminSettingsPage() {
                 <CardTitle>Security Settings</CardTitle>
                 <CardDescription>User registration and access controls</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4" aria-busy={!!saving}>
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="registration_enabled"
@@ -241,11 +241,11 @@ export default function AdminSettingsPage() {
                 <CardTitle>Email Settings</CardTitle>
                 <CardDescription>Configure email notifications and templates</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4" aria-busy={!!saving}>
                 <div>
-                  <Label>Email Provider</Label>
+                  <Label id="email_provider_label">Email Provider</Label>
                   <Select defaultValue="supabase">
-                    <SelectTrigger>
+                    <SelectTrigger aria-labelledby="email_provider_label">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -268,7 +268,7 @@ export default function AdminSettingsPage() {
                 <CardTitle>File Upload Settings</CardTitle>
                 <CardDescription>Configure file upload limits and allowed types</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4" aria-busy={!!saving}>
                 <div>
                   <Label htmlFor="max_file_size">Maximum File Size (MB)</Label>
                   <Input
@@ -302,9 +302,9 @@ export default function AdminSettingsPage() {
                 <CardTitle>Appearance Settings</CardTitle>
                 <CardDescription>Customize the look and feel of your site</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4" aria-busy={!!saving}>
                 <div>
-                  <Label htmlFor="theme_color">Primary Theme Color</Label>
+                  <Label id="theme_color_label" htmlFor="theme_color">Primary Theme Color</Label>
                   <div className="flex gap-2">
                     <Input
                       id="theme_color"
@@ -317,6 +317,7 @@ export default function AdminSettingsPage() {
                       value={settings.theme_color}
                       onChange={(e) => updateSetting('theme_color', e.target.value)}
                       placeholder="#3b82f6"
+                      aria-labelledby="theme_color_label"
                     />
                   </div>
                 </div>
@@ -331,12 +332,16 @@ export default function AdminSettingsPage() {
                     <Label htmlFor="announcement_enabled">Show Site Announcement</Label>
                   </div>
                   {settings.announcement_enabled && (
-                    <Textarea
-                      placeholder="Enter announcement text..."
-                      value={settings.announcement_text}
-                      onChange={(e) => updateSetting('announcement_text', e.target.value)}
-                      rows={2}
-                    />
+                    <div>
+                      <Label htmlFor="announcement_text">Announcement Text</Label>
+                      <Textarea
+                        id="announcement_text"
+                        placeholder="Enter announcement text..."
+                        value={settings.announcement_text}
+                        onChange={(e) => updateSetting('announcement_text', e.target.value)}
+                        rows={2}
+                      />
+                    </div>
                   )}
                 </div>
 
