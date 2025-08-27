@@ -88,8 +88,8 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 fade-in">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 fade-in">
+      <div className="app-container h-16 flex items-center justify-between">
         <Link
           href={isAdmin ? "/admin" : "/"}
           title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
@@ -104,7 +104,7 @@ export function Header() {
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center space-x-1" aria-label="Primary">
+        <nav className="hidden lg:flex items-center space-x-1" aria-label="Primary navigation">
           {navigationItems.map((item) => {
             const Icon = item.icon
             return (

@@ -60,7 +60,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
 
   return (
     <footer className="bg-card border-t border-border">
-      <div className="container mx-auto px-4 py-12">
+      <div className="app-container py-12">
         <div className="mb-10 p-4 md:p-6 bg-accent/10 border border-accent/30 rounded-xl flex flex-col md:flex-row items-center justify-between gap-3">
           <div className="text-center md:text-left">
             <div className="font-semibold text-foreground flex items-center justify-center md:justify-start gap-2">
