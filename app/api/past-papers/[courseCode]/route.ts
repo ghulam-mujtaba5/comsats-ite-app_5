@@ -77,7 +77,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ courseC
   };
 
   const courseWithPapers = {
-    id: finalCourseData.id || courseCode,
+    id: (finalCourseData as any).id || courseCode,
     name: finalCourseData.name,
     code: finalCourseData.code || courseCode,
     creditHours: Number(finalCourseData.credit_hours) || 3,
