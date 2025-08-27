@@ -158,13 +158,13 @@ export default function AdminDashboardPage() {
           <p className="text-muted-foreground">
             Manage all aspects of the CampusAxis portal
           </p>
-          {statsError && (
-            <div role="alert" className="mt-2 text-sm text-destructive">
-              Failed to load KPI stats: {statsError}
-            </div>
-          )}
+          <div className="text-sm text-muted-foreground">Admin • Overview</div>
         </div>
-
+        {statsError && (
+          <div role="alert" className="mt-2 text-sm text-destructive">
+            Failed to load KPI stats: {statsError}
+          </div>
+        )}
         {/* Stats Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8" aria-live="polite">
           {loading ? (
@@ -181,7 +181,7 @@ export default function AdminDashboardPage() {
               </div>
             ))
           ) : (
-            statCards.map((card) => {
+            statCards.map((card, idx) => {
               const Icon = card.icon
               return (
                 <Link
@@ -189,13 +189,14 @@ export default function AdminDashboardPage() {
                   href={card.href}
                   aria-label={`${card.title} — ${card.description}`}
                   className="block outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md slide-up"
+                  style={{ animationDelay: `${Math.min(idx, 6) * 40}ms` as any }}
                 >
                   <Card variant="elevated" className="transition-shadow cursor-pointer interactive hover-lift">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                       <CardTitle className="text-sm font-medium">
                         {card.title}
                       </CardTitle>
-                      <Icon className={`h-4 w-4 ${card.color}`} />
+                      <Icon className={`h-4 w-4 text-muted-foreground`} />
                     </CardHeader>
                     <CardContent>
                       <div className="text-2xl font-bold">{statsError ? "—" : card.value}</div>
