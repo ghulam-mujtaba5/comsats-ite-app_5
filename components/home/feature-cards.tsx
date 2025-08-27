@@ -124,35 +124,35 @@ export function FeatureCards() {
   }
 
   return (
-    <section className="py-20 px-4 relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-muted/30 via-background to-primary/5" />
-      <div className="absolute -top-40 right-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute -bottom-40 left-0 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl" />
+    <section className="py-24 px-4 relative overflow-hidden bg-gradient-to-b from-background via-muted/20 to-background">
+      {/* Enhanced background elements */}
+      <div className="absolute inset-0 bg-mesh" />
+      <div className="absolute -top-40 right-0 w-96 h-96 bg-gradient-to-br from-primary/10 to-blue-500/10 rounded-full blur-3xl float" />
+      <div className="absolute -bottom-40 left-0 w-96 h-96 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl float" style={{ animationDelay: '3s' }} />
       
       <div className="app-container relative z-10">
-        {/* Header */}
-        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <Badge variant="soft" className="mb-6">
-            <Sparkles className="h-3 w-3 mr-1" />
+        {/* Enhanced Header */}
+        <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <Badge variant="soft" className="mb-8 px-4 py-2 text-sm font-medium bg-gradient-to-r from-primary/10 to-blue-500/10 border-primary/20 hover:from-primary/20 hover:to-blue-500/20 transition-all duration-300 hover-lift">
+            <Sparkles className="h-3 w-3 mr-2 text-primary" />
             Academic Tools
           </Badge>
           
-          <h2 className="text-4xl lg:text-6xl font-bold text-balance mb-6">
+          <h2 className="text-4xl lg:text-7xl font-bold text-balance mb-8">
             Everything You Need for{" "}
-            <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="text-gradient bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
               Academic Success
             </span>
           </h2>
           
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-serif leading-relaxed">
+          <p className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto font-serif leading-relaxed">
             Comprehensive tools and resources designed specifically for COMSATS University students. 
             Access everything you need to excel in your academic journey.
           </p>
         </div>
 
-        {/* Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Enhanced Feature Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => {
             const Icon = feature.icon
             return (
@@ -161,42 +161,46 @@ export function FeatureCards() {
                 className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                 style={{ animationDelay: `${200 + (index * 100)}ms` }}
               >
-                <Card className="group relative h-full overflow-hidden border-0 bg-gradient-to-br from-background to-muted/30 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2">
-                  {/* Gradient overlay on hover */}
+                <Card className="group relative h-full overflow-hidden border-0 bg-gradient-to-br from-background/80 to-muted/30 backdrop-blur-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-3 card-modern">
+                  {/* Enhanced gradient overlay on hover */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradientFrom} ${feature.gradientTo} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                   
-                  {/* Badge */}
-                  <div className="absolute top-4 right-4 z-10">
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent shimmer" />
+                  
+                  {/* Enhanced badge */}
+                  <div className="absolute top-6 right-6 z-10">
                     <Badge 
                       variant={getBadgeVariant(feature.badge)} 
-                      className="text-xs font-medium transform group-hover:scale-110 transition-transform duration-300"
+                      className="text-xs font-medium transform group-hover:scale-110 transition-transform duration-300 shadow-lg"
                     >
                       {feature.badge}
                     </Badge>
                   </div>
 
-                  <CardHeader className="relative z-10 pb-4">
-                    {/* Icon */}
-                    <div className={`w-14 h-14 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                      <Icon className={`h-7 w-7 ${feature.color}`} />
+                  <CardHeader className="relative z-10 pb-6">
+                    {/* Enhanced icon */}
+                    <div className={`w-16 h-16 rounded-3xl ${feature.bgColor} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg group-hover:shadow-xl`}>
+                      <Icon className={`h-8 w-8 ${feature.color}`} />
                     </div>
 
-                    {/* Title and description */}
-                    <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300">
+                    {/* Enhanced title and description */}
+                    <CardTitle className="text-xl group-hover:text-primary transition-colors duration-300 mb-3">
                       {feature.title}
                     </CardTitle>
-                    <CardDescription className="font-serif text-base leading-relaxed">
+                    <CardDescription className="font-serif text-base leading-relaxed text-muted-foreground/90">
                       {feature.description}
                     </CardDescription>
                   </CardHeader>
 
                   <CardContent className="relative z-10 pt-0">
-                    {/* Stats */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
+                    {/* Enhanced stats */}
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
                         <TrendingUp className="h-4 w-4 text-green-500" />
-                        <span className="text-sm font-medium text-muted-foreground">{feature.stats}</span>
+                        <span className="text-sm font-semibold text-muted-foreground">{feature.stats}</span>
                       </div>
+                      <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                     </div>
 
                     {/* CTA */}

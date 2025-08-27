@@ -80,32 +80,38 @@ export function HeroSection() {
   ]
 
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-      {/* Animated background elements */}
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-mesh">
+      {/* Enhanced animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }} />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '4s' }} />
+        
+        {/* Floating geometric shapes */}
+        <div className="absolute top-20 right-20 w-4 h-4 bg-primary/30 rotate-45 animate-bounce" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-32 left-20 w-6 h-6 bg-blue-500/30 rounded-full animate-bounce" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-500/30 rotate-45 animate-bounce" style={{ animationDelay: '5s' }} />
       </div>
 
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-blue-500/5" />
+      {/* Modern gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
+      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
 
-      <div className="app-container relative z-10 py-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <div className="app-container relative z-10 py-24">
+        <div className="grid lg:grid-cols-2 gap-20 items-center">
           {/* Left Content */}
           <div className="space-y-8">
-            {/* Badge */}
+            {/* Enhanced badge with gradient */}
             <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <Badge variant="soft" className="mb-6">
-                <Sparkles className="h-3 w-3 mr-1" />
+              <Badge variant="soft" className="mb-8 px-4 py-2 text-sm font-medium bg-gradient-to-r from-primary/10 to-blue-500/10 border-primary/20 hover:from-primary/20 hover:to-blue-500/20 transition-all duration-300 hover-lift">
+                <Sparkles className="h-3 w-3 mr-2 text-primary" />
                 COMSATS University Lahore
               </Badge>
             </div>
 
-            {/* Main heading */}
+            {/* Enhanced main heading */}
             <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <h1 className="text-5xl lg:text-7xl font-bold leading-tight text-balance">
+              <h1 className="text-5xl lg:text-8xl font-bold leading-[0.9] text-balance mb-6">
                 Empowering Your{" "}
                 <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
                   Academic Journey
@@ -113,27 +119,30 @@ export function HeroSection() {
               </h1>
             </div>
 
-            {/* Description */}
+            {/* Enhanced description */}
             <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <p className="text-xl text-muted-foreground leading-relaxed font-serif max-w-2xl">
+              <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-2xl mb-2">
                 Access past papers, calculate your GPA, explore learning resources, and connect with faculty - 
                 all in one comprehensive academic portal designed specifically for COMSATS students.
               </p>
+              <p className="text-lg text-muted-foreground/80 font-light max-w-xl">
+                Join thousands of students who trust CampusAxis for their academic success.
+              </p>
             </div>
 
-            {/* Quick stats */}
+            {/* Enhanced quick stats */}
             <div className={`transition-all duration-700 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <div className="flex flex-wrap gap-6">
+              <div className="flex flex-wrap gap-8 mb-8">
                 {quickStats.map((stat, index) => {
                   const Icon = stat.icon
                   return (
-                    <div key={index} className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-muted/50">
-                        <Icon className={`h-4 w-4 ${stat.color}`} />
+                    <div key={index} className="flex items-center gap-4 group">
+                      <div className="p-3 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 backdrop-blur-sm border border-border/50 group-hover:scale-110 transition-all duration-300 hover-glow">
+                        <Icon className={`h-5 w-5 ${stat.color}`} />
                       </div>
                       <div>
-                        <div className="text-lg font-bold">{stat.value}</div>
-                        <div className="text-sm text-muted-foreground">{stat.label}</div>
+                        <div className="text-2xl font-bold tracking-tight">{stat.value}</div>
+                        <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
                       </div>
                     </div>
                   )
@@ -141,16 +150,16 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* CTAs */}
+            {/* Enhanced CTAs */}
             <div className={`transition-all duration-700 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="text-lg px-8 interactive hover-lift" asChild>
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                <Button size="lg" className="text-lg px-10 py-4 rounded-2xl button-modern bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl" asChild>
                   <Link href="/resources">
                     Explore Resources
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="text-lg px-8 interactive hover-lift" asChild>
+                <Button variant="outline" size="lg" className="text-lg px-10 py-4 rounded-2xl button-modern glass-card hover:bg-primary/5 border-primary/20" asChild>
                   <Link href="/gpa-calculator">
                     <Calculator className="mr-2 h-5 w-5" />
                     Calculate GPA
@@ -159,18 +168,18 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Quick actions */}
+            {/* Enhanced quick actions */}
             <div className={`transition-all duration-700 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-4">
                 {quickActions.map((action, index) => {
                   const Icon = action.icon
                   return (
                     <Link key={index} href={action.href}>
-                      <Card className="p-4 hover-lift transition-all duration-300 hover:shadow-lg border-0 hover:border-primary/20 cursor-pointer group">
-                        <div className="flex items-center gap-3">
-                          <Icon className={`h-4 w-4 ${action.color} group-hover:scale-110 transition-transform`} />
+                      <Card className="p-5 card-modern hover-lift transition-all duration-300 hover:shadow-xl border-0 hover:border-primary/20 cursor-pointer group backdrop-blur-sm">
+                        <div className="flex items-center gap-4">
+                          <Icon className={`h-5 w-5 ${action.color} group-hover:scale-110 transition-transform`} />
                           <div>
-                            <div className="font-medium text-sm">{action.title}</div>
+                            <div className="font-semibold text-sm">{action.title}</div>
                             <div className="text-xs text-muted-foreground">{action.description}</div>
                           </div>
                         </div>
@@ -182,50 +191,61 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Content - Visual */}
+          {/* Enhanced Right Content - Visual */}
           <div className={`transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="relative">
-              {/* Main visual card */}
-              <Card variant="glass" className="p-8 hover-lift transition-all duration-500">
-                <div className="text-center space-y-6">
-                  <div className="relative w-full max-w-sm mx-auto">
-                    <div className="relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-primary/20 to-blue-500/20">
+              {/* Enhanced main visual card */}
+              <Card variant="glass" className="p-10 card-modern hover-lift transition-all duration-500 relative overflow-hidden group">
+                {/* Animated background gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-blue-500/5 to-purple-500/10 opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
+                
+                <div className="text-center space-y-8 relative z-10">
+                  <div className="relative w-full max-w-md mx-auto">
+                    <div className="relative aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-primary/30 to-blue-500/30 hover:from-primary/40 hover:to-blue-500/40 transition-all duration-500 group">
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <GraduationCap className="h-24 w-24 text-primary" />
+                        <GraduationCap className="h-32 w-32 text-primary group-hover:scale-110 transition-transform duration-500" />
                       </div>
                       
-                      {/* Floating stats card */}
-                      <div className="absolute -bottom-6 -right-6 bg-background border rounded-xl p-4 shadow-lg">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900/30">
-                            <TrendingUp className="h-4 w-4 text-green-500" />
+                      {/* Enhanced floating stats card */}
+                      <div className="absolute -bottom-8 -right-8 card-modern p-5 shadow-2xl hover:shadow-3xl transition-all duration-300 hover-lift backdrop-blur-xl">
+                        <div className="flex items-center gap-4">
+                          <div className="p-3 rounded-xl bg-green-100 dark:bg-green-900/30">
+                            <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
                           </div>
                           <div>
-                            <div className="text-lg font-bold">{pastPapersCount !== null ? `${(Math.floor(pastPapersCount / 100) * 100).toLocaleString()}+` : "..."}</div>
-                            <div className="text-xs text-muted-foreground">Past Papers</div>
+                            <div className="text-lg font-bold">98%</div>
+                            <div className="text-xs text-muted-foreground">Success Rate</div>
                           </div>
                         </div>
                       </div>
-
-                      {/* Floating community card */}
-                      <div className="absolute -top-4 -left-4 bg-background border rounded-xl p-3 shadow-lg">
-                        <div className="flex items-center gap-2">
-                          <div className="flex -space-x-1">
-                            <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-xs text-white font-medium">A</div>
-                            <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-xs text-white font-medium">B</div>
-                            <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-xs text-white font-medium">C</div>
+                      
+                      {/* Additional floating element */}
+                      <div className="absolute -top-6 -left-6 card-modern p-4 shadow-xl hover:shadow-2xl transition-all duration-300 hover-lift backdrop-blur-xl">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
+                            <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                           </div>
-                          <div className="text-xs text-muted-foreground">5K+ Students</div>
+                          <div>
+                            <div className="text-sm font-bold">5K+</div>
+                            <div className="text-xs text-muted-foreground">Students</div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-semibold">Join the Community</h3>
-                    <p className="text-muted-foreground font-serif">
-                      Thousands of students trust CampusAxis for their academic success.
-                    </p>
+                  
+                  {/* Enhanced feature highlights */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center p-4 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent hover:from-primary/20 transition-all duration-300">
+                      <FileText className="h-8 w-8 text-primary mx-auto mb-2" />
+                      <div className="text-sm font-semibold">Past Papers</div>
+                      <div className="text-xs text-muted-foreground">1000+ Available</div>
+                    </div>
+                    <div className="text-center p-4 rounded-2xl bg-gradient-to-br from-blue-500/10 to-transparent hover:from-blue-500/20 transition-all duration-300">
+                      <Calculator className="h-8 w-8 text-blue-500 mx-auto mb-2" />
+                      <div className="text-sm font-semibold">GPA Tools</div>
+                      <div className="text-xs text-muted-foreground">Advanced Calculators</div>
+                    </div>
                   </div>
                 </div>
               </Card>

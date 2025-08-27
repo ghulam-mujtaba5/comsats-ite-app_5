@@ -88,46 +88,51 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 fade-in">
-      <div className="app-container h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/60 fade-in shadow-sm">
+      <div className="app-container h-18 flex items-center justify-between py-2">
         <Link
           href={isAdmin ? "/admin" : "/"}
           title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
-          className="flex items-center space-x-3 hover:opacity-80 transition-opacity interactive"
+          className="flex items-center space-x-4 hover:opacity-90 transition-all duration-300 interactive group"
         >
-          <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={40} height={40} />
+          <div className="relative">
+            <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl group-hover:scale-105 transition-transform duration-300" />
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
           <div className="flex flex-col">
-            <span className="font-bold text-lg leading-tight">CampusAxis</span>
+            <span className="font-bold text-xl leading-tight tracking-tight">CampusAxis</span>
             {pathname !== '/' && (
-              <span className="text-xs text-muted-foreground leading-tight">Academic Portal</span>
+              <span className="text-xs text-muted-foreground leading-tight font-medium">Academic Portal</span>
             )}
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center space-x-1" aria-label="Primary navigation">
+        <nav className="hidden lg:flex items-center space-x-2" aria-label="Primary navigation">
           {navigationItems.map((item) => {
             const Icon = item.icon
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground interactive hover-lift ${
-                  isActivePath(item.href) ? "bg-accent text-accent-foreground" : "text-muted-foreground"
+                className={`flex items-center space-x-3 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 interactive hover-lift group ${
+                  isActivePath(item.href) 
+                    ? "bg-gradient-to-r from-primary/20 to-blue-500/20 text-primary border border-primary/20" 
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 }`}
                 aria-current={isActivePath(item.href) ? "page" : undefined}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-4 w-4 group-hover:scale-110 transition-transform" />
                 <span>{item.name}</span>
               </Link>
             )
           })}
         </nav>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           <Tooltip>
             <TooltipTrigger asChild>
               <Link href="/search" title="Search (Ctrl/⌘ K)" className="hidden lg:inline-flex">
-                <Button variant="ghost" size="sm" className="px-2 interactive hover-lift" aria-keyshortcuts="Control+K Meta+K">
+                <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-muted/50" aria-keyshortcuts="Control+K Meta+K">
                   <Search className="h-5 w-5" />
                   <span className="sr-only">Search</span>
                 </Button>
@@ -136,7 +141,7 @@ export function Header() {
             <TooltipContent sideOffset={6}>Search (Ctrl/⌘ K)</TooltipContent>
           </Tooltip>
           <span
-            className="hidden lg:inline-flex select-none items-center gap-1 rounded-md border px-2 py-1 text-[11px] leading-none text-muted-foreground/90"
+            className="hidden lg:inline-flex select-none items-center gap-1 rounded-xl border border-border/50 px-3 py-2 text-[11px] leading-none text-muted-foreground/90 bg-muted/30 backdrop-blur-sm"
             aria-hidden="true"
           >
             <span className="font-mono">Ctrl</span>
@@ -147,26 +152,31 @@ export function Header() {
           </span>
           {isAdmin && (
             <Link href="/admin" title="Admin Panel" className="hidden lg:inline-flex">
-              <Button variant="ghost" size="sm" className="px-2 interactive hover-lift">
+              <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-muted/50">
                 <Shield className="h-5 w-5" />
                 <span className="sr-only">Admin Panel</span>
               </Button>
             </Link>
           )}
-          <ThemeToggle />
+          <div className="ml-2">
+            <ThemeToggle />
+          </div>
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="lg:hidden interactive">
+              <Button variant="ghost" size="sm" className="lg:hidden interactive p-3 rounded-xl hover:bg-muted/50">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-80">
-              <div className="flex flex-col space-y-4 mt-8">
-                <div className="flex items-center space-x-3 pb-4 border-b">
-                  <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={40} height={40} />
+            <SheetContent side="right" className="w-80 bg-background/95 backdrop-blur-xl border-border/50">
+              <div className="flex flex-col space-y-6 mt-8">
+                <div className="flex items-center space-x-4 pb-6 border-b border-border/50">
+                  <div className="relative">
+                    <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl" />
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/20 to-transparent opacity-50" />
+                  </div>
                   <div className="flex flex-col">
-                    <span className="font-bold text-lg">CampusAxis</span>
+                    <span className="font-bold text-xl">CampusAxis</span>
                     {pathname !== '/' && (
                       <span className="text-sm text-muted-foreground">Academic Portal</span>
                     )}
@@ -180,14 +190,14 @@ export function Header() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-start space-x-3 p-3 rounded-lg transition-colors hover:bg-accent interactive hover-lift ${
-                        isActivePath(item.href) ? "bg-accent" : ""
+                      className={`flex items-start space-x-4 p-4 rounded-2xl transition-all duration-300 hover:bg-muted/50 interactive hover-lift group ${
+                        isActivePath(item.href) ? "bg-gradient-to-r from-primary/20 to-blue-500/20 border border-primary/20" : ""
                       }`}
                       aria-current={isActivePath(item.href) ? "page" : undefined}
                     >
-                      <Icon className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                      <Icon className="h-6 w-6 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform" />
                       <div className="flex flex-col">
-                        <span className="font-medium">{item.name}</span>
+                        <span className="font-semibold text-base">{item.name}</span>
                         <span className="text-sm text-muted-foreground">{item.description}</span>
                       </div>
                     </Link>

@@ -1,6 +1,81 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* 2025 Modern Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes gradient-xy {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(-5px, -5px, 0); }
+  50% { transform: translate3d(-10px, 5px, 0); }
+  75% { transform: translate3d(5px, -5px, 0); }
+}
+
+@keyframes magnetic {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-2px, -2px) scale(1.02); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes neon-pulse {
+  0%, 100% { 
+    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
+  }
+  50% { 
+    text-shadow: 0 0 2px currentColor, 0 0 5px currentColor, 0 0 8px currentColor;
+  }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 2s infinite;
+}
+
+.gradient-animation {
+  animation: gradient-xy 4s ease infinite;
+  background-size: 400% 400%;
+}
+
+.magnetic {
+  animation: magnetic 2s ease-in-out infinite;
+}
+
+.neon-text {
+  animation: neon-pulse 2s ease-in-out infinite alternate;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -137,5 +212,124 @@
 
   .app-container {
     @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* 2025 Modern Design Utilities */
+  .glass-card {
+    @apply bg-white/10 dark:bg-white/5 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-xl;
+  }
+
+  .gradient-border {
+    @apply relative before:absolute before:inset-0 before:p-[1px] before:bg-gradient-to-r before:from-primary/50 before:via-blue-500/50 before:to-purple-500/50 before:rounded-lg before:-z-10;
+  }
+
+  .interactive {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .hover-lift {
+    @apply hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .hover-glow {
+    @apply hover:shadow-2xl hover:shadow-primary/25;
+  }
+
+  .fade-in {
+    @apply animate-in fade-in duration-700;
+  }
+
+  .slide-up {
+    @apply animate-in slide-in-from-bottom-4 duration-700;
+  }
+
+  .text-gradient {
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--chart-1)), hsl(var(--chart-5)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .bg-gradient-radial {
+    background: radial-gradient(circle at center, var(--tw-gradient-stops));
+  }
+
+  .bg-mesh {
+    background-image: 
+      radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 0.12) 0px, transparent 0%),
+      radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 0.12) 0px, transparent 50%),
+      radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 0.12) 0px, transparent 50%),
+      radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 0.12) 0px, transparent 50%),
+      radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 0.12) 0px, transparent 50%),
+      radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 0.12) 0px, transparent 50%),
+      radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 0.12) 0px, transparent 50%);
+  }
+
+  .card-modern {
+    @apply bg-card/50 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-card/80;
+  }
+
+  .button-modern {
+    @apply relative overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95;
+  }
+
+  .input-modern {
+    @apply bg-background/50 backdrop-blur-sm border-border/50 transition-all duration-200 focus:border-primary/50 focus:bg-background/80;
+  }
+
+  /* Advanced 2025 Effects */
+  .neo-brutalism {
+    @apply bg-background border-2 border-foreground transition-all duration-200;
+    box-shadow: 4px 4px 0px 0px hsl(var(--foreground));
+  }
+
+  .neo-brutalism:hover {
+    box-shadow: 6px 6px 0px 0px hsl(var(--foreground));
+  }
+
+  .glass-morphism {
+    @apply bg-white/10 dark:bg-black/10 backdrop-blur-2xl border border-white/20 dark:border-white/10 shadow-2xl;
+  }
+
+  .neumorphism {
+    @apply bg-background;
+    box-shadow: 
+      inset 5px 5px 10px rgba(0, 0, 0, 0.1),
+      inset -5px -5px 10px rgba(255, 255, 255, 0.8);
+  }
+
+  .dark .neumorphism {
+    box-shadow: 
+      inset 5px 5px 10px rgba(0, 0, 0, 0.3),
+      inset -5px -5px 10px rgba(255, 255, 255, 0.1);
+  }
+
+  .holographic {
+    @apply bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 transition-all duration-500;
+    background-size: 200% 200%;
+  }
+
+  .holographic:hover {
+    background-position: 100% 0;
+  }
+
+  .aurora {
+    @apply bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 animate-pulse;
+  }
+
+  .cyber-grid {
+    background-image: 
+      linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .perspective-card {
+    @apply transform-gpu transition-all duration-300 hover:scale-105;
+    perspective: 1000px;
+  }
+
+  .perspective-card:hover {
+    transform: perspective(1000px) rotateX(5deg) rotateY(5deg) scale(1.05);
   }
 }

@@ -13,7 +13,7 @@ import {
   type CourseWithPapers,
   type PastPaper,
 } from "@/lib/past-papers-data"
-import { Upload, FileText, Download, Users } from "lucide-react"
+import { Upload, FileText, Download, Users, TrendingUp } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 
@@ -157,115 +157,133 @@ export default function PastPapersPage() {
   const totalPapers = coursesWithPapers.reduce((sum, course) => sum + course.totalPapers, 0)
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1 py-8 px-4">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
+      <main className="flex-1 py-12 px-4">
         <div className="container mx-auto max-w-7xl">
-          {/* Header Section */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-foreground mb-4">Past Papers</h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
+          {/* Enhanced Header Section */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-200 dark:border-blue-700/30 text-sm font-medium text-blue-700 dark:text-blue-300 mb-6">
+              <FileText className="h-4 w-4" />
+              Academic Resources
+            </div>
+            <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
+              Past <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Papers</span>
+            </h1>
+            <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto mb-8 font-medium leading-relaxed">
               Browse courses and access organized past papers including assignments, quizzes, midterms, and finals.
             </p>
             <UploadPaperDialog>
-              <Button size="lg" className="mb-4">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl text-lg px-8 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1">
                 <Upload className="h-5 w-5 mr-2" />
                 Upload Paper
               </Button>
             </UploadPaperDialog>
           </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <Card>
-              <CardContent className="flex items-center gap-3 p-4">
-                <FileText className="h-8 w-8 text-primary" />
+          {/* Enhanced Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30">
+                  <FileText className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+                </div>
                 <div>
-                  <div className="text-2xl font-bold">{totalPapers}</div>
-                  <div className="text-sm text-muted-foreground">Total Papers</div>
+                  <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{totalPapers}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Total Papers</div>
                 </div>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent className="flex items-center gap-3 p-4">
-                <Download className="h-8 w-8 text-accent" />
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30 dark:border-green-700/30">
+                  <Download className="h-8 w-8 text-green-600 dark:text-green-400" />
+                </div>
                 <div>
-                  <div className="text-2xl font-bold">{coursesWithPapers.length}</div>
-                  <div className="text-sm text-muted-foreground">Courses</div>
+                  <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{coursesWithPapers.length}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Courses</div>
                 </div>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent className="flex items-center gap-3 p-4">
-                <Users className="h-8 w-8 text-primary" />
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-200/30 dark:border-purple-700/30">
+                  <Users className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+                </div>
                 <div>
-                  <div className="text-2xl font-bold">{departments.length}</div>
-                  <div className="text-sm text-muted-foreground">Departments</div>
+                  <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">5K+</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Active Students</div>
                 </div>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent className="flex items-center gap-3 p-4">
-                <FileText className="h-8 w-8 text-accent" />
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-600/20 border border-orange-200/30 dark:border-orange-700/30">
+                  <TrendingUp className="h-8 w-8 text-orange-600 dark:text-orange-400" />
+                </div>
                 <div>
-                  <div className="text-2xl font-bold">15</div>
-                  <div className="text-sm text-muted-foreground">Contributors</div>
+                  <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{departments.length}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Departments</div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Search and Filters */}
+          {/* Enhanced Search and Filters */}
+          <Card className="mb-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+            <CardContent className="p-8">
+              <AdvancedFilterBar
+                search={searchTerm}
+                onSearchChange={setSearchTerm}
+                searchPlaceholder="Search by course name or code..."
+                selects={[
+                  {
+                    id: "department",
+                    value: selectedDepartment,
+                    onChange: setSelectedDepartment,
+                    placeholder: "All Departments",
+                    options: [
+                      { label: "All Departments", value: "All" },
+                      ...departments.map((d) => ({ label: d.name, value: d.name })),
+                    ],
+                  },
+                  {
+                    id: "examType",
+                    value: selectedExamType,
+                    onChange: setSelectedExamType,
+                    placeholder: "All Exam Types",
+                    options: examTypes.map((t) => ({ label: t, value: t })),
+                  },
+                  {
+                    id: "semester",
+                    value: selectedSemester,
+                    onChange: setSelectedSemester,
+                    placeholder: "All Semesters",
+                    options: semesters.map((s) => ({ label: s, value: s })),
+                  },
+                  {
+                    id: "year",
+                    value: selectedYear,
+                    onChange: setSelectedYear,
+                    placeholder: "All Years",
+                    options: [
+                      { label: "All Years", value: "All" },
+                      ...years.map((y) => ({ label: y.toString(), value: y.toString() })),
+                    ],
+                  },
+                ]}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Enhanced Results */}
           <div className="mb-8">
-            <AdvancedFilterBar
-              search={searchTerm}
-              onSearchChange={setSearchTerm}
-              searchPlaceholder="Search by course name or code..."
-              selects={[
-                {
-                  id: "department",
-                  value: selectedDepartment,
-                  onChange: setSelectedDepartment,
-                  placeholder: "All Departments",
-                  options: [
-                    { label: "All Departments", value: "All" },
-                    ...departments.map((d) => ({ label: d.name, value: d.name })),
-                  ],
-                },
-                {
-                  id: "examType",
-                  value: selectedExamType,
-                  onChange: setSelectedExamType,
-                  placeholder: "All Exam Types",
-                  options: examTypes.map((t) => ({ label: t, value: t })),
-                },
-                {
-                  id: "semester",
-                  value: selectedSemester,
-                  onChange: setSelectedSemester,
-                  placeholder: "All Semesters",
-                  options: semesters.map((s) => ({ label: s, value: s })),
-                },
-                {
-                  id: "year",
-                  value: selectedYear,
-                  onChange: setSelectedYear,
-                  placeholder: "All Years",
-                  options: [
-                    { label: "All Years", value: "All" },
-                    ...years.map((y) => ({ label: y.toString(), value: y.toString() })),
-                  ],
-                },
-              ]}
-            />
+            <h2 className="text-3xl font-bold tracking-tight mb-2 text-slate-900 dark:text-white">
+              {filteredCourses.length} Course{filteredCourses.length !== 1 ? "s" : ""} Found
+            </h2>
+            <p className="text-slate-600 dark:text-slate-300 font-medium">
+              Discover academic resources shared by your fellow students
+            </p>
           </div>
-
-          {/* Results */}
-          <div className="mt-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold">
-                {filteredCourses.length} Course{filteredCourses.length !== 1 ? "s" : ""} Found
-              </h2>
-            </div>
 
             {loading ? (
               <Card className="p-12 text-center">
@@ -274,12 +292,13 @@ export default function PastPapersPage() {
                 <p className="text-muted-foreground">Fetching past papers from the database.</p>
               </Card>
             ) : filteredCourses.length === 0 ? (
-              <Card className="p-12 text-center">
-                <FileText className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">No Courses Found</h3>
-                <p className="text-muted-foreground mb-4">Try adjusting your search terms or department filter.</p>
+              <Card className="p-16 text-center card-modern border-0 backdrop-blur-sm">
+                <FileText className="h-20 w-20 text-muted-foreground mx-auto mb-6 opacity-50" />
+                <h3 className="text-2xl font-bold mb-4">No Courses Found</h3>
+                <p className="text-muted-foreground mb-6 font-serif text-lg max-w-md mx-auto">
+                  Try adjusting your search terms or department filter to find more courses.
+                </p>
                 <Button
-                  variant="outline"
                   onClick={() => {
                     setSearchTerm("")
                     setSelectedDepartment("All")
@@ -287,19 +306,19 @@ export default function PastPapersPage() {
                     setSelectedSemester("All")
                     setSelectedYear("All")
                   }}
-                  className="bg-transparent"
+                  className="button-modern bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90"
+                  size="lg"
                 >
                   Clear Filters
                 </Button>
               </Card>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredCourses.map((course) => (
                   <CourseCard key={course.code} course={course} />
                 ))}
               </div>
             )}
-          </div>
         </div>
       </main>
       <script
