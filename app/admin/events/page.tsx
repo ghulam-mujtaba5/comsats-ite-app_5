@@ -397,11 +397,28 @@ export default function AdminEventsPage() {
 
       {/* Events List */}
       {loading ? (
-        <div className="text-center py-8" aria-live="polite">Loading events...</div>
+        <div className="grid gap-4" aria-live="polite">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={`sk-${i}`} className="skeleton p-5 border border-border rounded-md">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="sk-title w-40 rounded mb-2" />
+                  <div className="sk-line w-3/4 rounded mb-1" />
+                  <div className="sk-line w-1/2 rounded" />
+                </div>
+                <div className="flex gap-2">
+                  <div className="sk-pill w-24 h-8 rounded" />
+                  <div className="sk-icon w-8 h-8 rounded" />
+                  <div className="sk-icon w-8 h-8 rounded" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="grid gap-4">
           {filteredEvents.map((event) => (
-            <Card key={event.id} variant="elevated" className="transition-shadow">
+            <Card key={event.id} variant="elevated" className="transition-shadow hover:shadow-lg interactive hover-lift slide-up">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -442,6 +459,7 @@ export default function AdminEventsPage() {
                       size="sm"
                       variant="outline"
                       onClick={() => fetchEventRegistrations(event.id)}
+                      aria-label={`View registrations for ${event.title}`}
                     >
                       <Users className="h-4 w-4 mr-1" />
                       Registrations
@@ -453,6 +471,7 @@ export default function AdminEventsPage() {
                         setEditingEvent(event)
                         setShowEventDialog(true)
                       }}
+                      aria-label={`Edit event ${event.title}`}
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
@@ -460,6 +479,7 @@ export default function AdminEventsPage() {
                       size="sm"
                       variant="outline"
                       onClick={() => handleDeleteEvent(event.id)}
+                      aria-label={`Delete event ${event.title}`}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -470,7 +490,13 @@ export default function AdminEventsPage() {
           ))}
           {filteredEvents.length === 0 && (
             <Card variant="soft" className="p-8 text-center">
-              <div className="text-muted-foreground">No events found matching your criteria</div>
+              <div className="text-muted-foreground mb-4">No events found matching your criteria</div>
+              <div>
+                <Button onClick={() => { setEditingEvent(newEvent()); setShowEventDialog(true) }} aria-label="Create a new event">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create Event
+                </Button>
+              </div>
             </Card>
           )}
         </div>
