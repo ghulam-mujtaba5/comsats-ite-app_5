@@ -273,13 +273,11 @@ export default function AdminNewsEventsPage() {
 
   return (
     <AdminGuard>
-      <div className="app-container section">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">News & Events Management</h1>
-            <p className="text-muted-foreground mt-2">
-              Create and manage campus news and events
-            </p>
+      <div className="app-container section space-y-6 fade-in">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold text-balance">News & Events Management</h1>
+            <p className="text-muted-foreground">Create and manage campus news and events</p>
           </div>
           <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
             <DialogTrigger asChild>

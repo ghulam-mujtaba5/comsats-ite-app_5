@@ -253,10 +253,10 @@ export default function AdminUsersPage() {
 
   return (
     <AdminGuard>
-      <div className="app-container section" role="main" aria-labelledby="users-heading">
-        <div className="mb-8">
-          <h1 id="users-heading" className="text-3xl font-bold">User Management</h1>
-          <p className="text-muted-foreground mt-2">
+      <div className="app-container section space-y-6 fade-in" role="main" aria-labelledby="users-heading">
+        <div className="space-y-1">
+          <h1 id="users-heading" className="text-3xl font-bold text-balance">User Management</h1>
+          <p className="text-muted-foreground">
             Manage user accounts, permissions, and admin roles
           </p>
         </div>

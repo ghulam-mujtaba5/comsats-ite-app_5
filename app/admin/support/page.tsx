@@ -171,10 +171,10 @@ export default function AdminSupportPage() {
   }
 
   return (
-    <div className="app-container section" role="main" aria-labelledby="support-heading">
-      <div className="mb-8">
-        <h1 id="support-heading" className="text-3xl font-bold">Support Request Management</h1>
-        <p className="text-muted-foreground mt-2">
+    <div className="app-container section space-y-6 fade-in" role="main" aria-labelledby="support-heading">
+      <div className="space-y-1">
+        <h1 id="support-heading" className="text-3xl font-bold text-balance">Support Request Management</h1>
+        <p className="text-muted-foreground">
           Manage and respond to student support requests
         </p>
       </div>
@@ -182,7 +182,7 @@ export default function AdminSupportPage() {
       {/* Filters */}
       <div className="mb-6 flex gap-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
             placeholder="Search requests..."
             value={searchQuery}
@@ -222,7 +222,7 @@ export default function AdminSupportPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Requests</p>
+                <p className="text-sm font-medium text-muted-foreground">Total Requests</p>
                 <p className="text-2xl font-bold">{requests.length}</p>
               </div>
               <MessageSquare className="h-8 w-8 text-blue-600" />
@@ -233,7 +233,7 @@ export default function AdminSupportPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Pending</p>
+                <p className="text-sm font-medium text-muted-foreground">Pending</p>
                 <p className="text-2xl font-bold text-yellow-600">
                   {requests.filter(r => r.status === 'pending').length}
                 </p>
@@ -246,7 +246,7 @@ export default function AdminSupportPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">In Progress</p>
+                <p className="text-sm font-medium text-muted-foreground">In Progress</p>
                 <p className="text-2xl font-bold text-blue-600">
                   {requests.filter(r => r.status === 'in-progress').length}
                 </p>
@@ -259,7 +259,7 @@ export default function AdminSupportPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Resolved</p>
+                <p className="text-sm font-medium text-muted-foreground">Resolved</p>
                 <p className="text-2xl font-bold text-green-600">
                   {requests.filter(r => r.status === 'resolved').length}
                 </p>
@@ -317,7 +317,7 @@ export default function AdminSupportPage() {
                     <CardDescription className="line-clamp-2">
                       {request.message}
                     </CardDescription>
-                    <p className="text-xs text-gray-500 mt-2">
+                    <p className="text-xs text-muted-foreground mt-2">
                       Submitted: {new Date(request.created_at).toLocaleString()}
                     </p>
                   </div>

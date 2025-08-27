@@ -226,10 +226,10 @@ export default function AdminModerationPage() {
 
   return (
     <AdminGuard>
-      <div className="app-container section">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">Content Moderation</h1>
-          <p className="text-muted-foreground mt-2">
+      <div className="app-container section space-y-6 fade-in">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-bold text-balance">Content Moderation</h1>
+          <p className="text-muted-foreground">
             Manage community posts, comments, and reports
           </p>
         </div>

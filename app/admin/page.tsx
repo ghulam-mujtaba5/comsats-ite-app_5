@@ -51,10 +51,10 @@ export default function AdminDashboardPage() {
         </div>
       }
     >
-      <div className="app-container section space-y-8">
+      <div className="app-container section space-y-8 fade-in">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+            <h1 className="text-3xl font-bold text-balance">Admin Dashboard</h1>
             <p className="text-muted-foreground">Welcome back, Admin!</p>
           </div>
           <div className="flex gap-2">

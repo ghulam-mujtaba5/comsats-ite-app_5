@@ -116,7 +116,7 @@ export default function AdminDashboardPage() {
       description: "Student support requests",
       icon: Heart,
       color: "text-primary",
-      href: "/admin/student-support"
+      href: "/admin/support"
     },
     {
       title: "Guidance Content",
@@ -145,21 +145,21 @@ export default function AdminDashboardPage() {
     { label: "📰 Create News Article", href: "/admin/news-events", roles: ["super_admin", "admin", "content"] },
     { label: "📅 Add New Event", href: "/admin/news-events", roles: ["super_admin", "admin", "content"] },
     { label: "📚 Add Guidance Content", href: "/admin/guidance", roles: ["super_admin", "admin", "content"] },
-    { label: "🆘 Manage Support Resources", href: "/admin/student-support", roles: ["super_admin", "admin", "support"] },
+    { label: "🆘 Manage Support Resources", href: "/admin/support", roles: ["super_admin", "admin", "support"] },
     { label: "👥 Manage Users", href: "/admin/users", roles: ["super_admin", "admin", "support"] },
     { label: "🧹 Review Moderation Queue", href: "/admin/reviews", roles: ["super_admin", "admin", "moderator"] },
   ]
 
   return (
     <AdminGuard>
-      <div className="container mx-auto px-4 py-8 fade-in" role="main" aria-labelledby="dashboard-heading">
-        <div className="mb-8">
-          <h1 id="dashboard-heading" className="text-3xl font-bold">Admin Dashboard</h1>
-          <p className="text-muted-foreground mt-2">
+      <div className="app-container section space-y-8 fade-in" role="main" aria-labelledby="dashboard-heading">
+        <div className="space-y-1">
+          <h1 id="dashboard-heading" className="text-3xl font-bold text-balance">Admin Dashboard</h1>
+          <p className="text-muted-foreground">
             Manage all aspects of the CampusAxis portal
           </p>
           {statsError && (
-            <div role="alert" className="mt-3 text-sm text-destructive">
+            <div role="alert" className="mt-2 text-sm text-destructive">
               Failed to load KPI stats: {statsError}
             </div>
           )}
@@ -190,7 +190,7 @@ export default function AdminDashboardPage() {
                   aria-label={`${card.title} — ${card.description}`}
                   className="block outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md slide-up"
                 >
-                  <Card className="hover:shadow-lg transition-shadow cursor-pointer interactive hover-lift">
+                  <Card variant="elevated" className="transition-shadow cursor-pointer interactive hover-lift">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                       <CardTitle className="text-sm font-medium">
                         {card.title}
@@ -212,7 +212,7 @@ export default function AdminDashboardPage() {
 
         {/* Quick Actions */}
         <div className="grid gap-6 md:grid-cols-2" aria-live="polite">
-          <Card className="slide-up interactive hover-lift">
+          <Card variant="elevated" className="slide-up interactive hover-lift">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-orange-500" />
@@ -237,7 +237,7 @@ export default function AdminDashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="slide-up interactive hover-lift">
+          <Card variant="elevated" className="slide-up interactive hover-lift">
             <CardHeader>
               <CardTitle>Quick Actions</CardTitle>
             </CardHeader>
@@ -259,7 +259,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* System Health */}
-        <div className="mt-8">
+        <div className="section">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
