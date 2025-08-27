@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label"
 import { Search, Plus, Edit, Trash2, Calendar, MapPin, Users, Clock, Save, X } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
+
 interface Event {
   id: string
   title: string
