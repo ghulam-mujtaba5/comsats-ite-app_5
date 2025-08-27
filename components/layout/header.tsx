@@ -95,7 +95,7 @@ export function Header() {
           title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
           className="flex items-center space-x-3 hover:opacity-80 transition-opacity interactive"
         >
-          <Image src="/logo.jpg.svg" alt="CampusAxis Logo" width={40} height={40} />
+          <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={40} height={40} />
           <div className="flex flex-col">
             <span className="font-bold text-lg leading-tight">CampusAxis</span>
             {pathname !== '/' && (
@@ -164,7 +164,7 @@ export function Header() {
             <SheetContent side="right" className="w-80">
               <div className="flex flex-col space-y-4 mt-8">
                 <div className="flex items-center space-x-3 pb-4 border-b">
-                  <Image src="/logo.jpg.svg" alt="CampusAxis Logo" width={40} height={40} />
+                  <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={40} height={40} />
                   <div className="flex flex-col">
                     <span className="font-bold text-lg">CampusAxis</span>
                     {pathname !== '/' && (

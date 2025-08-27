@@ -53,8 +53,8 @@ async function fetchMeta(endpoint, params, { retries = 4, timeoutMs = 60000 } = 
 
 async function main() {
   const [tables, columns] = await Promise.all([
-    fetchMeta('/meta/tables', { included_schemas: 'public' }),
-    fetchMeta('/meta/columns', { included_schemas: 'public' }),
+    fetchMeta('/tables', { included_schemas: 'public' }),
+    fetchMeta('/columns', { included_schemas: 'public' }),
   ])
 
   const out = { generatedAt: new Date().toISOString(), tables, columns }

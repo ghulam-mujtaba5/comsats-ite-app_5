@@ -77,12 +77,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/logo.jpg.svg", type: "image/svg+xml" },
+      { url: "/new%20logo.jpg", type: "image/jpeg" },
     ],
     shortcut: [
-      { url: "/logo.jpg.svg", type: "image/svg+xml" },
+      { url: "/new%20logo.jpg", type: "image/jpeg" },
     ],
-    apple: [{ url: "/logo.jpg.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/new%20logo.jpg", type: "image/jpeg" }],
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
