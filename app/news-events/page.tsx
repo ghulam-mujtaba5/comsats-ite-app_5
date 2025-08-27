@@ -7,10 +7,34 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Search, Calendar, MapPin, Users, Clock, ExternalLink } from "lucide-react"
+import { 
+  Search, 
+  Calendar, 
+  MapPin, 
+  Users, 
+  Clock, 
+  ExternalLink, 
+  BookOpen,
+  Megaphone,
+  Star,
+  Filter,
+  TrendingUp,
+  Heart,
+  Share2,
+  Bookmark,
+  Bell,
+  ChevronRight,
+  CalendarDays,
+  Globe,
+  MapPin as Location,
+  UserCheck,
+  AlertCircle,
+  CheckCircle2
+} from "lucide-react"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 import { useToast } from "@/hooks/use-toast"
+import { cn } from "@/lib/utils"
 
 
 interface NewsItem {
@@ -284,130 +308,374 @@ export default function NewsEventsPage() {
   }
 
   return (
-    <>
-    <div className="app-container section fade-in">
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "News & Events" }]} className="mb-4" />
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">News & Events</h1>
-        <p className="text-muted-foreground mt-2">
-          Stay updated with the latest campus news, announcements, and upcoming events
-        </p>
-        {mockBanner && (
-          <div className="mt-3 text-sm border border-yellow-300 bg-yellow-50 text-yellow-900 rounded p-3">
-            {mockBanner}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
+      <div className="app-container section py-12">
+        {/* Enhanced Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6">
+            <BookOpen className="h-4 w-4" />
+            Campus Updates
           </div>
-        )}
-      </div>
+          <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
+            News & <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Events</span>
+          </h1>
+          <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mb-8 font-medium leading-relaxed">
+            Stay updated with the latest campus news, announcements, and exciting upcoming events
+          </p>
+          
+          {mockBanner && (
+            <div className="max-w-2xl mx-auto mb-8">
+              <Card className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-2xl shadow-lg">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                  <span className="text-sm text-yellow-700 dark:text-yellow-300 font-medium">{mockBanner}</span>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
 
-      {/* Search Bar */}
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-        <Input
-          placeholder="Search news and events..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10 interactive"
-        />
-      </div>
+        {/* Enhanced Search and Filter Section */}
+        <Card className="mb-8 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg">
+          <CardContent className="p-8">
+            <div className="relative mb-6">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
+              <Input
+                placeholder="Search news, events, announcements, and more..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-12 h-14 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 rounded-2xl text-lg focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+              />
+            </div>
+            
+            {/* Stats Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">{news.length}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">News Articles</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">{events.length}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Events</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">{myRegs.length}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">My Registrations</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">{events.filter(e => e.registrationOpen).length}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">Open Registration</div>
+                </CardContent>
+              </Card>
+            </div>
+          </CardContent>
+        </Card>
 
-      <Tabs defaultValue="news" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="news">News & Announcements</TabsTrigger>
-          <TabsTrigger value="events">Upcoming Events</TabsTrigger>
-        </TabsList>
+        {/* Enhanced Tabs */}
+        <Card className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg">
+          <CardContent className="p-8">
+            <Tabs defaultValue="news" className="space-y-8">
+              <TabsList className="grid w-full grid-cols-2 bg-slate-100/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-1">
+                <TabsTrigger 
+                  value="news" 
+                  className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-md transition-all duration-200"
+                >
+                  <Megaphone className="h-4 w-4 mr-2" />
+                  News & Announcements
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="events" 
+                  className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-md transition-all duration-200"
+                >
+                  <Calendar className="h-4 w-4 mr-2" />
+                  Upcoming Events
+                </TabsTrigger>
+              </TabsList>
 
-        <TabsContent value="news" className="space-y-6">
-          {/* News Filter */}
-          <div className="flex gap-2 flex-wrap" aria-live="polite">
-            <Button
-              variant={newsFilter === "all" ? "default" : "soft"}
-              size="sm"
-              onClick={() => setNewsFilter("all")}
-              aria-pressed={newsFilter === "all"}
-              className="interactive hover-lift"
-            >
-              All
-            </Button>
-            <Button
-              variant={newsFilter === "academic" ? "default" : "soft"}
-              size="sm"
-              onClick={() => setNewsFilter("academic")}
-              aria-pressed={newsFilter === "academic"}
-              className="interactive hover-lift"
-            >
-              Academic
-            </Button>
-            <Button
-              variant={newsFilter === "event" ? "default" : "soft"}
-              size="sm"
-              onClick={() => setNewsFilter("event")}
-              aria-pressed={newsFilter === "event"}
-              className="interactive hover-lift"
-            >
-              Events
-            </Button>
-            <Button
-              variant={newsFilter === "announcement" ? "default" : "soft"}
-              size="sm"
-              onClick={() => setNewsFilter("announcement")}
-              aria-pressed={newsFilter === "announcement"}
-              className="interactive hover-lift"
-            >
-              Announcements
-            </Button>
-            <Button
-              variant={newsFilter === "deadline" ? "default" : "soft"}
-              size="sm"
-              onClick={() => setNewsFilter("deadline")}
-              aria-pressed={newsFilter === "deadline"}
-              className="interactive hover-lift"
-            >
-              Deadlines
-            </Button>
+        <TabsContent value="news" className="space-y-8">
+          {/* Enhanced News Filter */}
+          <div className="flex flex-wrap gap-3">
+            {[
+              { id: "all", label: "All News", icon: TrendingUp, count: news.length },
+              { id: "academic", label: "Academic", icon: BookOpen, count: news.filter(n => n.category === 'academic').length },
+              { id: "event", label: "Events", icon: Calendar, count: news.filter(n => n.category === 'event').length },
+              { id: "announcement", label: "Announcements", icon: Megaphone, count: news.filter(n => n.category === 'announcement').length },
+              { id: "deadline", label: "Deadlines", icon: AlertCircle, count: news.filter(n => n.category === 'deadline').length }
+            ].map((filter) => {
+              const Icon = filter.icon
+              return (
+                <Button
+                  key={filter.id}
+                  variant={newsFilter === filter.id ? "default" : "outline"}
+                  onClick={() => setNewsFilter(filter.id)}
+                  className={cn(
+                    "h-12 px-6 rounded-xl transition-all duration-200",
+                    newsFilter === filter.id
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
+                      : "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 hover:bg-primary/10"
+                  )}
+                >
+                  <Icon className="h-4 w-4 mr-2" />
+                  {filter.label}
+                  <Badge variant="secondary" className="ml-2 text-xs">
+                    {filter.count}
+                  </Badge>
+                </Button>
+              )
+            })}
           </div>
 
-          {/* News List */}
-          <div className="space-y-4" aria-live="polite">
+          {/* Enhanced News List */}
+          <div className="space-y-6">
             {filteredNews.map((item) => (
               <Card
                 key={item.id}
-                variant={item.isImportant ? 'soft' : 'default'}
-                className={`transition-shadow slide-up`}
+                className={cn(
+                  "bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl",
+                  item.isImportant && "ring-2 ring-red-500/20 bg-gradient-to-r from-red-50/50 to-orange-50/50 dark:from-red-950/20 dark:to-orange-950/20"
+                )}
               >
-                <CardHeader>
+                <CardHeader className="p-6">
                   <div className="flex justify-between items-start">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <CardTitle className="text-lg">{item.title}</CardTitle>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-3">
+                        <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">{item.title}</CardTitle>
                         {item.isImportant && (
-                          <Badge variant="destructive" className="text-xs">
+                          <Badge className="bg-gradient-to-r from-red-500 to-orange-500 text-white border-0">
+                            <Star className="h-3 w-3 mr-1" />
                             Important
                           </Badge>
                         )}
                       </div>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <span className="flex items-center gap-1">
+                      <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
+                        <span className="flex items-center gap-2">
                           <Clock className="h-4 w-4" />
-                          {formatDate(item.publishedAt)} at {formatTime(item.publishedAt)}
+                          {formatDate(item.publishedAt)}
                         </span>
-                        <span>{item.author}</span>
+                        <span className="flex items-center gap-2">
+                          <Users className="h-4 w-4" />
+                          {item.author}
+                        </span>
                       </div>
                     </div>
-                    <Badge variant={getCategoryColor(item.category)}>
+                    <Badge 
+                      variant={getCategoryColor(item.category)}
+                      className="capitalize font-medium"
+                    >
                       {item.category}
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">{item.content}</p>
-                  <Button variant="soft" size="sm" className="interactive hover-lift">
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    Read More
-                  </Button>
+                <CardContent className="p-6 pt-0">
+                  <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">{item.content}</p>
+                  <div className="flex items-center justify-between">
+                    <Button 
+                      variant="outline" 
+                      className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 hover:bg-primary/10 rounded-xl"
+                    >
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      Read More
+                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Button variant="ghost" size="sm" className="rounded-xl">
+                        <Heart className="h-4 w-4 mr-1" />
+                        Like
+                      </Button>
+                      <Button variant="ghost" size="sm" className="rounded-xl">
+                        <Share2 className="h-4 w-4 mr-1" />
+                        Share
+                      </Button>
+                      <Button variant="ghost" size="sm" className="rounded-xl">
+                        <Bookmark className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             ))}
           </div>
+
+          {filteredNews.length === 0 && (
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl shadow-lg">
+              <CardContent className="p-12 text-center">
+                <div className="p-4 rounded-full bg-gradient-to-br from-slate-400/20 to-slate-500/20 border border-slate-400/30 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                  <Search className="h-10 w-10 text-slate-400" />
+                </div>
+                <h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">No News Found</h3>
+                <p className="text-slate-600 dark:text-slate-300 mb-6 font-medium max-w-md mx-auto">
+                  Try adjusting your search terms or browse different categories.
+                </p>
+                <Button
+                  onClick={() => {
+                    setSearchQuery("")
+                    setNewsFilter("all")
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl px-6 py-3"
+                >
+                  Clear Filters
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="events" className="space-y-8">
+          {/* Enhanced Events Filter */}
+          <div className="flex flex-wrap gap-3">
+            {[
+              { id: "all", label: "All Events", icon: Calendar, count: events.length },
+              { id: "academic", label: "Academic", icon: BookOpen, count: events.filter(e => e.category === 'academic').length },
+              { id: "cultural", label: "Cultural", icon: Star, count: events.filter(e => e.category === 'cultural').length },
+              { id: "sports", label: "Sports", icon: TrendingUp, count: events.filter(e => e.category === 'sports').length },
+              { id: "workshop", label: "Workshops", icon: Users, count: events.filter(e => e.category === 'workshop').length }
+            ].map((filter) => {
+              const Icon = filter.icon
+              return (
+                <Button
+                  key={filter.id}
+                  variant={eventsFilter === filter.id ? "default" : "outline"}
+                  onClick={() => setEventsFilter(filter.id)}
+                  className={cn(
+                    "h-12 px-6 rounded-xl transition-all duration-200",
+                    eventsFilter === filter.id
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
+                      : "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 hover:bg-primary/10"
+                  )}
+                >
+                  <Icon className="h-4 w-4 mr-2" />
+                  {filter.label}
+                  <Badge variant="secondary" className="ml-2 text-xs">
+                    {filter.count}
+                  </Badge>
+                </Button>
+              )
+            })}
+          </div>
+
+          {/* Enhanced Events Grid */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredEvents.map((event) => (
+              <Card key={event.id} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl group">
+                <CardHeader className="p-6">
+                  <div className="flex justify-between items-start mb-3">
+                    <CardTitle className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                      {event.title}
+                    </CardTitle>
+                    <Badge 
+                      variant={getCategoryColor(event.category)}
+                      className="capitalize font-medium"
+                    >
+                      {event.category}
+                    </Badge>
+                  </div>
+                  <CardDescription className="text-slate-600 dark:text-slate-400 font-medium">
+                    Organized by {event.organizer}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">{event.description}</p>
+                  
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
+                      <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-200/30">
+                        <Calendar className="h-4 w-4 text-blue-600" />
+                      </div>
+                      <span className="font-medium">{formatDate(event.date)}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
+                      <div className="p-2 rounded-lg bg-green-500/10 border border-green-200/30">
+                        <Clock className="h-4 w-4 text-green-600" />
+                      </div>
+                      <span className="font-medium">{event.time}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
+                      <div className="p-2 rounded-lg bg-purple-500/10 border border-purple-200/30">
+                        <MapPin className="h-4 w-4 text-purple-600" />
+                      </div>
+                      <span className="font-medium">{event.location}</span>
+                    </div>
+                    {event.capacity && (
+                      <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
+                        <div className="p-2 rounded-lg bg-orange-500/10 border border-orange-200/30">
+                          <Users className="h-4 w-4 text-orange-600" />
+                        </div>
+                        <span className="font-medium">{event.registered || 0}/{event.capacity} registered</span>
+                        <div className="flex-1 bg-slate-200 dark:bg-slate-700 rounded-full h-2 ml-2">
+                          <div 
+                            className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${Math.min(100, ((event.registered || 0) / event.capacity) * 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {isRegistered(event.id) ? (
+                    <Button
+                      className="w-full h-12 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl font-semibold"
+                      onClick={() => cancelRegistration(event.id)}
+                    >
+                      <CheckCircle2 className="h-5 w-5 mr-2" />
+                      Cancel Registration
+                    </Button>
+                  ) : (
+                    <Button 
+                      className={cn(
+                        "w-full h-12 shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl font-semibold",
+                        event.registrationOpen
+                          ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+                          : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed"
+                      )}
+                      disabled={!event.registrationOpen}
+                      onClick={() => register(event.id)}
+                    >
+                      {event.registrationOpen ? (
+                        <>
+                          <Calendar className="h-5 w-5 mr-2" />
+                          Register Now
+                        </>
+                      ) : (
+                        <>
+                          <AlertCircle className="h-5 w-5 mr-2" />
+                          Registration Closed
+                        </>
+                      )}
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {filteredEvents.length === 0 && (
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl shadow-lg">
+              <CardContent className="p-12 text-center">
+                <div className="p-4 rounded-full bg-gradient-to-br from-slate-400/20 to-slate-500/20 border border-slate-400/30 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                  <Calendar className="h-10 w-10 text-slate-400" />
+                </div>
+                <h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">No Events Found</h3>
+                <p className="text-slate-600 dark:text-slate-300 mb-6 font-medium max-w-md mx-auto">
+                  Try adjusting your search terms or browse different categories.
+                </p>
+                <Button
+                  onClick={() => {
+                    setSearchQuery("")
+                    setEventsFilter("all")
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl px-6 py-3"
+                >
+                  Clear Filters
+                </Button>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="events" className="space-y-6">
@@ -521,38 +789,82 @@ export default function NewsEventsPage() {
           </div>
         </TabsContent>
       </Tabs>
+    </CardContent>
+  </Card>
 
-      {filteredNews.length === 0 && filteredEvents.length === 0 && (
-        <div className="text-center py-12 fade-in" aria-live="polite">
-          <p className="text-muted-foreground">No items found matching your search.</p>
-        </div>
-      )}
-    </div>
-    {/* My Registrations */}
-    <div className="app-container section">
-      <h2 className="text-xl font-semibold mb-4">My Registrations</h2>
-      {myRegs.length === 0 ? (
-        <p className="text-muted-foreground">You have not registered for any events yet.</p>
-      ) : (
-        <div className="grid gap-4 md:grid-cols-2">
-          {myRegs.map((r) => (
-            <Card key={r.id}>
-              <CardContent className="p-4 flex items-center justify-between">
-                <div>
-                  <div className="font-medium">{r.event?.title || r.event_id}</div>
-                  <div className="text-xs text-muted-foreground">Registered: {new Date(r.registered_at).toLocaleString()}</div>
+        {/* My Registrations Section */}
+        <Card className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg">
+          <CardHeader className="p-8">
+            <CardTitle className="flex items-center gap-3 text-2xl font-bold text-slate-900 dark:text-white">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30">
+                <UserCheck className="h-6 w-6 text-green-600 dark:text-green-400" />
+              </div>
+              My Event Registrations
+            </CardTitle>
+            <p className="text-slate-600 dark:text-slate-300 font-medium">Manage your registered events and track upcoming activities</p>
+          </CardHeader>
+          <CardContent className="p-8 pt-0">
+            {myRegs.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="p-4 rounded-full bg-gradient-to-br from-slate-400/20 to-slate-500/20 border border-slate-400/30 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+                  <CalendarDays className="h-10 w-10 text-slate-400" />
                 </div>
-                <Button size="sm" variant="outline" onClick={() => cancelRegistration(r.event_id)}>Cancel</Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+                <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">No Registrations Yet</h3>
+                <p className="text-slate-600 dark:text-slate-300 mb-6 font-medium max-w-md mx-auto">
+                  You haven't registered for any events yet. Explore the events above to find interesting activities.
+                </p>
+              </div>
+            ) : (
+              <div className="grid gap-6 md:grid-cols-2">
+                {myRegs.map((r) => (
+                  <Card key={r.id} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300">
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                          <h4 className="font-bold text-slate-900 dark:text-white mb-2">{r.event?.title || r.event_id}</h4>
+                          <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 mb-2">
+                            <CheckCircle2 className="h-4 w-4 text-green-600" />
+                            <span>Registered: {new Date(r.registered_at).toLocaleDateString()}</span>
+                          </div>
+                          {r.event && (
+                            <div className="space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                              <div className="flex items-center gap-2">
+                                <Calendar className="h-3 w-3" />
+                                <span>{r.event.date}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Clock className="h-3 w-3" />
+                                <span>{r.event.time}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Location className="h-3 w-3" />
+                                <span>{r.event.location}</span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        onClick={() => cancelRegistration(r.event_id)}
+                        className="w-full bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-600 rounded-xl"
+                      >
+                        Cancel Registration
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+      
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "News & Events", path: "/news-events" }])) }}
+      />
     </div>
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "News & Events", path: "/news-events" }])) }}
-    />
-    </>
   )
 }

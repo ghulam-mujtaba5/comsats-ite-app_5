@@ -30,17 +30,28 @@ import {
   Filter,
   Calendar,
   MapPin,
+  Bell,
+  Pin,
+  Award,
+  Clock,
+  Eye,
+  Star,
+  BookOpen,
+  Zap,
+  Activity,
+  Sparkles,
+  Hash,
+  CheckCircle2,
+  AlertCircle,
+  Bookmark,
+  Send
 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
-// Client now uses API routes; avoid direct Supabase from the browser
-// import { supabase } from "@/lib/supabase"
-// import { fetchPosts, fetchGroups, toggleLikePerUser } from "@/lib/community"
 import type { Post } from "@/lib/community-data"
 import { ThreadCard } from "@/components/community/thread-card"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
-
-// All data now comes from backend - no more mock data
+import { cn } from "@/lib/utils"
 
 interface Group {
   id: number
@@ -51,6 +62,9 @@ interface Group {
   isJoined: boolean
   recentActivity: string
   posts: number
+  isPrivate?: boolean
+  pinnedPosts?: number
+  onlineMembers?: number
 }
 
 interface Event {
@@ -60,6 +74,9 @@ interface Event {
   time: string
   location: string
   attendees: number
+  isOnline?: boolean
+  category?: string
+  status?: 'upcoming' | 'ongoing' | 'completed'
 }
 
 export default function CommunityPage() {
@@ -78,6 +95,14 @@ export default function CommunityPage() {
   const [postOffset, setPostOffset] = useState(0)
   const [hasMorePosts, setHasMorePosts] = useState(true)
   const [loadingMorePosts, setLoadingMorePosts] = useState(false)
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [viewMode, setViewMode] = useState<'feed' | 'trending' | 'following'>('feed')
+  const [showPinned, setShowPinned] = useState(true)
+  const [activeFilters, setActiveFilters] = useState({
+    timeRange: 'all', // all, today, week, month
+    sortBy: 'recent', // recent, popular, most-liked, most-commented
+    postTypes: [] as string[]
+  })
 
   useEffect(() => {
     const load = async () => {
@@ -281,61 +306,68 @@ export default function CommunityPage() {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="app-container section">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Student Community</h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Connect with fellow COMSATS students and share your academic journey
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
+      <div className="app-container section py-12">
+        {/* Enhanced Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6">
+            <Users className="h-4 w-4" />
+            Student Community Hub
+          </div>
+          <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
+            Connect & <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Collaborate</span>
+          </h1>
+          <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mb-8 font-medium leading-relaxed">
+            Join thousands of COMSATS students sharing knowledge, opportunities, and academic journeys
           </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card variant="elevated">
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <Users className="h-8 w-8 text-blue-600" />
-                <div className="ml-4">
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">2,847</p>
-                  <p className="text-gray-600 dark:text-gray-400">Active Students</p>
+          
+          {/* Quick Stats with Glassmorphism */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30">
+                  <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card variant="elevated">
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <MessageSquare className="h-8 w-8 text-green-600" />
-                <div className="ml-4">
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{posts.length}</p>
-                  <p className="text-gray-600 dark:text-gray-400">Recent Posts</p>
+                <div>
+                  <div className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">2,847</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Active Students</div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card variant="elevated">
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <TrendingUp className="h-8 w-8 text-purple-600" />
-                <div className="ml-4">
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{groups.length}</p>
-                  <p className="text-gray-600 dark:text-gray-400">Study Groups</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30 dark:border-green-700/30">
+                  <MessageSquare className="h-6 w-6 text-green-600 dark:text-green-400" />
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card variant="elevated">
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <Calendar className="h-8 w-8 text-orange-600" />
-                <div className="ml-4">
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{events.length}</p>
-                  <p className="text-gray-600 dark:text-gray-400">Upcoming Events</p>
+                <div>
+                  <div className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">{posts.length}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Recent Posts</div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-200/30 dark:border-purple-700/30">
+                  <TrendingUp className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">{groups.length}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Study Groups</div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-600/20 border border-orange-200/30 dark:border-orange-700/30">
+                  <Calendar className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">{events.length}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Upcoming Events</div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

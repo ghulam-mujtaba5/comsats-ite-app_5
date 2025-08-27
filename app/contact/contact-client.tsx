@@ -2,7 +2,10 @@
 
 import { useEffect } from 'react';
 import { jsonLdBreadcrumb } from "@/lib/seo";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Mail, Phone, MapPin, Clock, MessageCircle, Shield, Users } from "lucide-react";
 
 export function ContactPageClient() {
   useEffect(() => {
@@ -106,53 +109,36 @@ export function ContactPageClient() {
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
-              
               <div className="space-y-6">
-                <div className="flex items-start">
-                  <div className="flex-shrink-0">
-                    <Mail className="h-6 w-6 text-indigo-600" />
-                  </div>
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-gray-900">Email</h3>
-                    <p className="text-sm text-gray-500">support@campusaxis.com</p>
+                <div className="flex items-center">
+                  <Mail className="h-6 w-6 text-indigo-600 mr-3" />
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">Email</p>
+                    <p className="text-sm text-gray-600">info@comsats.edu.pk</p>
                   </div>
                 </div>
-
-                <div className="flex items-start">
-                  <div className="flex-shrink-0">
-                    <Phone className="h-6 w-6 text-indigo-600" />
-                  </div>
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-gray-900">Phone</h3>
-                    <p className="text-sm text-gray-500">+92 300 1234567</p>
+                
+                <div className="flex items-center">
+                  <Phone className="h-6 w-6 text-indigo-600 mr-3" />
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">Phone</p>
+                    <p className="text-sm text-gray-600">+92-51-9049-4949</p>
                   </div>
                 </div>
-
-                <div className="flex items-start">
-                  <div className="flex-shrink-0">
-                    <MapPin className="h-6 w-6 text-indigo-600" />
-                  </div>
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-gray-900">Address</h3>
-                    <p className="text-sm text-gray-500">
-                      COMSATS University Islamabad,<br />
-                      Park Road, Tarlai Kalan,<br />
-                      Islamabad, Pakistan
-                    </p>
+                
+                <div className="flex items-center">
+                  <MapPin className="h-6 w-6 text-indigo-600 mr-3" />
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">Address</p>
+                    <p className="text-sm text-gray-600">Park Road, Chak Shahzad, Islamabad</p>
                   </div>
                 </div>
-              </div>
-
-              <div className="mt-8">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Office Hours</h3>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="flex items-center text-sm text-gray-500 mb-2">
-                    <Clock className="flex-shrink-0 mr-2 h-5 w-5 text-gray-400" />
-                    <span>Monday - Friday: 9:00 AM - 5:00 PM</span>
-                  </div>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Clock className="flex-shrink-0 mr-2 h-5 w-5 text-gray-400" />
-                    <span>Saturday: 10:00 AM - 2:00 PM</span>
+                
+                <div className="flex items-center">
+                  <Clock className="h-6 w-6 text-indigo-600 mr-3" />
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">Office Hours</p>
+                    <p className="text-sm text-gray-600">Monday - Friday: 8:00 AM - 5:00 PM</p>
                   </div>
                 </div>
               </div>
