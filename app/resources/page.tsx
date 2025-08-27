@@ -129,36 +129,93 @@ export default function ResourcesPage() {
             </Card>
           </div>
 
-          {/* Filters */}
-          <div className="mb-6">
-            <AdvancedFilterBar
-              searchPlaceholder="Search resources..."
-              search={search}
-              onSearchChange={setSearch}
-              selects={[
-                {
-                  id: "dept",
-                  value: dept,
-                  onChange: setDept,
-                  placeholder: "All Departments",
-                  options: useMemo<Option[]>(() => {
-                    const values = Array.from(new Set(items.map((i) => i.department || "General"))).sort()
-                    return [{ label: "All Departments", value: "All" }, ...values.map((v) => ({ label: v, value: v }))]
-                  }, [items]),
-                },
-                {
-                  id: "term",
-                  value: term,
-                  onChange: setTerm,
-                  placeholder: "All Terms",
-                  options: useMemo<Option[]>(() => {
-                    const values = Array.from(new Set(items.map((i) => i.term || "Unspecified"))).sort()
-                    return [{ label: "All Terms", value: "All" }, ...values.map((v) => ({ label: v, value: v }))]
-                  }, [items]),
-                },
-              ]}
-            />
-          </div>
+          {/* Enhanced Search and Filters */}
+          <AdvancedFilterBar
+            search={search}
+            onSearchChange={setSearch}
+            searchPlaceholder="Search resources by title, description, or tags..."
+            selects={[
+              {
+                ...standardFilters.departments,
+                value: dept,
+                onChange: setDept,
+                label: "Department",
+                description: "Filter by academic department",
+                options: useMemo(() => {
+                  const values = Array.from(new Set(items.map((i) => i.department || "General"))).sort()
+                  return [{ label: "All Departments", value: "All" }, ...values.map((v) => ({ label: v, value: v }))]
+                }, [items])
+              },
+              {
+                ...standardFilters.resourceTypes,
+                value: resourceType,
+                onChange: setResourceType,
+                label: "Resource Type",
+                description: "Filter by resource type"
+              },
+              {
+                ...standardFilters.difficulty,
+                value: difficulty,
+                onChange: setDifficulty,
+                label: "Difficulty Level",
+                description: "Filter by difficulty level"
+              },
+              {
+                id: "term",
+                value: term,
+                onChange: setTerm,
+                placeholder: "All Terms",
+                label: "Academic Term",
+                description: "Filter by academic term",
+                options: useMemo(() => {
+                  const values = Array.from(new Set(items.map((i) => i.term || "Unspecified"))).sort()
+                  return [{ label: "All Terms", value: "All" }, ...values.map((v) => ({ label: v, value: v }))]
+                }, [items])
+              }
+            ]}
+            sortOptions={sortOptions.resources}
+            currentSort={currentSort}
+            onSortChange={setCurrentSort}
+            sortDirection={sortDirection}
+            onSortDirectionChange={setSortDirection}
+            filterPresets={filterPresets.resources}
+            showActiveFilterCount={true}
+            collapsible={true}
+            defaultCollapsed={false}
+            className="mb-10"
+            right={
+              <div className="flex items-center gap-4">
+                {/* Verified Only Toggle */}
+                <Button
+                  variant={showVerifiedOnly ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setShowVerifiedOnly(!showVerifiedOnly)}
+                  className="flex items-center gap-2"
+                >
+                  <Shield className="h-4 w-4" />
+                  Verified Only
+                </Button>
+                
+                {/* Quick Clear Filters */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setSearch("")
+                    setDept("All")
+                    setTerm("All")
+                    setDifficulty("All")
+                    setResourceType("All")
+                    setShowVerifiedOnly(false)
+                  }}
+                  className="flex items-center gap-2 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                  Clear All
+                </Button>
+              </div>
+            }
+          />
 
           {loading && (
             <div aria-live="polite">
