@@ -312,7 +312,7 @@ export default function AdminFacultyPage() {
                   <div className="text-muted-foreground">No faculty found</div>
                 </Card>
               ) : (
-                <div className="overflow-auto" aria-busy={loading}>
+                <div className="overflow-auto" aria-busy={loading ? true : undefined}>
                   <table className="w-full text-sm">
                     <caption className="sr-only">Faculty records table</caption>
                     <thead>
