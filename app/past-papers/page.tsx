@@ -299,30 +299,6 @@ export default function PastPapersPage() {
             </Card>
           </div>
 
-          {/* Debug Section - Remove in production */}
-          {process.env.NODE_ENV === 'development' && (
-            <Card className="mb-8 bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-700">
-              <CardContent className="p-4">
-                <h3 className="font-semibold mb-2 text-yellow-800 dark:text-yellow-200">Debug Info:</h3>
-                <div className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1">
-                  <p>Total courses loaded: {coursesWithPapers.length}</p>
-                  <p>Filtered courses: {filteredCourses.length}</p>
-                  <p>Total papers: {totalPapers}</p>
-                  <p>Loading: {loading.toString()}</p>
-                  <p>Error: {error || 'None'}</p>
-                  {coursesWithPapers.length > 0 && (
-                    <details className="mt-2">
-                      <summary className="cursor-pointer">Raw course data</summary>
-                      <pre className="mt-2 p-2 bg-yellow-100 dark:bg-yellow-800 rounded text-xs overflow-auto max-h-32">
-                        {JSON.stringify(coursesWithPapers.slice(0, 2), null, 2)}
-                      </pre>
-                    </details>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
           {/* Enhanced Search and Filters */}
           <AdvancedFilterBar
             search={searchTerm}
