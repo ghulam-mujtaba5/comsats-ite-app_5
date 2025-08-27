@@ -274,7 +274,7 @@ export default function NewsEventsPage() {
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8 fade-in">
+      <div className="app-container section fade-in">
         <div className="text-center py-12" role="alert">
           <p className="text-destructive mb-4">Error: {error}</p>
           <Button onClick={() => window.location.reload()} className="interactive hover-lift">Try Again</Button>
@@ -285,7 +285,7 @@ export default function NewsEventsPage() {
 
   return (
     <>
-    <div className="container mx-auto px-4 py-8 fade-in">
+    <div className="app-container section fade-in">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "News & Events" }]} className="mb-4" />
       <div className="mb-8">
         <h1 className="text-3xl font-bold">News & Events</h1>
@@ -320,7 +320,7 @@ export default function NewsEventsPage() {
           {/* News Filter */}
           <div className="flex gap-2 flex-wrap" aria-live="polite">
             <Button
-              variant={newsFilter === "all" ? "default" : "outline"}
+              variant={newsFilter === "all" ? "default" : "soft"}
               size="sm"
               onClick={() => setNewsFilter("all")}
               aria-pressed={newsFilter === "all"}
@@ -329,7 +329,7 @@ export default function NewsEventsPage() {
               All
             </Button>
             <Button
-              variant={newsFilter === "academic" ? "default" : "outline"}
+              variant={newsFilter === "academic" ? "default" : "soft"}
               size="sm"
               onClick={() => setNewsFilter("academic")}
               aria-pressed={newsFilter === "academic"}
@@ -338,7 +338,7 @@ export default function NewsEventsPage() {
               Academic
             </Button>
             <Button
-              variant={newsFilter === "event" ? "default" : "outline"}
+              variant={newsFilter === "event" ? "default" : "soft"}
               size="sm"
               onClick={() => setNewsFilter("event")}
               aria-pressed={newsFilter === "event"}
@@ -347,7 +347,7 @@ export default function NewsEventsPage() {
               Events
             </Button>
             <Button
-              variant={newsFilter === "announcement" ? "default" : "outline"}
+              variant={newsFilter === "announcement" ? "default" : "soft"}
               size="sm"
               onClick={() => setNewsFilter("announcement")}
               aria-pressed={newsFilter === "announcement"}
@@ -356,7 +356,7 @@ export default function NewsEventsPage() {
               Announcements
             </Button>
             <Button
-              variant={newsFilter === "deadline" ? "default" : "outline"}
+              variant={newsFilter === "deadline" ? "default" : "soft"}
               size="sm"
               onClick={() => setNewsFilter("deadline")}
               aria-pressed={newsFilter === "deadline"}
@@ -369,7 +369,11 @@ export default function NewsEventsPage() {
           {/* News List */}
           <div className="space-y-4" aria-live="polite">
             {filteredNews.map((item) => (
-              <Card key={item.id} className={`hover:shadow-md transition-shadow slide-up ${item.isImportant ? 'border-destructive/30 bg-destructive/10' : ''}`}>
+              <Card
+                key={item.id}
+                variant={item.isImportant ? 'soft' : 'default'}
+                className={`transition-shadow slide-up`}
+              >
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div className="space-y-2">
@@ -396,7 +400,7 @@ export default function NewsEventsPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground mb-4">{item.content}</p>
-                  <Button variant="outline" size="sm" className="interactive hover-lift">
+                  <Button variant="soft" size="sm" className="interactive hover-lift">
                     <ExternalLink className="mr-2 h-4 w-4" />
                     Read More
                   </Button>
@@ -410,7 +414,7 @@ export default function NewsEventsPage() {
           {/* Events Filter */}
           <div className="flex gap-2 flex-wrap" aria-live="polite">
             <Button
-              variant={eventsFilter === "all" ? "default" : "outline"}
+              variant={eventsFilter === "all" ? "default" : "soft"}
               size="sm"
               onClick={() => setEventsFilter("all")}
               aria-pressed={eventsFilter === "all"}
@@ -419,7 +423,7 @@ export default function NewsEventsPage() {
               All
             </Button>
             <Button
-              variant={eventsFilter === "academic" ? "default" : "outline"}
+              variant={eventsFilter === "academic" ? "default" : "soft"}
               size="sm"
               onClick={() => setEventsFilter("academic")}
               aria-pressed={eventsFilter === "academic"}
@@ -428,7 +432,7 @@ export default function NewsEventsPage() {
               Academic
             </Button>
             <Button
-              variant={eventsFilter === "cultural" ? "default" : "outline"}
+              variant={eventsFilter === "cultural" ? "default" : "soft"}
               size="sm"
               onClick={() => setEventsFilter("cultural")}
               aria-pressed={eventsFilter === "cultural"}
@@ -437,7 +441,7 @@ export default function NewsEventsPage() {
               Cultural
             </Button>
             <Button
-              variant={eventsFilter === "sports" ? "default" : "outline"}
+              variant={eventsFilter === "sports" ? "default" : "soft"}
               size="sm"
               onClick={() => setEventsFilter("sports")}
               aria-pressed={eventsFilter === "sports"}
@@ -446,7 +450,7 @@ export default function NewsEventsPage() {
               Sports
             </Button>
             <Button
-              variant={eventsFilter === "workshop" ? "default" : "outline"}
+              variant={eventsFilter === "workshop" ? "default" : "soft"}
               size="sm"
               onClick={() => setEventsFilter("workshop")}
               aria-pressed={eventsFilter === "workshop"}
@@ -459,7 +463,7 @@ export default function NewsEventsPage() {
           {/* Events Grid */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" aria-live="polite">
             {filteredEvents.map((event) => (
-              <Card key={event.id} className="hover:shadow-lg transition-shadow slide-up">
+              <Card key={event.id} variant="elevated" className="transition-shadow slide-up">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <CardTitle className="text-lg">{event.title}</CardTitle>
@@ -525,7 +529,7 @@ export default function NewsEventsPage() {
       )}
     </div>
     {/* My Registrations */}
-    <div className="container mx-auto px-4 pb-12">
+    <div className="app-container section">
       <h2 className="text-xl font-semibold mb-4">My Registrations</h2>
       {myRegs.length === 0 ? (
         <p className="text-muted-foreground">You have not registered for any events yet.</p>

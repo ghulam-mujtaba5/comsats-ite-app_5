@@ -262,3 +262,60 @@ a[aria-disabled="true"] { pointer-events: none; }
 .sk-title { height: 1.25rem; }
 .sk-avatar { width: 40px; height: 40px; border-radius: 9999px; }
 .sk-thumb { width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-lg); }
+
+/* 2025 UI enhancements: surfaces, shadows, containers */
+:root {
+  /* Elevation tokens */
+  --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.06);
+  --shadow-sm: 0 2px 6px oklch(0 0 0 / 0.08);
+  --shadow-md: 0 6px 20px oklch(0 0 0 / 0.10);
+  --shadow-lg: 0 12px 32px oklch(0 0 0 / 0.12);
+  --blur-sm: 6px;
+  --blur-md: 10px;
+  --blur-lg: 16px;
+  /* Container widths */
+  --container-xs: 640px;
+  --container-sm: 768px;
+  --container-md: 1024px;
+  --container-lg: 1280px;
+  --container-xl: 1440px;
+}
+
+/* App container utility for consistent page gutters */
+.app-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 2.5vw, 2rem);
+  max-width: var(--container-xl);
+}
+
+/* Section wrapper with vertical rhythm */
+.section {
+  padding-block: clamp(1.25rem, 3.5vw, 2.5rem);
+}
+.section-lg {
+  padding-block: clamp(2rem, 5vw, 4rem);
+}
+
+/* Modern surface utilities */
+.surface {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.surface-elevated { box-shadow: var(--shadow-md); }
+.surface-hover:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); transition: transform var(--dur-2) var(--ease-productive), box-shadow var(--dur-2) var(--ease-productive); }
+.surface-soft {
+  background: color-mix(in oklab, var(--primary) 6%, var(--background));
+  border-color: color-mix(in oklab, var(--primary) 12%, var(--border));
+}
+.surface-glass {
+  background: color-mix(in oklab, var(--background) 75%, transparent);
+  -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md));
+  border-color: oklch(1 0 0 / 0.12);
+}
+
+/* Text balance utility for better headings */
+.text-balance { text-wrap: balance; }

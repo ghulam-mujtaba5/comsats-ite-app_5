@@ -2,10 +2,15 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+type CardProps = React.ComponentProps<"div"> & {
+  variant?: "default" | "elevated" | "soft" | "glass"
+}
+
+function Card({ className, variant = "default", ...props }: CardProps) {
   return (
     <div
       data-slot="card"
+      data-variant={variant}
       className={cn(
         "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
         // Micro-interactions
@@ -14,6 +19,10 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
         "focus-within:shadow-md focus-within:-translate-y-0.5",
         // Accessible focus ring using theme ring color
         "outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        // Variants
+        variant === "elevated" && "shadow-md",
+        variant === "soft" && "surface surface-soft",
+        variant === "glass" && "surface surface-glass",
         className
       )}
       {...props}
