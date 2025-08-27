@@ -31,6 +31,21 @@ export async function GET(request: NextRequest) {
 
     if (error) throw error
 
+    // Determine current user and liked posts
+    const { data: auth } = await supabase.auth.getUser()
+    let likedSet = new Set<string>()
+    if (auth?.user && posts && posts.length) {
+      const ids = (posts as any[]).map((p) => p.id)
+      const { data: likedRows } = await supabase
+        .from('post_likes')
+        .select('post_id')
+        .eq('user_id', auth.user.id)
+        .in('post_id', ids)
+      if (likedRows) {
+        likedSet = new Set(likedRows.map((r: any) => String(r.post_id)))
+      }
+    }
+
     // Transform data to match frontend interface
     const transformedPosts = (posts as any[]).map((post: any) => ({
       id: post.id.toString(),
@@ -44,7 +59,7 @@ export async function GET(request: NextRequest) {
       comments: post.comments_count || 0,
       shares: post.shares || 0,
       tags: Array.isArray(post.tags) ? post.tags : [],
-      liked: false, // TODO: Implement user-specific likes
+      liked: likedSet.has(String(post.id)),
       type: post.type || 'general'
     }))
 

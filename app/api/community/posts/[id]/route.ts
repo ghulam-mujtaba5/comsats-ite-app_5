@@ -35,6 +35,22 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
     if (error) throw error
     if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
+    // determine if current user liked this post
+    let liked = false
+    try {
+      const { data: auth } = await supabase.auth.getUser()
+      const userId = auth?.user?.id
+      if (userId) {
+        const { data: likeRow } = await supabase
+          .from('post_likes')
+          .select('post_id')
+          .eq('post_id', id)
+          .eq('user_id', userId)
+          .maybeSingle()
+        liked = !!likeRow
+      }
+    } catch {}
+
     const transformedPost = {
       id: post.id.toString(),
       author: post.author_name || 'Anonymous',
@@ -47,7 +63,7 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
       comments: Number(post.comments_count || 0),
       shares: Number(post.shares || 0),
       tags: Array.isArray(post.tags) ? post.tags : [],
-      liked: false,
+      liked,
       type: post.type || 'general',
     }
 

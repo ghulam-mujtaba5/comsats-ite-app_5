@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search, Calendar, MapPin, Users, Clock, ExternalLink } from "lucide-react"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Breadcrumbs } from "@/components/ui/breadcrumbs"
+import { useToast } from "@/hooks/use-toast"
 
 interface NewsItem {
   id: string
@@ -42,11 +43,13 @@ interface Event {
  
 
 export default function NewsEventsPage() {
+  const { toast } = useToast()
   const [searchQuery, setSearchQuery] = useState("")
   const [newsFilter, setNewsFilter] = useState<string>("all")
   const [eventsFilter, setEventsFilter] = useState<string>("all")
   const [news, setNews] = useState<NewsItem[]>([])
   const [events, setEvents] = useState<Event[]>([])
+  const [myRegs, setMyRegs] = useState<{ id: string; event_id: string; registered_at: string; event?: Event }[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [mockBanner, setMockBanner] = useState<string | null>(null)
@@ -56,9 +59,10 @@ export default function NewsEventsPage() {
       setLoading(true)
       setError(null)
       try {
-        const [newsResponse, eventsResponse] = await Promise.all([
+        const [newsResponse, eventsResponse, regsResponse] = await Promise.all([
           fetch('/api/news-events/news'),
-          fetch('/api/news-events/events?includePast=1')
+          fetch('/api/news-events/events?includePast=1'),
+          fetch('/api/news-events/registrations/me', { cache: 'no-store' }).catch(() => new Response('[]', { status: 200 }))
         ])
 
         // If any endpoint fails, show an error with status codes for visibility
@@ -87,12 +91,38 @@ export default function NewsEventsPage() {
           setMockBanner(null)
         }
 
-        const [newsData, eventsData] = await Promise.all([
+        const [newsData, eventsData, regsData] = await Promise.all([
           newsResponse.json(),
-          eventsResponse.json()
+          eventsResponse.json(),
+          regsResponse.ok ? regsResponse.json() : Promise.resolve([])
         ])
         setNews(Array.isArray(newsData) ? newsData : [])
         setEvents(Array.isArray(eventsData) ? eventsData : [])
+        const regsArray = Array.isArray(regsData)
+          ? regsData
+          : Array.isArray(regsData?.data)
+            ? regsData.data
+            : []
+        setMyRegs(
+          regsArray.map((r: any) => ({
+            id: String(r.id),
+            event_id: String(r.event_id),
+            registered_at: r.registered_at,
+            event: r.events
+              ? {
+                  id: String(r.event_id),
+                  title: r.events.title,
+                  description: '',
+                  date: r.events.event_date,
+                  time: r.events.event_time,
+                  location: r.events.location,
+                  category: 'academic',
+                  organizer: '',
+                  registrationOpen: true,
+                }
+              : undefined,
+          }))
+        )
       } catch (e: any) {
         setError(e?.message || "Failed to load news and events")
       } finally {
@@ -101,6 +131,65 @@ export default function NewsEventsPage() {
     }
     fetchData()
   }, [])
+
+  const isRegistered = (eventId: string) => myRegs.some((r) => r.event_id === eventId)
+
+  const register = async (eventId: string) => {
+    try {
+      const res = await fetch(`/api/news-events/events/${eventId}/register`, { method: 'POST' })
+      const json = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(json?.error || 'Failed to register')
+      toast({ title: 'Registered for event' })
+      // refresh my registrations
+      const r = await fetch('/api/news-events/registrations/me', { cache: 'no-store' })
+      const data = await r.json().catch(() => ({}))
+      const regsArray = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.data)
+          ? data.data
+          : []
+      setMyRegs(
+        regsArray.map((r: any) => ({
+          id: String(r.id),
+          event_id: String(r.event_id),
+          registered_at: r.registered_at,
+          event: r.events
+            ? {
+                id: String(r.event_id),
+                title: r.events.title,
+                description: '',
+                date: r.events.event_date,
+                time: r.events.event_time,
+                location: r.events.location,
+                category: 'academic',
+                organizer: '',
+                registrationOpen: true,
+              }
+            : undefined,
+        }))
+      )
+      // best-effort increment registered count locally
+      setEvents((prev) => prev.map((ev) => ev.id === eventId ? { ...ev, registered: (ev.registered || 0) + 1 } : ev))
+    } catch (e: any) {
+      toast({ title: 'Registration failed', description: e?.message || 'Please try again', variant: 'destructive' })
+    }
+  }
+
+  const cancelRegistration = async (eventId: string) => {
+    try {
+      const res = await fetch(`/api/news-events/events/${eventId}/register`, { method: 'DELETE' })
+      const json = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(json?.error || 'Failed to cancel registration')
+      toast({ title: 'Registration cancelled' })
+      const r = await fetch('/api/news-events/registrations/me', { cache: 'no-store' })
+      const data = await r.json().catch(() => [])
+      setMyRegs(Array.isArray(data) ? data : [])
+      // best-effort decrement registered count locally
+      setEvents((prev) => prev.map((ev) => ev.id === eventId ? { ...ev, registered: Math.max(0, (ev.registered || 0) - 1) } : ev))
+    } catch (e: any) {
+      toast({ title: 'Cancel failed', description: e?.message || 'Please try again', variant: 'destructive' })
+    }
+  }
 
   const filteredNews = news.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -379,13 +468,24 @@ export default function NewsEventsPage() {
                       </div>
                     )}
                   </div>
-                  <Button 
-                    className="w-full interactive hover-lift" 
-                    disabled={!event.registrationOpen}
-                    variant={event.registrationOpen ? "default" : "secondary"}
-                  >
-                    {event.registrationOpen ? "Register Now" : "Registration Closed"}
-                  </Button>
+                  {isRegistered(event.id) ? (
+                    <Button
+                      className="w-full interactive hover-lift"
+                      variant="secondary"
+                      onClick={() => cancelRegistration(event.id)}
+                    >
+                      Cancel Registration
+                    </Button>
+                  ) : (
+                    <Button 
+                      className="w-full interactive hover-lift" 
+                      disabled={!event.registrationOpen}
+                      variant={event.registrationOpen ? "default" : "secondary"}
+                      onClick={() => register(event.id)}
+                    >
+                      {event.registrationOpen ? "Register Now" : "Registration Closed"}
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -396,6 +496,27 @@ export default function NewsEventsPage() {
       {filteredNews.length === 0 && filteredEvents.length === 0 && (
         <div className="text-center py-12 fade-in" aria-live="polite">
           <p className="text-muted-foreground">No items found matching your search.</p>
+        </div>
+      )}
+    </div>
+    {/* My Registrations */}
+    <div className="container mx-auto px-4 pb-12">
+      <h2 className="text-xl font-semibold mb-4">My Registrations</h2>
+      {myRegs.length === 0 ? (
+        <p className="text-muted-foreground">You have not registered for any events yet.</p>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2">
+          {myRegs.map((r) => (
+            <Card key={r.id}>
+              <CardContent className="p-4 flex items-center justify-between">
+                <div>
+                  <div className="font-medium">{r.event?.title || r.event_id}</div>
+                  <div className="text-xs text-muted-foreground">Registered: {new Date(r.registered_at).toLocaleString()}</div>
+                </div>
+                <Button size="sm" variant="outline" onClick={() => cancelRegistration(r.event_id)}>Cancel</Button>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       )}
     </div>
