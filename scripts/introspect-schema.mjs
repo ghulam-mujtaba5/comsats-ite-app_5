@@ -7,7 +7,10 @@ import { setTimeout as sleep } from 'node:timers/promises'
 // Load env from .env.local (never commit service role key)
 config({ path: '.env.local' })
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
+// Normalize URL: ensure it's the base project URL (e.g. https://xyz.supabase.co)
+// Remove trailing slash and any '/rest/v1' suffix if mistakenly provided
+const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const SUPABASE_URL = rawUrl.replace(/\/?rest\/v1\/?$/, '').replace(/\/$/, '')
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
 
 if (!SUPABASE_URL || !SERVICE_KEY) {
@@ -15,9 +18,10 @@ if (!SUPABASE_URL || !SERVICE_KEY) {
   process.exit(1)
 }
 
-async function fetchMeta(endpoint, params, { retries = 3, timeoutMs = 30000 } = {}) {
+async function fetchMeta(endpoint, params, { retries = 4, timeoutMs = 60000 } = {}) {
   const qs = params ? `?${new URLSearchParams(params).toString()}` : ''
-  const url = `${SUPABASE_URL.replace(/\/$/, '')}/pg${endpoint}${qs}`
+  const url = `${SUPABASE_URL}/pg${endpoint}${qs}`
+  console.log('GET', url)
   let attempt = 0
   while (true) {
     attempt++
@@ -38,7 +42,7 @@ async function fetchMeta(endpoint, params, { retries = 3, timeoutMs = 30000 } = 
       return await res.json()
     } catch (err) {
       if (attempt > retries) throw err
-      const backoff = Math.min(5000, 500 * attempt)
+      const backoff = Math.min(8000, 1000 * attempt)
       console.warn(`Fetch ${endpoint} attempt ${attempt} failed, retrying in ${backoff}ms...`)
       await sleep(backoff)
     } finally {
