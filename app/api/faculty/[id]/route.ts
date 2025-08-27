@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { mockFaculty, mockReviews } from '@/lib/faculty-data'
 
 export async function GET(_req: NextRequest, context: { params: { id: string } }) {
   try {
@@ -9,37 +8,14 @@ export async function GET(_req: NextRequest, context: { params: { id: string } }
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-    if (!url || !anon) {
-      const f = mockFaculty.find((x) => x.id === id)
-      if (!f) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-      const r = mockReviews.filter((rv) => rv.facultyId === id)
-      const rating_count = r.length
-      const rating_avg = rating_count === 0 ? 0 : r.reduce((s, x) => s + x.rating, 0) / rating_count
-      // Return DB-like row structure the page maps from
-      const row = {
-        id: f.id,
-        name: f.name,
-        title: f.title,
-        department: f.department,
-        email: f.email,
-        office: f.office,
-        phone: f.phone ?? null,
-        specialization: f.specialization,
-        courses: f.courses,
-        education: f.education,
-        experience: f.experience,
-        profile_image: f.profileImage ?? null,
-        created_at: f.joinDate,
-        rating_avg,
-        rating_count,
-      }
-      return NextResponse.json({ data: row })
+    if (!url || (!anon && !serviceKey)) {
+      return NextResponse.json({ error: 'Supabase env vars missing (NEXT_PUBLIC_SUPABASE_URL and either NEXT_PUBLIC_SUPABASE_ANON_KEY or SUPABASE_SERVICE_ROLE_KEY)' }, { status: 500 })
     }
 
     // Prefer service role on server to avoid RLS-related errors
     const supabase = serviceKey
       ? createClient(url, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } })
-      : createClient(url, anon)
+      : createClient(url, anon as string)
     let { data: fData, error: fErr } = await supabase.from('faculty').select('*').eq('id', id).maybeSingle()
     if (fErr) throw fErr
     if (!fData) {
