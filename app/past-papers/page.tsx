@@ -13,7 +13,8 @@ import {
   type CourseWithPapers,
   type PastPaper,
 } from "@/lib/past-papers-data"
-import { Upload, FileText, Download, Users, TrendingUp, RefreshCw } from "lucide-react"
+import { standardFilters, sortOptions, filterPresets } from "@/lib/filter-data"
+import { Upload, FileText, Download, Users, TrendingUp, RefreshCw, Filter, BookmarkCheck, Tag } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 
@@ -25,9 +26,14 @@ export default function PastPapersPage() {
   const [selectedExamType, setSelectedExamType] = useState("All")
   const [selectedSemester, setSelectedSemester] = useState("All")
   const [selectedYear, setSelectedYear] = useState("All")
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [currentSort, setCurrentSort] = useState("date-desc")
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [coursesWithPapers, setCoursesWithPapers] = useState<CourseWithPapers[]>([])
+  const [showTagFilter, setShowTagFilter] = useState(false)
+  const [availableTags, setAvailableTags] = useState<string[]>([])
 
   // Fetch approved past papers from API and group by course_code
   const loadPapers = async () => {
@@ -108,6 +114,13 @@ export default function PastPapersPage() {
       }
 
       setCoursesWithPapers(Array.from(map.values()))
+      
+      // Extract all available tags for filtering
+      const allTags = new Set<string>()
+      papers.forEach(paper => {
+        paper.tags.forEach(tag => allTags.add(tag))
+      })
+      setAvailableTags(Array.from(allTags).sort())
     } catch (e: any) {
       setError(e.message || "Failed to load past papers")
     } finally {
@@ -133,7 +146,7 @@ export default function PastPapersPage() {
 
   const filteredCourses = useMemo(() => {
     // Filter courses by search term and department first
-    const preliminaryFiltered = coursesWithPapers.filter((course) => {
+    let preliminaryFiltered = coursesWithPapers.filter((course) => {
       const matchesSearch =
         !searchTerm ||
         course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -142,36 +155,62 @@ export default function PastPapersPage() {
       return matchesSearch && matchesDepartment
     })
 
-    // If no other filters are active, return the preliminary results
-    if (selectedExamType === "All" && selectedSemester === "All" && selectedYear === "All") {
-      return preliminaryFiltered
+    // Apply tag filtering and other filters
+    if (selectedExamType !== "All" || selectedSemester !== "All" || selectedYear !== "All" || selectedTags.length > 0) {
+      preliminaryFiltered = preliminaryFiltered
+        .map((course) => {
+          const papers = [
+            ...course.assignments,
+            ...course.quizzes,
+            ...course.midterms,
+            ...course.finals,
+          ]
+
+          const filteredPapers = papers.filter((p) => {
+            const matchesExamType = selectedExamType === "All" || p.examType === selectedExamType
+            const matchesSemester = selectedSemester === "All" || p.semester === selectedSemester
+            const matchesYear = selectedYear === "All" || p.year.toString() === selectedYear
+            const matchesTags = selectedTags.length === 0 || selectedTags.some(tag => p.tags.includes(tag))
+            
+            return matchesExamType && matchesSemester && matchesYear && matchesTags
+          })
+
+          return {
+            ...course,
+            totalPapers: filteredPapers.length,
+            assignments: filteredPapers.filter(p => p.examType === 'Assignment'),
+            quizzes: filteredPapers.filter(p => p.examType === 'Quiz'),
+            midterms: filteredPapers.filter(p => p.examType === 'Mid-Term'),
+            finals: filteredPapers.filter(p => p.examType === 'Final'),
+          }
+        })
+        .filter((course) => course.totalPapers > 0)
     }
 
-    // Otherwise, filter deeper by checking papers within each course
-    return preliminaryFiltered
-      .map((course) => {
-        const papers = [
-          ...course.assignments,
-          ...course.quizzes,
-          ...course.midterms,
-          ...course.finals,
-        ]
+    // Apply sorting
+    const sorted = [...preliminaryFiltered].sort((a, b) => {
+      switch (currentSort) {
+        case 'date-desc':
+          return new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
+        case 'date-asc':
+          return new Date(a.lastUpdated).getTime() - new Date(b.lastUpdated).getTime()
+        case 'title-asc':
+          return a.name.localeCompare(b.name)
+        case 'title-desc':
+          return b.name.localeCompare(a.name)
+        case 'course-asc':
+          return a.code.localeCompare(b.code)
+        case 'papers-desc':
+          return b.totalPapers - a.totalPapers
+        case 'papers-asc':
+          return a.totalPapers - b.totalPapers
+        default:
+          return 0
+      }
+    })
 
-        const filteredPapers = papers.filter(
-          (p) =>
-            (selectedExamType === "All" || p.examType === selectedExamType) &&
-            (selectedSemester === "All" || p.semester === selectedSemester) &&
-            (selectedYear === "All" || p.year.toString() === selectedYear)
-        )
-
-        // Return a new course object with only the filtered papers
-        return {
-          ...course,
-          totalPapers: filteredPapers.length,
-        }
-      })
-      .filter((course) => course.totalPapers > 0) // Only include courses that still have papers after filtering
-  }, [coursesWithPapers, searchTerm, selectedDepartment, selectedExamType, selectedSemester, selectedYear])
+    return sortDirection === 'desc' ? sorted : sorted.reverse()
+  }, [coursesWithPapers, searchTerm, selectedDepartment, selectedExamType, selectedSemester, selectedYear, selectedTags, currentSort, sortDirection])
 
   const totalPapers = coursesWithPapers.reduce((sum, course) => sum + course.totalPapers, 0)
 
