@@ -11,7 +11,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Heart, Phone, MessageCircle, BookOpen, Users, Shield, Clock, Mail } from "lucide-react"
+import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
+import { standardFilters, sortOptions } from "@/lib/filter-data"
+import { Heart, Phone, MessageCircle, BookOpen, Users, Shield, Clock, Mail, Filter, RotateCcw, AlertTriangle, Star } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 
@@ -19,16 +21,24 @@ interface SupportResource {
   id: string
   title: string
   description: string
-  category: "mental-health" | "academic" | "financial" | "career" | "personal"
+  category: "mental-health" | "academic" | "financial" | "career" | "personal" | "technical"
   contactInfo: string
   availability: string
   isEmergency?: boolean
+  priority?: "high" | "medium" | "low"
+  rating?: number
+  tags?: string[]
+  lastUpdated?: string
 }
 
 export default function StudentSupportPage() {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
+  const [selectedPriority, setSelectedPriority] = useState<string>("all")
+  const [showEmergencyOnly, setShowEmergencyOnly] = useState(false)
+  const [currentSort, setCurrentSort] = useState("priority-desc")
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
   const [supportResources, setSupportResources] = useState<SupportResource[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
