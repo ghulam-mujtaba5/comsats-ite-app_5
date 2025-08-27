@@ -273,7 +273,7 @@ export default function AdminNewsEventsPage() {
 
   return (
     <AdminGuard>
-      <div className="container mx-auto px-4 py-8">
+      <div className="app-container section">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold">News & Events Management</h1>
@@ -321,6 +321,7 @@ export default function AdminNewsEventsPage() {
                         id="important"
                         checked={formData.isImportant}
                         onChange={(e) => setFormData(prev => ({ ...prev, isImportant: e.target.checked }))}
+                        aria-label="Mark as important"
                       />
                       <Label htmlFor="important">Mark as important</Label>
                     </div>
@@ -391,6 +392,7 @@ export default function AdminNewsEventsPage() {
                         id="registrationOpen"
                         checked={formData.registrationOpen}
                         onChange={(e) => setFormData(prev => ({ ...prev, registrationOpen: e.target.checked }))}
+                        aria-label="Registration open"
                       />
                       <Label htmlFor="registrationOpen">Registration open</Label>
                     </div>
@@ -459,7 +461,7 @@ export default function AdminNewsEventsPage() {
             ) : (
               <div className="grid gap-4">
                 {news.map((item) => (
-                  <Card key={item.id}>
+                  <Card key={item.id} variant="elevated">
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div>
@@ -495,9 +497,9 @@ export default function AdminNewsEventsPage() {
                   </Card>
                 ))}
                 {news.length === 0 && (
-                  <div className="text-center py-8 text-muted-foreground">
-                    No news articles found
-                  </div>
+                  <Card variant="soft" className="p-8 text-center">
+                    <div className="text-muted-foreground">No news articles found</div>
+                  </Card>
                 )}
               </div>
             )}
@@ -509,7 +511,7 @@ export default function AdminNewsEventsPage() {
             ) : (
               <div className="grid gap-4">
                 {events.map((event) => (
-                  <Card key={event.id}>
+                  <Card key={event.id} variant="elevated">
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div>
@@ -545,9 +547,9 @@ export default function AdminNewsEventsPage() {
                   </Card>
                 ))}
                 {events.length === 0 && (
-                  <div className="text-center py-8 text-muted-foreground">
-                    No events found
-                  </div>
+                  <Card variant="soft" className="p-8 text-center">
+                    <div className="text-muted-foreground">No events found</div>
+                  </Card>
                 )}
               </div>
             )}
