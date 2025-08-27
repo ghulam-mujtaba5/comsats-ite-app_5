@@ -106,18 +106,18 @@ export default function AdminReviewsPage() {
               <CardDescription>Moderate submitted reviews.</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="overflow-auto">
+              <div className="overflow-auto" aria-busy={loading || undefined}>
                 <table className="w-full text-sm">
                   <caption className="sr-only">Reviews moderation table</caption>
                   <thead>
                     <tr className="text-left border-b">
-                      <th className="py-2 px-3">Rating</th>
-                      <th className="py-2 px-3">Faculty ID</th>
-                      <th className="py-2 px-3">Course / Semester</th>
-                      <th className="py-2 px-3">Comment</th>
-                      <th className="py-2 px-3">Submitted By</th>
-                      <th className="py-2 px-3">Status</th>
-                      <th className="py-2 px-3">Actions</th>
+                      <th scope="col" className="py-2 px-3">Rating</th>
+                      <th scope="col" className="py-2 px-3">Faculty ID</th>
+                      <th scope="col" className="py-2 px-3">Course / Semester</th>
+                      <th scope="col" className="py-2 px-3">Comment</th>
+                      <th scope="col" className="py-2 px-3">Submitted By</th>
+                      <th scope="col" className="py-2 px-3">Status</th>
+                      <th scope="col" className="py-2 px-3">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
