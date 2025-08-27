@@ -6,7 +6,8 @@ import { useEffect, useState } from "react"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, Library, MessageSquare, GraduationCap } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Users, Library, MessageSquare, GraduationCap, Search } from "lucide-react"
 
 interface DashboardStats {
   totalUsers: number;
@@ -19,6 +20,7 @@ export default function AdminDashboardPage() {
   const router = useRouter()
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [linkQuery, setLinkQuery] = useState("");
 
   useEffect(() => {
     async function fetchStats() {
@@ -51,13 +53,23 @@ export default function AdminDashboardPage() {
         </div>
       }
     >
-      <div className="app-container section space-y-8 fade-in">
-        <div className="flex items-center justify-between">
+      <div className="app-container section space-y-8 fade-in" role="main" aria-labelledby="admin-landing-heading">
+        <div className="flex items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-balance">Admin Dashboard</h1>
+            <h1 id="admin-landing-heading" className="text-3xl font-bold text-balance">Admin Dashboard</h1>
             <p className="text-muted-foreground">Welcome back, Admin!</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <Link href="/admin/dashboard" className="hidden sm:inline-block">
+              <Button variant="outline" className="interactive hover-lift" aria-label="View full analytics dashboard">
+                View Dashboard
+              </Button>
+            </Link>
+            <Link href="/admin/users" className="hidden sm:inline-block">
+              <Button className="interactive hover-lift" aria-label="Go to User Management">
+                Go to Users
+              </Button>
+            </Link>
             <Button
               variant="outline"
               onClick={async () => {
@@ -121,69 +133,67 @@ export default function AdminDashboardPage() {
 
         {/* Management Links */}
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Management Sections</h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Link href="/admin/dashboard" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">📊 Dashboard</h3>
-              <p className="text-muted-foreground">View comprehensive stats and analytics.</p>
-            </Link>
-            <Link href="/admin/lost-found" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">🔍 Lost & Found</h3>
-              <p className="text-muted-foreground">Manage lost and found items.</p>
-            </Link>
-            <Link href="/admin/news-events" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">📰 News & Events</h3>
-              <p className="text-muted-foreground">Create and manage news and events.</p>
-            </Link>
-            <Link href="/admin/support" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">❤️ Student Support</h3>
-              <p className="text-muted-foreground">Manage support resources and requests.</p>
-            </Link>
-            <Link href="/admin/guidance" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">📚 Guidance Portal</h3>
-              <p className="text-muted-foreground">Manage guides, policies, and FAQs.</p>
-            </Link>
-            <Link href="/admin/faculty" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">👨‍🏫 Faculty</h3>
-              <p className="text-muted-foreground">Add, edit, and manage faculty members.</p>
-            </Link>
-            <Link href="/admin/community" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">💬 Community</h3>
-              <p className="text-muted-foreground">Manage student community posts.</p>
-            </Link>
-            <Link href="/admin/users" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">👥 Users</h3>
-              <p className="text-muted-foreground">Manage user accounts and permissions.</p>
-            </Link>
-            <Link href="/admin/moderation" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">🛡️ Content Moderation</h3>
-              <p className="text-muted-foreground">Moderate posts, comments, and reports.</p>
-            </Link>
-            <Link href="/admin/reviews" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">📝 Review Moderation</h3>
-              <p className="text-muted-foreground">Approve or reject faculty reviews.</p>
-            </Link>
-            <Link href="/admin/past-papers" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">📄 Past Papers Moderation</h3>
-              <p className="text-muted-foreground">Approve/reject submitted past papers.</p>
-            </Link>
-            <Link href="/admin/resources" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">📁 Resources</h3>
-              <p className="text-muted-foreground">Manage downloadable resources and files.</p>
-            </Link>
-            <Link href="/admin/timetable-docs" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">📅 Timetable PDFs</h3>
-              <p className="text-muted-foreground">Upload and manage official timetable PDF files.</p>
-            </Link>
-            <Link href="/admin/issues" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">🐞 Issues</h3>
-              <p className="text-muted-foreground">Review public reports and update their status.</p>
-            </Link>
-            <Link href="/admin/settings" className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <h3 className="text-xl font-semibold">⚙️ Site Settings</h3>
-              <p className="text-muted-foreground">Configure site-wide settings and preferences.</p>
-            </Link>
+          <div className="flex items-end justify-between gap-4 mb-3">
+            <h2 className="text-2xl font-semibold">Management Sections</h2>
+            <div className="relative w-full max-w-xs">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                value={linkQuery}
+                onChange={(e) => setLinkQuery(e.target.value)}
+                placeholder="Search sections..."
+                className="pl-9"
+                aria-label="Search management sections"
+              />
+            </div>
           </div>
+
+          {/* Management Links Data */}
+          {(() => {
+            const links = [
+              { href: "/admin/dashboard", title: "📊 Dashboard", desc: "View comprehensive stats and analytics." },
+              { href: "/admin/lost-found", title: "🔍 Lost & Found", desc: "Manage lost and found items." },
+              { href: "/admin/news-events", title: "📰 News & Events", desc: "Create and manage news and events." },
+              { href: "/admin/support", title: "❤️ Student Support", desc: "Manage support resources and requests." },
+              { href: "/admin/guidance", title: "📚 Guidance Portal", desc: "Manage guides, policies, and FAQs." },
+              { href: "/admin/faculty", title: "👨‍🏫 Faculty", desc: "Add, edit, and manage faculty members." },
+              { href: "/admin/community", title: "💬 Community", desc: "Manage student community posts." },
+              { href: "/admin/users", title: "👥 Users", desc: "Manage user accounts and permissions." },
+              { href: "/admin/moderation", title: "🛡️ Content Moderation", desc: "Moderate posts, comments, and reports." },
+              { href: "/admin/reviews", title: "📝 Review Moderation", desc: "Approve or reject faculty reviews." },
+              { href: "/admin/past-papers", title: "📄 Past Papers Moderation", desc: "Approve/reject submitted past papers." },
+              { href: "/admin/resources", title: "📁 Resources", desc: "Manage downloadable resources and files." },
+              { href: "/admin/timetable-docs", title: "📅 Timetable PDFs", desc: "Upload and manage official timetable PDF files." },
+              { href: "/admin/issues", title: "🐞 Issues", desc: "Review public reports and update their status." },
+              { href: "/admin/settings", title: "⚙️ Site Settings", desc: "Configure site-wide settings and preferences." },
+            ] as const
+
+            const q = linkQuery.trim().toLowerCase()
+            const filtered = q
+              ? links.filter(l => `${l.title} ${l.desc}`.toLowerCase().includes(q))
+              : links
+
+            return (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
+                {filtered.map((l, idx) => (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    className="block surface-soft rounded-lg p-5 hover:surface transition-all hover-lift slide-up outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    style={{ animationDelay: `${Math.min(idx, 6) * 40}ms` as any }}
+                    aria-label={`${l.title} — ${l.desc}`}
+                  >
+                    <h3 className="text-xl font-semibold">{l.title}</h3>
+                    <p className="text-muted-foreground">{l.desc}</p>
+                  </Link>
+                ))}
+                {filtered.length === 0 && (
+                  <Card variant="soft" className="p-8 text-center sm:col-span-2 lg:col-span-3">
+                    <div className="text-muted-foreground">No sections match “{linkQuery}”.</div>
+                  </Card>
+                )}
+              </div>
+            )
+          })()}
         </div>
       </div>
     </AdminGuard>

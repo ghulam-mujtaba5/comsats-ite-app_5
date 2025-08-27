@@ -272,11 +272,11 @@ export default function AdminDashboardPage() {
                 <div>
                   <div className="text-sm font-semibold">Timetable (Postgres)</div>
                   {loadingHealth ? (
-                    <div className="text-sm text-muted-foreground" aria-live="polite">Loading...</div>
+                    <Badge variant="secondary">Loading…</Badge>
                   ) : health.timetable?.ok ? (
-                    <div className="text-sm text-green-600">OK {typeof health.timetable?.timetable?.count === 'number' ? `(rows: ${health.timetable.timetable.count})` : ''}</div>
+                    <Badge variant="success">OK {typeof health.timetable?.timetable?.count === 'number' ? `(rows: ${health.timetable.timetable.count})` : ''}</Badge>
                   ) : (
-                    <div className="text-sm text-destructive" role="alert">{health.timetable?.error || 'Not OK'}</div>
+                    <Badge variant="destructive" role="alert">{health.timetable?.error || 'Not OK'}</Badge>
                   )}
                   {health.timetable?.hint && (
                     <div className="text-xs text-muted-foreground mt-1">Hint: {health.timetable.hint}</div>
@@ -285,11 +285,11 @@ export default function AdminDashboardPage() {
                 <div>
                   <div className="text-sm font-semibold">MongoDB</div>
                   {loadingHealth ? (
-                    <div className="text-sm text-muted-foreground" aria-live="polite">Loading...</div>
+                    <Badge variant="secondary">Loading…</Badge>
                   ) : health.mongo?.ok ? (
-                    <div className="text-sm text-green-600">OK</div>
+                    <Badge variant="success">OK</Badge>
                   ) : (
-                    <div className="text-sm text-destructive" role="alert">{health.mongo?.error || 'Not OK'}</div>
+                    <Badge variant="destructive" role="alert">{health.mongo?.error || 'Not OK'}</Badge>
                   )}
                 </div>
               </div>
