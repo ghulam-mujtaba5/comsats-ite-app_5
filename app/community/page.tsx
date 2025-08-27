@@ -74,6 +74,10 @@ export default function CommunityPage() {
   const { user } = useAuth()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [postLimit] = useState(20)
+  const [postOffset, setPostOffset] = useState(0)
+  const [hasMorePosts, setHasMorePosts] = useState(true)
+  const [loadingMorePosts, setLoadingMorePosts] = useState(false)
 
   useEffect(() => {
     const load = async () => {
@@ -81,13 +85,15 @@ export default function CommunityPage() {
       setError(null)
       try {
         const [postsResponse, eventsResponse] = await Promise.all([
-          fetch('/api/community/posts'),
+          fetch(`/api/community/posts?limit=${postLimit}&offset=0`),
           fetch('/api/news-events/events')
         ])
         
         if (postsResponse.ok) {
           const postsData = await postsResponse.json()
           setPosts(postsData)
+          setHasMorePosts(Array.isArray(postsData) && postsData.length === postLimit)
+          setPostOffset(Array.isArray(postsData) ? postsData.length : 0)
         }
         
         if (eventsResponse.ok) {
@@ -126,6 +132,22 @@ export default function CommunityPage() {
     }
     load()
   }, [])
+
+  const loadMorePosts = async () => {
+    if (loadingMorePosts || !hasMorePosts) return
+    setLoadingMorePosts(true)
+    try {
+      const res = await fetch(`/api/community/posts?limit=${postLimit}&offset=${postOffset}`, { cache: 'no-store' })
+      const data = await res.json().catch(() => [])
+      const rows = Array.isArray(data) ? data : []
+      setPosts((prev) => [...prev, ...rows])
+      setPostOffset((prev) => prev + rows.length)
+      setHasMorePosts(rows.length === postLimit)
+    } catch {}
+    finally {
+      setLoadingMorePosts(false)
+    }
+  }
 
   const handleCreatePost = async () => {
     if (!user) {
@@ -406,6 +428,13 @@ export default function CommunityPage() {
                         <ThreadCard thread={post} handleLike={handleLike} />
                       </Link>
                     ))
+                  )}
+                  {hasMorePosts && (
+                    <div className="flex justify-center pt-4">
+                      <Button onClick={loadMorePosts} disabled={loadingMorePosts} className="bg-transparent border">
+                        {loadingMorePosts ? 'Loading...' : 'Load more'}
+                      </Button>
+                    </div>
                   )}
                 </div>
               </TabsContent>

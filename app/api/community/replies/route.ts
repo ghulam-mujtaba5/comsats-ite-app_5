@@ -7,6 +7,8 @@ import { cookies } from 'next/headers'
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const postId = searchParams.get('post_id')
+  const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '20', 10), 1), 100)
+  const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10), 0)
   if (!postId) {
     return NextResponse.json({ error: 'post_id is required' }, { status: 400 })
   }
@@ -29,6 +31,7 @@ export async function GET(req: NextRequest) {
     .select('*')
     .eq('post_id', postId)
     .order('created_at', { ascending: true })
+    .range(offset, offset + limit - 1)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
   return NextResponse.json({ data })
