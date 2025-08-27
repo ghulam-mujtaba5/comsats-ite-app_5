@@ -269,8 +269,8 @@ export default function PastPapersPage() {
                   <Download className="h-8 w-8 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
-                  <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{coursesWithPapers.length}</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Courses</div>
+                  <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{filteredCourses.length}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Filtered Courses</div>
                 </div>
               </CardContent>
             </Card>
@@ -280,8 +280,8 @@ export default function PastPapersPage() {
                   <Users className="h-8 w-8 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div>
-                  <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">5K+</div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Active Students</div>
+                  <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{availableTags.length}</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Available Tags</div>
                 </div>
               </CardContent>
             </Card>
@@ -323,51 +323,140 @@ export default function PastPapersPage() {
           )}
 
           {/* Enhanced Search and Filters */}
-          <Card className="mb-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
-            <CardContent className="p-8">
-              <AdvancedFilterBar
-                search={searchTerm}
-                onSearchChange={setSearchTerm}
-                searchPlaceholder="Search by course name or code..."
-                selects={[
-                  {
-                    id: "department",
-                    value: selectedDepartment,
-                    onChange: setSelectedDepartment,
-                    placeholder: "All Departments",
-                    options: [
-                      { label: "All Departments", value: "All" },
-                      ...departments.map((d) => ({ label: d.name, value: d.name })),
-                    ],
-                  },
-                  {
-                    id: "examType",
-                    value: selectedExamType,
-                    onChange: setSelectedExamType,
-                    placeholder: "All Exam Types",
-                    options: examTypes.map((t) => ({ label: t, value: t })),
-                  },
-                  {
-                    id: "semester",
-                    value: selectedSemester,
-                    onChange: setSelectedSemester,
-                    placeholder: "All Semesters",
-                    options: semesters.map((s) => ({ label: s, value: s })),
-                  },
-                  {
-                    id: "year",
-                    value: selectedYear,
-                    onChange: setSelectedYear,
-                    placeholder: "All Years",
-                    options: [
-                      { label: "All Years", value: "All" },
-                      ...years.map((y) => ({ label: y.toString(), value: y.toString() })),
-                    ],
-                  },
-                ]}
-              />
-            </CardContent>
-          </Card>
+          <AdvancedFilterBar
+            search={searchTerm}
+            onSearchChange={setSearchTerm}
+            searchPlaceholder="Search by course name, code, or tags..."
+            selects={[
+              {
+                ...standardFilters.departments,
+                value: selectedDepartment,
+                onChange: setSelectedDepartment,
+                label: "Department",
+                description: "Filter by academic department"
+              },
+              {
+                ...standardFilters.examTypes,
+                value: selectedExamType,
+                onChange: setSelectedExamType,
+                label: "Exam Type",
+                description: "Filter by examination type"
+              },
+              {
+                ...standardFilters.semesters,
+                value: selectedSemester,
+                onChange: setSelectedSemester,
+                label: "Semester",
+                description: "Filter by academic semester"
+              },
+              {
+                ...standardFilters.academicYears,
+                value: selectedYear,
+                onChange: setSelectedYear,
+                label: "Year",
+                description: "Filter by academic year"
+              }
+            ]}
+            sortOptions={sortOptions.pastPapers}
+            currentSort={currentSort}
+            onSortChange={setCurrentSort}
+            sortDirection={sortDirection}
+            onSortDirectionChange={setSortDirection}
+            filterPresets={filterPresets.pastPapers}
+            showActiveFilterCount={true}
+            collapsible={true}
+            defaultCollapsed={false}
+            className="mb-10"
+            right={
+              <div className="flex items-center gap-4">
+                {/* Tags Filter Toggle */}
+                {availableTags.length > 0 && (
+                  <Button
+                    variant={showTagFilter ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setShowTagFilter(!showTagFilter)}
+                    className="flex items-center gap-2"
+                  >
+                    <Tag className="h-4 w-4" />
+                    Tags ({availableTags.length})
+                  </Button>
+                )}
+                
+                {/* Quick Clear Filters */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setSearchTerm("")
+                    setSelectedDepartment("All")
+                    setSelectedExamType("All")
+                    setSelectedSemester("All")
+                    setSelectedYear("All")
+                    setSelectedTags([])
+                  }}
+                  className="flex items-center gap-2 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20"
+                >
+                  <Filter className="h-4 w-4" />
+                  Clear All
+                </Button>
+              </div>
+            }
+          />
+
+          {/* Tags Filter Section */}
+          {showTagFilter && availableTags.length > 0 && (
+            <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Tag className="h-5 w-5 text-primary" />
+                  <h3 className="font-semibold text-slate-900 dark:text-white">Filter by Tags</h3>
+                  {selectedTags.length > 0 && (
+                    <Badge variant="secondary" className="text-xs">
+                      {selectedTags.length} selected
+                    </Badge>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {availableTags.map((tag) => {
+                    const isSelected = selectedTags.includes(tag)
+                    return (
+                      <Button
+                        key={tag}
+                        variant={isSelected ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => {
+                          if (isSelected) {
+                            setSelectedTags(selectedTags.filter(t => t !== tag))
+                          } else {
+                            setSelectedTags([...selectedTags, tag])
+                          }
+                        }}
+                        className={`text-xs rounded-full transition-all duration-200 ${
+                          isSelected 
+                            ? 'bg-primary text-primary-foreground shadow-lg' 
+                            : 'hover:bg-primary/10 hover:text-primary hover:border-primary/30'
+                        }`}
+                      >
+                        {tag}
+                      </Button>
+                    )
+                  })}
+                </div>
+                {selectedTags.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-border">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setSelectedTags([])}
+                      className="text-muted-foreground hover:text-destructive"
+                    >
+                      Clear tag selection
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
 
           {/* Enhanced Results */}
           <div className="mb-8">
