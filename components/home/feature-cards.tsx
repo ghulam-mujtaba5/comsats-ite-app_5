@@ -9,7 +9,7 @@ import Link from "next/link"
 import { notifyFetch } from "@/lib/notify"
 
 export function FeatureCards() {
-  const [stats, setStats] = useState({ pastPapersCount: 1000, reviewsCount: 500 })
+  const [stats, setStats] = useState({ pastPapersCount: 1000, reviewsCount: 500, facultyCount: 156, resourcesCount: 324 })
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -20,7 +20,12 @@ export function FeatureCards() {
         const response = await notifyFetch("/api/stats", undefined, { errorMessage: "Failed to load site stats" })
         if (response.ok) {
           const data = await response.json()
-          setStats(data)
+          setStats({
+            pastPapersCount: data.pastPapersCount || 1000,
+            reviewsCount: data.reviewsCount || 500,
+            facultyCount: data.facultyCount || 156,
+            resourcesCount: data.resourcesCount || 324
+          })
         }
       } catch (error) {
         // Errors are already shown via notifyFetch
