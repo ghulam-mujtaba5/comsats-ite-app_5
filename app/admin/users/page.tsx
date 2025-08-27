@@ -257,7 +257,7 @@ export default function AdminUsersPage() {
 
   return (
     <AdminGuard>
-      <div className="container mx-auto px-4 py-8">
+      <div className="app-container section">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">User Management</h1>
           <p className="text-muted-foreground mt-2">
@@ -325,7 +325,7 @@ export default function AdminUsersPage() {
               {filteredUsers.map((user) => {
                 const userStatus = getUserStatus(user)
                 return (
-                  <Card key={user.id} className="hover:shadow-md transition-shadow">
+                  <Card key={user.id} variant="elevated">
                     <CardHeader>
                       <div className="flex justify-between items-start">
                         <div className="space-y-1">
@@ -397,6 +397,11 @@ export default function AdminUsersPage() {
                   </Card>
                 )
               })}
+              {filteredUsers.length === 0 && (
+                <Card variant="soft" className="p-8 text-center">
+                  <div className="text-muted-foreground">No users match the current filters</div>
+                </Card>
+              )}
             </div>
 
             {/* Pagination Controls */}
@@ -416,7 +421,7 @@ export default function AdminUsersPage() {
           <TabsContent value="admins" className="space-y-6">
             <div className="grid gap-4">
               {adminUsers.map((adminUser) => (
-                <Card key={adminUser.id} className="hover:shadow-md transition-shadow">
+                <Card key={adminUser.id} variant="elevated">
                   <CardHeader>
                     <div className="flex justify-between items-start">
                       <div className="space-y-1">
@@ -455,6 +460,11 @@ export default function AdminUsersPage() {
                   </CardContent>
                 </Card>
               ))}
+              {adminUsers.length === 0 && (
+                <Card variant="soft" className="p-8 text-center">
+                  <div className="text-muted-foreground">No admin users yet</div>
+                </Card>
+              )}
             </div>
           </TabsContent>
         </Tabs>

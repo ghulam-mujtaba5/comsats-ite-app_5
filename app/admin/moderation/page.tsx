@@ -226,7 +226,7 @@ export default function AdminModerationPage() {
 
   return (
     <AdminGuard>
-      <div className="container mx-auto px-4 py-8">
+      <div className="app-container section">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Content Moderation</h1>
           <p className="text-muted-foreground mt-2">
@@ -278,7 +278,7 @@ export default function AdminModerationPage() {
 
           <TabsContent value="posts" className="space-y-4">
             {filteredPosts.map((post) => (
-              <Card key={post.id} className="hover:shadow-md transition-shadow">
+              <Card key={post.id} variant="elevated">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div className="space-y-1">
@@ -321,11 +321,16 @@ export default function AdminModerationPage() {
                 </CardContent>
               </Card>
             ))}
+            {filteredPosts.length === 0 && (
+              <Card variant="soft" className="p-8 text-center">
+                <div className="text-muted-foreground">No posts match the current filters</div>
+              </Card>
+            )}
           </TabsContent>
 
           <TabsContent value="comments" className="space-y-4">
             {filteredComments.map((comment) => (
-              <Card key={comment.id} className="hover:shadow-md transition-shadow">
+              <Card key={comment.id} variant="elevated">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div className="space-y-1">
@@ -360,11 +365,16 @@ export default function AdminModerationPage() {
                 </CardContent>
               </Card>
             ))}
+            {filteredComments.length === 0 && (
+              <Card variant="soft" className="p-8 text-center">
+                <div className="text-muted-foreground">No comments match the current filters</div>
+              </Card>
+            )}
           </TabsContent>
 
           <TabsContent value="reports" className="space-y-4">
             {filteredReports.map((report) => (
-              <Card key={report.id} className="hover:shadow-md transition-shadow">
+              <Card key={report.id} variant="elevated">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div className="space-y-1">
@@ -416,6 +426,11 @@ export default function AdminModerationPage() {
                 </CardContent>
               </Card>
             ))}
+            {filteredReports.length === 0 && (
+              <Card variant="soft" className="p-8 text-center">
+                <div className="text-muted-foreground">No reports match the current filters</div>
+              </Card>
+            )}
           </TabsContent>
         </Tabs>
 

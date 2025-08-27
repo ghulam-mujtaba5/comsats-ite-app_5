@@ -50,14 +50,14 @@ export default function AdminIssuesPage() {
 
   return (
     <AdminGuard fallback={<div className="p-6">Unauthorized</div>}>
-      <div className="p-6 space-y-6">
+      <div className="app-container section space-y-6">
         <h1 className="text-2xl font-bold">Issue Reports</h1>
         {loading ? (
           <div>Loading...</div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {issues.map((it) => (
-              <Card key={it.id}>
+              <Card key={it.id} variant="elevated">
                 <CardHeader className="flex flex-row items-center justify-between gap-4">
                   <div className="space-y-1">
                     <CardTitle className="text-lg">{it.title}</CardTitle>
@@ -88,7 +88,11 @@ export default function AdminIssuesPage() {
                 </CardContent>
               </Card>
             ))}
-            {issues.length === 0 && <div className="text-sm text-muted-foreground">No issues yet.</div>}
+            {issues.length === 0 && (
+              <Card variant="soft" className="p-8 text-center">
+                <div className="text-muted-foreground">No issues yet.</div>
+              </Card>
+            )}
           </div>
         )}
       </div>

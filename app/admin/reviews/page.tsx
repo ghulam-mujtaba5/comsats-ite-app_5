@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 
 
@@ -70,7 +71,7 @@ export default function AdminReviewsPage() {
 
   return (
     <AdminGuard fallback={<div className="p-6 text-center">Admin access required. <a className="underline" href="/admin/login">Login</a></div>}>
-      <div className="container mx-auto p-6 space-y-6">
+      <div className="app-container section space-y-6">
         <div className="flex items-center justify-between gap-3">
           <h1 className="text-2xl font-bold">Review Moderation</h1>
           <div className="flex items-center gap-2">
@@ -91,63 +92,72 @@ export default function AdminReviewsPage() {
         {error && <p className="text-sm text-blue-600">{error}</p>}
         {loading && <p className="text-sm">Loading…</p>}
 
-        <div className="border rounded-lg overflow-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left border-b">
-                <th className="py-2 px-3">Rating</th>
-                <th className="py-2 px-3">Faculty ID</th>
-                <th className="py-2 px-3">Course / Semester</th>
-                <th className="py-2 px-3">Comment</th>
-                <th className="py-2 px-3">Submitted By</th>
-                <th className="py-2 px-3">Status</th>
-                <th className="py-2 px-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => (
-                <tr key={r.id} className="border-b align-top">
-                  <td className="py-2 px-3 font-medium">{r.rating}/5</td>
-                  <td className="py-2 px-3">{r.faculty_id}</td>
-                  <td className="py-2 px-3">
-                    <div>{r.course}</div>
-                    <div className="text-muted-foreground">{r.semester}</div>
-                  </td>
-                  <td className="py-2 px-3 max-w-xl">
-                    <div className="whitespace-pre-wrap">{r.comment}</div>
-                    {(r.pros && r.pros.length > 0) && (
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {r.pros.map((p, i) => <Badge key={i} variant="outline">+ {p}</Badge>)}
-                      </div>
-                    )}
-                    {(r.cons && r.cons.length > 0) && (
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {r.cons.map((c, i) => <Badge key={i} variant="outline" className="border-blue-200 text-blue-700">- {c}</Badge>)}
-                      </div>
-                    )}
-                  </td>
-                  <td className="py-2 px-3">{r.is_anonymous ? 'Anonymous' : (r.student_name || 'Student')}</td>
-                  <td className="py-2 px-3">
-                    <Badge variant={r.status === 'approved' ? 'default' : r.status === 'rejected' ? 'destructive' : 'secondary'}>
-                      {r.status}
-                    </Badge>
-                  </td>
-                  <td className="py-2 px-3">
-                    <div className="flex gap-2">
-                      <Button size="sm" onClick={() => setStatus(r.id, 'approved')}>Approve</Button>
-                      <Button size="sm" variant="destructive" onClick={() => setStatus(r.id, 'rejected')}>Reject</Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-              {rows.length === 0 && !loading && (
-                <tr>
-                  <td colSpan={7} className="py-6 text-center text-muted-foreground">No pending reviews</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        {rows.length === 0 && !loading ? (
+          <Card variant="soft" className="p-8 text-center">
+            <div className="text-muted-foreground">No {statusFilter} reviews</div>
+          </Card>
+        ) : (
+          <Card variant="elevated">
+            <CardHeader>
+              <CardTitle>Reviews</CardTitle>
+              <CardDescription>Moderate submitted reviews.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left border-b">
+                      <th className="py-2 px-3">Rating</th>
+                      <th className="py-2 px-3">Faculty ID</th>
+                      <th className="py-2 px-3">Course / Semester</th>
+                      <th className="py-2 px-3">Comment</th>
+                      <th className="py-2 px-3">Submitted By</th>
+                      <th className="py-2 px-3">Status</th>
+                      <th className="py-2 px-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((r) => (
+                      <tr key={r.id} className="border-b align-top">
+                        <td className="py-2 px-3 font-medium">{r.rating}/5</td>
+                        <td className="py-2 px-3">{r.faculty_id}</td>
+                        <td className="py-2 px-3">
+                          <div>{r.course}</div>
+                          <div className="text-muted-foreground">{r.semester}</div>
+                        </td>
+                        <td className="py-2 px-3 max-w-xl">
+                          <div className="whitespace-pre-wrap">{r.comment}</div>
+                          {(r.pros && r.pros.length > 0) && (
+                            <div className="mt-2 flex flex-wrap gap-1">
+                              {r.pros.map((p, i) => <Badge key={i} variant="outline">+ {p}</Badge>)}
+                            </div>
+                          )}
+                          {(r.cons && r.cons.length > 0) && (
+                            <div className="mt-2 flex flex-wrap gap-1">
+                              {r.cons.map((c, i) => <Badge key={i} variant="outline" className="border-blue-200 text-blue-700">- {c}</Badge>)}
+                            </div>
+                          )}
+                        </td>
+                        <td className="py-2 px-3">{r.is_anonymous ? 'Anonymous' : (r.student_name || 'Student')}</td>
+                        <td className="py-2 px-3">
+                          <Badge variant={r.status === 'approved' ? 'default' : r.status === 'rejected' ? 'destructive' : 'secondary'}>
+                            {r.status}
+                          </Badge>
+                        </td>
+                        <td className="py-2 px-3">
+                          <div className="flex gap-2">
+                            <Button size="sm" onClick={() => setStatus(r.id, 'approved')}>Approve</Button>
+                            <Button size="sm" variant="destructive" onClick={() => setStatus(r.id, 'rejected')}>Reject</Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </AdminGuard>
   )

@@ -170,7 +170,7 @@ export default function AdminSupportPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="app-container section">
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Support Request Management</h1>
         <p className="text-muted-foreground mt-2">
@@ -217,7 +217,7 @@ export default function AdminSupportPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <Card>
+        <Card variant="elevated">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -228,7 +228,7 @@ export default function AdminSupportPage() {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card variant="elevated">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -241,7 +241,7 @@ export default function AdminSupportPage() {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card variant="elevated">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -254,7 +254,7 @@ export default function AdminSupportPage() {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card variant="elevated">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -275,7 +275,7 @@ export default function AdminSupportPage() {
       ) : (
         <div className="grid gap-4">
           {filteredRequests.map((request) => (
-            <Card key={request.id} className="hover:shadow-md transition-shadow">
+            <Card key={request.id} variant="elevated">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -412,9 +412,9 @@ export default function AdminSupportPage() {
             </Card>
           ))}
           {filteredRequests.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
-              No support requests found matching your criteria
-            </div>
+            <Card variant="soft" className="p-8 text-center">
+              <div className="text-muted-foreground">No support requests found matching your criteria</div>
+            </Card>
           )}
         </div>
       )}

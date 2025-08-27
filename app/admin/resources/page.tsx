@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 type Row = {
   id: string
@@ -126,114 +127,142 @@ export default function AdminResourcesPage() {
 
   return (
     <AdminGuard fallback={<div className="p-6 text-center">Admin access required. <a className="underline" href="/admin/login">Login</a></div>}>
-      <div className="container mx-auto p-6 space-y-6">
+      <div className="app-container section space-y-6">
         <div>
           <h1 className="text-2xl font-bold">Resources</h1>
           <p className="text-muted-foreground">Add/edit/delete cards with Google Drive link or upload a file.</p>
         </div>
 
-        <form onSubmit={onCreate} className="border rounded-lg p-4 grid gap-3 md:grid-cols-2">
-          <div className="md:col-span-2">
-            <Label>Title</Label>
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Fall 2024 - Computer Science Timetable" required />
-          </div>
-          <div className="md:col-span-2">
-            <Label>Description</Label>
-            <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Short description (optional)" />
-          </div>
-          <div>
-            <Label>Department</Label>
-            <Input value={department} onChange={(e) => setDepartment(e.target.value)} placeholder="Computer Science" />
-          </div>
-          <div>
-            <Label>Term</Label>
-            <Input value={term} onChange={(e) => setTerm(e.target.value)} placeholder="Fall 2024" />
-          </div>
-          <div className="md:col-span-2">
-            <Label>External Link (Google Drive preferred)</Label>
-            <Input value={externalUrl} onChange={(e) => setExternalUrl(e.target.value)} placeholder="https://drive.google.com/..." />
-          </div>
-          <div className="md:col-span-2">
-            <Label>Or Upload File</Label>
-            <Input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-          </div>
-          <div className="md:col-span-2 flex gap-2">
-            <Button type="submit" disabled={loading}>{loading ? 'Saving…' : 'Create'}</Button>
-            {error && <span className="text-sm text-blue-600 self-center">{error}</span>}
-          </div>
-        </form>
+        <Card variant="elevated">
+          <CardHeader>
+            <CardTitle>Create Resource</CardTitle>
+            <CardDescription>Provide a title and either a Drive link or upload a file.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={onCreate} className="grid gap-3 md:grid-cols-2">
+              <div className="md:col-span-2">
+                <Label>Title</Label>
+                <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Fall 2024 - Computer Science Timetable" required />
+              </div>
+              <div className="md:col-span-2">
+                <Label>Description</Label>
+                <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Short description (optional)" />
+              </div>
+              <div>
+                <Label>Department</Label>
+                <Input value={department} onChange={(e) => setDepartment(e.target.value)} placeholder="Computer Science" />
+              </div>
+              <div>
+                <Label>Term</Label>
+                <Input value={term} onChange={(e) => setTerm(e.target.value)} placeholder="Fall 2024" />
+              </div>
+              <div className="md:col-span-2">
+                <Label>External Link (Google Drive preferred)</Label>
+                <Input value={externalUrl} onChange={(e) => setExternalUrl(e.target.value)} placeholder="https://drive.google.com/..." />
+              </div>
+              <div className="md:col-span-2">
+                <Label>Or Upload File</Label>
+                <Input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+              </div>
+              <div className="md:col-span-2 flex gap-2">
+                <Button type="submit" disabled={loading}>{loading ? 'Saving…' : 'Create'}</Button>
+                {error && <span className="text-sm text-blue-600 self-center">{error}</span>}
+              </div>
+            </form>
+          </CardContent>
+        </Card>
 
-        <div className="border rounded-lg p-4 overflow-auto">
-          <h2 className="font-semibold mb-3">Existing Resources</h2>
-          {loading && <p className="text-sm">Loading…</p>}
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left border-b">
-                <th className="py-2 pr-2">Title</th>
-                <th className="py-2 pr-2">Department</th>
-                <th className="py-2 pr-2">Term</th>
-                <th className="py-2 pr-2">Link/File</th>
-                <th className="py-2 pr-2">Size</th>
-                <th className="py-2 pr-2">Uploaded</th>
-                <th className="py-2 pr-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rowsView.map((r) => (
-                <tr key={r.id} className="border-b last:border-none">
-                  <td className="py-2 pr-2">{r.title}</td>
-                  <td className="py-2 pr-2">{r.department}</td>
-                  <td className="py-2 pr-2">{r.term}</td>
-                  <td className="py-2 pr-2 max-w-[280px] truncate">{r.external_url ? r.external_url : r.file_url}</td>
-                  <td className="py-2 pr-2">{r.size_bytes ? (r.size_bytes/1024/1024).toFixed(1) + ' MB' : '-'}</td>
-                  <td className="py-2 pr-2">{new Date(r.uploaded_at).toLocaleDateString()}</td>
-                  <td className="py-2 pr-2">
-                    <div className="flex gap-2">
-                      {r.external_url && <a className="underline" href={r.external_url} target="_blank" rel="noreferrer">Open</a>}
-                      {r.file_url && <a className="underline" href={r.file_url} target="_blank" rel="noreferrer">Preview</a>}
-                      {r.file_url && <a className="underline" href={r.file_url} download>Download</a>}
-                      <Button size="sm" variant="outline" onClick={() => setEditing(r)}>Edit</Button>
-                      <Button size="sm" variant="destructive" onClick={() => onDelete(r.id)}>Delete</Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Card variant="elevated">
+          <CardHeader>
+            <CardTitle>Existing Resources</CardTitle>
+            <CardDescription>Manage, preview, or delete uploaded resources.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {loading && <p className="text-sm">Loading…</p>}
+            {rowsView.length === 0 && !loading ? (
+              <Card variant="soft" className="p-8 text-center">
+                <div className="text-muted-foreground">No resources yet. Create one above.</div>
+              </Card>
+            ) : (
+              <div className="overflow-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left border-b">
+                      <th className="py-2 pr-2">Title</th>
+                      <th className="py-2 pr-2">Department</th>
+                      <th className="py-2 pr-2">Term</th>
+                      <th className="py-2 pr-2">Link/File</th>
+                      <th className="py-2 pr-2">Size</th>
+                      <th className="py-2 pr-2">Uploaded</th>
+                      <th className="py-2 pr-2">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowsView.map((r) => (
+                      <tr key={r.id} className="border-b last:border-none">
+                        <td className="py-2 pr-2">{r.title}</td>
+                        <td className="py-2 pr-2">{r.department}</td>
+                        <td className="py-2 pr-2">{r.term}</td>
+                        <td className="py-2 pr-2 max-w-[280px] truncate">{r.external_url ? r.external_url : r.file_url}</td>
+                        <td className="py-2 pr-2">{r.size_bytes ? (r.size_bytes/1024/1024).toFixed(1) + ' MB' : '-'}</td>
+                        <td className="py-2 pr-2">{new Date(r.uploaded_at).toLocaleDateString()}</td>
+                        <td className="py-2 pr-2">
+                          <div className="flex gap-2">
+                            {r.external_url && <a className="underline" href={r.external_url} target="_blank" rel="noreferrer">Open</a>}
+                            {r.file_url && <a className="underline" href={r.file_url} target="_blank" rel="noreferrer">Preview</a>}
+                            {r.file_url && <a className="underline" href={r.file_url} download>Download</a>}
+                            <Button size="sm" variant="outline" onClick={() => setEditing(r)}>Edit</Button>
+                            <Button size="sm" variant="destructive" onClick={() => onDelete(r.id)}>Delete</Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         {editing && (
-          <form onSubmit={onUpdate} className="border rounded-lg p-4 grid gap-3">
-            <h3 className="font-semibold">Edit Resource</h3>
-            <div>
-              <Label>Title</Label>
-              <Input value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} />
-            </div>
-            <div>
-              <Label>Description</Label>
-              <Textarea value={editing.description || ''} onChange={(e) => setEditing({ ...editing, description: e.target.value })} />
-            </div>
-            <div>
-              <Label>Department</Label>
-              <Input value={editing.department || ''} onChange={(e) => setEditing({ ...editing, department: e.target.value })} />
-            </div>
-            <div>
-              <Label>Term</Label>
-              <Input value={editing.term || ''} onChange={(e) => setEditing({ ...editing, term: e.target.value })} />
-            </div>
-            <div>
-              <Label>External Link (Google Drive preferred)</Label>
-              <Input value={editing.external_url || ''} onChange={(e) => setEditing({ ...editing, external_url: e.target.value })} />
-            </div>
-            <div>
-              <Label>Replace File (optional)</Label>
-              <Input type="file" onChange={(e) => setNewFile(e.target.files?.[0] || null)} />
-            </div>
-            <div className="flex gap-2">
-              <Button type="submit">Save</Button>
-              <Button type="button" variant="outline" onClick={() => { setEditing(null); setNewFile(null) }}>Cancel</Button>
-            </div>
-          </form>
+          <Card variant="elevated">
+            <CardHeader>
+              <CardTitle>Edit Resource</CardTitle>
+              <CardDescription>Update metadata or replace the file.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={onUpdate} className="grid gap-3">
+                <div>
+                  <Label>Title</Label>
+                  <Input value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Description</Label>
+                  <Textarea value={editing.description || ''} onChange={(e) => setEditing({ ...editing, description: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Department</Label>
+                  <Input value={editing.department || ''} onChange={(e) => setEditing({ ...editing, department: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Term</Label>
+                  <Input value={editing.term || ''} onChange={(e) => setEditing({ ...editing, term: e.target.value })} />
+                </div>
+                <div>
+                  <Label>External Link (Google Drive preferred)</Label>
+                  <Input value={editing.external_url || ''} onChange={(e) => setEditing({ ...editing, external_url: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Replace File (optional)</Label>
+                  <Input type="file" onChange={(e) => setNewFile(e.target.files?.[0] || null)} />
+                </div>
+                <div className="flex gap-2">
+                  <Button type="submit">Save</Button>
+                  <Button type="button" variant="outline" onClick={() => { setEditing(null); setNewFile(null) }}>Cancel</Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
         )}
       </div>
     </AdminGuard>
