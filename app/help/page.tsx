@@ -1,8 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import type { Metadata } from "next"
-import { createMetadata, jsonLdBreadcrumb, jsonLdFAQ } from "@/lib/seo"
+// Metadata imports removed due to "use client" directive
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -33,13 +32,7 @@ import {
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 
-export const metadata: Metadata = createMetadata({
-  title: "Help Center — CampusAxis",
-  description:
-    "Find answers to common questions about CampusAxis: community moderation, past papers, GPA calculator, faculty reviews, and more.",
-  path: "/help",
-  keywords: ["help center", "faq", "support", "CampusAxis"],
-})
+// Metadata export removed due to "use client" directive
 
 interface FAQItem {
   id: string
@@ -391,49 +384,67 @@ export default function HelpPage() {
             )}
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Quick Actions */}
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl shadow-lg">
+          {/* Enhanced Sidebar */}
+          <div className="space-y-8">
+            {/* Enhanced Quick Actions */}
+            <Card className="card-modern border-0 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
               <CardHeader className="p-6">
-                <CardTitle className="flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
-                  <div className="p-2 rounded-xl bg-gradient-to-br from-primary/20 to-blue-500/20 border border-primary/30">
-                    <Lightbulb className="h-5 w-5 text-primary" />
+                <CardTitle className="flex items-center gap-3 text-xl font-bold text-foreground">
+                  <div className="p-3 rounded-2xl bg-gradient-to-br from-primary/20 to-blue-500/20 border border-primary/30">
+                    <Lightbulb className="h-6 w-6 text-primary" />
                   </div>
                   Quick Actions
                 </CardTitle>
+                <CardDescription className="text-muted-foreground font-serif">
+                  Get help with common tasks
+                </CardDescription>
               </CardHeader>
-              <CardContent className="p-6 pt-0 space-y-3">
+              <CardContent className="p-6 pt-0 space-y-4">
                 <Link href="/contact">
-                  <Button variant="outline" className="w-full justify-start h-12 rounded-xl border-white/30 hover:bg-white/20">
-                    <Mail className="h-5 w-5 mr-3" />
-                    Contact Support
+                  <Button variant="outline" className="w-full justify-start h-12 rounded-xl bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20">
+                        <Mail className="h-4 w-4 text-green-600" />
+                      </div>
+                      Contact Support
+                    </div>
                   </Button>
                 </Link>
                 <Link href="/report-issue">
-                  <Button variant="outline" className="w-full justify-start h-12 rounded-xl border-white/30 hover:bg-white/20">
-                    <Shield className="h-5 w-5 mr-3" />
-                    Report an Issue
+                  <Button variant="outline" className="w-full justify-start h-12 rounded-xl bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-gradient-to-br from-red-500/20 to-orange-500/20">
+                        <Shield className="h-4 w-4 text-red-600" />
+                      </div>
+                      Report an Issue
+                    </div>
                   </Button>
                 </Link>
                 <Link href="/community">
-                  <Button variant="outline" className="w-full justify-start h-12 rounded-xl border-white/30 hover:bg-white/20">
-                    <MessageCircle className="h-5 w-5 mr-3" />
-                    Join Community
+                  <Button variant="outline" className="w-full justify-start h-12 rounded-xl bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20">
+                        <MessageCircle className="h-4 w-4 text-purple-600" />
+                      </div>
+                      Join Community
+                    </div>
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            {/* Popular Categories */}
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl shadow-lg">
+            {/* Enhanced Popular Categories */}
+            <Card className="card-modern border-0 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
               <CardHeader className="p-6">
-                <CardTitle className="flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
-                  <div className="p-2 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30">
-                    <Target className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <CardTitle className="flex items-center gap-3 text-xl font-bold text-foreground">
+                  <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30">
+                    <Target className="h-6 w-6 text-green-600" />
                   </div>
                   Popular Topics
                 </CardTitle>
+                <CardDescription className="text-muted-foreground font-serif">
+                  Browse by category
+                </CardDescription>
               </CardHeader>
               <CardContent className="p-6 pt-0 space-y-3">
                 {categories.filter(cat => cat.id !== "all").map((category) => {
@@ -443,14 +454,23 @@ export default function HelpPage() {
                       key={category.id}
                       variant="ghost"
                       onClick={() => setSelectedCategory(category.id)}
-                      className="w-full justify-start h-auto p-3 rounded-xl hover:bg-white/20 transition-colors duration-200"
+                      className="w-full justify-start h-auto p-4 rounded-xl hover:bg-background/50 transition-all duration-300 group hover-lift"
                     >
-                      <div className={cn("p-2 rounded-lg mr-3", category.color)}>
-                        <Icon className="h-4 w-4" />
-                      </div>
-                      <div className="text-left">
-                        <div className="font-medium text-slate-900 dark:text-white">{category.name}</div>
-                        <div className="text-xs text-slate-500">{category.count} articles</div>
+                      <div className="flex items-center gap-4 w-full">
+                        <div className={cn("p-3 rounded-xl transition-transform duration-300 group-hover:scale-110", category.color)}>
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <div className="flex-1 text-left">
+                          <div className="font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
+                            {category.name}
+                          </div>
+                          <div className="text-sm text-muted-foreground font-serif">
+                            {category.description}
+                          </div>
+                        </div>
+                        <Badge variant="secondary" className="text-xs font-medium">
+                          {category.count}
+                        </Badge>
                       </div>
                     </Button>
                   )
@@ -458,24 +478,38 @@ export default function HelpPage() {
               </CardContent>
             </Card>
 
-            {/* Contact Info */}
-            <Card className="bg-gradient-to-br from-primary/10 to-blue-500/10 border border-primary/20 rounded-2xl shadow-lg">
-              <CardContent className="p-6">
-                <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                  <Award className="h-5 w-5 text-primary" />
-                  Still Need Help?
-                </h3>
-                <p className="text-slate-600 dark:text-slate-300 text-sm mb-4">
-                  Our support team is here to help you with any questions or issues.
-                </p>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
-                    <Mail className="h-4 w-4" />
-                    support@campusaxis.com
+            {/* Enhanced Contact Information */}
+            <Card className="card-modern border-0 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+              <CardHeader className="p-6">
+                <CardTitle className="flex items-center gap-3 text-xl font-bold text-foreground">
+                  <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30">
+                    <MessageSquare className="h-6 w-6 text-blue-600" />
                   </div>
-                  <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
-                    <MessageCircle className="h-4 w-4" />
-                    24/7 Live Chat Available
+                  Need More Help?
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6 pt-0">
+                <p className="text-muted-foreground mb-6 font-serif leading-relaxed">
+                  Can't find what you're looking for? Our support team is here to help.
+                </p>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/30">
+                    <div className="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20">
+                      <Mail className="h-4 w-4 text-green-600" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-foreground">Email Support</div>
+                      <div className="text-xs text-muted-foreground">support@campusaxis.com</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/30">
+                    <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500/20 to-indigo-500/20">
+                      <MessageCircle className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-foreground">Live Chat</div>
+                      <div className="text-xs text-muted-foreground">Available 24/7</div>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -483,19 +517,6 @@ export default function HelpPage() {
           </div>
         </div>
       </main>
-      
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "Help Center", path: "/help" }])) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFAQ([
-          { question: "How do I find past papers?", answer: "Go to the Past Papers section and filter by course, semester, or instructor." },
-          { question: "Is the GPA calculator accurate?", answer: "Yes, it follows the COMSATS grading scale. Ensure credits and grades are correct." },
-          { question: "Can I submit feedback or report bugs?", answer: "Use the Report an Issue page to submit bugs or suggestions." },
-        ])) }}
-      />
     </div>
   )
 }

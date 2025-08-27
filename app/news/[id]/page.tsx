@@ -251,5 +251,10 @@ export default function NewsDetailPage() {
               </Card>
             </article>
           ) : null}
+        </div>
+      </main>
+      
+      <Footer />
+    </div>
   )
 }
