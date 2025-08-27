@@ -121,7 +121,7 @@ export default function AdminSettingsPage() {
 
   return (
     <AdminGuard>
-      <div className="container mx-auto px-4 py-8">
+      <div className="app-container section">
         <div className="mb-8">
           <h1 className="text-3xl font-bold flex items-center gap-2">
             <Settings className="h-8 w-8" />
@@ -157,7 +157,7 @@ export default function AdminSettingsPage() {
           </TabsList>
 
           <TabsContent value="general">
-            <Card>
+            <Card variant="elevated">
               <CardHeader>
                 <CardTitle>General Settings</CardTitle>
                 <CardDescription>Basic site configuration</CardDescription>
@@ -214,7 +214,7 @@ export default function AdminSettingsPage() {
           </TabsContent>
 
           <TabsContent value="security">
-            <Card>
+            <Card variant="elevated">
               <CardHeader>
                 <CardTitle>Security Settings</CardTitle>
                 <CardDescription>User registration and access controls</CardDescription>
@@ -236,7 +236,7 @@ export default function AdminSettingsPage() {
           </TabsContent>
 
           <TabsContent value="email">
-            <Card>
+            <Card variant="elevated">
               <CardHeader>
                 <CardTitle>Email Settings</CardTitle>
                 <CardDescription>Configure email notifications and templates</CardDescription>
@@ -263,7 +263,7 @@ export default function AdminSettingsPage() {
           </TabsContent>
 
           <TabsContent value="files">
-            <Card>
+            <Card variant="elevated">
               <CardHeader>
                 <CardTitle>File Upload Settings</CardTitle>
                 <CardDescription>Configure file upload limits and allowed types</CardDescription>
@@ -297,7 +297,7 @@ export default function AdminSettingsPage() {
           </TabsContent>
 
           <TabsContent value="appearance">
-            <Card>
+            <Card variant="elevated">
               <CardHeader>
                 <CardTitle>Appearance Settings</CardTitle>
                 <CardDescription>Customize the look and feel of your site</CardDescription>

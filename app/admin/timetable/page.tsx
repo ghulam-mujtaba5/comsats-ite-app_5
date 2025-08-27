@@ -33,7 +33,7 @@ export default function AdminTimetablePage() {
 
   return (
     <AdminGuard fallback={<div className="p-6 text-center">Admin access required. <a className="underline" href="/admin/login">Login</a></div>}>
-      <div className="container mx-auto p-10 text-center space-y-4">
+      <div className="app-container section text-center space-y-4">
         <h1 className="text-2xl font-bold">Timetable has moved</h1>
         <p className="text-muted-foreground">We now manage timetables as official PDF documents.</p>
         <Link className="underline" href="/admin/timetable-docs">Go to Timetable PDFs</Link>
