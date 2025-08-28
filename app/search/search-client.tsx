@@ -29,15 +29,49 @@ import {
   ExternalLink,
   Globe,
   Hash,
-  CheckCircle
+  CheckCircle,
+  AlertCircle
 } from "lucide-react"
-import {
-  mockLearningResources,
-  filterResources,
-  type LearningResource,
-} from "@/lib/resources-data"
-import { mockPastPapers, filterPapers, type PastPaper } from "@/lib/past-papers-data"
-import { mockFaculty, searchFaculty, type Faculty } from "@/lib/faculty-data"
+// Remove mock data imports - we'll use real API calls
+interface LearningResource {
+  id: string
+  title: string
+  description: string
+  type: string
+  department: string
+  downloadUrl?: string
+  metadata?: any
+}
+
+interface PastPaper {
+  id: string
+  title: string
+  description: string
+  courseCode: string
+  department: string
+  semester: string
+  year: number
+  examType: string
+  fileType: string
+  downloadUrl?: string
+  metadata?: any
+}
+
+interface Faculty {
+  id: string
+  title: string
+  description: string
+  metadata?: {
+    name: string
+    title: string
+    department: string
+    email: string
+    office: string
+    specialization: string[]
+    averageRating: number
+    totalReviews: number
+  }
+}
 import { cn } from "@/lib/utils"
 
 export function SearchClient() {
@@ -50,6 +84,14 @@ export function SearchClient() {
   const [activeTab, setActiveTab] = useState<'all' | 'resources' | 'papers' | 'faculty'>('all')
   const [sortBy, setSortBy] = useState<'relevance' | 'date' | 'name'>('relevance')
   const [isSearching, setIsSearching] = useState(false)
+  const [searchResults, setSearchResults] = useState<{
+    pastPapers: PastPaper[]
+    resources: LearningResource[]
+    faculty: Faculty[]
+    community: any[]
+    total: number
+  }>({ pastPapers: [], resources: [], faculty: [], community: [], total: 0 })
+  const [searchError, setSearchError] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const suggestionsRef = useRef<HTMLDivElement | null>(null)
 
@@ -84,6 +126,76 @@ export function SearchClient() {
     } catch {}
   }, [])
 
+  // API search function
+  const performSearch = async (query: string) => {
+    if (!query.trim() || query.length < 2) {
+      setSearchResults({ pastPapers: [], resources: [], faculty: [], community: [], total: 0 })
+      setSearchError(null)
+      return
+    }
+
+    setIsSearching(true)
+    setSearchError(null)
+
+    try {
+      const searchParams = new URLSearchParams({
+        q: query.trim(),
+        type: activeTab === 'all' ? 'all' : activeTab === 'papers' ? 'past_papers' : activeTab,
+        limit: '20'
+      })
+
+      const response = await fetch(`/api/search?${searchParams}`)
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Search failed')
+      }
+
+      // Transform API response to match our interface
+      const transformedResults = {
+        pastPapers: result.data.pastPapers.map((paper: any) => ({
+          id: paper.id,
+          title: paper.title,
+          description: paper.description,
+          courseCode: paper.metadata.courseCode,
+          department: paper.metadata.department,
+          semester: paper.metadata.semester,
+          year: paper.metadata.year,
+          examType: paper.metadata.examType,
+          fileType: paper.metadata.fileType,
+          downloadUrl: paper.downloadUrl,
+          metadata: paper.metadata
+        })),
+        resources: result.data.resources.map((resource: any) => ({
+          id: resource.id,
+          title: resource.title,
+          description: resource.description,
+          type: resource.metadata.fileType || 'Resource',
+          department: resource.metadata.department,
+          downloadUrl: resource.downloadUrl,
+          metadata: resource.metadata
+        })),
+        faculty: result.data.faculty.map((member: any) => ({
+          id: member.id,
+          title: member.title,
+          description: member.description,
+          metadata: member.metadata
+        })),
+        community: result.data.community || [],
+        total: result.data.total
+      }
+
+      setSearchResults(transformedResults)
+    } catch (error: any) {
+      console.error('Search error:', error)
+      setSearchError(error.message || 'Search failed')
+      setSearchResults({ pastPapers: [], resources: [], faculty: [], community: [], total: 0 })
+    } finally {
+      setIsSearching(false)
+    }
+  }
+
+  // Keyboard shortcuts
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       // Cmd/Ctrl + K focuses the search box
@@ -106,7 +218,17 @@ export function SearchClient() {
     return () => window.removeEventListener("keydown", onKeyDown)
   }, [])
 
-  // Enhanced suggestions based on popular searches
+  // Trigger search when query changes
+  useEffect(() => {
+    const currentQuery = params.get("q") || ""
+    if (currentQuery !== q) return
+    
+    const timer = setTimeout(() => {
+      performSearch(currentQuery)
+    }, 300) // Debounce search
+    
+    return () => clearTimeout(timer)
+  }, [q, activeTab, params])
   const popularSuggestions = [
     "Data Structures", "Machine Learning", "Database Systems", "Web Development",
     "Algorithms", "Software Engineering", "Computer Networks", "Operating Systems",
@@ -131,12 +253,14 @@ export function SearchClient() {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const next = q.trim()
-    setIsSearching(true)
     
     router.replace(next ? `/search?q=${encodeURIComponent(next)}` : "/search")
     setShowSuggestions(false)
     
     if (next) {
+      // Trigger search immediately
+      performSearch(next)
+      
       // Persist to recent searches (dedupe, keep last 8)
       setRecent((prev) => {
         const updated = [next, ...prev.filter((x) => x.toLowerCase() !== next.toLowerCase())].slice(0, 8)
@@ -146,14 +270,13 @@ export function SearchClient() {
         return updated
       })
     }
-    
-    setTimeout(() => setIsSearching(false), 500)
   }
 
   const selectSuggestion = (suggestion: string) => {
     setQ(suggestion)
     setShowSuggestions(false)
     router.replace(`/search?q=${encodeURIComponent(suggestion)}`)
+    performSearch(suggestion) // Trigger search immediately
   }
 
   return (
@@ -392,7 +515,14 @@ export function SearchClient() {
         )}
 
         {/* Search Results */}
-        <SearchResults query={q} activeTab={activeTab} sortBy={sortBy} />
+        <SearchResults 
+          query={q} 
+          activeTab={activeTab} 
+          sortBy={sortBy} 
+          searchResults={searchResults}
+          isSearching={isSearching}
+          searchError={searchError}
+        />
       </main>
     </div>
   )
@@ -416,80 +546,74 @@ function highlight(text: string, query: string) {
   }
 }
 
-function SearchResults({ query, activeTab, sortBy }: { 
+function SearchResults({ 
+  query, 
+  activeTab, 
+  sortBy, 
+  searchResults, 
+  isSearching, 
+  searchError 
+}: { 
   query: string
   activeTab: 'all' | 'resources' | 'papers' | 'faculty'
   sortBy: 'relevance' | 'date' | 'name'
+  searchResults: {
+    pastPapers: PastPaper[]
+    resources: LearningResource[]
+    faculty: Faculty[]
+    community: any[]
+    total: number
+  }
+  isSearching: boolean
+  searchError: string | null
 }) {
   const q = query.trim()
 
-  // Enhanced scoring with multiple factors
-  const scoreText = (text: string, term: string, isTitle = false) => {
-    if (!text) return 0
-    const t = term.toLowerCase()
-    const s = text.toLowerCase()
-    const idx = s.indexOf(t)
-    if (idx === -1) return 0
-    
-    const occurrences = s.split(t).length - 1
-    let score = 100 - idx + occurrences * 5
-    
-    // Title matches get higher score
-    if (isTitle) score *= 1.5
-    
-    // Word boundary boost
-    try {
-      const escaped = t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-      const wb = new RegExp(`\\b${escaped}\\b`, "i")
-      if (wb.test(text)) score += 50
-    } catch {}
-    
-    return score
+  if (!q) return null
+
+  // Show loading state
+  if (isSearching) {
+    return (
+      <section className="mt-8 fade-in" aria-live="polite">
+        <div className="flex items-center justify-center py-12">
+          <div className="flex items-center gap-4">
+            <div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+            <span className="text-lg font-medium text-muted-foreground">Searching...</span>
+          </div>
+        </div>
+      </section>
+    )
   }
 
-  const resourceResults = useMemo<LearningResource[]>(() => {
-    if (!q) return []
-    const filtered = filterResources(mockLearningResources, { search: q })
-    return filtered
-      .slice()
-      .sort(
-        (a, b) =>
-          (scoreText(b.title, q) + scoreText(b.description, q)) -
-          (scoreText(a.title, q) + scoreText(a.description, q)),
-      )
-  }, [q])
+  // Show error state
+  if (searchError) {
+    return (
+      <section className="mt-8 fade-in" aria-live="polite">
+        <Card className="card-modern border-0 backdrop-blur-sm border-red-200/50">
+          <CardContent className="p-8 text-center">
+            <div className="text-red-600 mb-4">
+              <AlertCircle className="h-12 w-12 mx-auto" />
+            </div>
+            <h3 className="text-lg font-semibold text-red-800 mb-2">Search Error</h3>
+            <p className="text-red-600 mb-4">{searchError}</p>
+            <Button 
+              onClick={() => window.location.reload()} 
+              variant="outline" 
+              className="border-red-200 hover:bg-red-50"
+            >
+              Try Again
+            </Button>
+          </CardContent>
+        </Card>
+      </section>
+    )
+  }
 
-  const paperResults = useMemo<PastPaper[]>(() => {
-    if (!q) return []
-    const filtered = filterPapers(mockPastPapers, { search: q })
-    return filtered
-      .slice()
-      .sort(
-        (a, b) =>
-          (scoreText(b.title, q) + scoreText(b.course, q) + scoreText(b.courseCode, q)) -
-          (scoreText(a.title, q) + scoreText(a.course, q) + scoreText(a.courseCode, q)),
-      )
-  }, [q])
-
-  const facultyResults = useMemo<Faculty[]>(() => {
-    if (!q) return []
-    const filtered = searchFaculty(mockFaculty, q)
-    return filtered
-      .slice()
-      .sort(
-        (a, b) =>
-          (scoreText(b.name, q) + scoreText(b.department, q)) -
-          (scoreText(a.name, q) + scoreText(a.department, q)),
-      )
-  }, [q])
-
-  const total = resourceResults.length + paperResults.length + facultyResults.length
-
-  if (!q) return null
+  const { pastPapers: paperResults, resources: resourceResults, faculty: facultyResults, total } = searchResults
 
   return (
     <section className="mt-8 fade-in" aria-live="polite">
-      <h2 className="text-lg font-semibold">Results for “{q}”</h2>
+      <h2 className="text-lg font-semibold">Results for "{q}"</h2>
       <p className="text-xs text-muted-foreground mt-1">{total} total result{total === 1 ? "" : "s"}</p>
       {total === 0 ? (
         <div className="text-muted-foreground mt-2">
@@ -536,7 +660,7 @@ function SearchResults({ query, activeTab, sortBy }: {
                     </div>
                     <p className="text-sm text-muted-foreground line-clamp-2">{highlight(r.description, q)}</p>
                     <div className="mt-1 text-xs text-muted-foreground">
-                      {highlight(r.course, q)} • {r.department} • {r.difficulty}
+                      {r.department} • {r.metadata?.term || 'N/A'}
                     </div>
                   </li>
                 ))}
@@ -563,7 +687,7 @@ function SearchResults({ query, activeTab, sortBy }: {
                       <span className="text-xs text-muted-foreground">{p.examType}</span>
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      {highlight(p.course, q)} ({highlight(p.courseCode, q)}) • {p.department} • {p.semester}
+                      {highlight(p.description, q)} • {p.department}
                     </div>
                     <div className="mt-1 text-xs text-muted-foreground">Year {p.year} • {p.fileType}</div>
                   </li>
@@ -583,14 +707,16 @@ function SearchResults({ query, activeTab, sortBy }: {
                 {facultyResults.slice(0, 5).map((f) => (
                   <li key={f.id} className="rounded-md border p-3 interactive hover-lift">
                     <div className="font-medium">
-                      <Link href="/faculty" className="hover:underline" aria-label={`Open faculty list for ${f.department}`}>
-                        {highlight(f.name, q)}
+                      <Link href={`/faculty/${f.id}`} className="hover:underline" aria-label={`View ${f.title} profile`}>
+                        {highlight(f.title, q)}
                       </Link>
                     </div>
-                    <div className="text-sm text-muted-foreground">{f.title} • {f.department}</div>
-                    <div className="mt-1 text-xs text-muted-foreground">
-                      Specializations: {highlight(f.specialization.slice(0, 3).join(", "), q)}
-                    </div>
+                    <div className="text-sm text-muted-foreground">{highlight(f.description, q)}</div>
+                    {f.metadata?.specialization && (
+                      <div className="mt-1 text-xs text-muted-foreground">
+                        Specializations: {highlight(f.metadata.specialization.slice(0, 3).join(", "), q)}
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
