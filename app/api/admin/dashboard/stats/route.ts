@@ -45,6 +45,26 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // Users: use Admin API and paginate to get total count
+    let totalUsers = 0
+    try {
+      const perPage = 100
+      let page = 1
+      while (true) {
+        const { data, error } = await supabase.auth.admin.listUsers({ page, perPage })
+        if (error) throw error
+        const users = data?.users ?? []
+        totalUsers += users.length
+        if (users.length < perPage) break
+        page += 1
+        // Safety cap to prevent long loops
+        if (page > 100) break
+      }
+    } catch (e) {
+      // If admin list fails, leave as 0 but continue
+      console.error('dashboard-stats: users count failed:', e)
+    }
+
     // Get counts for all tables
     const [
       lostFoundResult,
@@ -52,16 +72,14 @@ export async function GET(request: NextRequest) {
       eventsResult,
       supportRequestsResult,
       guidanceResult,
-      faqResult,
-      usersResult
+      faqResult
     ] = await Promise.all([
       supabase.from('lost_found_items').select('*', { count: 'exact', head: true }),
       supabase.from('news_items').select('*', { count: 'exact', head: true }),
       supabase.from('events').select('*', { count: 'exact', head: true }),
       supabase.from('support_requests').select('*', { count: 'exact', head: true }),
       supabase.from('guidance_content').select('*', { count: 'exact', head: true }),
-      supabase.from('faq_items').select('*', { count: 'exact', head: true }),
-      supabase.auth.admin.listUsers()
+      supabase.from('faq_items').select('*', { count: 'exact', head: true })
     ])
 
     const stats = {
@@ -70,7 +88,7 @@ export async function GET(request: NextRequest) {
       events: eventsResult.count || 0,
       supportRequests: supportRequestsResult.count || 0,
       guidanceContent: (guidanceResult.count || 0) + (faqResult.count || 0),
-      totalUsers: usersResult.data?.users?.length || 0
+      totalUsers: totalUsers
     }
 
     return NextResponse.json(stats)

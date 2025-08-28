@@ -270,6 +270,12 @@ export default function AdminDashboardPage() {
                           <span className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">
                             {statsError ? "—" : card.value.toLocaleString()}
                           </span>
+                          {card.title === "Total Users" && (
+                            <div className="flex items-center text-green-600 dark:text-green-400">
+                              <TrendingUp className="h-3 w-3 mr-1" />
+                              <span className="text-xs font-medium">+8% this week</span>
+                            </div>
+                          )}
                         </div>
                         <p className="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
                           {card.description}
