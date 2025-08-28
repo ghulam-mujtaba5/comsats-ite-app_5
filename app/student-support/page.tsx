@@ -480,11 +480,12 @@ export default function StudentSupportPage() {
                   <input
                     type="checkbox"
                     id="anonymous"
-                    aria-labelledby="anonymous-label"
+                    name="anonymous"
+                    aria-label="Submit anonymously"
                     checked={requestForm.isAnonymous}
                     onChange={(e) => setRequestForm(prev => ({ ...prev, isAnonymous: e.target.checked }))}
                   />
-                  <Label id="anonymous-label" htmlFor="anonymous">Submit anonymously</Label>
+                  <Label htmlFor="anonymous">Submit anonymously</Label>
                 </div>
                 <div className="flex justify-end space-x-2">
                   <Button variant="outline" onClick={() => setShowRequestDialog(false)}>

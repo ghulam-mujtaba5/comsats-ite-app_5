@@ -431,16 +431,31 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
                 onChange={(e) => handleInputChange("newTag", e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
               />
-              <Button type="button" variant="outline" onClick={addTag} className="bg-transparent">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={addTag}
+                className="bg-transparent"
+                aria-label="Add tag"
+                title="Add tag"
+              >
                 <Plus className="h-4 w-4" />
+                <span className="sr-only">Add tag</span>
               </Button>
             </div>
             <div className="flex flex-wrap gap-2">
               {formData.tags.map((tag, index) => (
                 <Badge key={index} variant="secondary" className="flex items-center gap-1">
                   {tag}
-                  <button type="button" onClick={() => removeTag(tag)} className="ml-1 hover:text-destructive">
+                  <button
+                    type="button"
+                    onClick={() => removeTag(tag)}
+                    className="ml-1 hover:text-destructive"
+                    aria-label={`Remove tag ${tag}`}
+                    title={`Remove tag ${tag}`}
+                  >
                     <X className="h-3 w-3" />
+                    <span className="sr-only">Remove tag {tag}</span>
                   </button>
                 </Badge>
               ))}
