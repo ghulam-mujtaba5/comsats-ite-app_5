@@ -121,7 +121,7 @@ export function AdvancedFilterBar({
     if (onSavePreset) onSavePreset(filters)
   }
 
-  const FilterContent = () => (
+  const renderFilterContent = () => (
     <div className="space-y-6">
       {/* Search and Primary Actions */}
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -358,7 +358,7 @@ export function AdvancedFilterBar({
         className
       )}>
         <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
-        <FilterContent />
+        {renderFilterContent()}
       </div>
     )
   }
@@ -409,7 +409,7 @@ export function AdvancedFilterBar({
         <CollapsibleContent className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1">
           <div className="px-6 lg:px-8 pb-6 lg:pb-8 border-t border-white/10 dark:border-slate-700/20">
             <div className="pt-6">
-              <FilterContent />
+              {renderFilterContent()}
             </div>
           </div>
         </CollapsibleContent>
