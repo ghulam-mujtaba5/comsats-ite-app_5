@@ -83,14 +83,14 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/20 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/60 fade-in shadow-lg hover:shadow-xl transition-all duration-300">
-      <div className="app-container h-18 flex items-center justify-between py-2">
+      <div className="app-container h-16 flex items-center justify-between">
         <Link
           href={isAdmin ? "/admin" : "/"}
           title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
           className="flex items-center space-x-4 hover:opacity-90 transition-all duration-300 interactive group px-2 py-1 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/30 backdrop-blur-sm"
         >
           <div className="relative">
-            <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg" />
+            <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={40} height={40} className="rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg" />
             <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
           <div className="flex flex-col">
@@ -107,7 +107,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative px-5 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 interactive hover-lift group ${
+                className={`relative px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 interactive hover-lift group ${
                   isActivePath(item.href) 
                     ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 text-blue-600 dark:text-blue-400 border border-blue-200/30 dark:border-blue-400/30 backdrop-blur-sm shadow-lg" 
                     : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm hover:shadow-md hover:border-white/40 dark:hover:border-slate-600/40 border border-transparent"
