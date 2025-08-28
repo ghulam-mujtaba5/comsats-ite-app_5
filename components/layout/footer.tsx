@@ -59,7 +59,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
   }
 
   return (
-    <footer className="bg-card border-t border-border">
+    <footer className="relative bg-card/60 backdrop-blur supports-[backdrop-filter]:bg-card/60 border-t border-border">
       <div className="app-container py-12">
         <div className="mb-10 p-4 md:p-6 bg-accent/10 border border-accent/30 rounded-xl flex flex-col md:flex-row items-center justify-between gap-3">
           <div className="text-center md:text-left">
