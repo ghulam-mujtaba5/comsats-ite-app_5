@@ -87,16 +87,16 @@ export function Header() {
         <Link
           href={isAdmin ? "/admin" : "/"}
           title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
-          className="flex items-center space-x-4 hover:opacity-90 transition-all duration-300 interactive group"
+          className="flex items-center space-x-4 hover:opacity-90 transition-all duration-300 interactive group px-2 py-1 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/30 backdrop-blur-sm"
         >
           <div className="relative">
-            <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl group-hover:scale-105 transition-transform duration-300" />
-            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg" />
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-xl leading-tight tracking-tight">CampusAxis</span>
+            <span className="font-bold text-xl leading-tight tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">CampusAxis</span>
             {pathname !== '/' && (
-              <span className="text-xs text-muted-foreground leading-tight font-medium">Academic Portal</span>
+              <span className="text-xs text-slate-600 dark:text-slate-400 leading-tight font-medium">Academic Portal</span>
             )}
           </div>
         </Link>
@@ -127,7 +127,7 @@ export function Header() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Link href="/search" title="Search (Ctrl/⌘ K)" className="hidden lg:inline-flex">
-                <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-muted/50" aria-keyshortcuts="Control+K Meta+K">
+                <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300" aria-keyshortcuts="Control+K Meta+K">
                   <Search className="h-5 w-5" />
                   <span className="sr-only">Search</span>
                 </Button>
@@ -136,7 +136,7 @@ export function Header() {
             <TooltipContent sideOffset={6}>Search (Ctrl/⌘ K)</TooltipContent>
           </Tooltip>
           <span
-            className="hidden lg:inline-flex select-none items-center gap-1 rounded-xl border border-border/50 px-3 py-2 text-[11px] leading-none text-muted-foreground/90 bg-muted/30 backdrop-blur-sm"
+            className="hidden lg:inline-flex select-none items-center gap-1 rounded-xl border border-white/30 dark:border-slate-600/40 px-3 py-2 text-[11px] leading-none text-slate-600 dark:text-slate-400 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm shadow-sm"
             aria-hidden="true"
           >
             <span className="font-mono">Ctrl</span>
@@ -147,7 +147,7 @@ export function Header() {
           </span>
           {isAdmin && (
             <Link href="/admin" title="Admin Panel" className="hidden lg:inline-flex">
-              <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-muted/50">
+              <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300">
                 <Shield className="h-5 w-5" />
                 <span className="sr-only">Admin Panel</span>
               </Button>
@@ -158,42 +158,47 @@ export function Header() {
           </div>
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="lg:hidden interactive p-3 rounded-xl hover:bg-muted/50">
+              <Button variant="ghost" size="sm" className="lg:hidden interactive p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-80 bg-background/95 backdrop-blur-xl border-border/50">
+            <SheetContent side="right" className="w-80 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl">
               <div className="flex flex-col space-y-6 mt-8">
-                <div className="flex items-center space-x-4 pb-6 border-b border-border/50">
+                <div className="flex items-center space-x-4 pb-6 border-b border-white/20 dark:border-white/10">
                   <div className="relative">
                     <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl" />
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/20 to-transparent opacity-50" />
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-50" />
                   </div>
                   <div className="flex flex-col">
                     <span className="font-bold text-xl">CampusAxis</span>
                     {pathname !== '/' && (
-                      <span className="text-sm text-muted-foreground">Academic Portal</span>
+                      <span className="text-sm text-slate-600 dark:text-slate-400">Academic Portal</span>
                     )}
                   </div>
                 </div>
 
                 {navigationItems.map((item) => {
-                  const Icon = item.icon
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-start space-x-4 p-4 rounded-2xl transition-all duration-300 hover:bg-muted/50 interactive hover-lift group ${
-                        isActivePath(item.href) ? "bg-gradient-to-r from-primary/20 to-blue-500/20 border border-primary/20" : ""
+                      className={`relative p-4 rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift group backdrop-blur-sm border ${
+                        isActivePath(item.href) ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border-blue-200/30 dark:border-blue-400/30 shadow-lg" : "border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md"
                       }`}
                       aria-current={isActivePath(item.href) ? "page" : undefined}
                     >
-                      <Icon className="h-6 w-6 mt-0.5 flex-shrink-0 group-hover:scale-110 transition-transform" />
-                      <div className="flex flex-col">
-                        <span className="font-semibold text-base">{item.name}</span>
-                        <span className="text-sm text-muted-foreground">{item.description}</span>
+                      {isActivePath(item.href) && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-2xl blur-sm" />
+                      )}
+                      <div className="relative z-10 flex flex-col">
+                        <span className={`font-semibold text-base ${
+                          isActivePath(item.href) ? "text-blue-600 dark:text-blue-400" : "text-slate-900 dark:text-white"
+                        }`}>{item.name}</span>
+                        <span className={`text-sm ${
+                          isActivePath(item.href) ? "text-blue-500/80 dark:text-blue-300/80" : "text-slate-600 dark:text-slate-400"
+                        }`}>{item.description}</span>
                       </div>
                     </Link>
                   )
@@ -204,12 +209,14 @@ export function Header() {
                   <Link
                     href="/admin"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-start space-x-3 p-3 rounded-lg transition-colors hover:bg-accent interactive hover-lift"
+                    className="relative p-4 rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md"
                   >
-                    <Shield className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                    <div className="flex flex-col">
-                      <span className="font-medium">Admin Panel</span>
-                      <span className="text-sm text-muted-foreground">Manage site content</span>
+                    <div className="relative z-10 flex items-start space-x-3">
+                      <Shield className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-slate-900 dark:text-white">Admin Panel</span>
+                        <span className="text-sm text-slate-600 dark:text-slate-400">Manage site content</span>
+                      </div>
                     </div>
                   </Link>
                 )}
@@ -261,7 +268,7 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <Link href="/auth">
-              <Button size="sm" className="font-medium interactive hover-lift">
+              <Button size="sm" className="font-semibold interactive hover-lift bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-0 shadow-lg hover:shadow-xl backdrop-blur-sm transition-all duration-300 rounded-xl">
                 Sign In
               </Button>
             </Link>

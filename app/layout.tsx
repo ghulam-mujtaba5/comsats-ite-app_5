@@ -191,17 +191,11 @@ html {
           </>
           )
         ))}
-        {/* Skip to content for keyboard users */}
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:rounded-md focus:bg-primary focus:text-primary-foreground"
-        >
-          Skip to content
-        </a>
+
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <AuthProvider>
             <Header />
-            <div id="main" className="min-h-[60vh]">
+            <div className="min-h-[60vh]">
               {children}
             </div>
             <FooterConditional />
