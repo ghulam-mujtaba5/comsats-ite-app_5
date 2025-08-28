@@ -75,9 +75,26 @@ export default function TimetablePage() {
     window.open(doc.public_url, "_blank")
   }
 
-  const handleDownload = (doc: TimetableDoc) => {
-    // Open the file in a new tab instead of forcing download
-    window.open(doc.public_url, "_blank")
+  const handleDownload = async (doc: TimetableDoc) => {
+    try {
+      const res = await fetch(doc.public_url, { mode: 'cors' })
+      if (!res.ok) throw new Error('Failed to fetch file')
+      const blob = await res.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      // Create a sensible filename
+      const safeTitle = doc.title?.replace(/[^a-z0-9_-]+/gi, '_') || 'timetable'
+      const ext = (blob.type && blob.type.includes('pdf')) ? 'pdf' : 'pdf'
+      a.href = url
+      a.download = `${safeTitle}.${ext}`
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      window.URL.revokeObjectURL(url)
+    } catch (e) {
+      // Fallback: open in new tab if download fails
+      window.open(doc.public_url, "_blank")
+    }
   }
 
   const onUpload = async (e: React.FormEvent) => {

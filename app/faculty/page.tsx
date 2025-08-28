@@ -26,6 +26,42 @@ export default function FacultyPage() {
   const [statsLoading, setStatsLoading] = useState(true)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [debouncedSearch, setDebouncedSearch] = useState("")
+  
+  // Preserve and restore scroll position when navigating to profile and back
+  useEffect(() => {
+    // Attempt to restore stored scroll position
+    const stored = sessionStorage.getItem('facultyScrollY')
+    if (stored) {
+      const y = parseInt(stored, 10)
+      if (!Number.isNaN(y)) {
+        // Use rAF to ensure layout painted before scrolling
+        requestAnimationFrame(() => window.scrollTo({ top: y, behavior: 'instant' as ScrollBehavior }))
+      }
+      sessionStorage.removeItem('facultyScrollY')
+    }
+
+    // Save scroll before navigating to a faculty detail page
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const anchor = target?.closest && (target.closest('a') as HTMLAnchorElement | null)
+      const href = anchor?.getAttribute?.('href') || ''
+      if (href && href.startsWith('/faculty/')) {
+        sessionStorage.setItem('facultyScrollY', String(window.scrollY))
+      }
+    }
+    document.addEventListener('click', onClick)
+
+    return () => {
+      document.removeEventListener('click', onClick)
+    }
+  }, [])
+
+  // Debounce search input for smoother UX
+  useEffect(() => {
+    const id = setTimeout(() => setDebouncedSearch(searchQuery.trim()), 300)
+    return () => clearTimeout(id)
+  }, [searchQuery])
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -102,8 +138,8 @@ export default function FacultyPage() {
     }
     
     // Apply search
-    if (searchQuery.trim()) {
-      faculty = searchFaculty(faculty, searchQuery)
+    if (debouncedSearch) {
+      faculty = searchFaculty(faculty, debouncedSearch)
     }
     
     // Apply sorting
@@ -138,7 +174,7 @@ export default function FacultyPage() {
     })
     
     return faculty
-  }, [searchQuery, selectedDepartment, selectedSpecialization, minRating, experienceLevel, coursesTaught, currentSort, sortDirection, facultyList])
+  }, [debouncedSearch, selectedDepartment, selectedSpecialization, minRating, experienceLevel, coursesTaught, currentSort, sortDirection, facultyList])
 
 
   return (
@@ -404,7 +440,7 @@ export default function FacultyPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredFaculty.map((faculty) => (
-                <FacultyCard key={faculty.id} faculty={faculty} />
+                <FacultyCard key={faculty.id} faculty={faculty} searchTerm={debouncedSearch} />
               ))}
             </div>
           )}

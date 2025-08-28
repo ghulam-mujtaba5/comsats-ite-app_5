@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -18,7 +18,24 @@ interface SemesterInput {
 
 export function CumulativeGPACalculator() {
   const [semesters, setSemesters] = useState<SemesterInput[]>([{ id: "1", name: "Semester 1", gpa: 0, creditHours: 0 }])
-  const [result, setResult] = useState<{ cgpa: number; totalCredits: number } | null>(null)
+  
+  const validSemesters = useMemo(
+    () => semesters.filter((sem) => sem.gpa > 0 && sem.creditHours > 0),
+    [semesters],
+  )
+
+  const liveResult = useMemo(() => {
+    if (validSemesters.length === 0) return null
+    let totalPoints = 0
+    let totalCredits = 0
+    validSemesters.forEach((sem) => {
+      totalPoints += sem.gpa * sem.creditHours
+      totalCredits += sem.creditHours
+    })
+    if (totalCredits === 0) return null
+    const cgpa = Math.round(((totalPoints / totalCredits) + Number.EPSILON) * 100) / 100
+    return { cgpa, totalCredits }
+  }, [validSemesters])
 
   const addSemester = () => {
     const newSemester: SemesterInput = {
@@ -40,28 +57,8 @@ export function CumulativeGPACalculator() {
     setSemesters(semesters.map((semester) => (semester.id === id ? { ...semester, [field]: value } : semester)))
   }
 
-  const calculateCGPA = () => {
-    const validSemesters = semesters.filter((sem) => sem.gpa > 0 && sem.creditHours > 0)
-    if (validSemesters.length === 0) {
-      setResult(null)
-      return
-    }
-
-    let totalPoints = 0
-    let totalCredits = 0
-
-    validSemesters.forEach((semester) => {
-      totalPoints += semester.gpa * semester.creditHours
-      totalCredits += semester.creditHours
-    })
-
-    const cgpa = totalCredits > 0 ? totalPoints / totalCredits : 0
-    setResult({ cgpa: Math.round(cgpa * 100) / 100, totalCredits })
-  }
-
   const resetCalculator = () => {
     setSemesters([{ id: "1", name: "Semester 1", gpa: 0, creditHours: 0 }])
-    setResult(null)
   }
 
   return (
@@ -135,25 +132,22 @@ export function CumulativeGPACalculator() {
             <Plus className="h-4 w-4 mr-2" />
             Add Semester
           </Button>
-          <Button onClick={calculateCGPA} className="flex-1">
-            Calculate CGPA
-          </Button>
           <Button variant="outline" onClick={resetCalculator} className="flex-1 bg-transparent">
             Reset
           </Button>
         </div>
 
-        {result && (
+        {liveResult && (
           <Card className="bg-muted/50">
             <CardContent className="pt-6">
               <div className="text-center space-y-4">
                 <div>
-                  <div className="text-3xl font-bold text-primary">{result.cgpa.toFixed(2)}</div>
+                  <div className="text-3xl font-bold text-primary">{liveResult.cgpa.toFixed(2)}</div>
                   <div className="text-sm text-muted-foreground">Cumulative GPA</div>
                 </div>
                 <div className="flex justify-center gap-4">
-                  <Badge variant="secondary">Grade: {getGradeFromGPA(result.cgpa)}</Badge>
-                  <Badge variant="outline">Total Credits: {result.totalCredits}</Badge>
+                  <Badge variant="secondary">Grade: {getGradeFromGPA(liveResult.cgpa)}</Badge>
+                  <Badge variant="outline">Total Credits: {liveResult.totalCredits}</Badge>
                 </div>
               </div>
             </CardContent>

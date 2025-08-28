@@ -53,6 +53,8 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
     newCon: "",
     wouldRecommend: false,
     isAnonymous: false,
+    newCourse: "",
+    useNewCourse: false,
   })
 
   const handleRatingChange = (category: string, rating: number) => {
@@ -127,10 +129,10 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
     }
 
     // Basic client-side validation
-    if (!formData.course) {
+    if ((!formData.course && !formData.useNewCourse) || (formData.useNewCourse && !formData.newCourse.trim())) {
       toast({ 
         title: "Course Required", 
-        description: "Please select a course before submitting.", 
+        description: formData.useNewCourse ? "Please enter the course name." : "Please select a course before submitting.", 
         variant: "destructive" 
       })
       return
@@ -160,7 +162,7 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
         faculty_id: faculty.id,
         student_id: user.id,
         student_name: formData.isAnonymous ? null : (user.email?.split("@")[0] ?? null),
-        course: formData.course,
+        course: formData.useNewCourse ? formData.newCourse.trim() : formData.course,
         semester: formData.semester,
         rating: formData.rating,
         teaching_quality: formData.teachingQuality || 0,
@@ -211,8 +213,8 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
       
       // Success!
       toast({ 
-        title: "Review Submitted Successfully!", 
-        description: "Thank you for your feedback. Your review will help other students."
+        title: "Review Published", 
+        description: "Thank you for your feedback. Your review is now live."
       })
       
       setShowSuccessDialog(true)
@@ -316,6 +318,8 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
       newCon: "",
       wouldRecommend: false,
       isAnonymous: false,
+      newCourse: "",
+      useNewCourse: false,
     })
   }
 
@@ -330,7 +334,7 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
             Write Review for {faculty.name}
           </DialogTitle>
           <DialogDescription>
-            Share your experience to help fellow students make informed decisions. You can submit multiple reviews for different courses or update your feedback over time. Your review will be moderated before publication.
+            Share your experience to help fellow students make informed decisions. You can submit multiple reviews for different courses or update your feedback over time. Your review publishes instantly.
           </DialogDescription>
         </DialogHeader>
 
@@ -339,8 +343,14 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
             <div>
               <Label htmlFor="course">Course *</Label>
               <Select
-                value={formData.course}
-                onValueChange={(value) => setFormData((prev) => ({ ...prev, course: value }))}
+                value={formData.useNewCourse ? "__OTHER__" : formData.course}
+                onValueChange={(value) => {
+                  if (value === "__OTHER__") {
+                    setFormData((prev) => ({ ...prev, useNewCourse: true, course: "" }))
+                  } else {
+                    setFormData((prev) => ({ ...prev, useNewCourse: false, course: value }))
+                  }
+                }}
                 required
               >
                 <SelectTrigger>
@@ -352,8 +362,22 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
                       {course}
                     </SelectItem>
                   ))}
+                  <SelectItem value="__OTHER__">Other (add new course)</SelectItem>
                 </SelectContent>
               </Select>
+
+              {formData.useNewCourse && (
+                <div className="mt-2">
+                  <Label htmlFor="new-course">New Course Name *</Label>
+                  <Input
+                    id="new-course"
+                    placeholder="e.g., Advanced Algorithms"
+                    value={formData.newCourse}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, newCourse: e.target.value }))}
+                    required
+                  />
+                </div>
+              )}
             </div>
 
             <div>
@@ -502,10 +526,10 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <CheckCircle className="h-6 w-6 text-green-500" />
-              Review Submitted!
+              Review Published!
             </DialogTitle>
             <DialogDescription className="pt-2">
-              Thank you for sharing your experience! Your review will be moderated and published shortly. Feel free to submit additional reviews for other courses or update your feedback anytime.
+              Thank you for sharing your experience! Your review is now live. Feel free to submit additional reviews for other courses or update your feedback anytime.
             </DialogDescription>
           </DialogHeader>
           <div className="pt-4">

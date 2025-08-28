@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
+import { useState, useMemo } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -35,7 +35,7 @@ export function GPAPlanningCalculator() {
       courses: [],
     },
   ])
-  const [calculated, setCalculated] = useState(false)
+  
 
   const addSemester = () => {
     const newSemester: Semester = {
@@ -85,10 +85,7 @@ export function GPAPlanningCalculator() {
     )
   }
 
-  // Reset calculated state whenever inputs change
-  useEffect(() => {
-    setCalculated(false)
-  }, [currentGPA, currentCreditHours, targetGPA, semesters])
+  // Live updates: calculations recompute via useMemo on dependencies
 
   const calculations = useMemo(() => {
     const current = {
@@ -153,7 +150,6 @@ export function GPAPlanningCalculator() {
         courses: [],
       },
     ])
-    setCalculated(false)
   }
 
   const canCalculate = Boolean(currentGPA && currentCreditHours && calculations.totalPlannedCreditHours > 0)
@@ -317,15 +313,12 @@ export function GPAPlanningCalculator() {
             <Button onClick={reset} variant="outline" className="bg-transparent">
               Reset All
             </Button>
-            <Button onClick={() => setCalculated(true)} disabled={!canCalculate}>
-              Calculate
-            </Button>
           </div>
         </CardContent>
       </Card>
 
       {/* Results */}
-      {calculated && (
+      {canCalculate && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

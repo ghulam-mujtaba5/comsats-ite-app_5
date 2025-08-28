@@ -10,9 +10,30 @@ import Link from "next/link"
 
 interface FacultyCardProps {
   faculty: Faculty
+  searchTerm?: string
 }
 
-export function FacultyCard({ faculty }: FacultyCardProps) {
+export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
+  const highlight = (text: string) => {
+    const term = (searchTerm || '').trim()
+    if (!term) return text
+    try {
+      const i = text.toLowerCase().indexOf(term.toLowerCase())
+      if (i === -1) return text
+      const before = text.slice(0, i)
+      const match = text.slice(i, i + term.length)
+      const after = text.slice(i + term.length)
+      return (
+        <>
+          {before}
+          <span className="bg-yellow-200/60 dark:bg-yellow-500/30 rounded px-0.5">{match}</span>
+          {after}
+        </>
+      )
+    } catch {
+      return text
+    }
+  }
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
@@ -36,7 +57,7 @@ export function FacultyCard({ faculty }: FacultyCardProps) {
             </AvatarFallback>
           </Avatar>
           <div className="flex-1">
-            <CardTitle className="text-xl group-hover:text-primary transition-colors">{faculty.name}</CardTitle>
+            <CardTitle className="text-xl group-hover:text-primary transition-colors">{highlight(faculty.name)}</CardTitle>
             <CardDescription className="text-base">{faculty.title}</CardDescription>
             <Badge variant="secondary" className="mt-1">
               {faculty.department}
@@ -77,7 +98,7 @@ export function FacultyCard({ faculty }: FacultyCardProps) {
           <div className="flex flex-wrap gap-1">
             {faculty.specialization.slice(0, 3).map((spec, index) => (
               <Badge key={index} variant="outline" className="text-xs">
-                {spec}
+                {highlight(spec) as any}
               </Badge>
             ))}
             {faculty.specialization.length > 3 && (

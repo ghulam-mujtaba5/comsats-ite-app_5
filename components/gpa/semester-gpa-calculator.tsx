@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,7 +12,16 @@ import { type Course, GRADES, calculateSemesterGPA, getGradeFromGPA } from "@/li
 
 export function SemesterGPACalculator() {
   const [courses, setCourses] = useState<Course[]>([{ id: "1", name: "", creditHours: 3, grade: "" }])
-  const [result, setResult] = useState<{ gpa: number; totalCredits: number } | null>(null)
+
+  const validCourses = useMemo(
+    () => courses.filter((course) => course.grade && course.creditHours > 0),
+    [courses],
+  )
+
+  const liveResult = useMemo(() => {
+    if (validCourses.length === 0) return null
+    return calculateSemesterGPA(validCourses)
+  }, [validCourses])
 
   const addCourse = () => {
     const newCourse: Course = {
@@ -34,20 +43,8 @@ export function SemesterGPACalculator() {
     setCourses(courses.map((course) => (course.id === id ? { ...course, [field]: value } : course)))
   }
 
-  const calculateGPA = () => {
-    const validCourses = courses.filter((course) => course.grade && course.creditHours > 0)
-    if (validCourses.length === 0) {
-      setResult(null)
-      return
-    }
-
-    const result = calculateSemesterGPA(validCourses)
-    setResult(result)
-  }
-
   const resetCalculator = () => {
     setCourses([{ id: "1", name: "", creditHours: 3, grade: "" }])
-    setResult(null)
   }
 
   return (
@@ -121,25 +118,22 @@ export function SemesterGPACalculator() {
             <Plus className="h-4 w-4 mr-2" />
             Add Course
           </Button>
-          <Button onClick={calculateGPA} className="flex-1">
-            Calculate GPA
-          </Button>
           <Button variant="outline" onClick={resetCalculator} className="flex-1 bg-transparent">
             Reset
           </Button>
         </div>
 
-        {result && (
+        {liveResult && (
           <Card className="bg-muted/50">
             <CardContent className="pt-6">
               <div className="text-center space-y-4">
                 <div>
-                  <div className="text-3xl font-bold text-primary">{result.gpa.toFixed(2)}</div>
+                  <div className="text-3xl font-bold text-primary">{liveResult.gpa.toFixed(2)}</div>
                   <div className="text-sm text-muted-foreground">Semester GPA</div>
                 </div>
                 <div className="flex justify-center gap-4">
-                  <Badge variant="secondary">Grade: {getGradeFromGPA(result.gpa)}</Badge>
-                  <Badge variant="outline">Total Credits: {result.totalCredits}</Badge>
+                  <Badge variant="secondary">Grade: {getGradeFromGPA(liveResult.gpa)}</Badge>
+                  <Badge variant="outline">Total Credits: {liveResult.totalCredits}</Badge>
                 </div>
               </div>
             </CardContent>
