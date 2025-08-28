@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { AdminPageHeader } from "@/components/admin/admin-page-header"
-import { Users, MessageSquare, Search, HelpCircle, Newspaper, Heart, FileText, AlertTriangle, Server, TrendingUp, Activity, Zap, BarChart3, Globe, Settings, Bell } from "lucide-react"
+import { Users, MessageSquare, Search, HelpCircle, Newspaper, Heart, FileText, AlertTriangle, Server, TrendingUp, Activity, Zap, BarChart3, Globe, Settings, Bell, GraduationCap, Library } from "lucide-react"
 
 interface DashboardStats {
   lostFoundItems: number
@@ -16,6 +16,13 @@ interface DashboardStats {
   supportRequests: number
   guidanceContent: number
   totalUsers: number
+}
+
+interface OverviewStats {
+  totalUsers: number;
+  totalFaculty: number;
+  totalReviews: number;
+  totalResources: number;
 }
 
 export default function AdminDashboardPage() {
@@ -32,11 +39,14 @@ export default function AdminDashboardPage() {
   const [health, setHealth] = useState<{ timetable?: any; mongo?: any }>({})
   const [adminRole, setAdminRole] = useState<string | null>(null)
   const [statsError, setStatsError] = useState<string | null>(null)
+  const [overview, setOverview] = useState<OverviewStats | null>(null)
+  const [loadingOverview, setLoadingOverview] = useState<boolean>(true)
 
   useEffect(() => {
     fetchStats()
     fetchHealth()
     fetchAdminRole()
+    fetchOverview()
   }, [])
 
   const fetchStats = async () => {
@@ -55,6 +65,22 @@ export default function AdminDashboardPage() {
       setStatsError('Failed to fetch')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchOverview = async () => {
+    try {
+      const res = await fetch('/api/admin/dashboard-stats')
+      if (!res.ok) {
+        setOverview(null)
+      } else {
+        const data = await res.json()
+        setOverview(data)
+      }
+    } catch (e) {
+      setOverview(null)
+    } finally {
+      setLoadingOverview(false)
     }
   }
 
@@ -196,6 +222,118 @@ export default function AdminDashboardPage() {
                 <span className="font-medium">Failed to load KPI stats:</span> 
                 <span>{statsError}</span>
               </div>
+
+        {/* Platform Overview moved from /admin landing */}
+        <div className="app-container space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Platform Overview</h2>
+              <p className="text-slate-600 dark:text-slate-300">Key metrics and system status at a glance</p>
+            </div>
+            <Badge variant="outline" className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300">
+              <Zap className="h-3 w-3 mr-1" />
+              Live Data
+            </Badge>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {/* Total Users */}
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Total Users</CardTitle>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative bg-gradient-to-r from-blue-600 to-cyan-600 p-2 rounded-xl">
+                    <Users className="h-4 w-4 text-white" />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-1">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                    {loadingOverview ? '...' : overview?.totalUsers?.toLocaleString() ?? 'N/A'}
+                  </div>
+                  <div className="flex items-center text-green-600 dark:text-green-400 text-xs">
+                    <Activity className="h-3 w-3 mr-1" />
+                    <span>+8% this week</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Faculty Members */}
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Faculty Members</CardTitle>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative bg-gradient-to-r from-emerald-600 to-green-600 p-2 rounded-xl">
+                    <GraduationCap className="h-4 w-4 text-white" />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-1">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                    {loadingOverview ? '...' : overview?.totalFaculty?.toLocaleString() ?? 'N/A'}
+                  </div>
+                  <div className="flex items-center text-green-600 dark:text-green-400 text-xs">
+                    <Activity className="h-3 w-3 mr-1" />
+                    <span>+2 new profiles</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Reviews & Feedback */}
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Reviews & Feedback</CardTitle>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative bg-gradient-to-r from-purple-600 to-pink-600 p-2 rounded-xl">
+                    <MessageSquare className="h-4 w-4 text-white" />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-1">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                    {loadingOverview ? '...' : overview?.totalReviews?.toLocaleString() ?? 'N/A'}
+                  </div>
+                  <div className="flex items-center text-blue-600 dark:text-blue-400 text-xs">
+                    <Activity className="h-3 w-3 mr-1" />
+                    <span>15 pending review</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Learning Resources */}
+            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Learning Resources</CardTitle>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative bg-gradient-to-r from-orange-600 to-amber-600 p-2 rounded-xl">
+                    <Library className="h-4 w-4 text-white" />
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-1">
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                    {loadingOverview ? '...' : overview?.totalResources?.toLocaleString() ?? 'N/A'}
+                  </div>
+                  <div className="flex items-center text-orange-600 dark:text-orange-400 text-xs">
+                    <Activity className="h-3 w-3 mr-1" />
+                    <span>3 uploads today</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
             </div>
           </div>
         )}

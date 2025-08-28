@@ -78,7 +78,7 @@ export default function AdminDashboardPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 backdrop-blur-3xl" />
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C92AC%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30" />
           
-          <div className="relative app-container pt-12 pb-8">
+          <div className="relative app-container px-6 lg:px-10 pt-12 pb-8">
             <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                 <div className="space-y-4">
@@ -155,113 +155,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Enhanced Stats Overview */}
-        <div className="app-container space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Platform Overview</h2>
-              <p className="text-slate-600 dark:text-slate-300">Key metrics and system status at a glance</p>
-            </div>
-            <Badge variant="outline" className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300">
-              <Zap className="h-3 w-3 mr-1" />
-              Live Data
-            </Badge>
-          </div>
-          
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Total Users</CardTitle>
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
-                  <div className="relative bg-gradient-to-r from-blue-600 to-cyan-600 p-2 rounded-xl">
-                    <Users className="h-4 w-4 text-white" />
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-1">
-                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                    {loading ? '...' : stats?.totalUsers?.toLocaleString() ?? 'N/A'}
-                  </div>
-                  <div className="flex items-center text-green-600 dark:text-green-400 text-xs">
-                    <Activity className="h-3 w-3 mr-1" />
-                    <span>+8% this week</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Faculty Members</CardTitle>
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
-                  <div className="relative bg-gradient-to-r from-emerald-600 to-green-600 p-2 rounded-xl">
-                    <GraduationCap className="h-4 w-4 text-white" />
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-1">
-                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                    {loading ? '...' : stats?.totalFaculty?.toLocaleString() ?? 'N/A'}
-                  </div>
-                  <div className="flex items-center text-green-600 dark:text-green-400 text-xs">
-                    <Activity className="h-3 w-3 mr-1" />
-                    <span>+2 new profiles</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Reviews & Feedback</CardTitle>
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
-                  <div className="relative bg-gradient-to-r from-purple-600 to-pink-600 p-2 rounded-xl">
-                    <MessageSquare className="h-4 w-4 text-white" />
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-1">
-                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                    {loading ? '...' : stats?.totalReviews?.toLocaleString() ?? 'N/A'}
-                  </div>
-                  <div className="flex items-center text-blue-600 dark:text-blue-400 text-xs">
-                    <Activity className="h-3 w-3 mr-1" />
-                    <span>15 pending review</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Learning Resources</CardTitle>
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
-                  <div className="relative bg-gradient-to-r from-orange-600 to-amber-600 p-2 rounded-xl">
-                    <Library className="h-4 w-4 text-white" />
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-1">
-                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                    {loading ? '...' : stats?.totalResources?.toLocaleString() ?? 'N/A'}
-                  </div>
-                  <div className="flex items-center text-orange-600 dark:text-orange-400 text-xs">
-                    <Activity className="h-3 w-3 mr-1" />
-                    <span>3 uploads today</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+        {/* Stats Overview removed and moved to Analytics Dashboard */}
 
         {/* Enhanced Management Grid */}
         {(() => {
@@ -299,7 +193,7 @@ export default function AdminDashboardPage() {
           const sorted = filtered.sort((a: LinkItem, b: LinkItem) => priorityOrder[a.priority] - priorityOrder[b.priority])
 
           return (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 app-container px-6 lg:px-10" aria-live="polite">
               {sorted.map((l: LinkItem, idx: number) => {
                 const isHighPriority = l.priority === 'high'
                 return (
