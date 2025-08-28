@@ -17,6 +17,20 @@ import { AdminLoading } from "@/components/admin/admin-loading"
 import { AdminEmptyState } from "@/components/admin/admin-empty-state"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Checkbox } from "@/components/ui/checkbox"
+
+// Permission options available for admin role customization
+const PERMISSION_OPTIONS = [
+  'manage_content',
+  'moderate_community',
+  'manage_events',
+  'view_analytics',
+  'manage_lost_found',
+  'manage_past_papers',
+  'manage_faculty',
+  'manage_timetable',
+  'manage_support',
+]
 
 interface User {
   id: string
@@ -59,6 +73,11 @@ export default function AdminUsersPage() {
   const [isPromoteDialogOpen, setIsPromoteDialogOpen] = useState(false)
   const [newAdminRole, setNewAdminRole] = useState("admin")
   const { toast } = useToast()
+  // Manage access (edit existing admin)
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [editingAdmin, setEditingAdmin] = useState<AdminUser | null>(null)
+  const [editRole, setEditRole] = useState<string>("admin")
+  const [editPermissions, setEditPermissions] = useState<string[]>([])
 
   useEffect(() => {
     fetchUsers()
@@ -210,6 +229,44 @@ export default function AdminUsersPage() {
         description: "Failed to revoke admin privileges",
         variant: "destructive"
       })
+    }
+  }
+
+  // Manage Access helpers
+  const openManageAccess = (admin: AdminUser) => {
+    setEditingAdmin(admin)
+    setEditRole(admin.role)
+    setEditPermissions(Array.isArray(admin.permissions) ? admin.permissions : [])
+    setIsEditDialogOpen(true)
+  }
+
+  const handleRoleChangeInEdit = (role: string) => {
+    setEditRole(role)
+    // Apply default permissions when role is changed; can be adjusted by toggles below
+    setEditPermissions(getDefaultPermissions(role))
+  }
+
+  const togglePermission = (perm: string) => {
+    setEditPermissions((prev) =>
+      prev.includes(perm) ? prev.filter((p) => p !== perm) : [...prev, perm]
+    )
+  }
+
+  const handleUpdateAccess = async () => {
+    if (!editingAdmin) return
+    try {
+      const res = await fetch(`/api/admin/admin-users/${editingAdmin.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role: editRole, permissions: editPermissions })
+      })
+      if (!res.ok) throw new Error('Failed to update admin access')
+      toast({ title: 'Updated', description: 'Admin access updated successfully' })
+      setIsEditDialogOpen(false)
+      setEditingAdmin(null)
+      fetchAdminUsers()
+    } catch (e) {
+      toast({ title: 'Error', description: 'Could not update admin access', variant: 'destructive' })
     }
   }
 
@@ -456,6 +513,11 @@ export default function AdminUsersPage() {
                       icon: UserX,
                       onClick: () => handleRevokeAdmin(adminUser.id),
                       variant: "outline"
+                    },
+                    {
+                      label: "Manage Access",
+                      icon: Settings,
+                      onClick: () => openManageAccess(adminUser),
                     }
                   ]}
                   metadata={`Admin since ${new Date(adminUser.created_at).toLocaleDateString()}`}
@@ -517,6 +579,59 @@ export default function AdminUsersPage() {
                 <Button onClick={handlePromoteToAdmin} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
                   <Crown className="h-4 w-4 mr-1" />
                   Promote to Admin
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Manage Access Dialog */}
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent className="glass-card border border-white/20 dark:border-white/10 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Settings className="h-5 w-5" />
+                Manage Admin Access
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <Label>User</Label>
+                <Input value={editingAdmin?.user?.email || ''} disabled />
+              </div>
+              <div>
+                <Label>Role</Label>
+                <Select value={editRole} onValueChange={handleRoleChangeInEdit}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="moderator">Moderator</SelectItem>
+                    <SelectItem value="admin">Admin</SelectItem>
+                    <SelectItem value="super_admin">Super Admin</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Permissions</Label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                  {PERMISSION_OPTIONS.map((perm) => (
+                    <label key={perm} className="flex items-center gap-2 text-sm">
+                      <Checkbox
+                        checked={editPermissions.includes(perm)}
+                        onCheckedChange={() => togglePermission(perm)}
+                      />
+                      <span className="capitalize">{perm.replaceAll('_', ' ')}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+              <div className="flex justify-end space-x-2">
+                <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleUpdateAccess} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                  Save Changes
                 </Button>
               </div>
             </div>
