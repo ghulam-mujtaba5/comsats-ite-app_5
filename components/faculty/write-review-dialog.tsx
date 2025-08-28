@@ -117,7 +117,43 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!user) return
+    if (!user) {
+      toast({ 
+        title: "Authentication Required", 
+        description: "Please sign in to submit a review.", 
+        variant: "destructive" 
+      })
+      return
+    }
+
+    // Basic client-side validation
+    if (!formData.course) {
+      toast({ 
+        title: "Course Required", 
+        description: "Please select a course before submitting.", 
+        variant: "destructive" 
+      })
+      return
+    }
+
+    if (!formData.comment.trim()) {
+      toast({ 
+        title: "Comment Required", 
+        description: "Please provide a comment about your experience.", 
+        variant: "destructive" 
+      })
+      return
+    }
+
+    if (formData.rating === 0) {
+      toast({ 
+        title: "Rating Required", 
+        description: "Please provide an overall rating (1-5 stars).", 
+        variant: "destructive" 
+      })
+      return
+    }
+
     try {
       setSubmitting(true)
       const payload = {
@@ -127,33 +163,87 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
         course: formData.course,
         semester: formData.semester,
         rating: formData.rating,
-        teaching_quality: formData.teachingQuality,
-        accessibility: formData.accessibility,
-        course_material: formData.courseMaterial,
-        grading: formData.grading,
-        comment: formData.comment,
+        teaching_quality: formData.teachingQuality || 0,
+        accessibility: formData.accessibility || 0,
+        course_material: formData.courseMaterial || 0,
+        grading: formData.grading || 0,
+        comment: formData.comment.trim(),
         pros: formData.pros,
         cons: formData.cons,
         would_recommend: formData.wouldRecommend,
         is_anonymous: formData.isAnonymous,
       }
+      
       const res = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       })
+      
+      const responseData = await res.json().catch(() => ({}))
+      
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
-        throw new Error(data.error || `Failed with status ${res.status}`)
+        // Handle specific error cases with detailed messages
+        let errorTitle = "Submission Failed"
+        let errorDescription = responseData.error || `Server returned ${res.status} status`
+        
+        if (res.status === 400) {
+          errorTitle = "Invalid Data"
+          errorDescription = responseData.message || responseData.error || "Please check your input and try again"
+        } else if (res.status === 500) {
+          errorTitle = "Server Error"
+          errorDescription = responseData.error || "There was a problem on our end. Please try again later"
+        } else if (res.status === 404) {
+          errorTitle = "Not Found"
+          errorDescription = "The faculty member could not be found"
+        } else if (res.status === 408 || responseData.error?.includes('timeout')) {
+          errorTitle = "Request Timeout"
+          errorDescription = "The request took too long. Please try again"
+        }
+        
+        toast({ 
+          title: errorTitle, 
+          description: errorDescription, 
+          variant: "destructive" 
+        })
+        return
       }
-      toast({ title: "Review submitted", description: "Thanks for your feedback!" })
+      
+      // Success!
+      toast({ 
+        title: "Review Submitted Successfully!", 
+        description: "Thank you for your feedback. Your review will help other students."
+      })
+      
       setShowSuccessDialog(true)
+      
       // Inform parent (client page) to refetch
       try { onSubmitted?.() } catch (_) {}
+      
       // Also refresh in case parent is a server component somewhere up the tree
       router.refresh()
+      
     } catch (err: any) {
-      toast({ title: "Failed to submit", description: err.message ?? "Unknown error", variant: "destructive" })
+      console.error('Review submission error:', err)
+      
+      let errorTitle = "Submission Failed"
+      let errorDescription = "An unexpected error occurred"
+      
+      if (err.name === 'TypeError' && err.message?.includes('fetch')) {
+        errorTitle = "Network Error"
+        errorDescription = "Please check your internet connection and try again"
+      } else if (err.name === 'AbortError') {
+        errorTitle = "Request Cancelled"
+        errorDescription = "The request was cancelled. Please try again"
+      } else if (err.message) {
+        errorDescription = err.message
+      }
+      
+      toast({ 
+        title: errorTitle, 
+        description: errorDescription, 
+        variant: "destructive" 
+      })
     } finally {
       setSubmitting(false)
     }
@@ -240,8 +330,7 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
             Write Review for {faculty.name}
           </DialogTitle>
           <DialogDescription>
-            Share your experience to help fellow students make informed decisions. Your review will be moderated before
-            publication.
+            Share your experience to help fellow students make informed decisions. You can submit multiple reviews for different courses or update your feedback over time. Your review will be moderated before publication.
           </DialogDescription>
         </DialogHeader>
 
@@ -288,26 +377,27 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Ratings *</h3>
+            <h3 className="text-lg font-semibold">Ratings</h3>
+            <p className="text-sm text-muted-foreground">Overall rating is required. Other ratings are optional but helpful.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label>Overall Rating</Label>
+                <Label className="text-red-600">Overall Rating *</Label>
                 {renderStarRating("rating", formData.rating)}
               </div>
               <div>
-                <Label>Teaching Quality</Label>
+                <Label>Teaching Quality (Optional)</Label>
                 {renderStarRating("teachingQuality", formData.teachingQuality)}
               </div>
               <div>
-                <Label>Accessibility</Label>
+                <Label>Accessibility (Optional)</Label>
                 {renderStarRating("accessibility", formData.accessibility)}
               </div>
               <div>
-                <Label>Course Material</Label>
+                <Label>Course Material (Optional)</Label>
                 {renderStarRating("courseMaterial", formData.courseMaterial)}
               </div>
               <div>
-                <Label>Grading Fairness</Label>
+                <Label>Grading Fairness (Optional)</Label>
                 {renderStarRating("grading", formData.grading)}
               </div>
             </div>
@@ -415,7 +505,7 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
               Review Submitted!
             </DialogTitle>
             <DialogDescription className="pt-2">
-              Thank you for sharing your experience. Your review will be moderated and published shortly.
+              Thank you for sharing your experience! Your review will be moderated and published shortly. Feel free to submit additional reviews for other courses or update your feedback anytime.
             </DialogDescription>
           </DialogHeader>
           <div className="pt-4">
