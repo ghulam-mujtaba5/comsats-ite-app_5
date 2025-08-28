@@ -62,7 +62,7 @@ export default function PastPapersPage() {
         id: r.id || `paper-${Math.random().toString(36).slice(2, 9)}`,
         title: r.title || 'Untitled Paper',
         course: r.course_name || r.course_code || 'Unknown Course',
-        courseCode: r.course_code || 'UNKNOWN',
+        courseCode: (r.course_code || 'UNKNOWN').toUpperCase(),
         department: r.department || 'Unknown Department',
         semester: r.semester || 'Unknown Semester',
         year: Number(r.year) || new Date(r.created_at).getFullYear(),

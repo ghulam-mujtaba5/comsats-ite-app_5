@@ -170,7 +170,7 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
     const payload = {
       title: formData.title,
       department: formData.department === 'Other' ? formData.departmentName : formData.department,
-      course: formData.course,
+      course: (formData.course || '').toUpperCase().trim(),
       courseName: formData.course === 'Other' ? formData.courseName : '',
       semester: formData.semester === 'Other' ? formData.semesterOther : formData.semester,
       examType: formData.examType === 'Other' ? formData.examTypeOther : formData.examType,
@@ -197,8 +197,8 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
       }
 
       toast({
-        title: "Success",
-        description: "Past paper uploaded successfully!",
+        title: "Submitted",
+        description: "Your paper has been submitted to Admin for review.",
       })
 
       // Reset form and close dialog

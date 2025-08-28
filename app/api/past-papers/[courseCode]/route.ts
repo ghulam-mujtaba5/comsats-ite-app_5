@@ -4,12 +4,13 @@ import { getCourseByCode } from '@/lib/past-papers-data'
 
 export async function GET(req: NextRequest, context: { params: Promise<{ courseCode: string }> }) {
   const { courseCode } = await context.params
+  const normalized = courseCode.toUpperCase()
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   // If env not configured (dev), fallback to mock data so UI works
   if (!url || !anon) {
-    const mock = getCourseByCode(courseCode)
+    const mock = getCourseByCode(normalized)
     if (!mock) return NextResponse.json({ error: 'Course not found' }, { status: 404 })
     return NextResponse.json({ data: mock })
   }
@@ -21,12 +22,12 @@ export async function GET(req: NextRequest, context: { params: Promise<{ courseC
     supabase
       .from('past_papers')
       .select('*')
-      .eq('course_code', courseCode)
+      .ilike('course_code', normalized)
       .eq('status', 'approved'),
     supabase
       .from('courses')
       .select('id, name, code, credit_hours, department')
-      .eq('code', courseCode)
+      .ilike('code', normalized)
       .single(),
   ])
 
@@ -41,7 +42,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ courseC
   if (!papersData || papersData.length === 0) {
     if (courseError || !courseData) {
       // Try mock fallback
-      const mock = getCourseByCode(courseCode)
+      const mock = getCourseByCode(normalized)
       if (mock) return NextResponse.json({ data: mock })
       return NextResponse.json({ error: 'Course not found' }, { status: 404 })
     }
@@ -49,8 +50,8 @@ export async function GET(req: NextRequest, context: { params: Promise<{ courseC
 
   // If course details don't exist but papers do, create a fallback course object
   const finalCourseData = courseData || {
-    name: `Course ${courseCode}`,
-    code: courseCode,
+    name: `Course ${normalized}`,
+    code: normalized,
     credit_hours: '3',
     department: 'Unknown',
   }
@@ -61,7 +62,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ courseC
       id: p.id || `paper-${Math.random().toString(36).slice(2, 9)}`,
       title: p.title || 'Untitled Paper',
       course: p.course_name || finalCourseData.name,
-      courseCode: p.course_code || courseCode,
+      courseCode: (p.course_code || normalized).toUpperCase(),
       department: p.department || finalCourseData.department,
       semester: p.semester || 'Unknown Semester',
       year: Number(p.year) || new Date(p.created_at).getFullYear(),
@@ -77,9 +78,9 @@ export async function GET(req: NextRequest, context: { params: Promise<{ courseC
   };
 
   const courseWithPapers = {
-    id: (finalCourseData as any).id || courseCode,
+    id: (finalCourseData as any).id || normalized,
     name: finalCourseData.name,
-    code: finalCourseData.code || courseCode,
+    code: (finalCourseData.code || normalized).toUpperCase(),
     creditHours: Number(finalCourseData.credit_hours) || 3,
     department: finalCourseData.department,
     assignments: mapPaperData(papersData?.filter((p) => p.exam_type === 'Assignment') || []),

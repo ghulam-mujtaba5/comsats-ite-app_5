@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { useAuth } from "@/contexts/auth-context"
+import { useToast } from "@/hooks/use-toast"
 import {
   Dialog,
   DialogContent,
@@ -29,6 +30,7 @@ interface UploadResourceDialogProps {
 export function UploadResourceDialog({ children }: UploadResourceDialogProps) {
   const { user } = useAuth()
   const [open, setOpen] = useState(false)
+  const { toast } = useToast()
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -53,7 +55,10 @@ export function UploadResourceDialog({ children }: UploadResourceDialogProps) {
     e.preventDefault()
     console.log("Uploading resource:", formData)
     // Mock upload functionality
-    alert("Resource uploaded successfully! It will be reviewed before being published.")
+    toast({
+      title: "Submitted",
+      description: "Your paper has been submitted to Admin for review.",
+    })
     setOpen(false)
     setFormData({
       title: "",
