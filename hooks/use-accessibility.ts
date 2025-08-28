@@ -21,7 +21,7 @@ export function useAccessibility(options: UseAccessibilityOptions = {}): UseAcce
     autoFocus = true,
     trapFocus = false,
     announceChanges = true,
-    skipLinks = true
+    skipLinks = false
   } = options
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -86,22 +86,15 @@ export function useAccessibility(options: UseAccessibilityOptions = {}): UseAcce
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [trapFocus])
 
-  // Skip links creation
+  // Skip links creation (disabled)
+  // Skip links have been disabled for this application
   useEffect(() => {
-    if (!skipLinks) return
-
-    // Create main skip link if it doesn't exist
-    let skipLink = document.getElementById('skip-to-main') as HTMLAnchorElement
-    if (!skipLink) {
-      skipLink = document.createElement('a')
-      skipLink.id = 'skip-to-main'
-      skipLink.href = '#main-content'
-      skipLink.textContent = 'Skip to main content'
-      skipLink.className = 'skip-link'
-      skipLink.setAttribute('aria-label', 'Skip navigation and go to main content')
-      document.body.insertBefore(skipLink, document.body.firstChild)
+    // Remove any existing skip links from the DOM
+    const existingSkipLink = document.getElementById('skip-to-main')
+    if (existingSkipLink) {
+      existingSkipLink.remove()
     }
-  }, [skipLinks])
+  }, [])
 
   // Function to get all focusable elements
   const getFocusableElements = (container: HTMLElement): HTMLElement[] => {

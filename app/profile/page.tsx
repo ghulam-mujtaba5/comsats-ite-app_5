@@ -37,21 +37,47 @@ import {
   Share2
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function ProfilePage() {
   const { user, logout, isAuthenticated, isLoading } = useAuth()
   const [activeTab, setActiveTab] = useState('overview')
+  const [userStats, setUserStats] = useState({
+    totalDownloads: 0,
+    reviewsWritten: 0,
+    postsCreated: 0,
+    helpfulVotes: 0,
+    profileViews: 0,
+    joinDate: new Date().toISOString().split('T')[0],
+    lastActive: new Date().toISOString().split('T')[0]
+  })
+  const [statsLoading, setStatsLoading] = useState(true)
+  const [statsError, setStatsError] = useState<string | null>(null)
 
-  // Mock data for demonstration - this would come from your backend
-  const userStats = {
-    totalDownloads: 47,
-    reviewsWritten: 12,
-    postsCreated: 8,
-    helpfulVotes: 156,
-    profileViews: 89,
-    joinDate: '2023-09-15',
-    lastActive: '2024-01-20'
+  // Fetch user stats when component mounts and user is available
+  useEffect(() => {
+    if (user && isAuthenticated) {
+      fetchUserStats()
+    }
+  }, [user, isAuthenticated])
+
+  const fetchUserStats = async () => {
+    try {
+      setStatsLoading(true)
+      setStatsError(null)
+      const response = await fetch('/api/profile/stats')
+      if (!response.ok) {
+        throw new Error(`Failed to fetch stats: ${response.status}`)
+      }
+      const data = await response.json()
+      setUserStats(data)
+    } catch (error) {
+      console.error('Error fetching user stats:', error)
+      setStatsError(error instanceof Error ? error.message : 'Failed to load stats')
+      // Keep default values on error
+    } finally {
+      setStatsLoading(false)
+    }
   }
 
   const achievements = [
@@ -143,12 +169,21 @@ export default function ProfilePage() {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            {statsError && (
+              <div className="col-span-2 md:col-span-4 p-4 bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800 rounded-xl text-center">
+                <p className="text-red-600 dark:text-red-400 text-sm">
+                  Failed to load stats: {statsError}
+                </p>
+              </div>
+            )}
             <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
               <CardContent className="p-6 text-center">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <Download className="h-8 w-8 text-blue-600 dark:text-blue-400" />
                 </div>
-                <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{userStats.totalDownloads}</div>
+                <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                  {statsLoading ? '...' : userStats.totalDownloads}
+                </div>
                 <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Downloads</div>
               </CardContent>
             </Card>
@@ -157,7 +192,9 @@ export default function ProfilePage() {
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30 dark:border-green-700/30 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <Star className="h-8 w-8 text-green-600 dark:text-green-400" />
                 </div>
-                <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{userStats.reviewsWritten}</div>
+                <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                  {statsLoading ? '...' : userStats.reviewsWritten}
+                </div>
                 <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Reviews</div>
               </CardContent>
             </Card>
@@ -166,7 +203,9 @@ export default function ProfilePage() {
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-200/30 dark:border-purple-700/30 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <MessageSquare className="h-8 w-8 text-purple-600 dark:text-purple-400" />
                 </div>
-                <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{userStats.postsCreated}</div>
+                <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                  {statsLoading ? '...' : userStats.postsCreated}
+                </div>
                 <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Posts</div>
               </CardContent>
             </Card>
@@ -175,7 +214,9 @@ export default function ProfilePage() {
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-600/20 border border-orange-200/30 dark:border-orange-700/30 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <Heart className="h-8 w-8 text-orange-600 dark:text-orange-400" />
                 </div>
-                <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{userStats.helpfulVotes}</div>
+                <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                  {statsLoading ? '...' : userStats.helpfulVotes}
+                </div>
                 <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Helpful Votes</div>
               </CardContent>
             </Card>
@@ -391,13 +432,13 @@ export default function ProfilePage() {
                         <div>
                           <label className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Member Since</label>
                           <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl font-medium text-slate-900 dark:text-white">
-                            {new Date(userStats.joinDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            {statsLoading ? 'Loading...' : new Date(userStats.joinDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                           </div>
                         </div>
                         <div>
                           <label className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Last Active</label>
                           <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl font-medium text-slate-900 dark:text-white">
-                            {new Date(userStats.lastActive).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            {statsLoading ? 'Loading...' : new Date(userStats.lastActive).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                           </div>
                         </div>
                       </div>

@@ -270,10 +270,6 @@ export default function AdminDashboardPage() {
                           <span className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">
                             {statsError ? "—" : card.value.toLocaleString()}
                           </span>
-                          <div className="flex items-center text-green-600 dark:text-green-400">
-                            <TrendingUp className="h-3 w-3 mr-1" />
-                            <span className="text-xs font-medium">+12%</span>
-                          </div>
                         </div>
                         <p className="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">
                           {card.description}
@@ -304,7 +300,9 @@ export default function AdminDashboardPage() {
                       </div>
                       <div>
                         <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">Recent Activity</CardTitle>
-                        <CardDescription className="text-slate-600 dark:text-slate-300">Latest platform events and user interactions</CardDescription>
+                        <CardDescription className="text-slate-600 dark:text-slate-300">
+                          Sample activity feed - Activity tracking system coming soon
+                        </CardDescription>
                       </div>
                     </div>
                     <Button size="sm" variant="outline" className="glass-button">
@@ -313,31 +311,11 @@ export default function AdminDashboardPage() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {[
-                    { text: "New support request submitted", time: "2 min ago", type: "support", color: "blue" },
-                    { text: "Lost item reported in Library", time: "15 min ago", type: "item", color: "amber" },
-                    { text: "Event registration deadline approaching", time: "1 hour ago", type: "event", color: "green" },
-                    { text: "Faculty review submitted for Dr. Smith", time: "2 hours ago", type: "review", color: "purple" },
-                    { text: "New past paper uploaded for CS101", time: "3 hours ago", type: "paper", color: "indigo" }
-                  ].map((activity, idx) => (
-                    <div key={idx} className="group flex items-center justify-between p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all duration-200 cursor-pointer">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-2 h-2 rounded-full ${
-                          activity.color === 'blue' ? 'bg-blue-500' :
-                          activity.color === 'amber' ? 'bg-amber-500' :
-                          activity.color === 'green' ? 'bg-green-500' :
-                          activity.color === 'purple' ? 'bg-purple-500' :
-                          'bg-indigo-500'
-                        } group-hover:scale-125 transition-transform duration-200`} />
-                        <span className="text-sm text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                          {activity.text}
-                        </span>
-                      </div>
-                      <Badge variant="outline" className="bg-white/50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-xs">
-                        {activity.time}
-                      </Badge>
-                    </div>
-                  ))}
+                  <div className="text-center py-8 text-slate-500 dark:text-slate-400">
+                    <Activity className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                    <p className="font-medium mb-2">Activity Tracking Not Yet Implemented</p>
+                    <p className="text-sm">Real-time activity monitoring will be available in a future update.</p>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -488,8 +466,10 @@ export default function AdminDashboardPage() {
                       <div className="text-xs text-slate-600 dark:text-slate-300">Avg Response</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">1.2k</div>
-                      <div className="text-xs text-slate-600 dark:text-slate-300">Active Users</div>
+                      <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                        {loading ? '...' : (stats.totalUsers > 0 ? stats.totalUsers.toLocaleString() : '0')}
+                      </div>
+                      <div className="text-xs text-slate-600 dark:text-slate-300">Total Users</div>
                     </div>
                   </div>
                 </div>
