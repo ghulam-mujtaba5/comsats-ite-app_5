@@ -250,24 +250,38 @@ export async function GET(req: NextRequest) {
 
     results.total = results.pastPapers.length + results.resources.length + results.faculty.length + results.community.length
 
+    const searchTime = Date.now() - startTime
+    
     return NextResponse.json({ 
       data: results,
       query: q,
-      searchTime: Date.now()
+      searchTime,
+      message: searchTime > 10000 ? 'Search completed but experienced network delays' : 'Search completed successfully'
     })
 
   } catch (error: any) {
     console.error('Universal search error:', error)
+    
+    // Determine if this is a network/timeout error
+    const isNetworkError = error.message?.includes('fetch failed') || 
+                          error.message?.includes('timeout') ||
+                          error.message?.includes('ECONNREFUSED')
+    
+    const errorMessage = isNetworkError 
+      ? 'Search service is experiencing connectivity issues. Please try again.'
+      : error.message || 'Search failed'
+    
     return NextResponse.json({ 
-      error: error.message || 'Search failed', 
+      error: errorMessage, 
       data: { 
         pastPapers: [], 
         resources: [], 
         faculty: [], 
         community: [], 
         total: 0 
-      } 
-    }, { status: 500 })
+      },
+      networkIssue: isNetworkError
+    }, { status: isNetworkError ? 503 : 500 })
   }
 }
 
