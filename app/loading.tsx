@@ -1,4 +1,4 @@
-import { Footer } from "@/components/layout/footer"
+// Footer is provided by the root layout; avoid importing locally to prevent duplicates
 import { Card, CardContent } from "@/components/ui/card"
 import { Loader2, Sparkles, Zap, BookOpen } from "lucide-react"
 
@@ -70,7 +70,7 @@ export default function Loading() {
           </CardContent>
         </Card>
       </main>
-      <Footer />
+
     </div>
   )
 }

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, ArrowLeft, User, Clock, Share2, Bookmark, Eye, Newspaper, Sparkles } from "lucide-react"
-import { Footer } from "@/components/layout/footer"
+// Footer is provided by the root layout; avoid importing locally to prevent duplicates
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
 
@@ -253,8 +253,7 @@ export default function NewsDetailPage() {
           ) : null}
         </div>
       </main>
-      
-      <Footer />
+
     </div>
   )
 }

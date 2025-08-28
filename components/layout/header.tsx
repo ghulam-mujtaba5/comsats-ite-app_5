@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useAuth } from "@/contexts/auth-context"
-import { LogOut, User, Menu, Calculator, FileText, BookOpen, Calendar, Shield, Users, Newspaper, Search } from "lucide-react"
+import { LogOut, User, Menu, Shield, Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -25,37 +25,31 @@ const navigationItems = [
   {
     name: "Past Papers",
     href: "/past-papers",
-    icon: FileText,
     description: "Browse and download past exam papers",
   },
   {
     name: "Resources",
     href: "/resources",
-    icon: BookOpen,
     description: "Study material and documents shared by departments",
   },
   {
     name: "News & Events",
     href: "/news-events",
-    icon: Newspaper,
     description: "Latest announcements and upcoming events",
   },
   {
     name: "Faculty Reviews",
     href: "/faculty",
-    icon: BookOpen,
     description: "Read and write faculty reviews",
   },
   {
     name: "GPA Calculator",
     href: "/gpa-calculator",
-    icon: Calculator,
     description: "Calculate GPA/CGPA with the latest scale",
   },
   {
     name: "Timetable",
     href: "/timetable",
-    icon: Calendar,
     description: "Upload, preview, and download timetables (PDF)",
   },
 ]
@@ -88,7 +82,7 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/60 fade-in shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-white/20 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/60 fade-in shadow-lg hover:shadow-xl transition-all duration-300">
       <div className="app-container h-18 flex items-center justify-between py-2">
         <Link
           href={isAdmin ? "/admin" : "/"}
@@ -107,22 +101,23 @@ export function Header() {
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center space-x-2" aria-label="Primary navigation">
+        <nav className="hidden lg:flex items-center space-x-1" aria-label="Primary navigation">
           {navigationItems.map((item) => {
-            const Icon = item.icon
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 interactive hover-lift group ${
+                className={`relative px-5 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 interactive hover-lift group ${
                   isActivePath(item.href) 
-                    ? "bg-gradient-to-r from-primary/20 to-blue-500/20 text-primary border border-primary/20" 
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 text-blue-600 dark:text-blue-400 border border-blue-200/30 dark:border-blue-400/30 backdrop-blur-sm shadow-lg" 
+                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm hover:shadow-md hover:border-white/40 dark:hover:border-slate-600/40 border border-transparent"
                 }`}
                 aria-current={isActivePath(item.href) ? "page" : undefined}
               >
-                <Icon className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                <span>{item.name}</span>
+                {isActivePath(item.href) && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-2xl blur-sm" />
+                )}
+                <span className="relative z-10">{item.name}</span>
               </Link>
             )
           })}

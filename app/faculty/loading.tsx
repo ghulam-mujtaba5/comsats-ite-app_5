@@ -1,4 +1,4 @@
-import { Footer } from "@/components/layout/footer"
+// Footer is provided by the root layout; avoid importing locally to prevent duplicates
 import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -53,7 +53,7 @@ export default function Loading() {
           </div>
         </div>
       </main>
-      <Footer />
+
     </div>
   )
 }

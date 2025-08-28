@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { Footer } from "@/components/layout/footer"
+// Footer is provided by the root layout; avoid importing locally to prevent duplicates
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { AlertTriangle, RefreshCw, Home, Zap, ArrowRight, ExternalLink } from "lucide-react"
@@ -144,7 +144,7 @@ export default function Error({
           </Card>
         </div>
       </main>
-      <Footer />
+
     </div>
   )
 }
