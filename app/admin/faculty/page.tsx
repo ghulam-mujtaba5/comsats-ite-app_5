@@ -474,13 +474,29 @@ export default function AdminFacultyPage() {
                                 </tr>
                               ))
                             : rowsView.map((r) => (
-                                <tr key={r.id} className="border-t border-white/20 dark:border-slate-600/40 hover:bg-white/30 dark:hover:bg-slate-700/30 transition-colors">
+                                <tr
+                                  key={r.id}
+                                  className="border-t border-white/20 dark:border-slate-600/40 hover:bg-white/30 dark:hover:bg-slate-700/30 transition-colors cursor-pointer"
+                                  onClick={() => editRow(r)}
+                                  title={`Edit ${r.name}`}
+                                  aria-label={`Edit ${r.name}`}
+                                >
                                   <td className="py-3 px-4">
                                     <div className="flex items-center gap-3">
                                       <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
                                         {r.name.charAt(0).toUpperCase()}
                                       </div>
                                       <span className="font-medium text-slate-900 dark:text-white">{r.name}</span>
+                                      {/* Inline edit button for small screens to avoid horizontal scroll */}
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        aria-label={`Edit faculty ${r.name}`}
+                                        className="glass-button lg:hidden ml-2"
+                                        onClick={(e) => { e.stopPropagation(); editRow(r) }}
+                                      >
+                                        <Edit className="h-4 w-4" />
+                                      </Button>
                                     </div>
                                   </td>
                                   <td className="py-3 px-4 text-slate-600 dark:text-slate-300">{r.title}</td>
@@ -505,15 +521,15 @@ export default function AdminFacultyPage() {
                                   </td>
                                   <td className="py-3 px-4">
                                     <div className="flex gap-2">
-                                      <Button size="sm" variant="outline" onClick={() => editRow(r)} aria-label={`Edit faculty ${r.name}`} className="glass-button">
+                                      <Button size="sm" variant="outline" onClick={(e) => { e.stopPropagation(); editRow(r) }} aria-label={`Edit faculty ${r.name}`} className="glass-button">
                                         <Edit className="h-4 w-4" />
                                       </Button>
-                                      <Button asChild size="sm" variant="outline" aria-label={`Preview faculty ${r.name}`} className="glass-button">
-                                        <Link href={`/faculty/${r.id}`} target="_blank">
+                                      <Button asChild size="sm" variant="outline" aria-label={`Preview faculty ${r.name}`} className="glass-button" onClick={(e) => e.stopPropagation()}>
+                                        <Link href={`/faculty/${r.id}`} target="_blank" onClick={(e) => e.stopPropagation()}>
                                           <Eye className="h-4 w-4" />
                                         </Link>
                                       </Button>
-                                      <Button size="sm" variant="outline" onClick={() => deleteRow(r.id)} aria-label={`Delete faculty ${r.name}`} className="glass-button hover:bg-red-50 dark:hover:bg-red-950/50">
+                                      <Button size="sm" variant="outline" onClick={(e) => { e.stopPropagation(); deleteRow(r.id) }} aria-label={`Delete faculty ${r.name}`} className="glass-button hover:bg-red-50 dark:hover:bg-red-950/50">
                                         <Trash2 className="h-4 w-4" />
                                       </Button>
                                     </div>

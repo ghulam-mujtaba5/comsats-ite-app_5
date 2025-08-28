@@ -104,12 +104,16 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
             type="button"
             onClick={() => handleRatingChange(category, i + 1)}
             className="focus:outline-none"
+            aria-label={`Set ${category} rating to ${i + 1} star${i + 1 === 1 ? '' : 's'}`}
+            title={`Set ${category} rating to ${i + 1}`}
           >
             <Star
               className={`h-6 w-6 transition-colors ${
                 i < currentRating ? "fill-yellow-400 text-yellow-400" : "text-gray-300 hover:text-yellow-400"
               }`}
+              aria-hidden="true"
             />
+            <span className="sr-only">{`Set ${category} rating to ${i + 1} star${i + 1 === 1 ? '' : 's'}`}</span>
           </button>
         ))}
         <span className="ml-2 text-sm font-medium">{currentRating}/5</span>
@@ -449,16 +453,18 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
                   onChange={(e) => setFormData((prev) => ({ ...prev, newPro: e.target.value }))}
                   onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addPro())}
                 />
-                <Button type="button" onClick={addPro} className="bg-transparent border">
-                  <Plus className="h-4 w-4" />
+                <Button type="button" onClick={addPro} className="bg-transparent border" aria-label="Add pro" title="Add pro">
+                  <Plus className="h-4 w-4" aria-hidden="true" />
+                  <span className="sr-only">Add pro</span>
                 </Button>
               </div>
               <div className="flex flex-wrap gap-2">
                 {formData.pros.map((pro, index) => (
                   <Badge key={index} className="bg-green-50 text-green-700 border-green-200">
                     {pro}
-                    <button type="button" onClick={() => removePro(pro)} className="ml-1 hover:text-blue-600">
-                      <X className="h-3 w-3" />
+                    <button type="button" onClick={() => removePro(pro)} className="ml-1 hover:text-blue-600" aria-label={`Remove pro ${pro}`} title={`Remove pro ${pro}`}>
+                      <X className="h-3 w-3" aria-hidden="true" />
+                      <span className="sr-only">{`Remove pro ${pro}`}</span>
                     </button>
                   </Badge>
                 ))}
@@ -474,16 +480,18 @@ export function WriteReviewDialog({ faculty, children, onSubmitted }: WriteRevie
                   onChange={(e) => setFormData((prev) => ({ ...prev, newCon: e.target.value }))}
                   onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addCon())}
                 />
-                <Button type="button" onClick={addCon} className="bg-transparent border">
-                  <Plus className="h-4 w-4" />
+                <Button type="button" onClick={addCon} className="bg-transparent border" aria-label="Add con" title="Add con">
+                  <Plus className="h-4 w-4" aria-hidden="true" />
+                  <span className="sr-only">Add con</span>
                 </Button>
               </div>
               <div className="flex flex-wrap gap-2">
                 {formData.cons.map((con, index) => (
                   <Badge key={index} className="bg-blue-50 text-blue-700 border-blue-200">
                     {con}
-                    <button type="button" onClick={() => removeCon(con)} className="ml-1 hover:text-blue-600">
-                      <X className="h-3 w-3" />
+                    <button type="button" onClick={() => removeCon(con)} className="ml-1 hover:text-blue-600" aria-label={`Remove con ${con}`} title={`Remove con ${con}`}>
+                      <X className="h-3 w-3" aria-hidden="true" />
+                      <span className="sr-only">{`Remove con ${con}`}</span>
                     </button>
                   </Badge>
                 ))}

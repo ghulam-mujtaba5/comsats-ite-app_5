@@ -1,15 +1,16 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { AdminGuard } from "@/components/admin/admin-guard"
+import { useEffect, useMemo, useState } from "react"
+// Footer is provided by the root layout; avoid importing locally to prevent duplicates
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Star, MessageSquare, ArrowLeft, Filter, Sparkles, CheckCircle, XCircle, Clock } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Star, MessageSquare, ArrowLeft, Filter, Sparkles, CheckCircle, XCircle, Clock, Search } from "lucide-react"
 import Link from "next/link"
-
-
+import { departments as DEPARTMENTS } from "@/lib/faculty-data"
+import { AdminGuard } from "@/components/admin/admin-guard"
 
 interface ReviewRow {
   id: string
@@ -36,6 +37,10 @@ export default function AdminReviewsPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>("")
   const [statusFilter, setStatusFilter] = useState<'pending'|'approved'|'rejected'>('pending')
+  const [facultyMap, setFacultyMap] = useState<Record<string, { name: string; department: string }>>({})
+  const [searchQuery, setSearchQuery] = useState("")
+  const [debouncedSearch, setDebouncedSearch] = useState("")
+  const [departmentFilter, setDepartmentFilter] = useState<string>("All")
 
   const fetchRows = async () => {
     setLoading(true)
@@ -55,6 +60,55 @@ export default function AdminReviewsPage() {
   useEffect(() => {
     fetchRows()
   }, [statusFilter])
+
+  // Fetch faculty list for mapping ID -> name/department
+  useEffect(() => {
+    const loadFaculty = async () => {
+      try {
+        const res = await fetch('/api/faculty', { cache: 'no-store' })
+        const data = await res.json().catch(() => [])
+        if (Array.isArray(data)) {
+          const map: Record<string, { name: string; department: string }> = {}
+          for (const f of data) {
+            if (f?.id) map[f.id] = { name: f.name || `Faculty ${f.id}`, department: f.department || 'Unknown' }
+          }
+          setFacultyMap(map)
+        }
+      } catch {
+        // Non-fatal: keep map empty
+      }
+    }
+    loadFaculty()
+  }, [])
+
+  // Debounce search
+  useEffect(() => {
+    const id = setTimeout(() => setDebouncedSearch(searchQuery.trim()), 300)
+    return () => clearTimeout(id)
+  }, [searchQuery])
+
+  // Apply client-side search and department filter
+  const filteredRows = useMemo(() => {
+    let list = rows
+    if (departmentFilter && departmentFilter !== 'All') {
+      list = list.filter(r => (facultyMap[r.faculty_id]?.department || '') === departmentFilter)
+    }
+    if (debouncedSearch) {
+      const q = debouncedSearch.toLowerCase()
+      list = list.filter(r => {
+        const fac = facultyMap[r.faculty_id]
+        return (
+          r.faculty_id.toLowerCase().includes(q) ||
+          (fac?.name?.toLowerCase()?.includes(q) ?? false) ||
+          (r.course?.toLowerCase()?.includes(q) ?? false) ||
+          (r.semester?.toLowerCase()?.includes(q) ?? false) ||
+          (r.student_name?.toLowerCase()?.includes(q) ?? false) ||
+          (r.comment?.toLowerCase()?.includes(q) ?? false)
+        )
+      })
+    }
+    return list
+  }, [rows, debouncedSearch, departmentFilter, facultyMap])
 
   const setStatus = async (id: string, status: 'approved'|'rejected'|'pending') => {
     try {
@@ -184,6 +238,34 @@ export default function AdminReviewsPage() {
             </Card>
           )}
           
+          {/* Filters: Search + Department */}
+          <div className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-4 flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+              <Input
+                placeholder="Search by faculty name, ID, course, semester, student, or content..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
+                <SelectTrigger className="w-56">
+                  <SelectValue placeholder="Department" />
+                </SelectTrigger>
+                <SelectContent>
+                  {DEPARTMENTS.map((d) => (
+                    <SelectItem key={d} value={d}>{d}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {(debouncedSearch || (departmentFilter && departmentFilter !== 'All')) && (
+                <Button variant="outline" onClick={() => { setSearchQuery(""); setDepartmentFilter("All") }}>Clear</Button>
+              )}
+            </div>
+          </div>
+
           {loading ? (
             <div className="flex items-center justify-center py-12">
               <div className="glass-card border border-white/20 dark:border-white/10 rounded-2xl p-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
@@ -193,7 +275,7 @@ export default function AdminReviewsPage() {
                 </div>
               </div>
             </div>
-          ) : rows.length === 0 ? (
+          ) : filteredRows.length === 0 ? (
             <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
               <div className="space-y-4">
                 <div className="relative mx-auto w-16 h-16">
@@ -203,9 +285,9 @@ export default function AdminReviewsPage() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No {statusFilter} Reviews</h3>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No Matching Reviews</h3>
                   <p className="text-slate-600 dark:text-slate-300">
-                    {statusFilter === 'pending' ? 'All reviews have been processed.' : `No ${statusFilter} reviews found.`}
+                    Try adjusting your search or filters.
                   </p>
                 </div>
               </div>
@@ -215,7 +297,7 @@ export default function AdminReviewsPage() {
               <CardHeader>
                 <CardTitle className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <MessageSquare className="h-5 w-5" />
-                  Faculty Reviews ({rows.length})
+                  Faculty Reviews ({filteredRows.length})
                 </CardTitle>
                 <CardDescription className="text-slate-600 dark:text-slate-300">
                   Review and moderate faculty evaluations submitted by students.
@@ -227,7 +309,7 @@ export default function AdminReviewsPage() {
                     <thead>
                       <tr className="text-left border-b border-slate-200 dark:border-slate-700">
                         <th scope="col" className="py-3 px-4 font-semibold text-slate-700 dark:text-slate-200">Rating</th>
-                        <th scope="col" className="py-3 px-4 font-semibold text-slate-700 dark:text-slate-200">Faculty ID</th>
+                        <th scope="col" className="py-3 px-4 font-semibold text-slate-700 dark:text-slate-200">Faculty</th>
                         <th scope="col" className="py-3 px-4 font-semibold text-slate-700 dark:text-slate-200">Course / Semester</th>
                         <th scope="col" className="py-3 px-4 font-semibold text-slate-700 dark:text-slate-200">Review Content</th>
                         <th scope="col" className="py-3 px-4 font-semibold text-slate-700 dark:text-slate-200">Submitted By</th>
@@ -236,7 +318,7 @@ export default function AdminReviewsPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {rows.map((r, index) => {
+                      {filteredRows.map((r, index) => {
                         const getRatingColor = (rating: number) => {
                           if (rating >= 4) return 'text-green-600 dark:text-green-400'
                           if (rating >= 3) return 'text-yellow-600 dark:text-yellow-400'
@@ -252,7 +334,15 @@ export default function AdminReviewsPage() {
                               </div>
                             </td>
                             <td className="py-4 px-4">
-                              <span className="font-mono text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">{r.faculty_id}</span>
+                              <div className="space-y-1">
+                                <div className="font-medium text-slate-900 dark:text-white">{facultyMap[r.faculty_id]?.name || 'Unknown Faculty'}</div>
+                                <div className="flex items-center gap-2">
+                                  <span className="font-mono text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">{r.faculty_id}</span>
+                                  {facultyMap[r.faculty_id]?.department && (
+                                    <Badge variant="outline" className="text-xs">{facultyMap[r.faculty_id]?.department}</Badge>
+                                  )}
+                                </div>
+                              </div>
                             </td>
                             <td className="py-4 px-4">
                               <div className="space-y-1">
