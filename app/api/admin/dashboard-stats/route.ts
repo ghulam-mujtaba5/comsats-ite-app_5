@@ -1,22 +1,24 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { withSupabaseRetry, safeCountWithRetry, safeListUsersWithRetry } from '@/lib/retry-utils'
 
 export async function GET() {
   try {
     const supabase = supabaseAdmin
 
-    // Users: use Admin API and paginate to get total count
+    // Users: use Admin API with retry and pagination to get total count
     let totalUsers = 0
     try {
       const perPage = 100
       let page = 1
+      
       while (true) {
-        const { data, error } = await supabase.auth.admin.listUsers({ page, perPage })
-        if (error) throw error
-        const users = data?.users ?? []
-        totalUsers += users.length
-        if (users.length < perPage) break
+        const result = await safeListUsersWithRetry(supabase, { page, perPage })
+        totalUsers += result.totalCount
+        
+        if (result.totalCount < perPage) break
         page += 1
+        
         // Safety cap to prevent long loops
         if (page > 100) break
       }
@@ -25,34 +27,44 @@ export async function GET() {
       console.error('dashboard-stats: users count failed:', e)
     }
 
-    // Helper to count a table but not fail the whole response
-    const safeCount = async (table: string) => {
+    // Helper to count a table with retry logic
+    const safeCount = async (table: string, filters?: any): Promise<number> => {
       try {
-        const { count, error } = await supabase
-          .from(table)
-          .select('*', { count: 'exact', head: true })
-        if (error) throw error
-        return count ?? 0
+        return await safeCountWithRetry(supabase, table, filters)
       } catch (e) {
         console.error(`dashboard-stats: count failed for ${table}:`, e)
         return 0
       }
     }
 
-    const [totalFaculty, totalReviews, totalResources] = await Promise.all([
+    // Get all counts in parallel with retry logic
+    const [totalFaculty, totalReviews, totalResources] = await Promise.allSettled([
       safeCount('faculty'),
       safeCount('reviews'),
       safeCount('resources'),
     ])
 
+    // Extract values from settled promises
+    const extractValue = (result: PromiseSettledResult<number>): number => {
+      return result.status === 'fulfilled' ? result.value : 0
+    }
+
     return NextResponse.json({
       totalUsers,
-      totalFaculty,
-      totalReviews,
-      totalResources,
+      totalFaculty: extractValue(totalFaculty),
+      totalReviews: extractValue(totalReviews),
+      totalResources: extractValue(totalResources),
     })
   } catch (error) {
     console.error('Error fetching dashboard stats:', error)
-    return new NextResponse('Internal Server Error', { status: 500 })
+    
+    // Return meaningful fallback data instead of just erroring
+    return NextResponse.json({
+      totalUsers: 0,
+      totalFaculty: 0,
+      totalReviews: 0,
+      totalResources: 0,
+      error: 'Failed to fetch current stats, showing fallback data',
+    }, { status: 200 }) // Return 200 with fallback data instead of 500
   }
 }

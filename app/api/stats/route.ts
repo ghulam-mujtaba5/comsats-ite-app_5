@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { withSupabaseRetry, safeCountWithRetry } from '@/lib/retry-utils';
 
 export const dynamic = "force-dynamic";
 
@@ -26,65 +27,106 @@ export async function GET() {
     }
 
     // Use service key for admin queries when available, fallback to anon
-    const supabase = createClient(url, serviceKey || anon)
+    const supabase = createClient(url, serviceKey || anon, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      },
+      global: {
+        fetch: (url, options = {}) => {
+          return fetch(url, {
+            ...options,
+            // Set reasonable timeout for requests
+            signal: AbortSignal.timeout(15000),
+          })
+        },
+      },
+    })
 
-    // Fetch all stats in parallel - using actual database queries
-    const [
-      pastPapersResult,
-      reviewsResult,
-      facultyResult,
-      resourcesResult,
-      eventsResult,
-      usersResult,
-      reviewDataResult
-    ] = await Promise.allSettled([
-      supabase.from("past_papers").select("*", { count: "exact", head: true }),
-      supabase.from("reviews").select("*", { count: "exact", head: true }).eq('status', 'approved'),
-      supabase.from("faculty").select("*", { count: "exact", head: true }),
-      supabase.from("resources").select("*", { count: "exact", head: true }),
-      supabase.from("events").select("*", { count: "exact", head: true }).gte('event_date', new Date().toISOString().split('T')[0]),
-      serviceKey ? supabase.auth.admin.listUsers() : Promise.resolve({ data: { users: [] }, error: null }),
-      supabase.from("reviews").select("rating").eq('status', 'approved')
-    ])
+    // Fetch all stats with retry logic
+    const fetchWithRetry = async () => {
+      const [
+        pastPapersCount,
+        reviewsCount,
+        facultyCount,
+        resourcesCount,
+        eventsCount,
+        usersResult,
+        reviewDataResult
+      ] = await Promise.allSettled([
+        safeCountWithRetry(supabase, "past_papers"),
+        safeCountWithRetry(supabase, "reviews", { status: 'approved' }),
+        safeCountWithRetry(supabase, "faculty"),
+        safeCountWithRetry(supabase, "resources"),
+        safeCountWithRetry(supabase, "events", {
+          event_date: {
+            operator: 'gte',
+            value: new Date().toISOString().split('T')[0]
+          }
+        }),
+        serviceKey ? withSupabaseRetry(
+          () => supabase.auth.admin.listUsers(),
+          'List users for stats',
+          { maxRetries: 2, timeout: 12000 }
+        ) : Promise.resolve({ data: { users: [] }, error: null }),
+        withSupabaseRetry(
+          async () => {
+            const result = await supabase.from("reviews").select("rating").eq('status', 'approved')
+            return result
+          },
+          'Fetch review ratings',
+          { maxRetries: 2, timeout: 10000 }
+        )
+      ])
 
-    // Extract counts with fallbacks
-    const pastPapersCount = pastPapersResult.status === 'fulfilled' ? pastPapersResult.value.count ?? 0 : 0
-    const reviewsCount = reviewsResult.status === 'fulfilled' ? reviewsResult.value.count ?? 0 : 0
-    const facultyCount = facultyResult.status === 'fulfilled' ? facultyResult.value.count ?? 0 : 0
-    const resourcesCount = resourcesResult.status === 'fulfilled' ? resourcesResult.value.count ?? 0 : 0
-    const eventsCount = eventsResult.status === 'fulfilled' ? eventsResult.value.count ?? 0 : 0
-    const activeStudents = usersResult.status === 'fulfilled' ? usersResult.value.data?.users?.length ?? 0 : 0
+      return {
+        pastPapersCount: pastPapersCount.status === 'fulfilled' ? pastPapersCount.value : 0,
+        reviewsCount: reviewsCount.status === 'fulfilled' ? reviewsCount.value : 0,
+        facultyCount: facultyCount.status === 'fulfilled' ? facultyCount.value : 0,
+        resourcesCount: resourcesCount.status === 'fulfilled' ? resourcesCount.value : 0,
+        eventsCount: eventsCount.status === 'fulfilled' ? eventsCount.value : 0,
+        activeStudents: usersResult.status === 'fulfilled' ? usersResult.value.data?.users?.length ?? 0 : 0,
+        reviewDataResult: reviewDataResult.status === 'fulfilled' ? reviewDataResult.value : { data: null }
+      }
+    }
+
+    const stats = await fetchWithRetry()
     
     // Calculate average rating
     let avgRating = 4.5 // Based on seeded reviews: average of 5 and 4
-    if (reviewDataResult.status === 'fulfilled' && reviewDataResult.value.data) {
-      const ratings = reviewDataResult.value.data.map((r: any) => r.rating).filter(Boolean)
+    if (stats.reviewDataResult?.data) {
+      const ratings = stats.reviewDataResult.data.map((r: any) => r.rating).filter(Boolean)
       if (ratings.length > 0) {
         avgRating = ratings.reduce((sum: number, rating: number) => sum + rating, 0) / ratings.length
       }
     }
 
-    // Get unique departments count from faculty
+    // Get unique departments count from faculty with retry
     let departmentCount = 2 // Based on seeded data: CS and SE
-    if (facultyResult.status === 'fulfilled') {
-      try {
-        const { data: deptData } = await supabase.from("faculty").select("department")
-        if (deptData) {
-          const uniqueDepts = new Set(deptData.map((f: any) => f.department).filter(Boolean))
-          departmentCount = uniqueDepts.size || 2
-        }
-      } catch {
-        // Use fallback based on seeded data
+    try {
+      const deptData = await withSupabaseRetry(
+        async () => {
+          const result = await supabase.from("faculty").select("department")
+          return result
+        },
+        'Fetch departments',
+        { maxRetries: 1, timeout: 8000 }
+      )
+      if (deptData.data) {
+        const uniqueDepts = new Set(deptData.data.map((f: any) => f.department).filter(Boolean))
+        departmentCount = uniqueDepts.size || 2
       }
+    } catch {
+      // Use fallback based on seeded data
     }
 
     return NextResponse.json({
-      pastPapersCount,
-      reviewsCount,
-      facultyCount,
-      resourcesCount,
-      eventsCount,
-      activeStudents, // Shows actual user count from database (2 test users)
+      pastPapersCount: stats.pastPapersCount,
+      reviewsCount: stats.reviewsCount,
+      facultyCount: stats.facultyCount,
+      resourcesCount: stats.resourcesCount,
+      eventsCount: stats.eventsCount,
+      activeStudents: stats.activeStudents,
       departmentCount,
       avgRating: Number(avgRating.toFixed(1)),
       communityPosts: 2, // From seed.ts

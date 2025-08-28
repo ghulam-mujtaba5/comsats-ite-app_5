@@ -15,7 +15,24 @@ if (!url || !serviceKey) {
 
 // If envs are available, export the real admin client
 export const supabaseAdmin = (url && serviceKey)
-  ? createClient(url, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } })
+  ? createClient(url, serviceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      },
+      global: {
+        fetch: (url, options = {}) => {
+          return fetch(url, {
+            ...options,
+            // Set reasonable timeout for admin requests
+            signal: AbortSignal.timeout(20000), // 20 second timeout for admin operations
+          })
+        },
+      },
+      db: {
+        schema: 'public',
+      },
+    })
   : ({
       auth: {
         admin: {
