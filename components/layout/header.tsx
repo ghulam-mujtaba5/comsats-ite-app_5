@@ -101,13 +101,13 @@ export function Header() {
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center space-x-1" aria-label="Primary navigation">
+        <nav className="hidden lg:flex items-center space-x-1 whitespace-nowrap" aria-label="Primary navigation">
           {navigationItems.map((item) => {
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 interactive hover-lift group ${
+                className={`relative inline-flex items-center h-10 px-4 rounded-2xl text-sm font-semibold transition-all duration-300 interactive hover-lift group box-border ${
                   isActivePath(item.href) 
                     ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 text-blue-600 dark:text-blue-400 border border-blue-200/30 dark:border-blue-400/30 backdrop-blur-sm shadow-lg" 
                     : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm hover:shadow-md hover:border-white/40 dark:hover:border-slate-600/40 border border-transparent"
@@ -136,7 +136,7 @@ export function Header() {
             <TooltipContent sideOffset={6}>Search (Ctrl/⌘ K)</TooltipContent>
           </Tooltip>
           <span
-            className="hidden lg:inline-flex select-none items-center gap-1 rounded-xl border border-white/30 dark:border-slate-600/40 px-3 py-2 text-[11px] leading-none text-slate-600 dark:text-slate-400 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm shadow-sm"
+            className="hidden lg:inline-flex h-9 select-none items-center gap-1 rounded-xl border border-white/30 dark:border-slate-600/40 px-3 text-[11px] leading-none text-slate-600 dark:text-slate-400 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm shadow-sm"
             aria-hidden="true"
           >
             <span className="font-mono">Ctrl</span>
@@ -145,14 +145,18 @@ export function Header() {
             <span>+</span>
             <span className="font-mono">K</span>
           </span>
-          {isAdmin && (
-            <Link href="/admin" title="Admin Panel" className="hidden lg:inline-flex">
-              <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300">
-                <Shield className="h-5 w-5" />
-                <span className="sr-only">Admin Panel</span>
-              </Button>
-            </Link>
-          )}
+          <Link
+            href="/admin"
+            title="Admin Panel"
+            className={`hidden lg:inline-flex ${isAdmin ? '' : 'invisible pointer-events-none'}`}
+            aria-hidden={isAdmin ? undefined : true}
+            tabIndex={isAdmin ? 0 : -1}
+          >
+            <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300">
+              <Shield className="h-5 w-5" />
+              <span className="sr-only">Admin Panel</span>
+            </Button>
+          </Link>
           <div className="ml-2">
             <ThemeToggle />
           </div>
