@@ -41,9 +41,7 @@ export default function AdminDashboardPage() {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch('/api/admin/dashboard/stats', {
-        credentials: 'include'
-      })
+      const response = await fetch('/api/admin/dashboard/stats')
       if (!response.ok) {
         const msg = `HTTP ${response.status}`
         setStatsError(msg)
