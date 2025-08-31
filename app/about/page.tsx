@@ -3,7 +3,7 @@ import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { GraduationCap, Target, Users, Sparkles, FileText, Calculator, UserCheck, BookOpen, Calendar, ArrowRight, Heart, CheckCircle } from "lucide-react"
+import { GraduationCap, Target, Sparkles, ArrowRight, Heart, CheckCircle, Clock, Flag, Rocket, Mail, Download } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -15,50 +15,9 @@ export const metadata: Metadata = createMetadata({
 })
 
 export default function AboutUsPage() {
-  const features = [
-    {
-      icon: FileText,
-      title: "Past Papers Repository",
-      description: "Access a vast collection of past exam papers to prepare effectively.",
-      color: "text-primary",
-      bgColor: "bg-primary/10"
-    },
-    {
-      icon: Calculator,
-      title: "GPA Tools",
-      description: "Calculate, plan, and forecast your GPA with our easy-to-use calculators.",
-      color: "text-blue-500",
-      bgColor: "bg-blue-50 dark:bg-blue-950/30"
-    },
-    {
-      icon: UserCheck,
-      title: "Faculty Reviews",
-      description: "Share and read honest reviews to make informed decisions about your courses.",
-      color: "text-green-500",
-      bgColor: "bg-green-50 dark:bg-green-950/30"
-    },
-    {
-      icon: BookOpen,
-      title: "Learning Resources",
-      description: "Find and share study materials, notes, and other valuable resources.",
-      color: "text-purple-500",
-      bgColor: "bg-purple-50 dark:bg-purple-950/30"
-    },
-    {
-      icon: Calendar,
-      title: "Timetable Management",
-      description: "Organize your class schedule and never miss a lecture.",
-      color: "text-orange-500",
-      bgColor: "bg-orange-50 dark:bg-orange-950/30"
-    }
-  ]
+  // features removed from About page to avoid duplication with Home
 
-  const stats = [
-    { label: "Active Students", value: "5,000+", icon: Users },
-    { label: "Past Papers", value: "1,000+", icon: FileText },
-    { label: "Faculty Reviews", value: "500+", icon: UserCheck },
-    { label: "Study Resources", value: "300+", icon: BookOpen }
-  ]
+  // Top-of-page numeric stats removed to avoid duplication with other site sections
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">
@@ -79,7 +38,7 @@ export default function AboutUsPage() {
                 About CampusAxis
               </Badge>
               
-              <h1 className="text-5xl lg:text-7xl font-bold tracking-tight mb-6 text-balance animate-slide-up" style={{ animationDelay: '200ms' }}>
+              <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6 text-balance animate-slide-up" style={{ animationDelay: '200ms' }}>
                 Empowering Your 
                 <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
                   Academic Journey
@@ -91,24 +50,12 @@ export default function AboutUsPage() {
                 connect with faculty, and excel in their academic pursuits.
               </p>
 
-              {/* Stats Row */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 animate-slide-up" style={{ animationDelay: '600ms' }}>
-                {stats.map((stat, index) => {
-                  const Icon = stat.icon
-                  return (
-                    <Card key={index} variant="glass" className="text-center hover-lift transition-all duration-300">
-                      <CardContent className="p-4">
-                        <Icon className="h-6 w-6 mx-auto mb-2 text-primary" />
-                        <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                        <div className="text-sm text-muted-foreground">{stat.label}</div>
-                      </CardContent>
-                    </Card>
-                  )
-                })}
-              </div>
+              {/* Top stats removed to avoid duplication with home and other pages */}
             </div>
           </div>
         </section>
+      
+        {/* Megicode / Powered By Section moved down */}
 
         {/* Mission Section */}
         <section className="py-16 px-4 bg-gradient-to-r from-primary/5 via-transparent to-blue-500/5">
@@ -119,7 +66,7 @@ export default function AboutUsPage() {
                   <div className="p-3 rounded-xl bg-primary/10 text-primary">
                     <Target className="h-6 w-6" />
                   </div>
-                  <h2 className="text-3xl font-bold text-foreground">Our Mission</h2>
+                  <h2 className="text-3xl lg:text-4xl font-bold text-foreground ml-2">Mission</h2>
                 </div>
                 
                 <p className="text-lg text-muted-foreground leading-relaxed font-serif">
@@ -159,48 +106,268 @@ export default function AboutUsPage() {
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-20 px-4">
+        {/* Our Story / Values / Roadmap / Get Involved */}
+        <section className="py-12 px-4">
           <div className="app-container">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4 text-balance">
-                What We <span className="text-primary">Offer</span>
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-serif">
-                CampusAxis is a one-stop solution for all your academic needs. 
-                Our platform offers a comprehensive range of features.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {features.map((feature, index) => {
-                const Icon = feature.icon
-                return (
-                  <Card 
-                    key={index} 
-                    variant="elevated" 
-                    className="group hover-lift transition-all duration-300 border-0 hover:border-primary/20 hover:shadow-xl"
-                  >
-                    <CardHeader className="pb-4">
-                      <div className={`w-12 h-12 rounded-xl ${feature.bgColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                        <Icon className={`h-6 w-6 ${feature.color}`} />
+            <div className="grid lg:grid-cols-2 gap-8 items-start">
+              <div>
+                <h3 className="text-2xl font-bold mb-4">Our Story</h3>
+                <div className="space-y-6">
+                  {[{
+                    date: '2020',
+                    title: 'Founded',
+                    text: 'Megicode was founded to build student-centered tools and bridge the gap between students and campus resources.'
+                  },{
+                    date: '2022',
+                    title: 'CampusAxis launched',
+                    text: 'CampusAxis went live to help COMSATS students discover past papers, tools, and community features.'
+                  },{
+                    date: '2024',
+                    title: 'Ambassador program',
+                    text: 'We launched the Campus Ambassador program to grow campus reach and student leadership.'
+                  }].map((item, i) => (
+                    <div key={i} className="flex items-start gap-4">
+                      <div className="p-2 rounded-lg bg-primary/10 text-primary"><Clock className="h-5 w-5" /></div>
+                      <div>
+                        <div className="text-sm text-muted-foreground">{item.date}</div>
+                        <div className="font-semibold">{item.title}</div>
+                        <div className="text-sm text-muted-foreground">{item.text}</div>
                       </div>
-                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                        {feature.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground font-serif leading-relaxed">
-                        {feature.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                )
-              })}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold mb-4">Values & Principles</h3>
+                <div className="space-y-3 mb-6">
+                  {[
+                    'Student-first design',
+                    'Open collaboration with universities',
+                    'Data privacy and security',
+                    'Continuous learning & iteration'
+                  ].map((v, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <Flag className="h-5 w-5 text-primary mt-1" />
+                      <div className="text-muted-foreground">{v}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <h4 className="text-lg font-semibold mb-3">Roadmap</h4>
+                <div className="space-y-3 mb-6">
+                  {[{
+                    quarter: 'Q3 2025',
+                    goal: 'Improved search and resource tagging'
+                  },{
+                    quarter: 'Q4 2025',
+                    goal: 'Mobile-first enhancements and offline access'
+                  }].map((r, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10 text-primary"><Rocket className="h-5 w-5" /></div>
+                      <div>
+                        <div className="font-semibold">{r.quarter}</div>
+                        <div className="text-sm text-muted-foreground">{r.goal}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-lg font-semibold">Get involved</h4>
+                  <p className="text-sm text-muted-foreground">Volunteer, partner, or become an ambassador — help shape CampusAxis and grow your campus community.</p>
+                  <div className="mt-3 flex gap-3">
+                    <Button size="lg" asChild>
+                      <Link href="/contribute">Get Involved</Link>
+                    </Button>
+                    <Button size="lg" variant="outline" asChild>
+                      <a href="mailto:hello@megicode.com">Contact Us</a>
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <h4 className="text-lg font-semibold mb-2">Media Kit</h4>
+                  <div className="flex items-center gap-3">
+                    <Download className="h-5 w-5 text-primary" />
+                    <a href="/media-kit.zip" className="text-primary underline">Download press & brand assets</a>
+                  </div>
+                  <div className="text-sm text-muted-foreground mt-2">For press inquiries: <a href="mailto:press@megicode.com" className="underline">press@megicode.com</a></div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
+        {/* How We Help Students */}
+        <div className="my-12 border-t border-muted-foreground/10" />
+        <section className="py-12 px-4 bg-muted/5">
+          <div className="app-container">
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="mb-4">
+                <Badge variant="soft" className="uppercase tracking-wide text-xs">Students</Badge>
+                <h3 className="text-2xl lg:text-3xl font-semibold mt-2">How CampusAxis Helps Students</h3>
+              </div>
+              <div className="space-y-3 text-left">
+                {["Centralized study resources and past papers","Easy-to-use GPA planning tools","Verified faculty reviews and guidance","Timetable & campus event coordination"].map((t, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-500 mt-1" />
+                    <div className="text-muted-foreground">{t}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials removed per request */}
+
+        <div className="my-12 border-t border-muted-foreground/10" />
+        {/* Partners & FAQ */}
+        <section className="py-12 px-4 bg-muted/5">
+          <div className="app-container">
+            <div className="grid lg:grid-cols-2 gap-8 items-start">
+              <div>
+                <div className="mb-4">
+                  <Badge variant="soft" className="uppercase tracking-wide text-xs">Partners</Badge>
+                  <h4 className="text-xl lg:text-2xl font-semibold mt-2">Partners & Integrations</h4>
+                </div>
+                <div className="flex items-center gap-6 flex-wrap">
+                  <div className="w-32 h-12 relative">
+                    <Image src={'/new logo.jpg'} alt="Megicode" fill style={{ objectFit: 'contain' }} />
+                  </div>
+                  <div className="w-32 h-12 relative">
+                    <Image src={'/placeholder-logo.png'} alt="Partner" fill style={{ objectFit: 'contain' }} />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-4">
+                  <Badge variant="soft" className="uppercase tracking-wide text-xs">FAQ</Badge>
+                  <h4 className="text-xl lg:text-2xl font-semibold mt-2">Frequently asked questions</h4>
+                </div>
+                <div className="space-y-3">
+                  <Card className="p-4">
+                    <CardContent>
+                      <div className="font-semibold">How can I become a Campus Ambassador?</div>
+                      <div className="text-sm text-muted-foreground">Apply via the Contribute page or email hello@megicode.com for partnership inquiries.</div>
+                    </CardContent>
+                  </Card>
+                  <Card className="p-4">
+                    <CardContent>
+                      <div className="font-semibold">Is CampusAxis free to use?</div>
+                      <div className="text-sm text-muted-foreground">Yes — CampusAxis is free for students. Some partner services may be paid.</div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      {/* Megicode / Powered By Section (moved down) */}
+    <div className="my-12 border-t border-muted-foreground/10" />
+    <section className="py-12 px-4 bg-muted/5">
+          <div className="app-container">
+            <div className="text-center mb-8">
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-12 h-12 relative">
+                  <Image src={'/new logo.jpg'} alt="Megicode logo" fill style={{ objectFit: 'contain' }} />
+                </div>
+                <h2 className="text-3xl font-bold">Powered by <a href="https://megicode.com" target="_blank" rel="noopener noreferrer" className="text-primary underline">Megicode</a></h2>
+              </div>
+              <p className="text-muted-foreground max-w-2xl mx-auto">Built and maintained by the Megicode team — supporting students and campus communities.</p>
+            </div>
+
+            <div className="max-w-4xl mx-auto grid sm:grid-cols-2 gap-6 items-start">
+                    <Card className="p-6">
+                <CardHeader className="pb-4">
+                      <CardTitle className="text-lg font-semibold">Join as Campus Ambassador</CardTitle>
+                </CardHeader>
+                <CardContent>
+                      <p className="text-muted-foreground mb-4">Become a Campus Ambassador to represent CampusAxis on your campus. Gain experience, swag, and community credits.</p>
+                      <div className="flex gap-3">
+                        <Button size="lg" asChild>
+                          <Link href="/contribute">Apply as Ambassador</Link>
+                        </Button>
+                        <Button size="lg" variant="outline" asChild>
+                          <a href="mailto:hello@megicode.com">Contact Megicode</a>
+                        </Button>
+                      </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="mt-10">
+              <h3 className="text-2xl font-semibold mb-4 text-center">Megicode Leadership</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                {[
+                  {
+                    name: 'Ghulam Mujtaba',
+                    role: 'Founder & CTO',
+                    img: '/placeholder-user.jpg',
+                    bio: 'Driving technological excellence and innovation to create impactful solutions for our clients.',
+                    github: '#',
+                    linkedin: '#'
+                  },
+                  {
+                    name: 'Azan Wahla',
+                    role: 'Founder & CEO',
+                    img: '/placeholder-user.jpg',
+                    bio: "Leading Megicode's vision to transform businesses through innovative technology solutions.",
+                    github: '#',
+                    linkedin: '#'
+                  },
+                  {
+                    name: 'Muhammad Waqar ul Mulk',
+                    role: 'Founder & COO/CMO',
+                    img: '/placeholder-user.jpg',
+                    bio: 'Building strategic partnerships and ensuring operational excellence in everything we do.',
+                    github: '#',
+                    linkedin: '#'
+                  }
+                ].map((person, i) => (
+                  <Card key={i} className="text-center p-4">
+                    <CardContent>
+                      <div className="mx-auto w-24 h-24 relative mb-4">
+                        <Image src={person.img} alt={person.name} fill className="rounded-full object-cover" />
+                      </div>
+                      <div className="font-semibold">{person.name}</div>
+                      <div className="text-sm text-muted-foreground mb-2">{person.role}</div>
+                      <div className="text-sm text-muted-foreground mb-3">{person.bio}</div>
+                      <div className="flex items-center justify-center gap-3">
+                        <a href={person.github} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline">GitHub</a>
+                        <a href={person.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline">LinkedIn</a>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Structured data for Megicode (replace placeholders with real values) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Megicode",
+              url: "https://megicode.com",
+              logo: "/new logo.jpg",
+              sameAs: [
+                "https://twitter.com/megicode",
+                "https://facebook.com/megicode",
+                "https://linkedin.com/company/megicode"
+              ],
+              description: "Megicode — building CampusAxis and student-focused tools to help learners succeed.",
+            })
+          }}
+        />
+        
         {/* Commitment Section */}
         <section className="py-16 px-4 bg-gradient-to-br from-accent/10 via-background to-primary/5">
           <div className="app-container">

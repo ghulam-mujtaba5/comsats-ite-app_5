@@ -167,21 +167,22 @@ export default function AdminDashboardPage() {
           }
 
           const links: LinkItem[] = [
-            { href: "/admin/dashboard", title: "📊 Analytics Dashboard", desc: "Comprehensive stats, insights and system health monitoring.", priority: "high" },
-            { href: "/admin/users", title: "👥 User Management", desc: "Manage accounts, permissions and user authentication.", priority: "high" },
-            { href: "/admin/moderation", title: "🛡️ Content Moderation", desc: "Review posts, comments and handle user reports.", priority: "high" },
-            { href: "/admin/news-events", title: "📰 News & Events", desc: "Create and manage campus announcements and events.", priority: "medium" },
-            { href: "/admin/faculty", title: "👨‍🏫 Faculty Directory", desc: "Add, edit and manage faculty member profiles.", priority: "medium" },
-            { href: "/admin/past-papers", title: "📄 Academic Resources", desc: "Approve and manage submitted past papers.", priority: "medium" },
-            { href: "/admin/community", title: "💬 Community Hub", desc: "Oversee student discussions and forum activity.", priority: "medium" },
-            { href: "/admin/support", title: "❤️ Student Support", desc: "Manage support resources and assistance requests.", priority: "medium" },
-            { href: "/admin/guidance", title: "📚 Guidance Portal", desc: "Maintain guides, policies and student resources.", priority: "low" },
-            { href: "/admin/lost-found", title: "🔍 Lost & Found", desc: "Manage campus lost and found item reports.", priority: "low" },
-            { href: "/admin/reviews", title: "📝 Faculty Reviews", desc: "Moderate and approve faculty review submissions.", priority: "low" },
-            { href: "/admin/resources", title: "📁 File Resources", desc: "Manage downloadable files and study materials.", priority: "low" },
-            { href: "/admin/timetable-docs", title: "📅 Timetable Management", desc: "Upload and organize official timetable documents.", priority: "low" },
-            { href: "/admin/issues", title: "🐞 Issue Tracking", desc: "Review public reports and track resolution status.", priority: "low" },
-            { href: "/admin/settings", title: "⚙️ System Settings", desc: "Configure platform settings and preferences.", priority: "low" },
+          { href: "/admin/dashboard", title: "📊 Analytics Dashboard", desc: "Comprehensive stats, insights and system health monitoring.", priority: "high" },
+          { href: "/admin/users", title: "👥 User Management", desc: "Manage accounts, permissions and user authentication.", priority: "high" },
+          { href: "/admin/moderation", title: "🛡️ Content Moderation", desc: "Review posts, comments and handle user reports.", priority: "high" },
+          { href: "/admin/news-events", title: "📰 News & Events", desc: "Create and manage campus announcements and events.", priority: "medium" },
+          { href: "/admin/faq", title: "❓ FAQ Management", desc: "Create, edit, and manage frequently asked questions.", priority: "medium" },
+          { href: "/admin/faculty", title: "👨‍🏫 Faculty Directory", desc: "Add, edit and manage faculty member profiles.", priority: "medium" },
+          { href: "/admin/past-papers", title: "📄 Academic Resources", desc: "Approve and manage submitted past papers.", priority: "medium" },
+          { href: "/admin/community", title: "💬 Community Hub", desc: "Oversee student discussions and forum activity.", priority: "medium" },
+          { href: "/admin/support", title: "❤️ Student Support", desc: "Manage support resources and assistance requests.", priority: "medium" },
+          { href: "/admin/guidance", title: "📚 Guidance Portal", desc: "Maintain guides, policies and student resources.", priority: "low" },
+          { href: "/admin/lost-found", title: "🔍 Lost & Found", desc: "Manage campus lost and found item reports.", priority: "low" },
+          { href: "/admin/reviews", title: "📝 Faculty Reviews", desc: "Moderate and approve faculty review submissions.", priority: "low" },
+          { href: "/admin/resources", title: "📁 File Resources", desc: "Manage downloadable files and study materials.", priority: "low" },
+          { href: "/admin/timetable-docs", title: "📅 Timetable Management", desc: "Upload and organize official timetable documents.", priority: "low" },
+          { href: "/admin/issues", title: "🐞 Issue Tracking", desc: "Review public reports and track resolution status.", priority: "low" },
+          { href: "/admin/settings", title: "⚙️ System Settings", desc: "Configure platform settings and preferences.", priority: "low" },
           ]
 
           const q = linkQuery.trim().toLowerCase()
