@@ -147,11 +147,11 @@ export function HeroSection() {
             {/* Enhanced description */}
             <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-2xl mb-2">
-                Access past papers, calculate your GPA, explore learning resources, and connect with faculty - 
+                Access past papers, calculate your GPA, explore learning resources, and read faculty reviews - 
                 all in one comprehensive academic portal designed specifically for COMSATS students.
               </p>
               <p className="text-lg text-muted-foreground/80 font-light max-w-xl">
-                A growing platform for COMSATS students to share resources and connect with faculty.
+                A growing platform for COMSATS students to share resources and read faculty reviews.
               </p>
             </div>
 
@@ -175,12 +175,12 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Enhanced CTAs */}
+            {/* About CampusAxis CTA replaces Explore Resources */}
             <div className={`transition-all duration-700 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Button size="lg" className="text-lg px-10 py-4 rounded-2xl button-modern bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl" asChild>
-                  <Link href="/resources">
-                    Explore Resources
+                <Button size="lg" className="text-lg px-10 py-4 rounded-2xl button-modern bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl" asChild>
+                  <Link href="/about">
+                    About CampusAxis
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>

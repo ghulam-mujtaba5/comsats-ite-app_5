@@ -47,7 +47,7 @@ export default function AboutUsPage() {
               
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-serif leading-relaxed animate-slide-up" style={{ animationDelay: '400ms' }}>
                 Transforming the way COMSATS University Lahore students access resources, 
-                connect with faculty, and excel in their academic pursuits.
+                read faculty reviews, and excel in their academic pursuits.
               </p>
 
               {/* Top stats removed to avoid duplication with home and other pages */}
