@@ -46,8 +46,7 @@ export default function AboutUsPage() {
               </h1>
               
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-serif leading-relaxed animate-slide-up" style={{ animationDelay: '400ms' }}>
-                Transforming the way COMSATS University Lahore students access resources, 
-                read faculty reviews, and excel in their academic pursuits.
+                CampusAxis is designed to help COMSATS University Lahore students access academic resources and make informed decisions through faculty reviews, enhancing their learning experience with best faculty.
               </p>
 
               {/* Top stats removed to avoid duplication with home and other pages */}
@@ -70,17 +69,14 @@ export default function AboutUsPage() {
                 </div>
                 
                 <p className="text-lg text-muted-foreground leading-relaxed font-serif">
-                  Our mission is to provide a centralized, comprehensive academic portal for the students of COMSATS 
-                  University Lahore. We aim to streamline access to essential resources, foster a collaborative learning 
-                  environment, and empower students to achieve academic excellence.
+                  Our mission is to make academic resources and faculty reviews easily accessible for COMSATS students, supporting their learning and growth.
                 </p>
 
                 <div className="space-y-3">
                   {[
-                    "Centralized academic resources",
-                    "Collaborative learning environment", 
-                    "Student empowerment tools",
-                    "Academic excellence support"
+                    "Academic resources in one place",
+                    "Verified faculty reviews",
+                    "Easy GPA planning tools"
                   ].map((item, index) => (
                     <div key={index} className="flex items-center gap-3">
                       <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
@@ -96,8 +92,7 @@ export default function AboutUsPage() {
                     <GraduationCap className="h-16 w-16 mx-auto text-primary" />
                     <h3 className="text-2xl font-semibold">Built for Students</h3>
                     <p className="text-muted-foreground font-serif">
-                      Every feature is designed with student needs in mind, 
-                      creating an intuitive and powerful academic companion.
+                      Designed for students: simple, useful, and focused on what matters most for your academic journey.
                     </p>
                   </div>
                 </Card>
@@ -209,12 +204,12 @@ export default function AboutUsPage() {
                 <h3 className="text-2xl lg:text-3xl font-semibold mt-2">How CampusAxis Helps Students</h3>
               </div>
               <div className="space-y-3 text-left">
-                {["Centralized study resources and past papers","Easy-to-use GPA planning tools","Verified faculty reviews and guidance","Timetable & campus event coordination"].map((t, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 mt-1" />
-                    <div className="text-muted-foreground">{t}</div>
-                  </div>
-                ))}
+                  {["Study resources and past papers","GPA planning tools","Faculty reviews","Timetable & event coordination"].map((t, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-green-500 mt-1" />
+                      <div className="text-muted-foreground">{t}</div>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
