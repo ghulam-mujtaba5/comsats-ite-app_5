@@ -255,6 +255,30 @@ export default function ContributePage() {
           </Card>
         </div>
 
+        {/* Contributor and Team Forms Section */}
+        <div className={`transition-all duration-700 delay-1100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'} mb-16`}>
+          <Card className="card-modern border-0 backdrop-blur-sm">
+            <CardHeader className="text-center pb-6">
+              <CardTitle className="text-2xl mb-2">
+                Join the Team or Contribute
+              </CardTitle>
+              <p className="text-muted-foreground font-serif max-w-2xl mx-auto">
+                Fill out a form to join as a contributor or team member. We welcome all students passionate about making a difference!
+              </p>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" variant="secondary" asChild>
+                  <a href="https://forms.gle/sK8fibFaFfVnWv429" target="_blank" rel="noopener noreferrer">Contributor Form</a>
+                </Button>
+                <Button size="lg" variant="secondary" asChild>
+                  <a href="https://forms.gle/tGHbja14oVo9KSsXA" target="_blank" rel="noopener noreferrer">Team Form</a>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Contact Section */}
         <div className={`transition-all duration-700 delay-1200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <Card className="card-modern border-0 backdrop-blur-sm border-primary/20 bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5">

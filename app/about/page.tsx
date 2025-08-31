@@ -345,6 +345,8 @@ export default function AboutUsPage() {
                     <Link href="/contribute">Contribute to CampusAxis</Link>
                   </Button>
                 </div>
+
+                {/* ...existing code... */}
               </div>
             </Card>
           </div>
