@@ -101,95 +101,48 @@ export default function AboutUsPage() {
           </div>
         </section>
 
-        {/* Our Story / Values / Roadmap / Get Involved */}
+        {/* Our Values & Principles */}
         <section className="py-12 px-4">
           <div className="app-container">
-            <div className="grid lg:grid-cols-2 gap-8 items-start">
-              <div>
-                <h3 className="text-2xl font-bold mb-4">Our Story</h3>
-                <div className="space-y-6">
-                  {[{
-                    date: '2020',
-                    title: 'Founded',
-                    text: 'Megicode was founded to build student-centered tools and bridge the gap between students and campus resources.'
-                  },{
-                    date: '2022',
-                    title: 'CampusAxis launched',
-                    text: 'CampusAxis went live to help COMSATS students discover past papers, tools, and community features.'
-                  },{
-                    date: '2024',
-                    title: 'Ambassador program',
-                    text: 'We launched the Campus Ambassador program to grow campus reach and student leadership.'
-                  }].map((item, i) => (
-                    <div key={i} className="flex items-start gap-4">
-                      <div className="p-2 rounded-lg bg-primary/10 text-primary"><Clock className="h-5 w-5" /></div>
-                      <div>
-                        <div className="text-sm text-muted-foreground">{item.date}</div>
-                        <div className="font-semibold">{item.title}</div>
-                        <div className="text-sm text-muted-foreground">{item.text}</div>
-                      </div>
+            <div className="max-w-4xl mx-auto text-center">
+              <h3 className="text-2xl lg:text-3xl font-semibold mt-2">Our Values & Principles</h3>
+              <p className="text-lg text-muted-foreground leading-relaxed font-serif mt-4">
+                At CampusAxis, our foundation is built on values that guide how we create, grow, and serve our student community.
+              </p>
+              <div className="space-y-6 text-left mt-8">
+                {[
+                  { title: "Integrity", description: "We always stay truthful, transparent, and responsible in everything we do." },
+                  { title: "Innovation & Creativity", description: "We continuously explore modern, creative solutions to improve learning experiences and enhance campus life." },
+                  { title: "Excellence", description: "We strive for the highest quality in every feature, service, and interaction." },
+                  { title: "Adaptability", description: "We stay flexible and open to change, evolving with the needs of students and the education ecosystem." },
+                  { title: "Accessibility & Inclusivity", description: "We believe every student should have equal access to opportunities, resources, and support—regardless of background or ability." },
+                  { title: "Transparency & Trust", description: "Clear, open, and reliable information is at the heart of our platform." },
+                  { title: "Collaboration & Community", description: "We encourage teamwork, peer-to-peer learning, and collective growth to strengthen the campus experience." },
+                  { title: "Student-Centric Approach", description: "Every feature and update is designed with students’ needs, challenges, and future goals in mind." },
+                ].map((value, index) => (
+                  <div key={index} className="flex items-start gap-4">
+                    <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                      <CheckCircle className="h-6 w-6" />
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-2xl font-bold mb-4">Values & Principles</h3>
-                <div className="space-y-3 mb-6">
-                  {[
-                    'Student-first design',
-                    'Open collaboration with universities',
-                    'Data privacy and security',
-                    'Continuous learning & iteration'
-                  ].map((v, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <Flag className="h-5 w-5 text-primary mt-1" />
-                      <div className="text-muted-foreground">{v}</div>
+                    <div>
+                      <h4 className="text-lg font-semibold">{value.title}</h4>
+                      <p className="text-muted-foreground">{value.description}</p>
                     </div>
-                  ))}
-                </div>
-
-                <h4 className="text-lg font-semibold mb-3">Roadmap</h4>
-                <div className="space-y-3 mb-6">
-                  {[{
-                    quarter: 'Q3 2025',
-                    goal: 'Improved search and resource tagging'
-                  },{
-                    quarter: 'Q4 2025',
-                    goal: 'Mobile-first enhancements and offline access'
-                  }].map((r, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10 text-primary"><Rocket className="h-5 w-5" /></div>
-                      <div>
-                        <div className="font-semibold">{r.quarter}</div>
-                        <div className="text-sm text-muted-foreground">{r.goal}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="space-y-3">
-                  <h4 className="text-lg font-semibold">Get involved</h4>
-                  <p className="text-sm text-muted-foreground">Volunteer, partner, or become an ambassador — help shape CampusAxis and grow your campus community.</p>
-                  <div className="mt-3 flex gap-3">
-                    <Button size="lg" asChild>
-                      <Link href="/contribute">Get Involved</Link>
-                    </Button>
-                    <Button size="lg" variant="outline" asChild>
-                      <a href="mailto:hello@megicode.com">Contact Us</a>
-                    </Button>
                   </div>
-                </div>
-
-                <div className="mt-6">
-                  <h4 className="text-lg font-semibold mb-2">Media Kit</h4>
-                  <div className="flex items-center gap-3">
-                    <Download className="h-5 w-5 text-primary" />
-                    <a href="/media-kit.zip" className="text-primary underline">Download press & brand assets</a>
-                  </div>
-                  <div className="text-sm text-muted-foreground mt-2">For press inquiries: <a href="mailto:press@megicode.com" className="underline">press@megicode.com</a></div>
-                </div>
+                ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* New User Privacy Section */}
+        <section className="py-12 px-4 bg-muted/5">
+          <div className="app-container">
+            <div className="max-w-3xl mx-auto text-center">
+              <h3 className="text-2xl lg:text-3xl font-semibold mt-2">User Privacy</h3>
+              <p className="text-lg text-muted-foreground leading-relaxed font-serif mt-4">
+                At CampusAxis, we prioritize user privacy. Our platform ensures anonymity and fosters confidence, allowing students to engage and learn without concerns about data security or misuse.
+              </p>
             </div>
           </div>
         </section>
