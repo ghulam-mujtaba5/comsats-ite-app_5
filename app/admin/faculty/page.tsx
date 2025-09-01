@@ -294,15 +294,27 @@ export default function AdminFacultyPage() {
                 </div>
                 
                 <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <Label htmlFor="facultyCsv" className="sr-only">Import faculty CSV</Label>
-                    <input id="facultyCsv" type="file" accept=".csv" onChange={setCsvFile} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" aria-describedby="facultyCsvHelp" aria-label="Import faculty CSV file" />
-                    <Button size="sm" variant="outline" className="glass-button bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border-white/40 dark:border-slate-600/40 hover:bg-white/50 dark:hover:bg-slate-700/50">
+                  <label htmlFor="facultyCsv" className="flex items-center cursor-pointer">
+                    <input
+                      id="facultyCsv"
+                      type="file"
+                      accept=".csv"
+                      onChange={setCsvFile}
+                      style={{ display: 'none' }}
+                      aria-describedby="facultyCsvHelp"
+                      aria-label="Import faculty CSV file"
+                    />
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="glass-button bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border-white/40 dark:border-slate-600/40 hover:bg-white/50 dark:hover:bg-slate-700/50"
+                      as="span"
+                    >
                       <Upload className="h-4 w-4 mr-2" />
                       Import CSV
                     </Button>
                     <span id="facultyCsvHelp" className="sr-only">Select a .csv file to import faculty records</span>
-                  </div>
+                  </label>
                   <Button size="sm" variant="outline" onClick={downloadCSV} className="glass-button bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border-white/40 dark:border-slate-600/40 hover:bg-white/50 dark:hover:bg-slate-700/50">
                     <Download className="h-4 w-4 mr-2" />
                     Export CSV
