@@ -9,13 +9,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useToast } from '@/hooks/use-toast'
 import { GraduationCap, Users, Mail, MapPin, Phone, Book, Award, Eye, Edit, Trash2, Download, Upload, Plus, Sparkles, Activity, TrendingUp, Crown, Save } from "lucide-react"
 
 // Uses secure server API at /api/admin/faculty guarded by HTTP-only admin cookie
 
 // Minimal faculty schema used here must match your Supabase table `faculty`
 // Columns: id (uuid), name, title, department, email, office, phone, specialization (text[] or csv), courses (text[] or csv), education (text[] or csv), experience, profile_image
-
 type Row = {
   id: string
   name: string
@@ -180,6 +180,15 @@ export default function AdminFacultyPage() {
     const lines = text.split(/\r?\n/).filter(Boolean)
     if (lines.length < 2) return
     const header = lines[0].split(",").map(h => h.replaceAll('"','').trim())
+    const { toast } = useToast()
+    // Validate required headers before attempting import
+    const required = ["name","title","department","email","office","phone","specialization","courses","education","experience","profile_image"]
+    const missing = required.filter(r => !header.includes(r))
+    if (missing.length) {
+      toast({ title: 'Invalid CSV', description: `Missing columns: ${missing.join(', ')}`, variant: 'destructive' })
+      setError(`Missing columns: ${missing.join(', ')}`)
+      return
+    }
     const idx = (k: string) => header.indexOf(k)
     const payloads = lines.slice(1).map(line => {
       const cols = line.match(/(?:^|,)(\"(?:.|\n)*?\"|[^,]*)/g)?.map(c => c.replace(/^,?\"?|\"?$/g, "")) || []
@@ -207,7 +216,13 @@ export default function AdminFacultyPage() {
         body: JSON.stringify({ rows: payloads, upsert: true, dry_run: false, fill_defaults: true }),
       })
       const j = await res.json().catch(() => ({}))
-      if (!res.ok) throw new Error(j?.error || 'Failed to import CSV')
+      if (!res.ok) {
+        const message = j?.error || `Failed to import CSV (status ${res.status})`
+        toast({ title: 'Import failed', description: message, variant: 'destructive' })
+        throw new Error(message)
+      }
+      // Success
+      toast({ title: 'Import successful', description: `Imported ${j.inserted_or_updated ?? j.validated ?? payloads.length} rows`, variant: 'default' })
     } catch (e: any) {
       setError(e.message || 'Failed to import CSV')
     } finally {
