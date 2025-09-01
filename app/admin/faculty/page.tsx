@@ -200,10 +200,11 @@ export default function AdminFacultyPage() {
     })
     setLoading(true)
     try {
-      const res = await fetch('/api/admin/faculty', {
+      // Use the admin bulk import endpoint which expects { rows, upsert, dry_run, fill_defaults }
+      const res = await fetch('/api/admin/import/faculty', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payloads),
+        body: JSON.stringify({ rows: payloads, upsert: true, dry_run: false, fill_defaults: true }),
       })
       const j = await res.json().catch(() => ({}))
       if (!res.ok) throw new Error(j?.error || 'Failed to import CSV')
