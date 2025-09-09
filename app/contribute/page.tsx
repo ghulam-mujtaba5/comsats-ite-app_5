@@ -31,46 +31,42 @@ export default function ContributePage() {
     setIsVisible(true)
   }, [])
 
-  const contributionTypes = [
+  // Removed the previous four large role cards (Moderator, Admin, Content, Technical).
+  // New streamlined involvement options for improved hierarchy & clarity.
+  const involvementOptions = [
     {
-      icon: Users,
-      title: "Join as Moderator",
-      description: "Help review content, answer questions, and keep the community helpful and supportive.",
-      features: ["Review submissions", "Answer student questions", "Moderate discussions", "Guide community growth"],
-      color: "text-blue-500",
-      bgColor: "from-blue-500/20 to-indigo-600/20",
-      borderColor: "border-blue-200/30 dark:border-blue-700/30",
-      buttonColor: "from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+      icon: FileText,
+      title: "Content Contributor",
+      tagline: "Share knowledge & academic resources",
+      description: "Upload past papers, notes, or curated learning material to empower student success.",
+      features: [
+        "Upload past papers / notes",
+        "Create study resources",
+        "Improve existing content",
+        "Help build knowledge base"
+      ],
+      gradient: "from-green-500/20 to-emerald-600/20",
+      border: "border-green-200/30 dark:border-green-700/30",
+      button: "from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700",
+      formLink: "https://forms.gle/sK8fibFaFfVnWv429",
+      cta: "Become a Contributor"
     },
     {
       icon: Shield,
-      title: "Become an Admin",
-      description: "Lead features, manage submissions, and guide the product roadmap for the platform.",
-      features: ["Manage platform features", "Review content approvals", "Shape product roadmap", "Lead technical decisions"],
-      color: "text-purple-500",
-      bgColor: "from-purple-500/20 to-pink-600/20",
-      borderColor: "border-purple-200/30 dark:border-purple-700/30",
-      buttonColor: "from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-    },
-    {
-      icon: FileText,
-      title: "Contribute Content",
-      description: "Share past papers, notes, or resources to help fellow students excel in their studies.",
-      features: ["Upload past papers", "Share study materials", "Create helpful resources", "Build knowledge base"],
-      color: "text-green-500",
-      bgColor: "from-green-500/20 to-emerald-600/20",
-      borderColor: "border-green-200/30 dark:border-green-700/30",
-      buttonColor: "from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
-    },
-    {
-      icon: Code,
-      title: "Technical Contributor",
-      description: "Help with bug fixes, feature development, and technical improvements to the platform.",
-      features: ["Fix bugs and issues", "Develop new features", "Improve performance", "Enhance user experience"],
-      color: "text-orange-500",
-      bgColor: "from-orange-500/20 to-red-600/20",
-      borderColor: "border-orange-200/30 dark:border-orange-700/30",
-      buttonColor: "from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700"
+      title: "Core Team / Leadership",
+      tagline: "Guide direction & platform quality",
+      description: "Shape features, review submissions, and drive strategic & technical improvements.",
+      features: [
+        "Feature & roadmap input",
+        "Content quality review",
+        "Moderate & mentor community",
+        "Technical & UI feedback"
+      ],
+      gradient: "from-purple-500/20 to-pink-600/20",
+      border: "border-purple-200/30 dark:border-purple-700/30",
+      button: "from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700",
+      formLink: "https://forms.gle/tGHbja14oVo9KSsXA",
+      cta: "Apply to Core Team"
     }
   ]
 
@@ -171,58 +167,10 @@ export default function ContributePage() {
           })}
         </div>
 
-        {/* Contribution Types */}
-        <div className={`transition-all duration-700 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'} grid grid-cols-1 md:grid-cols-2 gap-8 mb-16`}>
-          {contributionTypes.map((type, index) => {
-            const Icon = type.icon
-            return (
-              <Card key={index} className={cn(
-                "card-modern border-0 backdrop-blur-sm hover-lift transition-all duration-500 group h-full",
-                type.borderColor
-              )}>
-                <CardHeader className="pb-4">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className={cn(
-                      "p-4 rounded-2xl bg-gradient-to-br border group-hover:scale-110 transition-transform duration-300",
-                      type.bgColor,
-                      type.borderColor
-                    )}>
-                      <Icon className={cn("h-8 w-8", type.color)} />
-                    </div>
-                    <div>
-                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                        {type.title}
-                      </CardTitle>
-                    </div>
-                  </div>
-                  <CardDescription className="text-base font-serif leading-relaxed">
-                    {type.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3 mb-6">
-                    {type.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center gap-3">
-                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
-                        <span className="text-sm text-muted-foreground">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <Button className={cn(
-                    "w-full text-lg px-6 py-3 rounded-2xl button-modern shadow-lg hover:shadow-xl transition-all duration-300 group bg-gradient-to-r",
-                    type.buttonColor
-                  )}>
-                    Get Started
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </CardContent>
-              </Card>
-            )
-          })}
-        </div>
+        {/* (Removed old role cards) */}
 
         {/* Benefits Section */}
-        <div className={`transition-all duration-700 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'} mb-16`}>
+        <div className={`transition-all duration-700 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'} mb-16`}>
           <Card className="card-modern border-0 backdrop-blur-sm">
             <CardHeader className="text-center pb-6">
               <CardTitle className="text-2xl mb-2">
@@ -255,32 +203,73 @@ export default function ContributePage() {
           </Card>
         </div>
 
-        {/* Contributor and Team Forms Section */}
-        <div className={`transition-all duration-700 delay-1100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'} mb-16`}>
-          <Card className="card-modern border-0 backdrop-blur-sm">
-            <CardHeader className="text-center pb-6">
-              <CardTitle className="text-2xl mb-2">
-                Join the Team or Contribute
-              </CardTitle>
-              <p className="text-muted-foreground font-serif max-w-2xl mx-auto">
-                Fill out a form to join as a contributor or team member. We welcome all students passionate about making a difference!
-              </p>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="secondary" asChild>
-                  <a href="https://forms.gle/sK8fibFaFfVnWv429" target="_blank" rel="noopener noreferrer">Contributor Form</a>
-                </Button>
-                <Button size="lg" variant="secondary" asChild>
-                  <a href="https://forms.gle/tGHbja14oVo9KSsXA" target="_blank" rel="noopener noreferrer">Team Form</a>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Involvement Section (replacement for removed role cards) */}
+        <div className={`transition-all duration-700 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'} mb-16`}>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl lg:text-5xl font-bold leading-tight mb-4">
+              Find Your <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">Impact Path</span>
+            </h2>
+            <p className="text-muted-foreground font-serif max-w-2xl mx-auto text-lg">
+              Choose how you want to help. Whether you focus on academic content or strategic growth, we make sure your effort counts.
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-2">
+            {involvementOptions.map((opt, i) => {
+              const Icon = opt.icon
+              return (
+                <Card key={i} className={cn(
+                  "card-modern border-0 backdrop-blur-sm hover-lift transition-all duration-500 group flex flex-col",
+                  opt.border
+                )}>
+                  <CardHeader className="pb-4">
+                    <div className="flex items-start gap-4 mb-3">
+                      <div className={cn(
+                        "p-4 rounded-2xl bg-gradient-to-br border group-hover:scale-110 transition-transform duration-300",
+                        opt.gradient,
+                        opt.border
+                      )}>
+                        <Icon className="h-8 w-8 text-primary" />
+                      </div>
+                      <div className="space-y-1">
+                        <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                          {opt.title}
+                        </CardTitle>
+                        <p className="text-sm font-medium text-muted-foreground/80 tracking-tight">{opt.tagline}</p>
+                      </div>
+                    </div>
+                    <CardDescription className="text-base font-serif leading-relaxed">
+                      {opt.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex flex-col h-full">
+                    <div className="space-y-3 mb-6">
+                      {opt.features.map((f, idx) => (
+                        <div key={idx} className="flex items-center gap-3">
+                          <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                          <span className="text-sm text-muted-foreground">{f}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-auto">
+                      <Button asChild className={cn(
+                        "w-full text-lg px-6 py-3 rounded-2xl button-modern shadow-lg hover:shadow-xl transition-all duration-300 group bg-gradient-to-r",
+                        opt.button
+                      )}>
+                        <a href={opt.formLink} target="_blank" rel="noopener noreferrer">
+                          {opt.cta}
+                          <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                        </a>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
         </div>
 
-        {/* Contact Section */}
-        <div className={`transition-all duration-700 delay-1200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+  {/* Contact Section */}
+  <div className={`transition-all duration-700 delay-1100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <Card className="card-modern border-0 backdrop-blur-sm border-primary/20 bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl flex items-center justify-center gap-3">
