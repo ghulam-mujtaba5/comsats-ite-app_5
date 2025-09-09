@@ -21,6 +21,9 @@ const manrope = Manrope({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
 
+// helper to create absolute URLs for images and assets
+const asset = (path: string) => new URL(path, siteUrl).toString()
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -43,8 +46,12 @@ export const metadata: Metadata = {
   authors: [{ name: "CampusAxis" }],
   creator: "CampusAxis",
   publisher: "CampusAxis",
+  // canonical + language alternates
   alternates: {
-    canonical: "/",
+    canonical: '/',
+    languages: {
+      'en-PK': siteUrl,
+    },
   },
   openGraph: {
     type: "website",
@@ -55,7 +62,7 @@ export const metadata: Metadata = {
     siteName: "CampusAxis",
     images: [
       {
-        url: "/university-faculty-workshop.png",
+        url: asset('/university-faculty-workshop.png'),
         alt: "CampusAxis preview",
       },
     ],
@@ -68,12 +75,12 @@ export const metadata: Metadata = {
     title: "CampusAxis - COMSATS University Islamabad",
     description:
       "Your ultimate academic portal. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
-    images: [
-      {
-        url: "/university-faculty-workshop.png",
-        alt: "CampusAxis preview",
-      },
-    ],
+    images: [asset('/university-faculty-workshop.png')],
+  },
+  
+  // Add theme-color for mobile browsers and PWAs
+  other: {
+    'theme-color': '#0b0b0b',
   },
   icons: {
     icon: [
@@ -140,6 +147,9 @@ html {
             `,
           }}
         />
+        <meta name="theme-color" content="#0b0b0b" />
+        <link rel="canonical" href={siteUrl} />
+        <link rel="alternate" href={siteUrl} hrefLang="en-PK" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite()) }}
