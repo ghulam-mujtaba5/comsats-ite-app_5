@@ -70,6 +70,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
 
     try {
+      // Fetch community posts for /community/post/[id]
+      const postsRes = await fetch(`${siteUrl}/api/community/posts?limit=500&offset=0`, { cache: 'no-store' })
+      if (postsRes.ok) {
+        const postsJson = await postsRes.json().catch(() => [])
+        const posts = Array.isArray(postsJson) ? postsJson : Array.isArray(postsJson.data) ? postsJson.data : []
+        posts.forEach((p: any) => {
+          if (!p?.id) return
+            entries.push(toEntry(`/community/post/${p.id}`, new Date(p.updated_at || p.created_at || now), 'weekly', 0.5))
+        })
+      }
+    } catch (e) {
+      console.warn('sitemap: failed to fetch community posts', e)
+    }
+
+    try {
       // Fetch past papers; include course pages at /past-papers/[courseCode]
       const papersRes = await fetch(`${siteUrl}/api/past-papers?limit=1000`, { cache: 'no-store' })
       if (papersRes.ok) {
