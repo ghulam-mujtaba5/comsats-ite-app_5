@@ -18,6 +18,9 @@
   "og-scripts": {
     "generate-og-png": "node scripts/generate-og-png.js"
   },
+  "seo": {
+    "notify-search-engines": "node scripts/notify-search-engines.js"
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "1.2.2",

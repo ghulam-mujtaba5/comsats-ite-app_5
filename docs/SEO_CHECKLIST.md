@@ -66,3 +66,36 @@ If you want, I can:
 - Add meta tags for Twitter/X Player, `og:video` if you want video previews
 - Wire a small sitemap generation for dynamic content (news/past-papers) to include lastModified
 
+10) Scripts & middleware (added to repo)
+- Generate PNG from the SVG social preview (uses `sharp`):
+  - `node scripts/generate-og-png.js` — reads `public/og-preview.svg` and writes `public/og-preview.png` (1200x630)
+- Notify search engines (ping sitemap):
+  - `node scripts/notify-search-engines.js` — reads `NEXT_PUBLIC_SITE_URL` and pings Google & Bing with your sitemap URL.
+- Canonicalization middleware:
+  - `middleware.ts` redirects non-canonical hostnames (e.g., `www.`) to the host in `NEXT_PUBLIC_SITE_URL` and enforces HTTPS in production. Deploy with `NEXT_PUBLIC_SITE_URL` set to the canonical domain.
+
+Run these locally (PowerShell):
+```powershell
+# generate PNG from SVG
+node scripts/generate-og-png.js
+
+# ping Google & Bing (make sure NEXT_PUBLIC_SITE_URL is set in env)
+$env:NEXT_PUBLIC_SITE_URL='https://campusaxis.site'
+node scripts/notify-search-engines.js
+```
+
+11) Automation & structured data
+- JSON-LD: article and course pages now include JSON-LD (NewsArticle / Course) injected server-side for better rich results.
+- HSTS: global HSTS header is applied via `next.config.mjs` (production recommended).
+- Automatic sitemap ping: a GitHub Actions workflow (`.github/workflows/seo-ping.yml`) is provided to ping search engines when code is pushed to `main`. Set the repository secret `SITE_URL` to `https://campusaxis.site` in GitHub.
+
+Deployment checklist (quick):
+1. Add `NEXT_PUBLIC_SITE_URL=https://campusaxis.site` to Vercel (Production env).
+2. Add Supabase redirect URLs (including `/auth/callback`) in the Supabase Console.
+3. Add GitHub secret `SITE_URL` with the canonical site URL if you want automated pings on `main`.
+4. Deploy; verify sitemap at `https://campusaxis.site/sitemap.xml` and run social card validators.
+
+12) Continuous SEO checks
+- A GitHub Actions workflow (`.github/workflows/seo-audit.yml`) can run Lighthouse SEO audits against the `SITE_URL` secret. Add `SITE_URL` to repository secrets (https://campusaxis.site) and trigger the workflow manually or on pushes to `main` to get an HTML report artifact.
+
+

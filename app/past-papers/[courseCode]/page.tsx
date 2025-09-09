@@ -16,6 +16,8 @@ export async function generateMetadata({ params }: { params: { courseCode: strin
     const description = course.description || `${course.name} past papers, quizzes, and exams. Download or preview PDFs for study and revision.`
     const canonical = `${siteUrl}/past-papers/${encodeURIComponent(params.courseCode)}`
 
+    const defaultSvg = new URL('/og-preview.svg', siteUrl).toString()
+    const defaultPng = new URL('/og-preview.png', siteUrl).toString()
     return {
       title,
       description,
@@ -24,15 +26,64 @@ export async function generateMetadata({ params }: { params: { courseCode: strin
         description,
         url: canonical,
         siteName: 'CampusAxis',
-        images: course.image_url ? [new URL(course.image_url, siteUrl).toString()] : [new URL('/og-preview.png', siteUrl).toString()],
+        images: [
+          {
+            url: course.image_url ? new URL(course.image_url, siteUrl).toString() : defaultSvg,
+            alt: course.name || 'CampusAxis course preview',
+            type: course.image_url ? undefined : 'image/svg+xml',
+            width: 1200,
+            height: 630,
+          },
+          {
+            url: defaultPng,
+            alt: 'CampusAxis preview (png)',
+            type: 'image/png',
+            width: 1200,
+            height: 630,
+          },
+        ],
       },
       alternates: { canonical: `/past-papers/${encodeURIComponent(params.courseCode)}` },
+      robots: {
+        index: true,
+        follow: true,
+      },
     }
   } catch (e) {
     return { title: params.courseCode }
   }
 }
 
-export default function Page({ params }: { params: { courseCode: string } }) {
-  return <CourseClient params={params} />
+export default async function Page({ params }: { params: { courseCode: string } }) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  try {
+    const res = await fetch(`${siteUrl}/api/past-papers/${params.courseCode}`, { cache: 'no-store' })
+    const json = res.ok ? await res.json() : null
+    const course = json?.data || null
+
+    const jsonLd = course
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'Course',
+          name: course.name,
+          description: course.description,
+          provider: {
+            '@type': 'CollegeOrUniversity',
+            name: 'COMSATS University Islamabad',
+            url: siteUrl,
+          },
+        }
+      : null
+
+    return (
+      <>
+        {jsonLd && (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        )}
+        <CourseClient params={params} />
+      </>
+    )
+  } catch (e) {
+    return <CourseClient params={params} />
+  }
 }

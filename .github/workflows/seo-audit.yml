@@ -1,0 +1,38 @@
+name: SEO Audit (Lighthouse)
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [ main ]
+
+jobs:
+  lighthouse:
+    name: Run Lighthouse SEO Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run Lighthouse
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+        run: |
+          if [ -z "${SITE_URL}" ]; then
+            echo "SITE_URL secret is not set. Set it in repository secrets to run the audit."; exit 1;
+          fi
+          # Run lighthouse (Chrome is available on ubuntu-latest). Use no-sandbox flag for CI.
+          npx -y lighthouse "${SITE_URL}" --output json --output html --output-path=./lighthouse-report.html --only-categories=accessibility,best-practices,seo --chrome-flags="--no-sandbox --headless"
+
+      - name: Upload Lighthouse report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: ./lighthouse-report.html

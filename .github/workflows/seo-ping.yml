@@ -1,0 +1,25 @@
+name: Notify Search Engines
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  ping-sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Notify Search Engines
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.SITE_URL }}
+        run: node scripts/notify-search-engines.js
