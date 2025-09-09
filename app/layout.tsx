@@ -48,9 +48,10 @@ export const metadata: Metadata = {
   publisher: "CampusAxis",
   // canonical + language alternates
   alternates: {
-    canonical: '/',
+    canonical: siteUrl,
     languages: {
       'en-PK': siteUrl,
+      'en': siteUrl,
     },
   },
   openGraph: {
@@ -160,8 +161,20 @@ html {
           }}
         />
         <meta name="theme-color" content="#0b0b0b" />
-        <link rel="canonical" href={siteUrl} />
-        <link rel="alternate" href={siteUrl} hrefLang="en-PK" />
+  {/* Performance: preconnect to Google Fonts for faster font fetches */}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+  {/* Preload social preview images (SVG first, PNG fallback) to help crawlers and card renderers */}
+  <link rel="preload" as="image" href={asset('/og-preview.svg')} type="image/svg+xml" />
+  <link rel="preload" as="image" href={asset('/og-preview.png')} type="image/png" />
+
+  <link rel="canonical" href={siteUrl} />
+  {/* Hint for legacy scrapers */}
+  <link rel="image_src" href={asset('/og-preview.png')} />
+  <link rel="alternate" href={siteUrl} hrefLang="en-PK" />
+  <link rel="alternate" href={siteUrl} hrefLang="en" />
+  {/* x-default helps search engines pick the default locale/domain */}
+  <link rel="alternate" href={siteUrl} hrefLang="x-default" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite()) }}
