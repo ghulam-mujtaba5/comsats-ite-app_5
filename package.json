@@ -15,6 +15,9 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed"
   },
+  "og-scripts": {
+    "generate-og-png": "node scripts/generate-og-png.js"
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "1.2.2",
@@ -73,6 +76,7 @@
     "zod": "3.25.67"
   },
   "devDependencies": {
+    "sharp": "^0.32.0",
     "@playwright/test": "^1.55.0",
     "@tailwindcss/postcss": "^4.1.9",
     "@types/node": "^22",

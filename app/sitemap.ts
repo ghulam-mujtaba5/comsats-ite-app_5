@@ -35,11 +35,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   // Helper that resolves a route object for sitemap
-  const toEntry = (path: string, lastModified = now, freq?: MetadataRoute.Sitemap[0]['changeFrequency'], priority?: number) => ({
+  const toEntry = (path: string, lastModified = now, freq?: MetadataRoute.Sitemap[0]['changeFrequency'], priority?: number, images?: string[]) => ({
     url: `${siteUrl}${path}`,
-    lastModified,
+    lastModified: (lastModified instanceof Date) ? lastModified.toISOString() : lastModified,
     changeFrequency: freq,
     priority,
+    images,
   })
 
   // Start with static entries
@@ -55,7 +56,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const newsItems = Array.isArray(newsJson.data) ? newsJson.data : newsJson.data || []
         newsItems.forEach((n: any) => {
           // news page expected at /news/[id]
-          if (n?.id) entries.push(toEntry(`/news/${n.id}`, new Date(n.published_at || n.updated_at || n.created_at || now)))
+          if (n?.id) {
+            const img = n.image_url ? [new URL(n.image_url, siteUrl).toString()] : undefined
+            entries.push(toEntry(`/news/${n.id}`, new Date(n.published_at || n.updated_at || n.created_at || now), 'weekly', 0.6, img))
+          }
         })
       }
     } catch (e) {
@@ -82,7 +86,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         Object.keys(byCourse).forEach((course) => {
           const p = byCourse[course]
           const coursePath = `/past-papers/${encodeURIComponent(course)}`
-          entries.push(toEntry(coursePath, new Date(p.updated_at || p.created_at || now), 'monthly', 0.6))
+          const img = p.image_url ? [new URL(p.image_url, siteUrl).toString()] : undefined
+          entries.push(toEntry(coursePath, new Date(p.updated_at || p.created_at || now), 'monthly', 0.6, img))
         })
       }
     } catch (e) {
