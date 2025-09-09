@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next"
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
   const now = new Date()
 
@@ -34,10 +34,65 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/lost-found", changeFrequency: "monthly", priority: 0.4 },
   ]
 
-  return staticPaths.map((r) => ({
-    url: `${siteUrl}${r.path}`,
-    lastModified: now,
-    changeFrequency: r.changeFrequency,
-    priority: r.priority,
-  }))
+  // Helper that resolves a route object for sitemap
+  const toEntry = (path: string, lastModified = now, freq?: MetadataRoute.Sitemap[0]['changeFrequency'], priority?: number) => ({
+    url: `${siteUrl}${path}`,
+    lastModified,
+    changeFrequency: freq,
+    priority,
+  })
+
+  // Start with static entries
+  const entries: MetadataRoute.Sitemap = staticPaths.map((r) => toEntry(r.path, now, r.changeFrequency, r.priority))
+
+  // Try to include dynamic content (news & past papers)
+  const fetchDynamic = async () => {
+    try {
+      // Fetch published news
+      const newsRes = await fetch(`${siteUrl}/api/news`, { cache: 'no-store' })
+      if (newsRes.ok) {
+        const newsJson = await newsRes.json()
+        const newsItems = Array.isArray(newsJson.data) ? newsJson.data : newsJson.data || []
+        newsItems.forEach((n: any) => {
+          // news page expected at /news/[id]
+          if (n?.id) entries.push(toEntry(`/news/${n.id}`, new Date(n.published_at || n.updated_at || n.created_at || now)))
+        })
+      }
+    } catch (e) {
+      // ignore dynamic fetch errors — sitemap will contain static entries
+      console.warn('sitemap: failed to fetch news', e)
+    }
+
+    try {
+      // Fetch past papers; include course pages at /past-papers/[courseCode]
+      const papersRes = await fetch(`${siteUrl}/api/past-papers?limit=1000`, { cache: 'no-store' })
+      if (papersRes.ok) {
+        const papersJson = await papersRes.json()
+        const papers = Array.isArray(papersJson.data) ? papersJson.data : papersJson.data || []
+        // Group by course_code and pick latest created_at for sitemap
+        const byCourse: Record<string, any> = {}
+        papers.forEach((p: any) => {
+          const course = (p.course_code || p.course || 'unknown').toString()
+          const existing = byCourse[course]
+          const updated = new Date(p.updated_at || p.created_at || now)
+          if (!existing || updated > new Date(existing.updated_at || existing.created_at || now)) {
+            byCourse[course] = p
+          }
+        })
+        Object.keys(byCourse).forEach((course) => {
+          const p = byCourse[course]
+          const coursePath = `/past-papers/${encodeURIComponent(course)}`
+          entries.push(toEntry(coursePath, new Date(p.updated_at || p.created_at || now), 'monthly', 0.6))
+        })
+      }
+    } catch (e) {
+      console.warn('sitemap: failed to fetch past-papers', e)
+    }
+  }
+
+  // Note: sitemap() can be async in Next.js metadata routes — return a Promise
+  return (async () => {
+    await fetchDynamic()
+    return entries
+  })()
 }

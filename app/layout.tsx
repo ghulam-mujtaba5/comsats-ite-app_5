@@ -62,8 +62,20 @@ export const metadata: Metadata = {
     siteName: "CampusAxis",
     images: [
       {
-        url: asset('/university-faculty-workshop.png'),
+        // SVG first (scales crisply), many platforms prefer raster but SVG is fine for meta if supported
+        url: asset('/og-preview.svg'),
         alt: "CampusAxis preview",
+        type: 'image/svg+xml',
+        width: 1200,
+        height: 630,
+      },
+      {
+        // PNG fallback for platforms that require raster images
+        url: asset('/og-preview.png'),
+        alt: 'CampusAxis preview (png)',
+        type: 'image/png',
+        width: 1200,
+        height: 630,
       },
     ],
     locale: "en_PK",
@@ -75,7 +87,7 @@ export const metadata: Metadata = {
     title: "CampusAxis - COMSATS University Islamabad",
     description:
       "Your ultimate academic portal. Access past papers, calculate your GPA, read faculty reviews, and explore a wealth of academic resources.",
-    images: [asset('/university-faculty-workshop.png')],
+    images: [asset('/og-preview.png')],
   },
   
   // Add theme-color for mobile browsers and PWAs
