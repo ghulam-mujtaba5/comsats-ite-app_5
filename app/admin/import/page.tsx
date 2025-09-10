@@ -22,7 +22,9 @@ function parseCSV(text: string): { headers: string[], rows: string[][] } {
   // very small CSV parser (no quotes/escapes). Expect comma-separated, newline rows.
   const lines = text.trim().split(/\r?\n/)
   if (lines.length === 0) return { headers: [], rows: [] }
-  const headers = lines[0].split(',').map(s => s.trim())
+  const firstLine = lines[0]
+  if (!firstLine) return { headers: [], rows: [] }
+  const headers = firstLine.split(',').map(s => s.trim())
   const rows = lines.slice(1).map(l => l.split(',').map(s => s.trim()))
   return { headers, rows }
 }
@@ -32,11 +34,11 @@ function csvToJson(headers: string[], rows: string[][]) {
     const obj: Record<string, any> = {}
     headers.forEach((h, i) => { obj[h] = r[i] ?? '' })
     // Convert list-like fields by splitting on '|'
-    if (obj.specialization) obj.specialization = String(obj.specialization).split('|').filter(Boolean)
-    if (obj.courses) obj.courses = String(obj.courses).split('|').filter(Boolean)
-    if (obj.education) obj.education = String(obj.education).split('|').filter(Boolean)
-    if (obj.pros) obj.pros = String(obj.pros).split('|').filter(Boolean)
-    if (obj.cons) obj.cons = String(obj.cons).split('|').filter(Boolean)
+    if (obj['specialization']) obj['specialization'] = String(obj['specialization']).split('|').filter(Boolean)
+    if (obj['courses']) obj['courses'] = String(obj['courses']).split('|').filter(Boolean)
+    if (obj['education']) obj['education'] = String(obj['education']).split('|').filter(Boolean)
+    if (obj['pros']) obj['pros'] = String(obj['pros']).split('|').filter(Boolean)
+    if (obj['cons']) obj['cons'] = String(obj['cons']).split('|').filter(Boolean)
     // Basic booleans and numbers
     ;['would_recommend','is_anonymous'].forEach(k => obj[k] = obj[k] === '' ? undefined : String(obj[k]).toLowerCase() === 'true')
     ;['rating','teaching_quality','accessibility','course_material','grading','helpful','reported'].forEach(k => {
