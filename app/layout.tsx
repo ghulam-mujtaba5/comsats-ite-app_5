@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { jsonLdOrganization, jsonLdWebSite, jsonLdSiteNavigation } from "@/lib/seo"
 import Script from "next/script"
 import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
+import { WebVitalsReporter } from "@/components/analytics/web-vitals-reporter"
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -258,6 +259,7 @@ html {
           {isProd && (
             <Suspense fallback={null}>
               <AnalyticsTracker />
+              <WebVitalsReporter />
             </Suspense>
           )}
         </AuthProvider>

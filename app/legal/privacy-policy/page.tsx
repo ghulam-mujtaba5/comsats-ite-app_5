@@ -1,4 +1,11 @@
  
+import type { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
+  description: 'Privacy practices for CampusAxis including data collection, use, and security.',
+  alternates: { canonical: '/legal/privacy-policy' },
+  openGraph: { title: 'Privacy Policy - CampusAxis', description: 'How CampusAxis collects and protects user data.' }
+}
 
 export default function PrivacyPolicyPage() {
   return (
@@ -7,6 +14,12 @@ export default function PrivacyPolicyPage() {
         <div className="container mx-auto max-w-3xl space-y-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight">Privacy Policy</h1>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+              '@context':'https://schema.org','@type':'WebPage',
+              name:'Privacy Policy',
+              url:(process.env.NEXT_PUBLIC_SITE_URL||'http://localhost:3000')+'/legal/privacy-policy',
+              description:'Details how user data is collected, used, and protected by CampusAxis.'
+            }) }} />
             <p className="mt-2 text-lg text-muted-foreground">Last Updated: August 22, 2025</p>
           </div>
 

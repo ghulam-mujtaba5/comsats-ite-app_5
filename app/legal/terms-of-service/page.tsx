@@ -1,4 +1,11 @@
 // Footer is provided by the root layout; avoid importing locally to prevent duplicates
+import type { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: 'Terms of Service',
+  description: 'Terms governing the use of CampusAxis platform.',
+  alternates: { canonical: '/legal/terms-of-service' },
+  openGraph: { title: 'Terms of Service - CampusAxis', description: 'User responsibilities and platform rules.' }
+}
 
 export default function TermsOfServicePage() {
   return (
@@ -7,6 +14,12 @@ export default function TermsOfServicePage() {
         <div className="container mx-auto max-w-3xl space-y-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight">Terms of Service</h1>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+              '@context':'https://schema.org','@type':'WebPage',
+              name:'Terms of Service',
+              url:(process.env.NEXT_PUBLIC_SITE_URL||'http://localhost:3000')+'/legal/terms-of-service',
+              description:'Contractual terms for using CampusAxis services.'
+            }) }} />
             <p className="mt-2 text-lg text-muted-foreground">Last Updated: August 22, 2025</p>
           </div>
 

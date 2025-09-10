@@ -1,6 +1,7 @@
-"use client"
-
-// Metadata imports removed due to "use client" directive
+// Hybrid approach: server wrapper provides metadata & structured data; inner client component retains interactivity
+import { Metadata } from 'next'
+import { jsonLdBreadcrumb, jsonLdItemList } from '@/lib/seo'
+import { Suspense } from 'react'
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -67,7 +68,26 @@ interface Event {
 
  
 
-export default function NewsEventsPage() {
+export const dynamic = 'force-dynamic'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  return {
+    title: 'Campus News & Events',
+    description: 'Browse the latest campus news, announcements, academic deadlines, and upcoming events.',
+    alternates: { canonical: '/news-events' },
+    openGraph: {
+      type: 'website',
+      url: `${siteUrl}/news-events`,
+      title: 'Campus News & Events',
+      description: 'Stay updated with campus announcements and upcoming events.',
+      images: [{ url: new URL('/og-preview.png', siteUrl).toString(), width: 1200, height: 630, alt: 'CampusAxis News & Events' }],
+    },
+    twitter: { card: 'summary_large_image', title: 'Campus News & Events', description: 'Latest campus announcements and event calendar.' },
+  }
+}
+
+function ClientNewsEventsPage() {
   const { toast } = useToast()
   const [searchQuery, setSearchQuery] = useState("")
   const [newsFilter, setNewsFilter] = useState<string>("all")
@@ -946,5 +966,39 @@ export default function NewsEventsPage() {
         </Card>
       </div>
     </div>
+  )
+}
+
+export default async function NewsEventsPage() {
+  // Lightweight server prefetch (best-effort) for ItemList JSON-LD (limits to first 10 items of each list)
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  let newsList: NewsItem[] = []
+  let eventsList: Event[] = []
+  try {
+    const [nRes, eRes] = await Promise.all([
+      fetch(`${siteUrl}/api/news-events/news`, { cache: 'no-store' }),
+      fetch(`${siteUrl}/api/news-events/events?includePast=1`, { cache: 'no-store' }),
+    ])
+    if (nRes.ok) newsList = (await nRes.json()).slice(0, 10)
+    if (eRes.ok) eventsList = (await eRes.json()).slice(0, 10)
+  } catch {}
+
+  const breadcrumb = jsonLdBreadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'News & Events', path: '/news-events' },
+  ])
+
+  const newsItemList = newsList.length ? jsonLdItemList(newsList.map(n => ({ name: n.title, url: `/news/${n.id}` })), { description: 'Recent news & announcements' }) : null
+  const eventsItemList = eventsList.length ? jsonLdItemList(eventsList.map(e => ({ name: e.title, url: `/news-events/${e.id}` })), { description: 'Recent campus events' }) : null
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        // Filter out nulls
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumb, newsItemList, eventsItemList].filter(Boolean)) }}
+      />
+      <ClientNewsEventsPage />
+    </>
   )
 }
