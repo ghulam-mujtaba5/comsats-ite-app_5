@@ -1,16 +1,57 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { z } from 'zod'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+
+// Basic in-memory rate limiter (per process) – replace with Redis/Upstash for production
+const rateBuckets: Record<string, { count: number; ts: number }> = {}
+function rateLimit(key: string, limit: number, windowMs: number) {
+  const now = Date.now()
+  const bucket = rateBuckets[key] || { count: 0, ts: now }
+  if (now - bucket.ts > windowMs) {
+    bucket.count = 0
+    bucket.ts = now
+  }
+  bucket.count++
+  rateBuckets[key] = bucket
+  return bucket.count <= limit
+}
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-    if (!url || !serviceKey) {
-      return NextResponse.json({ error: 'Supabase env vars missing (NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)' }, { status: 500 })
+    // Honeypot (bot trap)
+    if (body._hp) return NextResponse.json({ error: 'Rejected' }, { status: 400 })
+
+    // Auth: derive user session (no service role for untrusted input)
+    const cookieStore = await (cookies() as any)
+    const publicUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (!publicUrl || !anon) {
+      return NextResponse.json({ error: 'Supabase public env vars missing' }, { status: 500 })
     }
-    const supabase = createClient(url, serviceKey)
+    const serverClient = createServerClient(publicUrl, anon, {
+      cookies: {
+        get(name: string) { return cookieStore.get(name)?.value },
+        set(name: string, value: string, options?: any) { cookieStore.set({ name, value, ...options }) },
+        remove(name: string, options?: any) { cookieStore.set({ name, value: '', ...options }) },
+      },
+    })
+    const { data: { user } } = await serverClient.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
+
+    // Rate limit key = user.id
+    if (!rateLimit(`review:${user.id}`, 5, 60_000)) {
+      return NextResponse.json({ error: 'Rate limit exceeded. Try again shortly.' }, { status: 429 })
+    }
+
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY // only used for privileged operations post-validate
+    if (!url) {
+      return NextResponse.json({ error: 'Supabase URL missing' }, { status: 500 })
+    }
+    const supabase = (serviceKey ? createClient(url, serviceKey) : createClient(url, anon))
 
     // Validate incoming payload with Zod - Minimal validation, no constraints
     const ReviewCreateSchema = z.object({
@@ -34,7 +75,7 @@ export async function POST(req: NextRequest) {
       status: z.enum(['approved', 'pending', 'rejected']).optional(),
     })
 
-    const parsed = ReviewCreateSchema.safeParse(body)
+  const parsed = ReviewCreateSchema.safeParse(body)
     if (!parsed.success) {
       const errors = parsed.error.errors.map(err => `${err.path.join('.')}: ${err.message}`).join(', ')
       return NextResponse.json({ 
@@ -44,8 +85,20 @@ export async function POST(req: NextRequest) {
       }, { status: 400 })
     }
     const b = parsed.data
+    // Duplicate guard (faculty + user + course + semester) – soft check
+    const { data: existing } = await supabase
+      .from('reviews')
+      .select('id')
+      .eq('faculty_id', b.faculty_id)
+      .eq('user_id', user.id)
+      .eq('course', b.course)
+      .eq('semester', b.semester)
+      .limit(1)
+    if (existing && existing.length) {
+      return NextResponse.json({ error: 'You already submitted a review for this course & semester. Edit it instead.' }, { status: 409 })
+    }
     const payload = {
-      user_id: b.user_id || b.student_id || b.uid || null,
+      user_id: user.id,
       faculty_id: b.faculty_id,
       student_name: b.student_name ?? null,
       course: b.course,
@@ -60,7 +113,7 @@ export async function POST(req: NextRequest) {
       cons: b.cons ?? [],
       would_recommend: b.would_recommend ?? false,
       is_anonymous: b.is_anonymous ?? false,
-      status: b.status ?? 'approved',
+      status: b.status && serviceKey ? b.status : 'pending',
     } as const
 
     const { data, error } = await supabase
@@ -105,8 +158,7 @@ export async function POST(req: NextRequest) {
         await supabase.from('faculty').update({ rating_avg: avg, rating_count: count }).eq('id', data.faculty_id)
       }
     }
-
-    return NextResponse.json({ ok: true, id: data.id }, { status: 201 })
+    return NextResponse.json({ ok: true, id: data.id, status: payload.status }, { status: 201 })
   } catch (error: any) {
     console.error('API error:', error)
     

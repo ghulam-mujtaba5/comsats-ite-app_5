@@ -1,4 +1,4 @@
-import { jsonLdBreadcrumb, createMetadata } from '@/lib/seo'
+import { jsonLdBreadcrumb, createMetadata, jsonLdReviewList } from '@/lib/seo'
 import { type Faculty, type Review, calculateReviewStats } from '@/lib/faculty-data'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -169,7 +169,18 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
     { name: faculty.name, path: `/faculty/${faculty.id}` },
   ])
 
-  const jsonLd = [personJsonLd, breadcrumbJsonLd]
+  const reviewListJson = jsonLdReviewList({
+    facultyName: faculty.name,
+    facultyUrl: `/faculty/${faculty.id}`,
+    reviews: reviews.slice(0, 20).map(r => ({
+      author: r.studentName,
+      body: r.comment,
+      rating: r.rating,
+      date: r.createdAt,
+    }))
+  })
+
+  const jsonLd = [personJsonLd, breadcrumbJsonLd, reviewListJson]
 
   return (
     <div className="min-h-screen flex flex-col">

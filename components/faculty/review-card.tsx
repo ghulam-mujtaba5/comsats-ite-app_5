@@ -6,12 +6,43 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Star, ThumbsUp, Flag, Calendar, BookOpen } from "lucide-react"
 import type { Review } from "@/lib/faculty-data"
+import { useState } from 'react'
+import { useToast } from '@/hooks/use-toast'
 
 interface ReviewCardProps {
   review: Review
 }
 
 export function ReviewCard({ review }: ReviewCardProps) {
+  const { toast } = useToast()
+  const [helpful, setHelpful] = useState(review.helpful)
+  const [reported, setReported] = useState(review.reported)
+  const [votedHelpful, setVotedHelpful] = useState(false)
+  const [votedReport, setVotedReport] = useState(false)
+
+  const action = async (type: 'helpful'|'report') => {
+    if ((type === 'helpful' && votedHelpful) || (type === 'report' && votedReport)) return
+    // Optimistic
+    if (type === 'helpful') { setHelpful(h => h + 1); setVotedHelpful(true) } else { setReported(r => r + 1); setVotedReport(true) }
+    try {
+      const res = await fetch('/api/reviews/actions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ reviewId: review.id, action: type }) })
+      const j = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(j?.error || 'Failed')
+      if (j.duplicate) {
+        // rollback increment if duplicate
+        if (type === 'helpful') setHelpful(h => h - 1)
+        if (type === 'report') setReported(r => r - 1)
+        toast({ title: 'Already recorded', description: `Your ${type} was already counted.` })
+      } else if (type === 'report') {
+        toast({ title: 'Reported', description: 'Thanks. Our moderators will review this.' })
+      }
+    } catch (e: any) {
+      // rollback
+      if (type === 'helpful') { setHelpful(h => h - 1); setVotedHelpful(false) }
+      else { setReported(r => r - 1); setVotedReport(false) }
+      toast({ title: 'Action failed', description: e.message || 'Try again later', variant: 'destructive' })
+    }
+  }
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
@@ -111,13 +142,13 @@ export function ReviewCard({ review }: ReviewCardProps) {
 
         <div className="flex items-center justify-between pt-2 border-t border-border">
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+            <Button variant="ghost" size="sm" onClick={() => action('helpful')} disabled={votedHelpful} className="text-muted-foreground hover:text-foreground">
               <ThumbsUp className="h-4 w-4 mr-1" />
-              Helpful ({review.helpful})
+              Helpful ({helpful})
             </Button>
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+            <Button variant="ghost" size="sm" onClick={() => action('report')} disabled={votedReport} className="text-muted-foreground hover:text-foreground">
               <Flag className="h-4 w-4 mr-1" />
-              Report
+              Report {reported > review.reported ? `(${reported})` : ''}
             </Button>
           </div>
         </div>
