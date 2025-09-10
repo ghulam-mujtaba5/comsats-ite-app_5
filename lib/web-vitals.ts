@@ -10,6 +10,7 @@ function send(metric: WebVitalMetric) {
 export function initWebVitals() {
   if (typeof window === 'undefined' || initialized) return
   initialized = true
+  // @ts-expect-error dynamic import type workaround if types not resolved
   import('web-vitals').then(({ onCLS, onINP, onLCP, onFCP, onTTFB }) => {
     onCLS(send); onINP(send); onLCP(send); onFCP(send); onTTFB(send)
   }).catch(()=>{})
