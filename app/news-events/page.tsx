@@ -27,16 +27,29 @@ export default function NewsEventsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": "Campus News & Events",
-            "description": "Browse the latest campus news, announcements, academic deadlines, and upcoming events.",
-            "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'}/news-events`,
-            "mainEntity": {
-              "@type": "NewsMediaOrganization",
-              "name": "CampusAxis News",
-              "description": "Campus news and event announcements"
-            }
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: 'Campus News & Events',
+            description: 'Browse the latest campus news, announcements, academic deadlines, and upcoming events.',
+            url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'}/news-events`,
+            about: [
+              { '@type': 'Thing', name: 'Campus News' },
+              { '@type': 'Thing', name: 'Campus Events' }
+            ],
+            hasPart: [
+              {
+                '@type': 'ItemList',
+                name: 'Recent News',
+                itemListOrder: 'http://schema.org/ItemListOrderDescending',
+                itemListElement: [] // Filled client-side (progressive enhancement only)
+              },
+              {
+                '@type': 'ItemList',
+                name: 'Upcoming Events',
+                itemListOrder: 'http://schema.org/ItemListOrderAscending',
+                itemListElement: [] // Filled client-side / separate detail pages have Event schema
+              }
+            ]
           })
         }}
       />

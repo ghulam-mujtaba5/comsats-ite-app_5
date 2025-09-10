@@ -1,6 +1,6 @@
 import CourseClient from './course-client'
 import { Metadata } from 'next'
-import { jsonLdBreadcrumb } from '@/lib/seo'
+import { jsonLdBreadcrumb, jsonLdCourseWithPapers } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
@@ -62,19 +62,29 @@ export default async function Page({ params }: { params: { courseCode: string } 
     const json = res.ok ? await res.json() : null
     const course = json?.data || null
 
-    const jsonLd = course
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'Course',
-          name: course.name,
-          description: course.description,
-          provider: {
-            '@type': 'CollegeOrUniversity',
-            name: 'COMSATS University Islamabad',
-            url: siteUrl,
-          },
+    // Build hasPart list from aggregated paper sets if present
+    const papers: Array<{ id: string; title: string; url: string; examType?: string; year?: number }> = []
+    if (course) {
+      ;['assignments','quizzes','midterms','finals'].forEach(bucket => {
+        const arr = (course as any)[bucket]
+        if (Array.isArray(arr)) {
+          arr.forEach((p: any) => papers.push({
+            id: p.id || p.paper_id || `${bucket}-${Math.random().toString(36).slice(2,8)}`,
+            title: p.title || `${course.name} ${bucket}`,
+            url: `/past-papers/${encodeURIComponent(course.code)}`,
+            examType: bucket.slice(0,-1),
+            year: p.year || (p.created_at ? new Date(p.created_at).getFullYear() : undefined)
+          }))
         }
-      : null
+      })
+    }
+
+    const jsonLd = course ? jsonLdCourseWithPapers({
+      courseCode: course.code,
+      courseName: course.name,
+      path: `/past-papers/${encodeURIComponent(params.courseCode)}`,
+      papers
+    }) : null
 
     const breadcrumb = jsonLdBreadcrumb([
       { name: 'Home', path: '/' },

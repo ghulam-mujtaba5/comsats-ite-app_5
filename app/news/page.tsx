@@ -2,7 +2,7 @@
 
 // Metadata imports removed due to "use client" directive
 import { useEffect, useMemo, useState } from "react"
-import { jsonLdItemList } from "@/lib/seo"
+import { jsonLdCollectionPage } from "@/lib/seo"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -73,7 +73,15 @@ export default function NewsListPage() {
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLdItemList(pageItems.map(n => ({ name: n.title, url: `/news/${n.id}` })), { description: 'Latest news and updates from CampusAxis / COMSATS.' }))
+          __html: JSON.stringify(
+            jsonLdCollectionPage({
+              name: 'Campus News',
+              description: 'Latest news and updates from CampusAxis / COMSATS.',
+              path: '/news',
+              items: pageItems.map(n => ({ name: n.title, url: `/news/${n.id}` })),
+              itemType: 'NewsArticle'
+            })
+          )
         }}
       />
       {/* Enhanced animated background elements */}
