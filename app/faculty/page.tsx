@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { jsonLdItemList } from "@/lib/seo"
+import { jsonLdCollectionPage } from "@/lib/seo"
 // Footer is provided by the root layout; avoid importing locally to prevent duplicates
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -184,10 +184,15 @@ export default function FacultyPage() {
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLdItemList(
-            filteredFaculty.slice(0, 100).map(f => ({ name: f.name, url: `/faculty/${f.id}` })),
-            { description: 'Directory of faculty members with reviews at COMSATS University Islamabad' }
-          ))
+          __html: JSON.stringify(
+            jsonLdCollectionPage({
+              name: 'Faculty Directory',
+              description: 'Directory of faculty members with reviews at COMSATS University Islamabad',
+              path: '/faculty',
+              items: filteredFaculty.slice(0,100).map(f => ({ name: f.name, url: `/faculty/${f.id}` })),
+              itemType: 'Person'
+            })
+          )
         }}
       />
       {/* Enhanced animated background elements */}

@@ -2,7 +2,7 @@
 
 // Metadata imports removed due to "use client" directive
 import { useEffect, useMemo, useState } from "react"
-import { jsonLdItemList } from "@/lib/seo"
+import { } from "@/lib/seo" // structured data handled in layout; placeholder import to avoid removing line accidentally
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { CourseCard } from "@/components/past-papers/course-card"
@@ -222,7 +222,16 @@ export default function PastPapersPage() {
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLdItemList(filteredCourses.slice(0,120).map(c => ({ name: c.name, url: `/past-papers/${encodeURIComponent(c.code)}` })), { description: 'Directory of courses with past exam papers at COMSATS University Islamabad' }))
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebApplication',
+            name: 'Past Papers Explorer',
+            applicationCategory: 'EducationalApplication',
+            operatingSystem: 'Any',
+            url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'}/past-papers`,
+            featureList: ['course filtering','exam type filter','tag search','upload contribution'],
+            offers: { '@type': 'Offer', price: 0, priceCurrency: 'USD' }
+          })
         }}
       />
       <main className="flex-1 py-12 px-4">

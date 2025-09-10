@@ -278,3 +278,116 @@ export function jsonLdSpeakable(selectors: string[]) {
     }
   }
 }
+
+// Generic CollectionPage wrapper (e.g., listing pages) with optional itemList
+export function jsonLdCollectionPage(params: {
+  name: string
+  description?: string
+  path: string
+  items?: Array<{ name: string; url: string; image?: string }>
+  itemType?: string
+}) {
+  const pageUrl = new URL(params.path, siteUrl).toString()
+  const collection: any = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: params.name,
+    description: params.description,
+    url: pageUrl,
+  }
+  if (params.items && params.items.length) {
+    collection.mainEntity = jsonLdItemList(
+      params.items.map(i => ({ name: i.name, url: i.url, image: i.image })),
+      { itemType: params.itemType, description: params.description }
+    )
+  }
+  return collection
+}
+
+// NewsArticle helper (useful if we unify news pages later)
+export function jsonLdNewsArticle(article: {
+  id: string | number
+  headline: string
+  description?: string
+  image?: string
+  datePublished?: string
+  dateModified?: string
+  authorName?: string
+  section?: string
+}) {
+  const url = new URL(`/news/${article.id}`, siteUrl).toString()
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    '@id': `${url}#news` ,
+    headline: article.headline,
+    description: article.description,
+    datePublished: article.datePublished,
+    dateModified: article.dateModified || article.datePublished,
+    author: { '@type': 'Person', name: article.authorName || 'CampusAxis' },
+    publisher: { '@type': 'Organization', name: 'CampusAxis', logo: { '@type': 'ImageObject', url: new URL('/new%20logo.jpg', siteUrl).toString() } },
+    articleSection: article.section,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    image: article.image ? [new URL(article.image, siteUrl).toString()] : [new URL('/og-preview.png', siteUrl).toString()],
+    url,
+  }
+}
+
+// Event helper for consistency where we cannot fetch everything client-side
+export function jsonLdEvent(e: {
+  id: string | number
+  name: string
+  description?: string
+  startDate?: string
+  endDate?: string
+  location?: string
+  organizer?: string
+  image?: string
+  category?: string
+  capacity?: number | null
+}) {
+  const url = new URL(`/news-events/${e.id}`, siteUrl).toString()
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    '@id': `${url}#event`,
+    name: e.name,
+    description: e.description,
+    startDate: e.startDate,
+    endDate: e.endDate,
+    location: e.location ? { '@type': 'Place', name: e.location, address: e.location } : undefined,
+    organizer: { '@type': 'Organization', name: e.organizer || 'CampusAxis', url: siteUrl },
+    image: e.image ? [new URL(e.image, siteUrl).toString()] : undefined,
+    url,
+    keywords: e.category,
+    maximumAttendeeCapacity: e.capacity || undefined,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    isAccessibleForFree: true,
+  }
+}
+
+// Course + papers list: expresses a Course with hasPart referencing an ItemList of CreativeWork/Document nodes (lightweight)
+export function jsonLdCourseWithPapers(params: {
+  courseCode: string
+  courseName: string
+  path: string
+  papers: Array<{ id: string; title: string; url: string; examType?: string; year?: number }>
+}) {
+  const courseUrl = new URL(params.path, siteUrl).toString()
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: `${params.courseName} (${params.courseCode})`,
+    url: courseUrl,
+    provider: { '@type': 'CollegeOrUniversity', name: 'COMSATS University Islamabad', url: siteUrl },
+    hasPart: params.papers.slice(0, 50).map((p) => ({
+      '@type': 'CreativeWork',
+      '@id': new URL(p.url, siteUrl).toString(),
+      name: p.title,
+      url: new URL(p.url, siteUrl).toString(),
+      learningResourceType: p.examType,
+      dateCreated: p.year ? `${p.year}` : undefined,
+    }))
+  }
+}
