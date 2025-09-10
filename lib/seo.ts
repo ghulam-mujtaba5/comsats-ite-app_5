@@ -12,32 +12,48 @@ export type CreateMetadataInput = {
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
 const defaultImage = "/placeholder-7ca42.png"
 
+// Remove query strings & normalize trailing slashes except root
+export function canonicalizePath(path?: string): string {
+  if (!path) return siteUrl
+  try {
+    // If absolute already
+    const u = path.startsWith('http') ? new URL(path) : new URL(path, siteUrl)
+    u.search = ''
+    // remove trailing slash unless root
+    if (u.pathname !== '/' && u.pathname.endsWith('/')) {
+      u.pathname = u.pathname.replace(/\/$/, '')
+    }
+    return u.toString()
+  } catch {
+    return new URL('/', siteUrl).toString()
+  }
+}
+
 export function createMetadata(input: CreateMetadataInput): Metadata {
-  const url = input.path ? new URL(input.path, siteUrl).toString() : siteUrl
-  const image = input.image || defaultImage
+  const canonical = canonicalizePath(input.path || '/')
+  const image = input.image ? new URL(input.image, siteUrl).toString() : new URL(defaultImage, siteUrl).toString()
 
   const meta: Metadata = {
-    title: { default: input.title, template: "%s | CampusAxis" },
+    title: { default: input.title, template: '%s | CampusAxis' },
     description: input.description,
-    alternates: { canonical: input.path || "/" },
+    alternates: { canonical },
     keywords: input.keywords,
     robots: input.noindex ? { index: false, follow: false } : undefined,
     openGraph: {
-      type: "website",
-      url,
+      type: 'website',
+      url: canonical,
       title: input.title,
       description: input.description,
-      siteName: "CampusAxis",
+      siteName: 'CampusAxis',
       images: [{ url: image, width: 1200, height: 630, alt: input.title }],
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: input.title,
       description: input.description,
       images: [{ url: image, alt: input.title }],
     },
   }
-
   return meta
 }
 
@@ -137,6 +153,7 @@ export function jsonLdReview(review: {
   return {
     '@context': 'https://schema.org',
     '@type': 'Review',
+    '@id': `${siteUrl}#review-${encodeURIComponent(review.itemReviewed.url)}-${review.reviewRating.ratingValue}-${review.datePublished}`,
     author: { '@type': 'Person', name: review.authorName },
     reviewBody: review.reviewBody,
     reviewRating: {
@@ -184,6 +201,35 @@ export function jsonLdItemList(items: Array<{ name: string; url: string; positio
     numberOfItems: items.length,
     description: opts?.description,
     itemListOrder: 'http://schema.org/ItemListOrderAscending',
+  }
+}
+
+// Build an ItemList JSON-LD for a set of reviews (for rich snippets on list / profile pages)
+export function jsonLdReviewList(params: {
+  facultyName: string
+  facultyUrl: string
+  reviews: Array<{
+    author: string
+    body: string
+    rating: number
+    date: string
+  }>
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: params.reviews.map((r, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      item: {
+        '@type': 'Review',
+        author: { '@type': 'Person', name: r.author },
+        reviewBody: r.body,
+        datePublished: r.date,
+        reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+        itemReviewed: { '@type': 'Person', name: params.facultyName, url: new URL(params.facultyUrl, siteUrl).toString() }
+      }
+    }))
   }
 }
 
