@@ -2,6 +2,7 @@
 
 // Metadata imports removed due to "use client" directive
 import { useEffect, useMemo, useState } from "react"
+import { jsonLdItemList } from "@/lib/seo"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -68,6 +69,13 @@ export default function NewsListPage() {
 
   return (
     <div className="min-h-screen bg-mesh overflow-hidden relative">
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLdItemList(pageItems.map(n => ({ name: n.title, url: `/news/${n.id}` })), { description: 'Latest news and updates from CampusAxis / COMSATS.' }))
+        }}
+      />
       {/* Enhanced animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />

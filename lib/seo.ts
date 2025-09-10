@@ -169,3 +169,65 @@ export function jsonLdAggregateRating(rating: {
     worstRating: rating.worstRating,
   };
 }
+
+export function jsonLdItemList(items: Array<{ name: string; url: string; position?: number; image?: string }>, opts?: { itemType?: string; description?: string; }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: items.map((it, idx) => ({
+      '@type': 'ListItem',
+      position: it.position || idx + 1,
+      url: new URL(it.url, siteUrl).toString(),
+      name: it.name,
+      image: it.image ? new URL(it.image, siteUrl).toString() : undefined,
+    })),
+    numberOfItems: items.length,
+    description: opts?.description,
+    itemListOrder: 'http://schema.org/ItemListOrderAscending',
+  }
+}
+
+export function jsonLdBlogPosting(post: { title: string; description: string; slug: string; datePublished?: string; dateModified?: string; authorName?: string; image?: string }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.description,
+    url: new URL(`/blog/${post.slug}`, siteUrl).toString(),
+    datePublished: post.datePublished,
+    dateModified: post.dateModified || post.datePublished,
+    author: { '@type': 'Person', name: post.authorName || 'CampusAxis' },
+    publisher: { '@type': 'Organization', name: 'CampusAxis', logo: { '@type': 'ImageObject', url: new URL('/new%20logo.jpg', siteUrl).toString() } },
+    image: post.image ? [new URL(post.image, siteUrl).toString()] : [new URL('/og-preview.png', siteUrl).toString()],
+    mainEntityOfPage: { '@type': 'WebPage', '@id': new URL(`/blog/${post.slug}`, siteUrl).toString() },
+  }
+}
+
+export function jsonLdCourseList(course: { name: string; description?: string; code: string }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: `${course.name} (${course.code})`,
+    description: course.description,
+    provider: { '@type': 'CollegeOrUniversity', name: 'COMSATS University Islamabad', url: siteUrl },
+  }
+}
+
+export function jsonLdSiteNavigation(items: Array<{ name: string; url: string }>) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SiteNavigationElement',
+    about: items.map(i => ({ '@type': 'WebPage', name: i.name, url: new URL(i.url, siteUrl).toString() }))
+  }
+}
+
+export function jsonLdSpeakable(selectors: string[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: selectors,
+    }
+  }
+}

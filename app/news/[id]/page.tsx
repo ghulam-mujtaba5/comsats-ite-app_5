@@ -1,5 +1,7 @@
 import ArticleClient from './article-client'
 import { Metadata } from 'next'
+import { jsonLdBreadcrumb } from '@/lib/seo'
+import { jsonLdSpeakable } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
@@ -92,13 +94,21 @@ export default async function Page({ params }: { params: { id: string } }) {
         }
       : null
 
+    const breadcrumb = jsonLdBreadcrumb([
+      { name: 'Home', path: '/' },
+      { name: 'News', path: '/news' },
+      { name: item?.title || params.id, path: `/news/${params.id}` },
+    ])
+
+    const speakable = jsonLdSpeakable(['article h1', 'article p'])
+
     return (
       <>
         {jsonLd && (
           // Server-side JSON-LD injection
           <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumb, speakable]) }}
           />
         )}
         <ArticleClient />

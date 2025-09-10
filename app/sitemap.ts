@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next"
+import { supabaseAdmin } from "@/lib/supabase-admin"
 
 export const dynamic = 'force-dynamic'
 
@@ -48,84 +49,101 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Start with static entries
   const entries: MetadataRoute.Sitemap = staticPaths.map((r) => toEntry(r.path, now, r.changeFrequency, r.priority))
 
-  // Try to include dynamic content (news & past papers)
+  // Try to include dynamic content by querying Supabase directly (preferred over self-fetch)
   const fetchDynamic = async () => {
-    try {
-      // Fetch published news
-      const newsRes = await fetch(`${siteUrl}/api/news`, { cache: 'no-store' })
-      if (newsRes.ok) {
-        const newsJson = await newsRes.json()
-        const newsItems = Array.isArray(newsJson.data) ? newsJson.data : newsJson.data || []
-        newsItems.forEach((n: any) => {
-          // news page expected at /news/[id]
-          if (n?.id) {
-            const img = n.image_url ? [new URL(n.image_url, siteUrl).toString()] : undefined
-            entries.push(toEntry(`/news/${n.id}`, new Date(n.published_at || n.updated_at || n.created_at || now), 'weekly', 0.6, img))
-          }
-        })
-      }
-    } catch (e) {
-      // ignore dynamic fetch errors — sitemap will contain static entries
-      console.warn('sitemap: failed to fetch news', e)
+    const hasEnv = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
+
+    if (!hasEnv) {
+      console.warn('sitemap: Supabase service env missing; dynamic sections skipped')
+      return
     }
 
+    // NEWS (published only)
     try {
-      // Fetch community posts for /community/post/[id]
-      const postsRes = await fetch(`${siteUrl}/api/community/posts?limit=500&offset=0`, { cache: 'no-store' })
-      if (postsRes.ok) {
-        const postsJson = await postsRes.json().catch(() => [])
-        const posts = Array.isArray(postsJson) ? postsJson : Array.isArray(postsJson.data) ? postsJson.data : []
-        posts.forEach((p: any) => {
-          if (!p?.id) return
-            entries.push(toEntry(`/community/post/${p.id}`, new Date(p.updated_at || p.created_at || now), 'weekly', 0.5))
-        })
-      }
+      const { data: news } = await supabaseAdmin
+        .from('news')
+        .select('id,image_url,published_at,updated_at,created_at,status')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false })
+        .limit(500)
+      ;(news || []).forEach((n: any) => {
+        if (!n?.id) return
+        const img = n.image_url ? [new URL(n.image_url, siteUrl).toString()] : undefined
+        entries.push(toEntry(`/news/${n.id}`, new Date(n.published_at || n.updated_at || n.created_at || now), 'weekly', 0.65, img))
+      })
     } catch (e) {
-      console.warn('sitemap: failed to fetch community posts', e)
+      console.warn('sitemap: news query failed', e)
     }
 
+    // COMMUNITY POSTS (latest 500)
     try {
-      // Fetch faculty for /faculty/[id]
-      const facultyRes = await fetch(`${siteUrl}/api/faculty`, { cache: 'no-store' })
-      if (facultyRes.ok) {
-        const facultyJson = await facultyRes.json()
-        const facultyMembers = Array.isArray(facultyJson.data) ? facultyJson.data : (facultyJson.data || [])
-        facultyMembers.forEach((f: any) => {
-          if (f?.id) {
-            const img = f.image_url ? [new URL(f.image_url, siteUrl).toString()] : undefined
-            entries.push(toEntry(`/faculty/${f.id}`, new Date(f.updated_at || f.created_at || now), 'monthly', 0.6, img))
-          }
-        })
-      }
+      const { data: posts } = await supabaseAdmin
+        .from('community_posts')
+        .select('id,updated_at,created_at')
+        .order('created_at', { ascending: false })
+        .limit(500)
+      ;(posts || []).forEach((p: any) => {
+        if (!p?.id) return
+        entries.push(toEntry(`/community/post/${p.id}`, new Date(p.updated_at || p.created_at || now), 'weekly', 0.5))
+      })
     } catch (e) {
-      console.warn('sitemap: failed to fetch faculty', e)
+      console.warn('sitemap: community_posts query failed', e)
     }
 
+    // FACULTY (up to 1000)
     try {
-      // Fetch past papers; include course pages at /past-papers/[courseCode]
-      const papersRes = await fetch(`${siteUrl}/api/past-papers?limit=1000`, { cache: 'no-store' })
-      if (papersRes.ok) {
-        const papersJson = await papersRes.json()
-        const papers = Array.isArray(papersJson.data) ? papersJson.data : papersJson.data || []
-        // Group by course_code and pick latest created_at for sitemap
-        const byCourse: Record<string, any> = {}
-        papers.forEach((p: any) => {
-          const course = (p.course_code || p.course || 'unknown').toString()
-          const existing = byCourse[course]
-          const updated = new Date(p.updated_at || p.created_at || now)
-          if (!existing || updated > new Date(existing.updated_at || existing.created_at || now)) {
-            byCourse[course] = p
-          }
-        })
-        Object.keys(byCourse).forEach((course) => {
-          const p = byCourse[course]
-          const coursePath = `/past-papers/${encodeURIComponent(course)}`
-          const img = p.image_url ? [new URL(p.image_url, siteUrl).toString()] : undefined
-          entries.push(toEntry(coursePath, new Date(p.updated_at || p.created_at || now), 'monthly', 0.6, img))
+      const { data: faculty } = await supabaseAdmin
+        .from('faculty')
+        .select('id,profile_image,updated_at,created_at')
+        .order('name', { ascending: true })
+        .limit(1000)
+      ;(faculty || []).forEach((f: any) => {
+        if (!f?.id) return
+        const img = f.profile_image ? [new URL(f.profile_image, siteUrl).toString()] : undefined
+        entries.push(toEntry(`/faculty/${f.id}`, new Date(f.updated_at || f.created_at || now), 'monthly', 0.6, img))
+      })
+    } catch (e) {
+      console.warn('sitemap: faculty query failed', e)
+    }
+
+    // PAST PAPERS (group by course_code)
+    try {
+      const { data: papers } = await supabaseAdmin
+        .from('past_papers')
+        .select('course_code,image_url,updated_at,created_at,status')
+        .eq('status', 'approved')
+        .limit(2000)
+      const byCourse: Record<string, any> = {}
+      ;(papers || []).forEach((p: any) => {
+        const course = (p.course_code || 'unknown').toString()
+        const updated = new Date(p.updated_at || p.created_at || now)
+        if (!byCourse[course] || updated > new Date(byCourse[course].updated_at || byCourse[course].created_at || now)) {
+          byCourse[course] = p
+        }
+      })
+      Object.keys(byCourse).forEach((course) => {
+        const p = byCourse[course]
+        const img = p.image_url ? [new URL(p.image_url, siteUrl).toString()] : undefined
+        entries.push(toEntry(`/past-papers/${encodeURIComponent(course)}`, new Date(p.updated_at || p.created_at || now), 'monthly', 0.62, img))
+      })
+    } catch (e) {
+      console.warn('sitemap: past_papers query failed', e)
+    }
+
+    // EVENTS (optional; ignore if table absent)
+    try {
+      const { data: events, error } = await supabaseAdmin
+        .from('events')
+        .select('id,updated_at,created_at,published_at')
+        .limit(500)
+      if (!error) {
+        ;(events || []).forEach((ev: any) => {
+          if (!ev?.id) return
+            entries.push(toEntry(`/news-events/${ev.id}`, new Date(ev.published_at || ev.updated_at || ev.created_at || now), 'weekly', 0.55))
         })
       }
     } catch (e) {
-      console.warn('sitemap: failed to fetch past-papers', e)
+      // Table may not exist yet; ignore
     }
   }
 

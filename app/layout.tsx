@@ -9,7 +9,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/layout/header"
 import { FooterConditional } from "@/components/layout/footer-conditional"
 import { Toaster } from "@/components/ui/toaster"
-import { jsonLdOrganization, jsonLdWebSite } from "@/lib/seo"
+import { jsonLdOrganization, jsonLdWebSite, jsonLdSiteNavigation } from "@/lib/seo"
 import Script from "next/script"
 import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
 
@@ -182,6 +182,19 @@ html {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSiteNavigation([
+            { name: 'Home', url: '/' },
+            { name: 'Faculty', url: '/faculty' },
+            { name: 'Past Papers', url: '/past-papers' },
+            { name: 'News', url: '/news' },
+            { name: 'Community', url: '/community' },
+            { name: 'GPA Calculator', url: '/gpa-calculator' },
+            { name: 'Resources', url: '/resources' },
+            { name: 'Support', url: '/support' },
+          ])) }}
         />
       </head>
       <body className={`${GeistSans.variable} ${manrope.variable} antialiased bg-background text-foreground`}>

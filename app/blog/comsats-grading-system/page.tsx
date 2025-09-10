@@ -1,6 +1,7 @@
 import React from "react"
 import { CumulativeGPACalculator } from "@/components/gpa/cumulative-gpa-calculator"
 import { GPAPlanningCalculator } from "@/components/gpa/gpa-planning-calculator"
+import { jsonLdBlogPosting, jsonLdBreadcrumb } from "@/lib/seo"
 
 export const metadata = {
   title: "COMSATS Grading System & GPA Calculators",
@@ -9,8 +10,21 @@ export const metadata = {
 }
 
 export default function Page() {
+  const jsonLd = jsonLdBlogPosting({
+    title: metadata.title,
+    description: metadata.description,
+    slug: 'comsats-grading-system',
+    authorName: 'CampusAxis',
+    datePublished: '2024-01-01',
+  })
+  const breadcrumb = jsonLdBreadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'COMSATS Grading System', path: '/blog/comsats-grading-system' },
+  ])
   return (
     <div className="container mx-auto max-w-4xl px-4 py-8 space-y-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumb]) }} />
       <article className="prose prose-neutral dark:prose-invert max-w-none">
         <h1>COMSATS Grading System</h1>
         <p>

@@ -1,5 +1,6 @@
 import CourseClient from './course-client'
 import { Metadata } from 'next'
+import { jsonLdBreadcrumb } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
@@ -75,10 +76,16 @@ export default async function Page({ params }: { params: { courseCode: string } 
         }
       : null
 
+    const breadcrumb = jsonLdBreadcrumb([
+      { name: 'Home', path: '/' },
+      { name: 'Past Papers', path: '/past-papers' },
+      { name: course?.name || params.courseCode, path: `/past-papers/${encodeURIComponent(params.courseCode)}` },
+    ])
+
     return (
       <>
         {jsonLd && (
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumb]) }} />
         )}
         <CourseClient params={params} />
       </>

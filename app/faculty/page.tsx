@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import { jsonLdItemList } from "@/lib/seo"
 // Footer is provided by the root layout; avoid importing locally to prevent duplicates
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -179,6 +180,16 @@ export default function FacultyPage() {
 
   return (
     <div className="min-h-screen bg-mesh overflow-hidden relative">
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLdItemList(
+            filteredFaculty.slice(0, 100).map(f => ({ name: f.name, url: `/faculty/${f.id}` })),
+            { description: 'Directory of faculty members with reviews at COMSATS University Islamabad' }
+          ))
+        }}
+      />
       {/* Enhanced animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />

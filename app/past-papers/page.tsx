@@ -2,6 +2,7 @@
 
 // Metadata imports removed due to "use client" directive
 import { useEffect, useMemo, useState } from "react"
+import { jsonLdItemList } from "@/lib/seo"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { CourseCard } from "@/components/past-papers/course-card"
@@ -217,6 +218,13 @@ export default function PastPapersPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLdItemList(filteredCourses.slice(0,120).map(c => ({ name: c.name, url: `/past-papers/${encodeURIComponent(c.code)}` })), { description: 'Directory of courses with past exam papers at COMSATS University Islamabad' }))
+        }}
+      />
       <main className="flex-1 py-12 px-4">
         <div className="container mx-auto max-w-7xl">
           {/* Enhanced Header Section */}
