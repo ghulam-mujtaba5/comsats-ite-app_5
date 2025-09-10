@@ -75,6 +75,20 @@ export function Header() {
     return () => { mounted = false }
   }, [])
 
+  // Control body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    
+    // Cleanup function to reset scroll on unmount
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [mobileMenuOpen])
+
 
 
   const isActivePath = (path: string) => {
@@ -82,7 +96,7 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/20 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/60 fade-in shadow-lg hover:shadow-xl transition-all duration-300">
+    <header className="sticky top-0 z-[100] w-full border-b border-white/20 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/60 fade-in shadow-lg hover:shadow-xl transition-all duration-300">
       <div className="app-container h-16 flex items-center justify-between">
         <Link
           href={isAdmin ? "/admin" : "/"}
@@ -162,13 +176,13 @@ export function Header() {
           </div>
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="lg:hidden interactive p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300">
+              <Button variant="ghost" size="sm" className="lg:hidden interactive p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 relative z-[110]">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-80 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl">
-              <div className="flex flex-col space-y-6 mt-8">
+            <SheetContent side="right" className="w-[85vw] max-w-sm bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl z-[105] overflow-y-auto max-h-screen">
+              <div className="flex flex-col space-y-4 mt-8 pb-8 px-2">
                 <div className="flex items-center space-x-4 pb-6 border-b border-white/20 dark:border-white/10">
                   <div className="relative">
                     <Image src="/new%20logo.jpg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl" />
@@ -188,7 +202,7 @@ export function Header() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`relative p-4 rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift group backdrop-blur-sm border ${
+                      className={`relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift group backdrop-blur-sm border ${
                         isActivePath(item.href) ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border-blue-200/30 dark:border-blue-400/30 shadow-lg" : "border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md"
                       }`}
                       aria-current={isActivePath(item.href) ? "page" : undefined}
@@ -213,7 +227,7 @@ export function Header() {
                   <Link
                     href="/admin"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="relative p-4 rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md"
+                    className="relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md"
                   >
                     <div className="relative z-10 flex items-start space-x-3">
                       <Shield className="h-5 w-5 mt-0.5 flex-shrink-0" />

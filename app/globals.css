@@ -338,4 +338,45 @@
   .perspective-card:hover {
     transform: perspective(1000px) rotateX(5deg) rotateY(5deg) scale(1.05);
   }
+
+  /* Mobile Navigation Enhancements */
+  .mobile-menu-open {
+    @apply overflow-hidden;
+  }
+
+  /* Ensure mobile menu components stack properly */
+  .mobile-nav-trigger {
+    z-index: 110 !important;
+  }
+
+  .mobile-nav-overlay {
+    z-index: 101 !important;
+  }
+
+  .mobile-nav-content {
+    z-index: 102 !important;
+  }
+
+  .mobile-nav-close {
+    z-index: 103 !important;
+  }
+
+  /* Prevent backdrop blur performance issues on mobile */
+  @media (max-width: 768px) {
+    .backdrop-blur-2xl {
+      backdrop-filter: blur(8px);
+    }
+    
+    .backdrop-blur-xl {
+      backdrop-filter: blur(6px);
+    }
+  }
+
+  /* Touch-friendly mobile interactions */
+  @media (max-width: 768px) {
+    .interactive {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
 }
