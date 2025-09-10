@@ -5,8 +5,8 @@ import { getCourseByCode } from '@/lib/past-papers-data'
 export async function GET(req: NextRequest, context: { params: Promise<{ courseCode: string }> }) {
   const { courseCode } = await context.params
   const normalized = courseCode.toUpperCase()
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
 
   // If env not configured (dev), fallback to mock data so UI works
   if (!url || !anon) {

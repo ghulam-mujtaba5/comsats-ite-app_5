@@ -22,7 +22,7 @@ const manrope = Manrope({
   variable: "--font-manrope",
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+const siteUrl = process.env['NEXT_PUBLIC_SITE_URL'] || "http://localhost:3000"
 
 // helper to create absolute URLs for images and assets
 const asset = (path: string) => new URL(path, siteUrl).toString()
@@ -108,7 +108,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/new%20logo.jpg", type: "image/jpeg" }],
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    google: process.env['NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION'],
   },
   category: "education",
   manifest: "/manifest.webmanifest",
@@ -130,8 +130,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
-  const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+  const GTM_ID = process.env['NEXT_PUBLIC_GTM_ID']
+  const GA_ID = process.env['NEXT_PUBLIC_GA_MEASUREMENT_ID']
   const isProd = process.env.NODE_ENV === 'production'
   return (
     <html lang="en" suppressHydrationWarning>

@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
 const isProd = (process.env.NODE_ENV as string) === 'production'
 
 // In development, allow routes to use dev fallbacks by exporting a minimal mock

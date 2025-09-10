@@ -9,8 +9,8 @@ export function middleware(req: NextRequest) {
   // Compute canonical host from env var; fall back to localhost:3000 for dev.
   let canonicalHost = 'localhost:3000'
   try {
-    if (process.env.NEXT_PUBLIC_SITE_URL) {
-      canonicalHost = new URL(process.env.NEXT_PUBLIC_SITE_URL).host
+    if (process.env['NEXT_PUBLIC_SITE_URL']) {
+      canonicalHost = new URL(process.env['NEXT_PUBLIC_SITE_URL'] as string).host
     }
   } catch (_) {
     // ignore and use default

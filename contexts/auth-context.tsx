@@ -26,8 +26,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
   // Create Supabase browser client
   const supabase = useMemo(() => {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
     if (!url || !anon) {
       // In dev, surface a clear message in console; app still functions without auth
       if (process.env.NODE_ENV !== 'production') {
@@ -41,7 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const getSession = async () => {
       const { data, error } = await supabase.auth.getSession()
       if (!error && data.session?.user) {
-        setUser({ id: data.session.user.id, email: data.session.user.email || undefined })
+  setUser({ id: data.session.user.id, email: data.session.user.email || '' })
       }
       setIsLoading(false)
     }
@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       const currentUser = session?.user
-      setUser(currentUser ? { id: currentUser.id, email: currentUser.email || undefined } : null)
+  setUser(currentUser ? { id: currentUser.id, email: currentUser.email || '' } : null)
       setIsLoading(false)
     })
 

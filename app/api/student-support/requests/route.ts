@@ -5,8 +5,8 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  process.env['NEXT_PUBLIC_SUPABASE_URL']!,
+  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
     {
       cookies: {
         get(name: string) { return cookieStore.get(name)?.value },
@@ -58,8 +58,8 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  process.env['NEXT_PUBLIC_SUPABASE_URL']!,
+  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
     {
       cookies: {
         get(name: string) { return cookieStore.get(name)?.value },

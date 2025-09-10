@@ -10,9 +10,9 @@ export async function GET(req: NextRequest) {
     const searchTimeout = 15000 // 15 seconds max
     const startTime = Date.now()
     
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
 
     if (!url || !anon) {
       return NextResponse.json({ 

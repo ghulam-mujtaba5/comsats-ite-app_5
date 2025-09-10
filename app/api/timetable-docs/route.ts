@@ -3,8 +3,8 @@ import { createClient } from '@supabase/supabase-js'
 
 // Public read-only endpoint for timetable documents
 export async function GET() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
   if (!url || !anon) {
     // Dev fallback: return mock items to allow page to render without Supabase
     const now = new Date().toISOString()

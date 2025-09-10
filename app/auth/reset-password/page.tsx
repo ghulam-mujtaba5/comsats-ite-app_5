@@ -22,8 +22,8 @@ export default function ResetPasswordPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+  process.env['NEXT_PUBLIC_SUPABASE_URL'] || "",
+  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] || ""
   )
 
   useEffect(() => {

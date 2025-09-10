@@ -9,7 +9,7 @@ export type CreateMetadataInput = {
   noindex?: boolean
 }
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+const siteUrl = process.env['NEXT_PUBLIC_SITE_URL'] || "http://localhost:3000"
 const defaultImage = "/placeholder-7ca42.png"
 
 export function createMetadata(input: CreateMetadataInput): Metadata {

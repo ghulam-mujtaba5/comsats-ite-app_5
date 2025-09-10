@@ -5,9 +5,9 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
     if (!url || !anon) {
       return NextResponse.json({ data: [] })
     }
@@ -54,9 +54,9 @@ const MAX_SIZE = 10 * 1024 * 1024 // 10MB
 
 export async function POST(req: NextRequest) {
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
 
     // Dev fallback: if envs missing, accept and echo back
     if (!url || !anon) {

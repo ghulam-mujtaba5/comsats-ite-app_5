@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next"
 
 export default function manifest(): MetadataRoute.Manifest {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  const siteUrl = process.env['NEXT_PUBLIC_SITE_URL'] || "http://localhost:3000"
   return {
     name: "CampusAxis",
     short_name: "CampusAxis",
@@ -18,13 +18,13 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/new%20logo.jpg",
         sizes: "192x192",
         type: "image/jpeg",
-        purpose: "maskable any",
+  purpose: "maskable",
       },
       {
         src: "/new%20logo.jpg",
         sizes: "512x512",
         type: "image/jpeg",
-        purpose: "maskable any",
+  purpose: "maskable",
       },
     ],
     categories: ["education", "productivity"],

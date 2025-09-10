@@ -51,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Try to include dynamic content by querying Supabase. We import lazily so
   // that missing service role env vars do not crash the entire sitemap in prod.
   const fetchDynamic = async () => {
-    const hasEnv = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
+  const hasEnv = !!(process.env['NEXT_PUBLIC_SUPABASE_URL'] && process.env['SUPABASE_SERVICE_ROLE_KEY'])
     if (!hasEnv) {
       console.warn('[sitemap] Supabase env vars missing; returning static entries only')
       return

@@ -40,8 +40,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })
   }
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
     if (!url || !serviceKey) {
       return NextResponse.json({ error: 'Supabase env vars missing (NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)' }, { status: 500 })
     }

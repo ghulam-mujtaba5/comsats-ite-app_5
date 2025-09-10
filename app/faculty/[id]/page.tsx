@@ -15,7 +15,7 @@ export const revalidate = 1800 // 30 minutes; adjust as needed
 
 // Fetch faculty & reviews server-side for SEO
 async function fetchFacultyAndReviews(id: string) {
-  const hasEnv = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY))
+  const hasEnv = !!(process.env['NEXT_PUBLIC_SUPABASE_URL'] && (process.env['SUPABASE_SERVICE_ROLE_KEY'] || process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']))
   if (!hasEnv) return { faculty: null, reviews: [] as Review[] }
   try {
     const { supabaseAdmin } = await import('@/lib/supabase-admin')
@@ -91,14 +91,15 @@ export async function generateMetadata(
     title: `${faculty.name} - ${faculty.title || 'Faculty'}`,
     description: `Profile, courses & student reviews for ${faculty.name}${faculty.title ? ', ' + faculty.title : ''} (${faculty.department}).`,
     path: `/faculty/${faculty.id}`,
-    image: faculty.profileImage,
+    // Only include image if defined to satisfy exactOptionalPropertyTypes
+    ...(faculty.profileImage ? { image: faculty.profileImage } : {}),
     keywords: [faculty.name, faculty.department, 'faculty', 'review', ...faculty.specialization],
   })
 }
 
 // Optional: pre-generate static params for faster TTFB & guaranteed discoverability
 export async function generateStaticParams() {
-  const hasEnv = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY))
+  const hasEnv = !!(process.env['NEXT_PUBLIC_SUPABASE_URL'] && (process.env['SUPABASE_SERVICE_ROLE_KEY'] || process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']))
   if (!hasEnv) return []
   try {
     const { supabaseAdmin } = await import('@/lib/supabase-admin')
@@ -124,7 +125,7 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
   const { faculty, reviews } = await fetchFacultyAndReviews(id)
   if (!faculty) return notFound()
   const stats = calculateReviewStats(reviews)
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const siteUrl = process.env['NEXT_PUBLIC_SITE_URL'] || 'http://localhost:3000'
   const facultyUrl = new URL(`/faculty/${faculty.id}`, siteUrl).toString()
 
   // Construct consolidated Person JSON-LD with nested aggregateRating, reviews, and courses taught.
@@ -242,7 +243,7 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
                 <CardContent className="space-y-3">{[5,4,3,2,1].map(r => (
                   <div key={r} className="flex items-center gap-3">
                     <span className="text-sm w-8">{r} ★</span>
-                    <Progress value={(stats.ratingDistribution[r] / Math.max(stats.totalReviews, 1)) * 100} className="flex-1" />
+                    <Progress value={((stats.ratingDistribution?.[r] || 0) / Math.max(stats.totalReviews || 0, 1)) * 100} className="flex-1" />
                     <span className="text-sm text-muted-foreground w-8">{stats.ratingDistribution[r]}</span>
                   </div>
                 ))}</CardContent>

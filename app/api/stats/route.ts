@@ -6,9 +6,9 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
 
     // Dev fallback with HONEST small-scale data matching seeding scripts
     if (!url || !anon) {

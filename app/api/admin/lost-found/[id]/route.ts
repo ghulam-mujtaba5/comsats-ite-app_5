@@ -21,8 +21,8 @@ async function checkAdminAccess(supabase: any) {
 export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+    process.env['NEXT_PUBLIC_SUPABASE_URL'] || '',
+    process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] || '',
     {
       cookies: {
         get(name: string) {
@@ -69,8 +69,8 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
 export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+    process.env['NEXT_PUBLIC_SUPABASE_URL'] || '',
+    process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] || '',
     {
       cookies: {
         get(name: string) {

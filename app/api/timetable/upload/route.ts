@@ -32,11 +32,11 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-    const BUCKET = process.env.SUPABASE_TIMETABLES_BUCKET || 'timetables'
-    const USE_SIGNED_URLS = String(process.env.SUPABASE_USE_SIGNED_URLS || '').toLowerCase() === 'true'
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anonKey = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
+  const BUCKET = process.env['SUPABASE_TIMETABLES_BUCKET'] || 'timetables'
+  const USE_SIGNED_URLS = String(process.env['SUPABASE_USE_SIGNED_URLS'] || '').toLowerCase() === 'true'
 
     // Dev fallback: if env is missing, accept and return a mock response
     if (!url || !anonKey || !serviceKey) {
