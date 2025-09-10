@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
               '@context':'https://schema.org','@type':'WebPage',
               name:'Privacy Policy',
-              url:(process.env.NEXT_PUBLIC_SITE_URL||'http://localhost:3000')+'/legal/privacy-policy',
+              url:(process.env.NEXT_PUBLIC_SITE_URL||'https://campusaxis.site')+'/legal/privacy-policy',
               description:'Details how user data is collected, used, and protected by CampusAxis.'
             }) }} />
             <p className="mt-2 text-lg text-muted-foreground">Last Updated: August 22, 2025</p>

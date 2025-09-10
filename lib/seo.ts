@@ -9,7 +9,8 @@ export type CreateMetadataInput = {
   noindex?: boolean
 }
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+// Canonical production domain fallback if env not set
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
 const defaultImage = "/placeholder-7ca42.png"
 
 // Remove query strings & normalize trailing slashes except root

@@ -17,7 +17,7 @@ export default function TermsOfServicePage() {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
               '@context':'https://schema.org','@type':'WebPage',
               name:'Terms of Service',
-              url:(process.env.NEXT_PUBLIC_SITE_URL||'http://localhost:3000')+'/legal/terms-of-service',
+              url:(process.env.NEXT_PUBLIC_SITE_URL||'https://campusaxis.site')+'/legal/terms-of-service',
               description:'Contractual terms for using CampusAxis services.'
             }) }} />
             <p className="mt-2 text-lg text-muted-foreground">Last Updated: August 22, 2025</p>

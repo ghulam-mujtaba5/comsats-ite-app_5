@@ -124,7 +124,7 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
   const { faculty, reviews } = await fetchFacultyAndReviews(id)
   if (!faculty) return notFound()
   const stats = calculateReviewStats(reviews)
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   const facultyUrl = new URL(`/faculty/${faculty.id}`, siteUrl).toString()
 
   // Construct consolidated Person JSON-LD with nested aggregateRating, reviews, and courses taught.

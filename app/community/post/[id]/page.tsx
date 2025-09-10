@@ -4,7 +4,7 @@ import PostClient from './post-client'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   try {
     const res = await fetch(`${siteUrl}/api/community/posts/${params.id}`, { cache: 'no-store' })
     if (!res.ok) return { title: `Community Post ${params.id}` }
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   try {
     const res = await fetch(`${siteUrl}/api/community/posts/${params.id}`, { cache: 'no-store' })
     const json = res.ok ? await res.json() : null

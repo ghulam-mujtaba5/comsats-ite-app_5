@@ -4,7 +4,7 @@ import { NewsEventsClient } from './news-events-client'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   return {
     title: 'Campus News & Events',
     description: 'Browse the latest campus news, announcements, academic deadlines, and upcoming events.',
@@ -31,7 +31,7 @@ export default function NewsEventsPage() {
             "@type": "WebPage",
             "name": "Campus News & Events",
             "description": "Browse the latest campus news, announcements, academic deadlines, and upcoming events.",
-            "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/news-events`,
+            "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'}/news-events`,
             "mainEntity": {
               "@type": "NewsMediaOrganization",
               "name": "CampusAxis News",

@@ -20,7 +20,7 @@ const manrope = Manrope({
   variable: "--font-manrope",
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
 
 // helper to create absolute URLs for images and assets
 const asset = (path: string) => new URL(path, siteUrl).toString()

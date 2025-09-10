@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Prefer request origin for local/dev, fallback to production
-    const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
     const resetUrl = `${origin}/auth/reset-password`
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL

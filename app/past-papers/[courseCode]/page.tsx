@@ -5,7 +5,7 @@ import { jsonLdBreadcrumb } from '@/lib/seo'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: { courseCode: string } }): Promise<Metadata> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   try {
     const res = await fetch(`${siteUrl}/api/past-papers/${params.courseCode}`, { cache: 'no-store' })
     if (!res.ok) return { title: params.courseCode }
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: { params: { courseCode: strin
 }
 
 export default async function Page({ params }: { params: { courseCode: string } }) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   try {
     const res = await fetch(`${siteUrl}/api/past-papers/${params.courseCode}`, { cache: 'no-store' })
     const json = res.ok ? await res.json() : null

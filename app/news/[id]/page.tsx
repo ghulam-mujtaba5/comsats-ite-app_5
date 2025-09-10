@@ -6,7 +6,7 @@ import { jsonLdSpeakable } from '@/lib/seo'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   try {
     const res = await fetch(`${siteUrl}/api/news/${params.id}`, { cache: 'no-store' })
     if (!res.ok) return { title: params.id }
@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
 export default async function Page({ params }: { params: { id: string } }) {
   // Server-side fetch to build Article JSON-LD for better SEO previews
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   try {
     // fetch server-side to include JSON-LD
     // intentionally not cached to reflect latest content

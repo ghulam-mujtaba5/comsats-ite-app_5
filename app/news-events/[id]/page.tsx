@@ -19,7 +19,7 @@ type EventRecord = {
 }
 
 async function fetchEvent(id: string): Promise<EventRecord | null> {
-	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
 	try {
 		const res = await fetch(`${siteUrl}/api/news-events/events/${id}`, { cache: 'no-store' })
 		if (!res.ok) return null
@@ -32,7 +32,7 @@ async function fetchEvent(id: string): Promise<EventRecord | null> {
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
 	const evt = await fetchEvent(params.id)
-	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
 	if (!evt) return { title: params.id }
 	const title = `${evt.title} | Event`
 	const description = evt.description?.slice(0,160) || 'Campus event details.'
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 export default async function EventPage({ params }: { params: { id: string } }) {
-	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
 	const evt = await fetchEvent(params.id)
 	if (!evt) {
 		return <div className="container mx-auto py-24"><h1 className="text-2xl font-bold">Event not found</h1></div>
