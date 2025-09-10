@@ -3,9 +3,9 @@ import { createClient } from "@supabase/supabase-js"
 import { requireAdmin } from "@/lib/admin-access"
 
 // PATCH /api/issues/[id]/status  { status: 'open' | 'in_progress' | 'resolved' }
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
-    const id = params.id
+    const { id } = await context.params
     const body = await req.json()
     const status = String(body?.status || '').trim()
     const allowed = ['open', 'in_progress', 'resolved']
@@ -16,8 +16,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const auth = await requireAdmin(req)
     if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+    const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
 
     if (!url || !serviceKey) {
       // Dev fallback

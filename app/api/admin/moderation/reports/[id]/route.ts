@@ -20,12 +20,12 @@ async function checkAdminAccess(supabase: any) {
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env['NEXT_PUBLIC_SUPABASE_URL']!,
+    process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
     {
       cookies: {
         get(name: string) {
@@ -63,10 +63,11 @@ export async function PATCH(
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
     }
 
+    const { id } = await context.params
     const { error } = await supabase
       .from('content_reports')
       .update(updateData)
-      .eq('id', params.id)
+      .eq('id', id)
 
     if (error) throw error
 
