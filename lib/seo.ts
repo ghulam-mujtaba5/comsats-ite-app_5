@@ -89,3 +89,83 @@ export function jsonLdFAQ(faqs: Array<{ question: string; answer: string }>) {
     })),
   }
 }
+
+export function jsonLdPerson(person: {
+  name: string
+  jobTitle: string
+  department: string
+  image?: string
+  url: string
+  email?: string
+  phone?: string
+  office?: string
+  specializations?: string[]
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: person.name,
+    jobTitle: person.jobTitle,
+    worksFor: {
+      '@type': 'Organization',
+      name: 'COMSATS University Islamabad, Lahore Campus',
+    },
+    department: person.department,
+    image: person.image ? new URL(person.image, siteUrl).toString() : undefined,
+    url: new URL(person.url, siteUrl).toString(),
+    email: person.email,
+    telephone: person.phone,
+    workLocation: person.office ? { '@type': 'Place', name: person.office } : undefined,
+    knowsAbout: person.specializations,
+  };
+}
+
+export function jsonLdReview(review: {
+  authorName: string
+  reviewBody: string
+  reviewRating: {
+    ratingValue: number
+    bestRating: number
+    worstRating: number
+  }
+  itemReviewed: {
+    name: string
+    url: string
+  }
+  datePublished: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Review',
+    author: { '@type': 'Person', name: review.authorName },
+    reviewBody: review.reviewBody,
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: review.reviewRating.ratingValue,
+      bestRating: review.reviewRating.bestRating,
+      worstRating: review.reviewRating.worstRating,
+    },
+    itemReviewed: {
+      '@type': 'Person',
+      name: review.itemReviewed.name,
+      url: new URL(review.itemReviewed.url, siteUrl).toString(),
+    },
+    datePublished: review.datePublished,
+  };
+}
+
+export function jsonLdAggregateRating(rating: {
+  ratingValue: number
+  reviewCount: number
+  bestRating: number
+  worstRating: number
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'AggregateRating',
+    ratingValue: rating.ratingValue,
+    reviewCount: rating.reviewCount,
+    bestRating: rating.bestRating,
+    worstRating: rating.worstRating,
+  };
+}

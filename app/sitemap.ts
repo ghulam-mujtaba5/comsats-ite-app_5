@@ -85,6 +85,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
 
     try {
+      // Fetch faculty for /faculty/[id]
+      const facultyRes = await fetch(`${siteUrl}/api/faculty`, { cache: 'no-store' })
+      if (facultyRes.ok) {
+        const facultyJson = await facultyRes.json()
+        const facultyMembers = Array.isArray(facultyJson.data) ? facultyJson.data : (facultyJson.data || [])
+        facultyMembers.forEach((f: any) => {
+          if (f?.id) {
+            const img = f.image_url ? [new URL(f.image_url, siteUrl).toString()] : undefined
+            entries.push(toEntry(`/faculty/${f.id}`, new Date(f.updated_at || f.created_at || now), 'monthly', 0.6, img))
+          }
+        })
+      }
+    } catch (e) {
+      console.warn('sitemap: failed to fetch faculty', e)
+    }
+
+    try {
       // Fetch past papers; include course pages at /past-papers/[courseCode]
       const papersRes = await fetch(`${siteUrl}/api/past-papers?limit=1000`, { cache: 'no-store' })
       if (papersRes.ok) {
