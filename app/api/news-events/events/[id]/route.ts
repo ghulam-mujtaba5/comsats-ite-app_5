@@ -16,8 +16,8 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
 
     const cookieStore = await (cookies() as any)
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      process.env['NEXT_PUBLIC_SUPABASE_URL']!,
+      process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
       {
         cookies: {
           get(name: string) {
@@ -55,8 +55,8 @@ export async function DELETE(request: NextRequest, context: { params: Promise<{ 
     const { id } = await context.params
     const cookieStore = await (cookies() as any)
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      process.env['NEXT_PUBLIC_SUPABASE_URL']!,
+      process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
       {
         cookies: {
           get(name: string) {
@@ -87,8 +87,8 @@ export async function DELETE(request: NextRequest, context: { params: Promise<{ 
 export async function GET(_request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+    const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
     // Fail soft in development if env missing
     if (!url || !anon) {
       if (process.env.NODE_ENV !== 'production') {
