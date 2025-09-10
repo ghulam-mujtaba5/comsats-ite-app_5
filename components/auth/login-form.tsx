@@ -24,6 +24,68 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   const [resetLoading, setResetLoading] = useState(false)
   const { login, isLoading } = useAuth()
 
+  const normalizeError = (raw: string) => {
+    const lower = raw.toLowerCase()
+    if (lower.includes('email not confirmed') || lower.includes('not confirmed')) {
+      return {
+        title: 'Email not confirmed',
+        description: 'We sent a verification link to your university email. Confirm it, then try signing in again. Need a new link? Click Resend below.',
+        code: 'email_not_confirmed'
+      }
+    }
+    if (lower.includes('invalid login credentials') || lower.includes('invalid') || lower.includes('credential')) {
+      return {
+        title: 'Incorrect email or password',
+        description: 'Double‑check your university email format and password. Passwords are case sensitive.',
+        code: 'invalid_credentials'
+      }
+    }
+    if (lower.includes('too many') || lower.includes('rate limit')) {
+      return {
+        title: 'Too many attempts',
+        description: 'For your security login is temporarily throttled. Please wait 30–60 seconds before retrying.',
+        code: 'rate_limited'
+      }
+    }
+    if (lower.includes('network') || lower.includes('fetch')) {
+      return {
+        title: 'Network error',
+        description: 'Unable to reach authentication service. Check your connection or VPN and retry.',
+        code: 'network'
+      }
+    }
+    return { title: 'Login failed', description: raw || 'Unable to sign in. Please try again.', code: 'generic' }
+  }
+
+  const [resending, setResending] = useState(false)
+
+  const resendVerification = async () => {
+    if (!validateCUIEmail(email)) {
+      toast({ title: 'Enter a valid university email first', variant: 'destructive' })
+      return
+    }
+    setResending(true)
+    try {
+      const response = await fetch('/api/auth/resend-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        toast({ title: 'Could not resend', description: data.error || 'Please try again later.', variant: 'destructive' })
+      } else {
+        toast({ title: 'Verification email sent', description: 'Check your inbox (and spam folder).'} )
+      }
+    } catch {
+      toast({ title: 'Resend failed', description: 'Network issue – retry shortly.', variant: 'destructive' })
+    } finally {
+      setResending(false)
+    }
+  }
+
+  const [lastErrorCode, setLastErrorCode] = useState<string | null>(null)
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // clear previous messages (using toast instead)
@@ -35,10 +97,13 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
 
     try {
       await login(email, password)
-      toast({ title: "Signed in" })
+      setLastErrorCode(null)
+      toast({ title: 'Signed in' })
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Login failed"
-      toast({ title: "Login failed", description: msg, variant: "destructive" })
+      const raw = err instanceof Error ? err.message : 'Login failed'
+      const norm = normalizeError(raw)
+      setLastErrorCode(norm.code)
+      toast({ title: norm.title, description: norm.description, variant: 'destructive' })
     }
   }
 
@@ -156,6 +221,32 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
             </div>
           )}
         </Button>
+
+        {/* Contextual Actions Under Form */}
+        <div className="space-y-3">
+          {lastErrorCode === 'email_not_confirmed' && (
+            <div className="text-xs rounded-lg p-3 bg-amber-500/10 border border-amber-400/30 text-amber-700 dark:text-amber-300 flex flex-col gap-2">
+              <span className="font-semibold">Haven't received the verification email?</span>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Check spam / promotions folders.</li>
+                <li>It may take up to a minute to arrive.</li>
+              </ul>
+              <Button onClick={resendVerification} variant="outline" size="sm" disabled={resending} className="w-fit">
+                {resending ? 'Sending...' : 'Resend verification email'}
+              </Button>
+            </div>
+          )}
+          {lastErrorCode === 'invalid_credentials' && (
+            <div className="text-xs rounded-lg p-3 bg-red-500/10 border border-red-400/30 text-red-700 dark:text-red-300">
+              Tip: Use your full university email (e.g. fa22-bse-105@cuilahore.edu.pk) and ensure Caps Lock is off.
+            </div>
+          )}
+          {lastErrorCode === 'rate_limited' && (
+            <div className="text-xs rounded-lg p-3 bg-orange-500/10 border border-orange-400/30 text-orange-700 dark:text-orange-300">
+              Security cooldown active. You can retry shortly; repeated rapid attempts extend the wait.
+            </div>
+          )}
+        </div>
 
         {/* Enhanced Forgot Password */}
         <div className="text-center">
