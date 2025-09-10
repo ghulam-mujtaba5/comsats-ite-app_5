@@ -13,6 +13,8 @@ import { jsonLdOrganization, jsonLdWebSite, jsonLdSiteNavigation } from "@/lib/s
 import Script from "next/script"
 import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
 import { WebVitalsReporter } from "@/components/analytics/web-vitals-reporter"
+import { LighthouseMetrics } from "@/components/analytics/lighthouse-metrics"
+import { AccessibilityAuditor } from "@/components/accessibility/accessibility-auditor"
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -250,9 +252,9 @@ html {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <AuthProvider>
             <Header />
-            <div className="min-h-[60vh]">
+            <main className="min-h-[60vh]" role="main" id="main-content">
               {children}
-            </div>
+            </main>
             <FooterConditional />
             <Toaster />
             {/* Client-side route change tracking - only in production */}
@@ -260,6 +262,13 @@ html {
             <Suspense fallback={null}>
               <AnalyticsTracker />
               <WebVitalsReporter />
+              <LighthouseMetrics />
+            </Suspense>
+          )}
+          {/* Development accessibility auditing */}
+          {process.env.NODE_ENV === 'development' && (
+            <Suspense fallback={null}>
+              <AccessibilityAuditor />
             </Suspense>
           )}
         </AuthProvider>

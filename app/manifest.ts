@@ -16,9 +16,35 @@ export default function manifest(): MetadataRoute.Manifest {
     icons: [
       {
         src: "/new%20logo.jpg",
-        sizes: "any",
+        sizes: "192x192",
         type: "image/jpeg",
-        purpose: "any",
+        purpose: "maskable any",
+      },
+      {
+        src: "/new%20logo.jpg",
+        sizes: "512x512",
+        type: "image/jpeg",
+        purpose: "maskable any",
+      },
+    ],
+    categories: ["education", "productivity"],
+    dir: "ltr",
+    orientation: "portrait-primary",
+    prefer_related_applications: false,
+    shortcuts: [
+      {
+        name: "Past Papers",
+        short_name: "Papers",
+        description: "Browse and download past exam papers",
+        url: "/past-papers",
+        icons: [{ src: "/new%20logo.jpg", sizes: "96x96" }],
+      },
+      {
+        name: "GPA Calculator",
+        short_name: "GPA",
+        description: "Calculate your GPA and CGPA",
+        url: "/gpa-calculator",
+        icons: [{ src: "/new%20logo.jpg", sizes: "96x96" }],
       },
     ],
   }

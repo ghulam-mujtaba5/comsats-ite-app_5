@@ -4,8 +4,13 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "dev": "next dev",
-    "lint": "next lint",
+    "lint": "next lint --max-warnings 0",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "start": "next start",
     "db:seed": "tsx scripts/seed.ts",
     "db:seed-complete": "tsx scripts/seed-complete.ts",
@@ -13,7 +18,15 @@
     "schema:introspect": "node scripts/introspect-schema.mjs",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:e2e:headed": "playwright test --headed"
+    "test:e2e:headed": "playwright test --headed",
+    "test:google-standards": "playwright test tests/google-standards.spec.ts",
+    "audit:security": "npm audit --audit-level moderate",
+    "audit:accessibility": "axe http://localhost:3000",
+    "audit:performance": "lighthouse http://localhost:3000 --only-categories=performance --chrome-flags='--no-sandbox'",
+    "audit:seo": "lighthouse http://localhost:3000 --only-categories=seo --chrome-flags='--no-sandbox'",
+    "audit:all": "npm run audit:accessibility && npm run audit:performance && npm run audit:seo",
+    "validate": "npm run type-check && npm run lint && npm run format:check && npm run build",
+    "quality": "npm run validate && npm run test:google-standards"
   },
   "og-scripts": {
     "generate-og-png": "node scripts/generate-og-png.js"
