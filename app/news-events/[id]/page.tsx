@@ -64,13 +64,19 @@ export default async function EventPage({ params }: { params: { id: string } }) 
 	// Assume 2h duration if no explicit end
 	const endISO = startISO ? new Date(new Date(startISO).getTime() + 2*60*60*1000).toISOString() : undefined
 
+	const eventUrl = new URL(`/news-events/${evt.id}`, siteUrl).toString()
 	const eventLd = {
 		'@context': 'https://schema.org',
 		'@type': 'Event',
+		'@id': `${eventUrl}#event`,
 		name: evt.title,
 		description: evt.description,
 		startDate: startISO,
 		endDate: endISO,
+		inLanguage: 'en',
+		isAccessibleForFree: true,
+		keywords: evt.category || undefined,
+		about: evt.category ? { '@type': 'Thing', name: evt.category } : undefined,
 		eventStatus: 'https://schema.org/EventScheduled',
 		eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
 		location: {
@@ -78,9 +84,23 @@ export default async function EventPage({ params }: { params: { id: string } }) 
 			name: evt.location,
 			address: evt.location,
 		},
-		organizer: evt.organizer ? { '@type': 'Organization', name: evt.organizer } : { '@type': 'Organization', name: 'CampusAxis' },
+		organizer: evt.organizer 
+			? { '@type': 'Organization', name: evt.organizer, url: siteUrl } 
+			: { '@type': 'Organization', name: 'CampusAxis', url: siteUrl },
 		image: evt.image_url ? [new URL(evt.image_url, siteUrl).toString()] : [new URL('/og-preview.png', siteUrl).toString()],
-		url: new URL(`/news-events/${evt.id}`, siteUrl).toString(),
+		url: eventUrl,
+		maximumAttendeeCapacity: evt.capacity || undefined,
+		audience: { '@type': 'Audience', audienceType: 'Students' },
+		offers: evt.registration_open ? [{
+			'@type': 'Offer',
+			price: 0,
+			priceCurrency: 'USD',
+			availability: 'https://schema.org/InStock',
+			url: eventUrl,
+			validFrom: startISO,
+		}] : undefined,
+		performer: { '@type': 'Organization', name: 'CampusAxis' },
+		mainEntityOfPage: { '@type': 'WebPage', '@id': eventUrl },
 	}
 
 	const breadcrumb = jsonLdBreadcrumb([
