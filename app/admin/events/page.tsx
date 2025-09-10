@@ -24,7 +24,7 @@ interface Event {
   location: string
   category: "academic" | "cultural" | "sports" | "workshop" | "seminar"
   organizer: string
-  capacity?: number
+  capacity?: number | undefined
   registration_open: boolean
   image_url?: string
   created_at: string
@@ -198,21 +198,28 @@ export default function AdminEventsPage() {
     }
   }
 
-  const newEvent = (): Event => ({
-    id: '',
-    title: '',
-    description: '',
-    event_date: new Date().toISOString().split('T')[0],
-    event_time: '09:00',
-    location: '',
-    category: 'academic',
-    organizer: '',
-    capacity: undefined,
-    registration_open: true,
-    image_url: '',
-    created_at: '',
-    updated_at: ''
-  })
+  const newEvent = (): Event => {
+    const today = new Date()
+    const dateString = today.getFullYear() + '-' + 
+      String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+      String(today.getDate()).padStart(2, '0')
+    
+    return {
+      id: '',
+      title: '',
+      description: '',
+      event_date: dateString,
+      event_time: '09:00',
+      location: '',
+      category: 'academic',
+      organizer: '',
+      capacity: undefined,
+      registration_open: true,
+      image_url: '',
+      created_at: '',
+      updated_at: ''
+    }
+  }
 
   const formatDateTime = (date: string, time: string) => {
     const eventDate = new Date(`${date}T${time}`)

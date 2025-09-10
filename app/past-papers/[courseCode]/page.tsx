@@ -4,18 +4,19 @@ import { jsonLdBreadcrumb } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }: { params: { courseCode: string } }): Promise<Metadata> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+export async function generateMetadata({ params }: { params: Promise<{ courseCode: string }> }): Promise<Metadata> {
+  const siteUrl = process.env['NEXT_PUBLIC_SITE_URL'] || 'http://localhost:3000'
   try {
-    const res = await fetch(`${siteUrl}/api/past-papers/${params.courseCode}`, { cache: 'no-store' })
-    if (!res.ok) return { title: params.courseCode }
+    const { courseCode } = await params
+    const res = await fetch(`${siteUrl}/api/past-papers/${courseCode}`, { cache: 'no-store' })
+    if (!res.ok) return { title: courseCode }
     const json = await res.json()
     const course = json.data
-    if (!course) return { title: params.courseCode }
+    if (!course) return { title: courseCode }
 
     const title = `${course.name} (${course.code}) — Past Papers | CampusAxis`
     const description = course.description || `${course.name} past papers, quizzes, and exams. Download or preview PDFs for study and revision.`
-    const canonical = `${siteUrl}/past-papers/${encodeURIComponent(params.courseCode)}`
+    const canonical = `${siteUrl}/past-papers/${encodeURIComponent(courseCode)}`
 
     const defaultSvg = new URL('/og-preview.svg', siteUrl).toString()
     const defaultPng = new URL('/og-preview.png', siteUrl).toString()
@@ -44,21 +45,24 @@ export async function generateMetadata({ params }: { params: { courseCode: strin
           },
         ],
       },
-      alternates: { canonical: `/past-papers/${encodeURIComponent(params.courseCode)}` },
+      alternates: { canonical: `/past-papers/${encodeURIComponent(courseCode)}` },
       robots: {
         index: true,
         follow: true,
       },
     }
   } catch (e) {
-    return { title: params.courseCode }
+    const { courseCode } = await params
+    return { title: courseCode }
   }
 }
 
-export default async function Page({ params }: { params: { courseCode: string } }) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+export default async function Page({ params }: { params: Promise<{ courseCode: string }> }) {
+  const siteUrl = process.env['NEXT_PUBLIC_SITE_URL'] || 'http://localhost:3000'
   try {
-    const res = await fetch(`${siteUrl}/api/past-papers/${params.courseCode}`, { cache: 'no-store' })
+    const resolvedParams = await params
+    const { courseCode } = resolvedParams
+    const res = await fetch(`${siteUrl}/api/past-papers/${courseCode}`, { cache: 'no-store' })
     const json = res.ok ? await res.json() : null
     const course = json?.data || null
 
@@ -79,7 +83,7 @@ export default async function Page({ params }: { params: { courseCode: string } 
     const breadcrumb = jsonLdBreadcrumb([
       { name: 'Home', path: '/' },
       { name: 'Past Papers', path: '/past-papers' },
-      { name: course?.name || params.courseCode, path: `/past-papers/${encodeURIComponent(params.courseCode)}` },
+      { name: course?.name || courseCode, path: `/past-papers/${encodeURIComponent(courseCode)}` },
     ])
 
     return (
@@ -87,10 +91,11 @@ export default async function Page({ params }: { params: { courseCode: string } 
         {jsonLd && (
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumb]) }} />
         )}
-        <CourseClient params={params} />
+        <CourseClient params={resolvedParams} />
       </>
     )
   } catch (e) {
-    return <CourseClient params={params} />
+    const resolvedParams = await params
+    return <CourseClient params={resolvedParams} />
   }
 }

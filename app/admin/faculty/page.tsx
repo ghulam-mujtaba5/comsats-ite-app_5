@@ -179,7 +179,9 @@ export default function AdminFacultyPage() {
     const text = await file.text()
     const lines = text.split(/\r?\n/).filter(Boolean)
     if (lines.length < 2) return
-    const header = lines[0].split(",").map(h => h.replaceAll('"','').trim())
+    const firstLine = lines[0]
+    if (!firstLine) return
+    const header = firstLine.split(",").map(h => h.replaceAll('"','').trim())
     const { toast } = useToast()
     // Validate required headers before attempting import
     const required = ["name","title","department","email","office","phone","specialization","courses","education","experience","profile_image"]
