@@ -1,4 +1,4 @@
-import { jsonLdPerson, jsonLdAggregateRating, jsonLdBreadcrumb, jsonLdReview, createMetadata } from '@/lib/seo'
+import { jsonLdBreadcrumb, createMetadata } from '@/lib/seo'
 import { type Faculty, type Review, calculateReviewStats } from '@/lib/faculty-data'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -124,43 +124,56 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
   const { faculty, reviews } = await fetchFacultyAndReviews(id)
   if (!faculty) return notFound()
   const stats = calculateReviewStats(reviews)
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const facultyUrl = new URL(`/faculty/${faculty.id}`, siteUrl).toString()
 
-  // Limit number of review JSON-LD nodes to avoid extremely large script tags
-  const jsonLd = [
-    jsonLdPerson({
-      name: faculty.name,
-      jobTitle: faculty.title,
-      department: faculty.department,
-      image: faculty.profileImage,
-      url: `/faculty/${faculty.id}`,
-      email: faculty.email,
-      phone: faculty.phone,
-      office: faculty.office,
-      specializations: faculty.specialization,
-    }),
-    jsonLdAggregateRating({
+  // Construct consolidated Person JSON-LD with nested aggregateRating, reviews, and courses taught.
+  const personJsonLd: any = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: faculty.name,
+    jobTitle: faculty.title || undefined,
+    worksFor: { '@type': 'Organization', name: 'COMSATS University Islamabad, Lahore Campus' },
+    department: faculty.department || undefined,
+    image: faculty.profileImage ? new URL(faculty.profileImage, siteUrl).toString() : undefined,
+    url: facultyUrl,
+    email: faculty.email || undefined,
+    telephone: faculty.phone || undefined,
+    workLocation: faculty.office ? { '@type': 'Place', name: faculty.office } : undefined,
+    knowsAbout: faculty.specialization?.length ? faculty.specialization : undefined,
+    aggregateRating: faculty.totalReviews > 0 ? {
+      '@type': 'AggregateRating',
       ratingValue: faculty.averageRating,
       reviewCount: faculty.totalReviews,
       bestRating: 5,
       worstRating: 1,
-    }),
-    jsonLdBreadcrumb([
-      { name: 'Home', path: '/' },
-      { name: 'Faculty', path: '/faculty' },
-      { name: faculty.name, path: `/faculty/${faculty.id}` },
-    ]),
-    ...reviews.slice(0, 50).map(r => jsonLdReview({
-      authorName: r.studentName,
+    } : undefined,
+    review: reviews.slice(0, 10).map(r => ({
+      '@type': 'Review',
+      author: { '@type': 'Person', name: r.studentName },
       reviewBody: r.comment,
-      reviewRating: { ratingValue: r.rating, bestRating: 5, worstRating: 1 },
-      itemReviewed: { name: faculty.name, url: `/faculty/${faculty.id}` },
       datePublished: r.createdAt,
-    }))
-  ]
+      reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+    })),
+    teaches: faculty.courses?.length ? faculty.courses.map(c => ({
+      '@type': 'Course',
+      name: c,
+      provider: { '@type': 'CollegeOrUniversity', name: 'COMSATS University Islamabad' }
+    })) : undefined,
+  }
+
+  // Breadcrumb separate object
+  const breadcrumbJsonLd = jsonLdBreadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'Faculty', path: '/faculty' },
+    { name: faculty.name, path: `/faculty/${faculty.id}` },
+  ])
+
+  const jsonLd = [personJsonLd, breadcrumbJsonLd]
 
   return (
     <div className="min-h-screen flex flex-col">
-      <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+  <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1 py-8 px-4">
         <div className="container mx-auto max-w-6xl">
           <Card className="mb-8">
