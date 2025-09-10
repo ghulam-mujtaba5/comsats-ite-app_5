@@ -51,14 +51,14 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
     if (process.env.NODE_ENV !== 'production' && (!url || !anon)) return devFallback()
 
     const cookieStore = await (cookies() as any)
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  process.env['NEXT_PUBLIC_SUPABASE_URL']!,
+  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
       {
         cookies: {
           get(name: string) {
@@ -121,8 +121,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  process.env['NEXT_PUBLIC_SUPABASE_URL']!,
+  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
     {
       cookies: {
         get(name: string) {
@@ -140,8 +140,8 @@ export async function POST(request: NextRequest) {
 
   try {
     // Dev fallback (non-production only): allow creating mock event when Supabase env is missing
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
     if (process.env.NODE_ENV !== 'production' && (!url || !anon)) {
       const body = await request.json()
       const { title, description, event_date, event_time, location, category, organizer, capacity, registration_open, image_url } = body
@@ -199,9 +199,9 @@ export async function POST(request: NextRequest) {
     if (access.userId) payload.created_by = access.userId
 
     // Use service-role for writes if available to bypass RLS safely (endpoint still gated by requireAdmin)
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
     const writeClient = serviceKey
-      ? createServiceClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey)
+  ? createServiceClient(process.env['NEXT_PUBLIC_SUPABASE_URL']!, serviceKey)
       : supabase
 
     const { data, error } = await writeClient

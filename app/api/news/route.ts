@@ -45,8 +45,8 @@ import { requireAdmin } from '@/lib/admin-access'
 // create index if not exists ix_news_status on news(status);
 
 export async function GET(req: NextRequest) {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
   if (!url || !anon) {
     // Dev fallback: serve minimal published news so UI renders during local setup
     return NextResponse.json({

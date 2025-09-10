@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next"
 export const dynamic = 'force-dynamic'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  const siteUrl = process.env['NEXT_PUBLIC_SITE_URL'] || "http://localhost:3000"
   const now = new Date()
 
   const staticPaths: Array<{ path: string; changeFrequency?: MetadataRoute.Sitemap[0]["changeFrequency"]; priority?: number }> = [

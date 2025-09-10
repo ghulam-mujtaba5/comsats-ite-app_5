@@ -83,11 +83,11 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-    const BUCKET = process.env.SUPABASE_PAST_PAPERS_BUCKET || 'papers'
-    const USE_SIGNED_URLS = String(process.env.SUPABASE_USE_SIGNED_URLS || '').toLowerCase() === 'true'
+  const supabaseUrl = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const supabaseAnonKey = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
+  const BUCKET = process.env['SUPABASE_PAST_PAPERS_BUCKET'] || 'papers'
+  const USE_SIGNED_URLS = String(process.env['SUPABASE_USE_SIGNED_URLS'] || '').toLowerCase() === 'true'
 
     // Dev fallback: if Supabase env is missing, accept the upload and return a mock response
     if (!supabaseUrl || !supabaseAnonKey || !serviceKey) {

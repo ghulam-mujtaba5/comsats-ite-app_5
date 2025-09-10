@@ -41,9 +41,9 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
     // In dev, only fallback if we truly cannot talk to Supabase (no URL or neither anon nor service key)
     if (process.env.NODE_ENV !== 'production' && (!url || (!anon && !serviceKey))) {
       return devFallback()
@@ -142,8 +142,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+  process.env['NEXT_PUBLIC_SUPABASE_URL'] || '',
+  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] || '',
     {
       cookies: {
         get(name: string) { return cookieStore.get(name)?.value },
@@ -155,9 +155,9 @@ export async function POST(request: NextRequest) {
   
   try {
     // Dev fallback (non-production only): if public env is not configured AND no service key, echo back a mock created item
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
     if (process.env.NODE_ENV !== 'production' && (!url || !anon) && !serviceKey) {
       const body = await request.json()
       const { title, content, category, is_important, image_url } = body
@@ -203,7 +203,7 @@ export async function POST(request: NextRequest) {
 
     // Use service-role for writes if available to bypass RLS safely (endpoint still gated by requireAdmin)
     const writeClient = serviceKey
-      ? createServiceClient(process.env.NEXT_PUBLIC_SUPABASE_URL || '', serviceKey)
+  ? createServiceClient(process.env['NEXT_PUBLIC_SUPABASE_URL'] || '', serviceKey)
       : supabase
 
     const { data, error } = await writeClient

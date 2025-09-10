@@ -4,8 +4,8 @@ import { mockPastPapers } from "@/lib/past-papers-data";
 
 export async function GET() {
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
 
     // Dev/mock fallback when env is missing
     if (!url || !serviceKey) {

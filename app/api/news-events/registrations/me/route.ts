@@ -6,8 +6,8 @@ import { cookies } from 'next/headers'
 export async function GET(_req: NextRequest) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  process.env['NEXT_PUBLIC_SUPABASE_URL']!,
+  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
     {
       cookies: {
         get(name: string) { return cookieStore.get(name)?.value },

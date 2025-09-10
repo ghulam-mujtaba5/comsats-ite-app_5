@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 
 export async function POST(req: NextRequest) {
   try {
-    const adminToken = process.env.REVIEW_ADMIN_TOKEN
+  const adminToken = process.env['REVIEW_ADMIN_TOKEN']
     const auth = req.headers.get('authorization') || ''
     const token = auth.startsWith('Bearer ') ? auth.slice(7) : ''
     if (!adminToken || token !== adminToken) {
@@ -14,8 +14,8 @@ export async function POST(req: NextRequest) {
     if (!id || !status || !['approved', 'rejected', 'pending'].includes(status)) {
       return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
     }
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const serviceKey = process.env['SUPABASE_SERVICE_ROLE_KEY']
     if (!url || !serviceKey) {
       return NextResponse.json({ error: 'Supabase env vars missing (NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)' }, { status: 500 })
     }

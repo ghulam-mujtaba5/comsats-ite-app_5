@@ -5,8 +5,8 @@ import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
   if (!url || !anon) return NextResponse.json({ error: 'Supabase env missing' }, { status: 500 })
   const supabase = createClient(url, anon)
 
