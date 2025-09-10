@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 import { requireAdmin } from '@/lib/admin-access'
 
-const BUCKET = process.env.SUPABASE_RESOURCES_BUCKET || 'resources'
-const USE_SIGNED_URLS = String(process.env.SUPABASE_USE_SIGNED_URLS || '').toLowerCase() === 'true'
+const BUCKET = process.env['SUPABASE_RESOURCES_BUCKET'] || 'resources'
+const USE_SIGNED_URLS = String(process.env['SUPABASE_USE_SIGNED_URLS'] || '').toLowerCase() === 'true'
 const MAX_FILE_BYTES = 50 * 1024 * 1024 // 50 MB
 const ALLOWED_TYPES = new Set<string>([
   'application/pdf',
@@ -188,15 +188,15 @@ export async function PUT(req: NextRequest) {
   }
 
   const payload: Record<string, any> = {}
-  if (title !== null) payload.title = title
-  if (description !== null) payload.description = description
-  if (department !== null) payload.department = department
-  if (term !== null) payload.term = term
-  if (external_url !== null) payload.external_url = external_url || null
-  if (file_url !== undefined) payload.file_url = file_url
-  if (size_bytes !== undefined) payload.size_bytes = size_bytes
-  if (mime_type !== undefined) payload.mime_type = mime_type
-  if (storage_path !== null) payload.storage_path = storage_path
+  if (title !== null) payload['title'] = title
+  if (description !== null) payload['description'] = description
+  if (department !== null) payload['department'] = department
+  if (term !== null) payload['term'] = term
+  if (external_url !== null) payload['external_url'] = external_url || null
+  if (file_url !== undefined) payload['file_url'] = file_url
+  if (size_bytes !== undefined) payload['size_bytes'] = size_bytes
+  if (mime_type !== undefined) payload['mime_type'] = mime_type
+  if (storage_path !== null) payload['storage_path'] = storage_path
 
   const { data, error } = await supabaseAdmin
     .from('resources')
