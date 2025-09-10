@@ -22,10 +22,14 @@ function parseCSV(text: string): { headers: string[], rows: string[][] } {
   // very small CSV parser (no quotes/escapes). Expect comma-separated, newline rows.
   const lines = text.trim().split(/\r?\n/)
   if (lines.length === 0) return { headers: [], rows: [] }
+  
   const firstLine = lines[0]
-  if (!firstLine) return { headers: [], rows: [] }
+  if (!firstLine || firstLine.trim() === '') return { headers: [], rows: [] }
+  
   const headers = firstLine.split(',').map(s => s.trim())
-  const rows = lines.slice(1).map(l => l.split(',').map(s => s.trim()))
+  const rows = lines.slice(1)
+    .filter(line => line.trim() !== '')
+    .map(l => l.split(',').map(s => s.trim()))
   return { headers, rows }
 }
 

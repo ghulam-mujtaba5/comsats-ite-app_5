@@ -21,10 +21,10 @@ async function checkAdminAccess(supabase: any) {
 
 export async function GET(request: NextRequest) {
   // Dev fallback: return mock admin users without Supabase env
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  const service = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (process.env.NODE_ENV !== 'production' && (!url || !anon || !service)) {
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
+  const service = process.env['SUPABASE_SERVICE_ROLE_KEY']
+  if (process.env['NODE_ENV'] !== 'production' && (!url || !anon || !service)) {
     const now = new Date().toISOString()
     return NextResponse.json([
       {
@@ -112,10 +112,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   // Dev fallback: accept and echo a mock admin user
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  const service = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (process.env.NODE_ENV !== 'production' && (!url || !anon || !service)) {
+  const url = process.env['NEXT_PUBLIC_SUPABASE_URL']
+  const anon = process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']
+  const service = process.env['SUPABASE_SERVICE_ROLE_KEY']
+  if (process.env['NODE_ENV'] !== 'production' && (!url || !anon || !service)) {
     const { userId, role, permissions } = await request.json()
     if (!userId || !role) {
       return NextResponse.json({ error: 'User ID and role are required' }, { status: 400 })
