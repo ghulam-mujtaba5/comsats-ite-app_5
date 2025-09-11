@@ -27,6 +27,33 @@
 				"$tsc"
 			],
 			"group": "build"
+		},
+		{
+			"label": "Remove picture routes",
+			"type": "shell",
+			"command": "pwsh",
+			"args": [
+				"-NoLogo",
+				"-NoProfile",
+				"-Command",
+				"Remove-Item -Recurse -Force \"E:\\comsats-ite-app_5\\app\\pictures\\ghulam-mujtaba.png\"; Remove-Item -Recurse -Force \"E:\\comsats-ite-app_5\\app\\pictures\\azan-wahla.png\"; Remove-Item -Recurse -Force \"E:\\comsats-ite-app_5\\app\\pictures\\muhammad-waqar-ul-mulk.png\""
+			],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "Build Next.js after static rename",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
 		}
 	]
 }
