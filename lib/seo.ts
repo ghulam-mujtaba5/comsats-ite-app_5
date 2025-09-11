@@ -82,6 +82,21 @@ export function jsonLdOrganization() {
   }
 }
 
+// Educational organization (more specific than generic Organization) for enhanced relevance
+export function jsonLdEducationalOrganization() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollegeOrUniversity',
+    name: 'COMSATS University Islamabad (Student Support via CampusAxis)',
+    url: siteUrl,
+    sameAs: [
+      'https://www.comsats.edu.pk/',
+    ],
+    logo: `${siteUrl}/new-logo.jpg`,
+    description: 'CampusAxis provides COMSATS students with past papers, GPA calculators, fee challan help, scholarships and academic guidance in Pakistan.',
+  }
+}
+
 export function jsonLdBreadcrumb(items: Array<{ name: string; path: string }>) {
   return {
     "@context": "https://schema.org",

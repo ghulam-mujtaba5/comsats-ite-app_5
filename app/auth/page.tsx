@@ -13,6 +13,21 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 import Image from "next/image"
 
+export const metadata = {
+  title: 'Student Login & Sign Up – COMSATS Portal Access',
+  description: 'Sign in to CampusAxis to access COMSATS past papers, GPA calculators, fee challan guide, faculty reviews and student resources. Create a free account or log in securely.',
+  alternates: { canonical: (process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site') + '/auth' },
+  openGraph: {
+    title: 'Student Login & Sign Up – COMSATS Portal Access',
+    description: 'Log in to CampusAxis for COMSATS student tools: past papers, GPA calculators, fee challan assistance and more.',
+    url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site') + '/auth',
+  },
+  twitter: {
+    title: 'Student Login & Sign Up – COMSATS Portal Access',
+    description: 'Access COMSATS student tools on CampusAxis. Secure login or create a free account.',
+  }
+}
+
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
   const { isAuthenticated, isLoading } = useAuth()
@@ -61,8 +76,31 @@ export default function AuthPage() {
     }
   ]
 
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Why should I create a CampusAxis account?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A free account lets you personalize academic tools, access past papers faster, and sync preferences (theme, history) across devices.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is CampusAxis affiliated with COMSATS University?',
+        acceptedAnswer: { '@type': 'Answer', text: 'CampusAxis is an independent student support platform providing study resources and utilities for COMSATS students.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my data secure?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. We use secure authentication and do not sell or expose your personal academic data.' }
+      }
+    ]
+  }
+
   return (
     <div className="min-h-screen bg-mesh overflow-hidden relative">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       {/* Enhanced animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />

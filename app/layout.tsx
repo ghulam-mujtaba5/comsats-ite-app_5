@@ -9,7 +9,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/layout/header"
 import { FooterConditional } from "@/components/layout/footer-conditional"
 import { Toaster } from "@/components/ui/toaster"
-import { jsonLdOrganization, jsonLdWebSite, jsonLdSiteNavigation } from "@/lib/seo"
+import { jsonLdOrganization, jsonLdWebSite, jsonLdSiteNavigation, jsonLdEducationalOrganization } from "@/lib/seo"
 import Script from "next/script"
 import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
 import { WebVitalsReporter } from "@/components/analytics/web-vitals-reporter"
@@ -187,6 +187,10 @@ html {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdEducationalOrganization()) }}
         />
         <script
           type="application/ld+json"

@@ -20,6 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/news", changeFrequency: "weekly", priority: 0.6 },
     { path: "/news-events", changeFrequency: "weekly", priority: 0.6 },
     { path: "/past-papers", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/fee-challan-reissuance", changeFrequency: "monthly", priority: 0.7 },
     { path: "/gpa-calculator", changeFrequency: "yearly", priority: 0.7 },
     { path: "/gpa-calculator/semester", changeFrequency: "yearly", priority: 0.65 },
     { path: "/gpa-calculator/cumulative", changeFrequency: "yearly", priority: 0.65 },
