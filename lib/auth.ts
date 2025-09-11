@@ -12,14 +12,14 @@ export const validateCUIEmail = (email: string): boolean => {
   return strict.test(email)
 }
 
-// Validate a COMSATS registration number like: fa22-bse-105
-export const validateCUIRegistration = (reg: string): boolean => {
+// Validate a registration number like fa22-bse-105
+export const validateCUIRegistration = (regNo: string): boolean => {
   const strict = /^[a-zA-Z]{2}\d{2}-[a-zA-Z]{2,5}-\d{3}$/
-  return strict.test(reg)
+  return strict.test(regNo)
 }
 
-// Convert a registration number (fa22-bse-105) into the institutional email
-export const regNoToEmail = (reg: string): string | null => {
-  if (!validateCUIRegistration(reg)) return null
-  return `${reg.toLowerCase()}@cuilahore.edu.pk`
+// Convert registration number to institutional email
+export const regNoToEmail = (regNo: string): string | null => {
+  if (!validateCUIRegistration(regNo)) return null
+  return `${regNo.toLowerCase()}@cuilahore.edu.pk`
 }

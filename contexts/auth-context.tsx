@@ -107,14 +107,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Pull a login hint if present (set by login form using reg no)
       let loginHint: string | undefined
       try { loginHint = typeof window !== 'undefined' ? sessionStorage.getItem('google_login_hint') || undefined : undefined } catch {}
-      const { error } = await supabase.auth.signInWithOAuth({
+        const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo,
           queryParams: {
             access_type: 'offline',
-            // Always show account chooser so users can pick their COMSATS account easily
-            prompt: 'select_account consent',
+                // Show account chooser without pre-filling domain hints
+                prompt: 'select_account',
             ...(loginHint ? { login_hint: loginHint } : {}),
           },
         },

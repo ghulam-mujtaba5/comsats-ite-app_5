@@ -271,17 +271,11 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
           Use your COMSATS Google account (e.g., fa00-bse-000@cuilahore.edu.pk). You’ll be redirected to Google to continue.
         </p>
 
-        {/* Policy hint and explanation */}
-        <div className="text-center space-y-2">
+        {/* Policy hint (provider-neutral) */}
+        <div className="text-center">
           <p className="text-xs text-muted-foreground">
-            Use your COMSATS Google account (<span className="font-mono">@cuilahore.edu.pk</span>)
+            Use your COMSATS Google account (<span className="font-mono">@cuilahore.edu.pk</span>).
           </p>
-          <details className="text-xs text-muted-foreground mx-auto w-fit">
-            <summary className="cursor-pointer hover:text-foreground">Why do I see supabase.co?</summary>
-            <div className="mt-2 max-w-sm text-left">
-              We use Supabase to securely complete Google signDin. Your session comes back to CampusAxis, and we only allow university emails.
-            </div>
-          </details>
         </div>
 
         {/* Contextual Actions Under Form */}
