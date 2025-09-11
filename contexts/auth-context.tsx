@@ -110,7 +110,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           redirectTo,
           queryParams: {
             access_type: 'offline',
-            prompt: 'consent',
+            // Always show account chooser so users can pick their COMSATS account easily
+            prompt: 'select_account consent',
             // Hint Google to show only COMSATS accounts; server will still enforce.
             hd: 'cuilahore.edu.pk',
           },
