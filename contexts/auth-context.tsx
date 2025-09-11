@@ -111,6 +111,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
+            // Hint Google to show only COMSATS accounts; server will still enforce.
+            hd: 'cuilahore.edu.pk',
           },
         },
       } as any)

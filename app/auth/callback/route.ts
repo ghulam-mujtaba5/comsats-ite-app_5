@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { validateCUIEmail } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
@@ -24,6 +25,16 @@ export async function GET(request: NextRequest) {
     
     try {
       await supabase.auth.exchangeCodeForSession(code)
+      // After session is established, enforce institution email for Google OAuth
+      const { data: userData } = await supabase.auth.getUser()
+      const email = userData.user?.email || ''
+      if (!validateCUIEmail(email)) {
+        // Immediately sign out invalid emails and redirect back with error
+        await supabase.auth.signOut()
+        const err = 'invalid_domain'
+        const nextSafe = next.startsWith('/') ? next : '/'
+        return NextResponse.redirect(`${requestUrl.origin}/auth?error=${err}&next=${encodeURIComponent(nextSafe)}`)
+      }
     } catch (error) {
       console.error('Error exchanging code for session:', error)
       return NextResponse.redirect(`${requestUrl.origin}/auth?error=callback_error`)

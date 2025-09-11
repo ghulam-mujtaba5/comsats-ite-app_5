@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, GraduationCap, Sparkles, Shield, Users } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { useToast } from "@/hooks/use-toast"
 import Image from "next/image"
 
 export default function AuthPage() {
@@ -17,6 +18,7 @@ export default function AuthPage() {
   const { isAuthenticated, isLoading } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { toast } = useToast()
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -26,6 +28,20 @@ export default function AuthPage() {
       router.replace(safeNext)
     }
   }, [isAuthenticated, isLoading, router, searchParams])
+
+  // Surface OAuth errors (e.g., invalid domain)
+  useEffect(() => {
+    const error = searchParams?.get('error')
+    if (error === 'invalid_domain') {
+      toast({
+        title: 'Use your university Google account',
+        description: 'Please sign in with your COMSATS email (e.g., fa22-bse-105@cuilahore.edu.pk).',
+        variant: 'destructive',
+      })
+    } else if (error === 'callback_error') {
+      toast({ title: 'Sign-in failed', description: 'Could not complete Google sign-in. Please try again.' , variant: 'destructive'})
+    }
+  }, [searchParams, toast])
 
   const features = [
     {

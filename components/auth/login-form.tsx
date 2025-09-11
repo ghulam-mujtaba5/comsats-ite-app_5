@@ -238,8 +238,8 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
           className="w-full h-12 rounded-xl font-semibold flex items-center justify-center gap-3"
           disabled={isLoading}
         >
-          <Image src="/google-logo.png" alt="Google" width={18} height={18} />
-          Continue with Google
+          <Image src="/google.svg" alt="Google icon" width={18} height={18} priority />
+          <span>Continue with Google</span>
         </Button>
 
         {/* Contextual Actions Under Form */}
