@@ -17,6 +17,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<any>
   register: (email: string, password: string, name: string) => Promise<any>
   logout: () => Promise<void>
+  loginWithGoogle: (nextPath?: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -98,6 +99,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(false)
   }
 
+  const loginWithGoogle = async (nextPath: string = '/') => {
+    setIsLoading(true)
+    try {
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
+      const redirectTo = `${siteUrl}/auth/callback?next=${encodeURIComponent(nextPath)}`
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        },
+      } as any)
+      if (error) throw error
+    } finally {
+      // Do not clear loading here; OAuth redirects away. If it fails early, finally still runs.
+      setIsLoading(false)
+    }
+  }
+
   const contextValue: AuthContextType = {
     user,
     isLoading,
@@ -105,6 +128,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     login,
     register,
     logout,
+    loginWithGoogle,
   }
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

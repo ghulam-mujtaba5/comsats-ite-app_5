@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast"
 import { validateCUIEmail } from "@/lib/auth"
 import { useAuth } from "@/contexts/auth-context"
 import { Eye, EyeOff, Loader2, Mail, Lock, ArrowRight } from "lucide-react"
+import Image from 'next/image'
 
 interface LoginFormProps {
   onToggleMode: () => void
@@ -22,7 +23,7 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const { toast } = useToast()
   const [resetLoading, setResetLoading] = useState(false)
-  const { login, isLoading } = useAuth()
+  const { login, isLoading, loginWithGoogle } = useAuth()
 
   const normalizeError = (raw: string) => {
     const lower = raw.toLowerCase()
@@ -220,6 +221,25 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
               <ArrowRight className="h-5 w-5" />
             </div>
           )}
+        </Button>
+
+        {/* Or divider */}
+        <div className="flex items-center gap-4 my-2">
+          <div className="h-px bg-border flex-1" />
+          <span className="text-xs text-muted-foreground">or</span>
+          <div className="h-px bg-border flex-1" />
+        </div>
+
+        {/* Google Sign In */}
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => loginWithGoogle('/dashboard')}
+          className="w-full h-12 rounded-xl font-semibold flex items-center justify-center gap-3"
+          disabled={isLoading}
+        >
+          <Image src="/google-logo.png" alt="Google" width={18} height={18} />
+          Continue with Google
         </Button>
 
         {/* Contextual Actions Under Form */}
