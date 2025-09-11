@@ -3,6 +3,6 @@ import { NextResponse } from 'next/server'
 
 export function GET(request: NextRequest) {
   const origin = new URL(request.url).origin
-  const target = new URL('/new%20logo.jpg', origin)
+  const target = new URL('/new-logo.jpg', origin)
   return NextResponse.redirect(target)
 }
