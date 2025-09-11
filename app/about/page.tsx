@@ -101,6 +101,123 @@ export default function AboutUsPage() {
           </div>
         </section>
 
+          {/* Leadership section moved below Mission for better visual hierarchy */}
+          <section className="py-12 px-4">
+            <div className="app-container">
+              <div className="text-center mb-8">
+                <Badge variant="soft" className="uppercase tracking-wide text-xs">Leadership</Badge>
+                <h3 className="text-2xl lg:text-3xl font-semibold mt-2">CampusAxis Leadership</h3>
+                <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+                  The team behind CampusAxis — leading with vision, engineering excellence, and student-first focus.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                {[
+                  {
+                    name: 'Ghulam Mujtaba',
+                    role: 'Founder & CTO',
+                    img: '/pictures/ghulam-mujtaba.png',
+                    bio: 'Architects the CampusAxis platform — focusing on performance, security, and a seamless student experience across reviews, resources, and GPA tools.',
+                    github: 'https://github.com/ghulammujtaba',
+                    linkedin: 'https://www.linkedin.com/in/ghulammujtaba/',
+                    website: 'https://ghulammujtaba.com/'
+                  },
+                  {
+                    name: 'Azan Wahla',
+                    role: 'Founder & CEO',
+                    img: '/pictures/azan-wahla.png',
+                    bio: "Sets the product vision for CampusAxis — student‑first roadmap, university alignment, and partnerships that bring real value to COMSATS students.",
+                    github: '#',
+                    linkedin: '#'
+                  },
+                  {
+                    name: 'Muhammad Waqar ul Mulk',
+                    role: 'Founder & COO/CMO',
+                    img: '/pictures/muhammad-waqar-ul-mulk.png',
+                    bio: 'Drives CampusAxis operations and outreach — content quality, student society collaboration, and growth of the campus community.',
+                    github: '#',
+                    linkedin: '#'
+                  }
+                ].map((person, i) => (
+                  <Card
+                    key={i}
+                    className="text-center p-5 rounded-2xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border border-transparent hover:border-primary/20 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 group"
+                  >
+                    <CardContent>
+                      <div className="mx-auto w-28 h-28 rounded-full p-[2px] mb-4 bg-gradient-to-br from-blue-500/60 via-primary/60 to-purple-500/60 group-hover:from-blue-500 group-hover:to-purple-500 transition-colors">
+                        <div className="relative w-full h-full rounded-full overflow-hidden ring-2 ring-white/80 dark:ring-slate-900/80">
+                          <Image src={person.img} alt={person.name} fill className="object-cover" sizes="112px" />
+                        </div>
+                      </div>
+                      <div className="font-semibold text-lg">{person.name}</div>
+                      <div className="text-xs inline-flex items-center gap-2 px-2 py-1 rounded-full bg-primary/10 text-primary font-medium mt-1 mb-2">
+                        {person.role}
+                      </div>
+                      <div className="text-sm text-muted-foreground mb-4 leading-relaxed">{person.bio}</div>
+                      <div className="flex items-center justify-center gap-3">
+                        <a aria-label={`${person.name} on GitHub`} href={person.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors">
+                          <Github className="h-4 w-4" />
+                        </a>
+                        <a aria-label={`${person.name} on LinkedIn`} href={person.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors">
+                          <Linkedin className="h-4 w-4" />
+                        </a>
+                        {('website' in person) && (person as any).website ? (
+                          <a
+                            aria-label={`${person.name} website`}
+                            href={(person as any).website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Website"
+                            className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors"
+                          >
+                            <Globe className="h-4 w-4" />
+                          </a>
+                        ) : null}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Structured data for leaders */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify([
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'Person',
+                  name: 'Ghulam Mujtaba',
+                  jobTitle: 'Founder & CTO',
+                  url: 'https://ghulammujtaba.com/',
+                  image: '/pictures/ghulam-mujtaba.png',
+                  sameAs: [
+                    'https://github.com/ghulammujtaba',
+                    'https://www.linkedin.com/in/ghulammujtaba/'
+                  ],
+                  worksFor: { '@type': 'Organization', name: 'CampusAxis' }
+                },
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'Person',
+                  name: 'Azan Wahla',
+                  jobTitle: 'Founder & CEO',
+                  image: '/pictures/azan-wahla.png',
+                  worksFor: { '@type': 'Organization', name: 'CampusAxis' }
+                },
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'Person',
+                  name: 'Muhammad Waqar ul Mulk',
+                  jobTitle: 'Founder & COO/CMO',
+                  image: '/pictures/muhammad-waqar-ul-mulk.png',
+                  worksFor: { '@type': 'Organization', name: 'CampusAxis' }
+                }
+              ])
+            }}
+          />
         {/* Our Values & Principles */}
         <section className="py-12 px-4">
           <div className="app-container">
@@ -172,123 +289,6 @@ export default function AboutUsPage() {
 
         <div className="my-12 border-t border-muted-foreground/10" />
 
-        {/* Leadership section moved up for better visual hierarchy */}
-        <section className="py-12 px-4">
-          <div className="app-container">
-            <div className="text-center mb-8">
-              <Badge variant="soft" className="uppercase tracking-wide text-xs">Leadership</Badge>
-              <h3 className="text-2xl lg:text-3xl font-semibold mt-2">CampusAxis Leadership</h3>
-              <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
-                The team behind CampusAxis — leading with vision, engineering excellence, and student-first focus.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {[
-                {
-                  name: 'Ghulam Mujtaba',
-                  role: 'Founder & CTO',
-                  img: '/pictures/ghulam-mujtaba.png',
-                  bio: 'Architects the CampusAxis platform — focusing on performance, security, and a seamless student experience across reviews, resources, and GPA tools.',
-                  github: 'https://github.com/ghulammujtaba',
-                  linkedin: 'https://www.linkedin.com/in/ghulammujtaba/',
-                  website: 'https://ghulammujtaba.com/'
-                },
-                {
-                  name: 'Azan Wahla',
-                  role: 'Founder & CEO',
-                  img: '/pictures/azan-wahla.png',
-                  bio: "Sets the product vision for CampusAxis — student‑first roadmap, university alignment, and partnerships that bring real value to COMSATS students.",
-                  github: '#',
-                  linkedin: '#'
-                },
-                {
-                  name: 'Muhammad Waqar ul Mulk',
-                  role: 'Founder & COO/CMO',
-                  img: '/pictures/muhammad-waqar-ul-mulk.png',
-                  bio: 'Drives CampusAxis operations and outreach — content quality, student society collaboration, and growth of the campus community.',
-                  github: '#',
-                  linkedin: '#'
-                }
-              ].map((person, i) => (
-                <Card
-                  key={i}
-                  className="text-center p-5 rounded-2xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border border-transparent hover:border-primary/20 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 group"
-                >
-                  <CardContent>
-                    <div className="mx-auto w-28 h-28 rounded-full p-[2px] mb-4 bg-gradient-to-br from-blue-500/60 via-primary/60 to-purple-500/60 group-hover:from-blue-500 group-hover:to-purple-500 transition-colors">
-                      <div className="relative w-full h-full rounded-full overflow-hidden ring-2 ring-white/80 dark:ring-slate-900/80">
-                        <Image src={person.img} alt={person.name} fill className="object-cover" sizes="112px" />
-                      </div>
-                    </div>
-                    <div className="font-semibold text-lg">{person.name}</div>
-                    <div className="text-xs inline-flex items-center gap-2 px-2 py-1 rounded-full bg-primary/10 text-primary font-medium mt-1 mb-2">
-                      {person.role}
-                    </div>
-                    <div className="text-sm text-muted-foreground mb-4 leading-relaxed">{person.bio}</div>
-                    <div className="flex items-center justify-center gap-3">
-                      <a aria-label={`${person.name} on GitHub`} href={person.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors">
-                        <Github className="h-4 w-4" />
-                      </a>
-                      <a aria-label={`${person.name} on LinkedIn`} href={person.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors">
-                        <Linkedin className="h-4 w-4" />
-                      </a>
-                      {('website' in person) && (person as any).website ? (
-                        <a
-                          aria-label={`${person.name} website`}
-                          href={(person as any).website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title="Website"
-                          className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors"
-                        >
-                          <Globe className="h-4 w-4" />
-                        </a>
-                      ) : null}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Structured data for leaders */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                '@context': 'https://schema.org',
-                '@type': 'Person',
-                name: 'Ghulam Mujtaba',
-                jobTitle: 'Founder & CTO',
-                url: 'https://ghulammujtaba.com/',
-                image: '/pictures/ghulam-mujtaba.png',
-                sameAs: [
-                  'https://github.com/ghulammujtaba',
-                  'https://www.linkedin.com/in/ghulammujtaba/'
-                ],
-                worksFor: { '@type': 'Organization', name: 'CampusAxis' }
-              },
-              {
-                '@context': 'https://schema.org',
-                '@type': 'Person',
-                name: 'Azan Wahla',
-                jobTitle: 'Founder & CEO',
-                image: '/pictures/azan-wahla.png',
-                worksFor: { '@type': 'Organization', name: 'CampusAxis' }
-              },
-              {
-                '@context': 'https://schema.org',
-                '@type': 'Person',
-                name: 'Muhammad Waqar ul Mulk',
-                jobTitle: 'Founder & COO/CMO',
-                image: '/pictures/muhammad-waqar-ul-mulk.png',
-                worksFor: { '@type': 'Organization', name: 'CampusAxis' }
-              }
-            ])
-          }}
-        />
 
         {/* Partners & FAQ */}
         <section className="py-12 px-4 bg-muted/5">
@@ -301,7 +301,7 @@ export default function AboutUsPage() {
                 </div>
                 <div className="flex items-center gap-6 flex-wrap">
                   <div className="w-32 h-12 relative">
-                    <Image src={'/new logo.jpg'} alt="Megicode" fill style={{ objectFit: 'contain' }} />
+                    <Image src={'/megicode-logo.png'} alt="Megicode" fill style={{ objectFit: 'contain' }} />
                   </div>
                   <div className="w-32 h-12 relative">
                     <Image src={'/placeholder-logo.png'} alt="Partner" fill style={{ objectFit: 'contain' }} />
@@ -334,7 +334,7 @@ export default function AboutUsPage() {
             <div className="text-center mb-8">
               <div className="flex items-center justify-center gap-3">
                 <div className="w-12 h-12 relative">
-                  <Image src={'/new logo.jpg'} alt="Megicode logo" fill style={{ objectFit: 'contain' }} />
+                  <Image src={'/megicode-logo.png'} alt="Megicode logo" fill style={{ objectFit: 'contain' }} />
                 </div>
                 <h2 className="text-3xl font-bold">Powered by <a href="https://megicode.com" target="_blank" rel="noopener noreferrer" className="text-primary underline">Megicode</a></h2>
               </div>
@@ -353,7 +353,7 @@ export default function AboutUsPage() {
               "@type": "Organization",
               name: "Megicode",
               url: "https://megicode.com",
-              logo: "/new logo.jpg",
+              logo: "/megicode-logo.png",
               sameAs: [
                 "https://twitter.com/megicode",
                 "https://facebook.com/megicode",

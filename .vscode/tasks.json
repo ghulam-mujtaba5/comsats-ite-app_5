@@ -68,6 +68,20 @@
 				"$tsc"
 			],
 			"group": "build"
+		},
+		{
+			"label": "Build after moving leadership and updating logos",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
 		}
 	]
 }
