@@ -98,12 +98,16 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      // Standard favicon endpoint; we serve the logo here via a route handler
+      { url: "/favicon.ico" },
+      // Direct logo as a fallback/reference
       { url: "/new%20logo.jpg", type: "image/jpeg" },
     ],
     shortcut: [
-      { url: "/new%20logo.jpg", type: "image/jpeg" },
+      { url: "/favicon.ico" },
     ],
-    apple: [{ url: "/new%20logo.jpg", type: "image/jpeg" }],
+    // Apple touch icon endpoint; served via a route handler
+    apple: [{ url: "/apple-touch-icon.png" }],
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
