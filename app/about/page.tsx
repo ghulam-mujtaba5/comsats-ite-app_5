@@ -171,6 +171,63 @@ export default function AboutUsPage() {
         {/* Testimonials removed per request */}
 
         <div className="my-12 border-t border-muted-foreground/10" />
+
+        {/* Leadership section moved up for better visual hierarchy */}
+        <section className="py-12 px-4">
+          <div className="app-container">
+            <div className="text-center mb-8">
+              <Badge variant="soft" className="uppercase tracking-wide text-xs">Leadership</Badge>
+              <h3 className="text-2xl lg:text-3xl font-semibold mt-2">Megicode Leadership</h3>
+              <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+                The team behind CampusAxis — leading with vision, engineering excellence, and student-first focus.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {[
+                {
+                  name: 'Ghulam Mujtaba',
+                  role: 'Founder & CTO',
+                  img: '/placeholder-user.jpg',
+                  bio: 'Driving technological excellence and innovation to create impactful solutions for our clients.',
+                  github: '#',
+                  linkedin: '#'
+                },
+                {
+                  name: 'Azan Wahla',
+                  role: 'Founder & CEO',
+                  img: '/placeholder-user.jpg',
+                  bio: "Leading Megicode's vision to transform businesses through innovative technology solutions.",
+                  github: '#',
+                  linkedin: '#'
+                },
+                {
+                  name: 'Muhammad Waqar ul Mulk',
+                  role: 'Founder & COO/CMO',
+                  img: '/placeholder-user.jpg',
+                  bio: 'Building strategic partnerships and ensuring operational excellence in everything we do.',
+                  github: '#',
+                  linkedin: '#'
+                }
+              ].map((person, i) => (
+                <Card key={i} className="text-center p-4">
+                  <CardContent>
+                    <div className="mx-auto w-24 h-24 relative mb-4">
+                      <Image src={person.img} alt={person.name} fill className="rounded-full object-cover" />
+                    </div>
+                    <div className="font-semibold">{person.name}</div>
+                    <div className="text-sm text-muted-foreground mb-2">{person.role}</div>
+                    <div className="text-sm text-muted-foreground mb-3">{person.bio}</div>
+                    <div className="flex items-center justify-center gap-3">
+                      <a href={person.github} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline">GitHub</a>
+                      <a href={person.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline">LinkedIn</a>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Partners & FAQ */}
         <section className="py-12 px-4 bg-muted/5">
           <div className="app-container">
@@ -198,12 +255,6 @@ export default function AboutUsPage() {
                 <div className="space-y-3">
                   <Card className="p-4">
                     <CardContent>
-                      <div className="font-semibold">How can I become a Campus Ambassador?</div>
-                      <div className="text-sm text-muted-foreground">Apply via the Contribute page or email hello@megicode.com for partnership inquiries.</div>
-                    </CardContent>
-                  </Card>
-                  <Card className="p-4">
-                    <CardContent>
                       <div className="font-semibold">Is CampusAxis free to use?</div>
                       <div className="text-sm text-muted-foreground">Yes — CampusAxis is free for students. Some partner services may be paid.</div>
                     </CardContent>
@@ -227,72 +278,7 @@ export default function AboutUsPage() {
               </div>
               <p className="text-muted-foreground max-w-2xl mx-auto">Built and maintained by the Megicode team — supporting students and campus communities.</p>
             </div>
-
-            <div className="max-w-4xl mx-auto grid sm:grid-cols-2 gap-6 items-start">
-                    <Card className="p-6">
-                <CardHeader className="pb-4">
-                      <CardTitle className="text-lg font-semibold">Join as Campus Ambassador</CardTitle>
-                </CardHeader>
-                <CardContent>
-                      <p className="text-muted-foreground mb-4">Become a Campus Ambassador to represent CampusAxis on your campus. Gain experience, swag, and community credits.</p>
-                      <div className="flex gap-3">
-                        <Button size="lg" asChild>
-                          <Link href="/contribute">Apply as Ambassador</Link>
-                        </Button>
-                        <Button size="lg" variant="outline" asChild>
-                          <a href="mailto:hello@megicode.com">Contact Megicode</a>
-                        </Button>
-                      </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="mt-10">
-              <h3 className="text-2xl font-semibold mb-4 text-center">Megicode Leadership</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                {[
-                  {
-                    name: 'Ghulam Mujtaba',
-                    role: 'Founder & CTO',
-                    img: '/placeholder-user.jpg',
-                    bio: 'Driving technological excellence and innovation to create impactful solutions for our clients.',
-                    github: '#',
-                    linkedin: '#'
-                  },
-                  {
-                    name: 'Azan Wahla',
-                    role: 'Founder & CEO',
-                    img: '/placeholder-user.jpg',
-                    bio: "Leading Megicode's vision to transform businesses through innovative technology solutions.",
-                    github: '#',
-                    linkedin: '#'
-                  },
-                  {
-                    name: 'Muhammad Waqar ul Mulk',
-                    role: 'Founder & COO/CMO',
-                    img: '/placeholder-user.jpg',
-                    bio: 'Building strategic partnerships and ensuring operational excellence in everything we do.',
-                    github: '#',
-                    linkedin: '#'
-                  }
-                ].map((person, i) => (
-                  <Card key={i} className="text-center p-4">
-                    <CardContent>
-                      <div className="mx-auto w-24 h-24 relative mb-4">
-                        <Image src={person.img} alt={person.name} fill className="rounded-full object-cover" />
-                      </div>
-                      <div className="font-semibold">{person.name}</div>
-                      <div className="text-sm text-muted-foreground mb-2">{person.role}</div>
-                      <div className="text-sm text-muted-foreground mb-3">{person.bio}</div>
-                      <div className="flex items-center justify-center gap-3">
-                        <a href={person.github} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline">GitHub</a>
-                        <a href={person.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline">LinkedIn</a>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
+            {/* Leadership grid moved above; Ambassador CTA removed */}
           </div>
         </section>
 
