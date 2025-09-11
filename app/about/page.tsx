@@ -3,7 +3,7 @@ import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { GraduationCap, Target, Sparkles, ArrowRight, Heart, CheckCircle, Clock, Flag, Rocket, Mail, Download, Github, Linkedin } from "lucide-react"
+import { GraduationCap, Target, Sparkles, ArrowRight, Heart, CheckCircle, Clock, Flag, Rocket, Mail, Download, Github, Linkedin, Globe } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -232,8 +232,17 @@ export default function AboutUsPage() {
                       <a aria-label={`${person.name} on LinkedIn`} href={person.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors">
                         <Linkedin className="h-4 w-4" />
                       </a>
-                      {('website' in person) && person.website ? (
-                        <a aria-label={`${person.name} website`} href={(person as any).website} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline ml-1">Website</a>
+                      {('website' in person) && (person as any).website ? (
+                        <a
+                          aria-label={`${person.name} website`}
+                          href={(person as any).website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Website"
+                          className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors"
+                        >
+                          <Globe className="h-4 w-4" />
+                        </a>
                       ) : null}
                     </div>
                   </CardContent>
