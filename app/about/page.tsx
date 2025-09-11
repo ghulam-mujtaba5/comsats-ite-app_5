@@ -128,7 +128,8 @@ export default function AboutUsPage() {
                     img: '/pictures/azan-wahla.png',
                     bio: "Sets the product vision for CampusAxis — student‑first roadmap, university alignment, and partnerships that bring real value to COMSATS students.",
                     github: '#',
-                    linkedin: '#'
+                    linkedin: '#',
+                    website: 'https://azanwahla.me/'
                   },
                   {
                     name: 'Muhammad Waqar ul Mulk',
@@ -318,7 +319,7 @@ export default function AboutUsPage() {
                   <Card className="p-4">
                     <CardContent>
                       <div className="font-semibold">Is CampusAxis free to use?</div>
-                      <div className="text-sm text-muted-foreground">Yes — CampusAxis is free for students. Some partner services may be paid.</div>
+                      <div className="text-sm text-muted-foreground">Yes — CampusAxis is free for students. Powered by Megicode.</div>
                     </CardContent>
                   </Card>
                 </div>
@@ -363,6 +364,7 @@ export default function AboutUsPage() {
             })
           }}
         />
+                  url: 'https://azanwahla.me/',
         
         {/* Commitment Section */}
         <section className="py-16 px-4 bg-gradient-to-br from-accent/10 via-background to-primary/5">
