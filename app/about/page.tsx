@@ -3,7 +3,7 @@ import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { GraduationCap, Target, Sparkles, ArrowRight, Heart, CheckCircle, Clock, Flag, Rocket, Mail, Download } from "lucide-react"
+import { GraduationCap, Target, Sparkles, ArrowRight, Heart, CheckCircle, Clock, Flag, Rocket, Mail, Download, Github, Linkedin } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -187,7 +187,7 @@ export default function AboutUsPage() {
                 {
                   name: 'Ghulam Mujtaba',
                   role: 'Founder & CTO',
-                  img: '/placeholder-user.jpg',
+                  img: '/pictures/portfolio-picture.png',
                   bio: 'Driving technological excellence and innovation to create impactful solutions for our clients.',
                   github: '#',
                   linkedin: '#'
@@ -195,7 +195,7 @@ export default function AboutUsPage() {
                 {
                   name: 'Azan Wahla',
                   role: 'Founder & CEO',
-                  img: '/placeholder-user.jpg',
+                  img: '/pictures/azan1.png',
                   bio: "Leading Megicode's vision to transform businesses through innovative technology solutions.",
                   github: '#',
                   linkedin: '#'
@@ -203,23 +203,34 @@ export default function AboutUsPage() {
                 {
                   name: 'Muhammad Waqar ul Mulk',
                   role: 'Founder & COO/CMO',
-                  img: '/placeholder-user.jpg',
+                  img: '/pictures/waqar.png',
                   bio: 'Building strategic partnerships and ensuring operational excellence in everything we do.',
                   github: '#',
                   linkedin: '#'
                 }
               ].map((person, i) => (
-                <Card key={i} className="text-center p-4">
+                <Card
+                  key={i}
+                  className="text-center p-5 rounded-2xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm border border-transparent hover:border-primary/20 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 group"
+                >
                   <CardContent>
-                    <div className="mx-auto w-24 h-24 relative mb-4">
-                      <Image src={person.img} alt={person.name} fill className="rounded-full object-cover" />
+                    <div className="mx-auto w-28 h-28 rounded-full p-[2px] mb-4 bg-gradient-to-br from-blue-500/60 via-primary/60 to-purple-500/60 group-hover:from-blue-500 group-hover:to-purple-500 transition-colors">
+                      <div className="relative w-full h-full rounded-full overflow-hidden ring-2 ring-white/80 dark:ring-slate-900/80">
+                        <Image src={person.img} alt={person.name} fill className="object-cover" sizes="112px" />
+                      </div>
                     </div>
-                    <div className="font-semibold">{person.name}</div>
-                    <div className="text-sm text-muted-foreground mb-2">{person.role}</div>
-                    <div className="text-sm text-muted-foreground mb-3">{person.bio}</div>
+                    <div className="font-semibold text-lg">{person.name}</div>
+                    <div className="text-xs inline-flex items-center gap-2 px-2 py-1 rounded-full bg-primary/10 text-primary font-medium mt-1 mb-2">
+                      {person.role}
+                    </div>
+                    <div className="text-sm text-muted-foreground mb-4 leading-relaxed">{person.bio}</div>
                     <div className="flex items-center justify-center gap-3">
-                      <a href={person.github} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline">GitHub</a>
-                      <a href={person.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline">LinkedIn</a>
+                      <a aria-label={`${person.name} on GitHub`} href={person.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors">
+                        <Github className="h-4 w-4" />
+                      </a>
+                      <a aria-label={`${person.name} on LinkedIn`} href={person.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors">
+                        <Linkedin className="h-4 w-4" />
+                      </a>
                     </div>
                   </CardContent>
                 </Card>
