@@ -20,7 +20,7 @@ export default function AboutUsPage() {
   // Top-of-page numeric stats removed to avoid duplication with other site sections
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden">
+  <div className="min-h-screen flex flex-col relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-pulse" />

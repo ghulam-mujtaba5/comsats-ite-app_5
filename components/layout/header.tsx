@@ -159,18 +159,18 @@ export function Header() {
             <span>+</span>
             <span className="font-mono">K</span>
           </span>
-          <Link
-            href="/admin"
-            title="Admin Panel"
-            className={`hidden lg:inline-flex ${isAdmin ? '' : 'invisible pointer-events-none'}`}
-            aria-hidden={isAdmin ? undefined : true}
-            tabIndex={isAdmin ? 0 : -1}
-          >
-            <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300">
-              <Shield className="h-5 w-5" />
-              <span className="sr-only">Admin Panel</span>
-            </Button>
-          </Link>
+          {isAdmin && (
+            <Link
+              href="/admin"
+              title="Admin Panel"
+              className="hidden lg:inline-flex"
+            >
+              <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300">
+                <Shield className="h-5 w-5" />
+                <span className="sr-only">Admin Panel</span>
+              </Button>
+            </Link>
+          )}
           <div className="ml-2">
             <ThemeToggle />
           </div>

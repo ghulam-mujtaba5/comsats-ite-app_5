@@ -88,7 +88,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             name: 'CampusAxis',
             logo: {
               '@type': 'ImageObject',
-              url: new URL('/new%20logo.jpg', siteUrl).toString(),
+              url: new URL('/new-logo.jpg', siteUrl).toString(),
             },
           },
         }
