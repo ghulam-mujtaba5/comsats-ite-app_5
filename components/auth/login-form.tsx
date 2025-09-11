@@ -241,6 +241,9 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
           <Image src="/google.svg" alt="Google icon" width={18} height={18} priority />
           <span>Continue with Google</span>
         </Button>
+        <p className="text-xs text-muted-foreground text-center mt-2">
+          Use your COMSATS Google account (e.g., fa00-bse-000@cuilahore.edu.pk). You’ll be redirected to Google to continue.
+        </p>
 
         {/* Policy hint and explanation */}
         <div className="text-center space-y-2">
