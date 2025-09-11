@@ -15,6 +15,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/guidance", changeFrequency: "monthly", priority: 0.6 },
     { path: "/help", changeFrequency: "yearly", priority: 0.4 },
     { path: "/blog", changeFrequency: "weekly", priority: 0.5 },
+    // Known static blog article(s)
+    { path: "/blog/comsats-grading-system", changeFrequency: "yearly", priority: 0.5 },
     { path: "/news", changeFrequency: "weekly", priority: 0.6 },
     { path: "/news-events", changeFrequency: "weekly", priority: 0.6 },
     { path: "/past-papers", changeFrequency: "monthly", priority: 0.7 },
@@ -25,6 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/gpa-calculator/planning", changeFrequency: "yearly", priority: 0.65 },
     { path: "/resources", changeFrequency: "monthly", priority: 0.6 },
     { path: "/student-support", changeFrequency: "monthly", priority: 0.5 },
+    { path: "/help-desk", changeFrequency: "monthly", priority: 0.5 },
     { path: "/timetable", changeFrequency: "weekly", priority: 0.7 },
     { path: "/timetables", changeFrequency: "weekly", priority: 0.7 },
     { path: "/community", changeFrequency: "weekly", priority: 0.6 },
@@ -32,6 +35,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
     { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
     { path: "/legal", changeFrequency: "yearly", priority: 0.3 },
+    { path: "/legal/privacy-policy", changeFrequency: "yearly", priority: 0.3 },
+    { path: "/legal/terms-of-service", changeFrequency: "yearly", priority: 0.3 },
     { path: "/report-issue", changeFrequency: "yearly", priority: 0.3 },
     { path: "/lost-found", changeFrequency: "monthly", priority: 0.4 },
   ]
@@ -48,88 +53,52 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Start with static entries
   const entries: MetadataRoute.Sitemap = staticPaths.map((r) => toEntry(r.path, now, r.changeFrequency, r.priority))
 
-  // Try to include dynamic content by querying Supabase. We import lazily so
-  // that missing service role env vars do not crash the entire sitemap in prod.
+  // Include dynamic content by calling our public API endpoints.
+  // This avoids hard dependency on service-role env vars and respects existing RLS and filters.
   const fetchDynamic = async () => {
-    const hasEnv = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
-    if (!hasEnv) {
-      console.warn('[sitemap] Supabase env vars missing; returning static entries only')
-      return
-    }
-
-    let supabaseAdmin: any
-    try {
-      // Dynamic import wrapped so that any throw during module evaluation is caught
-      const mod = await import('@/lib/supabase-admin')
-      supabaseAdmin = (mod as any).supabaseAdmin
-    } catch (e) {
-      console.error('[sitemap] Failed to import supabase-admin; dynamic sections skipped', e)
-      return
-    }
-
-    // Helper to run a query with timeout safeguard
-    const safe = async <T>(label: string, fn: () => Promise<T>) => {
+    const safeFetch = async (label: string, url: string): Promise<any | undefined> => {
       try {
-        return await fn()
+        const res = await fetch(url, { cache: 'no-store', next: { revalidate: 60 } })
+        if (!res.ok) return undefined
+        const ct = res.headers.get('content-type') || ''
+        if (ct.includes('application/json')) return res.json()
+        return undefined
       } catch (e) {
-        console.warn(`[sitemap] ${label} query failed`, e)
+        console.warn(`[sitemap] fetch ${label} failed`, e)
         return undefined
       }
     }
 
-    // NEWS (published only)
-    const newsRes: any = await safe('news', () =>
-      supabaseAdmin
-        .from('news')
-        .select('id,image_url,published_at,updated_at,created_at,status')
-        .eq('status', 'published')
-        .order('published_at', { ascending: false })
-        .limit(500)
-    )
-    ;(newsRes?.data || []).forEach((n: any) => {
+    // NEWS (published)
+    const newsJson = await safeFetch('news', `${siteUrl}/api/news`)
+    ;(newsJson?.data || []).slice(0, 500).forEach((n: any) => {
       if (!n?.id) return
       const img = n.image_url ? [new URL(n.image_url, siteUrl).toString()] : undefined
-      entries.push(toEntry(`/news/${n.id}`, new Date(n.published_at || n.updated_at || n.created_at || now), 'weekly', 0.65, img))
+      const lm = n.published_at || n.updated_at || n.created_at || now
+      entries.push(toEntry(`/news/${n.id}`, new Date(lm), 'weekly', 0.65, img))
     })
 
-    // COMMUNITY POSTS (latest 500)
-    const postsRes: any = await safe('community_posts', () =>
-      supabaseAdmin
-        .from('community_posts')
-        .select('id,updated_at,created_at')
-        .order('created_at', { ascending: false })
-        .limit(500)
-    )
-    ;(postsRes?.data || []).forEach((p: any) => {
-      if (!p?.id) return
-      entries.push(toEntry(`/community/post/${p.id}`, new Date(p.updated_at || p.created_at || now), 'weekly', 0.5))
+    // EVENTS (include past as well)
+    const events = await safeFetch('events', `${siteUrl}/api/news-events/events?includePast=1`)
+    ;(events || []).slice(0, 500).forEach((ev: any) => {
+      if (!ev?.id) return
+      entries.push(toEntry(`/news-events/${ev.id}`, new Date(ev.date || now), 'weekly', 0.55))
     })
 
-    // FACULTY (up to 1000)
-    const facultyRes: any = await safe('faculty', () =>
-      supabaseAdmin
-        .from('faculty')
-        .select('id,profile_image,updated_at,created_at')
-        .order('name', { ascending: true })
-        .limit(1000)
-    )
-    ;(facultyRes?.data || []).forEach((f: any) => {
+    // FACULTY
+    const faculty = await safeFetch('faculty', `${siteUrl}/api/faculty`)
+    ;(faculty || []).slice(0, 1000).forEach((f: any) => {
       if (!f?.id) return
-      const img = f.profile_image ? [new URL(f.profile_image, siteUrl).toString()] : undefined
-      entries.push(toEntry(`/faculty/${f.id}`, new Date(f.updated_at || f.created_at || now), 'monthly', 0.6, img))
+      const img = f.profileImage ? [new URL(f.profileImage, siteUrl).toString()] : undefined
+      const lm = f.joinDate || now
+      entries.push(toEntry(`/faculty/${f.id}`, new Date(lm), 'monthly', 0.6, img))
     })
 
-    // PAST PAPERS (group by course_code)
-    const papersRes: any = await safe('past_papers', () =>
-      supabaseAdmin
-        .from('past_papers')
-        .select('course_code,image_url,updated_at,created_at,status')
-        .eq('status', 'approved')
-        .limit(2000)
-    )
-    if (papersRes?.data) {
+    // PAST PAPERS — group by course_code
+    const papersJson = await safeFetch('past_papers', `${siteUrl}/api/past-papers?limit=2000`)
+    if (papersJson?.data) {
       const byCourse: Record<string, any> = {}
-      ;(papersRes.data || []).forEach((p: any) => {
+      ;(papersJson.data || []).forEach((p: any) => {
         const course = (p.course_code || 'unknown').toString()
         const updated = new Date(p.updated_at || p.created_at || now)
         if (!byCourse[course] || updated > new Date(byCourse[course].updated_at || byCourse[course].created_at || now)) {
@@ -143,16 +112,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })
     }
 
-    // EVENTS (optional; ignore if table absent)
-    const eventsRes: any = await safe('events', () =>
-      supabaseAdmin
-        .from('events')
-        .select('id,updated_at,created_at,published_at')
-        .limit(500)
-    )
-    ;(eventsRes?.data || []).forEach((ev: any) => {
-      if (!ev?.id) return
-      entries.push(toEntry(`/news-events/${ev.id}`, new Date(ev.published_at || ev.updated_at || ev.created_at || now), 'weekly', 0.55))
+    // COMMUNITY POSTS (latest 500) — API returns localized time; use now for lastmod
+    const posts = await safeFetch('community_posts', `${siteUrl}/api/community/posts?limit=500`)
+    ;(posts || []).forEach((p: any) => {
+      if (!p?.id) return
+      entries.push(toEntry(`/community/post/${p.id}`, now, 'weekly', 0.5))
     })
   }
 
