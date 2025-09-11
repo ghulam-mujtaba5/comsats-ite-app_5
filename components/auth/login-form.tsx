@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useToast } from "@/hooks/use-toast"
-import { validateCUIEmail, validateCUIRegistration, regNoToEmail } from "@/lib/auth"
+import { validateCUIEmail } from "@/lib/auth"
 import { useAuth } from "@/contexts/auth-context"
 import { Eye, EyeOff, Loader2, Mail, Lock, ArrowRight } from "lucide-react"
 import Image from 'next/image'
@@ -25,7 +25,6 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   const { toast } = useToast()
   const [resetLoading, setResetLoading] = useState(false)
   const { login, isLoading, loginWithGoogle } = useAuth()
-  const [regNo, setRegNo] = useState("")
 
   const normalizeError = (raw: string) => {
     const lower = raw.toLowerCase()
@@ -232,49 +231,21 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
           <div className="h-px bg-border flex-1" />
         </div>
 
-        {/* Optional Registration Number to assist Google sign-in */}
-        <div className="space-y-2">
-          <Label htmlFor="regno" className="text-xs text-muted-foreground">Registration No (optional)</Label>
-          <Input
-            id="regno"
-            placeholder="fa22-bse-105"
-            value={regNo}
-            onChange={(e) => setRegNo(e.target.value)}
-            className="h-10 rounded-xl text-sm"
-          />
-          <p className="text-[11px] text-muted-foreground">We'll use this to help you pick the right Google account.</p>
-        </div>
-
         {/* Google Sign In */}
         <Button
           type="button"
           variant="outline"
-          onClick={() => {
-            // If user provided reg no, pass as login_hint for smoother flow
-            const hintedEmail = regNoToEmail(regNo.trim())
-            if (regNo && !hintedEmail) {
-              toast({ title: 'Invalid registration number', description: 'Use format fa22-bse-105', variant: 'destructive' })
-              return
-            }
-            // Attach hint by encoding into next param; callback doesn’t need it, but Google can use login_hint via prompt param alternative
-            // Simpler: store in sessionStorage for context layer (lightweight)
-            if (hintedEmail) sessionStorage.setItem('google_login_hint', hintedEmail)
-            loginWithGoogle('/dashboard')
-          }}
+          onClick={() => loginWithGoogle('/dashboard')}
           className="w-full h-12 rounded-xl font-semibold flex items-center justify-center gap-3"
           disabled={isLoading}
         >
           <Image src="/google.svg" alt="Google icon" width={18} height={18} priority />
           <span>Continue with Google</span>
         </Button>
-        <p className="text-xs text-muted-foreground text-center mt-2">
-          Use your COMSATS Google account (e.g., fa00-bse-000@cuilahore.edu.pk). You’ll be redirected to Google to continue.
-        </p>
-
         {/* Policy hint (provider-neutral) */}
         <div className="text-center">
-          <p className="text-xs text-muted-foreground">
-            Use your COMSATS Google account (<span className="font-mono">@cuilahore.edu.pk</span>).
+          <p className="text-xs text-muted-foreground mt-2">
+            Use your COMSATS Google account (<span className="font-mono">@cuilahore.edu.pk</span>). Youll be redirected to Google to continue.
           </p>
         </div>
 

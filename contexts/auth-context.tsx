@@ -104,9 +104,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
       const redirectTo = `${siteUrl}/auth/callback?next=${encodeURIComponent(nextPath)}`
-      // Pull a login hint if present (set by login form using reg no)
-      let loginHint: string | undefined
-      try { loginHint = typeof window !== 'undefined' ? sessionStorage.getItem('google_login_hint') || undefined : undefined } catch {}
         const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -115,7 +112,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             access_type: 'offline',
                 // Show account chooser without pre-filling domain hints
                 prompt: 'select_account',
-            ...(loginHint ? { login_hint: loginHint } : {}),
           },
         },
       } as any)
