@@ -177,7 +177,7 @@ export default function AboutUsPage() {
           <div className="app-container">
             <div className="text-center mb-8">
               <Badge variant="soft" className="uppercase tracking-wide text-xs">Leadership</Badge>
-              <h3 className="text-2xl lg:text-3xl font-semibold mt-2">Megicode Leadership</h3>
+              <h3 className="text-2xl lg:text-3xl font-semibold mt-2">CampusAxis Leadership</h3>
               <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
                 The team behind CampusAxis — leading with vision, engineering excellence, and student-first focus.
               </p>
@@ -187,24 +187,25 @@ export default function AboutUsPage() {
                 {
                   name: 'Ghulam Mujtaba',
                   role: 'Founder & CTO',
-                  img: '/pictures/portfolio-picture.png',
-                  bio: 'Driving technological excellence and innovation to create impactful solutions for our clients.',
-                  github: '#',
-                  linkedin: '#'
+                  img: '/pictures/ghulam-mujtaba.png',
+                  bio: 'Architects the CampusAxis platform — focusing on performance, security, and a seamless student experience across reviews, resources, and GPA tools.',
+                  github: 'https://github.com/ghulammujtaba',
+                  linkedin: 'https://www.linkedin.com/in/ghulammujtaba/',
+                  website: 'https://ghulammujtaba.com/'
                 },
                 {
                   name: 'Azan Wahla',
                   role: 'Founder & CEO',
-                  img: '/pictures/azan1.png',
-                  bio: "Leading Megicode's vision to transform businesses through innovative technology solutions.",
+                  img: '/pictures/azan-wahla.png',
+                  bio: "Sets the product vision for CampusAxis — student‑first roadmap, university alignment, and partnerships that bring real value to COMSATS students.",
                   github: '#',
                   linkedin: '#'
                 },
                 {
                   name: 'Muhammad Waqar ul Mulk',
                   role: 'Founder & COO/CMO',
-                  img: '/pictures/waqar.png',
-                  bio: 'Building strategic partnerships and ensuring operational excellence in everything we do.',
+                  img: '/pictures/muhammad-waqar-ul-mulk.png',
+                  bio: 'Drives CampusAxis operations and outreach — content quality, student society collaboration, and growth of the campus community.',
                   github: '#',
                   linkedin: '#'
                 }
@@ -231,6 +232,9 @@ export default function AboutUsPage() {
                       <a aria-label={`${person.name} on LinkedIn`} href={person.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors">
                         <Linkedin className="h-4 w-4" />
                       </a>
+                      {('website' in person) && person.website ? (
+                        <a aria-label={`${person.name} website`} href={(person as any).website} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline ml-1">Website</a>
+                      ) : null}
                     </div>
                   </CardContent>
                 </Card>
@@ -238,6 +242,44 @@ export default function AboutUsPage() {
             </div>
           </div>
         </section>
+
+        {/* Structured data for leaders */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                '@context': 'https://schema.org',
+                '@type': 'Person',
+                name: 'Ghulam Mujtaba',
+                jobTitle: 'Founder & CTO',
+                url: 'https://ghulammujtaba.com/',
+                image: '/pictures/ghulam-mujtaba.png',
+                sameAs: [
+                  'https://github.com/ghulammujtaba',
+                  'https://www.linkedin.com/in/ghulammujtaba/'
+                ],
+                worksFor: { '@type': 'Organization', name: 'CampusAxis' }
+              },
+              {
+                '@context': 'https://schema.org',
+                '@type': 'Person',
+                name: 'Azan Wahla',
+                jobTitle: 'Founder & CEO',
+                image: '/pictures/azan-wahla.png',
+                worksFor: { '@type': 'Organization', name: 'CampusAxis' }
+              },
+              {
+                '@context': 'https://schema.org',
+                '@type': 'Person',
+                name: 'Muhammad Waqar ul Mulk',
+                jobTitle: 'Founder & COO/CMO',
+                image: '/pictures/muhammad-waqar-ul-mulk.png',
+                worksFor: { '@type': 'Organization', name: 'CampusAxis' }
+              }
+            ])
+          }}
+        />
 
         {/* Partners & FAQ */}
         <section className="py-12 px-4 bg-muted/5">
