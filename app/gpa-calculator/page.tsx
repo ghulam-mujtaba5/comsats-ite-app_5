@@ -1,10 +1,16 @@
-"use client"
-
-import { jsonLdBreadcrumb } from "@/lib/seo"
+import type { Metadata } from "next"
+import { jsonLdBreadcrumb, createMetadata } from "@/lib/seo"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calculator, TrendingUp, Target, Info, Calendar } from "lucide-react"
 
+
+export const metadata: Metadata = createMetadata({
+  title: "GPA Calculator — CampusAxis",
+  description: "Calculate semester GPA, cumulative GPA, admission aggregate, and plan your future semesters.",
+  path: "/gpa-calculator",
+  keywords: ["GPA calculator", "CGPA", "aggregate", "COMSATS"],
+})
 
 export default function GPACalculatorPage() {
   return (
