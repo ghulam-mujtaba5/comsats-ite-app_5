@@ -47,14 +47,7 @@ export const metadata: Metadata = {
   authors: [{ name: "CampusAxis" }],
   creator: "CampusAxis",
   publisher: "CampusAxis",
-  // canonical + language alternates
-  alternates: {
-    canonical: siteUrl,
-    languages: {
-      'en-PK': siteUrl,
-      'en': siteUrl,
-    },
-  },
+  // Note: Do not set a global canonical. We'll set per-page canonicals where needed (e.g., homepage).
   openGraph: {
     type: "website",
     url: siteUrl,
@@ -172,14 +165,8 @@ html {
   {/* Preload social preview images (SVG first, PNG fallback) to help crawlers and card renderers */}
   <link rel="preload" as="image" href={asset('/og-preview.svg')} type="image/svg+xml" />
   <link rel="preload" as="image" href={asset('/og-preview.png')} type="image/png" />
-
-  <link rel="canonical" href={siteUrl} />
   {/* Hint for legacy scrapers */}
   <link rel="image_src" href={asset('/og-preview.png')} />
-  <link rel="alternate" href={siteUrl} hrefLang="en-PK" />
-  <link rel="alternate" href={siteUrl} hrefLang="en" />
-  {/* x-default helps search engines pick the default locale/domain */}
-  <link rel="alternate" href={siteUrl} hrefLang="x-default" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite()) }}

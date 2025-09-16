@@ -29,7 +29,8 @@ export function middleware(req: NextRequest) {
     url.hostname = canonicalHost
     url.protocol = 'https'
 
-    const res = NextResponse.redirect(url)
+    // Use 308 Permanent Redirect to signal a canonical, permanent move
+    const res = NextResponse.redirect(url, 308)
     // Strong HSTS to tell browsers to prefer HTTPS for this domain (only in production)
     if (isProd) {
       res.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')

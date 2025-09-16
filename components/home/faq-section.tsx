@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
