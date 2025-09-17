@@ -1,3 +1,5 @@
+'use client'
+
 import type { Metadata } from "next"
 import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -6,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { GraduationCap, Target, Sparkles, ArrowRight, Heart, CheckCircle, Clock, Flag, Rocket, Mail, Download, Github, Linkedin, Globe } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { MegicodeLogo } from '@/components/theme/megicode-logo'
 
 export const metadata: Metadata = createMetadata({
   title: "About — CampusAxis",
@@ -302,7 +305,7 @@ export default function AboutUsPage() {
                 </div>
                 <div className="flex items-center gap-6 flex-wrap">
                   <div className="w-32 h-12 relative">
-                    <Image src={'/megicode-logo.png'} alt="Megicode" fill style={{ objectFit: 'contain' }} />
+                    <MegicodeLogo fill style={{ objectFit: 'contain' }} />
                   </div>
                   <div className="w-32 h-12 relative">
                     <Image src={'/placeholder-logo.png'} alt="Partner" fill style={{ objectFit: 'contain' }} />
@@ -335,7 +338,7 @@ export default function AboutUsPage() {
             <div className="text-center mb-8">
               <div className="flex items-center justify-center gap-3">
                 <div className="w-12 h-12 relative">
-                  <Image src={'/megicode-logo.png'} alt="Megicode logo" fill style={{ objectFit: 'contain' }} />
+                  <MegicodeLogo alt="Megicode logo" fill style={{ objectFit: 'contain' }} />
                 </div>
                 <h2 className="text-3xl font-bold">Powered by <a href="https://megicode.com" target="_blank" rel="noopener noreferrer" className="text-primary underline">Megicode</a></h2>
               </div>
@@ -354,7 +357,7 @@ export default function AboutUsPage() {
               "@type": "Organization",
               name: "Megicode",
               url: "https://megicode.com",
-              logo: "/megicode-logo.png",
+              logo: "/megicode-logo-square-lightscreen.svg",
               sameAs: [
                 "https://twitter.com/megicode",
                 "https://facebook.com/megicode",
