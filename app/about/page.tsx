@@ -365,7 +365,6 @@ export default function AboutUsPage() {
             })
           }}
         />
-                  url: 'https://azanwahla.me/',
         
         {/* Commitment Section */}
         <section className="py-16 px-4 bg-gradient-to-br from-accent/10 via-background to-primary/5">
