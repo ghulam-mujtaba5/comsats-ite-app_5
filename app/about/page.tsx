@@ -1,5 +1,3 @@
-'use client'
-
 import type { Metadata } from "next"
 import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
