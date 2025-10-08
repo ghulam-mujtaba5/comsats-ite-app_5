@@ -49,6 +49,7 @@ import { useState, useEffect } from "react"
 import { LevelProgressCard } from "@/components/profile/level-progress-card"
 import { RewardsShowcase } from "@/components/profile/rewards-showcase"
 import { getLevelForPoints } from "@/lib/gamification"
+import { Info } from "lucide-react"
 
 export default function ProfilePage() {
   const { user, logout, isAuthenticated, isLoading } = useAuth()
@@ -266,6 +267,39 @@ export default function ProfilePage() {
           {!contributionLoading && contributionData && (
             <LevelProgressCard points={contributionData.totalPoints} className="mb-8" />
           )}
+
+          {/* Quick Action Buttons */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <Link href="/leaderboard">
+              <Button variant="outline" className="w-full h-full py-4 bg-gradient-to-r from-yellow-500/10 to-amber-500/10 border-2 border-yellow-400/30 hover:border-yellow-400 hover:shadow-lg transition-all">
+                <Trophy className="h-5 w-5 mr-2 text-yellow-600 dark:text-yellow-400" />
+                <div className="text-left">
+                  <div className="font-bold text-slate-900 dark:text-white">View Leaderboard</div>
+                  <div className="text-xs text-slate-600 dark:text-slate-400">See your ranking</div>
+                </div>
+              </Button>
+            </Link>
+            
+            <Link href="/gamification/info">
+              <Button variant="outline" className="w-full h-full py-4 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-2 border-blue-400/30 hover:border-blue-400 hover:shadow-lg transition-all">
+                <Info className="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400" />
+                <div className="text-left">
+                  <div className="font-bold text-slate-900 dark:text-white">Points & Levels Guide</div>
+                  <div className="text-xs text-slate-600 dark:text-slate-400">How it works</div>
+                </div>
+              </Button>
+            </Link>
+
+            <Link href="/contribute/team">
+              <Button variant="outline" className="w-full h-full py-4 bg-gradient-to-r from-red-500/10 to-orange-500/10 border-2 border-red-400/30 hover:border-red-400 hover:shadow-lg transition-all">
+                <Shield className="h-5 w-5 mr-2 text-red-600 dark:text-red-400" />
+                <div className="text-left">
+                  <div className="font-bold text-slate-900 dark:text-white">Core Team Roles</div>
+                  <div className="text-xs text-slate-600 dark:text-slate-400">Join the team</div>
+                </div>
+              </Button>
+            </Link>
+          </div>
 
           {/* Stats Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
