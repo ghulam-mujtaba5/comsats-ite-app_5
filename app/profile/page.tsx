@@ -566,8 +566,8 @@ export default function ProfilePage() {
                                 <span className="font-semibold">{contributionData.stats.papersUploaded}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span>Downloads:</span>
-                                <span className="font-semibold">{contributionData.stats.totalDownloads}</span>
+                                <span>Helpful votes:</span>
+                                <span className="font-semibold text-green-600 dark:text-green-400">+{contributionData.stats.totalDownloads || 0}</span>
                               </div>
                             </div>
                           </CardContent>

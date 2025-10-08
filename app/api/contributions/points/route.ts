@@ -5,8 +5,7 @@ import { supabase } from '@/lib/supabase'
 export const CONTRIBUTION_POINTS = {
   // Past Papers
   UPLOAD_PAST_PAPER: 50,
-  PAST_PAPER_DOWNLOAD: 2,
-  PAST_PAPER_HELPFUL: 10,
+  PAST_PAPER_HELPFUL: 10, // Quality recognition from community
   
   // Faculty Reviews
   WRITE_REVIEW: 25,
@@ -15,9 +14,8 @@ export const CONTRIBUTION_POINTS = {
   
   // Community Posts
   CREATE_POST: 15,
-  POST_LIKE: 3,
-  POST_COMMENT: 5,
-  POPULAR_POST: 20, // Bonus for 10+ likes
+  POST_COMMENT: 5, // Generating discussion
+  POPULAR_POST: 20, // Bonus for 10+ comments (active discussion)
   
   // Help Desk
   CREATE_TICKET: 10,
@@ -114,7 +112,7 @@ export async function GET(request: NextRequest) {
       const papers = pastPapersResult.data
       breakdown.pastPapers += papers.length * CONTRIBUTION_POINTS.UPLOAD_PAST_PAPER
       papers.forEach(paper => {
-        breakdown.pastPapers += (paper.downloads || 0) * CONTRIBUTION_POINTS.PAST_PAPER_DOWNLOAD
+        // Only award points for helpful votes (quality recognition)
         breakdown.pastPapers += (paper.helpful_count || 0) * CONTRIBUTION_POINTS.PAST_PAPER_HELPFUL
       })
     }
@@ -137,10 +135,10 @@ export async function GET(request: NextRequest) {
       const posts = postsResult.data
       breakdown.community += posts.length * CONTRIBUTION_POINTS.CREATE_POST
       posts.forEach(post => {
-        breakdown.community += (post.likes || 0) * CONTRIBUTION_POINTS.POST_LIKE
+        // Points for generating discussion (comments)
         breakdown.community += (post.comment_count || 0) * CONTRIBUTION_POINTS.POST_COMMENT
-        // Popular post bonus
-        if ((post.likes || 0) >= 10) {
+        // Popular post bonus for generating active discussion
+        if ((post.comment_count || 0) >= 10) {
           breakdown.community += CONTRIBUTION_POINTS.POPULAR_POST
         }
       })

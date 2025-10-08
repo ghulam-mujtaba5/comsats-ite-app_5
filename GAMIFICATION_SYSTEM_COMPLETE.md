@@ -95,18 +95,18 @@ When students reach Level 9 (12,000 points), they can apply for official team ro
 
 **Past Papers**
 - Upload paper: **50 points**
-- Per download: **+2 points**
-- Per "helpful" vote: **+10 points**
+- Per "helpful" vote: **+10 points** (quality recognition)
 
 **Reviews**
 - Write review: **25 points**
-- Per "helpful" vote: **+5 points**
-- Quality bonus: **+15 points**
+- Per "helpful" vote: **+5 points** (community validation)
+- Quality bonus: **+15 points** (detailed, helpful review)
 
 **Community Posts**
 - Create post: **15 points**
-- Per like: **+3 points**
-- Per comment: **+5 points**
+- Per comment received: **+5 points** (generating discussion)
+
+**Note:** Points are awarded for **contributions** (creating content) and **engagement** (generating discussion), NOT for consumption (downloads, views, likes).
 
 **Help Desk**
 - Create ticket: **10 points**
