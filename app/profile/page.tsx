@@ -39,7 +39,10 @@ import {
   Share2,
   MapPin,
   GraduationCap,
-  Building2
+  Building2,
+  Loader2,
+  Pencil,
+  Ticket
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState, useEffect } from "react"
@@ -66,11 +69,17 @@ export default function ProfilePage() {
   })
   const [statsLoading, setStatsLoading] = useState(true)
   const [statsError, setStatsError] = useState<string | null>(null)
+  const [achievements, setAchievements] = useState<any[]>([])
+  const [achievementsLoading, setAchievementsLoading] = useState(true)
+  const [recentActivity, setRecentActivity] = useState<any[]>([])
+  const [activityLoading, setActivityLoading] = useState(true)
 
   // Fetch user stats when component mounts and user is available
   useEffect(() => {
     if (user && isAuthenticated) {
       fetchUserStats()
+      fetchAchievements()
+      fetchActivity()
     }
   }, [user, isAuthenticated])
 
@@ -93,22 +102,35 @@ export default function ProfilePage() {
     }
   }
 
-  const achievements = [
-    { id: 1, title: 'Early Adopter', description: 'Joined in the first month', icon: Trophy, earned: true, rarity: 'rare' },
-    { id: 2, title: 'Knowledge Seeker', description: 'Downloaded 50+ resources', icon: BookOpen, earned: false, progress: 94, rarity: 'common' },
-    { id: 3, title: 'Community Helper', description: 'Received 100+ helpful votes', icon: Heart, earned: true, rarity: 'epic' },
-    { id: 4, title: 'Active Contributor', description: 'Posted 10+ times', icon: MessageSquare, earned: false, progress: 80, rarity: 'uncommon' },
-    { id: 5, title: 'Review Master', description: 'Written 20+ faculty reviews', icon: Star, earned: false, progress: 60, rarity: 'rare' },
-    { id: 6, title: 'Popular Profile', description: 'Profile viewed 100+ times', icon: Eye, earned: false, progress: 89, rarity: 'epic' }
-  ]
+  const fetchAchievements = async () => {
+    try {
+      setAchievementsLoading(true)
+      const response = await fetch('/api/profile/achievements')
+      if (response.ok) {
+        const data = await response.json()
+        setAchievements(data.achievements || [])
+      }
+    } catch (error) {
+      console.error('Error fetching achievements:', error)
+    } finally {
+      setAchievementsLoading(false)
+    }
+  }
 
-  const recentActivity = [
-    { id: 1, type: 'download', title: 'Downloaded Data Structures Notes', time: '2 hours ago', icon: Download },
-    { id: 2, type: 'review', title: 'Reviewed Dr. Ahmed (Computer Science)', time: '1 day ago', icon: Star },
-    { id: 3, type: 'post', title: 'Posted in CS Study Group', time: '3 days ago', icon: MessageSquare },
-    { id: 4, type: 'bookmark', title: 'Bookmarked Machine Learning Resources', time: '5 days ago', icon: Bookmark },
-    { id: 5, type: 'share', title: 'Shared Algorithm Tutorial', time: '1 week ago', icon: Share2 }
-  ]
+  const fetchActivity = async () => {
+    try {
+      setActivityLoading(true)
+      const response = await fetch('/api/profile/activity?limit=20')
+      if (response.ok) {
+        const data = await response.json()
+        setRecentActivity(data.activities || [])
+      }
+    } catch (error) {
+      console.error('Error fetching activity:', error)
+    } finally {
+      setActivityLoading(false)
+    }
+  }
 
   const getAchievementColor = (rarity: string) => {
     switch (rarity) {
@@ -119,6 +141,41 @@ export default function ProfilePage() {
       case 'legendary': return 'bg-yellow-500/20 text-yellow-700 border-yellow-300'
       default: return 'bg-slate-500/20 text-slate-700 border-slate-300'
     }
+  }
+
+  const getIconComponent = (iconName: string) => {
+    const icons: Record<string, any> = {
+      Trophy, BookOpen, Heart, MessageSquare, Star, Eye, FileText, 
+      Download, Bookmark, Share2, Calendar, Pencil, Ticket, MapPin
+    }
+    return icons[iconName] || MessageSquare
+  }
+
+  const getActivityColor = (color: string) => {
+    switch (color) {
+      case 'blue': return 'bg-blue-500/20 border-blue-200/30'
+      case 'yellow': return 'bg-yellow-500/20 border-yellow-200/30'
+      case 'purple': return 'bg-purple-500/20 border-purple-200/30'
+      case 'green': return 'bg-green-500/20 border-green-200/30'
+      case 'orange': return 'bg-orange-500/20 border-orange-200/30'
+      default: return 'bg-slate-500/20 border-slate-200/30'
+    }
+  }
+
+  const formatTimeAgo = (timestamp: string) => {
+    const now = new Date()
+    const then = new Date(timestamp)
+    const diffMs = now.getTime() - then.getTime()
+    const diffMins = Math.floor(diffMs / 60000)
+    const diffHours = Math.floor(diffMs / 3600000)
+    const diffDays = Math.floor(diffMs / 86400000)
+
+    if (diffMins < 1) return 'Just now'
+    if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
+    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)} week${Math.floor(diffDays / 7) > 1 ? 's' : ''} ago`
+    return then.toLocaleDateString()
   }
 
   return (
@@ -173,6 +230,12 @@ export default function ProfilePage() {
                 </Button>
                 <DeleteAccountButton />
                 <EditProfileDialog />
+                <Link href="/settings">
+                  <Button variant="outline" className="rounded-xl border-white/20 dark:border-slate-700/30 hover:bg-white/10 dark:hover:bg-slate-800/50">
+                    <Settings className="h-4 w-4 mr-2" />
+                    Settings
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -396,24 +459,40 @@ export default function ProfilePage() {
                         View All <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     </div>
-                    <div className="space-y-3">
-                      {recentActivity.slice(0, 3).map((activity) => {
-                        const Icon = activity.icon
-                        return (
-                          <Card key={activity.id} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
-                            <CardContent className="p-4 flex items-center gap-4">
-                              <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-700">
-                                <Icon className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                              </div>
-                              <div className="flex-1">
-                                <div className="font-medium text-slate-900 dark:text-white">{activity.title}</div>
-                                <div className="text-sm text-slate-600 dark:text-slate-400">{activity.time}</div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        )
-                      })}
-                    </div>
+                    {activityLoading ? (
+                      <div className="flex items-center justify-center py-8">
+                        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                      </div>
+                    ) : recentActivity.length === 0 ? (
+                      <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+                        <CardContent className="p-8 text-center">
+                          <MessageSquare className="h-12 w-12 text-slate-400 dark:text-slate-500 mx-auto mb-3" />
+                          <p className="text-slate-600 dark:text-slate-400">No activity yet. Start contributing!</p>
+                        </CardContent>
+                      </Card>
+                    ) : (
+                      <div className="space-y-3">
+                        {recentActivity.slice(0, 3).map((activity) => {
+                          const Icon = getIconComponent(activity.icon)
+                          return (
+                            <Card key={activity.id} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+                              <CardContent className="p-4 flex items-center gap-4">
+                                <div className={cn("p-2 rounded-lg border", getActivityColor(activity.color))}>
+                                  <Icon className="h-4 w-4" />
+                                </div>
+                                <div className="flex-1">
+                                  <div className="font-medium text-slate-900 dark:text-white">{activity.title}</div>
+                                  <div className="text-sm text-slate-600 dark:text-slate-400">{activity.description}</div>
+                                </div>
+                                <div className="text-xs text-slate-500">
+                                  {formatTimeAgo(activity.timestamp)}
+                                </div>
+                              </CardContent>
+                            </Card>
+                          )
+                        })}
+                      </div>
+                    )}
                   </div>
                 </TabsContent>
 
@@ -422,51 +501,65 @@ export default function ProfilePage() {
                     <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Achievements</h3>
                     <p className="text-slate-600 dark:text-slate-300">Track your progress and unlock new milestones</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {achievements.map((achievement) => {
-                      const Icon = achievement.icon
-                      return (
-                        <Card key={achievement.id} className={cn(
-                          "bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl transition-all duration-300",
-                          achievement.earned ? "ring-2 ring-yellow-500/20 shadow-lg" : "opacity-75"
-                        )}>
-                          <CardContent className="p-6">
-                            <div className="flex items-start gap-4">
-                              <div className={cn(
-                                "p-3 rounded-xl border",
-                                achievement.earned ? getAchievementColor(achievement.rarity) : "bg-slate-100 dark:bg-slate-700 border-slate-300 dark:border-slate-600"
-                              )}>
-                                <Icon className={cn(
-                                  "h-8 w-8",
-                                  achievement.earned ? "" : "text-slate-400 dark:text-slate-500"
-                                )} />
-                              </div>
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <h4 className="font-bold text-slate-900 dark:text-white">{achievement.title}</h4>
-                                  {achievement.earned && (
-                                    <Badge className={cn("text-xs capitalize", getAchievementColor(achievement.rarity))}>
-                                      {achievement.rarity}
-                                    </Badge>
+                  {achievementsLoading ? (
+                    <div className="flex items-center justify-center py-12">
+                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {achievements.map((achievement) => {
+                        const Icon = getIconComponent(achievement.icon)
+                        const progress = achievement.maxProgress 
+                          ? Math.round((achievement.progress / achievement.maxProgress) * 100)
+                          : 0
+                        return (
+                          <Card key={achievement.id} className={cn(
+                            "bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl transition-all duration-300",
+                            achievement.earned ? "ring-2 ring-yellow-500/20 shadow-lg" : "opacity-75"
+                          )}>
+                            <CardContent className="p-6">
+                              <div className="flex items-start gap-4">
+                                <div className={cn(
+                                  "p-3 rounded-xl border",
+                                  achievement.earned ? getAchievementColor(achievement.rarity) : "bg-slate-100 dark:bg-slate-700 border-slate-300 dark:border-slate-600"
+                                )}>
+                                  <Icon className={cn(
+                                    "h-8 w-8",
+                                    achievement.earned ? "" : "text-slate-400 dark:text-slate-500"
+                                  )} />
+                                </div>
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <h4 className="font-bold text-slate-900 dark:text-white">{achievement.title}</h4>
+                                    {achievement.earned && (
+                                      <Badge className={cn("text-xs capitalize", getAchievementColor(achievement.rarity))}>
+                                        {achievement.rarity}
+                                      </Badge>
+                                    )}
+                                  </div>
+                                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">{achievement.description}</p>
+                                  {!achievement.earned && achievement.maxProgress && (
+                                    <div className="space-y-2">
+                                      <div className="flex justify-between text-xs text-slate-600 dark:text-slate-400">
+                                        <span>Progress</span>
+                                        <span>{achievement.progress} / {achievement.maxProgress}</span>
+                                      </div>
+                                      <Progress value={progress} className="h-2" />
+                                    </div>
+                                  )}
+                                  {achievement.earned && achievement.earnedDate && (
+                                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+                                      Unlocked {formatTimeAgo(achievement.earnedDate)}
+                                    </div>
                                   )}
                                 </div>
-                                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">{achievement.description}</p>
-                                {!achievement.earned && achievement.progress && (
-                                  <div className="space-y-2">
-                                    <div className="flex justify-between text-xs text-slate-600 dark:text-slate-400">
-                                      <span>Progress</span>
-                                      <span>{achievement.progress}%</span>
-                                    </div>
-                                    <Progress value={achievement.progress} className="h-2" />
-                                  </div>
-                                )}
                               </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      )
-                    })}
-                  </div>
+                            </CardContent>
+                          </Card>
+                        )
+                      })}
+                    </div>
+                  )}
                 </TabsContent>
 
                 <TabsContent value="activity" className="space-y-6">
@@ -474,25 +567,68 @@ export default function ProfilePage() {
                     <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Activity History</h3>
                     <p className="text-slate-600 dark:text-slate-300">Your recent actions and contributions</p>
                   </div>
-                  <div className="space-y-4">
-                    {recentActivity.map((activity) => {
-                      const Icon = activity.icon
-                      return (
-                        <Card key={activity.id} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300">
-                          <CardContent className="p-6 flex items-center gap-4">
-                            <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-700">
-                              <Icon className="h-6 w-6 text-slate-600 dark:text-slate-400" />
-                            </div>
-                            <div className="flex-1">
-                              <div className="font-medium text-slate-900 dark:text-white mb-1">{activity.title}</div>
-                              <div className="text-sm text-slate-600 dark:text-slate-400">{activity.time}</div>
-                            </div>
-                            <Badge variant="outline" className="capitalize">{activity.type}</Badge>
-                          </CardContent>
-                        </Card>
-                      )
-                    })}
-                  </div>
+                  {activityLoading ? (
+                    <div className="flex items-center justify-center py-12">
+                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                    </div>
+                  ) : recentActivity.length === 0 ? (
+                    <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+                      <CardContent className="p-12 text-center">
+                        <Activity className="h-16 w-16 text-slate-400 dark:text-slate-500 mx-auto mb-4" />
+                        <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">No Activity Yet</h4>
+                        <p className="text-slate-600 dark:text-slate-400">Start contributing to see your activity here!</p>
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    <div className="space-y-4">
+                      {recentActivity.map((activity) => {
+                        const Icon = getIconComponent(activity.icon)
+                        return (
+                          <Card key={activity.id} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300">
+                            <CardContent className="p-6 flex items-center gap-4">
+                              <div className={cn("p-3 rounded-xl border", getActivityColor(activity.color))}>
+                                <Icon className="h-6 w-6" />
+                              </div>
+                              <div className="flex-1">
+                                <div className="font-semibold text-slate-900 dark:text-white mb-1">{activity.title}</div>
+                                <div className="text-sm text-slate-600 dark:text-slate-400">{activity.description}</div>
+                                {activity.metadata && (
+                                  <div className="flex gap-3 mt-2">
+                                    {activity.metadata.rating && (
+                                      <Badge variant="outline" className="text-xs">
+                                        <Star className="h-3 w-3 mr-1" />
+                                        {activity.metadata.rating}/5
+                                      </Badge>
+                                    )}
+                                    {activity.metadata.likes !== undefined && (
+                                      <Badge variant="outline" className="text-xs">
+                                        <Heart className="h-3 w-3 mr-1" />
+                                        {activity.metadata.likes} likes
+                                      </Badge>
+                                    )}
+                                    {activity.metadata.downloads !== undefined && (
+                                      <Badge variant="outline" className="text-xs">
+                                        <Download className="h-3 w-3 mr-1" />
+                                        {activity.metadata.downloads} downloads
+                                      </Badge>
+                                    )}
+                                    {activity.metadata.status && (
+                                      <Badge variant="outline" className="text-xs capitalize">
+                                        {activity.metadata.status}
+                                      </Badge>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                              <div className="text-sm text-slate-500 dark:text-slate-400">
+                                {formatTimeAgo(activity.timestamp)}
+                              </div>
+                            </CardContent>
+                          </Card>
+                        )
+                      })}
+                    </div>
+                  )}
                 </TabsContent>
 
                 <TabsContent value="settings" className="space-y-8">
