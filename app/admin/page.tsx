@@ -170,6 +170,7 @@ export default function AdminDashboardPage() {
           { href: "/admin/dashboard", title: "📊 Analytics Dashboard", desc: "Comprehensive stats, insights and system health monitoring.", priority: "high" },
           { href: "/admin/users", title: "👥 User Management", desc: "Manage accounts, permissions and user authentication.", priority: "high" },
           { href: "/admin/moderation", title: "🛡️ Content Moderation", desc: "Review posts, comments and handle user reports.", priority: "high" },
+          { href: "/admin/faculty-pending", title: "✅ Pending Faculty", desc: "Review and approve student-submitted faculty members.", priority: "high" },
           { href: "/admin/news-events", title: "📰 News & Events", desc: "Create and manage campus announcements and events.", priority: "medium" },
           { href: "/admin/faq", title: "❓ FAQ Management", desc: "Create, edit, and manage frequently asked questions.", priority: "medium" },
           { href: "/admin/faculty", title: "👨‍🏫 Faculty Directory", desc: "Add, edit and manage faculty member profiles.", priority: "medium" },

@@ -8,6 +8,7 @@ import { Star, ThumbsUp, Flag, Calendar, BookOpen } from "lucide-react"
 import type { Review } from "@/lib/faculty-data"
 import { useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
+import { ReviewOpinionButtons } from './review-opinion-buttons'
 
 interface ReviewCardProps {
   review: Review
@@ -151,6 +152,12 @@ export function ReviewCard({ review }: ReviewCardProps) {
               Report {reported > review.reported ? `(${reported})` : ''}
             </Button>
           </div>
+          
+          {/* Agree/Disagree Opinion Buttons */}
+          <ReviewOpinionButtons 
+            reviewId={review.id}
+            className="ml-auto"
+          />
         </div>
       </CardContent>
     </Card>

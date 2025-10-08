@@ -13,6 +13,7 @@ import { standardFilters, sortOptions, filterPresets } from "@/lib/filter-data"
 import { Users, Star, MessageSquare, Filter, Award, BookOpen, RotateCcw, GraduationCap, MapPin } from "lucide-react"
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
+import { AddFacultyDialog } from "@/components/faculty/add-faculty-dialog"
 
 export default function FacultyPage() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -383,6 +384,9 @@ export default function FacultyPage() {
             className="mb-10"
             right={
               <div className="flex items-center gap-4">
+                {/* Add Faculty Button */}
+                <AddFacultyDialog />
+                
                 {/* Quick Clear Filters */}
                 <Button
                   variant="outline"
