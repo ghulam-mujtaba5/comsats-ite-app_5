@@ -166,7 +166,7 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
           <Input
             id="email"
             type="email"
-            placeholder="your.name@cuilahore.edu.pk"
+            placeholder="fa22-bse-105@cuilahore.edu.pk"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -245,7 +245,7 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
         {/* Policy hint (provider-neutral) */}
         <div className="text-center">
           <p className="text-xs text-muted-foreground mt-2">
-            Use your COMSATS Google account (<span className="font-mono">@cuilahore.edu.pk</span>). Youll be redirected to Google to continue.
+            Use your COMSATS Google account (e.g., <span className="font-mono">@cuilahore.edu.pk</span>, <span className="font-mono">@cuislamabad.edu.pk</span>).
           </p>
         </div>
 

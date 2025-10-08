@@ -30,7 +30,7 @@ export default function AuthClient() {
     if (error === 'invalid_domain') {
       toast({
         title: 'Use your university Google account',
-        description: 'Please sign in with your COMSATS email (e.g., fa22-bse-105@cuilahore.edu.pk).',
+        description: 'Please sign in with your COMSATS email (e.g., fa22-bse-105@cuilahore.edu.pk, fa22-bse-105@cuislamabad.edu.pk)',
         variant: 'destructive',
       })
     } else if (error === 'callback_error') {
