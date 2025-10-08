@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search, Plus, MapPin, Calendar, User, Loader2 } from "lucide-react"
+import { Search, Plus, MapPin, Calendar, User, Loader2, Image as ImageIcon } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
@@ -46,6 +46,28 @@ export default function LostFoundPage() {
     location: "",
     contact_info: "",
   })
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "Error",
+          description: "Image size must be less than 5MB",
+          variant: "destructive",
+        })
+        return
+      }
+      setSelectedImage(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const fetchItems = async () => {
     try {
@@ -88,12 +110,21 @@ export default function LostFoundPage() {
 
     setSubmitting(true)
     try {
+      const formData = new FormData()
+      formData.append('title', newItem.title)
+      formData.append('description', newItem.description)
+      formData.append('category', newItem.category)
+      formData.append('item_type', newItem.item_type)
+      formData.append('location', newItem.location)
+      formData.append('contact_info', newItem.contact_info)
+      
+      if (selectedImage) {
+        formData.append('image', selectedImage)
+      }
+
       const response = await fetch("/api/lost-found", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newItem),
+        body: formData,
       })
 
       if (response.ok) {
@@ -109,6 +140,8 @@ export default function LostFoundPage() {
           location: "",
           contact_info: "",
         })
+        setSelectedImage(null)
+        setImagePreview(null)
         setIsDialogOpen(false)
         fetchItems()
       } else {
@@ -275,6 +308,50 @@ export default function LostFoundPage() {
                       className="glass-button bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40"
                     />
                   </div>
+                  
+                  <div className="grid gap-3">
+                    <Label htmlFor="image" className="font-semibold text-slate-700 dark:text-slate-200">
+                      Item Photo (Optional)
+                    </Label>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-4">
+                        <Input
+                          id="image"
+                          type="file"
+                          accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                          onChange={handleImageChange}
+                          className="glass-button bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40"
+                        />
+                        {selectedImage && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              setSelectedImage(null)
+                              setImagePreview(null)
+                            }}
+                            className="flex-shrink-0"
+                          >
+                            Remove
+                          </Button>
+                        )}
+                      </div>
+                      {imagePreview && (
+                        <div className="relative w-full h-48 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700">
+                          <img 
+                            src={imagePreview} 
+                            alt="Preview" 
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      )}
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                        <ImageIcon className="inline h-3 w-3 mr-1" />
+                        Accepted formats: JPG, PNG, WebP, GIF (max 5MB)
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 
                 <Button 
@@ -332,6 +409,16 @@ export default function LostFoundPage() {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredItems.map((item, index) => (
               <Card key={item.id} className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl overflow-hidden" style={{ animationDelay: `${index * 100}ms` }}>
+                {item.image_url && (
+                  <div className="relative w-full h-48 overflow-hidden">
+                    <img 
+                      src={item.image_url} 
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  </div>
+                )}
                 <CardHeader className="pb-4">
                   <div className="flex justify-between items-start gap-3">
                     <div className="flex-1">
