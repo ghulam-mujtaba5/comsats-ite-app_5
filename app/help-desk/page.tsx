@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import { useCampus } from "@/contexts/campus-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -40,6 +41,7 @@ interface HelpTicket {
 }
 
 export default function HelpDeskPage() {
+  const { selectedCampus } = useCampus()
   const { toast } = useToast()
   const [tickets, setTickets] = useState<HelpTicket[]>([])
   const [loading, setLoading] = useState(true)
@@ -87,7 +89,8 @@ export default function HelpDeskPage() {
   async function load() {
     setLoading(true)
     try {
-      const res = await fetch("/api/help-desk/tickets", { cache: "no-store" })
+      const campusParam = selectedCampus?.id ? `?campus_id=${selectedCampus.id}` : ''
+      const res = await fetch(`/api/help-desk/tickets${campusParam}`, { cache: "no-store" })
       const json = await res.json()
       if (!res.ok) throw new Error(json?.error || "Failed to load tickets")
       setTickets(json.data || [])
@@ -97,6 +100,10 @@ export default function HelpDeskPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    load()
+  }, [selectedCampus])
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()

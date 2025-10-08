@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useCampus } from "@/contexts/campus-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -30,6 +31,7 @@ interface LostFoundItem {
 }
 
 export default function LostFoundPage() {
+  const { selectedCampus } = useCampus()
   const { user, isAuthenticated } = useAuth()
   const [items, setItems] = useState<LostFoundItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -72,6 +74,7 @@ export default function LostFoundPage() {
   const fetchItems = async () => {
     try {
       const params = new URLSearchParams()
+      if (selectedCampus?.id) params.append("campus_id", selectedCampus.id)
       if (filterCategory !== "all") params.append("category", filterCategory)
       if (searchQuery) params.append("search", searchQuery)
       
@@ -89,7 +92,7 @@ export default function LostFoundPage() {
 
   useEffect(() => {
     fetchItems()
-  }, [filterCategory, searchQuery])
+  }, [filterCategory, searchQuery, selectedCampus])
 
   const filteredItems = items.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

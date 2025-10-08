@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useCampus } from "@/contexts/campus-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -29,6 +30,7 @@ interface FAQ {
 }
 
 export default function GuidancePage() {
+  const { selectedCampus } = useCampus()
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
   const [guideSections, setGuideSections] = useState<GuideSection[]>([])
@@ -41,9 +43,10 @@ export default function GuidancePage() {
       setLoading(true)
       setError(null)
       try {
+        const campusParam = selectedCampus?.id ? `?campus_id=${selectedCampus.id}` : ''
         const [contentResponse, faqResponse] = await Promise.all([
-          fetch('/api/guidance/content'),
-          fetch('/api/guidance/faq')
+          fetch(`/api/guidance/content${campusParam}`),
+          fetch(`/api/guidance/faq${campusParam}`)
         ])
 
         if (contentResponse.ok && faqResponse.ok) {
@@ -59,6 +62,7 @@ export default function GuidancePage() {
         // Fallback to static data
         setGuideSections([
           {
+            id: "1",
             id: "1",
             title: "Course Registration Process",
             description: "Step-by-step guide for registering courses each semester",
@@ -136,7 +140,7 @@ export default function GuidancePage() {
       }
     }
     fetchData()
-  }, [])
+  }, [selectedCampus])
 
   const filteredSections = guideSections.filter((section) => {
     const matchesSearch = section.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

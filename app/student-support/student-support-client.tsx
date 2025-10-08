@@ -1,6 +1,7 @@
 "use client"
 // Extracted client component logic from original page for SEO-friendly server metadata wrapper.
 import { useState, useEffect, useRef } from 'react'
+import { useCampus } from '@/contexts/campus-context'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -30,6 +31,7 @@ interface SupportResource {
 }
 
 export default function StudentSupportClient() {
+  const { selectedCampus } = useCampus()
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
@@ -50,7 +52,8 @@ export default function StudentSupportClient() {
       setLoading(true)
       setError(null)
       try {
-        const response = await fetch('/api/student-support/resources')
+        const campusParam = selectedCampus?.id ? `?campus_id=${selectedCampus.id}` : ''
+        const response = await fetch(`/api/student-support/resources${campusParam}`)
         if (response.ok) {
           const data = await response.json()
             .catch(() => [])
@@ -74,7 +77,7 @@ export default function StudentSupportClient() {
       }
     }
     fetchResources()
-  }, [])
+  }, [selectedCampus])
 
   const handleSubmitRequest = async () => {
     if (!requestForm.name.trim() || !requestForm.email.trim() || !requestForm.message.trim()) {

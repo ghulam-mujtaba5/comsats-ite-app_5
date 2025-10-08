@@ -3,6 +3,7 @@
 import { AuthGuard } from "@/components/auth/auth-guard"
 import { useAuth } from "@/contexts/auth-context"
 import { useCampus } from "@/contexts/campus-context"
+import { EditProfileDialog } from "@/components/profile/edit-profile-dialog"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -171,10 +172,7 @@ export default function ProfilePage() {
                   Sign Out
                 </Button>
                 <DeleteAccountButton />
-                <Button variant="outline" className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 hover:bg-primary/10 rounded-xl">
-                  <Edit3 className="h-4 w-4 mr-2" />
-                  Edit Profile
-                </Button>
+                <EditProfileDialog />
               </div>
             </div>
           </div>
