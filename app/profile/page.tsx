@@ -73,6 +73,8 @@ export default function ProfilePage() {
   const [achievementsLoading, setAchievementsLoading] = useState(true)
   const [recentActivity, setRecentActivity] = useState<any[]>([])
   const [activityLoading, setActivityLoading] = useState(true)
+  const [contributionData, setContributionData] = useState<any>(null)
+  const [contributionLoading, setContributionLoading] = useState(true)
 
   // Fetch user stats when component mounts and user is available
   useEffect(() => {
@@ -80,6 +82,7 @@ export default function ProfilePage() {
       fetchUserStats()
       fetchAchievements()
       fetchActivity()
+      fetchContributionPoints()
     }
   }, [user, isAuthenticated])
 
@@ -129,6 +132,22 @@ export default function ProfilePage() {
       console.error('Error fetching activity:', error)
     } finally {
       setActivityLoading(false)
+    }
+  }
+
+  const fetchContributionPoints = async () => {
+    try {
+      setContributionLoading(true)
+      if (!user?.id) return
+      const response = await fetch(`/api/contributions/points?userId=${user.id}`)
+      if (response.ok) {
+        const data = await response.json()
+        setContributionData(data)
+      }
+    } catch (error) {
+      console.error('Error fetching contribution points:', error)
+    } finally {
+      setContributionLoading(false)
     }
   }
 
@@ -239,6 +258,63 @@ export default function ProfilePage() {
               </div>
             </div>
           </div>
+
+          {/* Contribution Points Banner */}
+          {!contributionLoading && contributionData && (
+            <Card className="mb-8 bg-gradient-to-r from-yellow-500/10 via-amber-500/10 to-orange-500/10 border-2 border-yellow-500/30 shadow-xl rounded-2xl overflow-hidden">
+              <CardContent className="p-6">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="flex items-center gap-6 flex-1">
+                    <div className="p-4 rounded-2xl bg-gradient-to-br from-yellow-500/30 to-amber-500/30 border-2 border-yellow-400/50">
+                      <Trophy className="h-12 w-12 text-yellow-600 dark:text-yellow-400" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                        {contributionData.totalPoints.toLocaleString()} Points
+                      </h3>
+                      <p className="text-slate-600 dark:text-slate-400 mb-3">
+                        Total Contribution Score
+                      </p>
+                      {contributionData.badges && contributionData.badges.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {contributionData.badges.slice(0, 3).map((badge: any, idx: number) => (
+                            <Badge key={idx} className={cn(
+                              "text-xs font-semibold",
+                              badge.rarity === 'legendary' ? 'bg-yellow-500/20 text-yellow-700 border-yellow-300' :
+                              badge.rarity === 'epic' ? 'bg-purple-500/20 text-purple-700 border-purple-300' :
+                              badge.rarity === 'rare' ? 'bg-blue-500/20 text-blue-700 border-blue-300' :
+                              'bg-green-500/20 text-green-700 border-green-300'
+                            )}>
+                              {badge.name}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 min-w-[200px]">
+                    {contributionData.nextBadge && (
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span className="text-slate-600 dark:text-slate-400">Next: {contributionData.nextBadge.name}</span>
+                          <span className="font-semibold text-slate-900 dark:text-white">
+                            {contributionData.nextBadge.pointsNeeded} pts
+                          </span>
+                        </div>
+                        <Progress value={contributionData.nextBadge.progress} className="h-2" />
+                      </div>
+                    )}
+                    <Link href="/leaderboard">
+                      <Button className="w-full bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-700 hover:to-amber-700 text-white shadow-lg rounded-xl">
+                        <Trophy className="h-4 w-4 mr-2" />
+                        View Leaderboard
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Stats Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
@@ -498,9 +574,201 @@ export default function ProfilePage() {
 
                 <TabsContent value="achievements" className="space-y-6">
                   <div className="mb-6">
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Achievements</h3>
+                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Achievements & Contributions</h3>
                     <p className="text-slate-600 dark:text-slate-300">Track your progress and unlock new milestones</p>
                   </div>
+
+                  {/* Contribution Breakdown */}
+                  {!contributionLoading && contributionData && (
+                    <div className="mb-8">
+                      <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                        <TrendingUp className="h-5 w-5 text-primary" />
+                        Contribution Breakdown
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                        {/* Past Papers */}
+                        <Card className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-200/30 dark:border-blue-700/30 rounded-xl">
+                          <CardContent className="p-4">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="p-2 rounded-lg bg-blue-500/20 border border-blue-300/30">
+                                <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                              </div>
+                              <div>
+                                <div className="font-bold text-lg text-slate-900 dark:text-white">
+                                  {contributionData.breakdown.pastPapers.toLocaleString()}
+                                </div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">Past Papers Points</div>
+                              </div>
+                            </div>
+                            <div className="space-y-1 text-xs text-slate-600 dark:text-slate-400">
+                              <div className="flex justify-between">
+                                <span>Uploaded:</span>
+                                <span className="font-semibold">{contributionData.stats.papersUploaded}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Downloads:</span>
+                                <span className="font-semibold">{contributionData.stats.totalDownloads}</span>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        {/* Reviews */}
+                        <Card className="bg-gradient-to-br from-yellow-500/10 to-amber-500/10 border border-yellow-200/30 dark:border-yellow-700/30 rounded-xl">
+                          <CardContent className="p-4">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="p-2 rounded-lg bg-yellow-500/20 border border-yellow-300/30">
+                                <Star className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                              </div>
+                              <div>
+                                <div className="font-bold text-lg text-slate-900 dark:text-white">
+                                  {contributionData.breakdown.reviews.toLocaleString()}
+                                </div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">Reviews Points</div>
+                              </div>
+                            </div>
+                            <div className="space-y-1 text-xs text-slate-600 dark:text-slate-400">
+                              <div className="flex justify-between">
+                                <span>Written:</span>
+                                <span className="font-semibold">{contributionData.stats.reviewsWritten}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Helpful votes:</span>
+                                <span className="font-semibold">{contributionData.stats.totalHelpful}</span>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        {/* Community */}
+                        <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-200/30 dark:border-purple-700/30 rounded-xl">
+                          <CardContent className="p-4">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="p-2 rounded-lg bg-purple-500/20 border border-purple-300/30">
+                                <MessageSquare className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                              </div>
+                              <div>
+                                <div className="font-bold text-lg text-slate-900 dark:text-white">
+                                  {contributionData.breakdown.community.toLocaleString()}
+                                </div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">Community Points</div>
+                              </div>
+                            </div>
+                            <div className="space-y-1 text-xs text-slate-600 dark:text-slate-400">
+                              <div className="flex justify-between">
+                                <span>Posts created:</span>
+                                <span className="font-semibold">{contributionData.stats.postsCreated}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Likes received:</span>
+                                <span className="font-semibold">{contributionData.stats.totalLikes}</span>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        {/* Help Desk */}
+                        <Card className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-200/30 dark:border-green-700/30 rounded-xl">
+                          <CardContent className="p-4">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="p-2 rounded-lg bg-green-500/20 border border-green-300/30">
+                                <Ticket className="h-5 w-5 text-green-600 dark:text-green-400" />
+                              </div>
+                              <div>
+                                <div className="font-bold text-lg text-slate-900 dark:text-white">
+                                  {contributionData.breakdown.helpDesk.toLocaleString()}
+                                </div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">Help Desk Points</div>
+                              </div>
+                            </div>
+                            <div className="space-y-1 text-xs text-slate-600 dark:text-slate-400">
+                              <div className="flex justify-between">
+                                <span>Tickets:</span>
+                                <span className="font-semibold">{contributionData.stats.ticketsCreated}</span>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        {/* Lost & Found */}
+                        <Card className="bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-200/30 dark:border-orange-700/30 rounded-xl">
+                          <CardContent className="p-4">
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="p-2 rounded-lg bg-orange-500/20 border border-orange-300/30">
+                                <MapPin className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                              </div>
+                              <div>
+                                <div className="font-bold text-lg text-slate-900 dark:text-white">
+                                  {contributionData.breakdown.lostFound.toLocaleString()}
+                                </div>
+                                <div className="text-xs text-slate-600 dark:text-slate-400">Lost & Found Points</div>
+                              </div>
+                            </div>
+                            <div className="space-y-1 text-xs text-slate-600 dark:text-slate-400">
+                              <div className="flex justify-between">
+                                <span>Items reported:</span>
+                                <span className="font-semibold">{contributionData.stats.itemsReported}</span>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        {/* Total Summary */}
+                        <Card className="bg-gradient-to-br from-yellow-500/20 to-amber-500/20 border-2 border-yellow-400/50 rounded-xl">
+                          <CardContent className="p-4 flex flex-col justify-center">
+                            <div className="text-center">
+                              <Trophy className="h-8 w-8 text-yellow-600 dark:text-yellow-400 mx-auto mb-2" />
+                              <div className="font-bold text-2xl text-yellow-700 dark:text-yellow-300 mb-1">
+                                {contributionData.totalPoints.toLocaleString()}
+                              </div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400 font-semibold">
+                                TOTAL POINTS
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      {/* Earned Badges Display */}
+                      {contributionData.badges && contributionData.badges.length > 0 && (
+                        <div>
+                          <h5 className="font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                            <Award className="h-5 w-5 text-primary" />
+                            Earned Badges ({contributionData.badges.length})
+                          </h5>
+                          <div className="flex flex-wrap gap-3">
+                            {contributionData.badges.map((badge: any, idx: number) => (
+                              <Badge key={idx} variant="outline" className={cn(
+                                "text-sm py-2 px-4 font-bold border-2",
+                                badge.rarity === 'legendary' ? 'bg-yellow-500/20 text-yellow-700 border-yellow-400 shadow-lg shadow-yellow-500/20' :
+                                badge.rarity === 'epic' ? 'bg-purple-500/20 text-purple-700 border-purple-400 shadow-lg shadow-purple-500/20' :
+                                badge.rarity === 'rare' ? 'bg-blue-500/20 text-blue-700 border-blue-400' :
+                                badge.rarity === 'uncommon' ? 'bg-green-500/20 text-green-700 border-green-400' :
+                                'bg-slate-500/20 text-slate-700 border-slate-400'
+                              )}>
+                                {badge.icon === 'Trophy' && <Trophy className="h-4 w-4 mr-1 inline" />}
+                                {badge.icon === 'Star' && <Star className="h-4 w-4 mr-1 inline" />}
+                                {badge.icon === 'Award' && <Award className="h-4 w-4 mr-1 inline" />}
+                                {badge.icon === 'Heart' && <Heart className="h-4 w-4 mr-1 inline" />}
+                                {badge.icon === 'FileText' && <FileText className="h-4 w-4 mr-1 inline" />}
+                                {badge.icon === 'Users' && <Users className="h-4 w-4 mr-1 inline" />}
+                                {badge.name}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Achievements Grid */}
+                  <div>
+                    <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                      <Target className="h-5 w-5 text-primary" />
+                      Achievement Progress
+                    </h4>
+                  </div>
+                  
                   {achievementsLoading ? (
                     <div className="flex items-center justify-center py-12">
                       <Loader2 className="h-8 w-8 animate-spin text-primary" />
