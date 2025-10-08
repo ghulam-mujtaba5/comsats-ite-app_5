@@ -21,7 +21,9 @@ import {
   MessageSquare,
   Eye,
   Lock,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
+  Activity,
+  Trophy
 } from "lucide-react"
 import Link from "next/link"
 

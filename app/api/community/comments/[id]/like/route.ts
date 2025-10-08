@@ -27,10 +27,16 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Increment likes
+    // Increment likes - first get current value, then increment
+    const { data: comment } = await supabase
+      .from('community_comments')
+      .select('likes')
+      .eq('id', id)
+      .single()
+
     const { data, error } = await supabase
       .from('community_comments')
-      .update({ likes: supabase.raw('likes + 1') as any })
+      .update({ likes: (comment?.likes || 0) + 1 })
       .eq('id', id)
       .select()
       .single()

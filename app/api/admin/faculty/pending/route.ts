@@ -1,13 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { isAdmin } from '@/lib/admin-access'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+
+// Helper function to check admin access
+async function checkAdminAccess(request: NextRequest) {
+  const cookieStore = await cookies()
+  const serverClient = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) { return cookieStore.get(name)?.value },
+        set(name: string, value: string, options?: any) { cookieStore.set({ name, value, ...options }) },
+        remove(name: string, options?: any) { cookieStore.set({ name, value: '', ...options }) },
+      },
+    }
+  )
+  const { data: { user } } = await serverClient.auth.getUser()
+  if (!user) return false
+  
+  const { data: adminUser } = await supabase
+    .from('admin_users')
+    .select('role')
+    .eq('user_id', user.id)
+    .single()
+  
+  return adminUser?.role === 'super_admin' || adminUser?.role === 'admin'
+}
 
 // Admin: Approve or reject pending faculty
 export async function POST(request: NextRequest) {
   try {
     // Check admin access
-    const adminCheck = await isAdmin(request)
-    if (!adminCheck) {
+    const isAdmin = await checkAdminAccess(request)
+    if (!isAdmin) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -103,8 +130,8 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     // Check admin access
-    const adminCheck = await isAdmin(request)
-    if (!adminCheck) {
+    const isAdmin = await checkAdminAccess(request)
+    if (!isAdmin) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 

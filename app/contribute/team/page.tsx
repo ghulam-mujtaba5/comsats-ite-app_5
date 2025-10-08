@@ -14,7 +14,8 @@ import {
   Lock,
   AlertCircle,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  Trophy
 } from "lucide-react"
 import { TEAM_ROLES, getLevelForPoints } from "@/lib/gamification"
 import { motion } from "framer-motion"

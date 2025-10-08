@@ -73,8 +73,8 @@ export default function LeaderboardPage() {
         limit: '50',
       })
       
-      if (scope === 'campus' && selectedCampus) {
-        params.append('campus_id', selectedCampus)
+      if (scope === 'campus' && selectedCampus?.id) {
+        params.append('campus_id', selectedCampus.id)
       }
 
       const response = await fetch(`/api/contributions/leaderboard?${params}`)

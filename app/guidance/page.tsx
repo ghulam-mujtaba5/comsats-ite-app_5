@@ -63,7 +63,6 @@ export default function GuidancePage() {
         setGuideSections([
           {
             id: "1",
-            id: "1",
             title: "Course Registration Process",
             description: "Step-by-step guide for registering courses each semester",
             category: "academic",
