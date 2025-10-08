@@ -54,6 +54,7 @@ interface AdminUser {
   user_id: string
   role: string
   permissions: string[]
+  gamification_role?: string | null
   created_at: string
   user?: User
 }
@@ -72,12 +73,14 @@ export default function AdminUsersPage() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [isPromoteDialogOpen, setIsPromoteDialogOpen] = useState(false)
   const [newAdminRole, setNewAdminRole] = useState("admin")
+  const [newGamificationRole, setNewGamificationRole] = useState<string | null>(null)
   const { toast } = useToast()
   // Manage access (edit existing admin)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [editingAdmin, setEditingAdmin] = useState<AdminUser | null>(null)
   const [editRole, setEditRole] = useState<string>("admin")
   const [editPermissions, setEditPermissions] = useState<string[]>([])
+  const [editGamificationRole, setEditGamificationRole] = useState<string | null>(null)
 
   useEffect(() => {
     fetchUsers()
@@ -184,7 +187,8 @@ export default function AdminUsersPage() {
         body: JSON.stringify({
           userId: selectedUser.id,
           role: newAdminRole,
-          permissions: getDefaultPermissions(newAdminRole)
+          permissions: getDefaultPermissions(newAdminRole),
+          gamification_role: newGamificationRole
         })
       })
 
@@ -237,6 +241,7 @@ export default function AdminUsersPage() {
     setEditingAdmin(admin)
     setEditRole(admin.role)
     setEditPermissions(Array.isArray(admin.permissions) ? admin.permissions : [])
+    setEditGamificationRole(admin.gamification_role || null)
     setIsEditDialogOpen(true)
   }
 
@@ -258,7 +263,11 @@ export default function AdminUsersPage() {
       const res = await fetch(`/api/admin/admin-users/${editingAdmin.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role: editRole, permissions: editPermissions })
+        body: JSON.stringify({ 
+          role: editRole, 
+          permissions: editPermissions,
+          gamification_role: editGamificationRole 
+        })
       })
       if (!res.ok) throw new Error('Failed to update admin access')
       toast({ title: 'Updated', description: 'Admin access updated successfully' })
@@ -572,6 +581,24 @@ export default function AdminUsersPage() {
                   ))}
                 </div>
               </div>
+              <div>
+                <Label>Gamification Role (Optional)</Label>
+                <Select value={newGamificationRole || 'none'} onValueChange={(val) => setNewGamificationRole(val === 'none' ? null : val)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">None</SelectItem>
+                    <SelectItem value="content-curator">🎯 Content Curator</SelectItem>
+                    <SelectItem value="community-moderator">👥 Community Moderator</SelectItem>
+                    <SelectItem value="tech-support">🛠️ Tech Support</SelectItem>
+                    <SelectItem value="campus-ambassador">🎓 Campus Ambassador</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Displays on profile and leaderboard alongside earned level
+                </p>
+              </div>
               <div className="flex justify-end space-x-2">
                 <Button variant="outline" onClick={() => setIsPromoteDialogOpen(false)}>
                   Cancel
@@ -625,6 +652,24 @@ export default function AdminUsersPage() {
                     </label>
                   ))}
                 </div>
+              </div>
+              <div>
+                <Label>Gamification Role</Label>
+                <Select value={editGamificationRole || 'none'} onValueChange={(val) => setEditGamificationRole(val === 'none' ? null : val)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">None</SelectItem>
+                    <SelectItem value="content-curator">🎯 Content Curator</SelectItem>
+                    <SelectItem value="community-moderator">👥 Community Moderator</SelectItem>
+                    <SelectItem value="tech-support">🛠️ Tech Support</SelectItem>
+                    <SelectItem value="campus-ambassador">🎓 Campus Ambassador</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Shows in profile, leaderboard, and badges
+                </p>
               </div>
               <div className="flex justify-end space-x-2">
                 <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>

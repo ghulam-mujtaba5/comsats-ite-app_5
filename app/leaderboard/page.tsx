@@ -33,6 +33,7 @@ interface LeaderboardEntry {
   departmentCode: string
   totalPoints: number
   rank: number
+  gamificationRole?: string | null
   breakdown: {
     papers: number
     reviews: number
@@ -100,6 +101,19 @@ export default function LeaderboardPage() {
     if (rank === 3) return <Medal className="h-6 w-6 text-orange-600" />
     if (rank <= 10) return <Star className="h-5 w-5 text-blue-500" />
     return <Sparkles className="h-4 w-4 text-purple-500" />
+  }
+
+  const getGamificationRoleBadge = (role: string | null | undefined) => {
+    if (!role) return null
+    
+    const roles: Record<string, { icon: string; label: string; color: string }> = {
+      'content-curator': { icon: '🎯', label: 'Content Curator', color: 'bg-blue-500' },
+      'community-moderator': { icon: '👥', label: 'Community Mod', color: 'bg-purple-500' },
+      'tech-support': { icon: '🛠️', label: 'Tech Support', color: 'bg-green-500' },
+      'campus-ambassador': { icon: '🎓', label: 'Ambassador', color: 'bg-yellow-500' },
+    }
+    
+    return roles[role] || null
   }
 
   return (
@@ -199,6 +213,13 @@ export default function LeaderboardPage() {
                         <CardDescription className="text-center">
                           {leaderboard[1].departmentCode} • {leaderboard[1].campusCode}
                         </CardDescription>
+                        {leaderboard[1].gamificationRole && (
+                          <div className="flex justify-center mt-2">
+                            <Badge className={`${getGamificationRoleBadge(leaderboard[1].gamificationRole)?.color} text-white border-0 text-xs`}>
+                              {getGamificationRoleBadge(leaderboard[1].gamificationRole)?.icon} {getGamificationRoleBadge(leaderboard[1].gamificationRole)?.label}
+                            </Badge>
+                          </div>
+                        )}
                       </CardHeader>
                       <CardContent className="text-center">
                         <div className="text-3xl font-bold text-slate-600 dark:text-slate-300">
@@ -231,6 +252,13 @@ export default function LeaderboardPage() {
                         <CardDescription className="text-center">
                           {leaderboard[0].departmentCode} • {leaderboard[0].campusCode}
                         </CardDescription>
+                        {leaderboard[0].gamificationRole && (
+                          <div className="flex justify-center mt-2">
+                            <Badge className={`${getGamificationRoleBadge(leaderboard[0].gamificationRole)?.color} text-white border-0`}>
+                              {getGamificationRoleBadge(leaderboard[0].gamificationRole)?.icon} {getGamificationRoleBadge(leaderboard[0].gamificationRole)?.label}
+                            </Badge>
+                          </div>
+                        )}
                       </CardHeader>
                       <CardContent className="text-center">
                         <div className="text-4xl font-bold text-yellow-700 dark:text-yellow-400">
@@ -257,6 +285,13 @@ export default function LeaderboardPage() {
                         <CardDescription className="text-center">
                           {leaderboard[2].departmentCode} • {leaderboard[2].campusCode}
                         </CardDescription>
+                        {leaderboard[2].gamificationRole && (
+                          <div className="flex justify-center mt-2">
+                            <Badge className={`${getGamificationRoleBadge(leaderboard[2].gamificationRole)?.color} text-white border-0 text-xs`}>
+                              {getGamificationRoleBadge(leaderboard[2].gamificationRole)?.icon} {getGamificationRoleBadge(leaderboard[2].gamificationRole)?.label}
+                            </Badge>
+                          </div>
+                        )}
                       </CardHeader>
                       <CardContent className="text-center">
                         <div className="text-3xl font-bold text-orange-600 dark:text-orange-400">
@@ -316,11 +351,16 @@ export default function LeaderboardPage() {
                         </div>
 
                         {/* Badge */}
-                        <div className="flex-shrink-0">
+                        <div className="flex-shrink-0 flex flex-col gap-1">
                           <Badge variant="outline" className="gap-1">
                             <span>{entry.badge.icon}</span>
                             {entry.badge.label}
                           </Badge>
+                          {entry.gamificationRole && (
+                            <Badge className={`${getGamificationRoleBadge(entry.gamificationRole)?.color} text-white border-0 text-xs`}>
+                              {getGamificationRoleBadge(entry.gamificationRole)?.icon} {getGamificationRoleBadge(entry.gamificationRole)?.label}
+                            </Badge>
+                          )}
                         </div>
                       </CardContent>
                     </Card>

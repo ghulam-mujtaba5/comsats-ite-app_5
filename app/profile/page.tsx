@@ -79,6 +79,7 @@ export default function ProfilePage() {
   const [activityLoading, setActivityLoading] = useState(true)
   const [contributionData, setContributionData] = useState<any>(null)
   const [contributionLoading, setContributionLoading] = useState(true)
+  const [gamificationRole, setGamificationRole] = useState<string | null>(null)
 
   // Fetch user stats when component mounts and user is available
   useEffect(() => {
@@ -147,6 +148,16 @@ export default function ProfilePage() {
       if (response.ok) {
         const data = await response.json()
         setContributionData(data)
+      }
+      
+      // Fetch admin-assigned gamification role
+      const roleResponse = await fetch(`/api/admin/admin-users`)
+      if (roleResponse.ok) {
+        const adminUsers = await roleResponse.json()
+        const myAdminRecord = adminUsers.find((au: any) => au.user_id === user.id)
+        if (myAdminRecord?.gamification_role) {
+          setGamificationRole(myAdminRecord.gamification_role)
+        }
       }
     } catch (error) {
       console.error('Error fetching contribution points:', error)
@@ -265,7 +276,35 @@ export default function ProfilePage() {
 
           {/* Gamification Level Progress */}
           {!contributionLoading && contributionData && (
-            <LevelProgressCard points={contributionData.totalPoints} className="mb-8" />
+            <>
+              <LevelProgressCard points={contributionData.totalPoints} className="mb-8" />
+              
+              {/* Admin-Assigned Gamification Role Badge */}
+              {gamificationRole && (
+                <div className="mb-8 p-6 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-2 border-purple-400/30 rounded-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="text-3xl">
+                      {gamificationRole === 'content-curator' && '🎯'}
+                      {gamificationRole === 'community-moderator' && '👥'}
+                      {gamificationRole === 'tech-support' && '🛠️'}
+                      {gamificationRole === 'campus-ambassador' && '🎓'}
+                    </div>
+                    <div>
+                      <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Special Role</div>
+                      <div className="text-lg font-bold text-slate-900 dark:text-white">
+                        {gamificationRole === 'content-curator' && 'Content Curator'}
+                        {gamificationRole === 'community-moderator' && 'Community Moderator'}
+                        {gamificationRole === 'tech-support' && 'Tech Support'}
+                        {gamificationRole === 'campus-ambassador' && 'Campus Ambassador'}
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                        Recognized contributor with special responsibilities
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
 
           {/* Quick Action Buttons */}

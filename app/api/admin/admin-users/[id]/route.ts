@@ -37,15 +37,16 @@ export async function PATCH(
 
   try {
     const body = await request.json().catch(() => ({}))
-    const { role, permissions } = body as { role?: string; permissions?: string[] }
+    const { role, permissions, gamification_role } = body as { role?: string; permissions?: string[]; gamification_role?: string | null }
 
-    if (!role && !permissions) {
+    if (!role && !permissions && gamification_role === undefined) {
       return NextResponse.json({ error: 'Nothing to update' }, { status: 400 })
     }
 
     const update: any = {}
     if (role) update.role = role
     if (permissions) update.permissions = permissions
+    if (gamification_role !== undefined) update.gamification_role = gamification_role
 
     const { data, error } = await supabaseAdmin
       .from('admin_users')

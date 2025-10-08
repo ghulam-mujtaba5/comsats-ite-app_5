@@ -79,6 +79,7 @@ export async function GET(request: NextRequest) {
         user_id,
         role,
         permissions,
+        gamification_role,
         created_at
       `)
       .order('created_at', { ascending: false })
@@ -157,7 +158,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { userId, role, permissions } = await request.json()
+    const { userId, role, permissions, gamification_role } = await request.json()
 
     if (!userId || !role) {
       return NextResponse.json({ error: 'User ID and role are required' }, { status: 400 })
@@ -169,7 +170,8 @@ export async function POST(request: NextRequest) {
       .upsert({
         user_id: userId,
         role,
-        permissions: permissions || []
+        permissions: permissions || [],
+        gamification_role: gamification_role || null
       }, { onConflict: 'user_id' })
       .select()
       .single()

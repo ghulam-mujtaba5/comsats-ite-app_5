@@ -59,6 +59,13 @@ export async function GET(request: NextRequest) {
           .eq('id', user.user_id)
           .single()
 
+        // Check for admin-assigned gamification role
+        const { data: adminUser } = await supabase
+          .from('admin_users')
+          .select('gamification_role')
+          .eq('user_id', user.user_id)
+          .single()
+
         // Extract student ID from email (fa22-bse-105@...)
         const email = profile?.email || ''
         const studentId = email.split('@')[0] || 'Unknown'
@@ -71,6 +78,7 @@ export async function GET(request: NextRequest) {
           departmentName: (user.departments as any)?.name || 'Unknown',
           departmentCode: (user.departments as any)?.code || 'UNK',
           totalPoints,
+          gamificationRole: adminUser?.gamification_role || null,
           breakdown: {
             papers: paperPoints,
             reviews: reviewPoints,
