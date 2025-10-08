@@ -46,6 +46,9 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState, useEffect } from "react"
+import { LevelProgressCard } from "@/components/profile/level-progress-card"
+import { RewardsShowcase } from "@/components/profile/rewards-showcase"
+import { getLevelForPoints } from "@/lib/gamification"
 
 export default function ProfilePage() {
   const { user, logout, isAuthenticated, isLoading } = useAuth()
@@ -259,61 +262,9 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Contribution Points Banner */}
+          {/* Gamification Level Progress */}
           {!contributionLoading && contributionData && (
-            <Card className="mb-8 bg-gradient-to-r from-yellow-500/10 via-amber-500/10 to-orange-500/10 border-2 border-yellow-500/30 shadow-xl rounded-2xl overflow-hidden">
-              <CardContent className="p-6">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                  <div className="flex items-center gap-6 flex-1">
-                    <div className="p-4 rounded-2xl bg-gradient-to-br from-yellow-500/30 to-amber-500/30 border-2 border-yellow-400/50">
-                      <Trophy className="h-12 w-12 text-yellow-600 dark:text-yellow-400" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                        {contributionData.totalPoints.toLocaleString()} Points
-                      </h3>
-                      <p className="text-slate-600 dark:text-slate-400 mb-3">
-                        Total Contribution Score
-                      </p>
-                      {contributionData.badges && contributionData.badges.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
-                          {contributionData.badges.slice(0, 3).map((badge: any, idx: number) => (
-                            <Badge key={idx} className={cn(
-                              "text-xs font-semibold",
-                              badge.rarity === 'legendary' ? 'bg-yellow-500/20 text-yellow-700 border-yellow-300' :
-                              badge.rarity === 'epic' ? 'bg-purple-500/20 text-purple-700 border-purple-300' :
-                              badge.rarity === 'rare' ? 'bg-blue-500/20 text-blue-700 border-blue-300' :
-                              'bg-green-500/20 text-green-700 border-green-300'
-                            )}>
-                              {badge.name}
-                            </Badge>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-3 min-w-[200px]">
-                    {contributionData.nextBadge && (
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-slate-600 dark:text-slate-400">Next: {contributionData.nextBadge.name}</span>
-                          <span className="font-semibold text-slate-900 dark:text-white">
-                            {contributionData.nextBadge.pointsNeeded} pts
-                          </span>
-                        </div>
-                        <Progress value={contributionData.nextBadge.progress} className="h-2" />
-                      </div>
-                    )}
-                    <Link href="/leaderboard">
-                      <Button className="w-full bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-700 hover:to-amber-700 text-white shadow-lg rounded-xl">
-                        <Trophy className="h-4 w-4 mr-2" />
-                        View Leaderboard
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <LevelProgressCard points={contributionData.totalPoints} className="mb-8" />
           )}
 
           {/* Stats Cards */}
@@ -577,6 +528,15 @@ export default function ProfilePage() {
                     <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Achievements & Contributions</h3>
                     <p className="text-slate-600 dark:text-slate-300">Track your progress and unlock new milestones</p>
                   </div>
+
+                  {/* Rewards & Badges Showcase */}
+                  {!contributionLoading && contributionData && (
+                    <RewardsShowcase 
+                      points={contributionData.totalPoints}
+                      level={getLevelForPoints(contributionData.totalPoints).level}
+                      earnedBadgeIds={contributionData.badges?.map((b: any) => b.id) || []}
+                    />
+                  )}
 
                   {/* Contribution Breakdown */}
                   {!contributionLoading && contributionData && (
