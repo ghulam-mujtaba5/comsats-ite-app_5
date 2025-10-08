@@ -1,13 +1,14 @@
 "use client"
 // Client component extracted from original page for SEO-friendly server wrapper.
 import { useEffect, useMemo, useState } from 'react'
+import { useCampus } from '@/contexts/campus-context'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { CourseCard } from '@/components/past-papers/course-card'
 import { UploadPaperDialog } from '@/components/past-papers/upload-paper-dialog'
 import { departments, type CourseWithPapers, type PastPaper } from '@/lib/past-papers-data'
 import { standardFilters, sortOptions } from '@/lib/filter-data'
-import { Upload, FileText, Download, Users, TrendingUp, RefreshCw, Filter, Tag } from 'lucide-react'
+import { Upload, FileText, Download, Users, TrendingUp, RefreshCw, Filter, Tag, MapPin } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { AdvancedFilterBar } from '@/components/search/advanced-filter-bar'
 
@@ -25,6 +26,7 @@ export default function PastPapersClient() {
   const [coursesWithPapers, setCoursesWithPapers] = useState<CourseWithPapers[]>([])
   const [showTagFilter, setShowTagFilter] = useState(false)
   const [availableTags, setAvailableTags] = useState<string[]>([])
+  const { selectedCampus, selectedDepartment: campusDepartment } = useCampus()
 
   const loadPapers = async () => {
     setLoading(true)
@@ -34,6 +36,10 @@ export default function PastPapersClient() {
       if (selectedSemester !== 'All') params.set('semester', selectedSemester)
       if (selectedYear !== 'All') params.set('year', selectedYear)
       if (searchTerm) params.set('q', searchTerm)
+      // Add campus and department filtering
+      if (selectedCampus?.id) params.set('campus_id', selectedCampus.id)
+      if (campusDepartment?.id) params.set('department_id', campusDepartment.id)
+      
       const res = await fetch(`/api/past-papers?${params.toString()}`, { cache: 'no-store' })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Failed to fetch papers')
@@ -91,7 +97,7 @@ export default function PastPapersClient() {
     } finally { setLoading(false) }
   }
 
-  useEffect(() => { loadPapers() }, [searchTerm, selectedSemester, selectedYear])
+  useEffect(() => { loadPapers() }, [searchTerm, selectedSemester, selectedYear, selectedCampus, campusDepartment])
   useEffect(() => { const h=()=>loadPapers(); window.addEventListener('pastpaper:uploaded', h); return ()=>window.removeEventListener('pastpaper:uploaded', h)}, [])
 
   const filteredCourses = useMemo(() => {

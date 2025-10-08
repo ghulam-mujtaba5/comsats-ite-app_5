@@ -42,9 +42,11 @@ export async function GET(req: NextRequest) {
 
     const status = url.searchParams.get('status')
     const category = url.searchParams.get('category')
+    const campusId = url.searchParams.get('campus_id')
 
     if (status) query = query.eq('status', status)
     if (category) query = query.eq('category', category)
+    if (campusId) query = query.eq('campus_id', campusId)
 
     const { data, error } = await query
     if (error) return NextResponse.json({ error: error.message }, { status: 400 })

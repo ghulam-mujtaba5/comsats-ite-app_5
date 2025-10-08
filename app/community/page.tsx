@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useCampus } from "@/contexts/campus-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -89,6 +90,7 @@ export default function CommunityPage() {
   const [postType, setPostType] = useState("general")
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false)
   const { user } = useAuth()
+  const { selectedCampus } = useCampus()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [postLimit] = useState(20)
@@ -109,8 +111,15 @@ export default function CommunityPage() {
       setLoading(true)
       setError(null)
       try {
+        // Build URL with campus filter
+        const postsParams = new URLSearchParams()
+        postsParams.set('limit', postLimit.toString())
+        postsParams.set('offset', '0')
+        postsParams.set('meta', '1')
+        if (selectedCampus?.id) postsParams.set('campus_id', selectedCampus.id)
+        
         const [postsResponse, eventsResponse] = await Promise.all([
-          fetch(`/api/community/posts?limit=${postLimit}&offset=0&meta=1`),
+          fetch(`/api/community/posts?${postsParams.toString()}`),
           fetch('/api/news-events/events')
         ])
         
@@ -158,13 +167,19 @@ export default function CommunityPage() {
       }
     }
     load()
-  }, [])
+  }, [selectedCampus])
 
   const loadMorePosts = async () => {
     if (loadingMorePosts || !hasMorePosts) return
     setLoadingMorePosts(true)
     try {
-      const res = await fetch(`/api/community/posts?limit=${postLimit}&offset=${postOffset}&meta=1`, { cache: 'no-store' })
+      const params = new URLSearchParams()
+      params.set('limit', postLimit.toString())
+      params.set('offset', postOffset.toString())
+      params.set('meta', '1')
+      if (selectedCampus?.id) params.set('campus_id', selectedCampus.id)
+      
+      const res = await fetch(`/api/community/posts?${params.toString()}`, { cache: 'no-store' })
       const data = await res.json().catch(() => ({}))
       const rows = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : []
       const meta = data && data.meta ? data.meta : { hasMore: rows.length === postLimit, nextOffset: postOffset + rows.length }

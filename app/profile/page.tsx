@@ -2,6 +2,7 @@
 
 import { AuthGuard } from "@/components/auth/auth-guard"
 import { useAuth } from "@/contexts/auth-context"
+import { useCampus } from "@/contexts/campus-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -34,22 +35,33 @@ import {
   Bookmark,
   Heart,
   Eye,
-  Share2
+  Share2,
+  MapPin,
+  GraduationCap,
+  Building2
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState, useEffect } from "react"
 
 export default function ProfilePage() {
   const { user, logout, isAuthenticated, isLoading } = useAuth()
+  const { selectedCampus } = useCampus()
   const [activeTab, setActiveTab] = useState('overview')
   const [userStats, setUserStats] = useState({
-    totalDownloads: 0,
-    reviewsWritten: 0,
     postsCreated: 0,
+    reviewsWritten: 0,
+    ticketsCreated: 0,
+    papersUploaded: 0,
+    totalLikes: 0,
     helpfulVotes: 0,
-    profileViews: 0,
+    campusName: 'COMSATS Lahore',
+    departmentName: 'Computer Science',
+    semester: null as number | null,
+    studentId: null as string | null,
+    fullName: 'Student',
     joinDate: new Date().toISOString().split('T')[0],
-    lastActive: new Date().toISOString().split('T')[0]
+    lastActive: new Date().toISOString().split('T')[0],
+    profileComplete: false,
   })
   const [statsLoading, setStatsLoading] = useState(true)
   const [statsError, setStatsError] = useState<string | null>(null)
@@ -179,12 +191,12 @@ export default function ProfilePage() {
             <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
               <CardContent className="p-6 text-center">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <Download className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+                  <FileText className="h-8 w-8 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
-                  {statsLoading ? '...' : userStats.totalDownloads}
+                  {statsLoading ? '...' : userStats.papersUploaded}
                 </div>
-                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Downloads</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Papers Uploaded</div>
               </CardContent>
             </Card>
             <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
@@ -195,7 +207,7 @@ export default function ProfilePage() {
                 <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
                   {statsLoading ? '...' : userStats.reviewsWritten}
                 </div>
-                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Reviews</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Reviews Written</div>
               </CardContent>
             </Card>
             <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
@@ -206,21 +218,102 @@ export default function ProfilePage() {
                 <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
                   {statsLoading ? '...' : userStats.postsCreated}
                 </div>
-                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Posts</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Posts Created</div>
               </CardContent>
             </Card>
             <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
               <CardContent className="p-6 text-center">
-                <div className="p-3 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-600/20 border border-orange-200/30 dark:border-orange-700/30 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <Heart className="h-8 w-8 text-orange-600 dark:text-orange-400" />
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-600/20 border border-red-200/30 dark:border-red-700/30 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <Heart className="h-8 w-8 text-red-600 dark:text-red-400" />
                 </div>
                 <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
-                  {statsLoading ? '...' : userStats.helpfulVotes}
+                  {statsLoading ? '...' : userStats.totalLikes}
                 </div>
-                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Helpful Votes</div>
+                <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Total Likes</div>
               </CardContent>
             </Card>
           </div>
+
+          {/* Profile Info Card */}
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl mb-12">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <User className="h-5 w-5" />
+                Profile Information
+              </CardTitle>
+              <CardDescription>Your academic profile and campus details</CardDescription>
+            </CardHeader>
+            <CardContent className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                    <User className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">Full Name</p>
+                    <p className="font-semibold text-slate-900 dark:text-white">
+                      {statsLoading ? 'Loading...' : userStats.fullName}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-green-500/10 border border-green-500/20">
+                    <Mail className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">Email</p>
+                    <p className="font-semibold text-slate-900 dark:text-white">{user?.email || 'N/A'}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                    <Award className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">Student ID</p>
+                    <p className="font-semibold text-slate-900 dark:text-white">
+                      {statsLoading ? 'Loading...' : (userStats.studentId || 'Not set')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-orange-500/10 border border-orange-500/20">
+                    <Building2 className="h-5 w-5 text-orange-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">Campus</p>
+                    <p className="font-semibold text-slate-900 dark:text-white">
+                      {statsLoading ? 'Loading...' : userStats.campusName}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
+                    <GraduationCap className="h-5 w-5 text-indigo-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">Department</p>
+                    <p className="font-semibold text-slate-900 dark:text-white">
+                      {statsLoading ? 'Loading...' : userStats.departmentName}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-pink-500/10 border border-pink-500/20">
+                    <Calendar className="h-5 w-5 text-pink-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">Semester</p>
+                    <p className="font-semibold text-slate-900 dark:text-white">
+                      {statsLoading ? 'Loading...' : (userStats.semester ? `Semester ${userStats.semester}` : 'Not set')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Enhanced Dashboard Tabs */}
           <Card className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg">

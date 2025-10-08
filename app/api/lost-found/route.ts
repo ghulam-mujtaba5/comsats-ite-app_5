@@ -20,6 +20,7 @@ export async function GET(request: NextRequest) {
   const category = searchParams.get('category')
   const search = searchParams.get('search')
   const status = searchParams.get('status') || 'active'
+  const campusId = searchParams.get('campus_id')
 
   try {
     let query = supabase
@@ -27,6 +28,11 @@ export async function GET(request: NextRequest) {
       .select('*')
       .eq('status', status)
       .order('created_at', { ascending: false })
+
+    // Filter by campus if provided
+    if (campusId) {
+      query = query.eq('campus_id', campusId)
+    }
 
     if (category && category !== 'all') {
       query = query.eq('category', category)

@@ -74,6 +74,8 @@ export async function GET(request: NextRequest) {
       }
     )
 
+    const campusId = searchParams.get('campus_id')
+
     let query = supabase
       .from('events')
       .select(`
@@ -85,6 +87,11 @@ export async function GET(request: NextRequest) {
     // Only filter out past events if includePast is not requested
     if (!includePast) {
       query = query.gte('event_date', new Date().toISOString().split('T')[0])
+    }
+
+    // Filter by campus if provided
+    if (campusId) {
+      query = query.eq('campus_id', campusId)
     }
 
     if (category && category !== 'all') {

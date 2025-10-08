@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useAuth } from "@/contexts/auth-context"
+import { CampusSelector } from "@/components/layout/campus-selector"
 import { LogOut, User, Menu, Shield, Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -138,6 +139,9 @@ export function Header() {
         </nav>
 
         <div className="flex items-center space-x-3">
+          {/* Campus Selector */}
+          <CampusSelector />
+          
           <Tooltip>
             <TooltipTrigger asChild>
               <Link href="/search" title="Search (Ctrl/⌘ K)" className="hidden lg:inline-flex">

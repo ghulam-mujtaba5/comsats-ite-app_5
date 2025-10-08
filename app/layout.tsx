@@ -5,6 +5,7 @@ import { GeistSans } from "geist/font/sans"
 import { Manrope } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/contexts/auth-context"
+import { CampusProvider } from "@/contexts/campus-context"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/layout/header"
 import { FooterConditional } from "@/components/layout/footer-conditional"
@@ -244,19 +245,21 @@ html {
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <AuthProvider>
-            <Header />
-            <div className="min-h-[60vh]">
-              {children}
-            </div>
-            <FooterConditional />
-            <Toaster />
-            {/* Client-side route change tracking - only in production */}
-          {isProd && (
-            <Suspense fallback={null}>
-              <AnalyticsTracker />
-              <WebVitalsReporter />
-            </Suspense>
-          )}
+            <CampusProvider>
+              <Header />
+              <div className="min-h-[60vh]">
+                {children}
+              </div>
+              <FooterConditional />
+              <Toaster />
+              {/* Client-side route change tracking - only in production */}
+            {isProd && (
+              <Suspense fallback={null}>
+                <AnalyticsTracker />
+                <WebVitalsReporter />
+              </Suspense>
+            )}
+            </CampusProvider>
         </AuthProvider>
       </ThemeProvider>
     </body>

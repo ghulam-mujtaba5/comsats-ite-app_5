@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { jsonLdCollectionPage } from "@/lib/seo"
+import { useCampus } from "@/contexts/campus-context"
 // Footer is provided by the root layout; avoid importing locally to prevent duplicates
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -9,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { FacultyCard } from "@/components/faculty/faculty-card"
 import { departments, type Faculty, searchFaculty } from "@/lib/faculty-data"
 import { standardFilters, sortOptions, filterPresets } from "@/lib/filter-data"
-import { Users, Star, MessageSquare, Filter, Award, BookOpen, RotateCcw, GraduationCap } from "lucide-react"
+import { Users, Star, MessageSquare, Filter, Award, BookOpen, RotateCcw, GraduationCap, MapPin } from "lucide-react"
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 
@@ -28,6 +29,7 @@ export default function FacultyPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [debouncedSearch, setDebouncedSearch] = useState("")
+  const { selectedCampus, selectedDepartment: campusDepartment } = useCampus()
   
   // Preserve and restore scroll position when navigating to profile and back
   useEffect(() => {
@@ -86,7 +88,13 @@ export default function FacultyPage() {
       setLoading(true)
       setError(null)
       try {
-        const res = await fetch('/api/faculty', { cache: 'no-store' })
+        // Build URL with campus and department filters
+        const params = new URLSearchParams()
+        if (selectedCampus?.id) params.set('campus_id', selectedCampus.id)
+        if (campusDepartment?.id) params.set('department_id', campusDepartment.id)
+        
+        const url = `/api/faculty${params.toString() ? `?${params.toString()}` : ''}`
+        const res = await fetch(url, { cache: 'no-store' })
         if (!res.ok) {
           const body = await res.json().catch(() => ({}))
           throw new Error(body?.error || 'Failed to fetch faculty')
@@ -100,7 +108,7 @@ export default function FacultyPage() {
       }
     }
     load()
-  }, [])
+  }, [selectedCampus, campusDepartment])
 
   const filteredFaculty = useMemo(() => {
     let faculty = [...facultyList]

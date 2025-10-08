@@ -3,7 +3,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 // GET /api/faculty
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -17,10 +17,27 @@ export async function GET(_req: NextRequest) {
     }
   )
 
-  const { data, error } = await supabase
+  // Get campus and department filters from query params
+  const { searchParams } = new URL(req.url)
+  const campusId = searchParams.get('campus_id')
+  const departmentId = searchParams.get('department_id')
+
+  let query = supabase
     .from('faculty')
     .select('*')
     .order('name', { ascending: true })
+
+  // Filter by campus if provided
+  if (campusId) {
+    query = query.eq('campus_id', campusId)
+  }
+
+  // Filter by department if provided
+  if (departmentId) {
+    query = query.eq('department_id', departmentId)
+  }
+
+  const { data, error } = await query
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
 

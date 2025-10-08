@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const cookieStore = await (cookies() as any)
+  const cookieStore = await cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -15,41 +15,37 @@ export async function GET(request: NextRequest) {
       },
     }
   )
-  const { searchParams } = new URL(request.url)
-  
-  const category = searchParams.get('category')
-  const campusId = searchParams.get('campus_id')
 
   try {
-    let query = supabase
-      .from('support_resources')
-      .select('*')
-      .eq('is_active', true)
-      .order('created_at', { ascending: false })
-
-    // Filter by campus if provided
-    if (campusId) {
-      query = query.eq('campus_id', campusId)
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    if (category && category !== 'all') {
-      query = query.eq('category', category)
-    }
+    const { data, error } = await supabase
+      .from('user_preferences')
+      .select(`
+        *,
+        campus:campuses(id, name, code, city),
+        department:departments(id, name, code),
+        program:programs(id, name, code)
+      `)
+      .eq('user_id', user.id)
+      .single()
 
-    const { data, error } = await query
-
-    if (error) {
+    if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
-    return NextResponse.json(data)
+    return NextResponse.json(data || null)
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
 export async function POST(request: NextRequest) {
-  const cookieStore = await (cookies() as any)
+  const cookieStore = await cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -61,7 +57,7 @@ export async function POST(request: NextRequest) {
       },
     }
   )
-  
+
   try {
     const { data: { user } } = await supabase.auth.getUser()
     
@@ -70,17 +66,16 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { name, email, category, message, is_anonymous } = body
+    const { campus_id, department_id, program_id, semester } = body
 
     const { data, error } = await supabase
-      .from('support_requests')
-      .insert({
-        name: is_anonymous ? null : name,
-        email: is_anonymous ? null : email,
-        category,
-        message,
-        is_anonymous,
-        user_id: user.id
+      .from('user_preferences')
+      .upsert({
+        user_id: user.id,
+        campus_id,
+        department_id,
+        program_id,
+        semester,
       })
       .select()
       .single()
@@ -89,7 +84,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
-    return NextResponse.json(data, { status: 201 })
+    return NextResponse.json(data)
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }

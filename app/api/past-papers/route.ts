@@ -18,6 +18,8 @@ export async function GET(req: NextRequest) {
     const year = searchParams.get('year') ? Number(searchParams.get('year')) : undefined
     const q = searchParams.get('q') || undefined
     const limit = Number(searchParams.get('limit') || '50')
+    const campusId = searchParams.get('campus_id') || undefined
+    const departmentId = searchParams.get('department_id') || undefined
 
     const supabase = serviceKey
       ? createClient(url, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } })
@@ -30,6 +32,10 @@ export async function GET(req: NextRequest) {
       .order('created_at', { ascending: false })
       .limit(limit)
 
+    // Filter by campus if provided
+    if (campusId) query = query.eq('campus_id', campusId)
+    // Filter by department if provided
+    if (departmentId) query = query.eq('department_id', departmentId)
     if (course) query = query.ilike('course_code', `%${course}%`)
     if (semester) query = query.ilike('semester', `%${semester}%`)
     if (typeof year === 'number' && !Number.isNaN(year)) query = query.eq('year', year)

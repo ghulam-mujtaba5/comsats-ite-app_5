@@ -27,12 +27,20 @@ export async function GET(request: NextRequest) {
     const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '20', 10), 1), 100)
     const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10), 0)
     const withMeta = (searchParams.get('meta') || '') === '1'
+    const campusId = searchParams.get('campus_id')
 
-    const { data: posts, error } = await supabase
+    let query = supabase
       .from('community_posts')
       .select('*')
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1)
+
+    // Filter by campus if provided
+    if (campusId) {
+      query = query.eq('campus_id', campusId)
+    }
+
+    const { data: posts, error } = await query
 
     if (error) throw error
 
