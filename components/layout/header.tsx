@@ -197,17 +197,17 @@ export function Header() {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[85vw] max-w-sm bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl z-[105] overflow-y-auto max-h-screen">
-              <div className="flex flex-col space-y-4 mt-8 pb-8 px-2">
-                <div className="flex items-center space-x-4 pb-6 border-b border-white/20 dark:border-white/10">
-                  <div className="relative">
-                    <Image src="/new-logo.svg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl" />
+            <SheetContent side="right" className="w-[calc(100vw-40px)] max-w-[380px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen">
+              <div className="flex flex-col space-y-4 mt-8 pb-8 px-2 w-full">
+                <div className="flex items-center space-x-4 pb-6 border-b border-white/20 dark:border-white/10 w-full">
+                  <div className="relative flex-shrink-0">
+                    <Image src="/logo-square.svg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl" />
                     <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-50" />
                   </div>
-                  <div className="flex flex-col">
-                    <span className="font-bold text-xl">CampusAxis</span>
+                  <div className="flex flex-col min-w-0 flex-1">
+                    <span className="font-bold text-xl truncate">CampusAxis</span>
                     {pathname !== '/' && (
-                      <span className="text-sm text-slate-600 dark:text-slate-400">Academic Portal</span>
+                      <span className="text-sm text-slate-600 dark:text-slate-400 truncate">Academic Portal</span>
                     )}
                   </div>
                 </div>
@@ -219,7 +219,7 @@ export function Header() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift group backdrop-blur-sm border ${
+                      className={`relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift group backdrop-blur-sm border w-full ${
                         isActivePath(item.href) ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border-blue-200/30 dark:border-blue-400/30 shadow-lg" : "border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md"
                       }`}
                       aria-current={isActivePath(item.href) ? "page" : undefined}
@@ -227,13 +227,13 @@ export function Header() {
                       {isActivePath(item.href) && (
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-2xl blur-sm" />
                       )}
-                      <div className="relative z-10 flex items-start space-x-3">
+                      <div className="relative z-10 flex items-start space-x-3 w-full min-w-0">
                         {Icon && <Icon className="h-5 w-5 mt-0.5 flex-shrink-0" />}
-                        <div className="flex flex-col">
-                          <span className={`font-semibold text-base ${
+                        <div className="flex flex-col min-w-0 flex-1">
+                          <span className={`font-semibold text-base break-words ${
                             isActivePath(item.href) ? "text-blue-600 dark:text-blue-400" : "text-slate-900 dark:text-white"
                           }`}>{item.name}</span>
-                          <span className={`text-sm ${
+                          <span className={`text-sm break-words ${
                             isActivePath(item.href) ? "text-blue-500/80 dark:text-blue-300/80" : "text-slate-600 dark:text-slate-400"
                           }`}>{item.description}</span>
                         </div>
@@ -246,13 +246,13 @@ export function Header() {
                   <Link
                     href="/admin"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md"
+                    className="relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md w-full"
                   >
-                    <div className="relative z-10 flex items-start space-x-3">
+                    <div className="relative z-10 flex items-start space-x-3 w-full min-w-0">
                       <Shield className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                      <div className="flex flex-col">
-                        <span className="font-semibold text-slate-900 dark:text-white">Admin Panel</span>
-                        <span className="text-sm text-slate-600 dark:text-slate-400">Manage site content</span>
+                      <div className="flex flex-col min-w-0 flex-1">
+                        <span className="font-semibold text-slate-900 dark:text-white truncate">Admin Panel</span>
+                        <span className="text-sm text-slate-600 dark:text-slate-400 truncate">Manage site content</span>
                       </div>
                     </div>
                   </Link>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
 import { useCampus } from "@/contexts/campus-context"
 import { Button } from "@/components/ui/button"
@@ -17,8 +17,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
 } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Separator } from "@/components/ui/separator"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import {
   MessageSquare,
   Users,
@@ -57,7 +68,41 @@ import {
   ChevronDown,
   X,
   HelpCircle,
-  Shield
+  Shield,
+  Home,
+  Compass,
+  User,
+  MoreHorizontal,
+  Settings,
+  LogOut,
+  Smile,
+  Image as ImageIcon,
+  Video,
+  PlayCircle,
+  Globe,
+  Lock,
+  UserCheck,
+  Camera,
+  Edit,
+  Trash2,
+  Flag,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  Check,
+  CheckCheck,
+  Mic,
+  Phone,
+  VideoIcon as VideoCallIcon,
+  Paperclip,
+  ThumbsUp,
+  Laugh,
+  Frown,
+  AngryIcon as Angry,
+  EyeOff,
+  AtSign,
+  Radio,
+  Film
 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
@@ -70,6 +115,7 @@ import { useIsMobile } from "@/hooks/use-mobile"
 import { useRealtimePosts } from "@/hooks/use-realtime-posts"
 import { RichTextEditor } from "@/components/community/rich-text-editor"
 import { MediaUploader } from "@/components/community/media-uploader"
+import { supabase } from "@/lib/supabase"
 
 interface Group {
   id: number

@@ -1,17 +1,15 @@
 import { ImageResponse } from 'next/og'
-import type { MetadataRoute } from 'next'
  
 export const runtime = 'edge'
  
-// Image metadata
 export const size = {
-  width: 512,
-  height: 512,
+  width: 180,
+  height: 180,
 }
+ 
 export const contentType = 'image/png'
  
-// Image generation - Using square logo design
-export default function Icon() {
+export default function AppleTouchIcon() {
   return new ImageResponse(
     (
       <div
@@ -22,10 +20,9 @@ export default function Icon() {
           alignItems: 'center',
           justifyContent: 'center',
           background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #6366f1 100%)',
-          borderRadius: '80px',
+          borderRadius: '0',
         }}
       >
-        {/* Campus building icon */}
         <div
           style={{
             display: 'flex',
@@ -37,12 +34,12 @@ export default function Icon() {
           {/* Stylized C letter */}
           <div
             style={{
-              fontSize: 280,
+              fontSize: 98,
               fontWeight: 'bold',
               color: 'white',
               fontFamily: 'Arial, sans-serif',
-              letterSpacing: '-8px',
-              textShadow: '0 8px 24px rgba(0,0,0,0.3)',
+              letterSpacing: '-3px',
+              textShadow: '0 4px 12px rgba(0,0,0,0.3)',
             }}
           >
             C

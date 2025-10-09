@@ -39,15 +39,15 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     categories: ["education", "social", "productivity"],
     icons: [
-      // Conventional PWA icons; served by route handlers to reuse the navbar logo
+      // Primary square logo for PWA
+      { src: "/logo-square.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
+      // PNG icons generated from square logo
       { src: "/icon-192x192.png", sizes: "192x192", type: "image/png", purpose: "any" },
       { src: "/icon-512x512.png", sizes: "512x512", type: "image/png", purpose: "any" },
       { src: "/apple-touch-icon.png", sizes: "180x180", type: "image/png", purpose: "any" },
       // Maskable icons for better PWA experience
       { src: "/icon-maskable-192x192.png", sizes: "192x192", type: "image/png", purpose: "maskable" },
       { src: "/icon-maskable-512x512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
-      // Fallback reference to the original logo for completeness
-      { src: "/new-logo.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
     ],
     screenshots: [
       {
