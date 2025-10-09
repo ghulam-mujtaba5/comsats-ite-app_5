@@ -1,21 +1,15 @@
--- =====================================================
--- FIX: Allow authenticated users to check their own admin status
--- =====================================================
-
--- First, drop the existing policy
+-- Drop the restrictive policy
 DROP POLICY IF EXISTS "authenticated_read_admin_users" ON public.admin_users;
 
--- Create two simpler policies:
-
--- 1. Users can check their own admin status
-CREATE POLICY "users_read_own_admin"
+-- Create policy for users to check their own admin status
+CREATE POLICY "users_can_read_own_admin_status"
 ON public.admin_users
 FOR SELECT
 TO authenticated
 USING (user_id = auth.uid());
 
--- 2. Admins can view all admin users (for admin panel)
-CREATE POLICY "admins_read_all"
+-- Create policy for admins to view all admins
+CREATE POLICY "admins_can_read_all_admins"
 ON public.admin_users
 FOR SELECT
 TO authenticated
@@ -26,8 +20,11 @@ USING (
   )
 );
 
--- Log completion
-DO $$
-BEGIN
-  RAISE NOTICE '✅ Admin access policies updated - users can now check their status';
-END $$;
+-- Verify policies
+SELECT 
+  policyname,
+  cmd,
+  qual
+FROM pg_policies 
+WHERE tablename = 'admin_users'
+ORDER BY policyname;
