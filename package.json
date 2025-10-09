@@ -92,6 +92,7 @@
     "@types/pg": "^8.15.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "critters": "^0.0.25",
     "dotenv": "^16.4.5",
     "postcss": "^8.5",
     "sharp": "^0.32.6",
