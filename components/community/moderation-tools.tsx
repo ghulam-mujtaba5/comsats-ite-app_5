@@ -19,7 +19,8 @@ import {
   MessageSquare,
   Users,
   Calendar,
-  BarChart3
+  BarChart3,
+  X  // Add the missing X import
 } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
 
@@ -491,7 +492,7 @@ export function ModerationTools() {
                   >
                     {word}
                     <button className="text-muted-foreground hover:text-foreground">
-                      <X className="h-3 w-3" />
+                      <X className="h-3 w-3" /> {/* Fixed the X reference error */}
                     </button>
                   </span>
                 ))}

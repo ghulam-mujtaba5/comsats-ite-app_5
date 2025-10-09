@@ -18,7 +18,8 @@ import {
   Unlock,
   AlertTriangle,
   CheckCircle,
-  XCircle
+  XCircle,
+  X  // Add the missing X import
 } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
 
@@ -567,7 +568,7 @@ export default function CommunityAdminPage() {
                     >
                       {word}
                       <button className="text-muted-foreground hover:text-foreground">
-                        <X className="h-3 w-3" />
+                        <X className="h-3 w-3" /> {/* Fixed the X reference error */}
                       </button>
                     </span>
                   ))}

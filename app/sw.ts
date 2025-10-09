@@ -121,9 +121,9 @@ registerRoute(
 )
 
 // Handle background sync for offline post creation
-self.addEventListener('sync', (event: any) => {
+self.addEventListener('sync', (event: SyncEvent) => {
   if (event.tag === 'sync-posts') {
-    (event as SyncEvent).waitUntil(syncPosts())
+    event.waitUntil(syncPosts())
   }
 })
 
@@ -134,11 +134,12 @@ async function syncPosts() {
 }
 
 // Handle push notifications
-self.addEventListener('push', (event: any) => {
+self.addEventListener('push', (event: PushEvent) => {
   if (event.data) {
     const data = event.data.json()
     const title = data.title || 'CampusAxis Notification'
-    const options = {
+    // Fix TypeScript error by properly typing the options object
+    const options: NotificationOptions = {
       body: data.body || 'You have a new notification',
       icon: '/icon-192x192.png',
       badge: '/icon-192x192.png',
@@ -147,17 +148,17 @@ self.addEventListener('push', (event: any) => {
       },
     }
     
-    (event as PushEvent).waitUntil(
+    event.waitUntil(
       self.registration.showNotification(title, options)
     )
   }
 })
 
 // Handle notification clicks
-self.addEventListener('notificationclick', (event: any) => {
+self.addEventListener('notificationclick', (event: NotificationEvent) => {
   event.notification.close()
   
-  (event as NotificationEvent).waitUntil(
+  event.waitUntil(
     self.clients.matchAll({ type: 'window' }).then((clientList) => {
       // If there's already a window open, focus it
       for (const client of clientList) {
@@ -180,7 +181,7 @@ async function updateCommunityPosts() {
 }
 
 // Handle messages from client
-self.addEventListener('message', (event: any) => {
+self.addEventListener('message', (event: ExtendableMessageEvent) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting()
   }

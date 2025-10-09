@@ -7,10 +7,10 @@ import { Smile, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 // Dynamically import Picker to avoid SSR issues
-const Picker = dynamic(
-  () => import('emoji-mart').then(mod => mod.Picker),
-  { ssr: false }
-)
+const Picker = dynamic(() => import('emoji-mart').then(mod => mod.Picker as any), {
+  ssr: false,
+  loading: () => <div>Loading...</div>
+})
 
 interface EmojiPickerProps {
   onEmojiSelect: (emoji: any) => void
@@ -74,16 +74,18 @@ export function EmojiPicker({ onEmojiSelect, className }: EmojiPickerProps) {
               <X className="h-3 w-3" />
             </Button>
             {isClient && (
-              <Picker
-                onSelect={onEmojiSelect}
-                theme="light"
-                emojiSize={20}
-                perLine={8}
-                emojiTooltip={true}
-                showPreview={false}
-                showSkinTones={false}
-                autoFocus={true}
-              />
+              <div>
+                <Picker 
+                  onSelect={onEmojiSelect}
+                  theme="light"
+                  emojiSize={20}
+                  perLine={8}
+                  emojiTooltip={true}
+                  showPreview={false}
+                  showSkinTones={false}
+                  autoFocus={true}
+                />
+              </div>
             )}
           </div>
         </div>

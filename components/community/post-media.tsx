@@ -15,8 +15,8 @@ import {
 } from "lucide-react"
 
 // Dynamically import components to avoid SSR issues
-const ImageGallery = dynamic(() => import('react-image-gallery'), { ssr: false })
-const ReactPlayer = dynamic(() => import('react-player'), { ssr: false })
+const ImageGallery = dynamic(() => import('react-image-gallery'), { ssr: false }) as any
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false }) as any
 
 interface MediaItem {
   id: string
@@ -28,6 +28,13 @@ interface MediaItem {
 
 interface PostMediaProps {
   media: MediaItem[]
+}
+
+interface ImageGalleryItem {
+  original: string
+  thumbnail: string
+  originalAlt: string
+  thumbnailAlt: string
 }
 
 export function PostMedia({ media }: PostMediaProps) {
@@ -66,7 +73,7 @@ export function PostMedia({ media }: PostMediaProps) {
   }
 
   // Get images for gallery
-  const images = media
+  const images: ImageGalleryItem[] = media
     .filter(item => item.type === 'image')
     .map(item => ({
       original: item.url,
@@ -110,7 +117,7 @@ export function PostMedia({ media }: PostMediaProps) {
                 </div>
               </DialogTrigger>
               <DialogContent className="max-w-4xl max-h-[90vh] p-0">
-                {isClient && (
+                {isClient && ImageGallery && (
                   <ImageGallery 
                     items={images} 
                     startIndex={images.findIndex(img => img.original === image.original)}
@@ -130,7 +137,7 @@ export function PostMedia({ media }: PostMediaProps) {
         <div className="space-y-2">
           {videos.map((video) => (
             <div key={video.id} className="rounded-lg overflow-hidden border">
-              {isClient && (
+              {isClient && ReactPlayer && (
                 <ReactPlayer
                   url={video.url}
                   width="100%"
