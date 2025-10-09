@@ -1,73 +1,90 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { marked } from 'marked'
+import { sanitizeHtml } from '@/lib/utils'
+import DOMPurify from 'dompurify'
+import { JSDOM } from 'jsdom'
+
+// Create a DOMPurify instance
+const window = new JSDOM('').window
+const purify = DOMPurify(window)
 
 // GET /api/blog/[id] - Fetch a specific blog article
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  const cookieStore = await cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value
-        },
-        set(name: string, value: string, options?: any) {
-          cookieStore.set({ name, value, ...options })
-        },
-        remove(name: string, options?: any) {
-          cookieStore.set({ name, value: '', ...options })
-        },
-      },
-    }
-  )
-
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params
+    // Next.js 15 requires awaiting params for dynamic routes
+    const { id } = await params
 
-    // Validate UUID format
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-    if (!uuidRegex.test(id)) {
-      // Try to find by slug
-      const { data: articleBySlug, error: slugError } = await supabase
+    const cookieStore = await cookies()
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStore.get(name)?.value
+          },
+          set(name: string, value: string, options?: any) {
+            cookieStore.set({ name, value, ...options })
+          },
+          remove(name: string, options?: any) {
+            cookieStore.set({ name, value: '', ...options })
+          },
+        },
+      }
+    )
+
+    try {
+      // Next.js 15 requires awaiting params for dynamic routes
+      const { id } = await params
+
+      // Validate UUID format
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+      if (!uuidRegex.test(id)) {
+        // Try to find by slug
+        const { data: articleBySlug, error: slugError } = await supabase
+          .from('blog_articles')
+          .select('*')
+          .eq('slug', id)
+          .eq('is_published', true)
+          .single()
+
+        if (slugError || !articleBySlug) {
+          return NextResponse.json({ error: 'Article not found' }, { status: 404 })
+        }
+
+        // Increment view count
+        await supabase
+          .from('blog_articles')
+          .update({ view_count: articleBySlug.view_count + 1 })
+          .eq('id', articleBySlug.id)
+
+        return NextResponse.json(articleBySlug)
+      }
+
+      const { data, error } = await supabase
         .from('blog_articles')
         .select('*')
-        .eq('slug', id)
+        .eq('id', id)
         .eq('is_published', true)
         .single()
 
-      if (slugError || !articleBySlug) {
+      if (error) {
         return NextResponse.json({ error: 'Article not found' }, { status: 404 })
       }
 
       // Increment view count
       await supabase
         .from('blog_articles')
-        .update({ view_count: articleBySlug.view_count + 1 })
-        .eq('id', articleBySlug.id)
+        .update({ view_count: data.view_count + 1 })
+        .eq('id', id)
 
-      return NextResponse.json(articleBySlug)
+      return NextResponse.json(data)
+    } catch (error) {
+      console.error('Error fetching blog article:', error)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
     }
-
-    const { data, error } = await supabase
-      .from('blog_articles')
-      .select('*')
-      .eq('id', id)
-      .eq('is_published', true)
-      .single()
-
-    if (error) {
-      return NextResponse.json({ error: 'Article not found' }, { status: 404 })
-    }
-
-    // Increment view count
-    await supabase
-      .from('blog_articles')
-      .update({ view_count: data.view_count + 1 })
-      .eq('id', id)
-
-    return NextResponse.json(data)
   } catch (error) {
     console.error('Error fetching blog article:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -75,7 +92,10 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // PUT /api/blog/[id] - Update a blog article (admin only)
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  // Next.js 15 requires awaiting params for dynamic routes
+  const { id } = await params
+
   const cookieStore = await cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -96,7 +116,8 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   )
 
   try {
-    const { id } = params
+    // Next.js 15 requires awaiting params for dynamic routes
+  const { id } = await params
 
     // Check if user is admin
     const { data: { user } } = await supabase.auth.getUser()
@@ -128,7 +149,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         title,
         slug,
         excerpt,
-        content,
+        content: sanitizeHtml(content),
         category,
         tags: tags || [],
         featured_image_url,
@@ -159,7 +180,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // DELETE /api/blog/[id] - Delete a blog article (admin only)
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  // Next.js 15 requires awaiting params for dynamic routes
+  const { id } = await params
+
   const cookieStore = await cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -180,7 +204,8 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   )
 
   try {
-    const { id } = params
+    // Next.js 15 requires awaiting params for dynamic routes
+  const { id } = await params
 
     // Check if user is admin
     const { data: { user } } = await supabase.auth.getUser()

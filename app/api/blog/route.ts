@@ -2,12 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { marked } from 'marked'
-import DOMPurify from 'dompurify'
-import { JSDOM } from 'jsdom'
-
-// Create a DOMPurify instance
-const window = new JSDOM('').window
-const purify = DOMPurify(window)
+import { sanitizeHtml } from '@/lib/utils'
 
 // GET /api/blog - Fetch blog articles
 export async function GET(request: NextRequest) {
@@ -145,7 +140,7 @@ export async function POST(request: NextRequest) {
         title,
         slug,
         excerpt,
-        content: purify.sanitize(marked(content || '')),
+        content: sanitizeHtml(content),
         category,
         tags: tags || [],
         author_name: user.email?.split('@')[0] || 'Anonymous',
