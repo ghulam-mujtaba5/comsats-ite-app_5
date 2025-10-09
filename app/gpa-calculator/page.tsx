@@ -1,19 +1,68 @@
 import type { Metadata } from "next"
-import { jsonLdBreadcrumb, createMetadata } from "@/lib/seo"
+import { jsonLdBreadcrumb, jsonLdFAQ, createMetadata } from "@/lib/seo"
+import { STRUCTURED_DATA } from "@/lib/seo"
+import { pageTemplates, GPA_CALCULATOR_FAQS, GPA_CALCULATOR_HOWTO } from "@/lib/seo-config"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calculator, TrendingUp, Target, Info, Calendar, BookOpen, Lightbulb, HelpCircle } from "lucide-react"
 
 export const metadata: Metadata = createMetadata({
-  title: "COMSATS GPA Calculator - Calculate Semester & Cumulative GPA | CampusAxis",
-  description: "Free COMSATS GPA calculator for students. Calculate semester GPA, cumulative CGPA, admission aggregate, and plan your academic goals with our accurate COMSATS grading system calculator.",
+  title: "COMSATS GPA Calculator - Free Online CGPA Calculator 2025 | CampusAxis",
+  description: "Calculate your COMSATS GPA/CGPA instantly with our free online calculator. Supports latest grading scale, semester-wise calculation, and credit hours. Accurate results for COMSATS students.",
   path: "/gpa-calculator",
-  keywords: ["COMSATS GPA calculator", "CUI GPA calculator", "COMSATS CGPA calculator", "semester GPA", "cumulative GPA", "aggregate calculator", "COMSATS grading system", "GPA planning"],
+  keywords: [
+    "COMSATS GPA calculator",
+    "CUI GPA calculator", 
+    "COMSATS CGPA calculator",
+    "GPA calculator online free",
+    "semester GPA calculator COMSATS",
+    "cumulative GPA calculator",
+    "aggregate calculator COMSATS",
+    "COMSATS grading system",
+    "GPA planning calculator",
+    "COMSATS University calculator",
+    "CUI Lahore GPA calculator",
+    "free GPA calculator Pakistan"
+  ],
 })
 
 export default function GPACalculatorPage() {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
+  
+  // Structured data for better SEO
+  const breadcrumbJsonLd = jsonLdBreadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'GPA Calculator', path: '/gpa-calculator' }
+  ])
+  
+  const faqJsonLd = jsonLdFAQ(GPA_CALCULATOR_FAQS.map(faq => ({ question: faq.question, answer: faq.answer })))
+  
+  const howToJsonLd = STRUCTURED_DATA.howTo(
+    GPA_CALCULATOR_HOWTO.name,
+    GPA_CALCULATOR_HOWTO.description,
+    [...GPA_CALCULATOR_HOWTO.steps]
+  )
+  
+  const webAppJsonLd = STRUCTURED_DATA.webApplication(
+    'COMSATS GPA Calculator Suite',
+    'Free online GPA calculator for COMSATS University students. Calculate semester GPA, cumulative CGPA, admission aggregate, and plan your academic future.',
+    `${siteUrl}/gpa-calculator`,
+    [
+      'Semester GPA calculator',
+      'Cumulative CGPA calculator',
+      'Admission aggregate calculator',
+      'Future GPA planning',
+      'What-if scenario modeling',
+      'Credit hours calculation',
+      'Grade point conversion'
+    ]
+  )
+
   return (
     <div className="min-h-screen flex flex-col bg-mesh">
+      {/* Structured Data */}
+      <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbJsonLd, faqJsonLd, howToJsonLd, webAppJsonLd]) }} />
+      
       <main className="flex-1 py-8 md:py-12 px-4">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-8 md:mb-12">

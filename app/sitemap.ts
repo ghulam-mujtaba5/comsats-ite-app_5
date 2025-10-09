@@ -161,5 +161,38 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Note: sitemap() can be async in Next.js metadata routes — return a Promise
   await fetchDynamic()
+  
+  // Sort by priority (higher priority first) for better crawling
+  entries.sort((a, b) => {
+    const priorityA = a.priority || 0.5
+    const priorityB = b.priority || 0.5
+    return priorityB - priorityA
+  })
+  
   return entries
+}
+
+// Image sitemap endpoint - helps Google discover and index images
+export async function imageMap() {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
+  
+  const images = [
+    {
+      url: `${siteUrl}/og-preview.png`,
+      title: 'CampusAxis - COMSATS University Portal',
+      caption: 'Official academic portal for COMSATS students',
+    },
+    {
+      url: `${siteUrl}/og-preview.svg`,
+      title: 'CampusAxis Logo',
+      caption: 'CampusAxis brand logo',
+    },
+    {
+      url: `${siteUrl}/new-logo.svg`,
+      title: 'CampusAxis New Logo',
+      caption: 'Updated CampusAxis logo design',
+    },
+  ]
+  
+  return images
 }

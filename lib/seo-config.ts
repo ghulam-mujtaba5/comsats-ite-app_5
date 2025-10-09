@@ -195,4 +195,139 @@ export function getDepartmentSEO(department: {
   }
 }
 
+// SEO Best Practices Constants
+export const SEO_LIMITS = {
+  titleLength: { min: 50, max: 60, ideal: 55 },
+  descriptionLength: { min: 150, max: 160, ideal: 155 },
+  keywordsCount: { min: 5, max: 15, ideal: 10 },
+  h1Count: 1,
+  imageAlt: { min: 10, max: 125 },
+  urlLength: { max: 100, ideal: 75 },
+} as const
+
+// Priority Pages for SEO (for sitemap priority and indexing)
+export const PRIORITY_PAGES = {
+  high: [
+    '/',
+    '/gpa-calculator',
+    '/gpa-calculator/semester',
+    '/gpa-calculator/cumulative',
+    '/past-papers',
+    '/faculty',
+  ],
+  medium: [
+    '/news',
+    '/blog',
+    '/resources',
+    '/community',
+    '/timetable',
+    '/gpa-calculator/aggregate',
+    '/gpa-calculator/planning',
+  ],
+  low: [
+    '/about',
+    '/contact',
+    '/support',
+    '/legal/privacy-policy',
+    '/legal/terms-of-service',
+  ],
+} as const
+
+// Internal Linking Strategy for better SEO and user navigation
+export const INTERNAL_LINKS = {
+  gpaCalculator: {
+    related: [
+      { title: 'Past Papers', url: '/past-papers', description: 'Download previous exam papers' },
+      { title: 'Study Resources', url: '/resources', description: 'Access study materials' },
+      { title: 'Timetable', url: '/timetable', description: 'Manage your class schedule' },
+      { title: 'Academic Blog', url: '/blog', description: 'Tips for academic success' },
+    ],
+  },
+  faculty: {
+    related: [
+      { title: 'Community Forum', url: '/community', description: 'Discuss with students' },
+      { title: 'Course Selection Tips', url: '/guidance', description: 'Choose the right courses' },
+      { title: 'GPA Calculator', url: '/gpa-calculator', description: 'Calculate your GPA' },
+    ],
+  },
+  pastPapers: {
+    related: [
+      { title: 'GPA Calculator', url: '/gpa-calculator', description: 'Calculate your GPA' },
+      { title: 'Faculty Reviews', url: '/faculty', description: 'Read professor reviews' },
+      { title: 'Study Tips', url: '/blog', description: 'Learn effective study methods' },
+      { title: 'Resources', url: '/resources', description: 'Additional study materials' },
+    ],
+  },
+  news: {
+    related: [
+      { title: 'Events Calendar', url: '/news-events', description: 'Upcoming campus events' },
+      { title: 'Scholarships', url: '/scholarships', description: 'Available scholarships' },
+      { title: 'Community', url: '/community', description: 'Join student discussions' },
+    ],
+  },
+} as const
+
+// Rich Snippets Configuration
+export const RICH_SNIPPETS = {
+  enableReviewStars: true,
+  enableFAQ: true,
+  enableHowTo: true,
+  enableBreadcrumbs: true,
+  enableArticle: true,
+  enableEvent: true,
+  enableCourse: true,
+  enableWebApplication: true,
+  enableLocalBusiness: true,
+} as const
+
+// FAQ content for GPA Calculator page
+export const GPA_CALCULATOR_FAQS = [
+  {
+    question: 'How is GPA calculated at COMSATS University?',
+    answer: 'At COMSATS University, GPA is calculated using the weighted average method. The formula is: (Sum of Grade Points × Credit Hours) / Total Credit Hours. Our calculator automates this process for accurate results based on the official COMSATS grading scale.'
+  },
+  {
+    question: 'What is the grading scale at COMSATS?',
+    answer: 'COMSATS uses a 4.0 grading scale with the following grades: A+/A (4.0), A- (3.67), B+ (3.33), B (3.0), B- (2.67), C+ (2.33), C (2.0), C- (1.67), D (1.0), and F (0.0). Each grade corresponds to a specific percentage range.'
+  },
+  {
+    question: 'Is this GPA calculator accurate for COMSATS University Islamabad?',
+    answer: 'Yes, our GPA calculator is specifically designed for COMSATS University Islamabad (all campuses including Lahore) and follows the official grading system and formulas published by the university.'
+  },
+  {
+    question: 'Can I use this calculator for all COMSATS campuses?',
+    answer: 'Absolutely! This calculator works for all COMSATS University Islamabad campuses including Lahore, Islamabad, Attock, Abbottabad, Wah, Vehari, and Sahiwal as they all follow the same grading system.'
+  },
+  {
+    question: 'How can I improve my COMSATS GPA?',
+    answer: 'Focus on consistent performance across all components: quizzes (10-15%), assignments (10-15%), midterm (30%), and final exam (40-50%). Use our GPA planning calculator to set realistic targets for upcoming semesters and track your progress.'
+  },
+  {
+    question: 'What is a good GPA at COMSATS University?',
+    answer: 'A GPA of 3.0 or higher is generally considered good at COMSATS. A GPA above 3.5 is excellent and may qualify you for scholarships. A GPA of 3.7+ is considered outstanding and can open doors to competitive opportunities.'
+  },
+  {
+    question: 'Do I need to create an account to use the GPA calculator?',
+    answer: 'No, our COMSATS GPA calculator is completely free and requires no registration or login. You can start calculating your GPA immediately without any signup process.'
+  },
+  {
+    question: 'Can I save my GPA calculations?',
+    answer: 'If you create a free account on CampusAxis, you can save your GPA calculations, track your progress over time, and access additional features like personalized academic planning.'
+  }
+] as const
+
+// HowTo steps for GPA Calculator
+export const GPA_CALCULATOR_HOWTO = {
+  name: 'How to Calculate Your COMSATS GPA',
+  description: 'Step-by-step guide to calculate your GPA at COMSATS University using our free calculator',
+  steps: [
+    'Select the appropriate calculator: Semester GPA, Cumulative CGPA, Aggregate, or Planning',
+    'Enter the number of courses you want to calculate',
+    'For each course, input the course name, credit hours, and the grade you received (A+, A, A-, B+, etc.)',
+    'The calculator will automatically compute your GPA using the COMSATS grading scale',
+    'View your calculated GPA and detailed breakdown of grade points',
+    'Use the GPA planning tool to set targets for future semesters'
+  ]
+} as const
+
 export default siteConfig

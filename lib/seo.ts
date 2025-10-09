@@ -294,6 +294,73 @@ export function jsonLdSpeakable(selectors: string[]) {
   }
 }
 
+// Structured Data Templates (exported for easier reuse)
+export const STRUCTURED_DATA = {
+  breadcrumbList: (items: Array<{ name: string; url: string }>) => ({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: new URL(item.url, siteUrl).toString(),
+    })),
+  }),
+
+  faqPage: (faqs: Array<{ question: string; answer: string }>) => ({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  }),
+
+  howTo: (name: string, description: string, steps: string[]) => ({
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name,
+    description,
+    step: steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      text: step,
+    })),
+  }),
+
+  webApplication: (name: string, description: string, url: string, features: string[]) => ({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name,
+    description,
+    url,
+    applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    featureList: features,
+  }),
+
+  course: (name: string, description: string, provider: string) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name,
+    description,
+    provider: {
+      '@type': 'CollegeOrUniversity',
+      name: provider,
+      url: siteUrl,
+    },
+  }),
+} as const
+
 // Generic CollectionPage wrapper (e.g., listing pages) with optional itemList
 export function jsonLdCollectionPage(params: {
   name: string
