@@ -126,12 +126,27 @@ export function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           {/* Left Content */}
           <div className="space-y-8">
-            {/* Enhanced badge with gradient */}
+            {/* Logo showcase */}
             <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <Badge variant="soft" className="mb-8 px-4 py-2 text-sm font-medium bg-gradient-to-r from-primary/10 to-blue-500/10 border-primary/20 hover:from-primary/20 hover:to-blue-500/20 transition-all duration-300 hover-lift">
-                <Sparkles className="h-3 w-3 mr-2 text-primary" />
-                COMSATS University Lahore
-              </Badge>
+              <div className="flex items-center gap-6 mb-8">
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+                  <Image 
+                    src="/logo-square.svg" 
+                    alt="CampusAxis Logo" 
+                    width={100} 
+                    height={100} 
+                    className="rounded-3xl shadow-2xl group-hover:scale-105 transition-transform duration-500 relative z-10"
+                    priority
+                  />
+                </div>
+                <div>
+                  <Badge variant="soft" className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-primary/10 to-blue-500/10 border-primary/20 hover:from-primary/20 hover:to-blue-500/20 transition-all duration-300 hover-lift">
+                    <Sparkles className="h-3 w-3 mr-2 text-primary" />
+                    COMSATS University Lahore
+                  </Badge>
+                </div>
+              </div>
             </div>
 
             {/* Enhanced main heading */}
