@@ -67,35 +67,17 @@ export async function POST(req: NextRequest) {
 
     console.log(`[Admin Elevate] Checking admin status for user: ${user.email} (${user.id})`)
 
-    // Use raw SQL query to completely bypass RLS policies (even broken ones)
-    // Service role key should bypass RLS, but we'll use rpc() for absolute certainty
+    // Query using service role; with our simplified RLS this will succeed
     let adminUser: any = null
     let adminErr: any = null
-    
     try {
-      // Try direct query first (should work with service role)
       const { data, error } = await supabase
         .from('admin_users')
         .select('id, role')
         .eq('user_id', user.id)
         .maybeSingle()
-      
-      if (error) {
-        // If RLS is blocking, try raw SQL via rpc
-        console.warn('[Admin Elevate] Direct query failed, trying raw SQL...')
-        const { data: rpcData, error: rpcError } = await supabase.rpc('get_admin_user', { 
-          p_user_id: user.id 
-        })
-        
-        if (rpcError) {
-          // If rpc also fails, it's a real error
-          adminErr = rpcError
-        } else {
-          adminUser = rpcData
-        }
-      } else {
-        adminUser = data
-      }
+      adminUser = data
+      adminErr = error ?? null
     } catch (e: any) {
       console.error('[Admin Elevate] Query error:', e)
       adminErr = e
@@ -115,14 +97,13 @@ export async function POST(req: NextRequest) {
         }, { status: 403 })
       }
       
-      // Check if it's the infinite recursion error
+      // Check if it's the infinite recursion error (legacy)
       if (adminErr.code === '42P17' || adminErr.message?.includes('infinite recursion')) {
         return NextResponse.json({ 
           error: 'RLS Policy Error',
           details: 'Infinite recursion in admin_users RLS policies',
-          fix: 'Run the SQL fix in Supabase Dashboard (see fix-rls-browser.html)',
-          hint: 'Or go to /admin/diagnostic for Auto-Fix',
-          sqlFix: 'Open fix-rls-browser.html in your project folder',
+          fix: 'RLS has now been simplified. Refresh and try again. If persists, run migrations via supabase CLI.',
+          hint: 'Go to /admin/diagnostic and re-run',
           userEmail: user.email,
           userId: user.id
         }, { status: 500 })
