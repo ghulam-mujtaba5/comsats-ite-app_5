@@ -178,12 +178,6 @@ export default function PendingFacultyReviewPage() {
                       <p className="text-sm text-slate-600 dark:text-slate-400">{faculty.email}</p>
                     </div>
                   )}
-                  {faculty.phone && (
-                    <div>
-                      <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">Phone</p>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">{faculty.phone}</p>
-                    </div>
-                  )}
                   {faculty.specialization && (
                     <div>
                       <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">Specialization</p>

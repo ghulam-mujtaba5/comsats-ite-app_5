@@ -64,22 +64,12 @@ export function ContactPageClient() {
     {
       icon: Mail,
       title: "Email Us",
-      description: "Get in touch via email",
-      value: "info@comsats.edu.pk",
-      action: "mailto:info@comsats.edu.pk",
+      description: "Send us an email anytime",
+      value: "campusaxis0@gmail.com",
+      action: "mailto:campusaxis0@gmail.com",
       color: "text-blue-500",
       bgColor: "from-blue-500/20 to-indigo-600/20",
       borderColor: "border-blue-200/30 dark:border-blue-700/30"
-    },
-    {
-      icon: Phone,
-      title: "Call Us",
-      description: "Speak directly with our team",
-      value: "+92-51-9049-4949",
-      action: "tel:+92519049494",
-      color: "text-green-500",
-      bgColor: "from-green-500/20 to-emerald-600/20",
-      borderColor: "border-green-200/30 dark:border-green-700/30"
     },
     {
       icon: MapPin,

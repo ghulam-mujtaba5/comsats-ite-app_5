@@ -218,7 +218,6 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div className="flex items-center gap-2"><MapPin className="h-4 w-4 text-muted-foreground" /><span>Office: {faculty.office}</span></div>
                     <div className="flex items-center gap-2"><Mail className="h-4 w-4 text-muted-foreground" /><span>{faculty.email}</span></div>
-                    {faculty.phone && <div className="flex items-center gap-2"><Phone className="h-4 w-4 text-muted-foreground" /><span>{faculty.phone}</span></div>}
                     <div className="flex items-center gap-2"><Calendar className="h-4 w-4 text-muted-foreground" /><span>Joined: {new Date(faculty.joinDate).getFullYear()}</span></div>
                   </div>
                   <WriteReviewDialog faculty={faculty}>
