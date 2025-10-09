@@ -166,11 +166,11 @@
   <!-- Campus Icon Badge at top - LARGER AND MORE VISIBLE -->
   <g transform="translate(256, 100)" filter="url(#glow)">
     <!-- Outer rounded square with enhanced gold border -->
-    <rect x="-65" y="-65" width="130" height="130" rx="26" fill="#ffffff" opacity="0.98"/>
-    <rect x="-65" y="-65" width="130" height="130" rx="26" fill="none" stroke="url(#goldGrad)" stroke-width="5"/>
+    <rect x="-65" y="-65" width="130" height="130" rx="65" fill="#ffffff" opacity="0.98"/>
+    <rect x="-65" y="-65" width="130" height="130" rx="65" fill="none" stroke="url(#goldGrad)" stroke-width="5"/>
     
     <!-- Inner gradient with glow -->
-    <rect x="-55" y="-55" width="110" height="110" rx="22" fill="url(#bgGrad)" opacity="0.12"/>
+    <rect x="-55" y="-55" width="110" height="110" rx="55" fill="url(#bgGrad)" opacity="0.12"/>
     
     <!-- Stylized "C" for CampusAxis - Larger and bolder, centered perfectly -->
     <text x="0" y="32" font-family="Arial, Helvetica, sans-serif" font-size="85" font-weight="bold" fill="url(#bgGrad)" text-anchor="middle" style="letter-spacing: -3px;">C</text>
