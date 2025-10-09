@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { CheckCircle2, XCircle, AlertCircle, Loader2, RefreshCw, LogOut, LogIn, Wand2, Trophy } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useAuth } from "@/contexts/auth-context"
 
 interface LogEntry {
   id: number
@@ -24,6 +25,7 @@ interface SessionStatus {
 
 export default function AdminDiagnosticPage() {
   const router = useRouter()
+  const { user, isAuthenticated, isLoading } = useAuth()
   const [logs, setLogs] = useState<LogEntry[]>([])
   const [status, setStatus] = useState<SessionStatus>({
     loggedIn: false,
@@ -50,28 +52,29 @@ export default function AdminDiagnosticPage() {
   }
 
   const testSession = async () => {
-    addLog('Testing session...', 'info')
-    try {
-      const res = await fetch('/api/auth/session')
-      const data = await res.json()
-      
-      if (data.user) {
-        addLog(`✓ Logged in as: ${data.user.email}`, 'success')
-        setStatus(prev => ({
-          ...prev,
-          loggedIn: true,
-          email: data.user.email,
-          userId: data.user.id
-        }))
-        return true
-      } else {
-        addLog('✗ Not logged in', 'error')
-        setAutoFixSuggestion('You need to sign in first')
-        setStatus(prev => ({ ...prev, loggedIn: false }))
-        return false
-      }
-    } catch (e: any) {
-      addLog(`✗ Session check failed: ${e.message}`, 'error')
+    addLog('Checking authentication status...', 'info')
+    
+    // Wait for auth context to finish loading
+    if (isLoading) {
+      addLog('⏳ Waiting for authentication...', 'info')
+      await new Promise(resolve => setTimeout(resolve, 500))
+    }
+    
+    if (isAuthenticated && user) {
+      addLog(`✓ Logged in as: ${user.email}`, 'success')
+      addLog(`✓ User ID: ${user.id}`, 'success')
+      setStatus(prev => ({
+        ...prev,
+        loggedIn: true,
+        email: user.email,
+        userId: user.id
+      }))
+      return true
+    } else {
+      addLog('✗ Not logged in', 'error')
+      addLog('Next step: Click "Sign In" button below', 'warning')
+      setAutoFixSuggestion('You need to sign in first')
+      setStatus(prev => ({ ...prev, loggedIn: false }))
       return false
     }
   }
@@ -197,11 +200,18 @@ export default function AdminDiagnosticPage() {
   const handleSignOut = async () => {
     addLog('Signing out...', 'info')
     try {
-      await fetch('/api/auth/logout', { method: 'POST' })
-      addLog('✓ Signed out successfully', 'success')
-      setTimeout(() => window.location.reload(), 1000)
+      const res = await fetch('/api/auth/logout', { method: 'POST' })
+      if (res.ok) {
+        addLog('✓ Signed out successfully', 'success')
+        addLog('Redirecting...', 'info')
+        setTimeout(() => {
+          router.push('/auth')
+        }, 1000)
+      } else {
+        addLog('✗ Sign out failed', 'error')
+      }
     } catch (e: any) {
-      addLog(`✗ Sign out failed: ${e.message}`, 'error')
+      addLog(`✗ Sign out error: ${e.message}`, 'error')
     }
   }
 
