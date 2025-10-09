@@ -9,11 +9,6 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function Image() {
-  // Fetch the SVG logo
-  const logoSvg = await fetch(
-    new URL('../../public/logo-square.svg', import.meta.url)
-  ).then((res) => res.arrayBuffer())
-
   return new ImageResponse(
     (
       <div
@@ -160,7 +155,7 @@ export default async function Image() {
             </div>
           </div>
 
-          {/* Right - Logo Display */}
+          {/* Right - Logo Badge */}
           <div
             style={{
               display: 'flex',
@@ -174,25 +169,48 @@ export default async function Image() {
                 width: '280px',
                 height: '280px',
                 borderRadius: '32px',
-                background: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(10px)',
-                border: '2px solid rgba(255, 255, 255, 0.2)',
+                background: 'rgba(255, 255, 255, 0.95)',
+                border: '3px solid rgba(251, 191, 36, 0.8)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: '20px',
-                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
+                flexDirection: 'column',
+                gap: '20px',
               }}
             >
-              <img
-                src={`data:image/svg+xml;base64,${Buffer.from(logoSvg).toString('base64')}`}
-                width="240"
-                height="240"
-                alt="CampusAxis Logo"
+              {/* Logo representation - stylized C */}
+              <div
                 style={{
-                  borderRadius: '24px',
+                  width: '160px',
+                  height: '160px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #6366f1 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '96px',
+                  fontWeight: 'bold',
+                  color: 'white',
+                  boxShadow: '0 8px 32px rgba(59, 130, 246, 0.4)',
                 }}
-              />
+              >
+                C
+              </div>
+              <div
+                style={{
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                  background: 'linear-gradient(135deg, #1e40af 0%, #6366f1 100%)',
+                  backgroundClip: 'text',
+                  color: 'transparent',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                CampusAxis
+              </div>
             </div>
           </div>
         </div>
