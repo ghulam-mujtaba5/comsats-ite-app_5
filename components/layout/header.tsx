@@ -98,7 +98,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-lg">
-      <div className="app-container h-16 flex items-center justify-between">
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6 h-16 flex items-center justify-between gap-2">
         <div className="flex items-center space-x-4">
           <Link
             href={isAdmin ? "/admin" : "/"}
@@ -123,14 +123,14 @@ export function Header() {
           </div>
         </div>
 
-        <nav className="hidden lg:flex items-center space-x-1 whitespace-nowrap" aria-label="Primary navigation">
+        <nav className="hidden lg:flex items-center gap-1 flex-wrap" aria-label="Primary navigation">
           {navigationItems.map((item) => {
             const Icon = item.icon
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative inline-flex items-center h-10 px-4 rounded-2xl text-sm font-semibold transition-all duration-300 interactive hover-lift group box-border ${
+                className={`relative inline-flex items-center h-10 px-3 rounded-2xl text-sm font-semibold transition-all duration-300 interactive hover-lift group box-border whitespace-nowrap ${
                   isActivePath(item.href) 
                     ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 text-blue-600 dark:text-blue-400 border border-blue-200/30 dark:border-blue-400/30 backdrop-blur-sm shadow-lg" 
                     : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm hover:shadow-md hover:border-white/40 dark:hover:border-slate-600/40 border border-transparent"
@@ -197,18 +197,12 @@ export function Header() {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[min(calc(100vw-32px),380px)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen">
+            <SheetContent side="right" className="w-[85vw] max-w-[380px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen">
               <div className="flex flex-col space-y-4 mt-8 pb-8 px-2 w-full max-w-full box-border">
-                <div className="flex items-center space-x-4 pb-6 border-b border-white/20 dark:border-white/10 w-full max-w-full box-border">
-                  <div className="relative flex-shrink-0 w-11 h-11">
-                    <Image src="/logo-square.svg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl" />
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-50" />
-                  </div>
-                  <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
-                    <span className="font-bold text-xl truncate max-w-full">CampusAxis</span>
-                    {pathname !== '/' && (
-                      <span className="text-sm text-slate-600 dark:text-slate-400 truncate max-w-full">Academic Portal</span>
-                    )}
+                <div className="flex items-center justify-center pb-6 border-b border-white/20 dark:border-white/10 w-full max-w-full box-border">
+                  <div className="relative flex-shrink-0 w-16 h-16">
+                    <Image src="/logo-square.svg" alt="CampusAxis Logo" width={64} height={64} className="rounded-2xl shadow-lg" />
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-50" />
                   </div>
                 </div>
 

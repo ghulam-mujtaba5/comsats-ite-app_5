@@ -143,7 +143,7 @@ export function HeroSection() {
                 <div>
                   <Badge variant="soft" className="px-4 py-2 text-sm font-medium bg-gradient-to-r from-primary/10 to-blue-500/10 border-primary/20 hover:from-primary/20 hover:to-blue-500/20 transition-all duration-300 hover-lift">
                     <Sparkles className="h-3 w-3 mr-2 text-primary" />
-                    COMSATS University Lahore
+                    CampusAxis
                   </Badge>
                 </div>
               </div>
