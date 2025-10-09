@@ -98,21 +98,21 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-lg">
-      <div className="container mx-auto px-3 sm:px-4 lg:px-6 h-16 flex items-center justify-between gap-2">
-        <div className="flex items-center space-x-4">
+      <div className="container mx-auto px-2 sm:px-4 lg:px-6 h-16 flex items-center justify-between gap-1 sm:gap-2">
+        <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-shrink">
           <Link
             href={isAdmin ? "/admin" : "/"}
             title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
-            className="flex items-center space-x-4 hover:opacity-90 transition-all duration-300 interactive group px-2 py-1 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/30 backdrop-blur-sm"
+            className="flex items-center space-x-2 sm:space-x-3 hover:opacity-90 transition-all duration-300 interactive group px-1 sm:px-2 py-1 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/30 backdrop-blur-sm min-w-0 flex-shrink"
           >
-            <div className="relative">
-              <Image src="/logo-square.svg" alt="CampusAxis Logo" width={40} height={40} className="rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg" />
+            <div className="relative flex-shrink-0">
+              <Image src="/logo-square.svg" alt="CampusAxis Logo" width={36} height={36} className="sm:w-10 sm:h-10 rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg" />
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-xl leading-tight tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">CampusAxis</span>
+            <div className="flex flex-col min-w-0">
+              <span className="font-bold text-base sm:text-xl leading-tight tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent truncate">CampusAxis</span>
               {pathname !== '/' && (
-                <span className="text-xs text-slate-600 dark:text-slate-400 leading-tight font-medium">Academic Portal</span>
+                <span className="hidden sm:block text-xs text-slate-600 dark:text-slate-400 leading-tight font-medium">Academic Portal</span>
               )}
             </div>
           </Link>
@@ -147,7 +147,7 @@ export function Header() {
           })}
         </nav>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
           {/* Campus Selector for mobile - placed before other icons */}
           <div className="lg:hidden">
             <CampusSelectorCompact />
@@ -165,7 +165,9 @@ export function Header() {
             <TooltipContent sideOffset={6}>Search (Ctrl/⌘ K)</TooltipContent>
           </Tooltip>
           {/* Ctrl/⌘+K keyboard hint removed per design request */}
-          <NotificationBell />
+          <div className="hidden sm:block">
+            <NotificationBell />
+          </div>
           {isAdmin && (
             <Link
               href="/admin"
@@ -178,12 +180,10 @@ export function Header() {
               </Button>
             </Link>
           )}
-          <div className="ml-2">
-            <ThemeToggle />
-          </div>
+          <ThemeToggle />
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="lg:hidden interactive p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 relative z-[110] h-9">
+              <Button variant="ghost" size="sm" className="lg:hidden interactive p-2 sm:p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 relative z-[110] h-9 w-9">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
@@ -249,8 +249,8 @@ export function Header() {
           {isAuthenticated && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-9 w-9 rounded-full interactive hover-lift">
-                  <Avatar className="h-9 w-9">
+                <Button variant="ghost" className="relative h-8 w-8 sm:h-9 sm:w-9 rounded-full interactive hover-lift flex-shrink-0">
+                  <Avatar className="h-8 w-8 sm:h-9 sm:w-9">
                     <AvatarImage src={(user as any).user_metadata?.avatar_url || undefined} alt={user.email || "Profile"} />
                     <AvatarFallback className="bg-primary text-primary-foreground">
                       {(() => {
@@ -290,8 +290,8 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link href="/auth">
-              <Button size="sm" className="font-semibold interactive hover-lift bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-0 shadow-lg hover:shadow-xl backdrop-blur-sm transition-all duration-300 rounded-xl h-9">
+            <Link href="/auth" className="flex-shrink-0">
+              <Button size="sm" className="font-semibold interactive hover-lift bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-0 shadow-lg hover:shadow-xl backdrop-blur-sm transition-all duration-300 rounded-xl h-8 sm:h-9 px-3 sm:px-4 text-xs sm:text-sm">
                 Sign In
               </Button>
             </Link>
