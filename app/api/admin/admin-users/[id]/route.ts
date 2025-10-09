@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   const access = await requireAdmin(request)
   if (!access.allow) {
@@ -12,7 +12,7 @@ export async function DELETE(
   }
 
   try {
-    const { id } = await params
+    const { id } = params
     const { error } = await supabaseAdmin
       .from('admin_users')
       .delete()
@@ -29,7 +29,7 @@ export async function DELETE(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   const access = await requireAdmin(request)
   if (!access.allow) {
@@ -37,7 +37,7 @@ export async function PATCH(
   }
 
   try {
-    const { id } = await params
+    const { id } = params
     const body = await request.json().catch(() => ({}))
     const { role, permissions, gamification_role } = body as { role?: string; permissions?: string[]; gamification_role?: string | null }
 
