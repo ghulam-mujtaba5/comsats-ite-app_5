@@ -164,16 +164,7 @@ export function Header() {
             </TooltipTrigger>
             <TooltipContent sideOffset={6}>Search (Ctrl/⌘ K)</TooltipContent>
           </Tooltip>
-          <span
-            className="hidden lg:inline-flex h-9 select-none items-center gap-1 rounded-xl border border-white/30 dark:border-slate-600/40 px-3 text-[11px] leading-none text-slate-600 dark:text-slate-400 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm shadow-sm"
-            aria-hidden="true"
-          >
-            <span className="font-mono">Ctrl</span>
-            <span>/</span>
-            <span className="font-mono">⌘</span>
-            <span>+</span>
-            <span className="font-mono">K</span>
-          </span>
+          {/* Ctrl/⌘+K keyboard hint removed per design request */}
           <NotificationBell />
           {isAdmin && (
             <Link
@@ -197,8 +188,8 @@ export function Header() {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[85vw] max-w-[380px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen">
-              <div className="flex flex-col space-y-4 mt-8 pb-8 px-2 w-full max-w-full box-border">
+            <SheetContent side="right" className="w-[80vw] max-w-[360px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen p-4">
+              <div className="flex flex-col space-y-4 mt-4 pb-4 w-full">
                 <div className="flex items-center justify-center pb-6 border-b border-white/20 dark:border-white/10 w-full max-w-full box-border">
                   <div className="relative flex-shrink-0 w-16 h-16">
                     <Image src="/logo-square.svg" alt="CampusAxis Logo" width={64} height={64} className="rounded-2xl shadow-lg" />
@@ -222,7 +213,7 @@ export function Header() {
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-2xl blur-sm" />
                       )}
                       <div className="relative z-10 flex items-start space-x-3 w-full max-w-full min-w-0 box-border overflow-hidden">
-                        {Icon && <Icon className="h-5 w-5 mt-0.5 flex-shrink-0 w-5" />}
+                        {Icon && <Icon className="h-5 w-5 mt-0.5 flex-shrink-0" />}
                         <div className="flex flex-col min-w-0 flex-1 overflow-hidden max-w-full">
                           <span className={`font-semibold text-base break-words ${
                             isActivePath(item.href) ? "text-blue-600 dark:text-blue-400" : "text-slate-900 dark:text-white"

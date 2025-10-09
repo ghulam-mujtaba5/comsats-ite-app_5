@@ -22,7 +22,6 @@ export default function Icon() {
           alignItems: 'center',
           justifyContent: 'center',
           background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #6366f1 100%)',
-          borderRadius: '80px',
         }}
       >
         {/* Campus building icon */}
