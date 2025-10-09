@@ -19,6 +19,8 @@ const manrope = Manrope({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-manrope",
+  // Optimize font loading
+  preload: true,
 })
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
@@ -119,6 +121,8 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0b0b0b" },
   ],
+  // Optimize viewport for better performance
+  interactiveWidget: "resizes-visual",
 }
 
 export default function RootLayout({
@@ -195,24 +199,28 @@ html {
         />
       </head>
       <body className={`${GeistSans.variable} ${manrope.variable} antialiased bg-background text-foreground`}>
-        {/* Global decorative background */}
+        {/* Global decorative background - optimized for performance */}
         <div className="fixed inset-0 pointer-events-none -z-10">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C92AC%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40" />
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
         </div>
         {/* Google Tag Manager (preferred) - only in production */}
-        {isProd && (GTM_ID ? (
+        {isProd && GTM_ID && (
           <>
-            <Script id="gtm-init" strategy="afterInteractive">
-              {`
-                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','${GTM_ID}');
-              `}
-            </Script>
+            <Script 
+              id="gtm-init" 
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                  })(window,document,'script','dataLayer','${GTM_ID}');
+                `,
+              }}
+            />
             {/* GTM noscript fallback */}
             <noscript>
               <iframe
@@ -223,25 +231,28 @@ html {
               />
             </noscript>
           </>
-        ) : (
-          /* Google Analytics 4 - only in production */
-          (isProd && GA_ID) && (
+        )}
+        {/* Google Analytics 4 - only in production */}
+        {isProd && GA_ID && !GTM_ID && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
               strategy="afterInteractive"
             />
-            <Script id="ga4-init" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);} 
-                gtag('js', new Date());
-                gtag('config', '${GA_ID}');
-              `}
-            </Script>
+            <Script 
+              id="ga4-init" 
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);} 
+                  gtag('js', new Date());
+                  gtag('config', '${GA_ID}');
+                `,
+              }}
+            />
           </>
-          )
-        ))}
+        )}
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <AuthProvider>
@@ -253,16 +264,16 @@ html {
               <FooterConditional />
               <Toaster />
               {/* Client-side route change tracking - only in production */}
-            {isProd && (
-              <Suspense fallback={null}>
-                <AnalyticsTracker />
-                <WebVitalsReporter />
-              </Suspense>
-            )}
+              {isProd && (
+                <Suspense fallback={null}>
+                  <AnalyticsTracker />
+                  <WebVitalsReporter />
+                </Suspense>
+              )}
             </CampusProvider>
-        </AuthProvider>
-      </ThemeProvider>
-    </body>
-  </html>
-)
+          </AuthProvider>
+        </ThemeProvider>
+      </body>
+    </html>
+  )
 }

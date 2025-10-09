@@ -1,4 +1,5 @@
 import { jsonLdBreadcrumb, createMetadata, jsonLdReviewList } from '@/lib/seo'
+import { generateFacultyMetadata, generateFacultySchema } from '@/lib/faculty-seo'
 import { type Faculty, type Review, calculateReviewStats } from '@/lib/faculty-data'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -87,13 +88,9 @@ export async function generateMetadata(
   if (!faculty) {
     return createMetadata({ title: 'Faculty Profile', description: 'Faculty profile not found.' })
   }
-  return createMetadata({
-    title: `${faculty.name} - ${faculty.title || 'Faculty'}`,
-    description: `Profile, courses & student reviews for ${faculty.name}${faculty.title ? ', ' + faculty.title : ''} (${faculty.department}).`,
-    path: `/faculty/${faculty.id}`,
-    image: faculty.profileImage,
-    keywords: [faculty.name, faculty.department, 'faculty', 'review', ...faculty.specialization],
-  })
+  
+  // Use the enhanced SEO function
+  return generateFacultyMetadata(faculty)
 }
 
 // Optional: pre-generate static params for faster TTFB & guaranteed discoverability
@@ -127,40 +124,8 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   const facultyUrl = new URL(`/faculty/${faculty.id}`, siteUrl).toString()
 
-  // Construct consolidated Person JSON-LD with nested aggregateRating, reviews, and courses taught.
-  const personJsonLd: any = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: faculty.name,
-    jobTitle: faculty.title || undefined,
-    worksFor: { '@type': 'Organization', name: 'COMSATS University Islamabad, Lahore Campus' },
-    department: faculty.department || undefined,
-    image: faculty.profileImage ? new URL(faculty.profileImage, siteUrl).toString() : undefined,
-    url: facultyUrl,
-    email: faculty.email || undefined,
-    telephone: faculty.phone || undefined,
-    workLocation: faculty.office ? { '@type': 'Place', name: faculty.office } : undefined,
-    knowsAbout: faculty.specialization?.length ? faculty.specialization : undefined,
-    aggregateRating: faculty.totalReviews > 0 ? {
-      '@type': 'AggregateRating',
-      ratingValue: faculty.averageRating,
-      reviewCount: faculty.totalReviews,
-      bestRating: 5,
-      worstRating: 1,
-    } : undefined,
-    review: reviews.slice(0, 10).map(r => ({
-      '@type': 'Review',
-      author: { '@type': 'Person', name: r.studentName },
-      reviewBody: r.comment,
-      datePublished: r.createdAt,
-      reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
-    })),
-    teaches: faculty.courses?.length ? faculty.courses.map(c => ({
-      '@type': 'Course',
-      name: c,
-      provider: { '@type': 'CollegeOrUniversity', name: 'COMSATS University Islamabad' }
-    })) : undefined,
-  }
+  // Use the enhanced schema function
+  const personJsonLd = generateFacultySchema(faculty, reviews)
 
   // Breadcrumb separate object
   const breadcrumbJsonLd = jsonLdBreadcrumb([
@@ -184,7 +149,7 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
 
   return (
     <div className="min-h-screen flex flex-col">
-  <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1 py-8 px-4">
         <div className="container mx-auto max-w-6xl">
           <Card className="mb-8">
@@ -192,7 +157,7 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
               <div className="flex flex-col lg:flex-row gap-8">
                 <div className="flex-shrink-0">
                   <Avatar className="h-32 w-32">
-                    <AvatarImage src={faculty.profileImage || '/placeholder.svg'} alt={faculty.name} />
+                    <AvatarImage src={faculty.profileImage || '/placeholder-user.jpg'} alt={faculty.name} />
                     <AvatarFallback className="text-2xl">{faculty.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                   </Avatar>
                 </div>

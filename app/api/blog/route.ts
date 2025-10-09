@@ -4,6 +4,44 @@ import { NextRequest, NextResponse } from 'next/server'
 import { marked } from 'marked'
 import { sanitizeHtml } from '@/lib/utils'
 
+// Static blog posts
+const STATIC_BLOG_POSTS = [
+  {
+    id: 'comsats-grading-system',
+    slug: 'comsats-grading-system',
+    title: 'COMSATS Grading System & GPA Calculators',
+    excerpt: 'Understand COMSATS\' absolute grading system, grading scale, GPA/CGPA formulas, and use interactive calculators to compute and plan your GPA.',
+    content: '',
+    category: 'academic',
+    tags: ['gpa', 'grading', 'comsats', 'academic'],
+    author_name: 'CampusAxis',
+    featured_image_url: null,
+    is_published: true,
+    is_featured: true,
+    published_at: '2024-01-01T00:00:00Z',
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-01-01T00:00:00Z',
+    view_count: 0
+  },
+  {
+    id: 'comsats-gpa-calculator-guide',
+    slug: 'comsats-gpa-calculator-guide',
+    title: 'Complete Guide to COMSATS GPA Calculator - How to Calculate Your GPA',
+    excerpt: 'Learn how to calculate your GPA at COMSATS University with our free GPA calculator. Complete guide to semester GPA, cumulative CGPA, and admission aggregate calculations.',
+    content: '',
+    category: 'academic',
+    tags: ['gpa', 'calculator', 'comsats', 'academic', 'guide'],
+    author_name: 'CampusAxis',
+    featured_image_url: null,
+    is_published: true,
+    is_featured: true,
+    published_at: '2024-01-15T00:00:00Z',
+    created_at: '2024-01-15T00:00:00Z',
+    updated_at: '2024-01-15T00:00:00Z',
+    view_count: 0
+  }
+]
+
 // GET /api/blog - Fetch blog articles
 export async function GET(request: NextRequest) {
   const cookieStore = await cookies()
@@ -68,18 +106,47 @@ export async function GET(request: NextRequest) {
       throw error
     }
 
+    // Combine database articles with static articles
+    let allArticles = [...STATIC_BLOG_POSTS, ...(data || [])]
+
+    // Apply filters to static articles as well
+    if (category) {
+      allArticles = allArticles.filter(article => article.category === category)
+    }
+
+    if (search) {
+      allArticles = allArticles.filter(article => 
+        article.title.toLowerCase().includes(search.toLowerCase()) ||
+        article.excerpt.toLowerCase().includes(search.toLowerCase())
+      )
+    }
+
+    if (featured === 'true') {
+      allArticles = allArticles.filter(article => article.is_featured)
+    }
+
+    // Sort by published date
+    allArticles.sort((a, b) => 
+      new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
+    )
+
+    // Apply pagination
+    const paginatedArticles = allArticles.slice(offset, offset + limit)
+
     // Get total count for pagination
     const { count } = await supabase
       .from('blog_articles')
       .select('*', { count: 'exact', head: true })
       .eq('is_published', true)
 
+    const totalCount = (count || 0) + STATIC_BLOG_POSTS.length
+
     return NextResponse.json({
-      data,
+      data: paginatedArticles,
       meta: {
         limit,
         offset,
-        total: count || 0,
+        total: totalCount,
       },
     })
   } catch (error) {

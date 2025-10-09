@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useAuth } from "@/contexts/auth-context"
-import { CampusSelector } from "@/components/layout/campus-selector"
-import { LogOut, User, Menu, Shield, Search } from "lucide-react"
+import { CampusSelector, CampusSelectorCompact } from "@/components/layout/campus-selector"
+import { LogOut, User, Menu, Shield, Search, Calculator } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -47,6 +47,7 @@ const navigationItems = [
     name: "GPA Calculator",
     href: "/gpa-calculator",
     description: "Calculate GPA/CGPA with the latest scale",
+    icon: Calculator,
   },
   {
     name: "Timetable",
@@ -90,8 +91,6 @@ export function Header() {
     }
   }, [mobileMenuOpen])
 
-
-
   const isActivePath = (path: string) => {
     return pathname === path || (path !== "/" && pathname.startsWith(path))
   }
@@ -99,25 +98,33 @@ export function Header() {
   return (
     <header className="sticky top-0 z-[100] w-full border-b border-white/20 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/60 fade-in shadow-lg hover:shadow-xl transition-all duration-300">
       <div className="app-container h-16 flex items-center justify-between">
-        <Link
-          href={isAdmin ? "/admin" : "/"}
-          title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
-          className="flex items-center space-x-4 hover:opacity-90 transition-all duration-300 interactive group px-2 py-1 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/30 backdrop-blur-sm"
-        >
-          <div className="relative">
-            <Image src="/new-logo.jpg" alt="CampusAxis Logo" width={40} height={40} className="rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg" />
-            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="flex items-center space-x-4">
+          <Link
+            href={isAdmin ? "/admin" : "/"}
+            title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
+            className="flex items-center space-x-4 hover:opacity-90 transition-all duration-300 interactive group px-2 py-1 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/30 backdrop-blur-sm"
+          >
+            <div className="relative">
+              <Image src="/new-logo.jpg" alt="CampusAxis Logo" width={40} height={40} className="rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg" />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-bold text-xl leading-tight tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">CampusAxis</span>
+              {pathname !== '/' && (
+                <span className="text-xs text-slate-600 dark:text-slate-400 leading-tight font-medium">Academic Portal</span>
+              )}
+            </div>
+          </Link>
+
+          {/* Campus Selector - Hidden on mobile, shown on desktop */}
+          <div className="hidden lg:block">
+            <CampusSelector />
           </div>
-          <div className="flex flex-col">
-            <span className="font-bold text-xl leading-tight tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">CampusAxis</span>
-            {pathname !== '/' && (
-              <span className="text-xs text-slate-600 dark:text-slate-400 leading-tight font-medium">Academic Portal</span>
-            )}
-          </div>
-        </Link>
+        </div>
 
         <nav className="hidden lg:flex items-center space-x-1 whitespace-nowrap" aria-label="Primary navigation">
           {navigationItems.map((item) => {
+            const Icon = item.icon
             return (
               <Link
                 key={item.href}
@@ -132,6 +139,7 @@ export function Header() {
                 {isActivePath(item.href) && (
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-2xl blur-sm" />
                 )}
+                {Icon && <Icon className="h-4 w-4 mr-2" />}
                 <span className="relative z-10">{item.name}</span>
               </Link>
             )
@@ -139,13 +147,15 @@ export function Header() {
         </nav>
 
         <div className="flex items-center space-x-3">
-          {/* Campus Selector */}
-          <CampusSelector />
+          {/* Campus Selector for mobile - placed before other icons */}
+          <div className="lg:hidden">
+            <CampusSelectorCompact />
+          </div>
           
           <Tooltip>
             <TooltipTrigger asChild>
               <Link href="/search" title="Search (Ctrl/⌘ K)" className="hidden lg:inline-flex">
-                <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300" aria-keyshortcuts="Control+K Meta+K">
+                <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 h-9" aria-keyshortcuts="Control+K Meta+K">
                   <Search className="h-5 w-5" />
                   <span className="sr-only">Search</span>
                 </Button>
@@ -169,7 +179,7 @@ export function Header() {
               title="Admin Panel"
               className="hidden lg:inline-flex"
             >
-              <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300">
+              <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 h-9">
                 <Shield className="h-5 w-5" />
                 <span className="sr-only">Admin Panel</span>
               </Button>
@@ -180,7 +190,7 @@ export function Header() {
           </div>
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="lg:hidden interactive p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 relative z-[110]">
+              <Button variant="ghost" size="sm" className="lg:hidden interactive p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 relative z-[110] h-9">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
@@ -201,6 +211,7 @@ export function Header() {
                 </div>
 
                 {navigationItems.map((item) => {
+                  const Icon = item.icon
                   return (
                     <Link
                       key={item.href}
@@ -214,18 +225,20 @@ export function Header() {
                       {isActivePath(item.href) && (
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-2xl blur-sm" />
                       )}
-                      <div className="relative z-10 flex flex-col">
-                        <span className={`font-semibold text-base ${
-                          isActivePath(item.href) ? "text-blue-600 dark:text-blue-400" : "text-slate-900 dark:text-white"
-                        }`}>{item.name}</span>
-                        <span className={`text-sm ${
-                          isActivePath(item.href) ? "text-blue-500/80 dark:text-blue-300/80" : "text-slate-600 dark:text-slate-400"
-                        }`}>{item.description}</span>
+                      <div className="relative z-10 flex items-start space-x-3">
+                        {Icon && <Icon className="h-5 w-5 mt-0.5 flex-shrink-0" />}
+                        <div className="flex flex-col">
+                          <span className={`font-semibold text-base ${
+                            isActivePath(item.href) ? "text-blue-600 dark:text-blue-400" : "text-slate-900 dark:text-white"
+                          }`}>{item.name}</span>
+                          <span className={`text-sm ${
+                            isActivePath(item.href) ? "text-blue-500/80 dark:text-blue-300/80" : "text-slate-600 dark:text-slate-400"
+                          }`}>{item.description}</span>
+                        </div>
                       </div>
                     </Link>
                   )
                 })}
-
 
                 {isAdmin && (
                   <Link
@@ -291,7 +304,7 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <Link href="/auth">
-              <Button size="sm" className="font-semibold interactive hover-lift bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-0 shadow-lg hover:shadow-xl backdrop-blur-sm transition-all duration-300 rounded-xl">
+              <Button size="sm" className="font-semibold interactive hover-lift bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-0 shadow-lg hover:shadow-xl backdrop-blur-sm transition-all duration-300 rounded-xl h-9">
                 Sign In
               </Button>
             </Link>

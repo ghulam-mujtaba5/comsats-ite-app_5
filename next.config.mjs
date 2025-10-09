@@ -18,6 +18,19 @@ const nextConfig = {
       },
     ],
   },
+  // Enable experimental optimizations for better Core Web Vitals
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: [
+      'lucide-react',
+      '@radix-ui/react-*',
+      'recharts'
+    ],
+  },
+  // Performance optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
+  },
   async headers() {
     const isProd = process.env.NODE_ENV === 'production'
     return [
@@ -74,6 +87,20 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'no-store, max-age=0',
+          },
+        ],
+      },
+      {
+        // Performance headers for static assets
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Timing-Allow-Origin',
+            value: '*',
           },
         ],
       },

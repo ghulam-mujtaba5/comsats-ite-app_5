@@ -39,7 +39,7 @@ export function CampusSelector() {
 
   if (isLoading || !selectedCampus) {
     return (
-      <Button variant="outline" size="sm" disabled>
+      <Button variant="outline" size="sm" disabled className="h-9">
         <MapPin className="h-4 w-4 mr-2" />
         Loading...
       </Button>
@@ -49,7 +49,7 @@ export function CampusSelector() {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
+        <Button variant="outline" size="sm" className="h-9 gap-2">
           <MapPin className="h-4 w-4" />
           <span className="hidden sm:inline">{selectedCampus.name}</span>
           <span className="sm:hidden">{selectedCampus.code}</span>
@@ -202,13 +202,13 @@ export function CampusSelectorCompact() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-1">
+        <Button variant="ghost" size="sm" className="h-9 gap-1 px-2">
           <MapPin className="h-4 w-4" />
-          <span>{selectedCampus.code}</span>
+          <span className="truncate max-w-[60px]">{selectedCampus.code}</span>
           {selectedDepartment && (
             <>
               <span className="text-muted-foreground">•</span>
-              <span>{selectedDepartment.code}</span>
+              <span className="truncate max-w-[60px]">{selectedDepartment.code}</span>
             </>
           )}
         </Button>
@@ -225,7 +225,7 @@ export function CampusSelectorCompact() {
               selectedCampus.id === campus.id && "bg-accent"
             )}
           >
-            <span>{campus.name}</span>
+            <span className="truncate">{campus.name}</span>
             {selectedCampus.id === campus.id && <Check className="h-4 w-4" />}
           </DropdownMenuItem>
         ))}

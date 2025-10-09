@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo, useState, useCallback } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -37,29 +37,29 @@ export function CumulativeGPACalculator() {
     return { cgpa, totalCredits }
   }, [validSemesters])
 
-  const addSemester = () => {
+  const addSemester = useCallback(() => {
     const newSemester: SemesterInput = {
       id: Date.now().toString(),
       name: `Semester ${semesters.length + 1}`,
       gpa: 0,
       creditHours: 0,
     }
-    setSemesters([...semesters, newSemester])
-  }
+    setSemesters(prev => [...prev, newSemester])
+  }, [semesters.length])
 
-  const removeSemester = (id: string) => {
+  const removeSemester = useCallback((id: string) => {
     if (semesters.length > 1) {
-      setSemesters(semesters.filter((semester) => semester.id !== id))
+      setSemesters(prev => prev.filter((semester) => semester.id !== id))
     }
-  }
+  }, [semesters.length])
 
-  const updateSemester = (id: string, field: keyof SemesterInput, value: string | number) => {
-    setSemesters(semesters.map((semester) => (semester.id === id ? { ...semester, [field]: value } : semester)))
-  }
+  const updateSemester = useCallback((id: string, field: keyof SemesterInput, value: string | number) => {
+    setSemesters(prev => prev.map((semester) => (semester.id === id ? { ...semester, [field]: value } : semester)))
+  }, [])
 
-  const resetCalculator = () => {
+  const resetCalculator = useCallback(() => {
     setSemesters([{ id: "1", name: "Semester 1", gpa: 0, creditHours: 0 }])
-  }
+  }, [])
 
   return (
     <Card>
@@ -75,19 +75,20 @@ export function CumulativeGPACalculator() {
           {semesters.map((semester, index) => (
             <div
               key={semester.id}
-              className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 border border-border rounded-lg"
+              className="grid grid-cols-1 md:grid-cols-12 gap-3 p-3 border border-border rounded-lg"
             >
               <div className="md:col-span-4">
-                <Label htmlFor={`semester-${semester.id}`}>Semester Name</Label>
+                <Label htmlFor={`semester-${semester.id}`} className="text-sm">Semester Name</Label>
                 <Input
                   id={`semester-${semester.id}`}
                   value={semester.name}
                   onChange={(e) => updateSemester(semester.id, "name", e.target.value)}
+                  className="text-sm"
                 />
               </div>
 
               <div className="md:col-span-3">
-                <Label htmlFor={`gpa-${semester.id}`}>Semester GPA</Label>
+                <Label htmlFor={`gpa-${semester.id}`} className="text-sm">Semester GPA</Label>
                 <Input
                   id={`gpa-${semester.id}`}
                   type="number"
@@ -97,11 +98,12 @@ export function CumulativeGPACalculator() {
                   placeholder="0.00"
                   value={semester.gpa || ""}
                   onChange={(e) => updateSemester(semester.id, "gpa", Number.parseFloat(e.target.value) || 0)}
+                  className="text-sm"
                 />
               </div>
 
               <div className="md:col-span-3">
-                <Label htmlFor={`credits-${semester.id}`}>Credit Hours</Label>
+                <Label htmlFor={`credits-${semester.id}`} className="text-sm">Credit Hours</Label>
                 <Input
                   id={`credits-${semester.id}`}
                   type="number"
@@ -109,6 +111,7 @@ export function CumulativeGPACalculator() {
                   placeholder="0"
                   value={semester.creditHours || ""}
                   onChange={(e) => updateSemester(semester.id, "creditHours", Number.parseInt(e.target.value) || 0)}
+                  className="text-sm"
                 />
               </div>
 
@@ -118,7 +121,7 @@ export function CumulativeGPACalculator() {
                   size="sm"
                   onClick={() => removeSemester(semester.id)}
                   disabled={semesters.length === 1}
-                  className="w-full"
+                  className="w-full text-sm"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -128,26 +131,26 @@ export function CumulativeGPACalculator() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-2">
-          <Button variant="outline" onClick={addSemester} className="flex-1 bg-transparent">
+          <Button variant="outline" onClick={addSemester} className="flex-1 bg-transparent text-sm">
             <Plus className="h-4 w-4 mr-2" />
             Add Semester
           </Button>
-          <Button variant="outline" onClick={resetCalculator} className="flex-1 bg-transparent">
+          <Button variant="outline" onClick={resetCalculator} className="flex-1 bg-transparent text-sm">
             Reset
           </Button>
         </div>
 
         {liveResult && (
           <Card className="bg-muted/50">
-            <CardContent className="pt-6">
-              <div className="text-center space-y-4">
+            <CardContent className="pt-4">
+              <div className="text-center space-y-3">
                 <div>
-                  <div className="text-3xl font-bold text-primary">{liveResult.cgpa.toFixed(2)}</div>
-                  <div className="text-sm text-muted-foreground">Cumulative GPA</div>
+                  <div className="text-2xl font-bold text-primary">{liveResult.cgpa.toFixed(2)}</div>
+                  <div className="text-xs text-muted-foreground">Cumulative GPA</div>
                 </div>
-                <div className="flex justify-center gap-4">
-                  <Badge variant="secondary">Grade: {getGradeFromGPA(liveResult.cgpa)}</Badge>
-                  <Badge variant="outline">Total Credits: {liveResult.totalCredits}</Badge>
+                <div className="flex justify-center gap-3">
+                  <Badge variant="secondary" className="text-xs">Grade: {getGradeFromGPA(liveResult.cgpa)}</Badge>
+                  <Badge variant="outline" className="text-xs">Total Credits: {liveResult.totalCredits}</Badge>
                 </div>
               </div>
             </CardContent>
