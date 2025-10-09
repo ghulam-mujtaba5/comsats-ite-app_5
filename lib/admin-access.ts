@@ -1,47 +1,99 @@
 import type { NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { logAudit, AuditAction } from './audit'
+import { getClientIP } from './rate-limit'
 
 export interface AdminAccess {
   allow: boolean
   devAdmin: boolean
   userId?: string
   role?: string
+  permissions?: string[]
 }
 
-// Centralized admin permission check used by admin API routes
+/**
+ * Centralized admin permission check used by admin API routes
+ * 
+ * SECURITY NOTE: The dev bypass is ONLY active when:
+ * 1. NODE_ENV !== 'production'
+ * 2. Proper dev credentials are used
+ * 3. Never deployed to production servers
+ */
 export async function requireAdmin(req: NextRequest): Promise<AdminAccess> {
-  const isProd = (process.env.NODE_ENV as string) === 'production'
+  const isProd = process.env.NODE_ENV === 'production'
 
-  // Dev cookie bypass only in non-production
-  const devCookie = req.cookies.get('dev_admin')?.value
-  const iteCookie = req.cookies.get('ite_admin')?.value
-  const devAdmin = !isProd && (devCookie === '1' || iteCookie === '1')
-  if (devAdmin) return { allow: true, devAdmin: true }
+  // In production, dev bypass is completely disabled
+  if (!isProd) {
+    // Development mode: check for dev admin cookie
+    const devCookie = req.cookies.get('dev_admin')?.value
+    const iteCookie = req.cookies.get('ite_admin')?.value
+    
+    if (devCookie === '1' || iteCookie === '1') {
+      console.warn('[SECURITY] Dev admin bypass used. This only works in development!')
+      return { allow: true, devAdmin: true, role: 'super_admin' }
+    }
+  }
 
   const cookieStore = await (cookies() as any)
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-    {
-      cookies: {
-        get(name: string) { return cookieStore.get(name)?.value },
-        set(name: string, value: string, options: any) { cookieStore.set(name, value, options) },
-        remove(name: string, options: any) { cookieStore.set(name, '', { ...options, maxAge: 0 }) },
-      },
-    }
-  )
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { allow: false, devAdmin: false }
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-  const { data: adminUser } = await supabase
+  if (!url || !anonKey) {
+    console.error('[ADMIN] Supabase credentials missing')
+    return { allow: false, devAdmin: false }
+  }
+
+  const supabase = createServerClient(url, anonKey, {
+    cookies: {
+      get(name: string) { return cookieStore.get(name)?.value },
+      set(name: string, value: string, options: any) { cookieStore.set(name, value, options) },
+      remove(name: string, options: any) { cookieStore.set(name, '', { ...options, maxAge: 0 }) },
+    },
+  })
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  
+  if (!user) {
+    return { allow: false, devAdmin: false }
+  }
+
+  // Verify admin status from database
+  const { data: adminUser, error } = await supabase
     .from('admin_users')
-    .select('id, role')
+    .select('id, role, permissions')
     .eq('user_id', user.id)
     .single()
 
-  if (adminUser) {
-    return { allow: true, devAdmin: false, userId: user.id, role: (adminUser as any).role }
+  if (error || !adminUser) {
+    // Log unauthorized access attempt
+    await logAudit({
+      action: AuditAction.ADMIN_LOGIN,
+      user_id: user.id,
+      user_email: user.email,
+      ip_address: getClientIP(req),
+      status: 'failure',
+      error_message: 'User is not an admin',
+    })
+    
+    return { allow: false, devAdmin: false }
   }
-  return { allow: false, devAdmin: false }
+
+  // Log successful admin access
+  await logAudit({
+    action: AuditAction.ADMIN_LOGIN,
+    user_id: user.id,
+    user_email: user.email,
+    ip_address: getClientIP(req),
+    status: 'success',
+    details: { role: adminUser.role },
+  })
+
+  return {
+    allow: true,
+    devAdmin: false,
+    userId: user.id,
+    role: adminUser.role,
+    permissions: adminUser.permissions || [],
+  }
 }

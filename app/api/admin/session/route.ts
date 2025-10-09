@@ -69,36 +69,52 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 })
     }
 
-    // Hardcoded super admin credentials for development (non-production only)
-    const isProd = ((process.env as any).NODE_ENV as string) === 'production'
-    if (!isProd && username === 'admin@cuilahore.edu.pk' && password === 'admin123') {
-      const res = NextResponse.json({ 
-        ok: true, 
-        role: 'super_admin',
-        user: {
-          id: 'hardcoded-admin-id',
-          email: 'admin@cuilahore.edu.pk'
-        }
-      })
-      // Set dev admin cookies to persist session for AdminGuard and admin API checks
-      res.cookies.set('dev_admin', '1', {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        secure: isHttps,
-        // session cookie (clears on browser close)
-      })
-      // Align with other admin API routes that check `ite_admin`
-      res.cookies.set('ite_admin', '1', {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        secure: isHttps,
-      })
-      return res
+    const isProd = process.env.NODE_ENV === 'production'
+    
+    // DEVELOPMENT ONLY: Allow test admin credentials
+    // In production, this should use Supabase auth or another secure method
+    if (!isProd) {
+      const devAdminEmail = process.env.DEV_ADMIN_EMAIL || 'admin@cuilahore.edu.pk'
+      const devAdminPassword = process.env.DEV_ADMIN_PASSWORD || 'admin123'
+      
+      if (username === devAdminEmail && password === devAdminPassword) {
+        console.warn('[SECURITY] Dev admin login used - this only works in development!')
+        
+        const res = NextResponse.json({
+          ok: true, 
+          role: 'super_admin',
+          user: {
+            id: 'dev-admin-id',
+            email: devAdminEmail
+          },
+          warning: 'Development admin session'
+        })
+        
+        // Set dev admin cookies with proper security flags
+        res.cookies.set('dev_admin', '1', {
+          httpOnly: true,
+          sameSite: 'lax',
+          path: '/',
+          secure: isHttps,
+          maxAge: 60 * 60 * 8, // 8 hours
+        })
+        res.cookies.set('ite_admin', '1', {
+          httpOnly: true,
+          sameSite: 'lax',
+          path: '/',
+          secure: isHttps,
+          maxAge: 60 * 60 * 8,
+        })
+        return res
+      }
     }
 
-    return NextResponse.json({ error: 'Invalid admin credentials' }, { status: 401 })
+    // In production or if dev credentials don't match, return error
+    return NextResponse.json({ 
+      error: isProd 
+        ? 'Invalid credentials' 
+        : 'Invalid credentials. Use Supabase authentication or set DEV_ADMIN_EMAIL/DEV_ADMIN_PASSWORD.' 
+    }, { status: 401 })
 
   } catch (error: any) {
     console.error('Admin login error:', error)

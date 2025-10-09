@@ -1,73 +1,105 @@
 import { createClient } from "@supabase/supabase-js"
+import { createServerClient } from "@supabase/ssr"
+import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 import { revalidatePath } from "next/cache"
-
-// Simple in-memory rate limiter per IP (10 uploads per hour)
-const RATE_LIMIT = 10
-const WINDOW_MS = 60 * 60 * 1000
-type Bucket = { count: number; resetAt: number }
-const rateBuckets: Map<string, Bucket> = (globalThis as any).__pp_rate_buckets__ || new Map<string, Bucket>()
-;(globalThis as any).__pp_rate_buckets__ = rateBuckets
-
-function getClientIp(req: NextRequest): string {
-  const fwd = req.headers.get('x-forwarded-for') || ''
-  const ip = fwd.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'anonymous'
-  return ip
-}
-
-function checkRateLimit(ip: string): { ok: boolean; bucket: Bucket } {
-  const now = Date.now()
-  const b = rateBuckets.get(ip)
-  if (!b || now > b.resetAt) {
-    const fresh = { count: 0, resetAt: now + WINDOW_MS }
-    rateBuckets.set(ip, fresh)
-    return { ok: true, bucket: fresh }
-  }
-  if (b.count >= RATE_LIMIT) return { ok: false, bucket: b }
-  return { ok: true, bucket: b }
-}
+import { rateLimit, RateLimitPresets, getRateLimitHeaders } from "@/lib/rate-limit"
+import { pastPaperUploadSchema, validateData, fileUploadSchema } from "@/lib/validation"
+import { Errors, formatErrorResponse, logError } from "@/lib/errors"
+import { logAudit, AuditAction } from "@/lib/audit"
 
 export async function POST(req: NextRequest) {
   try {
-    // Rate limit anonymous uploads
-    const ip = getClientIp(req)
-    const { ok: allowed, bucket } = checkRateLimit(ip)
-    if (!allowed) {
-      const res = NextResponse.json({ error: "Rate limit exceeded. Try again later." }, { status: 429 })
-      res.headers.set('X-RateLimit-Limit', String(RATE_LIMIT))
-      res.headers.set('X-RateLimit-Remaining', '0')
-      res.headers.set('X-RateLimit-Reset', String(bucket.resetAt))
+    // Step 1: Authenticate user
+    const cookieStore = await cookies()
+    const publicUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    if (!publicUrl || !anonKey) {
+      return NextResponse.json({ error: 'Service configuration error' }, { status: 500 })
+    }
+
+    const authClient = createServerClient(publicUrl, anonKey, {
+      cookies: {
+        get(name: string) { return cookieStore.get(name)?.value },
+        set(name: string, value: string, options?: any) { cookieStore.set({ name, value, ...options }) },
+        remove(name: string, options?: any) { cookieStore.set({ name, value: '', ...options }) },
+      },
+    })
+
+    const { data: { user } } = await authClient.auth.getUser()
+    
+    if (!user) {
+      throw Errors.authRequired()
+    }
+
+    // Step 2: Rate limiting (per user)
+    const rateLimitResult = await rateLimit(req, {
+      ...RateLimitPresets.upload,
+      keyGenerator: () => `upload:user:${user.id}`,
+    })
+
+    if (!rateLimitResult.success) {
+      const res = NextResponse.json(
+        { error: 'Rate limit exceeded', retryAfter: rateLimitResult.retryAfter },
+        { status: 429 }
+      )
+      Object.entries(getRateLimitHeaders(rateLimitResult)).forEach(([key, value]) => {
+        res.headers.set(key, value)
+      })
       return res
     }
 
+    // Step 3: Parse and validate form data
     const formData = await req.formData()
     const file = formData.get("file") as File | null
-    const paperData = JSON.parse(formData.get("paperData") as string)
+    const paperDataRaw = formData.get("paperData") as string
 
-    const externalUrl: string | undefined = typeof paperData?.externalUrl === 'string' ? paperData.externalUrl.trim() : undefined
+    if (!paperDataRaw) {
+      return NextResponse.json({ error: 'Paper data is required' }, { status: 400 })
+    }
+
+    let paperData: any
+    try {
+      paperData = JSON.parse(paperDataRaw)
+    } catch {
+      return NextResponse.json({ error: 'Invalid paper data format' }, { status: 400 })
+    }
+
+    // Validate paper data
+    const validation = validateData(pastPaperUploadSchema, paperData)
+    if (!validation.success) {
+      return NextResponse.json({ 
+        error: 'Validation failed', 
+        details: validation.errors 
+      }, { status: 400 })
+    }
+
+    const validatedData = validation.data
+    const externalUrl = validatedData.externalUrl
     const hasExternal = !!externalUrl && /^https?:\/\//.test(externalUrl)
 
-    // Validate file if provided
+    // Step 4: Validate file if provided
     if (file) {
-      const allowed = [
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      ]
-      const maxSizeBytes = 10 * 1024 * 1024 // 10MB
-      if (!(allowed as any).includes((file as any).type)) {
-        return NextResponse.json({ error: "Invalid file type. Only PDF, DOC, DOCX are allowed." }, { status: 400 })
+      const fileValidation = validateData(fileUploadSchema, {
+        size: file.size,
+        type: file.type,
+      })
+
+      if (!fileValidation.success) {
+        return NextResponse.json({
+          error: 'Invalid file',
+          details: fileValidation.errors
+        }, { status: 400 })
       }
-      if ((file as any).size > maxSizeBytes) {
-        return NextResponse.json({ error: "File too large. Max size is 10MB." }, { status: 400 })
-      }
-    }
-    // Must provide either a file or an external link
-    if (!file && !hasExternal) {
-      return NextResponse.json({ error: "Provide a file or a valid external link (https://)" }, { status: 400 })
     }
 
-    // Validate required fields
+    // Must provide either file or external URL
+    if (!file && !hasExternal) {
+      return NextResponse.json({ 
+        error: "Provide a file or a valid external link (https://)" 
+      }, { status: 400 })
+    }
     const required = ["title", "department", "examType", "semester", "year"]
     for (const key of required) {
       if (!paperData?.[key] || String(paperData[key]).trim() === "") {

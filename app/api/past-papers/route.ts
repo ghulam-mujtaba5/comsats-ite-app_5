@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { searchQuerySchema, validateData, escapeSQL } from '@/lib/validation'
+import { formatErrorResponse, logError } from '@/lib/errors'
 
 export const dynamic = 'force-dynamic'
 
@@ -8,18 +10,23 @@ export async function GET(req: NextRequest) {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    
     if (!url || !anon) {
       return NextResponse.json({ data: [] })
     }
 
     const { searchParams } = new URL(req.url)
-    const course = searchParams.get('course') || undefined
-    const semester = searchParams.get('semester') || undefined
-    const year = searchParams.get('year') ? Number(searchParams.get('year')) : undefined
-    const q = searchParams.get('q') || undefined
-    const limit = Number(searchParams.get('limit') || '50')
-    const campusId = searchParams.get('campus_id') || undefined
-    const departmentId = searchParams.get('department_id') || undefined
+    
+    // Validate and sanitize query parameters
+    const course = searchParams.get('course')?.trim().slice(0, 50) || undefined
+    const semester = searchParams.get('semester')?.trim().slice(0, 20) || undefined
+    const yearParam = searchParams.get('year')
+    const year = yearParam ? Number(yearParam) : undefined
+    const q = searchParams.get('q')?.trim().slice(0, 200) || undefined
+    const limitParam = Number(searchParams.get('limit') || '50')
+    const limit = Math.min(Math.max(limitParam, 1), 100) // Clamp between 1-100
+    const campusId = searchParams.get('campus_id')?.trim() || undefined
+    const departmentId = searchParams.get('department_id')?.trim() || undefined
 
     const supabase = serviceKey
       ? createClient(url, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } })
@@ -32,25 +39,34 @@ export async function GET(req: NextRequest) {
       .order('created_at', { ascending: false })
       .limit(limit)
 
-    // Filter by campus if provided
+    // Apply filters safely
     if (campusId) query = query.eq('campus_id', campusId)
-    // Filter by department if provided
     if (departmentId) query = query.eq('department_id', departmentId)
-    if (course) query = query.ilike('course_code', `%${course}%`)
-    if (semester) query = query.ilike('semester', `%${semester}%`)
-    if (typeof year === 'number' && !Number.isNaN(year)) query = query.eq('year', year)
-    if (q) query = query.or(`title.ilike.%${q}%,course_code.ilike.%${q}%`)
+    if (course) query = query.ilike('course_code', `%${escapeSQL(course)}%`)
+    if (semester) query = query.ilike('semester', `%${escapeSQL(semester)}%`)
+    if (typeof year === 'number' && !Number.isNaN(year) && year >= 2000 && year <= 2100) {
+      query = query.eq('year', year)
+    }
+    if (q) {
+      const escaped = escapeSQL(q)
+      query = query.or(`title.ilike.%${escaped}%,course_code.ilike.%${escaped}%`)
+    }
 
     const { data, error } = await query
+    
     if (error) {
-      console.error('Supabase query error:', error)
+      logError(error, { endpoint: '/api/past-papers', method: 'GET' })
       throw error
     }
 
-    console.log(`Found ${data?.length || 0} papers in database`) // Debug log
-    return NextResponse.json({ data: data || [] })
+    return NextResponse.json({ data: data || [], count: data?.length || 0 })
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || 'Failed to fetch past papers', data: [] }, { status: 200 })
+    logError(e, { endpoint: '/api/past-papers', method: 'GET' })
+    const errorResponse = formatErrorResponse(e)
+    return NextResponse.json(
+      { data: [], ...errorResponse },
+      { status: 500 }
+    )
   }
 }
 
