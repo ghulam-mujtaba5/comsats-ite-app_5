@@ -143,33 +143,9 @@ CREATE TABLE IF NOT EXISTS comment_reactions (
 );
 
 -- ============================================
--- STORIES
+-- STORIES (REMOVED PER USER REQUEST)
 -- ============================================
-
-CREATE TABLE IF NOT EXISTS user_stories (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    media_url TEXT NOT NULL,
-    media_type VARCHAR(20) NOT NULL, -- image, video
-    thumbnail_url TEXT,
-    duration INTEGER, -- for videos
-    caption TEXT,
-    views_count INTEGER DEFAULT 0,
-    expires_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() + INTERVAL '24 hours',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
-CREATE INDEX IF NOT EXISTS idx_stories_user_id ON user_stories(user_id);
-CREATE INDEX IF NOT EXISTS idx_stories_expires_at ON user_stories(expires_at);
-
--- Story views
-CREATE TABLE IF NOT EXISTS story_views (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    story_id UUID NOT NULL REFERENCES user_stories(id) ON DELETE CASCADE,
-    viewer_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    viewed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(story_id, viewer_id)
-);
+-- Instagram-style Stories feature removed
 
 -- ============================================
 -- DIRECT MESSAGES
@@ -279,25 +255,9 @@ CREATE TABLE IF NOT EXISTS post_hashtags (
 );
 
 -- ============================================
--- LIVE STREAMING
+-- LIVE STREAMING (REMOVED PER USER REQUEST)
 -- ============================================
-
-CREATE TABLE IF NOT EXISTS live_streams (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    thumbnail_url TEXT,
-    stream_key TEXT UNIQUE NOT NULL,
-    stream_url TEXT,
-    status VARCHAR(20) DEFAULT 'scheduled', -- scheduled, live, ended
-    viewers_count INTEGER DEFAULT 0,
-    max_viewers INTEGER DEFAULT 0,
-    started_at TIMESTAMP WITH TIME ZONE,
-    ended_at TIMESTAMP WITH TIME ZONE,
-    scheduled_for TIMESTAMP WITH TIME ZONE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
+-- TikTok-style Live Streaming feature removed
 
 -- ============================================
 -- TRIGGERS FOR COUNTERS
@@ -367,19 +327,7 @@ AFTER INSERT OR DELETE ON post_comments_enhanced
 FOR EACH ROW EXECUTE FUNCTION update_comment_replies_count();
 
 -- Update story views count
-CREATE OR REPLACE FUNCTION update_story_views_count()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE user_stories 
-    SET views_count = views_count + 1 
-    WHERE id = NEW.story_id;
-    RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_update_story_views_count
-AFTER INSERT ON story_views
-FOR EACH ROW EXECUTE FUNCTION update_story_views_count();
+-- Story views count trigger removed (Stories feature removed)
 
 -- Update hashtag usage count
 CREATE OR REPLACE FUNCTION update_hashtag_usage()
@@ -547,8 +495,8 @@ ALTER TABLE community_posts_enhanced ENABLE ROW LEVEL SECURITY;
 ALTER TABLE post_reactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE post_comments_enhanced ENABLE ROW LEVEL SECURITY;
 ALTER TABLE comment_reactions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE user_stories ENABLE ROW LEVEL SECURITY;
-ALTER TABLE story_views ENABLE ROW LEVEL SECURITY;
+-- user_stories RLS removed (Stories feature removed)
+-- story_views RLS removed (Stories feature removed)
 ALTER TABLE conversations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE conversation_participants ENABLE ROW LEVEL SECURITY;
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
@@ -556,7 +504,7 @@ ALTER TABLE notifications_enhanced ENABLE ROW LEVEL SECURITY;
 ALTER TABLE saved_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE hashtags ENABLE ROW LEVEL SECURITY;
 ALTER TABLE post_hashtags ENABLE ROW LEVEL SECURITY;
-ALTER TABLE live_streams ENABLE ROW LEVEL SECURITY;
+-- live_streams RLS removed (Live Streaming feature removed)
 
 -- RLS Policies for user_profiles
 CREATE POLICY "Users can view public profiles" ON user_profiles
@@ -633,22 +581,7 @@ CREATE POLICY "Users can send messages" ON messages
         )
     );
 
--- RLS Policies for stories
-CREATE POLICY "Users can view stories" ON user_stories
-    FOR SELECT USING (
-        expires_at > NOW() AND (
-            user_id = auth.uid() OR
-            user_id IN (
-                SELECT following_id FROM user_follows WHERE follower_id = auth.uid()
-            )
-        )
-    );
-
-CREATE POLICY "Users can create stories" ON user_stories
-    FOR INSERT WITH CHECK (auth.uid() = user_id);
-
-CREATE POLICY "Users can delete own stories" ON user_stories
-    FOR DELETE USING (auth.uid() = user_id);
+-- RLS Policies for stories (REMOVED - Stories feature removed per user request)
 
 -- Grant necessary permissions
 GRANT USAGE ON SCHEMA public TO anon, authenticated;

@@ -3,13 +3,29 @@
 
 /* Prevent horizontal scroll on mobile */
 html, body {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   max-width: 100vw;
+  width: 100%;
 }
 
 /* Ensure all containers respect viewport width */
 * {
+  box-sizing: border-box;
+}
+
+*:not(svg):not(path) {
   max-width: 100%;
+}
+
+/* Mobile navbar specific fixes */
+@media (max-width: 768px) {
+  [role="dialog"],
+  [data-radix-dialog-content],
+  .mobile-sheet-content {
+    max-width: calc(100vw - 32px) !important;
+    width: min(calc(100vw - 32px), 380px) !important;
+    box-sizing: border-box !important;
+  }
 }
 
 /* 2025 Modern Animations */

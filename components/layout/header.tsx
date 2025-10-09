@@ -197,17 +197,17 @@ export function Header() {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[calc(100vw-40px)] max-w-[380px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen">
-              <div className="flex flex-col space-y-4 mt-8 pb-8 px-2 w-full">
-                <div className="flex items-center space-x-4 pb-6 border-b border-white/20 dark:border-white/10 w-full">
-                  <div className="relative flex-shrink-0">
+            <SheetContent side="right" className="w-[min(calc(100vw-32px),380px)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen">
+              <div className="flex flex-col space-y-4 mt-8 pb-8 px-2 w-full max-w-full box-border">
+                <div className="flex items-center space-x-4 pb-6 border-b border-white/20 dark:border-white/10 w-full max-w-full box-border">
+                  <div className="relative flex-shrink-0 w-11 h-11">
                     <Image src="/logo-square.svg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl" />
                     <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-50" />
                   </div>
-                  <div className="flex flex-col min-w-0 flex-1">
-                    <span className="font-bold text-xl truncate">CampusAxis</span>
+                  <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
+                    <span className="font-bold text-xl truncate max-w-full">CampusAxis</span>
                     {pathname !== '/' && (
-                      <span className="text-sm text-slate-600 dark:text-slate-400 truncate">Academic Portal</span>
+                      <span className="text-sm text-slate-600 dark:text-slate-400 truncate max-w-full">Academic Portal</span>
                     )}
                   </div>
                 </div>
@@ -219,7 +219,7 @@ export function Header() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift group backdrop-blur-sm border w-full ${
+                      className={`relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift group backdrop-blur-sm border w-full max-w-full box-border ${
                         isActivePath(item.href) ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border-blue-200/30 dark:border-blue-400/30 shadow-lg" : "border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md"
                       }`}
                       aria-current={isActivePath(item.href) ? "page" : undefined}
@@ -227,9 +227,9 @@ export function Header() {
                       {isActivePath(item.href) && (
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-2xl blur-sm" />
                       )}
-                      <div className="relative z-10 flex items-start space-x-3 w-full min-w-0">
-                        {Icon && <Icon className="h-5 w-5 mt-0.5 flex-shrink-0" />}
-                        <div className="flex flex-col min-w-0 flex-1">
+                      <div className="relative z-10 flex items-start space-x-3 w-full max-w-full min-w-0 box-border overflow-hidden">
+                        {Icon && <Icon className="h-5 w-5 mt-0.5 flex-shrink-0 w-5" />}
+                        <div className="flex flex-col min-w-0 flex-1 overflow-hidden max-w-full">
                           <span className={`font-semibold text-base break-words ${
                             isActivePath(item.href) ? "text-blue-600 dark:text-blue-400" : "text-slate-900 dark:text-white"
                           }`}>{item.name}</span>
