@@ -378,5 +378,136 @@
       min-height: 44px;
       min-width: 44px;
     }
+    
+    /* Larger touch targets for mobile */
+    .mobile-touch-target {
+      min-height: 48px;
+      min-width: 48px;
+      padding: 12px;
+    }
+    
+    /* Mobile-friendly button sizes */
+    .mobile-btn {
+      min-height: 44px;
+      padding: 10px 16px;
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .mobile-btn-icon {
+      width: 44px;
+      height: 44px;
+    }
+    
+    /* Mobile-friendly input fields */
+    .mobile-input {
+      min-height: 44px;
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    /* Mobile-friendly cards with touch feedback */
+    .mobile-card {
+      transition: all 0.2s ease;
+      transform: translateZ(0); /* Enable hardware acceleration */
+    }
+    
+    .mobile-card:active {
+      transform: scale(0.98);
+      transition: all 0.1s ease;
+    }
+    
+    /* Mobile-friendly navigation */
+    .mobile-nav-item {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+    }
+    
+    /* Mobile-friendly list items */
+    .mobile-list-item {
+      min-height: 56px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+    }
+    
+    /* Prevent accidental zoom on form elements */
+    input, textarea, select {
+      font-size: 16px;
+    }
+    
+    /* Mobile-friendly modals */
+    .mobile-modal {
+      margin: 16px;
+      max-height: calc(100vh - 32px);
+    }
+    
+    /* Mobile-friendly dialogs */
+    .mobile-dialog {
+      max-width: calc(100vw - 32px);
+      margin: 16px auto;
+    }
+    
+    /* Mobile-friendly tabs */
+    .mobile-tab {
+      min-height: 48px;
+      padding: 0 16px;
+    }
+    
+    /* Mobile-friendly avatars */
+    .mobile-avatar {
+      min-width: 40px;
+      min-height: 40px;
+    }
+    
+    /* Mobile-friendly badges */
+    .mobile-badge {
+      min-height: 24px;
+      padding: 2px 8px;
+    }
+  }
+  
+  /* Enhanced touch interactions for all devices */
+  .touch-interactive {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+  }
+  
+  .touch-interactive:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+  }
+  
+  /* Ripple effect for touch feedback */
+  .ripple-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+  }
+  
+  @keyframes ripple-animation {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+  
+  /* Smooth scrolling for touch devices */
+  .smooth-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent pull-to-refresh on mobile */
+  .no-pull-to-refresh {
+    overscroll-behavior-y: contain;
   }
 }

@@ -65,6 +65,11 @@ import type { Post } from "@/lib/community-data"
 import { ThreadCard } from "@/components/community/thread-card"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
+import { MobileCommunityView } from "@/components/community/mobile-community-view"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { useRealtimePosts } from "@/hooks/use-realtime-posts"
+import { RichTextEditor } from "@/components/community/rich-text-editor"
+import { MediaUploader } from "@/components/community/media-uploader"
 
 interface Group {
   id: number
@@ -121,9 +126,19 @@ export default function CommunityPage() {
   const [availableBatches, setAvailableBatches] = useState<string[]>([]) // New state for available batches
   const [isFilterOpen, setIsFilterOpen] = useState(false) // State for filter panel
   const [sortBy, setSortBy] = useState('recent') // New state for sorting
-
-  // Load available batches when campus and department change
+  const isMobile = useIsMobile()
+  const [newPostMedia, setNewPostMedia] = useState<File[]>([])
+  
+  // Use real-time posts instead of manual fetching
+  const { posts: realtimePosts, loading: realtimeLoading, error: realtimeError } = useRealtimePosts(
+    selectedCampus?.id, 
+    selectedDepartment?.id, 
+    selectedBatch
+  )
+  
+  // Update the useEffect to use real-time data
   useEffect(() => {
+    // We're now using real-time hooks, so we can simplify this
     const loadBatches = async () => {
       if (!selectedCampus?.id || !selectedDepartment?.id) return
       
@@ -145,73 +160,11 @@ export default function CommunityPage() {
     
     loadBatches()
   }, [selectedCampus, selectedDepartment])
-
-  useEffect(() => {
-    const load = async () => {
-      setLoading(true)
-      setError(null)
-      try {
-        // Build URL with all filters
-        const postsParams = new URLSearchParams()
-        postsParams.set('limit', postLimit.toString())
-        postsParams.set('offset', '0')
-        postsParams.set('meta', '1')
-        if (selectedCampus?.id) postsParams.set('campus_id', selectedCampus.id)
-        if (selectedDepartment?.id) postsParams.set('department_id', selectedDepartment.id)
-        if (selectedBatch && selectedBatch !== "__all__") postsParams.set('batch', selectedBatch)
-        if (selectedCategory !== "all") postsParams.set('type', selectedCategory)
-        if (sortBy) postsParams.set('sort', sortBy)
-        
-        const [postsResponse, eventsResponse] = await Promise.all([
-          fetch(`/api/community/posts?${postsParams.toString()}`),
-          fetch('/api/news-events/events')
-        ])
-        
-        if (postsResponse.ok) {
-          const postsData = await postsResponse.json()
-          const rows = Array.isArray(postsData) ? postsData : Array.isArray(postsData?.data) ? postsData.data : []
-          const meta = postsData && postsData.meta ? postsData.meta : { hasMore: rows.length === postLimit, nextOffset: rows.length }
-          setPosts(rows)
-          setHasMorePosts(!!meta.hasMore)
-          setPostOffset(Number.isFinite(meta.nextOffset) ? meta.nextOffset : rows.length)
-        }
-        
-        if (eventsResponse.ok) {
-          const eventsData = await eventsResponse.json()
-          setEvents(eventsData.slice(0, 3)) // Show only 3 upcoming events
-        }
-        
-        // Load groups from static data for now (can be converted to backend later)
-        setGroups([
-          {
-            id: 1,
-            name: "CS Final Year Projects",
-            members: 156,
-            description: "Share and discuss final year project ideas and progress",
-            category: "Academic",
-            isJoined: false,
-            recentActivity: "2 hours ago",
-            posts: 45,
-          },
-          {
-            id: 2,
-            name: "COMSATS Job Board",
-            members: 892,
-            description: "Job opportunities and career guidance for students",
-            category: "Career",
-            isJoined: true,
-            recentActivity: "1 hour ago",
-            posts: 123,
-          }
-        ])
-      } catch (e: any) {
-        setError(e?.message || "Failed to load community data")
-      } finally {
-        setLoading(false)
-      }
-    }
-    load()
-  }, [selectedCampus, selectedDepartment, selectedBatch, selectedCategory, sortBy])
+  
+  // Use real-time data when available
+  const postsToDisplay = realtimePosts.length > 0 ? realtimePosts : posts
+  const isLoading = realtimeLoading || loading
+  const displayError = realtimeError || error
 
   const loadMorePosts = async () => {
     if (loadingMorePosts || !hasMorePosts) return
@@ -260,6 +213,16 @@ export default function CommunityPage() {
     }
 
     try {
+      // Handle media upload first
+      let mediaUrls: string[] = []
+      if (newPostMedia.length > 0) {
+        // Upload media files and get URLs
+        // This would typically involve uploading to a storage service
+        // For now, we'll just log the files
+        console.log("Uploading media files:", newPostMedia)
+        // mediaUrls = await uploadMediaFiles(newPostMedia)
+      }
+
       const res = await fetch("/api/community/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -267,6 +230,7 @@ export default function CommunityPage() {
           content: newPost,
           type: postType,
           tags: extractTags(newPost),
+          media: mediaUrls
         }),
       })
       const json = await res.json()
@@ -274,6 +238,7 @@ export default function CommunityPage() {
       const inserted: Post = json
       setPosts((prev) => [inserted, ...prev])
       setNewPost("")
+      setNewPostMedia([])
       setIsCreatePostOpen(false)
       toast({ title: "Post created successfully!", description: "Your post has been shared with the community." })
     } catch (err: any) {
@@ -385,6 +350,41 @@ export default function CommunityPage() {
   const applyFilters = () => {
     // This will trigger the useEffect that reloads posts
     setIsFilterOpen(false)
+  }
+
+  if (isMobile) {
+    return (
+      <MobileCommunityView
+        posts={posts}
+        groups={groups}
+        events={events}
+        loading={loading}
+        error={error}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        selectedBatch={selectedBatch}
+        setSelectedBatch={setSelectedBatch}
+        availableBatches={availableBatches}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        viewMode={viewMode}
+        setViewMode={setViewMode}
+        isCreatePostOpen={isCreatePostOpen}
+        setIsCreatePostOpen={setIsCreatePostOpen}
+        newPost={newPost}
+        setNewPost={setNewPost}
+        postType={postType}
+        setPostType={setPostType}
+        handleCreatePost={handleCreatePost}
+        handleLike={handleLike}
+        handleJoinGroup={handleJoinGroup}
+        loadMorePosts={loadMorePosts}
+        hasMorePosts={hasMorePosts}
+        loadingMorePosts={loadingMorePosts}
+      />
+    )
   }
 
   return (
@@ -672,11 +672,11 @@ export default function CommunityPage() {
                             <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
                               Your Post
                             </label>
-                            <Textarea
-                              placeholder="What's on your mind? Be specific and use #hashtags to categorize your post..."
+                            <RichTextEditor
                               value={newPost}
-                              onChange={(e) => setNewPost(e.target.value)}
-                              className="min-h-[150px] text-base p-4"
+                              onChange={setNewPost}
+                              placeholder="What's on your mind? Be specific and use #hashtags to categorize your post..."
+                              className="min-h-[150px]"
                             />
                             <div className="flex justify-between items-center mt-2">
                               <div className="text-sm text-gray-500">
@@ -693,6 +693,17 @@ export default function CommunityPage() {
                                 </Button>
                               </div>
                             </div>
+                          </div>
+                          
+                          <div>
+                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                              Attach Media (Optional)
+                            </label>
+                            <MediaUploader 
+                              onMediaAdded={setNewPostMedia}
+                              maxFiles={5}
+                              maxSize={10}
+                            />
                           </div>
                           
                           <div className="flex justify-between items-center pt-4">
@@ -944,10 +955,10 @@ export default function CommunityPage() {
                 </Card>
 
                 <div className="space-y-6">
-                  {loading ? (
+                  {isLoading ? (
                     <CenteredLoader message="Loading community posts..." />
-                  ) : error ? (
-                    <Card variant="soft" className="p-8 text-center text-blue-600">{error}</Card>
+                  ) : displayError ? (
+                    <Card variant="soft" className="p-8 text-center text-blue-600">{displayError}</Card>
                   ) : filteredPosts.length === 0 ? (
                     <Card variant="soft" className="p-8 text-center">
                       <div className="flex flex-col items-center gap-2">
@@ -993,14 +1004,14 @@ export default function CommunityPage() {
                   </div>
                   
                   {/* Trending Posts */}
-                  {loading ? (
+                  {isLoading ? (
                     <CenteredLoader message="Loading trending posts..." />
-                  ) : error ? (
+                  ) : displayError ? (
                     <Card className="p-8 text-center">
                       <div className="flex flex-col items-center gap-2 text-red-600">
                         <AlertCircle className="h-12 w-12" />
                         <h3 className="font-medium text-lg">Error Loading Posts</h3>
-                        <p>{error}</p>
+                        <p>{displayError}</p>
                         <Button 
                           onClick={() => window.location.reload()}
                           className="mt-4"
@@ -1042,14 +1053,14 @@ export default function CommunityPage() {
                   </div>
                   
                   {/* Following Posts */}
-                  {loading ? (
+                  {isLoading ? (
                     <CenteredLoader message="Loading your posts..." />
-                  ) : error ? (
+                  ) : displayError ? (
                     <Card className="p-8 text-center">
                       <div className="flex flex-col items-center gap-2 text-red-600">
                         <AlertCircle className="h-12 w-12" />
                         <h3 className="font-medium text-lg">Error Loading Posts</h3>
-                        <p>{error}</p>
+                        <p>{displayError}</p>
                         <Button 
                           onClick={() => window.location.reload()}
                           className="mt-4"

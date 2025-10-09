@@ -7,10 +7,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Heart, MessageCircle, ArrowLeft } from "lucide-react"
+import { Heart, MessageCircle, ArrowLeft, FileText, Paperclip } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
+import { useRealtimeComments } from "@/hooks/use-realtime-comments"
+import { useRealtimeLikes } from "@/hooks/use-realtime-likes"
 import type { Post, Reply } from "@/lib/community-data"
+
+interface PostWithMedia extends Post {
+  media?: string[]
+}
 
 export function PostClient() {
   const params = useParams()
@@ -22,7 +28,7 @@ export function PostClient() {
     return idStr
   }, [params])
 
-  const [post, setPost] = useState<Post | null>(null)
+  const [post, setPost] = useState<PostWithMedia | null>(null)
   const [replies, setReplies] = useState<Reply[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -104,12 +110,34 @@ export function PostClient() {
     }
   }
 
+  // Use real-time comments and likes
+  const { comments: realtimeComments, loading: commentsLoading, error: commentsError, addComment } = useRealtimeComments(postId || '')
+  const { likes: realtimeLikes, isLiked: realtimeIsLiked, loading: likesLoading, toggleLike: toggleRealtimeLike } = useRealtimeLikes(postId || '')
+  
+  // Use real-time data when available
+  const commentsToDisplay = realtimeComments.length > 0 ? realtimeComments : replies
+  const currentLikes = realtimeLikes > 0 ? realtimeLikes : (post?.likes || 0)
+  const isPostLiked = realtimeIsLiked || (post?.liked || false)
+
   const handleLike = async () => {
     if (!post) return
     if (!user) {
       toast({ title: "Sign in required", description: "Please log in to like posts.", variant: "destructive" })
       return
     }
+    
+    // Use real-time like toggle when available
+    if (toggleRealtimeLike) {
+      try {
+        await toggleRealtimeLike()
+        return
+      } catch (error) {
+        // Fallback to original method if real-time fails
+        console.error('Real-time like failed, falling back to original method:', error)
+      }
+    }
+    
+    // Original like handling as fallback
     const snapshot = post
     const optimistic = { ...snapshot, liked: !snapshot.liked, likes: snapshot.liked ? snapshot.likes - 1 : snapshot.likes + 1 }
     setPost(optimistic)
@@ -131,6 +159,21 @@ export function PostClient() {
       toast({ title: "Sign in required", description: "Please log in to reply.", variant: "destructive" })
       return
     }
+    
+    // Use real-time comment addition when available
+    if (addComment) {
+      try {
+        await addComment(newReply.trim())
+        setNewReply("")
+        toast({ title: "Reply posted" })
+        return
+      } catch (error) {
+        // Fallback to original method if real-time fails
+        console.error('Real-time comment failed, falling back to original method:', error)
+      }
+    }
+    
+    // Original reply handling as fallback
     const localId = `local-${Date.now()}`
     const local: Reply = {
       id: localId,
@@ -218,6 +261,42 @@ export function PostClient() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="leading-relaxed">{post.content}</p>
+              
+              {/* Media gallery */}
+              {post.media && post.media.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {post.media.map((mediaUrl, index) => (
+                    <div key={index} className="relative aspect-square rounded-lg overflow-hidden">
+                      {mediaUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
+                        // Image
+                        <img 
+                          src={mediaUrl} 
+                          alt={`Post media ${index + 1}`} 
+                          className="w-full h-full object-cover"
+                        />
+                      ) : mediaUrl.match(/\.(mp4|webm|ogg)$/i) ? (
+                        // Video
+                        <video 
+                          src={mediaUrl} 
+                          className="w-full h-full object-cover"
+                          controls
+                        />
+                      ) : mediaUrl.match(/\.(pdf|doc|docx)$/i) ? (
+                        // Document
+                        <div className="w-full h-full flex items-center justify-center bg-muted">
+                          <FileText className="h-8 w-8 text-muted-foreground" />
+                        </div>
+                      ) : (
+                        // Generic file
+                        <div className="w-full h-full flex items-center justify-center bg-muted">
+                          <Paperclip className="h-8 w-8 text-muted-foreground" />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+              
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
                   <Badge key={tag} className="text-xs border">#{tag}</Badge>

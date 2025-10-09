@@ -21,6 +21,7 @@ import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { CommandPalette } from "@/components/search/command-palette"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { NotificationBell } from "@/components/community/notification-bell"
 
 const navigationItems = [
   {
@@ -96,7 +97,7 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-[100] w-full border-b border-white/20 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/60 fade-in shadow-lg hover:shadow-xl transition-all duration-300">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-lg">
       <div className="app-container h-16 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <Link
@@ -173,6 +174,7 @@ export function Header() {
             <span>+</span>
             <span className="font-mono">K</span>
           </span>
+          <NotificationBell />
           {isAdmin && (
             <Link
               href="/admin"
