@@ -108,6 +108,7 @@
     "zod": "3.25.67"
   },
   "devDependencies": {
+    "@builder.io/partytown": "^0.10.3",
     "@playwright/test": "^1.55.0",
     "@tailwindcss/postcss": "^4.1.9",
     "@types/dompurify": "^3.0.5",
