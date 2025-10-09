@@ -71,7 +71,8 @@ import {
   User,
   Settings,
   BellRing,
-  LogOut
+  LogOut,
+  BarChart3
 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"

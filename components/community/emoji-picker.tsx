@@ -51,6 +51,18 @@ export function EmojiPicker({ onEmojiSelect, className }: EmojiPickerProps) {
     )
   }
 
+  // Define picker props
+  const pickerProps: any = {
+    onSelect: onEmojiSelect,
+    theme: "light",
+    emojiSize: 20,
+    perLine: 8,
+    emojiTooltip: true,
+    showPreview: false,
+    showSkinTones: false,
+    autoFocus: true
+  }
+
   return (
     <div className="relative" ref={pickerRef}>
       <Button
@@ -73,20 +85,7 @@ export function EmojiPicker({ onEmojiSelect, className }: EmojiPickerProps) {
             >
               <X className="h-3 w-3" />
             </Button>
-            {isClient && (
-              <div>
-                <Picker 
-                  onSelect={onEmojiSelect}
-                  theme="light"
-                  emojiSize={20}
-                  perLine={8}
-                  emojiTooltip={true}
-                  showPreview={false}
-                  showSkinTones={false}
-                  autoFocus={true}
-                />
-              </div>
-            )}
+            {isClient && <Picker {...pickerProps} />}
           </div>
         </div>
       )}
