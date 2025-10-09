@@ -1,0 +1,134 @@
+{
+  "dimensions": {
+    "width": 500,
+    "height": 500
+  },
+  "total_colors": 8608,
+  "top_colors": [
+    {
+      "hex": "#ffffff",
+      "rgb": [
+        255,
+        255,
+        255
+      ],
+      "count": 119074,
+      "percentage": 47.629599999999996
+    },
+    {
+      "hex": "#001d37",
+      "rgb": [
+        0,
+        29,
+        55
+      ],
+      "count": 28789,
+      "percentage": 11.5156
+    },
+    {
+      "hex": "#feffff",
+      "rgb": [
+        254,
+        255,
+        255
+      ],
+      "count": 5661,
+      "percentage": 2.2644
+    },
+    {
+      "hex": "#ff6300",
+      "rgb": [
+        255,
+        99,
+        0
+      ],
+      "count": 5588,
+      "percentage": 2.2352
+    },
+    {
+      "hex": "#fffffd",
+      "rgb": [
+        255,
+        255,
+        253
+      ],
+      "count": 5383,
+      "percentage": 2.1532
+    },
+    {
+      "hex": "#001d39",
+      "rgb": [
+        0,
+        29,
+        57
+      ],
+      "count": 4887,
+      "percentage": 1.9547999999999999
+    },
+    {
+      "hex": "#fffeff",
+      "rgb": [
+        255,
+        254,
+        255
+      ],
+      "count": 3268,
+      "percentage": 1.3072
+    },
+    {
+      "hex": "#011d35",
+      "rgb": [
+        1,
+        29,
+        53
+      ],
+      "count": 2908,
+      "percentage": 1.1632
+    },
+    {
+      "hex": "#fcffff",
+      "rgb": [
+        252,
+        255,
+        255
+      ],
+      "count": 2131,
+      "percentage": 0.8524
+    },
+    {
+      "hex": "#001e37",
+      "rgb": [
+        0,
+        30,
+        55
+      ],
+      "count": 1765,
+      "percentage": 0.7060000000000001
+    }
+  ],
+  "regions": {
+    "center": "#fffffd",
+    "top_left": "#ffffff",
+    "top_right": "#ffffff",
+    "bottom_left": "#001c36",
+    "bottom_right": "#001c34"
+  },
+  "color_groups": {
+    "White/Near-White": {
+      "count": 144349,
+      "percentage": 57.7396
+    },
+    "Other": {
+      "count": 21959,
+      "percentage": 8.7836
+    },
+    "Dark Navy Blue": {
+      "count": 64726,
+      "percentage": 25.890400000000003
+    },
+    "Orange/Red": {
+      "count": 18966,
+      "percentage": 7.5864
+    }
+  }
+}

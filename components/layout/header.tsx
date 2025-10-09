@@ -105,7 +105,7 @@ export function Header() {
             className="flex items-center space-x-4 hover:opacity-90 transition-all duration-300 interactive group px-2 py-1 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/30 backdrop-blur-sm"
           >
             <div className="relative">
-              <Image src="/new-logo.jpg" alt="CampusAxis Logo" width={40} height={40} className="rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg" />
+              <Image src="/new-logo.svg" alt="CampusAxis Logo" width={40} height={40} className="rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg" />
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
             <div className="flex flex-col">
@@ -199,7 +199,7 @@ export function Header() {
               <div className="flex flex-col space-y-4 mt-8 pb-8 px-2">
                 <div className="flex items-center space-x-4 pb-6 border-b border-white/20 dark:border-white/10">
                   <div className="relative">
-                    <Image src="/new-logo.jpg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl" />
+                    <Image src="/new-logo.svg" alt="CampusAxis Logo" width={44} height={44} className="rounded-xl" />
                     <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-50" />
                   </div>
                   <div className="flex flex-col">

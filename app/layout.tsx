@@ -97,7 +97,7 @@ export const metadata: Metadata = {
       // Standard favicon endpoint; we serve the logo here via a route handler
       { url: "/favicon.ico" },
       // Direct logo as a fallback/reference
-  { url: "/new-logo.jpg", type: "image/jpeg" },
+  { url: "/new-logo.svg", type: "image/svg+xml" },
     ],
     shortcut: [
       { url: "/favicon.ico" },

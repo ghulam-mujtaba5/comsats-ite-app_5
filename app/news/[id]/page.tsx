@@ -91,7 +91,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
             name: 'CampusAxis',
             logo: {
               '@type': 'ImageObject',
-              url: new URL('/new-logo.jpg', siteUrl).toString(),
+              url: new URL('/new-logo.svg', siteUrl).toString(),
             },
           },
         }
