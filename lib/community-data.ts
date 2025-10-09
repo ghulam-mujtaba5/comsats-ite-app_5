@@ -3,7 +3,11 @@ export interface Post {
   author: string
   avatar: string
   department: string
+  departmentCode: string
+  campus: string
+  campusCode: string
   semester: string
+  batch: string // e.g., 'FA22-BSE'
   time: string
   content: string
   likes: number

@@ -90,7 +90,7 @@ export default function CommunityPage() {
   const [postType, setPostType] = useState("general")
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false)
   const { user } = useAuth()
-  const { selectedCampus } = useCampus()
+  const { selectedCampus, selectedDepartment, departments } = useCampus()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [postLimit] = useState(20)
@@ -105,18 +105,48 @@ export default function CommunityPage() {
     sortBy: 'recent', // recent, popular, most-liked, most-commented
     postTypes: [] as string[]
   })
+  const [selectedBatch, setSelectedBatch] = useState<string>("") // New state for batch filtering
+  const [availableBatches, setAvailableBatches] = useState<string[]>([]) // New state for available batches
+  const [isFilterOpen, setIsFilterOpen] = useState(false) // State for filter panel
+
+  // Load available batches when campus and department change
+  useEffect(() => {
+    const loadBatches = async () => {
+      if (!selectedCampus?.id || !selectedDepartment?.id) return
+      
+      try {
+        const params = new URLSearchParams()
+        params.set('campus_id', selectedCampus.id)
+        params.set('department_id', selectedDepartment.id)
+        
+        const res = await fetch(`/api/community/posts?${params.toString()}`)
+        if (res.ok) {
+          const postsData = await res.json()
+          const batches = Array.from(new Set(postsData.map((post: any) => post.batch).filter(Boolean))) as string[]
+          setAvailableBatches(batches)
+        }
+      } catch (e) {
+        console.error("Failed to load batches:", e)
+      }
+    }
+    
+    loadBatches()
+  }, [selectedCampus, selectedDepartment])
 
   useEffect(() => {
     const load = async () => {
       setLoading(true)
       setError(null)
       try {
-        // Build URL with campus filter
+        // Build URL with all filters
         const postsParams = new URLSearchParams()
         postsParams.set('limit', postLimit.toString())
         postsParams.set('offset', '0')
         postsParams.set('meta', '1')
         if (selectedCampus?.id) postsParams.set('campus_id', selectedCampus.id)
+        if (selectedDepartment?.id) postsParams.set('department_id', selectedDepartment.id)
+        if (selectedBatch) postsParams.set('batch', selectedBatch)
+        if (selectedCategory !== "all") postsParams.set('type', selectedCategory)
         
         const [postsResponse, eventsResponse] = await Promise.all([
           fetch(`/api/community/posts?${postsParams.toString()}`),
@@ -167,7 +197,7 @@ export default function CommunityPage() {
       }
     }
     load()
-  }, [selectedCampus])
+  }, [selectedCampus, selectedDepartment, selectedBatch, selectedCategory])
 
   const loadMorePosts = async () => {
     if (loadingMorePosts || !hasMorePosts) return
@@ -178,6 +208,9 @@ export default function CommunityPage() {
       params.set('offset', postOffset.toString())
       params.set('meta', '1')
       if (selectedCampus?.id) params.set('campus_id', selectedCampus.id)
+      if (selectedDepartment?.id) params.set('department_id', selectedDepartment.id)
+      if (selectedBatch) params.set('batch', selectedBatch)
+      if (selectedCategory !== "all") params.set('type', selectedCategory)
       
       const res = await fetch(`/api/community/posts?${params.toString()}`, { cache: 'no-store' })
       const data = await res.json().catch(() => ({}))
@@ -320,6 +353,18 @@ export default function CommunityPage() {
       group.description.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
+  // Reset all filters
+  const resetFilters = () => {
+    setSelectedCategory("all")
+    setSelectedBatch("")
+    setSearchQuery("")
+    setActiveFilters({
+      timeRange: 'all',
+      sortBy: 'recent',
+      postTypes: []
+    })
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
       <div className="app-container section py-12">
@@ -404,19 +449,15 @@ export default function CommunityPage() {
                         Share with Community
                       </CardTitle>
                       <div className="flex items-center gap-2">
-                        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                          <SelectTrigger className="w-32">
-                            <Filter className="h-4 w-4 mr-2" />
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="all">All Posts</SelectItem>
-                            <SelectItem value="study">Study</SelectItem>
-                            <SelectItem value="achievement">Achievement</SelectItem>
-                            <SelectItem value="opportunity">Opportunity</SelectItem>
-                            <SelectItem value="general">General</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setIsFilterOpen(!isFilterOpen)}
+                          className="flex items-center gap-2"
+                        >
+                          <Filter className="h-4 w-4" />
+                          Filters
+                        </Button>
                       </div>
                     </div>
                   </CardHeader>
@@ -465,13 +506,103 @@ export default function CommunityPage() {
                   </CardContent>
                 </Card>
 
+                {/* Advanced Filters Panel */}
+                {isFilterOpen && (
+                  <Card variant="soft">
+                    <CardContent className="p-4 space-y-4">
+                      <div className="flex justify-between items-center">
+                        <h3 className="font-medium text-gray-900 dark:text-white">Filters</h3>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={resetFilters}
+                          className="text-sm"
+                        >
+                          Reset All
+                        </Button>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Category Filter */}
+                        <div>
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 block">
+                            Category
+                          </label>
+                          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="all">All Categories</SelectItem>
+                              <SelectItem value="study">Study</SelectItem>
+                              <SelectItem value="achievement">Achievement</SelectItem>
+                              <SelectItem value="opportunity">Opportunity</SelectItem>
+                              <SelectItem value="general">General</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        
+                        {/* Batch Filter */}
+                        <div>
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 block">
+                            Batch
+                          </label>
+                          <Select value={selectedBatch} onValueChange={setSelectedBatch}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select batch" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="">All Batches</SelectItem>
+                              {availableBatches.map((batch) => (
+                                <SelectItem key={batch} value={batch}>
+                                  {batch}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      
+                      {/* Search Filter */}
+                      <div>
+                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 block">
+                          Search
+                        </label>
+                        <div className="relative">
+                          <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                          <Input
+                            placeholder="Search posts..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-10"
+                          />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
                 <div className="space-y-6">
                   {loading ? (
                     <CenteredLoader message="Loading community posts..." />
                   ) : error ? (
                     <Card variant="soft" className="p-8 text-center text-blue-600">{error}</Card>
                   ) : filteredPosts.length === 0 ? (
-                    <Card variant="soft" className="p-8 text-center">No posts found.</Card>
+                    <Card variant="soft" className="p-8 text-center">
+                      <div className="flex flex-col items-center gap-2">
+                        <MessageSquare className="h-12 w-12 text-gray-400" />
+                        <h3 className="font-medium text-gray-900 dark:text-white">No posts found</h3>
+                        <p className="text-gray-500 dark:text-gray-400">
+                          Try adjusting your filters or create a new post
+                        </p>
+                        <Button 
+                          onClick={() => setIsCreatePostOpen(true)}
+                          className="mt-2"
+                        >
+                          Create Post
+                        </Button>
+                      </div>
+                    </Card>
                   ) : (
                     filteredPosts.map((post) => (
                       <Link href={`/community/post/${post.id}`} key={post.id} className="block">
@@ -591,6 +722,37 @@ export default function CommunityPage() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10"
                   />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Campus and Department Info */}
+            <Card variant="soft">
+              <CardHeader>
+                <CardTitle className="text-lg">Your Campus & Department</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Campus:</span>
+                    <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                      {selectedCampus?.name || 'Not selected'}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Department:</span>
+                    <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                      {selectedDepartment?.name || 'Not selected'}
+                    </Badge>
+                  </div>
+                  {selectedBatch && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Batch:</span>
+                      <Badge className="text-xs bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                        {selectedBatch}
+                      </Badge>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>

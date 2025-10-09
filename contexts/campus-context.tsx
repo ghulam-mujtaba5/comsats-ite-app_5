@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react"
+import { useAuth } from "@/contexts/auth-context"
 
 interface Campus {
   id: string
@@ -56,15 +57,23 @@ export function CampusProvider({ children }: { children: ReactNode }) {
   const [departments, setDepartments] = useState<Department[]>([])
   const [programs, setPrograms] = useState<Program[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const { user } = useAuth()
 
   // Load campuses on mount
   useEffect(() => {
     loadCampuses()
   }, [])
 
+  // Load user preferences when user logs in
+  useEffect(() => {
+    if (user) {
+      loadUserPreferences()
+    }
+  }, [user])
+
   // Load saved selection from localStorage
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && !user) {
       const saved = localStorage.getItem(STORAGE_KEY)
       if (saved) {
         try {
@@ -77,11 +86,11 @@ export function CampusProvider({ children }: { children: ReactNode }) {
         }
       }
     }
-  }, [])
+  }, [user])
 
-  // Save selection to localStorage
+  // Save selection to localStorage (only for non-logged in users)
   useEffect(() => {
-    if (typeof window !== "undefined" && selectedCampus) {
+    if (typeof window !== "undefined" && !user && selectedCampus) {
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
@@ -91,7 +100,7 @@ export function CampusProvider({ children }: { children: ReactNode }) {
         })
       )
     }
-  }, [selectedCampus, selectedDepartment, selectedProgram])
+  }, [selectedCampus, selectedDepartment, selectedProgram, user])
 
   const loadCampuses = async () => {
     setIsLoading(true)
@@ -101,8 +110,8 @@ export function CampusProvider({ children }: { children: ReactNode }) {
         const data = await res.json()
         setCampuses(data)
         
-        // Auto-select default campus (Lahore) if no selection
-        if (!selectedCampus) {
+        // Auto-select default campus (Lahore) if no selection and no user
+        if (!selectedCampus && !user) {
           const defaultCampus = data.find((c: Campus) => c.is_default) || data[0]
           if (defaultCampus) {
             setSelectedCampusState(defaultCampus)
@@ -115,6 +124,37 @@ export function CampusProvider({ children }: { children: ReactNode }) {
       console.error("Failed to load campuses:", error)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const loadUserPreferences = async () => {
+    if (!user) return
+    
+    try {
+      const res = await fetch("/api/user-preferences")
+      if (res.ok) {
+        const data = await res.json()
+        if (data) {
+          // Set campus from user preferences
+          if (data.campus) {
+            setSelectedCampusState(data.campus)
+            await loadDepartments(data.campus.id)
+          }
+          
+          // Set department from user preferences
+          if (data.department) {
+            setSelectedDepartmentState(data.department)
+            await loadPrograms(data.department.id)
+          }
+          
+          // Set program from user preferences
+          if (data.program) {
+            setSelectedProgramState(data.program)
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Failed to load user preferences:", error)
     }
   }
 

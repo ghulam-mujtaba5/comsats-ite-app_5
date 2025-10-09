@@ -3,6 +3,7 @@
 import type React from "react"
 import { createContext, useContext, useState, useEffect, useMemo } from "react"
 import { createBrowserClient } from "@supabase/ssr"
+import { autoSetUserPreferencesFromEmail } from "@/lib/user-campus-detector"
 
 // Using a simplified user type for the context
 export interface User {
@@ -42,7 +43,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const getSession = async () => {
       const { data, error } = await supabase.auth.getSession()
       if (!error && data.session?.user) {
-        setUser({ id: data.session.user.id, email: data.session.user.email || undefined })
+        const user = { id: data.session.user.id, email: data.session.user.email || undefined }
+        setUser(user)
+        
+        // Auto-detect and set campus/department preferences
+        if (user.email) {
+          await autoSetUserPreferencesFromEmail(user.email, supabase)
+        }
       }
       setIsLoading(false)
     }
@@ -51,7 +58,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       const currentUser = session?.user
-      setUser(currentUser ? { id: currentUser.id, email: currentUser.email || undefined } : null)
+      if (currentUser) {
+        const user = { id: currentUser.id, email: currentUser.email || undefined }
+        setUser(user)
+        
+        // Auto-detect and set campus/department preferences
+        if (user.email) {
+          autoSetUserPreferencesFromEmail(user.email, supabase)
+        }
+      } else {
+        setUser(null)
+      }
       setIsLoading(false)
     })
 

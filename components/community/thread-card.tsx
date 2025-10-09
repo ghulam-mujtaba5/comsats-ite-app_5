@@ -24,10 +24,15 @@ export function ThreadCard({ thread, handleLike }: ThreadCardProps) {
             </AvatarFallback>
           </Avatar>
           <div className="flex-1">
-            <div className="flex items-center space-x-2 mb-2">
+            <div className="flex items-center space-x-2 mb-2 flex-wrap">
               <h4 className="font-semibold text-gray-900 dark:text-white">{thread.author}</h4>
               <Badge className="border-transparent bg-secondary text-secondary-foreground">{thread.department}</Badge>
               <Badge className="text-xs border text-foreground">{thread.semester}</Badge>
+              {thread.batch && (
+                <Badge className="text-xs bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                  {thread.batch}
+                </Badge>
+              )}
               <span className="text-sm text-gray-500">{thread.time}</span>
             </div>
             <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">{thread.content}</p>
