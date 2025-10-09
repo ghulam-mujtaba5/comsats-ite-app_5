@@ -48,18 +48,53 @@ export default function AdminAuthPage() {
       if (res.status === 403) {
         // Not admin-enabled
         let msg = 'Your account is not admin-enabled. Contact an administrator to grant access.'
+        let details = ''
+        let fix = ''
+        let userInfo = ''
         try {
           const body = await res.json()
           if (body?.error) msg = body.error
+          if (body?.details) details = body.details
+          if (body?.fix) fix = body.fix
+          if (body?.userEmail && body?.userId) {
+            userInfo = `\n\nYour account: ${body.userEmail}\nUser ID: ${body.userId}`
+          }
         } catch {}
-        toast({ title: 'Access denied', description: msg, variant: 'destructive' })
+        
+        const fullMessage = `${msg}${details ? '\n\n' + details : ''}${fix ? '\n\nHow to fix: ' + fix : ''}${userInfo}`
+        
+        toast({ 
+          title: 'Access Denied', 
+          description: fullMessage, 
+          variant: 'destructive',
+          duration: 10000 // Show for 10 seconds so user can read details
+        })
+        
+        // Also log to console for debugging
+        console.error('[Admin Auth] Access denied:', { msg, details, fix, userInfo })
         return
       }
+      
+      // Handle other error statuses with detailed messages
+      let errorMsg = 'Please try again or contact support if the issue persists.'
+      let errorDetails = ''
+      try {
+        const body = await res.json()
+        if (body?.error) errorMsg = body.error
+        if (body?.details) errorDetails = body.details
+        if (body?.fix) errorDetails += (errorDetails ? '\n\n' : '') + 'Fix: ' + body.fix
+        if (body?.hint) errorDetails += (errorDetails ? '\n' : '') + 'Hint: ' + body.hint
+      } catch {}
+      
       toast({
-        title: `Unexpected error (${res.status})`,
-        description: 'Please try again or contact support if the issue persists.',
+        title: `Error (${res.status})`,
+        description: errorDetails || errorMsg,
         variant: 'destructive',
+        duration: 8000
       })
+      
+      // Log to console for debugging
+      console.error('[Admin Auth] Error:', res.status, { errorMsg, errorDetails })
     } finally {
       setElevating(false)
     }
@@ -72,6 +107,11 @@ export default function AdminAuthPage() {
     <div className="min-h-screen flex items-center justify-center p-6">
       <div className="w-full max-w-md space-y-6 border rounded-lg p-6 text-center">
         <h1 className="text-2xl font-bold">Admin Sign-in</h1>
+        <div className="text-xs">
+          <Link href="/admin/diagnostic" className="text-blue-600 hover:underline">
+            🔍 Having issues? Try the diagnostic tool
+          </Link>
+        </div>
         {!isAuthenticated ? (
           <>
             <p className="text-sm text-muted-foreground">
