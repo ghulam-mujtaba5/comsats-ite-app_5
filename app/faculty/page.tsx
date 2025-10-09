@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { FacultyCard } from "@/components/faculty/faculty-card"
 import { departments, type Faculty, searchFaculty } from "@/lib/faculty-data"
 import { standardFilters, sortOptions, filterPresets } from "@/lib/filter-data"
-import { Users, Star, MessageSquare, Filter, Award, BookOpen, RotateCcw, GraduationCap, MapPin } from "lucide-react"
+import { Users, Star, MessageSquare, Filter, Award, BookOpen, RotateCcw, GraduationCap, Plus } from "lucide-react"
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { AddFacultyDialog } from "@/components/faculty/add-faculty-dialog"
@@ -220,72 +220,73 @@ export default function FacultyPage() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
 
-      <main className="flex-1 py-24 px-4 relative z-10">
+      <main className="flex-1 py-16 px-4 relative z-10">
         <div className="container mx-auto max-w-7xl">
           {/* Enhanced Header Section */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6 hover:from-primary/20 hover:to-blue-500/20 transition-all duration-300 hover-lift">
               <Users className="h-4 w-4" />
               Academic Community
             </div>
-            <h1 className="text-5xl lg:text-8xl font-bold leading-[0.9] text-balance mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
               Faculty{" "}
               <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
-                Reviews
+                Directory
               </span>
             </h1>
-            <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-4xl mx-auto mb-4">
-              Read reviews and ratings from fellow students to make informed decisions about your courses and faculty
-              choices. Connect with COMSATS academic community.
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-6">
+              Discover and review faculty members. Share your experiences to help fellow students make informed decisions.
             </p>
-            <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto">
-              Transparent insights from real student experiences
-            </p>
+            
+            {/* Prominent Add Faculty Button */}
+            <div className="mb-8">
+              <AddFacultyDialog />
+            </div>
           </div>
 
           {/* Enhanced Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-            <Card className="card-modern border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
-              <CardContent className="flex items-center gap-4 p-6">
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-blue-500/20 border border-primary/30 text-primary group-hover:scale-110 transition-transform duration-300">
-                  <Users className="h-8 w-8" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            <Card className="border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
+              <CardContent className="flex items-center gap-4 p-4">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-blue-500/20 border border-primary/30 text-primary group-hover:scale-110 transition-transform duration-300">
+                  <Users className="h-6 w-6" />
                 </div>
                 <div>
-                  <div className="text-3xl font-bold tracking-tight text-foreground">{statsLoading ? "..." : stats.facultyCount}</div>
-                  <div className="text-sm text-muted-foreground font-medium">Faculty Members</div>
+                  <div className="text-2xl font-bold tracking-tight text-foreground">{statsLoading ? "..." : stats.facultyCount}</div>
+                  <div className="text-xs text-muted-foreground">Faculty Members</div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="card-modern border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
-              <CardContent className="flex items-center gap-4 p-6">
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-300/30 text-green-500 group-hover:scale-110 transition-transform duration-300">
-                  <MessageSquare className="h-8 w-8" />
+            <Card className="border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
+              <CardContent className="flex items-center gap-4 p-4">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-300/30 text-green-500 group-hover:scale-110 transition-transform duration-300">
+                  <MessageSquare className="h-6 w-6" />
                 </div>
                 <div>
-                  <div className="text-3xl font-bold tracking-tight text-foreground">{statsLoading ? "..." : stats.totalReviews}</div>
-                  <div className="text-sm text-muted-foreground font-medium">Total Reviews</div>
+                  <div className="text-2xl font-bold tracking-tight text-foreground">{statsLoading ? "..." : stats.totalReviews}</div>
+                  <div className="text-xs text-muted-foreground">Total Reviews</div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="card-modern border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
-              <CardContent className="flex items-center gap-4 p-6">
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-300/30 text-yellow-600 group-hover:scale-110 transition-transform duration-300">
-                  <Star className="h-8 w-8" />
+            <Card className="border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
+              <CardContent className="flex items-center gap-4 p-4">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-300/30 text-yellow-600 group-hover:scale-110 transition-transform duration-300">
+                  <Star className="h-6 w-6" />
                 </div>
                 <div>
-                  <div className="text-3xl font-bold tracking-tight text-foreground">{statsLoading ? "..." : stats.averageRating.toFixed(1)}</div>
-                  <div className="text-sm text-muted-foreground font-medium">Average Rating</div>
+                  <div className="text-2xl font-bold tracking-tight text-foreground">{statsLoading ? "..." : stats.averageRating.toFixed(1)}</div>
+                  <div className="text-xs text-muted-foreground">Average Rating</div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="card-modern border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
-              <CardContent className="flex items-center gap-4 p-6">
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-300/30 text-purple-500 group-hover:scale-110 transition-transform duration-300">
-                  <GraduationCap className="h-8 w-8" />
+            <Card className="border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
+              <CardContent className="flex items-center gap-4 p-4">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-300/30 text-purple-500 group-hover:scale-110 transition-transform duration-300">
+                  <GraduationCap className="h-6 w-6" />
                 </div>
                 <div>
-                  <div className="text-3xl font-bold tracking-tight text-foreground">{statsLoading ? "..." : stats.departmentCount}</div>
-                  <div className="text-sm text-muted-foreground font-medium">Departments</div>
+                  <div className="text-2xl font-bold tracking-tight text-foreground">{statsLoading ? "..." : stats.departmentCount}</div>
+                  <div className="text-xs text-muted-foreground">Departments</div>
                 </div>
               </CardContent>
             </Card>
@@ -295,7 +296,7 @@ export default function FacultyPage() {
           <AdvancedFilterBar
             search={searchQuery}
             onSearchChange={setSearchQuery}
-            searchPlaceholder="Search faculty by name, specialization, courses, or research interests..."
+            searchPlaceholder="Search faculty by name, department, or specialization..."
             selects={[
               {
                 ...standardFilters.departments,
@@ -381,12 +382,9 @@ export default function FacultyPage() {
             showActiveFilterCount={true}
             collapsible={true}
             defaultCollapsed={false}
-            className="mb-10"
+            className="mb-8"
             right={
-              <div className="flex items-center gap-4">
-                {/* Add Faculty Button */}
-                <AddFacultyDialog />
-                
+              <div className="flex items-center gap-2">
                 {/* Quick Clear Filters */}
                 <Button
                   variant="outline"
@@ -402,53 +400,55 @@ export default function FacultyPage() {
                   className="flex items-center gap-2 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20"
                 >
                   <RotateCcw className="h-4 w-4" />
-                  Clear All
+                  Clear
                 </Button>
               </div>
             }
           />
 
-          {/* Enhanced Results */}
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2">
-              {filteredFaculty.length} Faculty Member{filteredFaculty.length !== 1 ? "s" : ""} Found
-            </h2>
-            <div className="flex items-center gap-4">
-              <p className="text-muted-foreground font-serif">
-                Discover insights from student reviews and ratings
+          {/* Results Header */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-foreground">
+                {filteredFaculty.length} Faculty Member{filteredFaculty.length !== 1 ? "s" : ""}
+              </h2>
+              <p className="text-muted-foreground">
+                {searchQuery ? `Search results for "${searchQuery}"` : "Browse all faculty members"}
               </p>
-              {filteredFaculty.length > 0 && (
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-200/30">
-                  <Star className="h-4 w-4 text-green-600" />
-                  <span className="text-sm font-medium text-green-700">Reviews available</span>
-                </div>
-              )}
+            </div>
+            
+            {/* Add Faculty Button for Mobile/Tablet */}
+            <div className="sm:hidden w-full">
+              <AddFacultyDialog />
             </div>
           </div>
 
           {loading ? (
             <CenteredLoader message="Loading faculty members..." />
           ) : error ? (
-            <Card className="card-modern border-0 backdrop-blur-sm p-12 text-center">
+            <Card className="border-0 backdrop-blur-sm p-8 text-center">
               <div className="max-w-md mx-auto">
                 <div className="p-4 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 w-16 h-16 mx-auto mb-6 flex items-center justify-center">
                   <Users className="h-8 w-8 text-red-500" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-3">Error Loading Faculty</h3>
-                <p className="text-red-600 font-medium">{error}</p>
+                <p className="text-red-600 font-medium mb-6">{error}</p>
+                <Button onClick={() => window.location.reload()}>
+                  Try Again
+                </Button>
               </div>
             </Card>
           ) : filteredFaculty.length === 0 ? (
-            <Card className="card-modern border-0 backdrop-blur-sm p-16 text-center shadow-lg">
+            <Card className="border-0 backdrop-blur-sm p-12 text-center shadow-lg">
               <div className="max-w-md mx-auto">
                 <div className="p-6 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 w-20 h-20 mx-auto mb-8 flex items-center justify-center">
                   <Users className="h-10 w-10 text-muted-foreground" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-4">No Faculty Found</h3>
-                <p className="text-muted-foreground mb-8 font-serif text-lg leading-relaxed">
+                <p className="text-muted-foreground mb-8">
                   Try adjusting your search terms or department filter to find more faculty members.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
                   <Button
                     onClick={() => {
                       setSearchQuery("")
@@ -458,21 +458,20 @@ export default function FacultyPage() {
                       setExperienceLevel("All")
                       setCoursesTaught("All")
                     }}
-                    className="text-lg px-8 py-3 rounded-2xl button-modern bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all duration-300"
-                    size="lg"
+                    className="px-6 py-2 rounded-xl bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    <RotateCcw className="h-5 w-5 mr-2" />
+                    <RotateCcw className="h-4 w-4 mr-2" />
                     Clear Filters
                   </Button>
+                </div>
+                <div className="border-t border-border pt-6">
+                  <p className="text-muted-foreground mb-4">Don't see a faculty member?</p>
                   <AddFacultyDialog />
                 </div>
-                <p className="text-muted-foreground mt-6 text-sm">
-                  Don't see a faculty member? Help us grow our directory by adding them to the system.
-                </p>
               </div>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredFaculty.map((faculty) => (
                 <FacultyCard key={faculty.id} faculty={faculty} searchTerm={debouncedSearch} />
               ))}
@@ -484,4 +483,3 @@ export default function FacultyPage() {
     </div>
   )
 }
-

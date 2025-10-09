@@ -34,6 +34,7 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
       return text
     }
   }
+  
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
@@ -44,24 +45,30 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
   }
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 relative">
+    <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden border-border">
+      {/* Decorative accent */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-blue-500"></div>
+      
       <Link href={`/faculty/${faculty.id}`} className="absolute inset-0 z-0" aria-label={`View profile for ${faculty.name}`}>
         <span className="sr-only">View profile for {faculty.name}</span>
       </Link>
-      <CardHeader className="pb-4 relative z-10">
+      
+      <CardHeader className="pb-3 relative z-10">
         <div className="flex items-start gap-4">
-          <Avatar className="h-16 w-16">
+          <Avatar className="h-16 w-16 ring-2 ring-primary/20">
             <AvatarImage src={faculty.profileImage || "/placeholder.svg"} alt={faculty.name} />
-            <AvatarFallback className="text-lg">
+            <AvatarFallback className="text-lg font-medium">
               {faculty.name
                 .split(" ")
                 .map((n) => n[0])
                 .join("")}
             </AvatarFallback>
           </Avatar>
-          <div className="flex-1">
-            <CardTitle className="text-xl group-hover:text-primary transition-colors">{highlight(faculty.name)}</CardTitle>
-            <CardDescription className="text-base">{faculty.title}</CardDescription>
+          <div className="flex-1 min-w-0">
+            <CardTitle className="text-xl group-hover:text-primary transition-colors truncate">
+              {highlight(faculty.name)}
+            </CardTitle>
+            <CardDescription className="text-base truncate">{faculty.title}</CardDescription>
             <Badge variant="secondary" className="mt-1">
               {faculty.department}
             </Badge>
@@ -70,29 +77,36 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
       </CardHeader>
 
       <CardContent className="space-y-4 relative z-10">
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1">{renderStars(faculty.averageRating)}</div>
-          <span className="font-semibold">{faculty.averageRating}</span>
-          <span className="text-muted-foreground">({faculty.totalReviews} reviews)</span>
+        {/* Rating Section */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1">
+            {renderStars(faculty.averageRating)}
+          </div>
+          <div className="text-right">
+            <div className="font-bold text-lg">{faculty.averageRating.toFixed(1)}</div>
+            <div className="text-xs text-muted-foreground">({faculty.totalReviews} reviews)</div>
+          </div>
         </div>
 
+        {/* Contact Info */}
         <div className="space-y-2 text-sm">
           <div className="flex items-center gap-2 text-muted-foreground">
-            <MapPin className="h-4 w-4" />
-            Office: {faculty.office}
+            <MapPin className="h-4 w-4 flex-shrink-0" />
+            <span className="truncate">Office: {faculty.office}</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
-            <Mail className="h-4 w-4" />
-            {faculty.email}
+            <Mail className="h-4 w-4 flex-shrink-0" />
+            <span className="truncate">{faculty.email}</span>
           </div>
           {faculty.phone && (
             <div className="flex items-center gap-2 text-muted-foreground">
-              <Phone className="h-4 w-4" />
-              {faculty.phone}
+              <Phone className="h-4 w-4 flex-shrink-0" />
+              <span className="truncate">{faculty.phone}</span>
             </div>
           )}
         </div>
 
+        {/* Specialization */}
         <div>
           <div className="flex items-center gap-2 text-sm font-medium mb-2">
             <BookOpen className="h-4 w-4" />
@@ -112,22 +126,27 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
           </div>
         </div>
 
+        {/* Courses */}
         <div>
           <div className="flex items-center gap-2 text-sm font-medium mb-2">
             <Users className="h-4 w-4" />
             Courses ({faculty.courses.length})
           </div>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-muted-foreground space-y-1">
             {faculty.courses.slice(0, 2).map((course, index) => (
-              <div key={index}>{course}</div>
+              <div key={index} className="truncate">{course}</div>
             ))}
             {faculty.courses.length > 2 && <div>+{faculty.courses.length - 2} more courses</div>}
           </div>
         </div>
 
-        <div className="pt-2 border-t border-border">
-          <Button asChild className="w-full">
-            <Link href={`/faculty/${faculty.id}`}>View Profile & Reviews</Link>
+        {/* Action Button */}
+        <div className="pt-2">
+          <Button asChild className="w-full group/btn">
+            <Link href={`/faculty/${faculty.id}`}>
+              View Profile & Reviews
+              <span className="ml-2 opacity-0 group-hover/btn:opacity-100 transition-opacity">→</span>
+            </Link>
           </Button>
         </div>
       </CardContent>

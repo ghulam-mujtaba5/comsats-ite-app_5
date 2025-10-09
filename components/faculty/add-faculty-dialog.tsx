@@ -20,9 +20,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { UserPlus, Loader2 } from 'lucide-react'
+import { UserPlus, Loader2, Plus, Info } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
 import { useCampus } from '@/contexts/campus-context'
+import { departments } from '@/lib/faculty-data'
+import { Card } from '@/components/ui/card'
 
 export function AddFacultyDialog() {
   const { user } = useAuth()
@@ -64,7 +66,7 @@ export function AddFacultyDialog() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          campus_id: selectedCampus.id, // Use selectedCampus.id instead of selectedCampus object
+          campus_id: selectedCampus.id,
           submitted_by: user.id
         })
       })
@@ -97,51 +99,58 @@ export function AddFacultyDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2">
-          <UserPlus className="h-4 w-4" />
+        <Button className="gap-2 bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all duration-300 px-6 py-3 rounded-xl text-base font-medium">
+          <Plus className="h-5 w-5" />
           Add Faculty Member
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Submit New Faculty Member</DialogTitle>
-          <DialogDescription>
-            Faculty member not in the list? Submit their information for admin approval.
+          <DialogTitle className="text-2xl">Add New Faculty Member</DialogTitle>
+          <DialogDescription className="text-base">
+            Is a faculty member missing from our directory? Submit their information for admin approval.
             Once approved, you and other students can write reviews.
           </DialogDescription>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name *</Label>
+              <Label htmlFor="name" className="text-base">Full Name *</Label>
               <Input
                 id="name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Dr. John Doe"
                 required
+                className="h-12 text-base"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="department">Department *</Label>
-              <Input
-                id="department"
+              <Label htmlFor="department" className="text-base">Department *</Label>
+              <Select
                 value={formData.department}
-                onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                placeholder="Computer Science"
-                required
-              />
+                onValueChange={(value) => setFormData({ ...formData, department: value })}
+              >
+                <SelectTrigger className="h-12 text-base">
+                  <SelectValue placeholder="Select Department" />
+                </SelectTrigger>
+                <SelectContent>
+                  {departments.filter(d => d !== "All").map((dept) => (
+                    <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="designation">Designation</Label>
+              <Label htmlFor="designation" className="text-base">Designation</Label>
               <Select
                 value={formData.designation}
                 onValueChange={(value) => setFormData({ ...formData, designation: value })}
               >
-                <SelectTrigger>
+                <SelectTrigger className="h-12 text-base">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -155,65 +164,80 @@ export function AddFacultyDialog() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email (Optional)</Label>
+              <Label htmlFor="email" className="text-base">Email (Optional)</Label>
               <Input
                 id="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="john.doe@comsats.edu.pk"
+                className="h-12 text-base"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone (Optional)</Label>
+              <Label htmlFor="phone" className="text-base">Phone (Optional)</Label>
               <Input
                 id="phone"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="+92 300 1234567"
+                className="h-12 text-base"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="specialization">Specialization (Optional)</Label>
+              <Label htmlFor="specialization" className="text-base">Specialization (Optional)</Label>
               <Input
                 id="specialization"
                 value={formData.specialization}
                 onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
                 placeholder="Machine Learning, AI"
+                className="h-12 text-base"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="qualifications">Qualifications (Optional)</Label>
+            <Label htmlFor="qualifications" className="text-base">Qualifications (Optional)</Label>
             <Textarea
               id="qualifications"
               value={formData.qualifications}
               onChange={(e) => setFormData({ ...formData, qualifications: e.target.value })}
               placeholder="PhD in Computer Science from..."
               rows={3}
+              className="text-base"
             />
           </div>
 
-          <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-            <p className="text-sm text-blue-800 dark:text-blue-200">
-              <strong>Note:</strong> Your submission will be reviewed by administrators. 
-              Once approved, the faculty member will appear in the list for all students to review.
-            </p>
-          </div>
+          <Card className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+            <div className="flex items-start gap-3">
+              <Info className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="font-semibold text-blue-800 dark:text-blue-200 mb-1">Approval Process</h4>
+                <p className="text-sm text-blue-700 dark:text-blue-300">
+                  Your submission will be reviewed by administrators. Once approved, the faculty member 
+                  will appear in the directory for all students to review. This typically takes 1-2 business days.
+                </p>
+              </div>
+            </div>
+          </Card>
 
-          <div className="flex justify-end gap-3">
+          <div className="flex justify-end gap-3 pt-4">
             <Button
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
               disabled={isSubmitting}
+              className="px-6 py-2.5 text-base"
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="px-6 py-2.5 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90"
+            >
               {isSubmitting ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />

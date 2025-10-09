@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import { type NextRequest } from 'next/server'
  
 export const size = {
   width: 180,
@@ -30,4 +31,13 @@ export default function Icon() {
       ...size,
     }
   )
+}
+
+export function appleIcon() {
+  return new Response('', {
+    status: 302,
+    headers: {
+      Location: '/favicon.ico',
+    },
+  })
 }
