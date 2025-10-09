@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card"
 import { ArrowLeft, GraduationCap, Sparkles, Shield, Users } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
+import Image from "next/image"
 
 export default function AuthClient() {
   const [isLogin, setIsLogin] = useState(true)
@@ -95,6 +96,27 @@ export default function AuthClient() {
       <div className="flex min-h-screen relative z-10">
         <div className="flex-1 flex items-center justify-center p-6 lg:p-12">
           <div className="w-full max-w-md space-y-8">
+            {/* Logo Header */}
+            <div className="text-center mb-8 space-y-4">
+              <div className="flex justify-center">
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+                  <Image 
+                    src="/logo-square.svg" 
+                    alt="CampusAxis Logo" 
+                    width={80} 
+                    height={80} 
+                    className="rounded-3xl shadow-2xl group-hover:scale-105 transition-transform duration-500 relative z-10"
+                    priority
+                  />
+                </div>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Welcome to CampusAxis</h1>
+                <p className="text-sm text-muted-foreground mt-2">Your Academic Portal for COMSATS University</p>
+              </div>
+            </div>
+            
             <div className="mb-6">
               <Button
                 variant="ghost"

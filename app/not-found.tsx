@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { FileQuestion, Home, ArrowLeft, Search, ExternalLink, Compass, Star } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function NotFound() {
   return (
@@ -28,8 +29,18 @@ export default function NotFound() {
         <div className="container mx-auto max-w-3xl text-center">
           <Card className="card-modern border-0 backdrop-blur-sm shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-3xl">
             <CardContent className="p-12 lg:p-16 space-y-8">
-              {/* Enhanced 404 Icon */}
-              <div className="flex justify-center mb-8">
+              {/* Logo + 404 Icon */}
+              <div className="flex flex-col items-center gap-6 mb-8">
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur-lg opacity-20" />
+                  <Image 
+                    src="/logo-square.svg" 
+                    alt="CampusAxis Logo" 
+                    width={60} 
+                    height={60} 
+                    className="rounded-2xl shadow-lg relative z-10"
+                  />
+                </div>
                 <div className="p-8 rounded-3xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 transition-all duration-300 shadow-xl border border-blue-500/30 backdrop-blur-sm hover-lift relative">
                   <FileQuestion className="h-16 w-16 text-blue-500" />
                   {/* Floating question mark */}

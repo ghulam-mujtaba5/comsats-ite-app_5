@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { FileText, Calculator, Users, BookOpen, Calendar, ArrowRight, Bug, TrendingUp, Sparkles } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { notifyFetch } from "@/lib/notify"
 
 export function FeatureCards() {
@@ -134,6 +135,18 @@ export function FeatureCards() {
       <div className="absolute inset-0 bg-mesh" />
       <div className="absolute -top-40 right-0 w-96 h-96 bg-gradient-to-br from-primary/10 to-blue-500/10 rounded-full blur-3xl float" />
       <div className="absolute -bottom-40 left-0 w-96 h-96 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl float" style={{ animationDelay: '3s' }} />
+      
+      {/* Logo Watermark - Subtle branding */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.02] dark:opacity-[0.01] pointer-events-none">
+        <Image 
+          src="/logo-square.svg" 
+          alt="" 
+          width={600} 
+          height={600} 
+          className="rounded-full"
+          aria-hidden="true"
+        />
+      </div>
       
       <div className="app-container relative z-10">
         {/* Enhanced Header */}

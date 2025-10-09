@@ -34,6 +34,21 @@ export default function AboutUsPage() {
         <section className="py-20 px-4 relative">
           <div className="app-container">
             <div className="text-center max-w-4xl mx-auto">
+              {/* Logo Display */}
+              <div className="flex justify-center mb-8 animate-fade-in">
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl blur-2xl opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+                  <Image 
+                    src="/logo-square.svg" 
+                    alt="CampusAxis Logo" 
+                    width={120} 
+                    height={120} 
+                    className="rounded-3xl shadow-2xl group-hover:scale-105 transition-transform duration-500 relative z-10"
+                    priority
+                  />
+                </div>
+              </div>
+              
               <Badge variant="soft" className="mb-6 animate-fade-in">
                 <Sparkles className="h-3 w-3 mr-1" />
                 About CampusAxis

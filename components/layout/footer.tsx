@@ -1,6 +1,7 @@
 "use client"
 import { GraduationCap, Mail, Phone, MapPin, Users, Github, Twitter, Instagram, Sparkles, BookOpen, Users2, ShieldCheck } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { SITE_LINKS, type PageStatus } from "@/lib/site-map"
 import { usePathname } from "next/navigation"
@@ -82,10 +83,19 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <GraduationCap className="h-8 w-8 text-primary" />
+            <div className="flex items-center space-x-3">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
+                <Image 
+                  src="/logo-square.svg" 
+                  alt="CampusAxis Logo" 
+                  width={48} 
+                  height={48} 
+                  className="rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300 relative z-10"
+                />
+              </div>
               <div>
-                <div className="font-bold text-lg">CampusAxis</div>
+                <div className="font-bold text-lg bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CampusAxis</div>
                 {!hidePortalSubtitle && (
                   <div className="text-sm text-muted-foreground">Academic Portal</div>
                 )}
