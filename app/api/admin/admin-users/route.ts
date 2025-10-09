@@ -111,6 +111,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User ID and role are required' }, { status: 400 })
     }
 
+    // Validate role
+    if (!['admin', 'super_admin'].includes(role)) {
+      return NextResponse.json({ error: 'Invalid role. Must be admin or super_admin' }, { status: 400 })
+    }
+
+    // First, check if user exists in auth.users
+    const { data: userData, error: userError } = await supabaseAdmin.auth.admin.getUserById(userId)
+    
+    if (userError || !userData.user) {
+      console.error('User not found:', userError)
+      return NextResponse.json({ error: 'User not found in authentication system' }, { status: 404 })
+    }
+
     // Use service role to upsert regardless of RLS
     const { data, error } = await supabaseAdmin
       .from('admin_users')
@@ -119,20 +132,50 @@ export async function POST(request: NextRequest) {
         role,
         permissions: permissions || [],
         gamification_role: gamification_role || null
-      }, { onConflict: 'user_id' })
+      }, { 
+        onConflict: 'user_id',
+        ignoreDuplicates: false 
+      })
       .select()
       .single()
 
-    if (error) throw error
+    if (error) {
+      console.error('Database error promoting user:', error)
+      throw error
+    }
+
+    console.log('✅ Successfully promoted user:', {
+      user_id: userId,
+      email: userData.user.email,
+      role,
+      permissions
+    })
 
     return NextResponse.json(data)
   } catch (error: any) {
     console.error('Error creating admin user:', error)
-    // If it's a duplicate or constraint error, return a friendly message
+    
+    // Handle specific error types
     const msg = (error?.message || '').toLowerCase()
-    if (msg.includes('duplicate') || msg.includes('unique')) {
+    const code = error?.code || ''
+    
+    if (msg.includes('duplicate') || msg.includes('unique') || code === '23505') {
       return NextResponse.json({ error: 'User is already an admin' }, { status: 409 })
     }
-    return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 })
+    
+    if (msg.includes('foreign key') || code === '23503') {
+      return NextResponse.json({ error: 'User does not exist in the system' }, { status: 404 })
+    }
+    
+    if (msg.includes('permission denied') || msg.includes('rls') || code === '42501') {
+      return NextResponse.json({ 
+        error: 'Permission denied. Database RLS policy may be blocking this operation. Check Supabase RLS policies for admin_users table.' 
+      }, { status: 403 })
+    }
+    
+    return NextResponse.json({ 
+      error: error.message || 'Internal server error',
+      code: error.code || 'unknown'
+    }, { status: 500 })
   }
 }
