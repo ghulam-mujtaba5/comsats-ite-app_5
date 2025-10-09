@@ -1,3 +1,11 @@
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+  sw: '/sw.js',
+})
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
@@ -26,6 +34,8 @@ const nextConfig = {
       '@radix-ui/react-*',
       'recharts'
     ],
+    // Enable PWA support
+    nextScriptWorkers: true,
   },
   // Performance optimizations
   compiler: {
@@ -104,8 +114,36 @@ const nextConfig = {
           },
         ],
       },
+      {
+        // PWA headers for service worker
+        source: '/sw.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache',
+          },
+          {
+            key: 'Content-Type',
+            value: 'application/javascript; charset=utf-8',
+          },
+        ],
+      },
+      {
+        // PWA headers for manifest
+        source: '/manifest.webmanifest',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/manifest+json',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=43200', // 12 hours
+          },
+        ],
+      },
     ]
   },
 }
 
-export default nextConfig
+module.exports = withPWA(nextConfig)

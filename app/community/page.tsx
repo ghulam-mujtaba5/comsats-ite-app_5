@@ -117,7 +117,7 @@ export default function CommunityPage() {
     sortBy: 'recent', // recent, popular, most-liked, most-commented
     postTypes: [] as string[]
   })
-  const [selectedBatch, setSelectedBatch] = useState<string>("") // New state for batch filtering
+  const [selectedBatch, setSelectedBatch] = useState<string>("__all__") // New state for batch filtering
   const [availableBatches, setAvailableBatches] = useState<string[]>([]) // New state for available batches
   const [isFilterOpen, setIsFilterOpen] = useState(false) // State for filter panel
   const [sortBy, setSortBy] = useState('recent') // New state for sorting
@@ -158,7 +158,7 @@ export default function CommunityPage() {
         postsParams.set('meta', '1')
         if (selectedCampus?.id) postsParams.set('campus_id', selectedCampus.id)
         if (selectedDepartment?.id) postsParams.set('department_id', selectedDepartment.id)
-        if (selectedBatch) postsParams.set('batch', selectedBatch)
+        if (selectedBatch && selectedBatch !== "__all__") postsParams.set('batch', selectedBatch)
         if (selectedCategory !== "all") postsParams.set('type', selectedCategory)
         if (sortBy) postsParams.set('sort', sortBy)
         
@@ -223,7 +223,7 @@ export default function CommunityPage() {
       params.set('meta', '1')
       if (selectedCampus?.id) params.set('campus_id', selectedCampus.id)
       if (selectedDepartment?.id) params.set('department_id', selectedDepartment.id)
-      if (selectedBatch) params.set('batch', selectedBatch)
+      if (selectedBatch && selectedBatch !== "__all__") params.set('batch', selectedBatch)
       if (selectedCategory !== "all") params.set('type', selectedCategory)
       if (sortBy) params.set('sort', sortBy)
       
@@ -371,7 +371,7 @@ export default function CommunityPage() {
   // Reset all filters
   const resetFilters = () => {
     setSelectedCategory("all")
-    setSelectedBatch("")
+    setSelectedBatch("__all__")
     setSearchQuery("")
     setActiveFilters({
       timeRange: 'all',
@@ -658,7 +658,7 @@ export default function CommunityPage() {
                                 <SelectValue placeholder="Select batch" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="">All Batches</SelectItem>
+                                <SelectItem value="__all__">All Batches</SelectItem>
                                 {availableBatches.map((batch) => (
                                   <SelectItem key={batch} value={batch}>
                                     {batch}
@@ -758,7 +758,7 @@ export default function CommunityPage() {
                               <SelectValue placeholder="Batch" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="">All Batches</SelectItem>
+                              <SelectItem value="__all__">All Batches</SelectItem>
                               {availableBatches.map((batch) => (
                                 <SelectItem key={batch} value={batch}>
                                   {batch}
