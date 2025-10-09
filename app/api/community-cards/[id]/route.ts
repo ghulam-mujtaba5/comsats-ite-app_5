@@ -3,8 +3,8 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { createClient } from '@supabase/supabase-js'
 import { requireAdmin } from '@/lib/admin-access'
 
-export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const { id } = await context.params
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
+  const { id } = context.params
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!url || !anon) return NextResponse.json({ error: 'Supabase env missing' }, { status: 500 })
@@ -20,10 +20,10 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
   return NextResponse.json({ data })
 }
 
-export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
   const auth = await requireAdmin(req)
   if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { id } = await context.params
+  const { id } = context.params
   const body = await req.json().catch(() => ({})) as Partial<{ title: string; subtitle: string | null; description: string | null; link_url: string | null; sort_order: number; status: 'draft' | 'published' }>
 
   const { data, error } = await supabaseAdmin
@@ -37,10 +37,10 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
   return NextResponse.json({ data })
 }
 
-export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
   const auth = await requireAdmin(req)
   if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { id } = await context.params
+  const { id } = context.params
   const { error } = await supabaseAdmin.from('community_cards').delete().eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true })

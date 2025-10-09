@@ -4,9 +4,9 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await params
+  const { id } = params
   const access = await requireAdmin(request)
   if (!access.allow) {
     return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })

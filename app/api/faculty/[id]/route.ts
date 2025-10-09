@@ -3,11 +3,11 @@ import { createClient } from '@supabase/supabase-js'
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     // Next.js 15 requires awaiting params for dynamic routes
-    const { id } = await params
+    const { id } = params
     if (!id) {
       return NextResponse.json({ error: 'Missing faculty id in route params' }, { status: 400 })
     }

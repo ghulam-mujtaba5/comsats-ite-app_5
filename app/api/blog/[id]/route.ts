@@ -13,11 +13,11 @@ const purify = DOMPurify(window)
 // GET /api/blog/[id] - Fetch a specific blog article
 export async function GET(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     // Next.js 15 requires awaiting params for dynamic routes
-    const { id } = await params
+    const { id } = params
 
     const cookieStore = await cookies()
     const supabase = createServerClient(
@@ -40,7 +40,7 @@ export async function GET(
 
     try {
       // Next.js 15 requires awaiting params for dynamic routes
-      const { id } = await params
+      const { id } = params
 
       // Validate UUID format
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -97,11 +97,11 @@ export async function GET(
 // PUT /api/blog/[id] - Update a blog article (admin only)
 export async function PUT(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     // Next.js 15 requires awaiting params for dynamic routes
-    const { id } = await params
+    const { id } = params
 
     const cookieStore = await cookies()
     const supabase = createServerClient(
@@ -124,7 +124,7 @@ export async function PUT(
 
     try {
       // Next.js 15 requires awaiting params for dynamic routes
-      const { id } = await params
+      const { id } = params
 
       // Check if user is admin
       const { data: { user } } = await supabase.auth.getUser()
@@ -193,11 +193,11 @@ export async function PUT(
 // DELETE /api/blog/[id] - Delete a blog article (admin only)
 export async function DELETE(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
     // Next.js 15 requires awaiting params for dynamic routes
-    const { id } = await params
+    const { id } = params
 
     const cookieStore = await cookies()
     const supabase = createServerClient(
@@ -220,7 +220,7 @@ export async function DELETE(
 
     try {
       // Next.js 15 requires awaiting params for dynamic routes
-      const { id } = await params
+      const { id } = params
 
       // Check if user is admin
       const { data: { user } } = await supabase.auth.getUser()

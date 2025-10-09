@@ -3,9 +3,9 @@ import { requireAdmin } from '@/lib/admin-access'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = await params
+  const { id } = params
   const access = await requireAdmin(request)
   if (!access.allow) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })

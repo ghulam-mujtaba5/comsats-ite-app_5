@@ -5,12 +5,12 @@ import { requireAdmin } from '@/lib/admin-access'
 
 // Admin authorization centralized via requireAdmin
 
-export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function PUT(req: NextRequest, context: { params: { id: string } }) {
   try {
     const auth = await requireAdmin(req)
     if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { id } = await context.params
+    const { id } = context.params
     const body = await req.json()
 
     const cookieStore = await (cookies() as any)
@@ -53,12 +53,12 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
   }
 }
 
-export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
   try {
     const auth = await requireAdmin(req)
     if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const { id } = await context.params
+    const { id } = context.params
     const cookieStore = await (cookies() as any)
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,

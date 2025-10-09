@@ -4,8 +4,8 @@ import { cookies } from 'next/headers'
 import { requireAdmin } from '@/lib/admin-access'
 
 // DELETE /api/community/replies/[id]
-export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const { id } = await context.params
+export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+  const { id } = context.params
 
   const access = await requireAdmin(req)
   if (!access.allow) {

@@ -21,8 +21,8 @@ function getClient() {
 }
 
 // GET /api/community/posts/[id]/like -> { count, liked }
-export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const { id } = await context.params
+export async function GET(_req: NextRequest, context: { params: { id: string } }) {
+  const { id } = context.params
   const supabase = await getClient()
 
   // current user
@@ -52,8 +52,8 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
 }
 
 // POST /api/community/posts/[id]/like -> toggle like, returns { count, liked }
-export async function POST(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const { id } = await context.params
+export async function POST(_req: NextRequest, context: { params: { id: string } }) {
+  const { id } = context.params
   const supabase = await getClient()
 
   const { data: auth } = await supabase.auth.getUser()
