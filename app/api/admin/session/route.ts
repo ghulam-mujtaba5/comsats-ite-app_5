@@ -4,9 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   const cookieStore = await (cookies() as any)
+  
+  // Use service role key to bypass RLS for admin checks
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+  
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
+    serviceKey,
     {
       cookies: {
         get(name: string) {

@@ -5,9 +5,13 @@ import { cookies } from 'next/headers'
 export async function POST(req: NextRequest) {
   // Use Next 15 dynamic cookies API correctly
   const cookieStore = await (cookies() as any)
+  
+  // Use service role key to bypass RLS for admin checks
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    serviceKey,
     {
       cookies: {
         get(name: string) {
