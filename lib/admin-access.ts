@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { supabaseAdmin } from './supabase-admin'
 import { logAudit, AuditAction } from './audit'
 import { getClientIP } from './rate-limit'
 
@@ -44,6 +45,7 @@ export async function requireAdmin(req: NextRequest): Promise<AdminAccess> {
     return { allow: false, devAdmin: false }
   }
 
+  // Create user-context client to get the authenticated user
   const supabase = createServerClient(url, anonKey, {
     cookies: {
       get(name: string) { return cookieStore.get(name)?.value },
@@ -58,8 +60,10 @@ export async function requireAdmin(req: NextRequest): Promise<AdminAccess> {
     return { allow: false, devAdmin: false }
   }
 
-  // Verify admin status from database
-  const { data: adminUser, error } = await supabase
+  // CRITICAL FIX: Use service role client to check admin status
+  // This bypasses RLS and ensures we can always check if a user is an admin
+  // The old implementation used user-context client which could fail due to RLS
+  const { data: adminUser, error } = await supabaseAdmin
     .from('admin_users')
     .select('id, role, permissions')
     .eq('user_id', user.id)
