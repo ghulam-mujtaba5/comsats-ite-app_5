@@ -249,7 +249,17 @@ export default function AdminDiagnosticPage() {
   // Auto-run on mount
   useEffect(() => {
     addLog('Diagnostic tool loaded', 'info')
-    addLog('Click "Run Full Diagnostic" to start', 'info')
+    
+    // Show current auth state from context
+    if (!isLoading) {
+      if (isAuthenticated && user) {
+        addLog(`Current session: ${user.email} (${user.id})`, 'info')
+      } else {
+        addLog('No active session detected', 'warning')
+      }
+    }
+    
+    addLog('Starting diagnostic in 1 second...', 'info')
     
     // Auto-run after 1 second
     const timer = setTimeout(() => {
@@ -257,7 +267,7 @@ export default function AdminDiagnosticPage() {
     }, 1000)
     
     return () => clearTimeout(timer)
-  }, [])
+  }, [isLoading, isAuthenticated, user])
 
   const getStatusIcon = (checked: boolean, isOk: boolean) => {
     if (!checked) return <Loader2 className="h-5 w-5 animate-spin text-gray-400" />
@@ -308,22 +318,22 @@ export default function AdminDiagnosticPage() {
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Logged In:</span>
-                <span className={`font-semibold ${status.loggedIn ? 'text-green-600' : 'text-red-600'}`}>
-                  {status.checked ? (status.loggedIn ? 'YES' : 'NO') : 'Checking...'}
+                <span className={`font-semibold ${(status.checked ? status.loggedIn : isAuthenticated) ? 'text-green-600' : 'text-red-600'}`}>
+                  {status.checked ? (status.loggedIn ? 'YES' : 'NO') : (isLoading ? 'Checking...' : (isAuthenticated ? 'YES' : 'NO'))}
                 </span>
               </div>
-              {status.email && (
+              {((status.checked && status.email) || (!status.checked && user)) && (
                 <>
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-muted-foreground">Email:</span>
                     <code className="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">
-                      {status.email}
+                      {status.email || user?.email}
                     </code>
                   </div>
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-muted-foreground">User ID:</span>
                     <code className="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded truncate max-w-[200px]">
-                      {status.userId}
+                      {status.userId || user?.id}
                     </code>
                   </div>
                 </>
