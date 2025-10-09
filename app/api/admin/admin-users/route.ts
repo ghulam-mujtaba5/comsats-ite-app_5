@@ -112,8 +112,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate role
-    if (!['admin', 'super_admin'].includes(role)) {
-      return NextResponse.json({ error: 'Invalid role. Must be admin or super_admin' }, { status: 400 })
+    const validRoles = ['admin', 'super_admin', 'moderator']
+    if (!validRoles.includes(role)) {
+      return NextResponse.json({ error: 'Invalid role. Must be one of: ' + validRoles.join(', ') }, { status: 400 })
     }
 
     // First, check if user exists in auth.users

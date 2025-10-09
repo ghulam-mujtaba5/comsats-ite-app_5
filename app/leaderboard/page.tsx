@@ -34,6 +34,8 @@ interface LeaderboardEntry {
   totalPoints: number
   rank: number
   gamificationRole?: string | null
+  isAdmin?: boolean
+  isAdminRole?: string | null
   breakdown: {
     papers: number
     reviews: number
@@ -213,13 +215,23 @@ export default function LeaderboardPage() {
                         <CardDescription className="text-center">
                           {leaderboard[1].departmentCode} • {leaderboard[1].campusCode}
                         </CardDescription>
-                        {leaderboard[1].gamificationRole && (
-                          <div className="flex justify-center mt-2">
+                        <div className="flex justify-center mt-2 gap-1 flex-wrap">
+                          {leaderboard[1].gamificationRole && (
                             <Badge className={`${getGamificationRoleBadge(leaderboard[1].gamificationRole)?.color} text-white border-0 text-xs`}>
                               {getGamificationRoleBadge(leaderboard[1].gamificationRole)?.icon} {getGamificationRoleBadge(leaderboard[1].gamificationRole)?.label}
                             </Badge>
-                          </div>
-                        )}
+                          )}
+                          {leaderboard[1].isAdminRole === 'super_admin' && (
+                            <Badge className="bg-gradient-to-r from-red-600 to-orange-600 text-white border-0 text-xs">
+                              👑 Super Admin
+                            </Badge>
+                          )}
+                          {leaderboard[1].isAdmin && leaderboard[1].isAdminRole !== 'super_admin' && (
+                            <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 text-xs">
+                              Admin
+                            </Badge>
+                          )}
+                        </div>
                       </CardHeader>
                       <CardContent className="text-center">
                         <div className="text-3xl font-bold text-slate-600 dark:text-slate-300">
@@ -252,13 +264,23 @@ export default function LeaderboardPage() {
                         <CardDescription className="text-center">
                           {leaderboard[0].departmentCode} • {leaderboard[0].campusCode}
                         </CardDescription>
-                        {leaderboard[0].gamificationRole && (
-                          <div className="flex justify-center mt-2">
+                        <div className="flex justify-center mt-2 gap-1 flex-wrap">
+                          {leaderboard[0].gamificationRole && (
                             <Badge className={`${getGamificationRoleBadge(leaderboard[0].gamificationRole)?.color} text-white border-0`}>
                               {getGamificationRoleBadge(leaderboard[0].gamificationRole)?.icon} {getGamificationRoleBadge(leaderboard[0].gamificationRole)?.label}
                             </Badge>
-                          </div>
-                        )}
+                          )}
+                          {leaderboard[0].isAdminRole === 'super_admin' && (
+                            <Badge className="bg-gradient-to-r from-red-600 to-orange-600 text-white border-0">
+                              👑 Super Admin
+                            </Badge>
+                          )}
+                          {leaderboard[0].isAdmin && leaderboard[0].isAdminRole !== 'super_admin' && (
+                            <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0">
+                              Admin
+                            </Badge>
+                          )}
+                        </div>
                       </CardHeader>
                       <CardContent className="text-center">
                         <div className="text-4xl font-bold text-yellow-700 dark:text-yellow-400">
@@ -285,13 +307,23 @@ export default function LeaderboardPage() {
                         <CardDescription className="text-center">
                           {leaderboard[2].departmentCode} • {leaderboard[2].campusCode}
                         </CardDescription>
-                        {leaderboard[2].gamificationRole && (
-                          <div className="flex justify-center mt-2">
+                        <div className="flex justify-center mt-2 gap-1 flex-wrap">
+                          {leaderboard[2].gamificationRole && (
                             <Badge className={`${getGamificationRoleBadge(leaderboard[2].gamificationRole)?.color} text-white border-0 text-xs`}>
                               {getGamificationRoleBadge(leaderboard[2].gamificationRole)?.icon} {getGamificationRoleBadge(leaderboard[2].gamificationRole)?.label}
                             </Badge>
-                          </div>
-                        )}
+                          )}
+                          {leaderboard[2].isAdminRole === 'super_admin' && (
+                            <Badge className="bg-gradient-to-r from-red-600 to-orange-600 text-white border-0 text-xs">
+                              👑 Super Admin
+                            </Badge>
+                          )}
+                          {leaderboard[2].isAdmin && leaderboard[2].isAdminRole !== 'super_admin' && (
+                            <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 text-xs">
+                              Admin
+                            </Badge>
+                          )}
+                        </div>
                       </CardHeader>
                       <CardContent className="text-center">
                         <div className="text-3xl font-bold text-orange-600 dark:text-orange-400">
@@ -356,11 +388,29 @@ export default function LeaderboardPage() {
                             <span>{entry.badge.icon}</span>
                             {entry.badge.label}
                           </Badge>
-                          {entry.gamificationRole && (
-                            <Badge className={`${getGamificationRoleBadge(entry.gamificationRole)?.color} text-white border-0 text-xs`}>
-                              {getGamificationRoleBadge(entry.gamificationRole)?.icon} {getGamificationRoleBadge(entry.gamificationRole)?.label}
+                          <div className="flex flex-col gap-1">
+                            <Badge variant="outline" className="gap-1">
+                              <span>{entry.badge.icon}</span>
+                              {entry.badge.label}
                             </Badge>
-                          )}
+                            <div className="flex gap-1 flex-wrap">
+                              {entry.gamificationRole && (
+                                <Badge className={`${getGamificationRoleBadge(entry.gamificationRole)?.color} text-white border-0 text-xs`}>
+                                  {getGamificationRoleBadge(entry.gamificationRole)?.icon} {getGamificationRoleBadge(entry.gamificationRole)?.label}
+                                </Badge>
+                              )}
+                              {entry.isAdminRole === 'super_admin' && (
+                                <Badge className="bg-gradient-to-r from-red-600 to-orange-600 text-white border-0 text-xs">
+                                  👑 Super Admin
+                                </Badge>
+                              )}
+                              {entry.isAdmin && entry.isAdminRole !== 'super_admin' && (
+                                <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 text-xs">
+                                  Admin
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>

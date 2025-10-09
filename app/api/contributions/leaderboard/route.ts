@@ -59,10 +59,10 @@ export async function GET(request: NextRequest) {
           .eq('id', user.user_id)
           .single()
 
-        // Check for admin-assigned gamification role
+        // Check for admin role and gamification role
         const { data: adminUser } = await supabase
           .from('admin_users')
-          .select('gamification_role')
+          .select('role, gamification_role')
           .eq('user_id', user.user_id)
           .single()
 
@@ -79,6 +79,8 @@ export async function GET(request: NextRequest) {
           departmentCode: (user.departments as any)?.code || 'UNK',
           totalPoints,
           gamificationRole: adminUser?.gamification_role || null,
+          isAdmin: !!adminUser,
+          isAdminRole: adminUser?.role || null,
           breakdown: {
             papers: paperPoints,
             reviews: reviewPoints,
