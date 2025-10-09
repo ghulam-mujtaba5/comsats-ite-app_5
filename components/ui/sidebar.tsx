@@ -104,7 +104,7 @@ function SidebarProvider({
       state,
       open,
       setOpen,
-      isMobile,
+      isMobile: isMobile ?? false, // Provide a default value of false when isMobile is undefined
       openMobile,
       setOpenMobile,
       toggleSidebar,
