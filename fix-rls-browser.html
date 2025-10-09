@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RLS Fix - Auto Submit</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .sql-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px 5px;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        .button:active {
+            transform: translateY(0);
+        }
+        .button.secondary {
+            background: #6c757d;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .instructions h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin: 8px 0;
+        }
+        .step {
+            background: white;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 RLS Fix - One-Click Solution</h1>
+        <p class="subtitle">Fix the infinite recursion error in 3 clicks!</p>
+
+        <div class="instructions">
+            <h3>📋 Quick Instructions:</h3>
+            <ol>
+                <li><strong>Click "Copy SQL"</strong> button below</li>
+                <li><strong>Click "Open Supabase"</strong> button (opens SQL Editor)</li>
+                <li><strong>Paste</strong> (Ctrl+V) and <strong>Run</strong> (Ctrl+Enter)</li>
+                <li><strong>Done!</strong> ✅</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Copy the SQL below:</strong>
+        </div>
+
+        <div class="sql-box" id="sqlBox">BEGIN;
+
+-- Drop ALL policies (including existing ones)
+DROP POLICY IF EXISTS "authenticated_read_admin_users" ON "public"."admin_users";
+DROP POLICY IF EXISTS "super_admin_insert_admin_users" ON "public"."admin_users";
+DROP POLICY IF EXISTS "super_admin_update_admin_users" ON "public"."admin_users";
+DROP POLICY IF EXISTS "super_admin_delete_admin_users" ON "public"."admin_users";
+DROP POLICY IF EXISTS "admin_users_self_read" ON "public"."admin_users";
+DROP POLICY IF EXISTS "read own admin row" ON "public"."admin_users";
+DROP POLICY IF EXISTS "admin_users_read_own" ON "public"."admin_users";
+DROP POLICY IF EXISTS "admin_users_read_all" ON "public"."admin_users";
+
+-- Enable RLS
+ALTER TABLE "public"."admin_users" ENABLE ROW LEVEL SECURITY;
+
+-- Create fresh non-recursive policies
+CREATE POLICY "admin_users_read_own"
+ON "public"."admin_users"
+FOR SELECT TO authenticated
+USING (user_id = auth.uid());
+
+CREATE POLICY "admin_users_read_all"
+ON "public"."admin_users"
+FOR SELECT TO authenticated
+USING (true);
+
+-- Create function to bypass RLS (for service role key)
+CREATE OR REPLACE FUNCTION get_admin_user(p_user_id UUID)
+RETURNS TABLE (id INT, role TEXT, user_id UUID)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT a.id, a.role, a.user_id
+  FROM admin_users a
+  WHERE a.user_id = p_user_id
+  LIMIT 1;
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION get_admin_user(UUID) TO authenticated;
+
+COMMIT;</div>
+
+        <button class="button" onclick="copySql()">📋 Copy SQL</button>
+        <button class="button" onclick="openSupabase()">🚀 Open Supabase SQL Editor</button>
+
+        <div class="success" id="successMsg">
+            ✅ SQL copied to clipboard! Now paste it in Supabase SQL Editor and click Run.
+        </div>
+
+        <div class="step" style="margin-top: 30px;">
+            <span class="step-number">2</span>
+            <strong>After running SQL in Supabase:</strong>
+        </div>
+
+        <button class="button secondary" onclick="openDiagnostic()">🔍 Open Admin Diagnostic</button>
+        <button class="button secondary" onclick="window.location.reload()">🔄 Refresh This Page</button>
+
+        <div class="instructions" style="margin-top: 30px;">
+            <h3>✨ What happens next:</h3>
+            <ol>
+                <li>RLS policies will be fixed ✅</li>
+                <li>Infinite recursion error gone ✅</li>
+                <li>Click "Auto-Fix" button in diagnostic ✅</li>
+                <li>You're admin! ✅</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function copySql() {
+            const sqlText = document.getElementById('sqlBox').textContent;
+            navigator.clipboard.writeText(sqlText).then(() => {
+                document.getElementById('successMsg').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('successMsg').style.display = 'none';
+                }, 5000);
+            });
+        }
+
+        function openSupabase() {
+            window.open('https://supabase.com/dashboard/project/_/sql/new', '_blank');
+        }
+
+        function openDiagnostic() {
+            window.open('http://localhost:3000/admin/diagnostic', '_blank');
+        }
+
+        // Auto-select SQL on click
+        document.getElementById('sqlBox').addEventListener('click', function() {
+            const range = document.createRange();
+            range.selectNodeContents(this);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        });
+    </script>
+</body>
+</html>

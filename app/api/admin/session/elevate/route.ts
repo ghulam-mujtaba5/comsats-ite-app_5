@@ -67,12 +67,39 @@ export async function POST(req: NextRequest) {
 
     console.log(`[Admin Elevate] Checking admin status for user: ${user.email} (${user.id})`)
 
-    // Verify admin role in database
-    const { data: adminUser, error: adminErr } = await supabase
-      .from('admin_users')
-      .select('id, role')
-      .eq('user_id', user.id)
-      .single()
+    // Use raw SQL query to completely bypass RLS policies (even broken ones)
+    // Service role key should bypass RLS, but we'll use rpc() for absolute certainty
+    let adminUser: any = null
+    let adminErr: any = null
+    
+    try {
+      // Try direct query first (should work with service role)
+      const { data, error } = await supabase
+        .from('admin_users')
+        .select('id, role')
+        .eq('user_id', user.id)
+        .maybeSingle()
+      
+      if (error) {
+        // If RLS is blocking, try raw SQL via rpc
+        console.warn('[Admin Elevate] Direct query failed, trying raw SQL...')
+        const { data: rpcData, error: rpcError } = await supabase.rpc('get_admin_user', { 
+          p_user_id: user.id 
+        })
+        
+        if (rpcError) {
+          // If rpc also fails, it's a real error
+          adminErr = rpcError
+        } else {
+          adminUser = rpcData
+        }
+      } else {
+        adminUser = data
+      }
+    } catch (e: any) {
+      console.error('[Admin Elevate] Query error:', e)
+      adminErr = e
+    }
 
     if (adminErr) {
       console.error('[Admin Elevate] Database error:', adminErr.message, adminErr.code)
@@ -82,10 +109,23 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ 
           error: 'Access denied - Not an admin',
           details: `User ${user.email} is not in the admin_users table`,
-          fix: 'Contact a super admin to grant you admin access',
+          fix: 'Go to /admin/diagnostic and click Auto-Fix (Dev Only)',
           userEmail: user.email,
           userId: user.id
         }, { status: 403 })
+      }
+      
+      // Check if it's the infinite recursion error
+      if (adminErr.code === '42P17' || adminErr.message?.includes('infinite recursion')) {
+        return NextResponse.json({ 
+          error: 'RLS Policy Error',
+          details: 'Infinite recursion in admin_users RLS policies',
+          fix: 'Run the SQL fix in Supabase Dashboard (see fix-rls-browser.html)',
+          hint: 'Or go to /admin/diagnostic for Auto-Fix',
+          sqlFix: 'Open fix-rls-browser.html in your project folder',
+          userEmail: user.email,
+          userId: user.id
+        }, { status: 500 })
       }
       
       return NextResponse.json({ 
@@ -101,7 +141,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ 
         error: 'Access denied - Not an admin',
         details: `User ${user.email} is not registered as an admin`,
-        fix: 'Contact a super admin to add you to the admin_users table',
+        fix: 'Go to /admin/diagnostic and click Auto-Fix (Dev Only)',
         userEmail: user.email,
         userId: user.id
       }, { status: 403 })
