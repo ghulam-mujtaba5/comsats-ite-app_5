@@ -28,7 +28,7 @@ interface BlogArticle {
   updated_at: string
 }
 
-export default function BlogArticlePage({ params }: { params: { slug: string } }) {
+export default function BlogArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { selectedCampus, selectedDepartment } = useCampus()
   const [article, setArticle] = useState<BlogArticle | null>(null)
   const [loading, setLoading] = useState(true)
@@ -36,13 +36,14 @@ export default function BlogArticlePage({ params }: { params: { slug: string } }
 
   useEffect(() => {
     fetchArticle()
-  }, [params.slug])
+  }, [])
 
   const fetchArticle = async () => {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch(`/api/blog/${params.slug}`)
+      const { slug } = await params
+      const res = await fetch(`/api/blog/${slug}`)
       if (!res.ok) {
         if (res.status === 404) {
           notFound()

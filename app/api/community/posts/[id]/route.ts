@@ -21,8 +21,8 @@ function getClient() {
 }
 
 // GET /api/community/posts/[id] -> Post detail transformed for UI
-export async function GET(_req: NextRequest, context: { params: { id: string } }) {
-  const { id } = context.params
+export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params
   const supabase = await getClient()
 
   try {

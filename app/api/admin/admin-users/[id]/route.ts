@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/admin-access'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
+// Next.js 15 uses a different approach for typing route parameters
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const access = await requireAdmin(request)
   if (!access.allow) {
@@ -12,7 +13,7 @@ export async function DELETE(
   }
 
   try {
-    const { id } = params
+    const { id } = await context.params
     const { error } = await supabaseAdmin
       .from('admin_users')
       .delete()
@@ -29,7 +30,7 @@ export async function DELETE(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const access = await requireAdmin(request)
   if (!access.allow) {
@@ -37,7 +38,7 @@ export async function PATCH(
   }
 
   try {
-    const { id } = params
+    const { id } = await context.params
     const body = await request.json().catch(() => ({}))
     const { role, permissions, gamification_role } = body as { role?: string; permissions?: string[]; gamification_role?: string | null }
 

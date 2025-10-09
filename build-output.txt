@@ -1,22 +1,10 @@
- ÔÜá Linting is disabled.
+
+> my-v0-project@0.1.0 build
+> next build
+
    Ôû▓ Next.js 15.2.4
    - Environments: .env.local
+   - Experiments (use with caution):
+     Ô£ô optimizeCss
 
    Creating an optimized production build ...
- Ô£ô Compiled successfully
-   Checking validity of types ...
-Failed to compile.
-
-.next/types/app/api/admin/admin-users/[id]/route.ts:244:7
-Type error: Type '{ __tag__: "DELETE"; __param_position__: "second"; __param_type__: { params: { id: string; }; }; }' does not satisfy the constraint 'ParamCheck<RouteContext>'.
-  The types of '__param_type__.params' are incompatible between these types.
-    Type '{ id: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
-
-  242 |     Diff<
-  243 |       ParamCheck<RouteContext>,
-> 244 |       {
-      |       ^
-  245 |         __tag__: 'DELETE'
-  246 |         __param_position__: 'second'
-  247 |         __param_type__: SecondArg<MaybeField<TEntry, 'DELETE'>>
-Next.js build worker exited with code: 1 and signal: null

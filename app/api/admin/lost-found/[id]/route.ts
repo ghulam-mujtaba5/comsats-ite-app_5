@@ -18,7 +18,7 @@ async function checkAdminAccess(supabase: any) {
   return { isAdmin: !!adminUser, user }
 }
 
-export async function PUT(request: NextRequest, context: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
@@ -45,7 +45,7 @@ export async function PUT(request: NextRequest, context: { params: { id: string 
   }
 
   try {
-    const { id } = context.params
+    const { id } = await context.params
     const body = await request.json()
     const { status } = body
 
@@ -66,7 +66,7 @@ export async function PUT(request: NextRequest, context: { params: { id: string 
   }
 }
 
-export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
@@ -93,7 +93,7 @@ export async function DELETE(request: NextRequest, context: { params: { id: stri
   }
 
   try {
-    const { id } = context.params
+    const { id } = await context.params
     const { error } = await supabase
       .from('lost_found_items')
       .delete()
