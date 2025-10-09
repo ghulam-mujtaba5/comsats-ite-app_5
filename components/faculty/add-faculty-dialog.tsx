@@ -26,10 +26,10 @@ import { useCampus } from '@/contexts/campus-context'
 import { departments } from '@/lib/faculty-data'
 import { Card } from '@/components/ui/card'
 
-export function AddFacultyDialog() {
+export function AddFacultyDialog({ open, onOpenChange }: { open?: boolean; onOpenChange?: (open: boolean) => void }) {
   const { user } = useAuth()
   const { selectedCampus } = useCampus()
-  const [open, setOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -40,6 +40,9 @@ export function AddFacultyDialog() {
     specialization: '',
     qualifications: ''
   })
+
+  const actualOpen = open !== undefined ? open : isOpen
+  const actualOnOpenChange = onOpenChange || setIsOpen
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -84,7 +87,7 @@ export function AddFacultyDialog() {
           specialization: '',
           qualifications: ''
         })
-        setOpen(false)
+        actualOnOpenChange(false)
       } else {
         alert(result.error || 'Failed to submit faculty')
       }
@@ -97,43 +100,44 @@ export function AddFacultyDialog() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={actualOpen} onOpenChange={actualOnOpenChange}>
       <DialogTrigger asChild>
-        <Button className="gap-2 bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all duration-300 px-6 py-3 rounded-xl text-base font-medium">
-          <Plus className="h-5 w-5" />
-          Add Faculty Member
-        </Button>
+        {/* Hidden trigger since we're using the card */}
+        <div className="hidden" />
       </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl">Add New Faculty Member</DialogTitle>
-          <DialogDescription className="text-base">
-            Is a faculty member missing from our directory? Submit their information for admin approval.
-            Once approved, you and other students can write reviews.
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto p-0">
+        {/* Modern Header with Gradient */}
+        <div className="bg-gradient-to-r from-primary to-blue-600 p-6 rounded-t-lg">
+          <DialogHeader className="text-left">
+            <DialogTitle className="text-2xl text-white">Add New Faculty Member</DialogTitle>
+            <DialogDescription className="text-blue-100">
+              Is a faculty member missing from our directory? Submit their information for admin approval.
+              Once approved, you and other students can write reviews.
+            </DialogDescription>
+          </DialogHeader>
+        </div>
         
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-base">Full Name *</Label>
+              <Label htmlFor="name" className="text-base font-medium">Full Name *</Label>
               <Input
                 id="name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Dr. John Doe"
                 required
-                className="h-12 text-base"
+                className="h-12 text-base border-2 focus:border-primary transition-colors"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="department" className="text-base">Department *</Label>
+              <Label htmlFor="department" className="text-base font-medium">Department *</Label>
               <Select
                 value={formData.department}
                 onValueChange={(value) => setFormData({ ...formData, department: value })}
               >
-                <SelectTrigger className="h-12 text-base">
+                <SelectTrigger className="h-12 text-base border-2 focus:border-primary transition-colors">
                   <SelectValue placeholder="Select Department" />
                 </SelectTrigger>
                 <SelectContent>
@@ -145,12 +149,12 @@ export function AddFacultyDialog() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="designation" className="text-base">Designation</Label>
+              <Label htmlFor="designation" className="text-base font-medium">Designation</Label>
               <Select
                 value={formData.designation}
                 onValueChange={(value) => setFormData({ ...formData, designation: value })}
               >
-                <SelectTrigger className="h-12 text-base">
+                <SelectTrigger className="h-12 text-base border-2 focus:border-primary transition-colors">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -164,49 +168,49 @@ export function AddFacultyDialog() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-base">Email (Optional)</Label>
+              <Label htmlFor="email" className="text-base font-medium">Email (Optional)</Label>
               <Input
                 id="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="john.doe@comsats.edu.pk"
-                className="h-12 text-base"
+                className="h-12 text-base border-2 focus:border-primary transition-colors"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone" className="text-base">Phone (Optional)</Label>
+              <Label htmlFor="phone" className="text-base font-medium">Phone (Optional)</Label>
               <Input
                 id="phone"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="+92 300 1234567"
-                className="h-12 text-base"
+                className="h-12 text-base border-2 focus:border-primary transition-colors"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="specialization" className="text-base">Specialization (Optional)</Label>
+              <Label htmlFor="specialization" className="text-base font-medium">Specialization (Optional)</Label>
               <Input
                 id="specialization"
                 value={formData.specialization}
                 onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
                 placeholder="Machine Learning, AI"
-                className="h-12 text-base"
+                className="h-12 text-base border-2 focus:border-primary transition-colors"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="qualifications" className="text-base">Qualifications (Optional)</Label>
+            <Label htmlFor="qualifications" className="text-base font-medium">Qualifications (Optional)</Label>
             <Textarea
               id="qualifications"
               value={formData.qualifications}
               onChange={(e) => setFormData({ ...formData, qualifications: e.target.value })}
               placeholder="PhD in Computer Science from..."
               rows={3}
-              className="text-base"
+              className="text-base border-2 focus:border-primary transition-colors"
             />
           </div>
 
@@ -227,16 +231,16 @@ export function AddFacultyDialog() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => setOpen(false)}
+              onClick={() => actualOnOpenChange(false)}
               disabled={isSubmitting}
-              className="px-6 py-2.5 text-base"
+              className="px-6 py-2.5 text-base border-2"
             >
               Cancel
             </Button>
             <Button 
               type="submit" 
               disabled={isSubmitting}
-              className="px-6 py-2.5 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90"
+              className="px-6 py-2.5 text-base bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all"
             >
               {isSubmitting ? (
                 <>
@@ -244,7 +248,10 @@ export function AddFacultyDialog() {
                   Submitting...
                 </>
               ) : (
-                'Submit for Approval'
+                <>
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Submit for Approval
+                </>
               )}
             </Button>
           </div>

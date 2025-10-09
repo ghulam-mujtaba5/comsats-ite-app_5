@@ -1,12 +1,6 @@
 import { ImageResponse } from 'next/og'
 import type { MetadataRoute } from 'next'
  
-export default function icon(): MetadataRoute.Icon {
-  return {
-    url: '/favicon.ico',
-  }
-}
-
 // Image metadata
 export const size = {
   width: 32,

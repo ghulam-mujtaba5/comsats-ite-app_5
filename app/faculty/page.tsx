@@ -14,6 +14,14 @@ import { Users, Star, MessageSquare, Filter, Award, BookOpen, RotateCcw, Graduat
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { AddFacultyDialog } from "@/components/faculty/add-faculty-dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 export default function FacultyPage() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -186,6 +194,46 @@ export default function FacultyPage() {
     return faculty
   }, [debouncedSearch, selectedDepartment, selectedSpecialization, minRating, experienceLevel, coursesTaught, currentSort, sortDirection, facultyList])
 
+  function AddFacultyCard() {
+    const [open, setOpen] = useState(false)
+    
+    return (
+      <>
+        <Card className="border-2 border-dashed border-primary/30 hover:border-primary/60 bg-gradient-to-br from-primary/5 to-blue-500/10 hover:from-primary/10 hover:to-blue-500/15 backdrop-blur-sm transition-all duration-300 hover:shadow-xl group cursor-pointer h-full flex flex-col overflow-hidden"
+          onClick={() => setOpen(true)}>
+          <CardContent className="p-6 flex flex-col items-center justify-center h-full text-center flex-grow">
+            <div className="relative mb-4">
+              <div className="absolute inset-0 bg-primary/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-300"></div>
+              <div className="relative p-4 rounded-full bg-primary/15 group-hover:bg-primary/20 transition-all duration-300 group-hover:scale-105">
+                <Plus className="h-8 w-8 text-primary" />
+              </div>
+            </div>
+            <h3 className="text-xl font-bold text-primary mb-2">Add Faculty Member</h3>
+            <p className="text-muted-foreground mb-4 text-sm">
+              Is a faculty member missing? Help us expand our directory.
+            </p>
+            <div className="w-full space-y-2">
+              <Button 
+                variant="default" 
+                className="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-md hover:shadow-lg transition-all duration-300 group-hover:shadow-lg"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpen(true);
+                }}
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Faculty
+              </Button>
+              <p className="text-xs text-muted-foreground/70">
+                Click anywhere on this card to open
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+        <AddFacultyDialog open={open} onOpenChange={setOpen} />
+      </>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-mesh overflow-hidden relative">
@@ -238,9 +286,9 @@ export default function FacultyPage() {
               Discover and review faculty members. Share your experiences to help fellow students make informed decisions.
             </p>
             
-            {/* Prominent Add Faculty Button */}
+            {/* Prominent Add Faculty Button - REMOVED to avoid redundancy */}
             <div className="mb-8">
-              <AddFacultyDialog />
+              {/* <AddFacultyDialog /> - Removed to avoid redundancy with the card at the end of the grid */}
             </div>
           </div>
 
@@ -417,9 +465,9 @@ export default function FacultyPage() {
               </p>
             </div>
             
-            {/* Add Faculty Button for Mobile/Tablet */}
+            {/* Add Faculty Button for Mobile/Tablet - REMOVED to avoid redundancy */}
             <div className="sm:hidden w-full">
-              <AddFacultyDialog />
+              {/* <AddFacultyDialog /> - Removed to avoid redundancy with the card at the end of the grid */}
             </div>
           </div>
 
@@ -466,7 +514,10 @@ export default function FacultyPage() {
                 </div>
                 <div className="border-t border-border pt-6">
                   <p className="text-muted-foreground mb-4">Don't see a faculty member?</p>
-                  <AddFacultyDialog />
+                  {/* Using the new AddFacultyCard component for consistency */}
+                  <div className="max-w-sm mx-auto">
+                    <AddFacultyCard />
+                  </div>
                 </div>
               </div>
             </Card>
@@ -475,6 +526,9 @@ export default function FacultyPage() {
               {filteredFaculty.map((faculty) => (
                 <FacultyCard key={faculty.id} faculty={faculty} searchTerm={debouncedSearch} />
               ))}
+              
+              {/* Add Faculty Card at the end */}
+              <AddFacultyCard />
             </div>
           )}
         </div>
