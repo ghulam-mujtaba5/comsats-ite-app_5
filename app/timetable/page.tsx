@@ -9,6 +9,8 @@ import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 import { FileText, Download, Eye, Upload, Calendar, Search, Filter, Clock, Building, GraduationCap, AlertCircle, CheckCircle2, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { standardFilters } from "@/lib/filter-data"
+import { useCampus } from "@/contexts/campus-context"
+import { CampusBanner } from "@/components/layout/campus-reminder"
 
 type TimetableDoc = {
   id: string
@@ -22,6 +24,7 @@ type TimetableDoc = {
 }
 
 export default function TimetablePage() {
+  const { selectedCampus, selectedDepartment: campusDepartment } = useCampus()
   const [docs, setDocs] = useState<TimetableDoc[]>([])
   const [filteredDocs, setFilteredDocs] = useState<TimetableDoc[]>([])
   const [loading, setLoading] = useState(false)
@@ -46,7 +49,19 @@ export default function TimetablePage() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch("/api/timetable-docs", { cache: "no-store" })
+      // Build query params for campus filtering
+      const params = new URLSearchParams()
+      if (selectedCampus?.id) {
+        params.append('campus_id', selectedCampus.id)
+      }
+      if (campusDepartment?.id) {
+        params.append('department_id', campusDepartment.id)
+      }
+      
+      const queryString = params.toString()
+      const url = `/api/timetable-docs${queryString ? `?${queryString}` : ''}`
+      
+      const res = await fetch(url, { cache: "no-store" })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || "Failed to load")
       setDocs(json.data || [])
@@ -69,7 +84,7 @@ export default function TimetablePage() {
         setAdminLoading(false)
       }
     })()
-  }, [])
+  }, [selectedCampus, campusDepartment])
 
   const handlePreview = (doc: TimetableDoc) => {
     window.open(doc.public_url, "_blank")
@@ -262,6 +277,12 @@ export default function TimetablePage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
       <main className="flex-1 py-12 px-4">
         <div className="container mx-auto max-w-7xl">
+          {/* Campus Selection Banner */}
+          <CampusBanner 
+            title="Select Your Campus & Department"
+            description="Filter timetables by your campus and department for personalized results"
+          />
+          
           {/* Enhanced Header Section */}
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6">
