@@ -1,0 +1,1 @@
+{"env":{"NEXT_PUBLIC_SUPABASE_URL":"https://ctixprrqbnfivhepifsa.supabase.co","projectRef":"ctixprrqbnfivhepifsa","usingServiceKey":true},"adminUsersProbe":{"ok":true,"sample":"row-visible"},"guidance":"If adminUsersProbe.error.code is 42P17 or policies-related, production DB still has RLS/policies. Run the disable-RLS SQL on the correct Supabase project."}
