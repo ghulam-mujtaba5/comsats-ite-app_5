@@ -9,7 +9,9 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
-import { Search, BookOpen, GraduationCap, FileText, DollarSign, MapPin } from "lucide-react"
+import { Search, BookOpen, GraduationCap, FileText, DollarSign, MapPin, Newspaper, Eye } from "lucide-react"
+import Link from "next/link"
+import { marked } from 'marked'
 
 interface GuideSection {
   id: string
@@ -29,12 +31,30 @@ interface FAQ {
   tags: string[]
 }
 
+interface BlogArticle {
+  id: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  category: string
+  tags: string[]
+  author_name: string
+  featured_image_url: string | null
+  is_featured: boolean
+  view_count: number
+  published_at: string
+  created_at: string
+  updated_at: string
+}
+
 export default function GuidancePage() {
   const { selectedCampus } = useCampus()
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
   const [guideSections, setGuideSections] = useState<GuideSection[]>([])
   const [faqs, setFaqs] = useState<FAQ[]>([])
+  const [blogArticles, setBlogArticles] = useState<BlogArticle[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -44,9 +64,10 @@ export default function GuidancePage() {
       setError(null)
       try {
         const campusParam = selectedCampus?.id ? `?campus_id=${selectedCampus.id}` : ''
-        const [contentResponse, faqResponse] = await Promise.all([
+        const [contentResponse, faqResponse, blogResponse] = await Promise.all([
           fetch(`/api/guidance/content${campusParam}`),
-          fetch(`/api/guidance/faq${campusParam}`)
+          fetch(`/api/guidance/faq${campusParam}`),
+          fetch(`/api/blog${campusParam}&limit=6`)
         ])
 
         if (contentResponse.ok && faqResponse.ok) {
@@ -56,6 +77,11 @@ export default function GuidancePage() {
           setFaqs(faqData)
         } else {
           throw new Error('Failed to fetch guidance data')
+        }
+
+        if (blogResponse.ok) {
+          const blogData = await blogResponse.json()
+          setBlogArticles(blogData.data || [])
         }
       } catch (e: any) {
         setError(e?.message || "Failed to load guidance data")
@@ -157,6 +183,15 @@ export default function GuidancePage() {
     return matchesSearch && matchesCategory
   })
 
+  const filteredBlogArticles = blogArticles.filter((article) => {
+    const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         article.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         article.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         article.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+    const matchesCategory = selectedCategory === "all" || article.category === selectedCategory
+    return matchesSearch && matchesCategory
+  })
+
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "academic":
@@ -174,6 +209,25 @@ export default function GuidancePage() {
     }
   }
 
+  const getBlogCategoryIcon = (category: string) => {
+    switch (category) {
+      case "academic":
+        return BookOpen
+      case "campus-life":
+        return MapPin
+      case "career":
+        return GraduationCap
+      case "technology":
+        return FileText
+      case "research":
+        return FileText
+      case "events":
+        return FileText
+      default:
+        return Newspaper
+    }
+  }
+
   const getCategoryColor = (category: string) => {
     switch (category) {
       case "academic":
@@ -186,6 +240,25 @@ export default function GuidancePage() {
         return "bg-yellow-100 text-yellow-800 border-yellow-200"
       case "policies":
         return "bg-primary/10 text-primary border-primary/20"
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200"
+    }
+  }
+
+  const getBlogCategoryColor = (category: string) => {
+    switch (category) {
+      case "academic":
+        return "bg-blue-100 text-blue-800 border-blue-200"
+      case "campus-life":
+        return "bg-green-100 text-green-800 border-green-200"
+      case "career":
+        return "bg-purple-100 text-purple-800 border-purple-200"
+      case "technology":
+        return "bg-red-100 text-red-800 border-red-200"
+      case "research":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200"
+      case "events":
+        return "bg-indigo-100 text-indigo-800 border-indigo-200"
       default:
         return "bg-gray-100 text-gray-800 border-gray-200"
     }
@@ -207,7 +280,7 @@ export default function GuidancePage() {
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
-              placeholder="Search guides and FAQs..."
+              placeholder="Search guides, FAQs, and articles..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -260,9 +333,11 @@ export default function GuidancePage() {
         </div>
 
         <Tabs defaultValue="guides" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="guides">Guidance Sections</TabsTrigger>
             <TabsTrigger value="faqs">Frequently Asked Questions</TabsTrigger>
+            <TabsTrigger value="blog">Blog & Articles</TabsTrigger>
+            <TabsTrigger value="resources">Resources</TabsTrigger>
           </TabsList>
 
           <TabsContent value="guides" className="space-y-6">
@@ -297,7 +372,9 @@ export default function GuidancePage() {
                       </CardHeader>
                       <CardContent>
                         <div className="prose prose-sm max-w-none mb-4">
-                          <div className="whitespace-pre-wrap text-sm">{section.content}</div>
+                          <div 
+                            dangerouslySetInnerHTML={{ __html: marked(section.content || '') }} 
+                          />
                         </div>
                         <div className="flex items-center justify-between text-xs text-gray-500">
                           <span>Last updated: {new Date(section.last_updated).toLocaleDateString()}</span>
@@ -345,6 +422,83 @@ export default function GuidancePage() {
                 ))}
               </Accordion>
             )}
+          </TabsContent>
+
+          <TabsContent value="blog" className="space-y-6">
+            {loading ? (
+              <CenteredLoader message="Loading blog articles..." />
+            ) : error ? (
+              <div className="text-center py-8 text-destructive">{error}</div>
+            ) : filteredBlogArticles.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <Newspaper className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                <p>No blog articles found matching your criteria.</p>
+                <Button asChild className="mt-4">
+                  <Link href="/blog">View All Blog Articles</Link>
+                </Button>
+              </div>
+            ) : (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {filteredBlogArticles.map((article) => {
+                  const Icon = getBlogCategoryIcon(article.category)
+                  return (
+                    <Link key={article.id} href={`/blog/${article.slug}`} className="block">
+                      <Card className="h-full hover:shadow-lg transition-shadow">
+                        {article.featured_image_url && (
+                          <img 
+                            src={article.featured_image_url} 
+                            alt={article.title} 
+                            className="w-full h-32 object-cover rounded-t-lg"
+                          />
+                        )}
+                        <CardHeader>
+                          <div className="flex items-center justify-between mb-2">
+                            <Icon className="h-4 w-4 text-blue-600" />
+                            <Badge className={getBlogCategoryColor(article.category)}>
+                              {article.category.replace('-', ' ')}
+                            </Badge>
+                          </div>
+                          <CardTitle className="text-lg line-clamp-2">{article.title}</CardTitle>
+                          <CardDescription className="line-clamp-2">{article.excerpt}</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex items-center justify-between text-xs text-gray-500">
+                            <span>{new Date(article.published_at).toLocaleDateString()}</span>
+                            <div className="flex items-center gap-1">
+                              <Eye className="h-3 w-3" />
+                              <span>{article.view_count}</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  )
+                })}
+                <Card className="h-full border-dashed border-2 flex items-center justify-center">
+                  <CardContent className="text-center p-6">
+                    <Newspaper className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">More Articles Available</h3>
+                    <p className="text-sm text-gray-500 mb-4">Visit our full blog for more articles and insights</p>
+                    <Button asChild size="sm">
+                      <Link href="/blog">View All Articles</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="resources" className="space-y-6">
+            <div className="text-center py-12">
+              <FileText className="h-16 w-16 mx-auto text-gray-400 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Resources Section</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                This section will contain downloadable resources, forms, and documents.
+              </p>
+              <p className="text-sm text-gray-500">
+                Coming soon in a future update.
+              </p>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
