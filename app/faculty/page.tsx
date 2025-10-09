@@ -448,21 +448,27 @@ export default function FacultyPage() {
                 <p className="text-muted-foreground mb-8 font-serif text-lg leading-relaxed">
                   Try adjusting your search terms or department filter to find more faculty members.
                 </p>
-                <Button
-                  onClick={() => {
-                    setSearchQuery("")
-                    setSelectedDepartment("All")
-                    setSelectedSpecialization("All")
-                    setMinRating("All")
-                    setExperienceLevel("All")
-                    setCoursesTaught("All")
-                  }}
-                  className="text-lg px-8 py-3 rounded-2xl button-modern bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all duration-300"
-                  size="lg"
-                >
-                  <RotateCcw className="h-5 w-5 mr-2" />
-                  Clear Filters
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button
+                    onClick={() => {
+                      setSearchQuery("")
+                      setSelectedDepartment("All")
+                      setSelectedSpecialization("All")
+                      setMinRating("All")
+                      setExperienceLevel("All")
+                      setCoursesTaught("All")
+                    }}
+                    className="text-lg px-8 py-3 rounded-2xl button-modern bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all duration-300"
+                    size="lg"
+                  >
+                    <RotateCcw className="h-5 w-5 mr-2" />
+                    Clear Filters
+                  </Button>
+                  <AddFacultyDialog />
+                </div>
+                <p className="text-muted-foreground mt-6 text-sm">
+                  Don't see a faculty member? Help us grow our directory by adding them to the system.
+                </p>
               </div>
             </Card>
           ) : (
