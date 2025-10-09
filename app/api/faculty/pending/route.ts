@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     if (existingFaculty) {
       return NextResponse.json({ 
-        error: `Faculty member "${name}" already exists`,
+        error: `Faculty member "${name}" already exists in the system`,
         status: existingFaculty.status,
         facultyId: existingFaculty.id
       }, { status: 409 })

@@ -25,6 +25,7 @@ export async function GET(req: NextRequest) {
   let query = supabase
     .from('faculty')
     .select('*')
+    .eq('status', 'approved') // Only show approved faculty
     .order('name', { ascending: true })
 
   // Filter by campus if provided

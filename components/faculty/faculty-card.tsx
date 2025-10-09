@@ -44,8 +44,11 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
   }
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-      <CardHeader className="pb-4">
+    <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 relative">
+      <Link href={`/faculty/${faculty.id}`} className="absolute inset-0 z-0" aria-label={`View profile for ${faculty.name}`}>
+        <span className="sr-only">View profile for {faculty.name}</span>
+      </Link>
+      <CardHeader className="pb-4 relative z-10">
         <div className="flex items-start gap-4">
           <Avatar className="h-16 w-16">
             <AvatarImage src={faculty.profileImage || "/placeholder.svg"} alt={faculty.name} />
@@ -66,7 +69,7 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 relative z-10">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1">{renderStars(faculty.averageRating)}</div>
           <span className="font-semibold">{faculty.averageRating}</span>

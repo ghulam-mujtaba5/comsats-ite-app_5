@@ -191,15 +191,20 @@ export default function FacultyProfileClient({ initialFaculty, initialReviews }:
                       </div>
                     </div>
 
-                    <WriteReviewDialog
-                      faculty={faculty}
-                      onSubmitted={() => setRefreshKey((k) => k + 1)}
-                    >
-                      <Button className="h-10 px-6">
-                        <PenTool className="h-5 w-5 mr-2" />
-                        Write Review
-                      </Button>
-                    </WriteReviewDialog>
+                    <div className="pt-4">
+                      <WriteReviewDialog
+                        faculty={faculty}
+                        onSubmitted={() => setRefreshKey((k) => k + 1)}
+                      >
+                        <Button className="h-10 px-6">
+                          <PenTool className="h-5 w-5 mr-2" />
+                          Write Review
+                        </Button>
+                      </WriteReviewDialog>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        Share your experience with {faculty.name} to help other students
+                      </p>
+                    </div>
                   </div>
                 </div>
               </CardContent>

@@ -42,8 +42,13 @@ export function AddFacultyDialog() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!user?.id || !selectedCampus) {
-      alert('Please sign in and select a campus')
+    if (!user?.id) {
+      alert('Please sign in to submit a faculty member')
+      return
+    }
+
+    if (!selectedCampus) {
+      alert('Please select a campus before submitting')
       return
     }
 
@@ -59,7 +64,7 @@ export function AddFacultyDialog() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          campus_id: selectedCampus,
+          campus_id: selectedCampus.id, // Use selectedCampus.id instead of selectedCampus object
           submitted_by: user.id
         })
       })

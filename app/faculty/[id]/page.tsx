@@ -221,9 +221,14 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
                     {faculty.phone && <div className="flex items-center gap-2"><Phone className="h-4 w-4 text-muted-foreground" /><span>{faculty.phone}</span></div>}
                     <div className="flex items-center gap-2"><Calendar className="h-4 w-4 text-muted-foreground" /><span>Joined: {new Date(faculty.joinDate).getFullYear()}</span></div>
                   </div>
-                  <WriteReviewDialog faculty={faculty}>
-                    <Button className="h-10 px-6"><PenTool className="h-5 w-5 mr-2" />Write Review</Button>
-                  </WriteReviewDialog>
+                  <div className="pt-4">
+                    <WriteReviewDialog faculty={faculty}>
+                      <Button className="h-10 px-6"><PenTool className="h-5 w-5 mr-2" />Write Review</Button>
+                    </WriteReviewDialog>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Share your experience with {faculty.name} to help other students
+                    </p>
+                  </div>
                 </div>
               </div>
             </CardContent>
