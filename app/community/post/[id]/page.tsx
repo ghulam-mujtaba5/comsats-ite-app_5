@@ -3,23 +3,24 @@ import PostClient from './post-client'
 
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   try {
-    const res = await fetch(`${siteUrl}/api/community/posts/${params.id}`, { cache: 'no-store' })
-    if (!res.ok) return { title: `Community Post ${params.id}` }
+    const res = await fetch(`${siteUrl}/api/community/posts/${id}`, { cache: 'no-store' })
+    if (!res.ok) return { title: `Community Post ${id}` }
     const json = await res.json()
     const post = json.data
-    if (!post) return { title: `Community Post ${params.id}` }
+    if (!post) return { title: `Community Post ${id}` }
     const contentSnippet = (post.content || '').replace(/\s+/g, ' ').slice(0, 160)
     const title = (post.content || 'Community Post').split('\n')[0].slice(0, 60) + (post.content?.length > 60 ? '…' : '')
-    const canonical = `${siteUrl}/community/post/${params.id}`
+    const canonical = `${siteUrl}/community/post/${id}`
     const defaultSvg = new URL('/og-preview.svg', siteUrl).toString()
     const defaultPng = new URL('/og-preview.png', siteUrl).toString()
     return {
       title,
       description: contentSnippet || 'Student discussion on CampusAxis community.',
-      alternates: { canonical: `/community/post/${params.id}` },
+      alternates: { canonical: `/community/post/${id}` },
       openGraph: {
         title,
         description: contentSnippet || 'Student discussion on CampusAxis community.',
@@ -32,24 +33,24 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         ],
       },
       twitter: { card: 'summary_large_image', title, description: contentSnippet || 'Student discussion on CampusAxis community.', images: [defaultPng] },
-      robots: { index: true, follow: true },
-    }
-  } catch {
-    return { title: `Community Post ${params.id}` }
+    robots: { index: true, follow: true },
   }
-}
-
-export default async function Page({ params }: { params: { id: string } }) {
+  } catch {
+    const { id } = await params
+    return { title: `Community Post ${id}` }
+  }
+}export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   try {
-    const res = await fetch(`${siteUrl}/api/community/posts/${params.id}`, { cache: 'no-store' })
+    const res = await fetch(`${siteUrl}/api/community/posts/${id}`, { cache: 'no-store' })
     const json = res.ok ? await res.json() : null
     const post = json?.data || null
     const jsonLd = post ? {
       '@context': 'https://schema.org',
       '@type': 'DiscussionForumPosting',
-      '@id': `${siteUrl}/community/post/${params.id}`,
-      url: `${siteUrl}/community/post/${params.id}`,
+      '@id': `${siteUrl}/community/post/${id}`,
+      url: `${siteUrl}/community/post/${id}`,
       headline: (post.content || 'Community Post').split('\n')[0].slice(0, 110),
       articleBody: post.content || '',
       datePublished: post.time || undefined,

@@ -5,18 +5,19 @@ import { jsonLdSpeakable } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   try {
-    const res = await fetch(`${siteUrl}/api/news/${params.id}`, { cache: 'no-store' })
-    if (!res.ok) return { title: params.id }
+    const res = await fetch(`${siteUrl}/api/news/${id}`, { cache: 'no-store' })
+    if (!res.ok) return { title: id }
     const json = await res.json()
     const item = json.data
-    if (!item) return { title: params.id }
+    if (!item) return { title: id }
 
     const title = item.title
     const description = item.content?.slice(0, 160) || 'CampusAxis news and announcements.'
-    const canonical = `${siteUrl}/news/${params.id}`
+    const canonical = `${siteUrl}/news/${id}`
 
     const defaultSvg = new URL('/og-preview.svg', siteUrl).toString()
     const defaultPng = new URL('/og-preview.png', siteUrl).toString()
@@ -45,7 +46,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
           },
         ],
       },
-      alternates: { canonical: `/news/${params.id}` },
+      alternates: { canonical: `/news/${id}` },
       robots: {
         // If the article is not published yet, avoid indexing
         index: item.status === 'published' && (!!item.published_at && new Date(item.published_at) <= new Date()),
@@ -53,17 +54,19 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       },
     }
   } catch (e) {
-    return { title: params.id }
+    const { id } = await params
+    return { title: id }
   }
 }
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   // Server-side fetch to build Article JSON-LD for better SEO previews
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   try {
     // fetch server-side to include JSON-LD
     // intentionally not cached to reflect latest content
-    const res = await fetch(`${siteUrl}/api/news/${params.id}`, { cache: 'no-store' })
+    const res = await fetch(`${siteUrl}/api/news/${id}`, { cache: 'no-store' })
     const json = res.ok ? await res.json() : null
     const item = json?.data || null
 
@@ -73,7 +76,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           '@type': 'NewsArticle',
           mainEntityOfPage: {
             '@type': 'WebPage',
-            '@id': `${siteUrl}/news/${params.id}`,
+            '@id': `${siteUrl}/news/${id}`,
           },
           headline: item.title,
           image: item.image_url ? [new URL(item.image_url, siteUrl).toString()] : [new URL('/og-preview.png', siteUrl).toString()],
@@ -97,7 +100,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     const breadcrumb = jsonLdBreadcrumb([
       { name: 'Home', path: '/' },
       { name: 'News', path: '/news' },
-      { name: item?.title || params.id, path: `/news/${params.id}` },
+      { name: item?.title || id, path: `/news/${id}` },
     ])
 
     const speakable = jsonLdSpeakable(['article h1', 'article p'])

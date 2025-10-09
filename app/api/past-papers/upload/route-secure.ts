@@ -249,9 +249,10 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     logError(error, { endpoint: '/api/past-papers/upload' })
     
-    if (error instanceof Errors.constructor) {
-      const formatted = formatErrorResponse(error)
-      return NextResponse.json(formatted, { status: error.statusCode || 500 })
+    // Handle CustomError instances
+    if (error && typeof error === 'object' && 'code' in error && 'statusCode' in error) {
+      const formatted = formatErrorResponse(error as any)
+      return NextResponse.json(formatted, { status: (error as any).statusCode || 500 })
     }
 
     return NextResponse.json({ 

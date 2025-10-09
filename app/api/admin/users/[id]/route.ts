@@ -4,8 +4,9 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   const access = await requireAdmin(request)
   if (!access.allow) {
     return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })
@@ -13,18 +14,18 @@ export async function DELETE(
 
   try {
     // Delete user from Supabase Auth using service role
-    const { error } = await (supabaseAdmin as any).auth.admin.deleteUser(params.id)
+    const { error } = await (supabaseAdmin as any).auth.admin.deleteUser(id)
     if (error) throw error
 
     // Also cleanup from admin_users table if present
     const { error: adminUsersError } = await supabaseAdmin
       .from('admin_users')
       .delete()
-      .eq('user_id', params.id)
+      .eq('user_id', id)
 
     if (adminUsersError) {
       // Log but don't fail the whole request
-      console.warn('Cleanup admin_users failed for deleted user', params.id, adminUsersError)
+      console.warn('Cleanup admin_users failed for deleted user', id, adminUsersError)
     }
 
     return NextResponse.json({ success: true, message: 'User deleted successfully' })

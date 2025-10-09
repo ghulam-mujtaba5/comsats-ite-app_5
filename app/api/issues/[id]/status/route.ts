@@ -3,9 +3,9 @@ import { createClient } from "@supabase/supabase-js"
 import { requireAdmin } from "@/lib/admin-access"
 
 // PATCH /api/issues/[id]/status  { status: 'open' | 'in_progress' | 'resolved' }
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   try {
-    const id = params.id
     const body = await req.json()
     const status = String(body?.status || '').trim()
     const allowed = ['open', 'in_progress', 'resolved']

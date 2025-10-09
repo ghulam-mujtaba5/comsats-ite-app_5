@@ -30,13 +30,14 @@ async function fetchEvent(id: string): Promise<EventRecord | null> {
 	}
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-	const evt = await fetchEvent(params.id)
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+	const { id } = await params
+	const evt = await fetchEvent(id)
 	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
-	if (!evt) return { title: params.id }
+	if (!evt) return { title: id }
 	const title = `${evt.title} | Event`
 	const description = evt.description?.slice(0,160) || 'Campus event details.'
-	const canonical = `/news-events/${params.id}`
+	const canonical = `/news-events/${id}`
 	const image = evt.image_url ? new URL(evt.image_url, siteUrl).toString() : new URL('/og-preview.png', siteUrl).toString()
 		return {
 			title,
@@ -53,9 +54,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 		}
 }
 
-export default async function EventPage({ params }: { params: { id: string } }) {
+export default async function EventPage({ params }: { params: Promise<{ id: string }> }) {
+	const { id } = await params
 	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
-	const evt = await fetchEvent(params.id)
+	const evt = await fetchEvent(id)
 	if (!evt) {
 		return <div className="container mx-auto py-24"><h1 className="text-2xl font-bold">Event not found</h1></div>
 	}

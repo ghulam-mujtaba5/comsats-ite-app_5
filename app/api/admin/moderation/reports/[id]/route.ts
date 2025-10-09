@@ -20,8 +20,9 @@ async function checkAdminAccess(supabase: any) {
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -66,7 +67,7 @@ export async function PATCH(
     const { error } = await supabase
       .from('content_reports')
       .update(updateData)
-      .eq('id', params.id)
+      .eq('id', id)
 
     if (error) throw error
 
