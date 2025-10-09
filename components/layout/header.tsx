@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   DropdownMenu,
@@ -251,6 +251,7 @@ export function Header() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-9 w-9 rounded-full interactive hover-lift">
                   <Avatar className="h-9 w-9">
+                    <AvatarImage src={(user as any).user_metadata?.avatar_url || undefined} alt={user.email || "Profile"} />
                     <AvatarFallback className="bg-primary text-primary-foreground">
                       {(() => {
                         const email = user.email ?? ""

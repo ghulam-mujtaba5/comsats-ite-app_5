@@ -7,6 +7,13 @@ export async function GET(request: NextRequest) {
   const campusId = searchParams.get('campus_id')
   const departmentId = searchParams.get('department_id')
   
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800', // Cache for 1 hour, stale for 30 min
+    'CDN-Cache-Control': 'public, s-maxage=3600',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=3600'
+  }
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!url || !anon) {
@@ -38,7 +45,7 @@ export async function GET(request: NextRequest) {
         department_id: 'mock-dept-2',
       },
     ]
-    return NextResponse.json({ data })
+    return NextResponse.json({ data }, { headers })
   }
   
   const supabase = createClient(url, anon)
@@ -59,6 +66,6 @@ export async function GET(request: NextRequest) {
   query = query.order('uploaded_at', { ascending: false })
   
   const { data, error } = await query
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ data })
+  if (error) return NextResponse.json({ error: error.message }, { status: 500, headers })
+  return NextResponse.json({ data }, { headers })
 }

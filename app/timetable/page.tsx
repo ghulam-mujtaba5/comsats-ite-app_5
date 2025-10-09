@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -26,7 +26,6 @@ type TimetableDoc = {
 export default function TimetablePage() {
   const { selectedCampus, selectedDepartment: campusDepartment } = useCampus()
   const [docs, setDocs] = useState<TimetableDoc[]>([])
-  const [filteredDocs, setFilteredDocs] = useState<TimetableDoc[]>([])
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
@@ -45,7 +44,57 @@ export default function TimetablePage() {
   const [dragActive, setDragActive] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
 
-  const loadDocs = async () => {
+  // Memoize filtered and sorted documents to prevent unnecessary re-renders
+  const filteredDocs = useMemo(() => {
+    let filtered = [...docs]
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase()
+      filtered = filtered.filter(doc => 
+        doc.title.toLowerCase().includes(query) ||
+        doc.department.toLowerCase().includes(query) ||
+        (doc.term && doc.term.toLowerCase().includes(query))
+      )
+    }
+
+    // Apply department filter
+    if (selectedDepartment !== "All") {
+      filtered = filtered.filter(doc => doc.department === selectedDepartment)
+    }
+
+    // Apply term filter
+    if (selectedTerm !== "All") {
+      filtered = filtered.filter(doc => doc.term === selectedTerm)
+    }
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      switch (currentSort) {
+        case "title-asc":
+          return sortDirection === 'asc' 
+            ? a.title.localeCompare(b.title)
+            : b.title.localeCompare(a.title)
+        case "department-asc":
+          return sortDirection === 'asc'
+            ? a.department.localeCompare(b.department)
+            : b.department.localeCompare(a.department)
+        case "date-desc":
+        default:
+          return sortDirection === 'desc'
+            ? new Date(b.uploaded_at).getTime() - new Date(a.uploaded_at).getTime()
+            : new Date(a.uploaded_at).getTime() - new Date(b.uploaded_at).getTime()
+      }
+    })
+
+    return filtered
+  }, [docs, searchQuery, selectedDepartment, selectedTerm, currentSort, sortDirection])
+
+  // Get unique departments and terms for filtering (memoized)
+  const departments = useMemo(() => [...new Set(docs.map(doc => doc.department))].sort(), [docs])
+  const terms = useMemo(() => [...new Set(docs.map(doc => doc.term).filter(Boolean))].sort(), [docs])
+
+  const loadDocs = useCallback(async () => {
     setLoading(true)
     setError(null)
     try {
@@ -61,7 +110,7 @@ export default function TimetablePage() {
       const queryString = params.toString()
       const url = `/api/timetable-docs${queryString ? `?${queryString}` : ''}`
       
-      const res = await fetch(url, { cache: "no-store" })
+      const res = await fetch(url)
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || "Failed to load")
       setDocs(json.data || [])
@@ -70,13 +119,16 @@ export default function TimetablePage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [selectedCampus, campusDepartment])
 
   useEffect(() => {
     loadDocs()
+  }, [loadDocs])
+
+  useEffect(() => {
     ;(async () => {
       try {
-        const res = await fetch('/api/admin/session', { cache: 'no-store' })
+        const res = await fetch('/api/admin/session')
         setIsAdmin(res.ok)
       } catch {
         setIsAdmin(false)
@@ -84,7 +136,7 @@ export default function TimetablePage() {
         setAdminLoading(false)
       }
     })()
-  }, [selectedCampus, campusDepartment])
+  }, [])
 
   const handlePreview = (doc: TimetableDoc) => {
     window.open(doc.public_url, "_blank")
@@ -183,58 +235,8 @@ export default function TimetablePage() {
     }
   }, [])
 
-  // Filter and sort documents
-  useEffect(() => {
-    let filtered = [...docs]
-
-    // Apply search filter
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(doc => 
-        doc.title.toLowerCase().includes(query) ||
-        doc.department.toLowerCase().includes(query) ||
-        (doc.term && doc.term.toLowerCase().includes(query))
-      )
-    }
-
-    // Apply department filter
-    if (selectedDepartment !== "All") {
-      filtered = filtered.filter(doc => doc.department === selectedDepartment)
-    }
-
-    // Apply term filter
-    if (selectedTerm !== "All") {
-      filtered = filtered.filter(doc => doc.term === selectedTerm)
-    }
-
-    // Apply sorting
-    filtered.sort((a, b) => {
-      switch (currentSort) {
-        case "title-asc":
-          return sortDirection === 'asc' 
-            ? a.title.localeCompare(b.title)
-            : b.title.localeCompare(a.title)
-        case "department-asc":
-          return sortDirection === 'asc'
-            ? a.department.localeCompare(b.department)
-            : b.department.localeCompare(a.department)
-        case "date-desc":
-        default:
-          return sortDirection === 'desc'
-            ? new Date(b.uploaded_at).getTime() - new Date(a.uploaded_at).getTime()
-            : new Date(a.uploaded_at).getTime() - new Date(b.uploaded_at).getTime()
-      }
-    })
-
-    setFilteredDocs(filtered)
-  }, [docs, searchQuery, selectedDepartment, selectedTerm, currentSort, sortDirection])
-
-  // Get unique departments and terms for filtering
-  const departments = [...new Set(docs.map(doc => doc.department))].sort()
-  const terms = [...new Set(docs.map(doc => doc.term).filter(Boolean))].sort()
-
   // Advanced filter options for AdvancedFilterBar
-  const filterSelects = [
+  const filterSelects = useMemo(() => [
     {
       id: "department",
       value: selectedDepartment,
@@ -251,18 +253,16 @@ export default function TimetablePage() {
       label: "Term",
       options: ["All", ...terms].map(term => ({ value: term || "", label: term || "" }))
     }
-  ]
+  ], [selectedDepartment, selectedTerm, departments, terms])
 
-  const sortOptions = [
+  const sortOptions = useMemo(() => [
     { value: "date-desc", label: "Latest First" },
     { value: "date-asc", label: "Oldest First" },
     { value: "title-asc", label: "Title A-Z" },
     { value: "title-desc", label: "Title Z-A" },
     { value: "department-asc", label: "Department A-Z" },
     { value: "department-desc", label: "Department Z-A" }
-  ]
-
-
+  ], [])
 
   const handleSortChange = (value: string) => {
     setCurrentSort(value)

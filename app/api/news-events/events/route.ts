@@ -53,26 +53,21 @@ export async function GET(request: NextRequest) {
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    if (process.env.NODE_ENV !== 'production' && (!url || !anon)) return devFallback()
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    // In dev, only fallback if we truly cannot talk to Supabase (no URL or neither anon nor service key)
+    if (process.env.NODE_ENV !== 'production' && (!url || (!anon && !serviceRoleKey))) return devFallback()
 
     const cookieStore = await (cookies() as any)
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value
+    // Prefer service role for server-side read if available; else use anon server client
+    const supabase = serviceRoleKey
+      ? createServiceClient(url || '', serviceRoleKey)
+      : createServerClient(url || '', anon || '', {
+          cookies: {
+            get(name: string) { return cookieStore.get(name)?.value },
+            set(name: string, value: string, options: any) { cookieStore.set(name, value, options) },
+            remove(name: string, options: any) { cookieStore.set(name, '', { ...options, maxAge: 0 }) },
           },
-          set(name: string, value: string, options?: any) {
-            cookieStore.set({ name, value, ...options })
-          },
-          remove(name: string, options?: any) {
-            cookieStore.set({ name, value: '', ...options })
-          },
-        },
-      }
-    )
+        })
 
     const campusId = searchParams.get('campus_id')
 
@@ -127,29 +122,22 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const cookieStore = await (cookies() as any)
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const supabase = serviceRoleKey
+    ? createServiceClient(url || '', serviceRoleKey)
+    : createServerClient(url || '', anon || '', {
+        cookies: {
+          get(name: string) { return cookieStore.get(name)?.value },
+          set(name: string, value: string, options: any) { cookieStore.set(name, value, options) },
+          remove(name: string, options: any) { cookieStore.set(name, '', { ...options, maxAge: 0 }) },
         },
-        set(name: string, value: string, options?: any) {
-          cookieStore.set({ name, value, ...options })
-        },
-        remove(name: string, options?: any) {
-          cookieStore.set({ name, value: '', ...options })
-        },
-      },
-    }
-  )
+      })
 
   try {
     // Dev fallback (non-production only): allow creating mock event when Supabase env is missing
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    if (process.env.NODE_ENV !== 'production' && (!url || !anon)) {
+    if (process.env.NODE_ENV !== 'production' && (!url || (!anon && !serviceRoleKey))) {
       const body = await request.json()
       const { title, description, event_date, event_time, location, category, organizer, capacity, registration_open, image_url } = body
       return NextResponse.json({
@@ -206,9 +194,8 @@ export async function POST(request: NextRequest) {
     if (access.userId) payload.created_by = access.userId
 
     // Use service-role for writes if available to bypass RLS safely (endpoint still gated by requireAdmin)
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-    const writeClient = serviceKey
-      ? createServiceClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey)
+    const writeClient = serviceRoleKey
+      ? createServiceClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceRoleKey)
       : supabase
 
     const { data, error } = await writeClient

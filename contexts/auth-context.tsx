@@ -4,11 +4,17 @@ import type React from "react"
 import { createContext, useContext, useState, useEffect, useMemo } from "react"
 import { createBrowserClient } from "@supabase/ssr"
 import { autoSetUserPreferencesFromEmail } from "@/lib/user-campus-detector"
+import { updateUserAvatar, updateUserAvatarInPosts } from "@/lib/avatar-updater"
 
 // Using a simplified user type for the context
 export interface User {
   id: string
   email?: string
+  user_metadata?: {
+    avatar_url?: string
+    full_name?: string
+    [key: string]: any
+  }
 }
 
 interface AuthContextType {
@@ -43,12 +49,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const getSession = async () => {
       const { data, error } = await supabase.auth.getSession()
       if (!error && data.session?.user) {
-        const user = { id: data.session.user.id, email: data.session.user.email || undefined }
+        const user = { 
+          id: data.session.user.id, 
+          email: data.session.user.email || undefined,
+          user_metadata: data.session.user.user_metadata || undefined
+        }
         setUser(user)
         
         // Auto-detect and set campus/department preferences
         if (user.email) {
           await autoSetUserPreferencesFromEmail(user.email, supabase)
+          // Update user avatar from Google OAuth
+          await updateUserAvatar(user, supabase)
+          // Update user's avatar in existing posts
+          await updateUserAvatarInPosts(user.id, supabase)
         }
       }
       setIsLoading(false)
@@ -59,12 +73,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
       const currentUser = session?.user
       if (currentUser) {
-        const user = { id: currentUser.id, email: currentUser.email || undefined }
+        const user = { 
+          id: currentUser.id, 
+          email: currentUser.email || undefined,
+          user_metadata: currentUser.user_metadata || undefined
+        }
         setUser(user)
         
         // Auto-detect and set campus/department preferences
         if (user.email) {
           autoSetUserPreferencesFromEmail(user.email, supabase)
+          // Update user avatar from Google OAuth
+          updateUserAvatar(user, supabase)
+          // Update user's avatar in existing posts
+          updateUserAvatarInPosts(user.id, supabase)
         }
       } else {
         setUser(null)

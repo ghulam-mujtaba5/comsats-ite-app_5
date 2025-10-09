@@ -49,6 +49,10 @@ const CampusContext = createContext<CampusContextType | undefined>(undefined)
 
 const STORAGE_KEY = "campus-selection"
 
+// Simple in-memory cache for API responses
+const apiCache = new Map<string, { data: any; timestamp: number }>()
+const CACHE_DURATION = 30 * 60 * 1000 // 30 minutes
+
 export function CampusProvider({ children }: { children: ReactNode }) {
   const [selectedCampus, setSelectedCampusState] = useState<Campus | null>(null)
   const [selectedDepartment, setSelectedDepartmentState] = useState<Department | null>(null)
@@ -105,9 +109,29 @@ export function CampusProvider({ children }: { children: ReactNode }) {
   const loadCampuses = async () => {
     setIsLoading(true)
     try {
+      // Check cache first
+      const cacheKey = "/api/campuses"
+      const cached = apiCache.get(cacheKey)
+      if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+        setCampuses(cached.data)
+        
+        // Auto-select default campus (Lahore) if no selection and no user
+        if (!selectedCampus && !user) {
+          const defaultCampus = cached.data.find((c: Campus) => c.is_default) || cached.data[0]
+          if (defaultCampus) {
+            setSelectedCampusState(defaultCampus)
+            // Load departments for default campus
+            await loadDepartments(defaultCampus.id)
+          }
+        }
+        return
+      }
+
       const res = await fetch("/api/campuses")
       if (res.ok) {
         const data = await res.json()
+        // Cache the response
+        apiCache.set(cacheKey, { data, timestamp: Date.now() })
         setCampuses(data)
         
         // Auto-select default campus (Lahore) if no selection and no user
@@ -160,9 +184,19 @@ export function CampusProvider({ children }: { children: ReactNode }) {
 
   const loadDepartments = async (campusId: string) => {
     try {
+      // Check cache first
+      const cacheKey = `/api/departments?campus_id=${campusId}`
+      const cached = apiCache.get(cacheKey)
+      if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+        setDepartments(cached.data)
+        return
+      }
+
       const res = await fetch(`/api/departments?campus_id=${campusId}`)
       if (res.ok) {
         const data = await res.json()
+        // Cache the response
+        apiCache.set(cacheKey, { data, timestamp: Date.now() })
         setDepartments(data)
       }
     } catch (error) {
@@ -172,9 +206,19 @@ export function CampusProvider({ children }: { children: ReactNode }) {
 
   const loadPrograms = async (departmentId: string) => {
     try {
+      // Check cache first
+      const cacheKey = `/api/programs?department_id=${departmentId}`
+      const cached = apiCache.get(cacheKey)
+      if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+        setPrograms(cached.data)
+        return
+      }
+
       const res = await fetch(`/api/programs?department_id=${departmentId}`)
       if (res.ok) {
         const data = await res.json()
+        // Cache the response
+        apiCache.set(cacheKey, { data, timestamp: Date.now() })
         setPrograms(data)
       }
     } catch (error) {

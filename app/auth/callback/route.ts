@@ -35,6 +35,17 @@ export async function GET(request: NextRequest) {
         const nextSafe = next.startsWith('/') ? next : '/'
         return NextResponse.redirect(`${requestUrl.origin}/auth?error=${err}&next=${encodeURIComponent(nextSafe)}`)
       }
+
+      // Update user avatar from Google OAuth
+      const googleAvatarUrl = userData.user?.user_metadata?.avatar_url
+      if (googleAvatarUrl && userData.user) {
+        await supabase.auth.updateUser({
+          data: {
+            ...userData.user.user_metadata,
+            avatar_url: googleAvatarUrl
+          }
+        })
+      }
     } catch (error) {
       console.error('Error exchanging code for session:', error)
       return NextResponse.redirect(`${requestUrl.origin}/auth?error=callback_error`)

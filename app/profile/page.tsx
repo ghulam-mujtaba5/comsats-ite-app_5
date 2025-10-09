@@ -50,6 +50,7 @@ import { LevelProgressCard } from "@/components/profile/level-progress-card"
 import { RewardsShowcase } from "@/components/profile/rewards-showcase"
 import { getLevelForPoints } from "@/lib/gamification"
 import { Info } from "lucide-react"
+import { EmailManagement } from "@/components/profile/email-management"
 
 export default function ProfilePage() {
   const { user, logout, isAuthenticated, isLoading } = useAuth()
@@ -1002,6 +1003,9 @@ export default function ProfilePage() {
                       </div>
                     </CardContent>
                   </Card>
+
+                  {/* Email Management */}
+                  <EmailManagement />
 
                   {/* Preferences */}
                   <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
