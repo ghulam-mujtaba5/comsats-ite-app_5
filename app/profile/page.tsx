@@ -967,42 +967,45 @@ export default function ProfilePage() {
                   {/* Account Details */}
                   <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
                     <CardHeader className="p-6">
-                      <CardTitle className="flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
-                        <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30">
-                          <User className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                        </div>
-                        Account Details
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6 pt-0">
-                      <div className="grid gap-6 md:grid-cols-2">
-                        <div>
-                          <label className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Email Address</label>
-                          <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl font-medium text-slate-900 dark:text-white">
-                            {user?.email ?? "—"}
-                          </div>
-                        </div>
-                        <div>
-                          <label className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">User ID</label>
-                          <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl font-mono text-sm text-slate-900 dark:text-white truncate">
-                            {user?.id ?? "—"}
-                          </div>
-                        </div>
-                        <div>
-                          <label className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Member Since</label>
-                          <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl font-medium text-slate-900 dark:text-white">
-                            {statsLoading ? 'Loading...' : new Date(userStats.joinDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                          </div>
-                        </div>
-                        <div>
-                          <label className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Last Active</label>
-                          <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl font-medium text-slate-900 dark:text-white">
-                            {statsLoading ? 'Loading...' : new Date(userStats.lastActive).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                          </div>
+                    <CardTitle className="flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
+                      <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30">
+                        <User className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      Account Details
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-6 pt-0">
+                    <div className="grid gap-6 md:grid-cols-2">
+                      <div>
+                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Email Address</label>
+                        <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl font-medium text-slate-900 dark:text-white">
+                          {user?.email ?? "—"}
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                      <div>
+                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">User ID</label>
+                        <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl font-mono text-sm text-slate-900 dark:text-white truncate">
+                          {user?.id ?? "—"}
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Member Since</label>
+                        <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl font-medium text-slate-900 dark:text-white">
+                          {statsLoading ? 'Loading...' : new Date(userStats.joinDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Last Active</label>
+                        <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl font-medium text-slate-900 dark:text-white">
+                          {statsLoading ? 'Loading...' : new Date(userStats.lastActive).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                {/* Email Management */}
+                <EmailManagement />
 
                   {/* Email Management */}
                   <EmailManagement />

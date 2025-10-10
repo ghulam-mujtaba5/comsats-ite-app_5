@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { AdminPageHeader } from "@/components/admin/admin-page-header"
-import { Users, MessageSquare, Search, HelpCircle, Newspaper, Heart, FileText, AlertTriangle, Server, TrendingUp, Activity, Zap, BarChart3, Globe, Settings, Bell, GraduationCap, Library } from "lucide-react"
+import { Users, MessageSquare, Search, HelpCircle, Newspaper, Heart, FileText, AlertTriangle, Server, TrendingUp, Activity, Zap, BarChart3, Globe, Settings, Bell, GraduationCap, Library, RefreshCw } from "lucide-react"
+import { useOffline } from "@/hooks/use-offline"
 
 interface DashboardStats {
   lostFoundItems: number
@@ -41,6 +42,7 @@ export default function AdminDashboardPage() {
   const [statsError, setStatsError] = useState<string | null>(null)
   const [overview, setOverview] = useState<OverviewStats | null>(null)
   const [loadingOverview, setLoadingOverview] = useState<boolean>(true)
+  const { isOnline, pendingSyncCount: pendingSync, triggerSync: startSync } = useOffline()
 
   useEffect(() => {
     fetchStats()
@@ -188,23 +190,36 @@ export default function AdminDashboardPage() {
         badges={[
           {
             label: "System Status",
-            value: "Online",
-            icon: Activity,
-            color: "border-blue-200 dark:border-blue-800"
+            value: isOnline ? "Online" : "Offline",
+            icon: isOnline ? Activity : AlertTriangle,
+            color: isOnline ? "border-blue-200 dark:border-blue-800" : "border-red-200 dark:border-red-800"
           },
           {
             label: "Services",
             value: "Running",
             icon: Zap,
             color: "border-green-200 dark:border-green-800"
-          }
+          },
+          ...(pendingSync > 0 ? [{
+            label: "Pending Sync",
+            value: pendingSync.toString(),
+            icon: RefreshCw,
+            color: "border-yellow-200 dark:border-yellow-800"
+          }] : [])
         ]}
         actions={[
+          ...(pendingSync > 0 && !isOnline ? [{
+            label: "Sync Now",
+            icon: RefreshCw,
+            onClick: startSync,
+            variant: "default" as const,
+            gradient: "from-yellow-600 to-orange-600"
+          }] : []),
           {
             label: "Settings",
             icon: Settings,
             onClick: () => {},
-            variant: "outline"
+            variant: "outline" as const
           },
           {
             label: "Notifications",

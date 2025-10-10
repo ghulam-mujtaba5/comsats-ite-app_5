@@ -169,6 +169,7 @@ export default function AdminDashboardPage() {
           const links: LinkItem[] = [
           { href: "/admin/dashboard", title: "📊 Analytics Dashboard", desc: "Comprehensive stats, insights and system health monitoring.", priority: "high" },
           { href: "/admin/users", title: "👥 User Management", desc: "Manage accounts, permissions and user authentication.", priority: "high" },
+          { href: "/admin/emails", title: "📧 Email Management", desc: "Manage user email addresses and verification.", priority: "high" },
           { href: "/admin/moderation", title: "🛡️ Content Moderation", desc: "Review posts, comments and handle user reports.", priority: "high" },
           { href: "/admin/faculty-pending", title: "✅ Pending Faculty", desc: "Review and approve student-submitted faculty members.", priority: "high" },
           { href: "/admin/news-events", title: "📰 News & Events", desc: "Create and manage campus announcements and events.", priority: "medium" },

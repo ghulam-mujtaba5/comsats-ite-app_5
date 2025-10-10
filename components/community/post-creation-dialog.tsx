@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useCampus } from "@/contexts/campus-context"
 import { RichTextEditor } from "@/components/community/rich-text-editor"
 import { MediaUploader } from "@/components/community/media-uploader"
-import { Sparkles, Send, Hash, BookOpen, Trophy, Target, MessageSquare } from "lucide-react"
+import { Sparkles, Send, Hash, BookOpen, Trophy, Target, MessageSquare, Shield } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
 

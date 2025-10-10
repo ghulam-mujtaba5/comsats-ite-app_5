@@ -160,7 +160,7 @@ export function MobileCommunityView({
   setNewPost: (post: string) => void
   postType: string
   setPostType: (type: string) => void
-  handleCreatePost: () => void
+  handleCreatePost: (content: string, type: string, tags: string[], media: File[]) => Promise<void>
   handleLike: (postId: string) => void
   handleJoinGroup: (groupId: number) => void
   loadMorePosts: () => void
@@ -427,7 +427,7 @@ export function MobileCommunityView({
         ) : (
           filteredPosts.map((post) => (
             <Link href={`/community/post/${post.id}`} key={post.id} className="block">
-              <ThreadCard thread={post} handleLike={handleLike} />
+              <ThreadCard post={post} onLike={handleLike} />
             </Link>
           ))
         )}

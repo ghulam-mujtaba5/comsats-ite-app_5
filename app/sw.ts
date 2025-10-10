@@ -88,6 +88,23 @@ registerRoute(
   })
 )
 
+// Enhanced caching for admin API responses
+registerRoute(
+  ({ url }) => url.pathname.startsWith('/api/admin/'),
+  new NetworkFirst({
+    cacheName: 'admin-api-responses',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 100,
+        maxAgeSeconds: 10 * 60, // 10 Minutes
+      }),
+    ],
+  })
+)
+
 // Cache community posts with a Network First strategy
 registerRoute(
   ({ url }) => url.pathname.startsWith('/api/community/posts'),
@@ -100,6 +117,23 @@ registerRoute(
       new ExpirationPlugin({
         maxEntries: 100,
         maxAgeSeconds: 15 * 60, // 15 Minutes
+      }),
+    ],
+  })
+)
+
+// Cache admin dashboard data
+registerRoute(
+  ({ url }) => url.pathname.startsWith('/api/admin/dashboard'),
+  new NetworkFirst({
+    cacheName: 'admin-dashboard',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 50,
+        maxAgeSeconds: 5 * 60, // 5 Minutes
       }),
     ],
   })
@@ -127,10 +161,36 @@ self.addEventListener('sync', (event: SyncEvent) => {
   }
 })
 
+// Handle background sync for admin actions
+self.addEventListener('sync', (event: SyncEvent) => {
+  if (event.tag === 'sync-admin-actions') {
+    event.waitUntil(syncAdminActions())
+  }
+})
+
+// Handle background sync for offline content creation
+self.addEventListener('sync', (event: SyncEvent) => {
+  if (event.tag === 'sync-content') {
+    event.waitUntil(syncContent())
+  }
+})
+
 async function syncPosts() {
   // Retrieve pending posts from IndexedDB
   // This would require implementing IndexedDB storage for offline posts
   console.log('Syncing offline posts...')
+}
+
+async function syncAdminActions() {
+  // Retrieve pending admin actions from IndexedDB
+  console.log('Syncing offline admin actions...')
+  // This would sync pending admin actions like user management, content moderation, etc.
+}
+
+async function syncContent() {
+  // Retrieve pending content from IndexedDB
+  console.log('Syncing offline content...')
+  // This would sync pending content like news articles, events, resources, etc.
 }
 
 // Handle push notifications
