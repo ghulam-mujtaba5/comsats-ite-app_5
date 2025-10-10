@@ -10,7 +10,6 @@ const nextPWA = withPWA({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
   eslint: {
     // SECURITY: Never ignore ESLint in production
     ignoreDuringBuilds: process.env.NODE_ENV !== 'production',
@@ -20,8 +19,8 @@ const nextConfig = {
     ignoreBuildErrors: process.env.NODE_ENV !== 'production',
   },
   images: {
-    // Enable optimization in production for better performance
-    unoptimized: process.env.NODE_ENV !== 'production',
+    // Enable optimization for better performance
+    unoptimized: false,
     remotePatterns: [
       {
         protocol: 'https',
