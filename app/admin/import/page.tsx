@@ -61,53 +61,48 @@ export default function BulkImportPage() {
   const [result, setResult] = useState<any>(null)
 
   const handleDownloadTemplate = () => {
-    const columns = entity === 'faculty' ? facultyColumns : reviewColumns
-    const sample = entity === 'faculty'
-      ? {
-          id: '',
-          name: 'Dr. Jane Doe',
+    const columns = entity === 'faculty' 
+      ? ['name','title','department','email','office','phone','specialization','courses','education','experience','profile_image']
+      : ['faculty_id','course','semester','rating','teaching_quality','accessibility','course_material','grading','comment','status']
+    const sample: Record<string, string> = entity === 'faculty' 
+      ? { 
+          name: 'Dr. John Doe', 
+          title: 'Professor', 
           department: 'Computer Science',
-          title: 'Associate Professor',
-          email: 'jane.doe@example.edu',
-          office: 'Room 123',
-          phone: '+92-300-0000000',
-          specialization: 'AI|ML|NLP',
-          courses: 'CS101|CS201',
-          education: 'PhD XYZ|MS ABC',
-          experience: '10+ years teaching',
-          profile_image: 'https://example.com/jane.jpg',
-          created_at: ''
+          email: 'john.doe@comsats.edu.pk',
+          office: 'CS-301',
+          phone: '+92 123 4567890',
+          specialization: 'AI|Machine Learning',
+          courses: 'CS401|CS402',
+          education: 'PhD Computer Science|MS Computer Science',
+          experience: '10 years teaching experience',
+          profile_image: 'https://example.com/image.jpg'
         }
-      : {
-          id: '',
-          user_id: '',
-          faculty_id: 'uuid-of-faculty',
-          student_name: 'student123',
-          course: 'CS101',
-          semester: 'Fall 2024',
-          rating: 5,
-          teaching_quality: 5,
-          accessibility: 4,
-          course_material: 5,
-          grading: 4,
-          comment: 'Great instructor',
-          pros: 'Clear|Helpful',
-          cons: 'Fast pace',
-          would_recommend: true,
-          is_anonymous: false,
-          helpful: 0,
-          reported: 0,
+      : { 
+          faculty_id: '123',
+          course: 'CS401',
+          semester: 'Fall 2023',
+          rating: '5',
+          teaching_quality: '5',
+          accessibility: '4',
+          course_material: '5',
+          grading: '4',
+          comment: 'Excellent professor with deep knowledge',
           status: 'approved',
           created_at: ''
         }
     const csv = [columns.join(','), columns.map((c) => sample[c as keyof typeof sample] ?? '').join(',')].join('\n')
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
     const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${entity}-template.csv`
-    a.click()
-    URL.revokeObjectURL(url)
+    
+    // Check if document is available (client-side only)
+    if (typeof document !== 'undefined') {
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${entity}-template.csv`
+      a.click()
+      URL.revokeObjectURL(url)
+    }
   }
 
   const loadFile = async (f: File) => {

@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge"
 import { GraduationCap, Target, Sparkles, ArrowRight, Heart, CheckCircle, Clock, Flag, Rocket, Mail, Download, Github, Linkedin, Globe } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { MegicodeLogo } from '@/components/theme/megicode-logo'
 
 export const metadata: Metadata = createMetadata({
   title: "About — CampusAxis",
@@ -318,7 +317,12 @@ export default function AboutUsPage() {
                 </div>
                 <div className="flex items-center gap-6 flex-wrap">
                   <div className="w-32 h-12 relative">
-                    <MegicodeLogo fill style={{ objectFit: 'contain' }} />
+                    <Image 
+                      src="/megicode-logo-square-lightscreen.svg" 
+                      alt="Megicode logo" 
+                      fill 
+                      style={{ objectFit: 'contain' }} 
+                    />
                   </div>
                   <div className="w-32 h-12 relative">
                     <Image src={'/placeholder-logo.png'} alt="Partner" fill style={{ objectFit: 'contain' }} />
@@ -351,7 +355,12 @@ export default function AboutUsPage() {
             <div className="text-center mb-8">
               <div className="flex items-center justify-center gap-3">
                 <div className="w-12 h-12 relative">
-                  <MegicodeLogo alt="Megicode logo" fill style={{ objectFit: 'contain' }} />
+                  <Image 
+                    src="/megicode-logo-square-lightscreen.svg" 
+                    alt="Megicode logo" 
+                    fill 
+                    style={{ objectFit: 'contain' }} 
+                  />
                 </div>
                 <h2 className="text-3xl font-bold">Powered by <a href="https://megicode.com" target="_blank" rel="noopener noreferrer" className="text-primary underline">Megicode</a></h2>
               </div>

@@ -260,10 +260,13 @@ export default function AdminTimetableDocsPage() {
                       label: "Download",
                       icon: Download,
                       onClick: () => {
-                        const a = document.createElement('a')
-                        a.href = r.public_url
-                        a.download = r.title
-                        a.click()
+                        // Check if document is available (client-side only)
+                        if (typeof document !== 'undefined') {
+                          const a = document.createElement('a')
+                          a.href = r.public_url
+                          a.download = r.title
+                          a.click()
+                        }
                       },
                       variant: "outline"
                     },

@@ -295,8 +295,12 @@ html {
                 {/* Global animation controller */}
                 <GlobalAnimationController />
                 {/* Browser compatibility warnings */}
-                <FallbackWarning />
-                <PwaFallback />
+                <Suspense fallback={null}>
+                  <FallbackWarning />
+                </Suspense>
+                <Suspense fallback={null}>
+                  <PwaFallback />
+                </Suspense>
                 {/* Client-side route change tracking - only in production */}
                 {isProd && (
                   <Suspense fallback={null}>

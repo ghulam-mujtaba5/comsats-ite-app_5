@@ -88,7 +88,11 @@ export default function NotFound() {
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    onClick={() => window.history.back()}
+                    onClick={() => {
+                      if (typeof window !== 'undefined' && window.history) {
+                        window.history.back();
+                      }
+                    }}
                     className="bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 px-8 py-4 rounded-2xl transition-all duration-300 hover-lift shadow-lg font-semibold text-base h-auto"
                   >
                     <ArrowLeft className="h-5 w-5 mr-3" />

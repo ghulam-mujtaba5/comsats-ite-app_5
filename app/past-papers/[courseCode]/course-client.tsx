@@ -71,13 +71,16 @@ export default function CourseClient({ params }: any) {
     if (downloadUrl.startsWith('http')) {
       window.open(downloadUrl, '_blank')
     } else {
-      const link = document.createElement("a")
-      link.href = downloadUrl
-      link.download = `${paper.title}.${paper.fileType?.toLowerCase() || "pdf"}`
-      link.target = '_blank'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+      // Check if document is available (client-side only)
+      if (typeof document !== 'undefined') {
+        const link = document.createElement("a")
+        link.href = downloadUrl
+        link.download = `${paper.title}.${paper.fileType?.toLowerCase() || "pdf"}`
+        link.target = '_blank'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      }
     }
 
     console.log(`Downloaded paper: ${paper.title}`)

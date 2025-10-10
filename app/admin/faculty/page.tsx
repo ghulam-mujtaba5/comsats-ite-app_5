@@ -222,11 +222,15 @@ export default function AdminFacultyPage() {
     const csv = toCSV(rows)
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
     const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = "faculty_export.csv"
-    a.click()
-    URL.revokeObjectURL(url)
+    
+    // Check if document is available (client-side only)
+    if (typeof document !== 'undefined') {
+      const a = document.createElement("a")
+      a.href = url
+      a.download = "faculty_export.csv"
+      a.click()
+      URL.revokeObjectURL(url)
+    }
   }
 
   const importCSV = async (file: File) => {
