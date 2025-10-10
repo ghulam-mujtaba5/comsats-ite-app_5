@@ -287,8 +287,8 @@ html {
         )}
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <AnimationProvider>
-            <AuthProvider>
+          <AuthProvider>
+            <AnimationProvider>
               <CampusProvider>
                 <Header />
                 <div className="min-h-[60vh] max-w-full overflow-x-hidden">
@@ -313,8 +313,8 @@ html {
                   </Suspense>
                 )}
               </CampusProvider>
-            </AuthProvider>
-          </AnimationProvider>
+            </AnimationProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
