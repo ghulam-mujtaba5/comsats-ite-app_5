@@ -5,19 +5,6 @@
     "enabled": false
   },
   "regions": ["iad1"],
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next",
-      "config": {
-        "includeFiles": [
-          "next.config.mjs",
-          "package.json",
-          "pnpm-lock.yaml"
-        ]
-      }
-    }
-  ],
   "routes": [
     {
       "src": "/(.*)",
