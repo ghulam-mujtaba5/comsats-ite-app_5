@@ -26,7 +26,6 @@ import { GeistSans } from "geist/font/sans"
 // ✅ CORRECT - Export after all imports
 import { Suspense } from "react"
 import { GeistSans } from "geist/font/sans"
-import { AnimationProvider } from "@/contexts/animation-context"
 // ... all other imports
 
 export const dynamic = 'force-dynamic'  // ✅ Valid placement
