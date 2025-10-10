@@ -96,7 +96,7 @@ if (!Object.fromEntries) {
 }
 
 // Polyfill for Element.prototype.toggleAttribute (for older browsers)
-if (!Element.prototype.toggleAttribute) {
+if (typeof Element !== 'undefined' && !Element.prototype.toggleAttribute) {
   Element.prototype.toggleAttribute = function(name: string, force?: boolean) {
     if (force !== undefined) {
       force = !!force;
@@ -121,7 +121,7 @@ if (!Element.prototype.toggleAttribute) {
 }
 
 // Polyfill for NodeList.prototype.forEach (for older browsers)
-if (window.NodeList && !NodeList.prototype.forEach) {
+if (typeof window !== 'undefined' && window.NodeList && !NodeList.prototype.forEach) {
   NodeList.prototype.forEach = function(callback: (value: Node, index: number, nodeList: NodeList) => void, thisArg?: any) {
     thisArg = thisArg || window;
     for (var i = 0; i < this.length; i++) {
@@ -131,7 +131,7 @@ if (window.NodeList && !NodeList.prototype.forEach) {
 }
 
 // Polyfill for requestAnimationFrame (for older browsers)
-if (!window.requestAnimationFrame) {
+if (typeof window !== 'undefined' && !window.requestAnimationFrame) {
   window.requestAnimationFrame = (function() {
     return window.requestAnimationFrame ||
       (window as any).webkitRequestAnimationFrame ||
@@ -145,7 +145,7 @@ if (!window.requestAnimationFrame) {
 }
 
 // Polyfill for CustomEvent (for older browsers)
-if (typeof window.CustomEvent !== 'function') {
+if (typeof window !== 'undefined' && typeof window.CustomEvent !== 'function') {
   function CustomEvent<T>(event: string, params: CustomEventInit<T>) {
     params = params || { bubbles: false, cancelable: false, detail: undefined };
     var evt = document.createEvent('CustomEvent');
@@ -158,7 +158,7 @@ if (typeof window.CustomEvent !== 'function') {
 
 // Polyfill for fetch (for older browsers)
 // Note: This is a simplified version. In production, you might want to use a more complete polyfill
-if (!window.fetch) {
+if (typeof window !== 'undefined' && !window.fetch) {
   window.fetch = function(input: RequestInfo, init?: RequestInit) {
     const url = typeof input === 'string' ? input : input.url;
     const options = init || {};
