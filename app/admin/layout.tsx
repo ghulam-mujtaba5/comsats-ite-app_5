@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { createMetadata } from '@/lib/seo'
 
+export const dynamic = 'force-dynamic'
+
 // Apply noindex to all admin routes by default to keep them out of search results.
 export const metadata: Metadata = createMetadata({
   title: 'Admin Dashboard',

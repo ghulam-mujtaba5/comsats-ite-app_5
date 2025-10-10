@@ -1,6 +1,8 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Suspense } from "react"
+
+export const dynamic = 'force-dynamic'
 import { GeistSans } from "geist/font/sans"
 import { Manrope } from "next/font/google"
 import "./globals.css"

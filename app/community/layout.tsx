@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import { createMetadata } from "@/lib/seo"
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = createMetadata({
   title: "Community — CampusAxis",
   description: "Join COMSATS students sharing knowledge, opportunities, and campus life updates.",
