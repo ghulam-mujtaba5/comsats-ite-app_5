@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import * as AvatarPrimitive from "@radix-ui/react-avatar"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 
 import { cn } from "@/lib/utils"
 
@@ -34,10 +34,11 @@ function AvatarImage({
   height?: number
 }) {
   // Use Next.js Image component for better optimization
-  if (src) {
+  // Only use Next.js Image for string URLs or StaticImageData
+  if (src && (typeof src === 'string' || (typeof src === 'object' && src !== null && !(src instanceof Blob)))) {
     return (
       <Image
-        src={src}
+        src={src as string | StaticImageData}
         alt={alt || ""}
         width={width}
         height={height}
@@ -47,10 +48,11 @@ function AvatarImage({
     )
   }
   
-  // Fallback to Radix UI AvatarImage if no src
+  // Fallback to Radix UI AvatarImage if no src or if src is a Blob
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"
+      src={src as string | undefined}
       className={cn("aspect-square size-full", className)}
       {...props}
     />
