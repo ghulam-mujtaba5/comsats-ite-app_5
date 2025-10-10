@@ -61,11 +61,7 @@
   "crons": [
     {
       "path": "/api/faculty/stats",
-      "schedule": "0 0 * * *" 
-      /* Changed to a daily schedule to comply with Vercel Hobby limits.
-         Hobby accounts allow only daily cron jobs; the previous expression
-         (*/5 * * * *) ran every 5 minutes which exceeds Hobby plan limits.
-         Upgrade to Pro to run more frequent cron schedules. */
+      "schedule": "0 0 * * *"
     }
   ]
 }
