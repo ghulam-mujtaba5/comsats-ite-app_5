@@ -2,7 +2,7 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Build Next.js app",
+			"label": "Build",
 			"type": "shell",
 			"command": "pnpm",
 			"args": [
@@ -12,76 +12,32 @@
 			"problemMatcher": [
 				"$tsc"
 			],
-			"group": "build"
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		},
 		{
-			"label": "Build with npm",
+			"label": "Dev Server",
 			"type": "shell",
-			"command": "npm",
+			"command": "pnpm",
 			"args": [
-				"run",
-				"build"
+				"dev"
 			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$tsc"
-			],
-			"group": "build"
-		},
-		{
-			"label": "Remove picture routes",
-			"type": "shell",
-			"command": "pwsh",
-			"args": [
-				"-NoLogo",
-				"-NoProfile",
-				"-Command",
-				"Remove-Item -Recurse -Force \"E:\\comsats-ite-app_5\\app\\pictures\\ghulam-mujtaba.png\"; Remove-Item -Recurse -Force \"E:\\comsats-ite-app_5\\app\\pictures\\azan-wahla.png\"; Remove-Item -Recurse -Force \"E:\\comsats-ite-app_5\\app\\pictures\\muhammad-waqar-ul-mulk.png\""
-			],
-			"isBackground": false,
-			"group": "build"
-		},
-		{
-			"label": "Build Next.js after static rename",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"build"
-			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$tsc"
-			],
-			"group": "build"
-		},
-		{
-			"label": "Rebuild after removing picture routes",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"build"
-			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$tsc"
-			],
-			"group": "build"
-		},
-		{
-			"label": "Build after moving leadership and updating logos",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"build"
-			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$tsc"
-			],
-			"group": "build"
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": {
+					"regexp": ".",
+					"file": 1,
+					"location": 2,
+					"message": 3
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".",
+					"endsPattern": "."
+				}
+			}
 		}
 	]
 }

@@ -1,8 +1,6 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Suspense } from "react"
-
-export const dynamic = 'force-dynamic'
 import { GeistSans } from "geist/font/sans"
 import { Manrope } from "next/font/google"
 import "./globals.css"
@@ -24,6 +22,8 @@ import { PwaFallback } from "@/components/compatibility/pwa-fallback"
 // Import AnimationProvider and GlobalAnimationController
 import { AnimationProvider } from "@/contexts/animation-context"
 import { GlobalAnimationController } from "@/components/animations/global-animation-controller"
+
+export const dynamic = 'force-dynamic'
 
 const manrope = Manrope({
   subsets: ["latin"],
