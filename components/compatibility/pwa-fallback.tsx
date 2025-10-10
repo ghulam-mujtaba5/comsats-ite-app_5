@@ -21,11 +21,11 @@ export function PwaFallback() {
         // Check if we're in standalone mode (already installed as PWA)
         if (window.matchMedia('(display-mode: standalone)').matches || 
             (window.navigator as any).standalone === true) {
-          // Already installed as PWA
+          // Already installed as PWA - don't show any warning
           return {
             supported: true,
             installable: false,
-            message: 'Already installed as PWA'
+            message: ''
           };
         }
 
@@ -114,19 +114,19 @@ export function PwaFallback() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 max-w-sm">
-      <div className="bg-blue-50 border border-blue-200 rounded-lg shadow-lg p-4 dark:bg-blue-900/20 dark:border-blue-800">
+    <div className="fixed bottom-4 left-4 right-4 md:right-4 md:left-auto z-50 max-w-sm mx-auto md:mx-0">
+      <div className="bg-blue-50/95 backdrop-blur-md border border-blue-200 rounded-lg shadow-2xl p-4 dark:bg-blue-950/95 dark:border-blue-800">
         <div className="flex items-start">
           <AlertTriangle className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
           <div className="ml-3 flex-1">
-            <h3 className="text-sm font-medium text-blue-800 dark:text-blue-200">
+            <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-100">
               PWA Compatibility
             </h3>
-            <div className="mt-2 text-sm text-blue-700 dark:text-blue-300">
+            <div className="mt-2 text-sm text-blue-800 dark:text-blue-200">
               <p>
                 {pwaSupport.message || 'Progressive Web App features may not be fully supported in your browser.'}
               </p>
-              <p className="mt-1">
+              <p className="mt-1 text-xs">
                 You can still use all features of CampusAxis, but some offline capabilities may be limited.
               </p>
             </div>
