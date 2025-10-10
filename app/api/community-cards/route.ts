@@ -60,6 +60,13 @@ import { requireAdmin } from '@/lib/admin-access'
 // isAdmin replaced by requireAdmin
 
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!url || !anon) {
@@ -89,7 +96,7 @@ export async function GET(req: NextRequest) {
           updated_at: new Date().toISOString(),
         },
       ],
-    })
+    }, { headers })
   }
   const supabase = createClient(url, anon)
   const admin = (await requireAdmin(req)).allow
@@ -101,8 +108,8 @@ export async function GET(req: NextRequest) {
   }
 
   const { data, error } = await query
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ data })
+  if (error) return NextResponse.json({ error: error.message }, { status: 500, headers })
+  return NextResponse.json({ data }, { headers })
 }
 
 export async function POST(req: NextRequest) {

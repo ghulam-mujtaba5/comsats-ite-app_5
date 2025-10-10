@@ -23,6 +23,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+export const revalidate = 1800 // 30 minutes - cache faculty listing page to reduce function invocations
+
 export default function FacultyPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("All")
@@ -103,7 +105,7 @@ export default function FacultyPage() {
         if (campusDepartment?.id) params.set('department_id', campusDepartment.id)
         
         const url = `/api/faculty${params.toString() ? `?${params.toString()}` : ''}`
-        const res = await fetch(url, { cache: 'no-store' })
+        const res = await fetch(url, { cache: 'force-cache' }) // Use force-cache to reduce function invocations
         if (!res.ok) {
           const body = await res.json().catch(() => ({}))
           throw new Error(body?.error || 'Failed to fetch faculty')

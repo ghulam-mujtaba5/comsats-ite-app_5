@@ -725,7 +725,7 @@ export function MobileCommunityView({
                 Posts are reviewed
               </div>
               <Button 
-                onClick={handleCreatePost} 
+                onClick={() => handleCreatePost(newPost, postType, selectedTags, [])} 
                 disabled={!newPost.trim() || newPost.length < 10}
               >
                 <Send className="h-4 w-4 mr-2" />

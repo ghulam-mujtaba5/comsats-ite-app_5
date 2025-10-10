@@ -19,17 +19,24 @@ function rateLimit(key: string, limit: number, windowMs: number) {
 }
 
 export async function POST(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     const body = await req.json()
     // Honeypot (bot trap)
-    if (body._hp) return NextResponse.json({ error: 'Rejected' }, { status: 400 })
+    if (body._hp) return NextResponse.json({ error: 'Rejected' }, { status: 400, headers })
 
     // Auth: derive user session (no service role for untrusted input)
     const cookieStore = await (cookies() as any)
     const publicUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     if (!publicUrl || !anon) {
-      return NextResponse.json({ error: 'Supabase public env vars missing' }, { status: 500 })
+      return NextResponse.json({ error: 'Supabase public env vars missing' }, { status: 500, headers })
     }
     const serverClient = createServerClient(publicUrl, anon, {
       cookies: {
@@ -39,17 +46,17 @@ export async function POST(req: NextRequest) {
       },
     })
     const { data: { user } } = await serverClient.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
+    if (!user) return NextResponse.json({ error: 'Authentication required' }, { status: 401, headers })
 
     // Rate limit key = user.id
     if (!rateLimit(`review:${user.id}`, 5, 60_000)) {
-      return NextResponse.json({ error: 'Rate limit exceeded. Try again shortly.' }, { status: 429 })
+      return NextResponse.json({ error: 'Rate limit exceeded. Try again shortly.' }, { status: 429, headers })
     }
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY // only used for privileged operations post-validate
     if (!url) {
-      return NextResponse.json({ error: 'Supabase URL missing' }, { status: 500 })
+      return NextResponse.json({ error: 'Supabase URL missing' }, { status: 500, headers })
     }
     const supabase = (serviceKey ? createClient(url, serviceKey) : createClient(url, anon))
 
@@ -82,7 +89,7 @@ export async function POST(req: NextRequest) {
         error: 'Validation failed', 
         message: `Please fix the following: ${errors}`,
         details: parsed.error.flatten()
-      }, { status: 400 })
+      }, { status: 400, headers })
     }
     const b = parsed.data
     // Duplicate guard (faculty + user + course + semester) – soft check
@@ -95,7 +102,7 @@ export async function POST(req: NextRequest) {
       .eq('semester', b.semester)
       .limit(1)
     if (existing && existing.length) {
-      return NextResponse.json({ error: 'You already submitted a review for this course & semester. Edit it instead.' }, { status: 409 })
+      return NextResponse.json({ error: 'You already submitted a review for this course & semester. Edit it instead.' }, { status: 409, headers })
     }
     const payload = {
       user_id: user.id,
@@ -142,7 +149,7 @@ export async function POST(req: NextRequest) {
         error: errorMessage,
         details: error.message,
         code: error.code 
-      }, { status: 500 })
+      }, { status: 500, headers })
     }
 
     // If review is approved, update faculty aggregates
@@ -158,7 +165,7 @@ export async function POST(req: NextRequest) {
         await supabase.from('faculty').update({ rating_avg: avg, rating_count: count }).eq('id', data.faculty_id)
       }
     }
-    return NextResponse.json({ ok: true, id: data.id, status: payload.status }, { status: 201 })
+    return NextResponse.json({ ok: true, id: data.id, status: payload.status }, { status: 201, headers })
   } catch (error: any) {
     console.error('API error:', error)
     
@@ -179,20 +186,27 @@ export async function POST(req: NextRequest) {
       error: errorMessage,
       details: error.message ?? 'Unknown error',
       timestamp: new Date().toISOString()
-    }, { status: statusCode })
+    }, { status: statusCode, headers })
   }
 }
 
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     const { searchParams } = new URL(req.url)
     const facultyId = searchParams.get('facultyId')
-    if (!facultyId) return NextResponse.json({ error: 'facultyId is required' }, { status: 400 })
+    if (!facultyId) return NextResponse.json({ error: 'facultyId is required' }, { status: 400, headers })
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
     if (!url || (!anon && !serviceKey)) {
-      return NextResponse.json({ error: 'Supabase env vars missing (NEXT_PUBLIC_SUPABASE_URL and either NEXT_PUBLIC_SUPABASE_ANON_KEY or SUPABASE_SERVICE_ROLE_KEY)' }, { status: 500 })
+      return NextResponse.json({ error: 'Supabase env vars missing (NEXT_PUBLIC_SUPABASE_URL and either NEXT_PUBLIC_SUPABASE_ANON_KEY or SUPABASE_SERVICE_ROLE_KEY)' }, { status: 500, headers })
     }
     const supabase = serviceKey
       ? createClient(url, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } })
@@ -217,15 +231,15 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ 
         error: errorMessage,
         details: error.message 
-      }, { status: 500 })
+      }, { status: 500, headers })
     }
-    return NextResponse.json({ data })
+    return NextResponse.json({ data }, { headers })
   } catch (error: any) {
     console.error('GET reviews API error:', error)
     return NextResponse.json({ 
       error: 'Failed to retrieve reviews',
       details: error.message ?? 'Unknown error',
       timestamp: new Date().toISOString()
-    }, { status: 500 })
+    }, { status: 500, headers })
   }
 }

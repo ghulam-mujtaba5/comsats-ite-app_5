@@ -22,6 +22,13 @@ function getClient() {
 
 // GET /api/community/posts/[id] -> Post detail transformed for UI
 export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const { id } = await context.params
   const supabase = await getClient()
 
@@ -33,7 +40,7 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
       .maybeSingle()
 
     if (error) throw error
-    if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+    if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404, headers })
 
     // determine if current user liked this post
     let liked = false
@@ -68,9 +75,9 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
       type: post.type || 'general',
     }
 
-    return NextResponse.json({ data: transformedPost })
+    return NextResponse.json({ data: transformedPost }, { headers })
   } catch (e) {
     console.error('Error fetching post by id:', e)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

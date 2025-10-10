@@ -23,7 +23,8 @@ import {
   Lock,
   Settings as SettingsIcon,
   Activity,
-  Trophy
+  Trophy,
+  Sparkles
 } from "lucide-react"
 import Link from "next/link"
 
@@ -50,6 +51,8 @@ interface Settings {
     language: string
     emailFrequency: string
     digestDay: string
+    animationsEnabled: boolean
+    animationIntensity: 'low' | 'medium' | 'high'
   }
 }
 
@@ -80,7 +83,9 @@ export default function SettingsPage() {
       theme: 'system',
       language: 'en',
       emailFrequency: 'instant',
-      digestDay: 'monday'
+      digestDay: 'monday',
+      animationsEnabled: true,
+      animationIntensity: 'medium'
     }
   })
 
@@ -151,7 +156,7 @@ export default function SettingsPage() {
     }))
   }
 
-  const updatePreference = (key: keyof Settings['preferences'], value: string) => {
+  const updatePreference = (key: keyof Settings['preferences'], value: string | boolean) => {
     setSettings(prev => ({
       ...prev,
       preferences: { ...prev.preferences, [key]: value }
@@ -184,7 +189,7 @@ export default function SettingsPage() {
 
           {/* Settings Tabs */}
           <Tabs defaultValue="notifications" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3 bg-slate-100/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-1">
+            <TabsList className="grid w-full grid-cols-4 bg-slate-100/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-1">
               <TabsTrigger value="notifications" className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700">
                 <Bell className="h-4 w-4 mr-2" />
                 Notifications
@@ -196,6 +201,10 @@ export default function SettingsPage() {
               <TabsTrigger value="preferences" className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700">
                 <Palette className="h-4 w-4 mr-2" />
                 Preferences
+              </TabsTrigger>
+              <TabsTrigger value="experience" className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700">
+                <Sparkles className="h-4 w-4 mr-2" />
+                Experience
               </TabsTrigger>
             </TabsList>
 
@@ -533,6 +542,71 @@ export default function SettingsPage() {
                     <p className="text-sm text-slate-500 dark:text-slate-400">
                       Day of the week to receive your weekly digest
                     </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Experience Tab */}
+            <TabsContent value="experience">
+              <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
+                <CardHeader>
+                  <CardTitle>Experience Settings</CardTitle>
+                  <CardDescription>Customize animations and visual effects</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="flex items-center gap-2">
+                        <Sparkles className="h-4 w-4" />
+                        Enable Animations
+                      </Label>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Show celebration and feedback animations throughout the app
+                      </p>
+                    </div>
+                    <Switch
+                      checked={settings.preferences.animationsEnabled}
+                      onCheckedChange={(checked) => updatePreference('animationsEnabled', checked)}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="flex items-center gap-2">
+                      <Activity className="h-4 w-4" />
+                      Animation Intensity
+                    </Label>
+                    <Select
+                      value={settings.preferences.animationIntensity}
+                      onValueChange={(value) => updatePreference('animationIntensity', value)}
+                    >
+                      <SelectTrigger className="rounded-xl">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="low">Low</SelectItem>
+                        <SelectItem value="medium">Medium</SelectItem>
+                        <SelectItem value="high">High</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                      Control how intense the animations appear
+                    </p>
+                  </div>
+
+                  <div className="border-t border-slate-200 dark:border-slate-700 my-4" />
+
+                  <div className="bg-slate-100 dark:bg-slate-900/50 p-4 rounded-xl">
+                    <div className="flex items-start gap-3">
+                      <Sparkles className="h-5 w-5 text-slate-600 dark:text-slate-400 mt-0.5" />
+                      <div className="space-y-1">
+                        <p className="font-medium text-slate-900 dark:text-white">Animation Effects</p>
+                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                          Animations include confetti for achievements, progress bars, level-up effects, and more. 
+                          You can adjust the intensity or disable them completely based on your preference.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

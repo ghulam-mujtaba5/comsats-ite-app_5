@@ -5,6 +5,13 @@ import { z } from 'zod'
 
 // GET - Fetch user's email addresses
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -22,7 +29,7 @@ export async function GET(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const { data, error } = await supabase
@@ -32,7 +39,7 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: true })
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
+      return NextResponse.json({ error: error.message }, { status: 400, headers })
     }
 
     // Also include the primary email from auth.users
@@ -49,10 +56,10 @@ export async function GET(request: NextRequest) {
       ...data
     ]
 
-    return NextResponse.json(userEmails)
+    return NextResponse.json(userEmails, { headers })
   } catch (error) {
     console.error('Error fetching user emails:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 

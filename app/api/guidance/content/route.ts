@@ -4,6 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -51,21 +58,29 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
+      return NextResponse.json({ error: error.message }, { status: 400, headers })
     }
 
-    return NextResponse.json(data)
+    return NextResponse.json(data, { headers })
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
 
 export async function POST(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
   try {
     // Dev fallback (non-production only): allow creating mock item when Supabase env is missing
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    
     if (process.env.NODE_ENV !== 'production' && (!url || !anon)) {
       const body = await req.json()
       const {
@@ -87,10 +102,10 @@ export async function POST(req: NextRequest) {
         is_published,
         created_at: now,
         updated_at: now,
-      }, { status: 201 })
+      }, { status: 201, headers })
     }
     const auth = await requireAdmin(req)
-    if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
 
     const body = await req.json()
     const {
@@ -134,11 +149,11 @@ export async function POST(req: NextRequest) {
       .single()
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
+      return NextResponse.json({ error: error.message }, { status: 400, headers })
     }
 
-    return NextResponse.json(data, { status: 201 })
+    return NextResponse.json(data, { status: 201, headers })
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

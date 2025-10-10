@@ -72,14 +72,20 @@ export async function POST(request: NextRequest) {
         .from('faculty')
         .insert({
           name: pendingFaculty.name,
+          title: pendingFaculty.title || '',
           department: pendingFaculty.department,
           designation: pendingFaculty.designation,
-          email: pendingFaculty.email,
-          phone: pendingFaculty.phone,
-          specialization: pendingFaculty.specialization,
+          email: pendingFaculty.email || '',
+          office: pendingFaculty.office || '',
+          phone: pendingFaculty.phone || '',
+          specialization: pendingFaculty.specialization || [],
+          courses: pendingFaculty.courses || [],
+          education: pendingFaculty.education || [],
+          experience: pendingFaculty.experience || '',
+          profile_image: pendingFaculty.profile_image || '',
           qualifications: pendingFaculty.qualifications,
           campus_id: pendingFaculty.campus_id,
-          status: 'active',
+          status: 'approved',
           created_at: new Date().toISOString()
         })
         .select()

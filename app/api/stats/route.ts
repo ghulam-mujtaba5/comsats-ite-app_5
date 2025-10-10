@@ -5,6 +5,13 @@ import { withSupabaseRetry, safeCountWithRetry } from '@/lib/retry-utils';
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  };
+
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -23,7 +30,7 @@ export async function GET() {
         avgRating: 4.5, // Average of 5 and 4 from seeded reviews
         communityPosts: 2, // 2 community posts from seed.ts
         newsItems: 2 // From seed-complete.ts homepage news
-      })
+      }, { headers })
     }
 
     // Use service key for admin queries when available, fallback to anon
@@ -131,7 +138,7 @@ export async function GET() {
       avgRating: Number(avgRating.toFixed(1)),
       communityPosts: 2, // From seed.ts
       newsItems: 2 // From seed-complete.ts
-    });
+    }, { headers });
   } catch (error: any) {
     console.error('Stats API error:', error)
     // Return honest small-scale fallback data on error (matches seeded data)
@@ -147,6 +154,6 @@ export async function GET() {
       communityPosts: 2, // 2 community posts from seed.ts
       newsItems: 2, // From seed-complete.ts homepage news
       message: "Using fallback data matching seeded content"
-    }, { status: 200 })
+    }, { status: 200, headers })
   }
 }

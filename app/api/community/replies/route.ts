@@ -5,13 +5,20 @@ import { cookies } from 'next/headers'
 
 // GET /api/community/replies?post_id=<uuid>
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const { searchParams } = new URL(req.url)
   const postId = searchParams.get('post_id')
   const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '20', 10), 1), 100)
   const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10), 0)
   const withMeta = (searchParams.get('meta') || '') === '1'
   if (!postId) {
-    return NextResponse.json({ error: 'post_id is required' }, { status: 400 })
+    return NextResponse.json({ error: 'post_id is required' }, { status: 400, headers })
   }
 
   const cookieStore = await (cookies() as any)
@@ -36,7 +43,7 @@ export async function GET(req: NextRequest) {
     .order('created_at', { ascending: true })
     .range(offset, offset + limit - 1)
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
 
   if (withMeta) {
     const pageLen = Array.isArray(data) ? data.length : 0
@@ -48,15 +55,22 @@ export async function GET(req: NextRequest) {
         nextOffset: offset + pageLen,
         hasMore: pageLen === limit,
       },
-    })
+    }, { headers })
   }
 
-  return NextResponse.json({ data })
+  return NextResponse.json({ data }, { headers })
 }
 
 // POST /api/community/replies
 // body: { post_id: uuid, parent_id: uuid, content: string }
 export async function POST(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -72,7 +86,7 @@ export async function POST(req: NextRequest) {
 
   const { data: auth } = await supabase.auth.getUser()
   if (!auth.user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
   }
 
   const schema = z.object({
@@ -84,7 +98,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null)
   const parsed = schema.safeParse(body)
   if (!parsed.success) {
-    return NextResponse.json({ error: 'Invalid payload', details: parsed.error.flatten() }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid payload', details: parsed.error.flatten() }, { status: 400, headers })
   }
 
   const payload = {
@@ -101,7 +115,7 @@ export async function POST(req: NextRequest) {
     .select('*')
     .single()
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
 
   // Update replies count on parent comment
   const { count: repliesCount } = await supabase
@@ -133,5 +147,5 @@ export async function POST(req: NextRequest) {
     }
   } catch {}
 
-  return NextResponse.json({ data }, { status: 201 })
+  return NextResponse.json({ data }, { status: 201, headers })
 }

@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { HelpCircle, Clock, Users, FileText, Calendar } from "lucide-react"
 
 type FAQ = {
   id: string
@@ -75,50 +78,82 @@ export function FAQSection() {
     fetchFaqs()
   }, [])
   return (
-    <section className="py-16 px-4 bg-muted/20">
+    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto max-w-4xl">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-3">Frequently Asked Questions</h2>
-          <p className="text-base text-muted-foreground">
+        <div className="text-center mb-16">
+          <div className="flex justify-center mb-6">
+            <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl">
+              <HelpCircle className="h-10 w-10 text-primary" />
+            </div>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Frequently Asked Questions</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Find answers to common questions about using the CampusAxis portal
           </p>
           {isFallback && (
-            <div className="mt-3 text-xs border border-yellow-300 bg-yellow-50 text-yellow-900 rounded px-3 py-2 max-w-2xl mx-auto">
+            <div className="mt-6 text-sm border border-yellow-300 bg-yellow-50 text-yellow-900 rounded-lg px-4 py-3 max-w-2xl mx-auto inline-flex items-center">
+              <Clock className="h-4 w-4 mr-2" />
               Showing default FAQs while live FAQs are unavailable.
             </div>
           )}
         </div>
 
-        {loading ? (
-          <div role="status" aria-live="polite" className="space-y-3 max-w-3xl mx-auto">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={`fsk-${i}`} className="skeleton p-4">
-                <div className="sk-title w-2/3 rounded mb-2" />
-                <div className="sk-line w-full rounded mb-1" />
-                <div className="sk-line w-5/6 rounded" />
+        <Card className="bg-card/80 backdrop-blur-sm border shadow-xl">
+          {loading ? (
+            <div role="status" aria-live="polite" className="space-y-4 p-6">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={`fsk-${i}`} className="skeleton p-5 rounded-xl border">
+                  <div className="sk-title w-2/3 rounded mb-3 h-5" />
+                  <div className="sk-line w-full rounded mb-2" />
+                  <div className="sk-line w-5/6 rounded" />
+                </div>
+              ))}
+              <div className="flex items-center justify-center gap-2 text-muted-foreground py-4">
+                <div className="loader-ring sm" />
+                <span>Loading FAQs…</span>
               </div>
-            ))}
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <div className="loader-ring sm" />
-              <span>Loading FAQs…</span>
             </div>
-          </div>
-        ) : error ? (
-          <div role="alert" className="text-sm text-destructive max-w-3xl mx-auto">
-            {error}
-          </div>
-        ) : (
-          <Accordion type="single" collapsible className="space-y-4 max-w-3xl mx-auto">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={faq.id} value={`item-${index}`} className="bg-card border rounded-lg px-5">
-                <AccordionTrigger className="text-left hover:text-primary transition-colors pr-8">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-4">{faq.answer}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        )}
+          ) : error ? (
+            <div role="alert" className="text-sm text-destructive p-6">
+              {error}
+            </div>
+          ) : (
+            <Accordion type="single" collapsible className="space-y-4 p-2">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={faq.id} value={`item-${index}`} className="bg-muted/30 border rounded-xl px-5 transition-all duration-300 hover:bg-muted/50">
+                  <AccordionTrigger className="text-left hover:text-primary transition-colors pr-8 py-4 text-base">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground pb-4 text-base">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          )}
+        </Card>
+        
+        {/* Additional Help CTA */}
+        <div className="text-center mt-12">
+          <Card className="inline-block p-6 border bg-card/80 backdrop-blur-sm max-w-2xl mx-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Users className="h-6 w-6 text-primary" />
+                </div>
+              </div>
+              <div className="text-center sm:text-left">
+                <h3 className="text-lg font-semibold mb-1">Need more help?</h3>
+                <p className="text-muted-foreground text-sm">Our support team is ready to assist you with any questions</p>
+              </div>
+              <div className="mt-2 sm:mt-0">
+                <a href="/student-support" className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium">
+                  Contact Support
+                </a>
+              </div>
+            </div>
+          </Card>
+        </div>
       </div>
     </section>
   )

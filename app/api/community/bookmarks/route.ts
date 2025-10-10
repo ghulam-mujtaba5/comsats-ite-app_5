@@ -4,6 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // POST /api/community/bookmarks - Add or remove a bookmark
 export async function POST(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,14 +34,14 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const body = await request.json()
     const { postId } = body
 
     if (!postId) {
-      return NextResponse.json({ error: 'Post ID is required' }, { status: 400 })
+      return NextResponse.json({ error: 'Post ID is required' }, { status: 400, headers })
     }
 
     // Check if user already bookmarked this post
@@ -47,7 +54,7 @@ export async function POST(request: NextRequest) {
 
     if (checkError) {
       console.error('Error checking existing bookmark:', checkError)
-      return NextResponse.json({ error: 'Failed to check bookmark' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to check bookmark' }, { status: 500, headers })
     }
 
     let isBookmarked = false
@@ -61,7 +68,7 @@ export async function POST(request: NextRequest) {
 
       if (deleteError) {
         console.error('Error removing bookmark:', deleteError)
-        return NextResponse.json({ error: 'Failed to remove bookmark' }, { status: 500 })
+        return NextResponse.json({ error: 'Failed to remove bookmark' }, { status: 500, headers })
       }
 
       // Decrement bookmarks count in community_posts
@@ -85,7 +92,7 @@ export async function POST(request: NextRequest) {
 
       if (insertError) {
         console.error('Error adding bookmark:', insertError)
-        return NextResponse.json({ error: 'Failed to add bookmark' }, { status: 500 })
+        return NextResponse.json({ error: 'Failed to add bookmark' }, { status: 500, headers })
       }
 
       // Increment bookmarks count in community_posts
@@ -103,15 +110,22 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ 
       message: isBookmarked ? 'Post bookmarked' : 'Bookmark removed',
       isBookmarked
-    })
+    }, { headers })
   } catch (error) {
     console.error('Error in POST /api/community/bookmarks:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
 // GET /api/community/bookmarks - Get user's bookmarks
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -135,7 +149,7 @@ export async function GET(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const { searchParams } = new URL(request.url)
@@ -171,7 +185,7 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Error fetching bookmarks:', error)
-      return NextResponse.json({ error: 'Failed to fetch bookmarks' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to fetch bookmarks' }, { status: 500, headers })
     }
 
     // Transform data for frontend
@@ -206,6 +220,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(transformedBookmarks)
   } catch (error) {
     console.error('Error in GET /api/community/bookmarks:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

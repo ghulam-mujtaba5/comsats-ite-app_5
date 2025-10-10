@@ -9,19 +9,20 @@ if (!supabaseUrl || !supabaseAnonKey) {
   )
 }
 
-// Enhanced client configuration with timeout and retry settings
+// Enhanced client configuration with timeout and retry settings optimized for free tier
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
-    detectSessionInUrl: true
+    detectSessionInUrl: true,
+    flowType: 'pkce' // Use PKCE flow for better security
   },
   global: {
     fetch: (url, options = {}) => {
       return fetch(url, {
         ...options,
-        // Set reasonable timeout for requests
-        signal: AbortSignal.timeout(15000), // 15 second timeout
+        // Set reasonable timeout for requests to prevent long-running queries
+        signal: AbortSignal.timeout(10000), // 10 second timeout (reduced from 15)
       })
     },
   },
@@ -30,7 +31,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
   realtime: {
     params: {
-      eventsPerSecond: 10,
+      eventsPerSecond: 5, // Reduced from 10 to stay within limits
     },
-  },
+  }
 })

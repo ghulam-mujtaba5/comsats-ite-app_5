@@ -37,7 +37,8 @@ export default function NewsListPage() {
   useEffect(() => {
     ;(async () => {
       try {
-        const res = await fetch('/api/news')
+        // Use force-cache to reduce function invocations on Vercel free tier
+        const res = await fetch('/api/news', { cache: 'force-cache' })
         if (!res.ok) {
           const body = await res.text().catch(() => '')
           setError(`Failed to load news: ${res.status} ${res.statusText}${body ? ` - ${body}` : ''}`)

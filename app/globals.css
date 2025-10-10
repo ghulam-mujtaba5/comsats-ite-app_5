@@ -26,6 +26,39 @@ html, body {
     width: min(calc(100vw - 32px), 380px) !important;
     box-sizing: border-box !important;
   }
+  
+  /* Ensure navbar elements maintain proper sizing */
+  .navbar-logo-container {
+    flex-shrink: 0;
+  }
+  
+  .navbar-logo {
+    object-fit: contain;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  /* Prevent navbar logo collapse on small screens */
+  .navbar-logo-wrapper {
+    min-width: 32px;
+    min-height: 32px;
+  }
+}
+
+@media (min-width: 640px) {
+  .navbar-logo-wrapper {
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .navbar-logo-wrapper {
+    min-width: 44px;
+    min-height: 44px;
+  }
 }
 
 /* 2025 Modern Animations */

@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { UserPlus, Loader2, Plus, Info } from 'lucide-react'
+import { UserPlus, Loader2, Plus, Info, Book, Award, MapPin } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
 import { useCampus } from '@/contexts/campus-context'
 import { departments } from '@/lib/faculty-data'
@@ -33,12 +33,16 @@ export function AddFacultyDialog({ open, onOpenChange }: { open?: boolean; onOpe
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
+    title: '',
     department: '',
-    designation: 'Lecturer',
     email: '',
+    office: '',
     phone: '',
     specialization: '',
-    qualifications: ''
+    courses: '',
+    education: '',
+    experience: '',
+    profile_image: ''
   })
 
   const actualOpen = open !== undefined ? open : isOpen
@@ -70,7 +74,11 @@ export function AddFacultyDialog({ open, onOpenChange }: { open?: boolean; onOpe
         body: JSON.stringify({
           ...formData,
           campus_id: selectedCampus.id,
-          submitted_by: user.id
+          submitted_by: user.id,
+          // Convert semicolon-separated strings to arrays for the backend
+          specialization: formData.specialization ? formData.specialization.split(';').map(s => s.trim()).filter(Boolean) : [],
+          courses: formData.courses ? formData.courses.split(';').map(c => c.trim()).filter(Boolean) : [],
+          education: formData.education ? formData.education.split(';').map(e => e.trim()).filter(Boolean) : []
         })
       })
 
@@ -80,12 +88,16 @@ export function AddFacultyDialog({ open, onOpenChange }: { open?: boolean; onOpe
         alert('Faculty member submitted for admin approval! You\'ll be able to review them once approved.')
         setFormData({
           name: '',
+          title: '',
           department: '',
-          designation: 'Lecturer',
           email: '',
+          office: '',
           phone: '',
           specialization: '',
-          qualifications: ''
+          courses: '',
+          education: '',
+          experience: '',
+          profile_image: ''
         })
         actualOnOpenChange(false)
       } else {
@@ -132,6 +144,17 @@ export function AddFacultyDialog({ open, onOpenChange }: { open?: boolean; onOpe
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="title" className="text-base font-medium">Title</Label>
+              <Input
+                id="title"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="Professor"
+                className="h-12 text-base border-2 focus:border-primary transition-colors"
+              />
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="department" className="text-base font-medium">Department *</Label>
               <Select
                 value={formData.department}
@@ -149,25 +172,6 @@ export function AddFacultyDialog({ open, onOpenChange }: { open?: boolean; onOpe
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="designation" className="text-base font-medium">Designation</Label>
-              <Select
-                value={formData.designation}
-                onValueChange={(value) => setFormData({ ...formData, designation: value })}
-              >
-                <SelectTrigger className="h-12 text-base border-2 focus:border-primary transition-colors">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Professor">Professor</SelectItem>
-                  <SelectItem value="Associate Professor">Associate Professor</SelectItem>
-                  <SelectItem value="Assistant Professor">Assistant Professor</SelectItem>
-                  <SelectItem value="Lecturer">Lecturer</SelectItem>
-                  <SelectItem value="Visiting Faculty">Visiting Faculty</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
               <Label htmlFor="email" className="text-base font-medium">Email (Optional)</Label>
               <Input
                 id="email"
@@ -177,6 +181,20 @@ export function AddFacultyDialog({ open, onOpenChange }: { open?: boolean; onOpe
                 placeholder="john.doe@comsats.edu.pk"
                 className="h-12 text-base border-2 focus:border-primary transition-colors"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="office" className="text-base font-medium">Office Location (Optional)</Label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                  id="office"
+                  value={formData.office}
+                  onChange={(e) => setFormData({ ...formData, office: e.target.value })}
+                  placeholder="CS-201"
+                  className="h-12 text-base border-2 focus:border-primary transition-colors pl-10"
+                />
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -192,25 +210,66 @@ export function AddFacultyDialog({ open, onOpenChange }: { open?: boolean; onOpe
 
             <div className="space-y-2">
               <Label htmlFor="specialization" className="text-base font-medium">Specialization (Optional)</Label>
-              <Input
-                id="specialization"
-                value={formData.specialization}
-                onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
-                placeholder="Machine Learning, AI"
-                className="h-12 text-base border-2 focus:border-primary transition-colors"
-              />
+              <div className="relative">
+                <Award className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                  id="specialization"
+                  value={formData.specialization}
+                  onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
+                  placeholder="AI; Machine Learning; Data Science"
+                  className="h-12 text-base border-2 focus:border-primary transition-colors pl-10"
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">Separate multiple specializations with semicolons</p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="courses" className="text-base font-medium">Courses (Optional)</Label>
+              <div className="relative">
+                <Book className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                  id="courses"
+                  value={formData.courses}
+                  onChange={(e) => setFormData({ ...formData, courses: e.target.value })}
+                  placeholder="CS101; CS102; CS301"
+                  className="h-12 text-base border-2 focus:border-primary transition-colors pl-10"
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">Separate multiple courses with semicolons</p>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="qualifications" className="text-base font-medium">Qualifications (Optional)</Label>
-            <Textarea
-              id="qualifications"
-              value={formData.qualifications}
-              onChange={(e) => setFormData({ ...formData, qualifications: e.target.value })}
-              placeholder="PhD in Computer Science from..."
-              rows={3}
-              className="text-base border-2 focus:border-primary transition-colors"
+            <Label htmlFor="education" className="text-base font-medium">Education (Optional)</Label>
+            <Input
+              id="education"
+              value={formData.education}
+              onChange={(e) => setFormData({ ...formData, education: e.target.value })}
+              placeholder="PhD Computer Science; MS Software Engineering"
+              className="h-12 text-base border-2 focus:border-primary transition-colors"
+            />
+            <p className="text-xs text-muted-foreground">Separate multiple qualifications with semicolons</p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="experience" className="text-base font-medium">Experience (Optional)</Label>
+            <Input
+              id="experience"
+              value={formData.experience}
+              onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
+              placeholder="10+ years in academia and industry"
+              className="h-12 text-base border-2 focus:border-primary transition-colors"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="profile_image" className="text-base font-medium">Profile Image URL (Optional)</Label>
+            <Input
+              id="profile_image"
+              value={formData.profile_image}
+              onChange={(e) => setFormData({ ...formData, profile_image: e.target.value })}
+              placeholder="https://example.com/photo.jpg"
+              className="h-12 text-base border-2 focus:border-primary transition-colors"
             />
           </div>
 

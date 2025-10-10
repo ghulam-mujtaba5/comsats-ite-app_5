@@ -2,12 +2,19 @@ import { supabase } from '@/lib/supabase'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     
     // Get authenticated user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const { searchParams } = new URL(request.url)
@@ -136,13 +143,13 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       activities: sortedActivities,
       total: activities.length
-    })
+    }, { headers })
 
   } catch (error) {
     console.error('Error fetching activity:', error)
     return NextResponse.json(
       { error: 'Failed to fetch activity' },
-      { status: 500 }
+      { status: 500, headers }
     )
   }
 }

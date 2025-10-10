@@ -27,13 +27,20 @@ function getClient() {
 // - Default: return current user's tickets
 // - If admin=1: admin-only listing with optional status/category filters
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const supabase = await getClient()
   const url = new URL(req.url)
   const adminFlag = url.searchParams.get('admin') === '1'
 
   if (adminFlag) {
     const access = await requireAdmin(req)
-    if (!access.allow) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    if (!access.allow) return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers })
 
     let query = supabase
       .from('help_desk_tickets')
@@ -49,13 +56,13 @@ export async function GET(req: NextRequest) {
     if (campusId) query = query.eq('campus_id', campusId)
 
     const { data, error } = await query
-    if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-    return NextResponse.json({ data })
+    if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
+    return NextResponse.json({ data }, { headers })
   }
 
   // user own tickets
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
 
   const { data, error } = await supabase
     .from('help_desk_tickets')
@@ -63,15 +70,22 @@ export async function GET(req: NextRequest) {
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ data })
+  if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
+  return NextResponse.json({ data }, { headers })
 }
 
 // POST /api/help-desk/tickets
 export async function POST(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
   const supabase = await getClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
 
   const schema = z.object({
     title: z.string().min(3),
@@ -85,7 +99,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null)
   const parsed = schema.safeParse(body)
   if (!parsed.success) {
-    return NextResponse.json({ error: 'Invalid payload', details: parsed.error.flatten() }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid payload', details: parsed.error.flatten() }, { status: 400, headers })
   }
 
   const payload: any = {
@@ -105,6 +119,6 @@ export async function POST(req: NextRequest) {
     .select('*')
     .single()
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ data }, { status: 201 })
+  if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
+  return NextResponse.json({ data }, { status: 201, headers })
 }

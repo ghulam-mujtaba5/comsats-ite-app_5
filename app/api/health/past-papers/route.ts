@@ -2,6 +2,13 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 export async function GET() {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -16,7 +23,7 @@ export async function GET() {
           error: 'Supabase env vars missing',
           hint: 'Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in .env.local, then restart the dev server.',
         },
-        { status: 200 }
+        { status: 200, headers }
       )
     }
 
@@ -63,14 +70,14 @@ export async function GET() {
       results.hint = 'Run database-schema-clean.sql (or ensure past_papers table exists) in Supabase SQL editor.'
     }
 
-    return NextResponse.json(results)
+    return NextResponse.json(results, { headers })
   } catch (error) {
     return NextResponse.json(
       {
         ok: false,
         error: (error as Error).message,
       },
-      { status: 500 }
+      { status: 500, headers }
     )
   }
 }

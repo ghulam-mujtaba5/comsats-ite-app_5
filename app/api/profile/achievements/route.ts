@@ -14,12 +14,19 @@ interface Achievement {
 }
 
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     
     // Get authenticated user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     // Fetch user stats
@@ -191,13 +198,13 @@ export async function GET(request: NextRequest) {
         total: totalCount,
         completionRate
       }
-    })
+    }, { headers })
 
   } catch (error) {
     console.error('Error fetching achievements:', error)
     return NextResponse.json(
       { error: 'Failed to fetch achievements' },
-      { status: 500 }
+      { status: 500, headers }
     )
   }
 }

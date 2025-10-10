@@ -40,7 +40,8 @@ export default function PastPapersClient() {
       if (selectedCampus?.id) params.set('campus_id', selectedCampus.id)
       if (campusDepartment?.id) params.set('department_id', campusDepartment.id)
       
-      const res = await fetch(`/api/past-papers?${params.toString()}`, { cache: 'no-store' })
+      // Use force-cache to reduce function invocations on Vercel free tier
+      const res = await fetch(`/api/past-papers?${params.toString()}`, { cache: 'force-cache' })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Failed to fetch papers')
       const rows: any[] = Array.isArray(json.data) ? json.data : []

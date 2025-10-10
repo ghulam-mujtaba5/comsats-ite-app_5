@@ -2,13 +2,14 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/admin-access'
 
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const access = await requireAdmin(request)
   if (!access.allow) {
     return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })
   }
 
-  const { id: emailId } = params
+  // Resolve the params promise
+  const { id: emailId } = await params
 
   try {
     // Verify the email address

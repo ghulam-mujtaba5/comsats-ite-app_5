@@ -102,7 +102,8 @@ import { cn } from "@/lib/utils"
 import { MobileCommunityView } from "@/components/community/mobile-community-view"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useRealtimePosts } from "@/hooks/use-realtime-posts"
-import { PostCreationDialog } from "@/components/community/post-creation-dialog"
+import { SharingButton } from "@/components/community/sharing-button"
+import { EnhancedSharingDialog } from "@/components/community/enhanced-sharing-dialog"
 import { PostFilters } from "@/components/community/post-filters"
 import { supabase } from "@/lib/supabase"
 
@@ -274,7 +275,8 @@ export default function CommunityPage() {
       if (selectedCategory !== "all") params.set('type', selectedCategory)
       if (sortBy) params.set('sort', sortBy)
       
-      const res = await fetch(`/api/community/posts?${params.toString()}`, { cache: 'no-store' })
+      // Use force-cache to reduce function invocations on Vercel free tier
+      const res = await fetch(`/api/community/posts?${params.toString()}`, { cache: 'force-cache' })
       const data = await res.json().catch(() => ({}))
       const rows = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : []
       const meta = data && data.meta ? data.meta : { hasMore: rows.length === postLimit, nextOffset: postOffset + rows.length }
@@ -287,7 +289,7 @@ export default function CommunityPage() {
     }
   }
 
-  const handleCreatePost = async (content: string, type: string, tags: string[], media: File[]) => {
+  const handleCreatePost = async (sharingContent: any) => {
     if (!user) {
       toast({
         title: "Authentication Required",
@@ -300,11 +302,11 @@ export default function CommunityPage() {
     try {
       // Handle media upload first
       let mediaUrls: string[] = []
-      if (media.length > 0) {
+      if (sharingContent.media && sharingContent.media.length > 0) {
         // Upload media files and get URLs
         // This would typically involve uploading to a storage service
         // For now, we'll just log the files
-        console.log("Uploading media files:", media)
+        console.log("Uploading media files:", sharingContent.media)
         // mediaUrls = await uploadMediaFiles(media)
       }
 
@@ -312,9 +314,9 @@ export default function CommunityPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          content: content,
-          type: type,
-          tags: tags,
+          content: sharingContent.description,
+          type: sharingContent.type,
+          tags: sharingContent.tags,
           media: mediaUrls
         }),
       })
@@ -322,7 +324,17 @@ export default function CommunityPage() {
       if (!res.ok) throw new Error(json?.error || "Failed to create post")
       const inserted: Post = json
       setPosts((prev) => [inserted, ...prev])
+      
+      toast({ 
+        title: "Post created successfully!", 
+        description: "Your post has been shared with the community." 
+      })
     } catch (err: any) {
+      toast({ 
+        title: "Failed to create post", 
+        description: err.message ?? "Unknown error", 
+        variant: "destructive" 
+      })
       throw new Error(err.message ?? "Unknown error")
     }
   }
@@ -884,11 +896,11 @@ export default function CommunityPage() {
         </div>
       </div>
       
-      {/* Post Creation Dialog */}
-      <PostCreationDialog
+      {/* Enhanced Sharing Dialog */}
+      <EnhancedSharingDialog
         open={isCreatePostOpen}
         onOpenChange={setIsCreatePostOpen}
-        onCreatePost={handleCreatePost}
+        onShare={handleCreatePost}
       />
     </div>
   )

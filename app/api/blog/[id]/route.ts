@@ -15,6 +15,13 @@ export async function GET(
   _request: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     // Next.js 15 requires awaiting params for dynamic routes
     const { id } = await context.params
@@ -50,7 +57,7 @@ export async function GET(
         .single()
 
       if (slugError || !articleBySlug) {
-        return NextResponse.json({ error: 'Article not found' }, { status: 404 })
+        return NextResponse.json({ error: 'Article not found' }, { status: 404, headers })
       }
 
       // Increment view count
@@ -59,7 +66,7 @@ export async function GET(
         .update({ view_count: articleBySlug.view_count + 1 })
         .eq('id', articleBySlug.id)
 
-      return NextResponse.json(articleBySlug)
+      return NextResponse.json(articleBySlug, { headers })
     }
 
     const { data, error } = await supabase
@@ -70,7 +77,7 @@ export async function GET(
       .single()
 
     if (error) {
-      return NextResponse.json({ error: 'Article not found' }, { status: 404 })
+      return NextResponse.json({ error: 'Article not found' }, { status: 404, headers })
     }
 
     // Increment view count
@@ -79,10 +86,10 @@ export async function GET(
       .update({ view_count: data.view_count + 1 })
       .eq('id', id)
 
-    return NextResponse.json(data)
+    return NextResponse.json(data, { headers })
   } catch (error) {
     console.error('Error fetching blog article:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
@@ -91,6 +98,13 @@ export async function PUT(
   _request: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
   try {
     // Next.js 15 requires awaiting params for dynamic routes
     const { id } = await context.params
@@ -117,7 +131,7 @@ export async function PUT(
     // Check if user is admin
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const { data: adminUser } = await supabase
@@ -127,7 +141,7 @@ export async function PUT(
       .single()
 
     if (!adminUser || (adminUser.role !== 'admin' && adminUser.role !== 'super_admin')) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers })
     }
 
     const body = await _request.json()
@@ -135,7 +149,7 @@ export async function PUT(
 
     // Validate required fields
     if (!title || !slug || !content || !category) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400, headers })
     }
 
     const { data, error } = await supabase
@@ -164,13 +178,13 @@ export async function PUT(
     }
 
     if (!data) {
-      return NextResponse.json({ error: 'Article not found' }, { status: 404 })
+      return NextResponse.json({ error: 'Article not found' }, { status: 404, headers })
     }
 
-    return NextResponse.json(data)
+    return NextResponse.json(data, { headers })
   } catch (error) {
     console.error('Error updating blog article:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
@@ -179,6 +193,13 @@ export async function DELETE(
   _request: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
   try {
     // Next.js 15 requires awaiting params for dynamic routes
     const { id } = await context.params
@@ -205,7 +226,7 @@ export async function DELETE(
     // Check if user is admin
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const { data: adminUser } = await supabase
@@ -215,7 +236,7 @@ export async function DELETE(
       .single()
 
     if (!adminUser || (adminUser.role !== 'admin' && adminUser.role !== 'super_admin')) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers })
     }
 
     // Check if article exists and user has permission to delete it
@@ -226,12 +247,12 @@ export async function DELETE(
       .single()
 
     if (!article) {
-      return NextResponse.json({ error: 'Article not found' }, { status: 404 })
+      return NextResponse.json({ error: 'Article not found' }, { status: 404, headers })
     }
 
     // Only super admins or the author can delete
     if (adminUser.role !== 'super_admin' && article.author_id !== user.id) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers })
     }
 
     const { error } = await supabase
@@ -243,9 +264,9 @@ export async function DELETE(
       throw error
     }
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true }, { headers })
   } catch (error) {
     console.error('Error deleting blog article:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

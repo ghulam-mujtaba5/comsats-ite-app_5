@@ -10,7 +10,18 @@ import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from '@/hooks/use-toast'
-import { GraduationCap, Users, Mail, MapPin, Phone, Book, Award, Eye, Edit, Trash2, Download, Upload, Plus, Sparkles, Activity, TrendingUp, Crown, Save } from "lucide-react"
+import { 
+  GraduationCap, Users, Mail, MapPin, Phone, Book, Award, Eye, Edit, Trash2, 
+  Download, Upload, Plus, Sparkles, Activity, TrendingUp, Crown, Save,
+  Search, Filter, X
+} from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 // Uses secure server API at /api/admin/faculty guarded by HTTP-only admin cookie
 
@@ -29,6 +40,7 @@ type Row = {
   education?: string[] | null
   experience?: string
   profile_image?: string | null
+  campus_id?: string | null
 }
 
 export default function AdminFacultyPage() {
@@ -36,6 +48,13 @@ export default function AdminFacultyPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>("")
   const [editingId, setEditingId] = useState<string | null>(null)
+  
+  // Filter states
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedCampus, setSelectedCampus] = useState<string>("all")
+  const [selectedDepartment, setSelectedDepartment] = useState<string>("all")
+  const [campuses, setCampuses] = useState<any[]>([])
+  const [departments, setDepartments] = useState<any[]>([])
 
   const [form, setForm] = useState<Omit<Row, "id">>({
     name: "",
@@ -50,6 +69,36 @@ export default function AdminFacultyPage() {
     experience: "",
     profile_image: "",
   })
+
+  // Fetch campuses and departments for filtering
+  useEffect(() => {
+    const fetchCampuses = async () => {
+      try {
+        const res = await fetch('/api/campuses')
+        const data = await res.json()
+        if (res.ok) {
+          setCampuses(data)
+        }
+      } catch (err) {
+        console.error('Failed to fetch campuses:', err)
+      }
+    }
+    
+    const fetchDepartments = async () => {
+      try {
+        const res = await fetch('/api/departments')
+        const data = await res.json()
+        if (res.ok) {
+          setDepartments(data)
+        }
+      } catch (err) {
+        console.error('Failed to fetch departments:', err)
+      }
+    }
+    
+    fetchCampuses()
+    fetchDepartments()
+  }, [])
 
   const resetForm = () => {
     setForm({
@@ -72,7 +121,12 @@ export default function AdminFacultyPage() {
     setLoading(true)
     setError("")
     try {
-      const res = await fetch('/api/admin/faculty', { cache: 'no-store' })
+      // Build query parameters
+      const params = new URLSearchParams()
+      if (selectedCampus !== "all") params.append('campus_id', selectedCampus)
+      if (selectedDepartment !== "all") params.append('department', selectedDepartment)
+      
+      const res = await fetch(`/api/admin/faculty?${params.toString()}`, { cache: 'no-store' })
       const j = await res.json()
       if (!res.ok) throw new Error(j?.error || 'Failed to load')
       setRows((j.data as Row[]) || [])
@@ -85,7 +139,7 @@ export default function AdminFacultyPage() {
 
   useEffect(() => {
     fetchRows()
-  }, [])
+  }, [selectedCampus, selectedDepartment])
 
   const upsertRow = async () => {
     setLoading(true)
@@ -236,7 +290,23 @@ export default function AdminFacultyPage() {
     if (f) importCSV(f)
   }
 
-  const rowsView = useMemo(() => rows, [rows])
+  // Filter rows based on search query
+  const filteredRows = useMemo(() => {
+    if (!searchQuery) return rows
+    const query = searchQuery.toLowerCase()
+    return rows.filter(row => 
+      row.name.toLowerCase().includes(query) ||
+      row.title.toLowerCase().includes(query) ||
+      row.department.toLowerCase().includes(query) ||
+      row.email.toLowerCase().includes(query)
+    )
+  }, [rows, searchQuery])
+
+  const clearFilters = () => {
+    setSelectedCampus("all")
+    setSelectedDepartment("all")
+    setSearchQuery("")
+  }
 
   return (
     <AdminGuard fallback={
@@ -296,7 +366,7 @@ export default function AdminFacultyPage() {
                   <div className="flex items-center gap-3">
                     <Badge variant="outline" className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-indigo-200 dark:border-indigo-800">
                       <Users className="h-3 w-3 mr-1" />
-                      {rowsView.length} Faculty Members
+                      {filteredRows.length} Faculty Members
                     </Badge>
                     <Badge variant="outline" className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-purple-200 dark:border-purple-800">
                       <Activity className="h-3 w-3 mr-1" />
@@ -343,7 +413,7 @@ export default function AdminFacultyPage() {
 
         {/* Enhanced Faculty Management Interface */}
         <div className="app-container space-y-6 pb-12">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Faculty Directory</h2>
               <p className="text-slate-600 dark:text-slate-300">Add, edit, and manage faculty profiles</p>
@@ -353,6 +423,69 @@ export default function AdminFacultyPage() {
               Live Updates
             </Badge>
           </div>
+
+          {/* Filter Section */}
+          <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+            <CardContent className="p-4">
+              <div className="flex flex-col md:flex-row gap-4 items-end">
+                <div className="flex-1">
+                  <Label className="text-sm font-medium text-slate-700 dark:text-slate-200 mb-1 block">Search Faculty</Label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search by name, title, department, or email..."
+                      className="pl-10 glass-input bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 focus:bg-white/70 dark:focus:bg-slate-800/70"
+                    />
+                  </div>
+                </div>
+                
+                <div className="w-full md:w-48">
+                  <Label className="text-sm font-medium text-slate-700 dark:text-slate-200 mb-1 block">Campus</Label>
+                  <Select value={selectedCampus} onValueChange={setSelectedCampus}>
+                    <SelectTrigger className="glass-input bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 focus:bg-white/70 dark:focus:bg-slate-800/70">
+                      <SelectValue placeholder="Select Campus" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Campuses</SelectItem>
+                      {campuses.map((campus) => (
+                        <SelectItem key={campus.id} value={campus.id}>
+                          {campus.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="w-full md:w-48">
+                  <Label className="text-sm font-medium text-slate-700 dark:text-slate-200 mb-1 block">Department</Label>
+                  <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
+                    <SelectTrigger className="glass-input bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 focus:bg-white/70 dark:focus:bg-slate-800/70">
+                      <SelectValue placeholder="Select Department" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Departments</SelectItem>
+                      {departments.map((dept) => (
+                        <SelectItem key={dept.id} value={dept.name}>
+                          {dept.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <Button 
+                  variant="outline" 
+                  onClick={clearFilters}
+                  className="glass-button bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm border-white/40 dark:border-slate-600/40 hover:bg-white/50 dark:hover:bg-slate-700/50"
+                >
+                  <X className="h-4 w-4 mr-2" />
+                  Clear
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
 
           <div className="grid gap-6 lg:grid-cols-2">
             <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 hover:shadow-xl transition-all duration-300">
@@ -460,13 +593,21 @@ export default function AdminFacultyPage() {
                 </div>
               </CardHeader>
               <CardContent className="relative">
-                {rowsView.length === 0 && !loading ? (
+                {filteredRows.length === 0 && !loading ? (
                   <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-8 text-center">
                     <div className="space-y-4">
                       <div className="text-4xl">👨‍🎓</div>
                       <div>
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">No Faculty Found</h3>
-                        <p className="text-slate-600 dark:text-slate-300">Add your first faculty member to get started.</p>
+                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                          {searchQuery || selectedCampus !== "all" || selectedDepartment !== "all" 
+                            ? "No Faculty Found Matching Your Filters" 
+                            : "No Faculty Found"}
+                        </h3>
+                        <p className="text-slate-600 dark:text-slate-300">
+                          {searchQuery || selectedCampus !== "all" || selectedDepartment !== "all"
+                            ? "Try adjusting your search or filters."
+                            : "Add your first faculty member to get started."}
+                        </p>
                       </div>
                     </div>
                   </Card>
@@ -501,7 +642,7 @@ export default function AdminFacultyPage() {
                                   </td>
                                 </tr>
                               ))
-                            : rowsView.map((r) => (
+                            : filteredRows.map((r) => (
                                 <tr
                                   key={r.id}
                                   className="border-t border-white/20 dark:border-slate-600/40 hover:bg-white/30 dark:hover:bg-slate-700/30 transition-colors cursor-pointer"
@@ -577,4 +718,3 @@ export default function AdminFacultyPage() {
     </AdminGuard>
   )
 }
-

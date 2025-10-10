@@ -1,0 +1,123 @@
+/* Emotion-Based Themes for CampusAxis */
+
+/* Default/Neutral Theme */
+:root {
+  --emotion-primary: #6366f1;
+  --emotion-secondary: #8b5cf6;
+  --emotion-background: #ffffff;
+  --emotion-text: #374151;
+  --emotion-border: #e5e7eb;
+}
+
+/* Calm Theme (for stress or sadness) */
+[data-theme="calm"] {
+  --emotion-primary: #3b82f6;
+  --emotion-secondary: #06b6d4;
+  --emotion-background: #eff6ff;
+  --emotion-text: #1e3a8a;
+  --emotion-border: #bfdbfe;
+}
+
+/* Focus Theme (for high concentration) */
+[data-theme="focus"] {
+  --emotion-primary: #7c3aed;
+  --emotion-secondary: #6366f1;
+  --emotion-background: #f5f3ff;
+  --emotion-text: #312e81;
+  --emotion-border: #ddd6fe;
+}
+
+/* Positive Theme (for happiness or excitement) */
+[data-theme="positive"] {
+  --emotion-primary: #f59e0b;
+  --emotion-secondary: #f97316;
+  --emotion-background: #fffbeb;
+  --emotion-text: #92400e;
+  --emotion-border: #fde68a;
+}
+
+/* Evening/Dark Theme (for late night use) */
+[data-theme="evening"] {
+  --emotion-primary: #818cf8;
+  --emotion-secondary: #a78bfa;
+  --emotion-background: #1f2937;
+  --emotion-text: #f9fafb;
+  --emotion-border: #4b5563;
+}
+
+/* Body classes for mode-based styling */
+body.calm-mode {
+  background-color: var(--emotion-background);
+  color: var(--emotion-text);
+  transition: all 0.5s ease;
+}
+
+body.focus-mode {
+  background-color: var(--emotion-background);
+  color: var(--emotion-text);
+  transition: all 0.5s ease;
+}
+
+body.celebration-mode {
+  background-color: var(--emotion-background);
+  color: var(--emotion-text);
+  transition: all 0.5s ease;
+}
+
+/* Emotion-based component styling */
+.emotion-calm {
+  background-color: var(--emotion-background);
+  border-color: var(--emotion-border);
+  color: var(--emotion-text);
+}
+
+.emotion-focus {
+  background-color: var(--emotion-background);
+  border-color: var(--emotion-border);
+  color: var(--emotion-text);
+}
+
+.emotion-celebration {
+  background-color: var(--emotion-background);
+  border-color: var(--emotion-border);
+  color: var(--emotion-text);
+}
+
+.emotion-neutral {
+  background-color: var(--emotion-background);
+  border-color: var(--emotion-border);
+  color: var(--emotion-text);
+}
+
+/* Animation classes */
+.calm-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.focus-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 20%, var(--emotion-background) 80%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.celebration-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, var(--emotion-background) 30%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}

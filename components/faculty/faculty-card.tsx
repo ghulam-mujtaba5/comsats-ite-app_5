@@ -56,7 +56,12 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
       <CardHeader className="pb-3 relative z-10">
         <div className="flex items-start gap-4">
           <Avatar className="h-16 w-16 ring-2 ring-primary/20">
-            <AvatarImage src={faculty.profileImage || "/placeholder.svg"} alt={faculty.name} />
+            <AvatarImage 
+              src={faculty.profileImage || "/placeholder-user.jpg"} 
+              alt={faculty.name} 
+              width={64}
+              height={64}
+            />
             <AvatarFallback className="text-lg font-medium">
               {faculty.name
                 .split(" ")

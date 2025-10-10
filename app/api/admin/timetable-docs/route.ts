@@ -17,8 +17,15 @@ async function ensureBucket() {
 }
 
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const auth = await requireAdmin(req)
-  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
   const { searchParams } = new URL(req.url)
   if (searchParams.get('debug') === '1') {
     // list buckets and check existence
@@ -29,14 +36,14 @@ export async function GET(req: NextRequest) {
       bucketExists,
       buckets: buckets?.map(b => ({ name: b.name, public: (b as any).public })) || [],
       error: bErr?.message || null,
-    })
+    }, { headers })
   }
   const { data, error } = await supabaseAdmin
     .from('timetable_docs')
     .select('id,title,department,term,size_bytes,mime_type,storage_path,public_url,uploaded_at')
     .order('uploaded_at', { ascending: false })
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ data })
+  if (error) return NextResponse.json({ error: error.message }, { status: 500, headers })
+  return NextResponse.json({ data }, { headers })
 }
 
 export async function POST(req: NextRequest) {

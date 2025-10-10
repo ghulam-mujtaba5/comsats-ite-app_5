@@ -6,6 +6,13 @@ import { z } from 'zod'
 import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const { searchParams } = new URL(request.url)
   const category = searchParams.get('category')
   const search = searchParams.get('search')
@@ -13,7 +20,7 @@ export async function GET(request: NextRequest) {
   // Dev/mock fallback helper (non-production only)
   const devFallback = () => {
     if (process.env.NODE_ENV === 'production') {
-      return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
+      return NextResponse.json({ error: 'Service unavailable' }, { status: 503, headers })
     }
     const sample = [
       {
@@ -37,7 +44,7 @@ export async function GET(request: NextRequest) {
         isImportant: false,
       },
     ]
-    return NextResponse.json(sample, { headers: { 'X-Mock-Data': '1' } })
+    return NextResponse.json(sample, { headers: { ...headers, 'X-Mock-Data': '1' } })
   }
 
   try {
@@ -130,10 +137,10 @@ export async function GET(request: NextRequest) {
 
     if (!mapped.length) {
       // No rows found: return empty list rather than mock fallback
-      return NextResponse.json([])
+      return NextResponse.json([], { headers })
     }
 
-    return NextResponse.json(mapped)
+    return NextResponse.json(mapped, { headers })
   } catch {
     return devFallback()
   }

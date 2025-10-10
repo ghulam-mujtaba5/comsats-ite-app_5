@@ -157,13 +157,13 @@ export function ResponsiveAdminNav({ userRole, className = "" }: ResponsiveAdmin
           <div className="flex items-center h-16 px-4 border-b border-gray-200 dark:border-gray-700">
             <Link 
               href="/admin/dashboard"
-              className="flex items-center gap-2 focus-ring-enhanced rounded-lg p-2"
+              className="flex items-center gap-2 focus-ring-enhanced rounded-lg p-2 min-w-0 flex-1"
               aria-label="Admin Dashboard Home"
             >
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
-                <Home className="w-4 h-4 text-white" />
+              <div className="admin-nav-logo-container flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 flex-shrink-0 admin-nav-logo-wrapper">
+                <Home className="w-4 h-4 text-white admin-nav-logo" />
               </div>
-              <span className="text-lg font-semibold text-gray-900 dark:text-white">
+              <span className="text-lg font-semibold text-gray-900 dark:text-white truncate">
                 Admin Portal
               </span>
             </Link>
@@ -187,8 +187,8 @@ export function ResponsiveAdminNav({ userRole, className = "" }: ResponsiveAdmin
                   aria-current={isActive ? 'page' : undefined}
                   onClick={() => handleNavigation(item)}
                 >
-                  <Icon className={`w-5 h-5 mr-3 ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'}`} />
-                  <span className="flex-1">{item.label}</span>
+                  <Icon className={`w-5 h-5 mr-3 flex-shrink-0 ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'}`} />
+                  <span className="flex-1 min-w-0 truncate">{item.label}</span>
                   {item.badge && (
                     <Badge variant="secondary" className="ml-auto">
                       {item.badge}
@@ -224,12 +224,12 @@ export function ResponsiveAdminNav({ userRole, className = "" }: ResponsiveAdmin
           <div className="flex items-center justify-between h-16 px-4">
             <Link 
               href="/admin/dashboard"
-              className="flex items-center gap-2 focus-ring-enhanced rounded-lg p-1"
+              className="flex items-center gap-2 focus-ring-enhanced rounded-lg p-1 min-w-0 flex-1"
             >
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
-                <Home className="w-4 h-4 text-white" />
+              <div className="admin-nav-logo-container flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 flex-shrink-0 admin-nav-logo-wrapper">
+                <Home className="w-4 h-4 text-white admin-nav-logo" />
               </div>
-              <span className="text-lg font-semibold text-gray-900 dark:text-white">
+              <span className="text-lg font-semibold text-gray-900 dark:text-white truncate">
                 Admin Portal
               </span>
             </Link>
@@ -293,7 +293,7 @@ export function ResponsiveAdminNav({ userRole, className = "" }: ResponsiveAdmin
                           aria-current={isActive ? 'page' : undefined}
                           onClick={() => handleNavigation(item)}
                         >
-                          <Icon className={`w-5 h-5 mr-3 ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400'}`} />
+                          <Icon className={`w-5 h-5 mr-3 flex-shrink-0 ${isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400'}`} />
                           <div className="flex-1">
                             <div className="flex items-center justify-between">
                               <span>{item.label}</span>

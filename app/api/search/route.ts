@@ -5,6 +5,13 @@ import { withSupabaseRetry } from '@/lib/retry-utils'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     // Set overall timeout for the entire search operation
     const searchTimeout = 15000 // 15 seconds max
@@ -24,7 +31,7 @@ export async function GET(req: NextRequest) {
           community: [], 
           total: 0 
         } 
-      })
+      }, { headers })
     }
 
     const { searchParams } = new URL(req.url)
@@ -42,7 +49,7 @@ export async function GET(req: NextRequest) {
           community: [], 
           total: 0 
         } 
-      })
+      }, { headers })
     }
 
     const supabase = serviceKey
@@ -257,7 +264,7 @@ export async function GET(req: NextRequest) {
       query: q,
       searchTime,
       message: searchTime > 10000 ? 'Search completed but experienced network delays' : 'Search completed successfully'
-    })
+    }, { headers })
 
   } catch (error: any) {
     console.error('Universal search error:', error)
@@ -281,7 +288,7 @@ export async function GET(req: NextRequest) {
         total: 0 
       },
       networkIssue: isNetworkError
-    }, { status: isNetworkError ? 503 : 500 })
+    }, { status: isNetworkError ? 503 : 500, headers })
   }
 }
 

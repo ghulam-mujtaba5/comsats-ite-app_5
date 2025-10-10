@@ -1,0 +1,20 @@
+
+> my-v0-project@0.1.0 build
+> next build
+
+   Ôû▓ Next.js 15.2.4
+   - Environments: .env.local
+   - Experiments (use with caution):
+     Ô£ô optimizeCss
+     Ô£ô nextScriptWorkers
+
+   Creating an optimized production build ...
+> [PWA] Compile server
+> [PWA] Compile server
+> [PWA] Compile client (static)
+> [PWA] Auto register service worker with: E:\comsats-ite-app_5\node_modules\.pnpm\next-pwa@5.6.0_@babel+core@_634112d386decbaa9f521a94d2ac215e\node_modules\next-pwa\register.js
+> [PWA] Service worker: E:\comsats-ite-app_5\public\sw.js
+> [PWA]   url: /sw.js
+> [PWA]   scope: /
+ Ô£ô Compiled successfully
+   Linting and checking validity of types ...

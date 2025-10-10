@@ -3,14 +3,21 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const access = await requireAdmin(req)
-  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
   const { data, error } = await supabaseAdmin
     .from('timetable')
     .select('id,course_code,course_title,section,day,start_time,end_time,room,teacher_name,department,semester,created_at')
     .order('created_at', { ascending: false })
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ data })
+  if (error) return NextResponse.json({ error: error.message }, { status: 500, headers })
+  return NextResponse.json({ data }, { headers })
 }
 
 export async function POST(req: NextRequest) {

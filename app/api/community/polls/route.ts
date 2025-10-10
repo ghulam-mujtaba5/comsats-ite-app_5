@@ -3,6 +3,13 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -57,7 +64,7 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Error fetching polls:', error)
-      return NextResponse.json({ error: 'Failed to fetch polls' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to fetch polls' }, { status: 500, headers })
     }
 
     // Get current user for vote status
@@ -91,14 +98,21 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    return NextResponse.json(polls)
+    return NextResponse.json(polls, { headers })
   } catch (error) {
     console.error('Error in GET /api/community/polls:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
 export async function POST(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -122,7 +136,7 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const body = await request.json()
@@ -140,13 +154,13 @@ export async function POST(request: NextRequest) {
 
     // Validate required fields
     if (!question || !options || options.length < 2) {
-      return NextResponse.json({ error: 'Question and at least 2 options are required' }, { status: 400 })
+      return NextResponse.json({ error: 'Question and at least 2 options are required' }, { status: 400, headers })
     }
 
     // Validate options
     const validOptions = options.filter((option: string) => option.trim().length > 0)
     if (validOptions.length < 2) {
-      return NextResponse.json({ error: 'At least 2 valid options are required' }, { status: 400 })
+      return NextResponse.json({ error: 'At least 2 valid options are required' }, { status: 400, headers })
     }
 
     // Calculate expiration date
@@ -181,7 +195,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Error creating poll:', error)
-      return NextResponse.json({ error: 'Failed to create poll' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to create poll' }, { status: 500, headers })
     }
 
     // Transform for frontend
@@ -213,6 +227,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(poll)
   } catch (error) {
     console.error('Error in POST /api/community/polls:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

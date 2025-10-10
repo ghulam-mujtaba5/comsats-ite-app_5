@@ -6,6 +6,13 @@ import { z } from 'zod'
 import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const { searchParams } = new URL(request.url)
   const category = searchParams.get('category')
   const search = searchParams.get('search')
@@ -13,7 +20,7 @@ export async function GET(request: NextRequest) {
 
   const devFallback = () => {
     if (process.env.NODE_ENV === 'production') {
-      return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
+      return NextResponse.json({ error: 'Service unavailable' }, { status: 503, headers })
     }
     const today = new Date()
     const day = (offset: number) => new Date(today.getTime() + offset * 86400000).toISOString().split('T')[0]
@@ -47,7 +54,7 @@ export async function GET(request: NextRequest) {
         imageUrl: null,
       },
     ]
-    return NextResponse.json(sample, { headers: { 'X-Mock-Data': '1' } })
+    return NextResponse.json(sample, { headers: { ...headers, 'X-Mock-Data': '1' } })
   }
 
   try {
@@ -114,7 +121,7 @@ export async function GET(request: NextRequest) {
       imageUrl: e.image_url ?? undefined,
     }))
 
-    return NextResponse.json(mapped)
+    return NextResponse.json(mapped, { headers })
   } catch {
     return devFallback()
   }

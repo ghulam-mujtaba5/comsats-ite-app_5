@@ -4,6 +4,13 @@ import { createClient } from "@supabase/supabase-js";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800', // Cache for 1 hour, stale for 30 min
+    'CDN-Cache-Control': 'public, s-maxage=3600',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=3600'
+  };
+
   const devFallback = () =>
     NextResponse.json(
       {
@@ -13,7 +20,7 @@ export async function GET() {
           { id: "3", question: "Is my data secure?", answer: "Yes, we use Supabase auth and RLS policies.", sort_order: 3 },
         ],
       },
-      { headers: { "X-Mock-Data": "1" } }
+      { headers: { ...headers, "X-Mock-Data": "1" } }
     )
 
   try {
@@ -27,7 +34,7 @@ export async function GET() {
 
     if (!url || !anon) {
       // In production with missing env, return empty data gracefully
-      return NextResponse.json({ data: [] })
+      return NextResponse.json({ data: [] }, { headers })
     }
 
     const supabase = createClient(url, anon)
@@ -69,7 +76,7 @@ export async function GET() {
         if (missing && process.env.NODE_ENV !== 'production') {
           return devFallback()
         }
-        return NextResponse.json({ data: [] })
+        return NextResponse.json({ data: [] }, { headers })
       }
 
       mapped = (legacy || []).map((f: any) => ({
@@ -80,12 +87,12 @@ export async function GET() {
       }))
     }
 
-    return NextResponse.json({ data: mapped })
+    return NextResponse.json({ data: mapped }, { headers })
   } catch {
     // Unexpected error: only mock in non-production
     if (process.env.NODE_ENV !== 'production') {
       return devFallback()
     }
-    return NextResponse.json({ data: [] })
+    return NextResponse.json({ data: [] }, { headers })
   }
 }

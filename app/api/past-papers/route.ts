@@ -6,13 +6,20 @@ import { formatErrorResponse, logError } from '@/lib/errors'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=900', // Cache for 30 minutes, stale for 15 min
+    'CDN-Cache-Control': 'public, s-maxage=1800',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=1800'
+  }
+
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
     
     if (!url || !anon) {
-      return NextResponse.json({ data: [] })
+      return NextResponse.json({ data: [] }, { headers })
     }
 
     const { searchParams } = new URL(req.url)
@@ -59,13 +66,13 @@ export async function GET(req: NextRequest) {
       throw error
     }
 
-    return NextResponse.json({ data: data || [], count: data?.length || 0 })
+    return NextResponse.json({ data: data || [], count: data?.length || 0 }, { headers })
   } catch (e: any) {
     logError(e, { endpoint: '/api/past-papers', method: 'GET' })
     const errorResponse = formatErrorResponse(e)
     return NextResponse.json(
       { data: [], ...errorResponse },
-      { status: 500 }
+      { status: 500, headers: { ...headers, "Content-Type": "application/json" } }
     )
   }
 }
@@ -75,6 +82,13 @@ const ALLOWED_EXTS = ['pdf', 'doc', 'docx']
 const MAX_SIZE = 10 * 1024 * 1024 // 10MB
 
 export async function POST(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -105,7 +119,7 @@ export async function POST(req: NextRequest) {
           created_at: new Date().toISOString(),
         },
         message: 'Past paper submitted (dev mock)'
-      }, { status: 201 })
+      }, { status: 201, headers })
     }
 
     const formData = await req.formData()
@@ -119,16 +133,16 @@ export async function POST(req: NextRequest) {
     const file = formData.get('file') as File | null
 
     if (!link_url && !file) {
-      return NextResponse.json({ error: 'Provide a file or a public link' }, { status: 400 })
+      return NextResponse.json({ error: 'Provide a file or a public link' }, { status: 400, headers })
     }
     if (file) {
       if (file.size > MAX_SIZE) {
-        return NextResponse.json({ error: 'File exceeds 10MB limit' }, { status: 400 })
+        return NextResponse.json({ error: 'File exceeds 10MB limit' }, { status: 400, headers })
       }
       const name = file.name || 'upload'
       const ext = name.split('.').pop()?.toLowerCase()
       if (!ext || !ALLOWED_EXTS.includes(ext)) {
-        return NextResponse.json({ error: 'Only PDF, DOC, DOCX are allowed' }, { status: 400 })
+        return NextResponse.json({ error: 'Only PDF, DOC, DOCX are allowed' }, { status: 400, headers })
       }
     }
 
@@ -148,7 +162,7 @@ export async function POST(req: NextRequest) {
         .from(bucket)
         .upload(filePath, Buffer.from(arrayBuf), { upsert: false, contentType: file.type || 'application/octet-stream' })
       if (upErr) {
-        return NextResponse.json({ error: `Upload failed: ${upErr.message}` }, { status: 400 })
+        return NextResponse.json({ error: `Upload failed: ${upErr.message}` }, { status: 400, headers })
       }
       // Get public URL (bucket should be public or have a public policy)
       const { data: pub } = (supabase as any).storage.from(bucket).getPublicUrl(upRes.path)
@@ -174,11 +188,11 @@ export async function POST(req: NextRequest) {
       .single()
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
+      return NextResponse.json({ error: error.message }, { status: 400, headers })
     }
 
-    return NextResponse.json({ data, message: 'Past paper submitted' }, { status: 201 })
+    return NextResponse.json({ data, message: 'Past paper submitted' }, { status: 201, headers })
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || 'Failed to submit past paper' }, { status: 500 })
+    return NextResponse.json({ error: e.message || 'Failed to submit past paper' }, { status: 500, headers })
   }
 }

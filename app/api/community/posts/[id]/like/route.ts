@@ -6,6 +6,13 @@ import { createSupabaseClient } from '@/lib/supabase-utils'
  * Gets the like count and whether the current user has liked a post
  */
 export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const { id } = await context.params
   const supabase = await createSupabaseClient()
 
@@ -21,7 +28,7 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
       .eq('post_id', id)
       .eq('reaction_type', 'like')
 
-    if (countErr) return NextResponse.json({ error: countErr.message }, { status: 400 })
+    if (countErr) return NextResponse.json({ error: countErr.message }, { status: 400, headers })
 
     // Check if current user has liked the post
     let liked = false
@@ -36,10 +43,10 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
       liked = !!row
     }
 
-    return NextResponse.json({ count: count || 0, liked })
+    return NextResponse.json({ count: count || 0, liked }, { headers })
   } catch (error) {
     console.error('Error fetching like status:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
@@ -48,12 +55,19 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
  * Toggles the like status for a post
  */
 export async function POST(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const { id } = await context.params
   const supabase = await createSupabaseClient()
 
   try {
     const { data: auth } = await supabase.auth.getUser()
-    if (!auth.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!auth.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     
     const userId = auth.user.id
 
@@ -66,7 +80,7 @@ export async function POST(_req: NextRequest, context: { params: Promise<{ id: s
       .eq('reaction_type', 'like')
       .maybeSingle()
 
-    if (fetchErr) return NextResponse.json({ error: fetchErr.message }, { status: 400 })
+    if (fetchErr) return NextResponse.json({ error: fetchErr.message }, { status: 400, headers })
 
     if (existing) {
       // Unlike
@@ -76,13 +90,13 @@ export async function POST(_req: NextRequest, context: { params: Promise<{ id: s
         .eq('post_id', id)
         .eq('user_id', userId)
         .eq('reaction_type', 'like')
-      if (delErr) return NextResponse.json({ error: delErr.message }, { status: 400 })
+      if (delErr) return NextResponse.json({ error: delErr.message }, { status: 400, headers })
     } else {
       // Like
       const { error: insErr } = await supabase
         .from('post_reactions')
         .insert({ post_id: id, user_id: userId, reaction_type: 'like' })
-      if (insErr) return NextResponse.json({ error: insErr.message }, { status: 400 })
+      if (insErr) return NextResponse.json({ error: insErr.message }, { status: 400, headers })
     }
 
     // Recompute like count and update community_posts_enhanced.likes_count
@@ -90,10 +104,10 @@ export async function POST(_req: NextRequest, context: { params: Promise<{ id: s
 
     // Respond with new state
     const liked = !existing
-    return NextResponse.json({ count: likeCount, liked })
+    return NextResponse.json({ count: likeCount, liked }, { headers })
   } catch (error) {
     console.error('Error toggling like:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 

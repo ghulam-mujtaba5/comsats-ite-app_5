@@ -6,6 +6,13 @@ export async function POST(
   request: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const { id } = await context.params
   const cookieStore = await cookies()
   const supabase = createServerClient(
@@ -24,7 +31,7 @@ export async function POST(
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     // Check if already liked
@@ -36,7 +43,7 @@ export async function POST(
       .eq('reaction_type', 'like')
       .maybeSingle()
 
-    if (fetchErr) return NextResponse.json({ error: fetchErr.message }, { status: 400 })
+    if (fetchErr) return NextResponse.json({ error: fetchErr.message }, { status: 400, headers })
 
     if (existing) {
       // unlike
@@ -46,13 +53,13 @@ export async function POST(
         .eq('comment_id', id)
         .eq('user_id', user.id)
         .eq('reaction_type', 'like')
-      if (delErr) return NextResponse.json({ error: delErr.message }, { status: 400 })
+      if (delErr) return NextResponse.json({ error: delErr.message }, { status: 400, headers })
     } else {
       // like
       const { error: insErr } = await supabase
         .from('comment_reactions')
         .insert({ comment_id: id, user_id: user.id, reaction_type: 'like' })
-      if (insErr) return NextResponse.json({ error: insErr.message }, { status: 400 })
+      if (insErr) return NextResponse.json({ error: insErr.message }, { status: 400, headers })
     }
 
     // recompute like count and update post_comments_enhanced.likes_count best-effort
@@ -71,8 +78,8 @@ export async function POST(
       }
     } catch {}
 
-    return NextResponse.json({ count: count || 0 })
+    return NextResponse.json({ count: count || 0 }, { headers })
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

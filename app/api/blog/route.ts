@@ -44,6 +44,13 @@ const STATIC_BLOG_POSTS = [
 
 // GET /api/blog - Fetch blog articles
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -148,15 +155,22 @@ export async function GET(request: NextRequest) {
         offset,
         total: totalCount,
       },
-    })
+    }, { headers })
   } catch (error) {
     console.error('Error fetching blog articles:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
 // POST /api/blog - Create a new blog article (admin only)
 export async function POST(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
   const cookieStore = await cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -180,7 +194,7 @@ export async function POST(request: NextRequest) {
     // Check if user is admin
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const { data: adminUser } = await supabase
@@ -190,7 +204,7 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (!adminUser || (adminUser.role !== 'admin' && adminUser.role !== 'super_admin')) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers })
     }
 
     const body = await request.json()
@@ -198,7 +212,7 @@ export async function POST(request: NextRequest) {
 
     // Validate required fields
     if (!title || !slug || !content || !category) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400, headers })
     }
 
     const { data, error } = await supabase
@@ -226,9 +240,9 @@ export async function POST(request: NextRequest) {
       throw error
     }
 
-    return NextResponse.json(data)
+    return NextResponse.json(data, { headers })
   } catch (error) {
     console.error('Error creating blog article:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

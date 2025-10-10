@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import * as AvatarPrimitive from "@radix-ui/react-avatar"
+import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 
@@ -23,8 +24,30 @@ function Avatar({
 
 function AvatarImage({
   className,
+  src,
+  alt,
+  width = 40,
+  height = 40,
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
+}: React.ComponentProps<typeof AvatarPrimitive.Image> & {
+  width?: number
+  height?: number
+}) {
+  // Use Next.js Image component for better optimization
+  if (src) {
+    return (
+      <Image
+        src={src}
+        alt={alt || ""}
+        width={width}
+        height={height}
+        className={cn("aspect-square size-full object-cover", className)}
+        {...props}
+      />
+    )
+  }
+  
+  // Fallback to Radix UI AvatarImage if no src
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"

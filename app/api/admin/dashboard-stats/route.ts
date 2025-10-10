@@ -3,6 +3,13 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { withSupabaseRetry, safeCountWithRetry, safeListUsersWithRetry } from '@/lib/retry-utils'
 
 export async function GET() {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     const supabase = supabaseAdmin
 
@@ -54,7 +61,7 @@ export async function GET() {
       totalFaculty: extractValue(totalFaculty),
       totalReviews: extractValue(totalReviews),
       totalResources: extractValue(totalResources),
-    })
+    }, { headers })
   } catch (error) {
     console.error('Error fetching dashboard stats:', error)
     
@@ -65,6 +72,6 @@ export async function GET() {
       totalReviews: 0,
       totalResources: 0,
       error: 'Failed to fetch current stats, showing fallback data',
-    }, { status: 200 }) // Return 200 with fallback data instead of 500
+    }, { status: 200, headers }) // Return 200 with fallback data instead of 500
   }
 }

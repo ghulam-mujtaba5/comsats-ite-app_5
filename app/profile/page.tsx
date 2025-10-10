@@ -47,7 +47,7 @@ import {
 import { cn } from "@/lib/utils"
 import { useState, useEffect } from "react"
 import { LevelProgressCard } from "@/components/profile/level-progress-card"
-import { RewardsShowcase } from "@/components/profile/rewards-showcase"
+import { EnhancedBadgeShowcase } from "@/components/gamification/enhanced-badge-showcase"
 import { getLevelForPoints } from "@/lib/gamification"
 import { Info } from "lucide-react"
 import { EmailManagement } from "@/components/profile/email-management"
@@ -635,7 +635,7 @@ export default function ProfilePage() {
 
                   {/* Rewards & Badges Showcase */}
                   {!contributionLoading && contributionData && (
-                    <RewardsShowcase 
+                    <EnhancedBadgeShowcase 
                       points={contributionData.totalPoints}
                       level={getLevelForPoints(contributionData.totalPoints).level}
                       earnedBadgeIds={contributionData.badges?.map((b: any) => b.id) || []}

@@ -4,6 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // GET /api/community/reports - Get all reports (moderator only)
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -28,14 +35,14 @@ export async function GET(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     // Check if user is a moderator (in real app, this would check a moderators table or role)
     const { data: isAdmin } = await supabase.rpc('is_admin', { uid: user.id })
     
     if (!isAdmin) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers })
     }
 
     const { searchParams } = new URL(request.url)
@@ -73,7 +80,7 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Error fetching reports:', error)
-      return NextResponse.json({ error: 'Failed to fetch reports' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to fetch reports' }, { status: 500, headers })
     }
 
     // Transform data for frontend
@@ -113,15 +120,22 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    return NextResponse.json(transformedReports)
+    return NextResponse.json(transformedReports, { headers })
   } catch (error) {
     console.error('Error in GET /api/community/reports:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
 // POST /api/community/reports - Create a new report
 export async function POST(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -145,7 +159,7 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const body = await request.json()
@@ -162,7 +176,7 @@ export async function POST(request: NextRequest) {
 
     // Validate required fields
     if (!reason) {
-      return NextResponse.json({ error: 'Reason is required' }, { status: 400 })
+      return NextResponse.json({ error: 'Reason is required' }, { status: 400, headers })
     }
 
     // Check if user has already reported this content
@@ -173,7 +187,7 @@ export async function POST(request: NextRequest) {
       .or(`post_id.eq.${postId},comment_id.eq.${commentId},reported_user_id.eq.${userId}`)
 
     if (existingReports && existingReports.length > 0) {
-      return NextResponse.json({ error: 'You have already reported this content' }, { status: 400 })
+      return NextResponse.json({ error: 'You have already reported this content' }, { status: 400, headers })
     }
 
     // Create report
@@ -196,7 +210,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Error creating report:', error)
-      return NextResponse.json({ error: 'Failed to create report' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to create report' }, { status: 500, headers })
     }
 
     return NextResponse.json({ 
@@ -205,6 +219,6 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('Error in POST /api/community/reports:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

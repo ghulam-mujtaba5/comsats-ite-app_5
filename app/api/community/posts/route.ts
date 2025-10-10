@@ -6,16 +6,44 @@ import { NextRequest, NextResponse } from 'next/server'
  * Fetches community posts with optional filtering and pagination
  */
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const supabase = await createSupabaseClient()
   
   try {
     const { limit, offset, withMeta, campusId, departmentId, batch } = extractQueryParams(request)
 
     // Build the base query with joins to get campus and department information
+    // Select only necessary fields to reduce data transfer and CPU usage
     let query = supabase
       .from('community_posts_enhanced')
       .select(`
-        *,
+        id,
+        user_id,
+        content,
+        type,
+        media,
+        location,
+        feeling,
+        tagged_users,
+        visibility,
+        campus_id,
+        department_id,
+        batch,
+        is_pinned,
+        is_edited,
+        edited_at,
+        likes_count,
+        comments_count,
+        shares_count,
+        views_count,
+        created_at,
+        updated_at,
         campuses(name, code),
         departments(name, code)
       `)
@@ -47,13 +75,13 @@ export async function GET(request: NextRequest) {
           nextOffset: offset + pageLen,
           hasMore: pageLen === limit,
         },
-      })
+      }, { headers })
     }
 
-    return NextResponse.json(transformedPosts)
+    return NextResponse.json(transformedPosts, { headers })
   } catch (error) {
     console.error('Error fetching posts:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers: { ...headers, "Content-Type": "application/json" } })
   }
 }
 
@@ -62,20 +90,27 @@ export async function GET(request: NextRequest) {
  * Creates a new community post
  */
 export async function POST(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
   const supabase = await createSupabaseClient()
 
   try {
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const body = await request.json()
     const { content, type, tags } = body
 
     if (!content || content.trim().length < 10) {
-      return NextResponse.json({ error: 'Content must be at least 10 characters' }, { status: 400 })
+      return NextResponse.json({ error: 'Content must be at least 10 characters' }, { status: 400, headers })
     }
 
     // Get user's campus and department from user_preferences
@@ -98,7 +133,27 @@ export async function POST(request: NextRequest) {
         avatar_url: avatarUrl
       })
       .select(`
-        *,
+        id,
+        user_id,
+        content,
+        type,
+        media,
+        location,
+        feeling,
+        tagged_users,
+        visibility,
+        campus_id,
+        department_id,
+        batch,
+        is_pinned,
+        is_edited,
+        edited_at,
+        likes_count,
+        comments_count,
+        shares_count,
+        views_count,
+        created_at,
+        updated_at,
         campuses(name, code),
         departments(name, code)
       `)
@@ -109,10 +164,10 @@ export async function POST(request: NextRequest) {
     // Transform response to match frontend interface
     const transformedPost = transformPostRecord(post)
 
-    return NextResponse.json(transformedPost)
+    return NextResponse.json(transformedPost, { headers })
   } catch (error) {
     console.error('Error creating post:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 

@@ -14,6 +14,14 @@ import { jsonLdOrganization, jsonLdWebSite, jsonLdSiteNavigation, jsonLdEducatio
 import Script from "next/script"
 import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
 import { WebVitalsReporter } from "@/components/analytics/web-vitals-reporter"
+// Import polyfills for better browser compatibility
+import "@/lib/polyfills"
+// Import compatibility components
+import { FallbackWarning } from "@/components/compatibility/fallback-warning"
+import { PwaFallback } from "@/components/compatibility/pwa-fallback"
+// Import AnimationProvider and GlobalAnimationController
+import { AnimationProvider } from "@/contexts/animation-context"
+import { GlobalAnimationController } from "@/components/animations/global-animation-controller"
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -91,6 +99,17 @@ export const metadata: Metadata = {
   // Add theme-color for mobile browsers and PWAs
   other: {
     'theme-color': '#0b0b0b',
+    // Mobile web app capable
+    'mobile-web-app-capable': 'yes',
+    // iOS specific tags
+    'apple-mobile-web-app-title': 'CampusAxis',
+    'apple-mobile-web-app-status-bar-style': 'black-translucent',
+    'apple-mobile-web-app-capable': 'yes',
+    // Windows phone
+    'msapplication-TileColor': '#0b0b0b',
+    'msapplication-config': '/browserconfig.xml',
+    // Format detection
+    'format-detection': 'telephone=no',
   },
   icons: {
     icon: [
@@ -116,13 +135,16 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
+  maximumScale: 5,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0b0b0b" },
   ],
   // Optimize viewport for better performance
   interactiveWidget: "resizes-visual",
+  // Mobile viewport optimizations
+  userScalable: true,
+  viewportFit: "cover",
 }
 
 export default function RootLayout({
@@ -164,14 +186,20 @@ html {
           }}
         />
         <meta name="theme-color" content="#0b0b0b" />
-  {/* Performance: preconnect to Google Fonts for faster font fetches */}
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-  {/* Preload social preview images (SVG first, PNG fallback) to help crawlers and card renderers */}
-  <link rel="preload" as="image" href={asset('/og-preview.svg')} type="image/svg+xml" />
-  <link rel="preload" as="image" href={asset('/og-preview.png')} type="image/png" />
-  {/* Hint for legacy scrapers */}
-  <link rel="image_src" href={asset('/og-preview.png')} />
+        {/* Mobile web app tags */}
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="CampusAxis" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="format-detection" content="telephone=no" />
+        {/* Performance: preconnect to Google Fonts for faster font fetches */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Preload social preview images (SVG first, PNG fallback) to help crawlers and card renderers */}
+        <link rel="preload" as="image" href={asset('/og-preview.svg')} type="image/svg+xml" />
+        <link rel="preload" as="image" href={asset('/og-preview.png')} type="image/png" />
+        {/* Hint for legacy scrapers */}
+        <link rel="image_src" href={asset('/og-preview.png')} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite()) }}
@@ -255,23 +283,30 @@ html {
         )}
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <AuthProvider>
-            <CampusProvider>
-              <Header />
-              <div className="min-h-[60vh] max-w-full overflow-x-hidden">
-                {children}
-              </div>
-              <FooterConditional />
-              <Toaster />
-              {/* Client-side route change tracking - only in production */}
-              {isProd && (
-                <Suspense fallback={null}>
-                  <AnalyticsTracker />
-                  <WebVitalsReporter />
-                </Suspense>
-              )}
-            </CampusProvider>
-          </AuthProvider>
+          <AnimationProvider>
+            <AuthProvider>
+              <CampusProvider>
+                <Header />
+                <div className="min-h-[60vh] max-w-full overflow-x-hidden">
+                  {children}
+                </div>
+                <FooterConditional />
+                <Toaster />
+                {/* Global animation controller */}
+                <GlobalAnimationController />
+                {/* Browser compatibility warnings */}
+                <FallbackWarning />
+                <PwaFallback />
+                {/* Client-side route change tracking - only in production */}
+                {isProd && (
+                  <Suspense fallback={null}>
+                    <AnalyticsTracker />
+                    <WebVitalsReporter />
+                  </Suspense>
+                )}
+              </CampusProvider>
+            </AuthProvider>
+          </AnimationProvider>
         </ThemeProvider>
       </body>
     </html>

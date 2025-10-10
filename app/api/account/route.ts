@@ -6,6 +6,13 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 
 // GET user account details
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -23,7 +30,7 @@ export async function GET(request: NextRequest) {
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     // Get user preferences
@@ -62,15 +69,22 @@ export async function GET(request: NextRequest) {
       },
       createdAt: user.created_at,
       lastSignIn: user.last_sign_in_at,
-    })
+    }, { headers })
   } catch (error) {
     console.error('Error fetching account:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
 // PATCH user account details
 export async function PATCH(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -88,7 +102,7 @@ export async function PATCH(request: NextRequest) {
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const body = await request.json()
@@ -128,7 +142,7 @@ export async function PATCH(request: NextRequest) {
       })
       
       if (updateError) {
-        return NextResponse.json({ error: updateError.message }, { status: 400 })
+        return NextResponse.json({ error: updateError.message }, { status: 400, headers })
       }
     }
 
@@ -151,37 +165,44 @@ export async function PATCH(request: NextRequest) {
         })
 
       if (prefsError) {
-        return NextResponse.json({ error: prefsError.message }, { status: 400 })
+        return NextResponse.json({ error: prefsError.message }, { status: 400, headers })
       }
     }
 
-    return NextResponse.json({ success: true, message: 'Profile updated successfully' })
+    return NextResponse.json({ success: true, message: 'Profile updated successfully' }, { headers })
   } catch (error) {
     console.error('Error updating account:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
 export async function DELETE(request: Request) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     if (!url || !anon) {
-      return NextResponse.json({ error: 'Supabase env missing' }, { status: 500 })
+      return NextResponse.json({ error: 'Supabase env missing' }, { status: 500, headers })
     }
 
     // Expect Authorization: Bearer <access_token>
     const auth = request.headers.get('authorization') || request.headers.get('Authorization')
     const token = auth?.startsWith('Bearer ') ? auth.slice('Bearer '.length) : undefined
     if (!token) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     // Verify token and get user via anon client
     const supabase = createClient(url, anon)
     const { data: userData, error: userErr } = await supabase.auth.getUser(token)
     if (userErr || !userData?.user) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401, headers })
     }
 
     const userId = userData.user.id
@@ -189,12 +210,12 @@ export async function DELETE(request: Request) {
     // Delete auth user via admin client
     const { error: delErr } = await supabaseAdmin.auth.admin.deleteUser(userId)
     if (delErr) {
-      return NextResponse.json({ error: delErr.message }, { status: 500 })
+      return NextResponse.json({ error: delErr.message }, { status: 500, headers })
     }
 
     return new NextResponse(null, { status: 204 })
   } catch (e: any) {
-    return NextResponse.json({ error: e?.message || 'Server error' }, { status: 500 })
+    return NextResponse.json({ error: e?.message || 'Server error' }, { status: 500, headers })
   }
 }
 

@@ -3,8 +3,15 @@ import { supabaseAdmin } from '@/lib/supabase-admin'
 import { requireAdmin } from '@/lib/admin-access'
 
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const auth = await requireAdmin(req)
-  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
 
   try {
     const { searchParams } = new URL(req.url)
@@ -17,9 +24,9 @@ export async function GET(req: NextRequest) {
     }
     const { data, error } = await query
     if (error) throw error
-    return NextResponse.json({ data })
+    return NextResponse.json({ data }, { headers })
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || 'Failed to fetch past papers' }, { status: 400 })
+    return NextResponse.json({ error: e.message || 'Failed to fetch past papers' }, { status: 400, headers })
   }
 }
 
@@ -69,4 +76,3 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: e.message || 'Failed to delete past paper' }, { status: 400 })
   }
 }
-

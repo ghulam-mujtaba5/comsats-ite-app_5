@@ -6,9 +6,16 @@ import { requireAdmin } from '@/lib/admin-access'
 // Admin authorization centralized via requireAdmin
 
 export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
   try {
     const auth = await requireAdmin(req)
-    if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
 
     const { id } = await context.params
     const body = await req.json()
@@ -45,18 +52,25 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
       .select('*')
       .single()
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+    if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
 
-    return NextResponse.json(data)
+    return NextResponse.json(data, { headers })
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
 export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
   try {
     const auth = await requireAdmin(req)
-    if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
 
     const { id } = await context.params
     const cookieStore = await (cookies() as any)
@@ -82,10 +96,10 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
       .delete()
       .eq('id', id)
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+    if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
 
-    return NextResponse.json({ ok: true })
+    return NextResponse.json({ ok: true }, { headers })
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

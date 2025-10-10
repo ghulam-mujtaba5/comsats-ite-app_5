@@ -4,6 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // POST /api/community/shares - Share a post
 export async function POST(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,20 +34,20 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const body = await request.json()
     const { postId, sharedTo } = body
 
     if (!postId) {
-      return NextResponse.json({ error: 'Post ID is required' }, { status: 400 })
+      return NextResponse.json({ error: 'Post ID is required' }, { status: 400, headers })
     }
 
     // Valid share destinations
     const validDestinations = ['profile', 'group', 'event']
     if (sharedTo && !validDestinations.includes(sharedTo)) {
-      return NextResponse.json({ error: 'Invalid share destination' }, { status: 400 })
+      return NextResponse.json({ error: 'Invalid share destination' }, { status: 400, headers })
     }
 
     // Record the share
@@ -54,7 +61,7 @@ export async function POST(request: NextRequest) {
 
     if (insertError) {
       console.error('Error recording share:', insertError)
-      return NextResponse.json({ error: 'Failed to record share' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to record share' }, { status: 500, headers })
     }
 
     // Increment shares count in community_posts
@@ -68,15 +75,22 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       message: 'Post shared successfully'
-    })
+    }, { headers })
   } catch (error) {
     console.error('Error in POST /api/community/shares:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
 
 // GET /api/community/shares?post_id=... - Get shares for a post
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -101,7 +115,7 @@ export async function GET(request: NextRequest) {
     const postId = searchParams.get('post_id')
 
     if (!postId) {
-      return NextResponse.json({ error: 'Post ID is required' }, { status: 400 })
+      return NextResponse.json({ error: 'Post ID is required' }, { status: 400, headers })
     }
 
     // Get all shares for the post
@@ -120,7 +134,7 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Error fetching shares:', error)
-      return NextResponse.json({ error: 'Failed to fetch shares' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to fetch shares' }, { status: 500, headers })
     }
 
     // Transform data for frontend
@@ -137,9 +151,9 @@ export async function GET(request: NextRequest) {
       }
     }))
 
-    return NextResponse.json(transformedShares)
+    return NextResponse.json(transformedShares, { headers })
   } catch (error) {
     console.error('Error in GET /api/community/shares:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { FileText, Calculator, Users, BookOpen, Calendar, ArrowRight, Bug, TrendingUp, Sparkles } from "lucide-react"
+import { FileText, Calculator, Users, BookOpen, Calendar, ArrowRight, Bug, TrendingUp, Sparkles, GraduationCap, MessageSquare, Clock } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { notifyFetch } from "@/lib/notify"
@@ -118,30 +118,30 @@ export function FeatureCards() {
   }
 
   return (
-    <section className="py-16 px-4 bg-muted/20">
+    <section className="py-16 px-4 bg-gradient-to-b from-background to-muted/20">
       <div className="app-container">
-        {/* Simplified Header */}
-        <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <Badge variant="soft" className="mb-6 px-3 py-1.5 text-sm font-medium">
-            <Sparkles className="h-3 w-3 mr-1.5 text-primary" />
-            Academic Tools
+        {/* Enhanced Header */}
+        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-primary border border-primary/30">
+            <Sparkles className="h-4 w-4 mr-2" />
+            Academic Tools & Resources
           </Badge>
           
-          <h2 className="text-2xl lg:text-4xl font-bold text-balance mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-6">
             Everything You Need for{" "}
-            <span className="text-primary">
+            <span className="bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent">
               Academic Success
             </span>
           </h2>
           
-          <p className="text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Comprehensive tools and resources designed specifically for COMSATS University students. 
             Access everything you need to excel in your academic journey.
           </p>
         </div>
 
-        {/* Simplified Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Enhanced Feature Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => {
             const Icon = feature.icon
             return (
@@ -150,78 +150,94 @@ export function FeatureCards() {
                 className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                 style={{ animationDelay: `${100 + (index * 50)}ms` }}
               >
-                <Card className="group relative h-full overflow-hidden border bg-card hover:shadow-md transition-all duration-300">
-                  {/* Simplified badge */}
+                <Card className="group relative h-full overflow-hidden border bg-card/80 hover:shadow-xl transition-all duration-500 backdrop-blur-sm hover:-translate-y-2">
+                  {/* Enhanced badge */}
                   <div className="absolute top-4 right-4 z-10">
                     <Badge 
                       variant={getBadgeVariant(feature.badge)} 
-                      className="text-xs font-medium"
+                      className="text-xs font-medium px-2.5 py-1"
                     >
                       {feature.badge}
                     </Badge>
                   </div>
 
                   <CardHeader className="relative z-10 pb-4">
-                    {/* Simplified icon */}
-                    <div className={`w-12 h-12 rounded-xl ${feature.bgColor} flex items-center justify-center mb-4`}>
-                      <Icon className={`h-6 w-6 ${feature.color}`} />
+                    {/* Enhanced icon */}
+                    <div className={`w-14 h-14 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-5 shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-110`}>
+                      <Icon className={`h-7 w-7 ${feature.color}`} />
                     </div>
 
-                    {/* Simplified title and description */}
-                    <CardTitle className="text-lg mb-2">
+                    {/* Enhanced title and description */}
+                    <CardTitle className="text-xl mb-3 group-hover:text-primary transition-colors">
                       {feature.title}
                     </CardTitle>
-                    <CardDescription className="text-sm">
+                    <CardDescription className="text-base leading-relaxed">
                       {feature.description}
                     </CardDescription>
                   </CardHeader>
 
                   <CardContent className="relative z-10 pt-0">
-                    {/* Simplified stats */}
-                    <div className="flex items-center justify-between mb-4">
+                    {/* Enhanced stats */}
+                    <div className="flex items-center justify-between mb-5 py-3 border-t border-muted">
                       <div className="flex items-center gap-2">
-                        <TrendingUp className="h-3.5 w-3.5 text-primary" />
-                        <span className="text-xs font-medium text-muted-foreground">{feature.stats}</span>
+                        <TrendingUp className="h-4 w-4 text-primary" />
+                        <span className="text-sm font-medium text-muted-foreground">{feature.stats}</span>
                       </div>
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                      <div className="w-2 h-2 rounded-full bg-primary" />
                     </div>
 
-                    {/* CTA */}
+                    {/* Enhanced CTA */}
                     <Button 
                       variant="ghost" 
-                      className="w-full justify-between hover:bg-muted" 
+                      className="w-full justify-between hover:bg-muted group/btn p-3 h-auto" 
                       asChild
                     >
-                      <Link href={feature.href}>
+                      <Link href={feature.href} className="font-medium">
                         {feature.cta}
-                        <ArrowRight className="h-3.5 w-3.5" />
+                        <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                       </Link>
                     </Button>
                   </CardContent>
+                  
+                  {/* Decorative elements */}
+                  <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-primary/5 rounded-full blur-xl" />
+                  <div className="absolute -top-6 -left-6 w-24 h-24 bg-secondary/5 rounded-full blur-xl" />
                 </Card>
               </div>
             )
           })}
         </div>
 
-        {/* Simplified call to action */}
-        <div className={`text-center mt-12 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <Card className="inline-block p-6 border">
-            <div className="space-y-3">
-              <h3 className="text-xl font-semibold">Ready to get started?</h3>
-              <p className="text-muted-foreground max-w-md">
-                Join thousands of COMSATS students who are already using CampusAxis to excel in their studies.
+        {/* Enhanced call to action */}
+        <div className={`text-center mt-20 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <Card className="inline-block p-8 border bg-card/80 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-500 max-w-3xl mx-auto">
+            <div className="space-y-6">
+              <div className="flex justify-center">
+                <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl">
+                  <GraduationCap className="h-12 w-12 text-primary" />
+                </div>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold">Ready to Transform Your Academic Experience?</h3>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Join thousands of COMSATS students who are already using CampusAxis to excel in their studies and connect with their academic community.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button asChild>
-                  <Link href="/auth">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                <Button size="lg" className="text-base px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300" asChild>
+                  <Link href="/auth" className="flex items-center">
                     Get Started Free
-                    <ArrowRight className="ml-2 h-3.5 w-3.5" />
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button variant="outline" asChild>
-                  <Link href="/about">Learn More</Link>
+                <Button variant="outline" size="lg" className="text-base px-8 py-3 rounded-xl border-2 hover:shadow-md transition-all duration-300" asChild>
+                  <Link href="/about" className="flex items-center">
+                    <MessageSquare className="mr-2 h-4 w-4" />
+                    Learn More
+                  </Link>
                 </Button>
+              </div>
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground pt-4">
+                <Clock className="h-4 w-4" />
+                <span>Join in less than 2 minutes</span>
               </div>
             </div>
           </Card>

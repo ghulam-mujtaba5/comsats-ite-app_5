@@ -3,10 +3,17 @@ import { createClient } from '@supabase/supabase-js'
 import { requireAdmin } from '@/lib/admin-access'
 
 export async function POST(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
   try {
     // Centralized RBAC
     const access = await requireAdmin(req)
-    if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
 
     const formData = await req.formData()
     const file = formData.get('file') as File | null
@@ -16,19 +23,19 @@ export async function POST(req: NextRequest) {
     const externalUrlRaw = String(formData.get('externalUrl') || '').trim()
     const hasExternal = !!externalUrlRaw && /^https?:\/\//.test(externalUrlRaw)
 
-    if (!file && !hasExternal) return NextResponse.json({ error: 'Provide a PDF file or a valid external link (https://)' }, { status: 400 })
-    if (!title) return NextResponse.json({ error: 'Missing field: title' }, { status: 400 })
-    if (!department) return NextResponse.json({ error: 'Missing field: department' }, { status: 400 })
+    if (!file && !hasExternal) return NextResponse.json({ error: 'Provide a PDF file or a valid external link (https://)' }, { status: 400, headers })
+    if (!title) return NextResponse.json({ error: 'Missing field: title' }, { status: 400, headers })
+    if (!department) return NextResponse.json({ error: 'Missing field: department' }, { status: 400, headers })
 
     const allowed = ['application/pdf']
     const maxSizeBytes = 15 * 1024 * 1024 // 15 MB
     const anyFile = file as any
     if (file) {
       if (!allowed.includes(anyFile.type)) {
-        return NextResponse.json({ error: 'Invalid file type. Only PDF allowed.' }, { status: 400 })
+        return NextResponse.json({ error: 'Invalid file type. Only PDF allowed.' }, { status: 400, headers })
       }
       if (anyFile.size > maxSizeBytes) {
-        return NextResponse.json({ error: 'File too large. Max size is 15MB.' }, { status: 400 })
+        return NextResponse.json({ error: 'File too large. Max size is 15MB.' }, { status: 400, headers })
       }
     }
 
@@ -54,7 +61,7 @@ export async function POST(req: NextRequest) {
           public_url: mockUrl,
           uploaded_at: new Date().toISOString(),
         },
-      })
+      }, { headers })
     }
 
     const supabase = createClient(url, serviceKey)
@@ -85,13 +92,13 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({
           error: 'Failed to upload file to Storage',
           hint: `Ensure Storage bucket named "${BUCKET}" exists and that your Service Role key is valid. ${uploadErr.message || ''}`.trim(),
-        }, { status: 500 })
+        }, { status: 500, headers })
       }
 
       // Public or signed URL
       if (USE_SIGNED_URLS) {
         const { data: signed, error: sErr } = await supabase.storage.from(BUCKET).createSignedUrl(storagePath, 60 * 60 * 24 * 7)
-        if (sErr) return NextResponse.json({ error: 'Failed to create signed URL' }, { status: 500 })
+        if (sErr) return NextResponse.json({ error: 'Failed to create signed URL' }, { status: 500, headers })
         publicUrl = signed.signedUrl
       } else {
         const anonClient = createClient(url, anonKey)
@@ -119,12 +126,12 @@ export async function POST(req: NextRequest) {
     if (dbErr) {
       // best-effort cleanup: remove file
       try { if (storagePath) await supabase.storage.from(BUCKET).remove([storagePath]) } catch {}
-      return NextResponse.json({ error: 'Failed to save document metadata' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to save document metadata' }, { status: 500, headers })
     }
 
-    return NextResponse.json({ message: 'Timetable uploaded', doc: data?.[0] }, { status: 200 })
+    return NextResponse.json({ message: 'Timetable uploaded', doc: data?.[0] }, { status: 200, headers })
   } catch (e) {
     console.error('Timetable upload error:', e)
-    return NextResponse.json({ error: 'Unexpected error' }, { status: 500 })
+    return NextResponse.json({ error: 'Unexpected error' }, { status: 500, headers })
   }
 }

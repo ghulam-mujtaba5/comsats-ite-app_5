@@ -7,12 +7,16 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { 
       name, 
+      title,
       department, 
-      designation, 
       email, 
+      office,
       phone,
       specialization,
-      qualifications,
+      courses,
+      education,
+      experience,
+      profile_image,
       campus_id,
       submitted_by 
     } = body
@@ -60,12 +64,16 @@ export async function POST(request: NextRequest) {
       .from('pending_faculty')
       .insert({
         name,
+        title: title || '',
         department,
-        designation: designation || 'Lecturer',
-        email,
-        phone,
-        specialization,
-        qualifications,
+        email: email || '',
+        office: office || '',
+        phone: phone || '',
+        specialization: specialization || [], // Array of strings
+        courses: courses || [], // Array of strings
+        education: education || [], // Array of strings
+        experience: experience || '',
+        profile_image: profile_image || '',
         campus_id,
         submitted_by,
         status: 'pending', // pending, approved, rejected

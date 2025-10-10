@@ -45,6 +45,13 @@ import { requireAdmin } from '@/lib/admin-access'
 // create index if not exists ix_news_status on news(status);
 
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=900', // Cache for 30 minutes, stale for 15 min
+    'CDN-Cache-Control': 'public, s-maxage=1800',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=1800'
+  }
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!url || !anon) {
@@ -62,7 +69,7 @@ export async function GET(req: NextRequest) {
           updated_at: new Date().toISOString(),
         },
       ],
-    }, { headers: { 'X-Mock-Data': '1' } })
+    }, { headers: { ...headers, 'X-Mock-Data': '1' } })
   }
   const supabase = createClient(url, anon)
 
@@ -108,18 +115,25 @@ export async function GET(req: NextRequest) {
             updated_at: new Date().toISOString(),
           },
         ],
-      }, { headers: { 'X-Mock-Data': '1' } })
+      }, { headers: { ...headers, 'X-Mock-Data': '1' } })
     }
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ error: error.message }, { status: 500, headers: { ...headers, "Content-Type": "application/json" } })
   }
-  return NextResponse.json({ data })
+  return NextResponse.json({ data }, { headers })
 }
 
 export async function POST(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const auth = await requireAdmin(req)
-  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
   const body = await req.json().catch(() => null) as { title?: string; content?: string; image_url?: string | null; status?: 'draft' | 'published'; published_at?: string | null }
-  if (!body?.title || !body?.content) return NextResponse.json({ error: 'title and content are required' }, { status: 400 })
+  if (!body?.title || !body?.content) return NextResponse.json({ error: 'title and content are required' }, { status: 400, headers })
 
   const { title, content } = body
   const status = body.status ?? 'draft'
@@ -132,6 +146,6 @@ export async function POST(req: NextRequest) {
     .select('id,title,content,image_url,status,published_at,created_at,updated_at')
     .single()
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ data })
+  if (error) return NextResponse.json({ error: error.message }, { status: 500, headers })
+  return NextResponse.json({ data }, { headers })
 }

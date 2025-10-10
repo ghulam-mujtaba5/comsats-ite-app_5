@@ -11,6 +11,14 @@ export async function GET(
     if (!id) {
       return NextResponse.json({ error: 'Missing faculty id in route params' }, { status: 400 })
     }
+    
+    // Set cache headers to reduce function invocations
+    const headers = {
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800', // Cache for 1 hour, stale for 30 min
+      'CDN-Cache-Control': 'public, s-maxage=3600',
+      'Vercel-CDN-Cache-Control': 'public, s-maxage=3600'
+    }
+    
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -50,7 +58,7 @@ export async function GET(
         if (seedErr) throw seedErr
         fData = seeded || placeholder
       } else {
-        return NextResponse.json({ error: 'Not found' }, { status: 404 })
+        return NextResponse.json({ error: 'Not found' }, { status: 404, headers })
       }
     }
 
@@ -63,7 +71,7 @@ export async function GET(
     const rating_count = (stats as any[])?.length ?? 0
     const rating_avg = rating_count === 0 ? 0 : (stats as any[]).reduce((s, x: any) => s + Number(x.rating || 0), 0) / rating_count
 
-    return NextResponse.json({ data: { ...fData, rating_avg, rating_count } })
+    return NextResponse.json({ data: { ...fData, rating_avg, rating_count } }, { headers })
   } catch (error: any) {
     return NextResponse.json({ error: error.message ?? 'Unknown error' }, { status: 400 })
   }

@@ -18,14 +18,15 @@ export const supabaseAdmin = (url && serviceKey)
   ? createClient(url, serviceKey, {
       auth: {
         autoRefreshToken: false,
-        persistSession: false
+        persistSession: false,
+        flowType: 'pkce' // Use PKCE flow for better security
       },
       global: {
         fetch: (url, options = {}) => {
           return fetch(url, {
             ...options,
-            // Set reasonable timeout for admin requests
-            signal: AbortSignal.timeout(20000), // 20 second timeout for admin operations
+            // Set reasonable timeout for admin requests to prevent long-running queries
+            signal: AbortSignal.timeout(15000), // 15 second timeout (reduced from 20)
           })
         },
       },

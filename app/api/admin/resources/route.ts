@@ -45,8 +45,15 @@ async function ensureBucket() {
 
 // List resources
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const access = await requireAdmin(req)
-  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!access.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
   const { searchParams } = new URL(req.url)
   if (searchParams.get('debug') === '1') {
     const { data: buckets, error: bErr } = await supabaseAdmin.storage.listBuckets()
@@ -56,14 +63,14 @@ export async function GET(req: NextRequest) {
       bucketExists,
       buckets: buckets?.map(b => ({ name: b.name, public: (b as any).public })) || [],
       error: bErr?.message || null,
-    })
+    }, { headers })
   }
   const { data, error } = await supabaseAdmin
     .from('resources')
     .select('id,title,description,department,term,external_url,file_url,size_bytes,mime_type,uploaded_at')
     .order('uploaded_at', { ascending: false })
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ data })
+  if (error) return NextResponse.json({ error: error.message }, { status: 500, headers })
+  return NextResponse.json({ data }, { headers })
 }
 
 // Create resource: either external_url OR uploaded file

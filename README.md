@@ -32,9 +32,9 @@ Modern university portal built with Next.js 15, React 19, Tailwind CSS 4, and Mo
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [Deployment](#deployment)
+  - [Vercel Free Tier Deployment](#vercel-free-tier-deployment)
 - [Screenshots](#screenshots)
 - [License](#license)
-
 
 ## Features
 
@@ -90,7 +90,7 @@ Create a `.env.local` file in the project root. Common variables (adjust to your
 ```bash
 # Database
 MONGODB_URI="mongodb+srv://<user>:<pass>@<cluster>/<db>?retryWrites=true&w=majority"
-
+```
 
 > Tip: Review files under `lib/` and `app/api/` to confirm the exact variables used by your deployment.
 
@@ -160,6 +160,19 @@ Contributions, issues, and feature requests are welcome. Feel free to open a PR 
 - Start: `pnpm start`
 - Ensure the required environment variables are configured in your hosting provider (e.g., Vercel, Netlify with adapters, or your own server).
 
+### Vercel Free Tier Deployment
+
+This project includes optimizations for deployment on Vercel's free tier:
+
+- **Resource Usage Minimization**: Implemented ISR caching, API route caching, and database query optimizations
+- **Database Indexes**: Added indexes to improve query performance and reduce CPU usage
+- **Image Optimization**: Configured Next.js image optimization to reduce bandwidth usage
+- **Deployment Configuration**: Includes `vercel.json` with optimized settings
+
+For detailed deployment instructions, see [DEPLOYMENT_FREE_TIER.md](DEPLOYMENT_FREE_TIER.md).
+
+For a complete summary of optimizations, see [FREE_TIER_OPTIMIZATIONS_SUMMARY.md](FREE_TIER_OPTIMIZATIONS_SUMMARY.md).
+
 ## Screenshots
 
 Add screenshots or a short demo GIF in the `public/` folder and reference them here:
@@ -171,4 +184,3 @@ Add screenshots or a short demo GIF in the `public/` folder and reference them h
 ## License
 
 This project is provided as-is for portfolio/showcase purposes. If you need a specific open-source license (e.g., MIT), add a `LICENSE` file and update this section.
-

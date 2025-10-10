@@ -2,11 +2,18 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 export async function POST(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     const { email } = await request.json()
 
     if (!email) {
-      return NextResponse.json({ error: 'Email is required' }, { status: 400 })
+      return NextResponse.json({ error: 'Email is required' }, { status: 400, headers })
     }
 
     // Prefer request origin for local/dev, fallback to production
@@ -16,7 +23,7 @@ export async function POST(request: NextRequest) {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     if (!url || !anon) {
-      return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 })
+      return NextResponse.json({ error: 'Supabase not configured' }, { status: 500, headers })
     }
     const supabase = createClient(url, anon, { auth: { persistSession: false, autoRefreshToken: false } })
 
@@ -25,13 +32,13 @@ export async function POST(request: NextRequest) {
     })
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
+      return NextResponse.json({ error: error.message }, { status: 400, headers })
     }
 
-    return NextResponse.json({ message: 'Password reset link sent to your email!' })
+    return NextResponse.json({ message: 'Password reset link sent to your email!' }, { headers })
 
   } catch (error: any) {
     console.error('Password reset error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

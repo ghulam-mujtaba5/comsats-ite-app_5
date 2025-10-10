@@ -23,10 +23,17 @@ function getClient() {
 
 // GET /api/help-desk/responses?ticket_id=uuid
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const supabase = await getClient()
   const url = new URL(req.url)
   const ticketId = url.searchParams.get('ticket_id')
-  if (!ticketId) return NextResponse.json({ error: 'ticket_id is required' }, { status: 400 })
+  if (!ticketId) return NextResponse.json({ error: 'ticket_id is required' }, { status: 400, headers })
 
   const { data, error } = await supabase
     .from('help_desk_responses')
@@ -34,8 +41,8 @@ export async function GET(req: NextRequest) {
     .eq('ticket_id', ticketId)
     .order('created_at', { ascending: true })
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ data })
+  if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
+  return NextResponse.json({ data }, { headers })
 }
 
 // POST /api/help-desk/responses

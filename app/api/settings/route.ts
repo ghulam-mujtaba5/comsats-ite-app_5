@@ -5,6 +5,13 @@ import { cookies } from 'next/headers'
 // Public site settings GET
 // Returns latest row from site_settings with safe fields only
 export async function GET() {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -24,6 +31,6 @@ export async function GET() {
     .order('updated_at', { ascending: false })
     .limit(1)
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ data: data?.[0] ?? null })
+  if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
+  return NextResponse.json({ data: data?.[0] ?? null }, { headers })
 }

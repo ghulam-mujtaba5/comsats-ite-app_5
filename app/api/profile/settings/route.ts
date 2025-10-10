@@ -2,12 +2,19 @@ import { supabase } from '@/lib/supabase'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     
     // Get authenticated user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     // Fetch user preferences
@@ -51,24 +58,31 @@ export async function GET(request: NextRequest) {
       settings,
       user_id: user.id,
       email: user.email
-    })
+    }, { headers })
 
   } catch (error) {
     console.error('Error fetching settings:', error)
     return NextResponse.json(
       { error: 'Failed to fetch settings' },
-      { status: 500 }
+      { status: 500, headers }
     )
   }
 }
 
 export async function PATCH(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     
     // Get authenticated user
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const body = await request.json()
@@ -77,7 +91,7 @@ export async function PATCH(request: NextRequest) {
     if (!settings) {
       return NextResponse.json(
         { error: 'Settings data required' },
-        { status: 400 }
+        { status: 400, headers }
       )
     }
 
@@ -105,13 +119,13 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({
       success: true,
       settings: data.settings
-    })
+    }, { headers })
 
   } catch (error) {
     console.error('Error updating settings:', error)
     return NextResponse.json(
       { error: 'Failed to update settings' },
-      { status: 500 }
+      { status: 500, headers }
     )
   }
 }

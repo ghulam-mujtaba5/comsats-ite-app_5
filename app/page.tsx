@@ -6,6 +6,8 @@ import { CommunitySection } from "@/components/home/community-section"
 import { FAQSection } from "@/components/home/faq-section"
 import { ComingSoonSection } from "@/components/home/coming-soon-section"
 
+export const revalidate = 3600 // 1 hour - cache the home page to reduce function invocations
+
 export const metadata: Metadata = {
   alternates: {
     canonical: "/",
@@ -21,11 +23,13 @@ export default function HomePage() {
         {/* About CampusAxis card/section */}
         <section className="app-container py-8">
           <div className="max-w-2xl mx-auto">
-            <div className="rounded-2xl bg-muted p-6 text-center border">
+            <div className="rounded-2xl bg-muted p-6 text-center border shadow-sm hover:shadow-md transition-shadow duration-300">
               <h2 className="text-xl font-bold mb-2 text-primary">About CampusAxis</h2>
               <p className="text-muted-foreground mb-4">CampusAxis is your academic portal for COMSATS students—resources, tools, and support all in one place.</p>
               <a href="/about">
-                <button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-5 py-2 rounded-lg shadow-sm transition-all duration-300">Learn more</button>
+                <button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-5 py-2 rounded-lg shadow-sm transition-all duration-300 hover:scale-105">
+                  Learn more
+                </button>
               </a>
             </div>
           </div>

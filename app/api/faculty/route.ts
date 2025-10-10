@@ -4,6 +4,13 @@ import { cookies } from 'next/headers'
 
 // GET /api/faculty
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800', // Cache for 1 hour, stale for 30 min
+    'CDN-Cache-Control': 'public, s-maxage=3600',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=3600'
+  }
+
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -22,9 +29,26 @@ export async function GET(req: NextRequest) {
   const campusId = searchParams.get('campus_id')
   const departmentId = searchParams.get('department_id')
 
+  // Select only necessary fields to reduce data transfer and CPU usage
   let query = supabase
     .from('faculty')
-    .select('*')
+    .select(`
+      id,
+      name,
+      title,
+      department,
+      email,
+      office,
+      phone,
+      specialization,
+      courses,
+      education,
+      experience,
+      profile_image,
+      rating_avg,
+      rating_count,
+      created_at
+    `)
     .eq('status', 'approved') // Only show approved faculty
     .order('name', { ascending: true })
 
@@ -40,7 +64,7 @@ export async function GET(req: NextRequest) {
 
   const { data, error } = await query
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
 
   return NextResponse.json((data || []).map((row: any) => ({
     id: row.id,
@@ -58,5 +82,5 @@ export async function GET(req: NextRequest) {
     averageRating: Number(row.rating_avg ?? 0),
     totalReviews: Number(row.rating_count ?? 0),
     joinDate: row.created_at || new Date().toISOString(),
-  })))
+  })), { headers })
 }

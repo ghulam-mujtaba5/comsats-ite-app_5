@@ -105,8 +105,8 @@ export function Header() {
             title={isAdmin ? "Go to Admin Panel" : "Go to Home"}
             className="flex items-center space-x-2 sm:space-x-3 hover:opacity-90 transition-all duration-300 interactive group px-1 sm:px-2 py-1 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/30 backdrop-blur-sm min-w-0 flex-shrink"
           >
-            <div className="relative flex-shrink-0">
-              <Image src="/logo-square.svg" alt="CampusAxis Logo" width={36} height={36} className="sm:w-10 sm:h-10 rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg" />
+            <div className="relative flex-shrink-0 admin-nav-logo-container admin-nav-logo-wrapper">
+              <Image src="/logo-square.svg" alt="CampusAxis Logo" width={36} height={36} className="sm:w-10 sm:h-10 rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg admin-nav-logo" />
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
             <div className="flex flex-col min-w-0">
@@ -191,8 +191,8 @@ export function Header() {
             <SheetContent side="right" className="w-[80vw] max-w-[360px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen p-4">
               <div className="flex flex-col space-y-4 mt-4 pb-4 w-full">
                 <div className="flex items-center justify-center pb-6 border-b border-white/20 dark:border-white/10 w-full max-w-full box-border">
-                  <div className="relative flex-shrink-0 w-16 h-16">
-                    <Image src="/logo-square.svg" alt="CampusAxis Logo" width={64} height={64} className="rounded-2xl shadow-lg" />
+                  <div className="relative flex-shrink-0 w-16 h-16 admin-nav-logo-container admin-nav-logo-wrapper">
+                    <Image src="/logo-square.svg" alt="CampusAxis Logo" width={64} height={64} className="rounded-2xl shadow-lg admin-nav-logo" />
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-50" />
                   </div>
                 </div>
@@ -249,10 +249,10 @@ export function Header() {
           {isAuthenticated && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 sm:h-9 sm:w-9 rounded-full interactive hover-lift flex-shrink-0">
-                  <Avatar className="h-8 w-8 sm:h-9 sm:w-9">
+                <Button variant="ghost" className="relative h-8 w-8 sm:h-9 sm:w-9 rounded-full interactive hover-lift flex-shrink-0 admin-nav-logo-wrapper">
+                  <Avatar className="h-8 w-8 sm:h-9 sm:w-9 admin-nav-logo">
                     <AvatarImage src={(user as any).user_metadata?.avatar_url || undefined} alt={user.email || "Profile"} />
-                    <AvatarFallback className="bg-primary text-primary-foreground">
+                    <AvatarFallback className="bg-primary text-primary-foreground admin-nav-logo">
                       {(() => {
                         const email = user.email ?? ""
                         const handle = email.split("@")[0] ?? ""

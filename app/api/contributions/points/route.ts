@@ -3,12 +3,19 @@ import { supabase } from '@/lib/supabase'
 import { CONTRIBUTION_POINTS, BADGE_THRESHOLDS } from '@/lib/contribution-constants'
 
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get('userId')
 
     if (!userId) {
-      return NextResponse.json({ error: 'User ID required' }, { status: 400 })
+      return NextResponse.json({ error: 'User ID required' }, { status: 400, headers })
     }
 
     // Fetch user's contributions from all sources
@@ -166,13 +173,13 @@ export async function GET(request: NextRequest) {
       badges,
       stats,
       nextBadge: getNextBadge(totalPoints),
-    })
+    }, { headers })
 
   } catch (error) {
     console.error('Error calculating contribution points:', error)
     return NextResponse.json(
       { error: 'Failed to calculate contribution points' },
-      { status: 500 }
+      { status: 500, headers }
     )
   }
 }

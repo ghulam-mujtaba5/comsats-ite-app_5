@@ -22,7 +22,7 @@ import {
   Crown,
   Sparkles
 } from "lucide-react"
-import { motion } from "framer-motion"
+import { EnhancedLeaderboard } from "@/components/gamification/enhanced-leaderboard"
 
 interface LeaderboardEntry {
   userId: string
@@ -87,22 +87,6 @@ export default function LeaderboardPage() {
     } finally {
       setLoading(false)
     }
-  }
-
-  const getRankColor = (rank: number) => {
-    if (rank === 1) return 'from-yellow-500 to-amber-500'
-    if (rank === 2) return 'from-slate-400 to-slate-500'
-    if (rank === 3) return 'from-orange-600 to-orange-700'
-    if (rank <= 10) return 'from-blue-500 to-blue-600'
-    return 'from-purple-500 to-purple-600'
-  }
-
-  const getRankIcon = (rank: number) => {
-    if (rank === 1) return <Crown className="h-6 w-6 text-yellow-500" />
-    if (rank === 2) return <Medal className="h-6 w-6 text-slate-400" />
-    if (rank === 3) return <Medal className="h-6 w-6 text-orange-600" />
-    if (rank <= 10) return <Star className="h-5 w-5 text-blue-500" />
-    return <Sparkles className="h-4 w-4 text-purple-500" />
   }
 
   const getGamificationRoleBadge = (role: string | null | undefined) => {
@@ -180,245 +164,25 @@ export default function LeaderboardPage() {
 
         {/* Leaderboard Content */}
         <div className="container mx-auto px-4 py-8">
-          {loading ? (
-            <div className="flex justify-center items-center py-20">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          ) : leaderboard.length === 0 ? (
-            <Card className="text-center py-20">
-              <CardContent>
-                <Trophy className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">No Data Yet</h3>
-                <p className="text-muted-foreground">
-                  Be the first to contribute and climb the leaderboard!
-                </p>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="space-y-4">
-              {/* Top 3 Podium */}
-              {leaderboard.length >= 3 && (
-                <div className="grid grid-cols-3 gap-4 mb-8">
-                  {/* 2nd Place */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <Card className="relative overflow-hidden border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900">
-                      <div className="absolute top-0 right-0 w-24 h-24 bg-slate-400/20 rounded-full -mr-12 -mt-12" />
-                      <CardHeader className="pb-3">
-                        <div className="flex items-center justify-center mb-2">
-                          <div className="text-6xl">🥈</div>
-                        </div>
-                        <CardTitle className="text-center text-lg">{leaderboard[1].studentId}</CardTitle>
-                        <CardDescription className="text-center">
-                          {leaderboard[1].departmentCode} • {leaderboard[1].campusCode}
-                        </CardDescription>
-                        <div className="flex justify-center mt-2 gap-1 flex-wrap">
-                          {leaderboard[1].gamificationRole && (
-                            <Badge className={`${getGamificationRoleBadge(leaderboard[1].gamificationRole)?.color} text-white border-0 text-xs`}>
-                              {getGamificationRoleBadge(leaderboard[1].gamificationRole)?.icon} {getGamificationRoleBadge(leaderboard[1].gamificationRole)?.label}
-                            </Badge>
-                          )}
-                          {leaderboard[1].isAdminRole === 'super_admin' && (
-                            <Badge className="bg-gradient-to-r from-red-600 to-orange-600 text-white border-0 text-xs">
-                              👑 Super Admin
-                            </Badge>
-                          )}
-                          {leaderboard[1].isAdmin && leaderboard[1].isAdminRole !== 'super_admin' && (
-                            <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 text-xs">
-                              Admin
-                            </Badge>
-                          )}
-                        </div>
-                      </CardHeader>
-                      <CardContent className="text-center">
-                        <div className="text-3xl font-bold text-slate-600 dark:text-slate-300">
-                          {leaderboard[1].totalPoints.toLocaleString()}
-                        </div>
-                        <p className="text-sm text-muted-foreground">points</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-
-                  {/* 1st Place */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="-mt-4"
-                  >
-                    <Card className="relative overflow-hidden border-yellow-400 bg-gradient-to-br from-yellow-50 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 shadow-xl">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/20 rounded-full -mr-16 -mt-16" />
-                      <CardHeader className="pb-3">
-                        <div className="flex items-center justify-center mb-2">
-                          <div className="text-7xl relative">
-                            🏆
-                            <div className="absolute -top-2 -right-2">
-                              <Sparkles className="h-6 w-6 text-yellow-500 animate-pulse" />
-                            </div>
-                          </div>
-                        </div>
-                        <CardTitle className="text-center text-xl">{leaderboard[0].studentId}</CardTitle>
-                        <CardDescription className="text-center">
-                          {leaderboard[0].departmentCode} • {leaderboard[0].campusCode}
-                        </CardDescription>
-                        <div className="flex justify-center mt-2 gap-1 flex-wrap">
-                          {leaderboard[0].gamificationRole && (
-                            <Badge className={`${getGamificationRoleBadge(leaderboard[0].gamificationRole)?.color} text-white border-0`}>
-                              {getGamificationRoleBadge(leaderboard[0].gamificationRole)?.icon} {getGamificationRoleBadge(leaderboard[0].gamificationRole)?.label}
-                            </Badge>
-                          )}
-                          {leaderboard[0].isAdminRole === 'super_admin' && (
-                            <Badge className="bg-gradient-to-r from-red-600 to-orange-600 text-white border-0">
-                              👑 Super Admin
-                            </Badge>
-                          )}
-                          {leaderboard[0].isAdmin && leaderboard[0].isAdminRole !== 'super_admin' && (
-                            <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0">
-                              Admin
-                            </Badge>
-                          )}
-                        </div>
-                      </CardHeader>
-                      <CardContent className="text-center">
-                        <div className="text-4xl font-bold text-yellow-700 dark:text-yellow-400">
-                          {leaderboard[0].totalPoints.toLocaleString()}
-                        </div>
-                        <p className="text-sm text-muted-foreground">points</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-
-                  {/* 3rd Place */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    <Card className="relative overflow-hidden border-orange-400 bg-gradient-to-br from-orange-50 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30">
-                      <div className="absolute top-0 right-0 w-24 h-24 bg-orange-400/20 rounded-full -mr-12 -mt-12" />
-                      <CardHeader className="pb-3">
-                        <div className="flex items-center justify-center mb-2">
-                          <div className="text-6xl">🥉</div>
-                        </div>
-                        <CardTitle className="text-center text-lg">{leaderboard[2].studentId}</CardTitle>
-                        <CardDescription className="text-center">
-                          {leaderboard[2].departmentCode} • {leaderboard[2].campusCode}
-                        </CardDescription>
-                        <div className="flex justify-center mt-2 gap-1 flex-wrap">
-                          {leaderboard[2].gamificationRole && (
-                            <Badge className={`${getGamificationRoleBadge(leaderboard[2].gamificationRole)?.color} text-white border-0 text-xs`}>
-                              {getGamificationRoleBadge(leaderboard[2].gamificationRole)?.icon} {getGamificationRoleBadge(leaderboard[2].gamificationRole)?.label}
-                            </Badge>
-                          )}
-                          {leaderboard[2].isAdminRole === 'super_admin' && (
-                            <Badge className="bg-gradient-to-r from-red-600 to-orange-600 text-white border-0 text-xs">
-                              👑 Super Admin
-                            </Badge>
-                          )}
-                          {leaderboard[2].isAdmin && leaderboard[2].isAdminRole !== 'super_admin' && (
-                            <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 text-xs">
-                              Admin
-                            </Badge>
-                          )}
-                        </div>
-                      </CardHeader>
-                      <CardContent className="text-center">
-                        <div className="text-3xl font-bold text-orange-600 dark:text-orange-400">
-                          {leaderboard[2].totalPoints.toLocaleString()}
-                        </div>
-                        <p className="text-sm text-muted-foreground">points</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </div>
-              )}
-
-              {/* Rest of Leaderboard */}
-              <div className="space-y-3">
-                {leaderboard.slice(3).map((entry, index) => (
-                  <motion.div
-                    key={entry.userId}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <Card className={`hover:shadow-lg transition-all duration-300 ${
-                      entry.userId === user?.id ? 'ring-2 ring-primary' : ''
-                    }`}>
-                      <CardContent className="flex items-center gap-4 p-4">
-                        {/* Rank */}
-                        <div className="flex items-center justify-center w-16">
-                          <div className={`flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br ${getRankColor(entry.rank)}`}>
-                            <span className="text-white font-bold text-lg">#{entry.rank}</span>
-                          </div>
-                        </div>
-
-                        {/* Rank Icon */}
-                        <div className="flex-shrink-0">
-                          {getRankIcon(entry.rank)}
-                        </div>
-
-                        {/* Student Info */}
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-lg flex items-center gap-2">
-                            {entry.studentId}
-                            {entry.userId === user?.id && (
-                              <Badge variant="secondary">You</Badge>
-                            )}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">
-                            {entry.departmentCode} • {entry.campusCode}
-                          </p>
-                        </div>
-
-                        {/* Points */}
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-primary">
-                            {entry.totalPoints.toLocaleString()}
-                          </div>
-                          <p className="text-xs text-muted-foreground">points</p>
-                        </div>
-
-                        {/* Badge */}
-                        <div className="flex-shrink-0 flex flex-col gap-1">
-                          <Badge variant="outline" className="gap-1">
-                            <span>{entry.badge.icon}</span>
-                            {entry.badge.label}
-                          </Badge>
-                          <div className="flex flex-col gap-1">
-                            <Badge variant="outline" className="gap-1">
-                              <span>{entry.badge.icon}</span>
-                              {entry.badge.label}
-                            </Badge>
-                            <div className="flex gap-1 flex-wrap">
-                              {entry.gamificationRole && (
-                                <Badge className={`${getGamificationRoleBadge(entry.gamificationRole)?.color} text-white border-0 text-xs`}>
-                                  {getGamificationRoleBadge(entry.gamificationRole)?.icon} {getGamificationRoleBadge(entry.gamificationRole)?.label}
-                                </Badge>
-                              )}
-                              {entry.isAdminRole === 'super_admin' && (
-                                <Badge className="bg-gradient-to-r from-red-600 to-orange-600 text-white border-0 text-xs">
-                                  👑 Super Admin
-                                </Badge>
-                              )}
-                              {entry.isAdmin && entry.isAdminRole !== 'super_admin' && (
-                                <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 text-xs">
-                                  Admin
-                                </Badge>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          )}
+          <Card className="border-2 border-purple-200/50 dark:border-purple-800/50 bg-gradient-to-br from-purple-50/50 to-pink-50/50 dark:from-purple-950/20 dark:to-pink-950/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Trophy className="h-5 w-5 text-purple-600" />
+                Leaderboard Rankings
+              </CardTitle>
+              <CardDescription>
+                See how you rank among other contributors
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <EnhancedLeaderboard 
+                leaderboard={leaderboard} 
+                loading={loading} 
+                user={user ? { id: user.id } : undefined} 
+                category={category} 
+              />
+            </CardContent>
+          </Card>
         </div>
       </div>
     </AuthGuard>

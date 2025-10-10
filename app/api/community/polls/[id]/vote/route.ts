@@ -6,6 +6,13 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   const resolvedParams = await params
   const cookieStore = await cookies()
   const supabase = createServerClient(
@@ -40,7 +47,7 @@ export async function POST(
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
     }
 
     const pollId = resolvedParams.id
@@ -48,7 +55,7 @@ export async function POST(
     const { optionId } = body
 
     if (!optionId) {
-      return NextResponse.json({ error: 'Option ID is required' }, { status: 400 })
+      return NextResponse.json({ error: 'Option ID is required' }, { status: 400, headers })
     }
 
     // Get the poll
@@ -59,23 +66,23 @@ export async function POST(
       .single()
 
     if (pollError || !poll) {
-      return NextResponse.json({ error: 'Poll not found' }, { status: 404 })
+      return NextResponse.json({ error: 'Poll not found' }, { status: 404, headers })
     }
 
     // Check if poll is active
     if (!poll.is_active) {
-      return NextResponse.json({ error: 'Poll is closed' }, { status: 400 })
+      return NextResponse.json({ error: 'Poll is closed' }, { status: 400, headers })
     }
 
     // Check if poll has expired
     if (poll.expires_at && new Date(poll.expires_at) < new Date()) {
-      return NextResponse.json({ error: 'Poll has expired' }, { status: 400 })
+      return NextResponse.json({ error: 'Poll has expired' }, { status: 400, headers })
     }
 
     // Validate option ID
     const optionIndex = parseInt(optionId)
     if (isNaN(optionIndex) || optionIndex < 0 || optionIndex >= poll.options.length) {
-      return NextResponse.json({ error: 'Invalid option ID' }, { status: 400 })
+      return NextResponse.json({ error: 'Invalid option ID' }, { status: 400, headers })
     }
 
     // Check if user has already voted
@@ -87,7 +94,7 @@ export async function POST(
       .maybeSingle()
 
     if (existingVote) {
-      return NextResponse.json({ error: 'You have already voted in this poll' }, { status: 400 })
+      return NextResponse.json({ error: 'You have already voted in this poll' }, { status: 400, headers })
     }
 
     // Record the vote
@@ -101,7 +108,7 @@ export async function POST(
 
     if (voteError) {
       console.error('Error recording vote:', voteError)
-      return NextResponse.json({ error: 'Failed to record vote' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to record vote' }, { status: 500, headers })
     }
 
     // Update poll vote counts
@@ -132,7 +139,7 @@ export async function POST(
       .single()
 
     if (!updatedPoll) {
-      return NextResponse.json({ error: 'Failed to fetch updated poll' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to fetch updated poll' }, { status: 500, headers })
     }
 
     // Transform for frontend
@@ -161,9 +168,9 @@ export async function POST(
       isAnonymous: false
     }
 
-    return NextResponse.json({ updatedPoll: transformedPoll })
+    return NextResponse.json({ updatedPoll: transformedPoll }, { headers })
   } catch (error) {
     console.error('Error in POST /api/community/polls/[id]/vote:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }

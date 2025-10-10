@@ -12,7 +12,7 @@ import { Star, MapPin, Mail, Phone, BookOpen, GraduationCap, Calendar, PenTool, 
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
-export const revalidate = 1800 // 30 minutes; adjust as needed
+export const revalidate = 3600 // 1 hour (increased from 30 minutes to reduce function invocations)
 
 // Fetch faculty & reviews server-side for SEO
 async function fetchFacultyAndReviews(id: string) {
@@ -20,18 +20,54 @@ async function fetchFacultyAndReviews(id: string) {
   if (!hasEnv) return { faculty: null, reviews: [] as Review[] }
   try {
     const { supabaseAdmin } = await import('@/lib/supabase-admin')
-    // Faculty
-    const { data: fData } = await supabaseAdmin.from('faculty').select('*').eq('id', id).maybeSingle()
+    // Faculty - select only necessary fields to reduce data transfer and CPU usage
+    const { data: fData } = await supabaseAdmin.from('faculty').select(`
+      id,
+      name,
+      title,
+      department,
+      email,
+      office,
+      phone,
+      specialization,
+      courses,
+      education,
+      experience,
+      profile_image,
+      rating_avg,
+      rating_count,
+      created_at
+    `).eq('id', id).eq('status', 'approved').maybeSingle()
     if (!fData) return { faculty: null, reviews: [] as Review[] }
 
-    // Reviews (approved only)
+    // Reviews (approved only) - limit to 100 to reduce data transfer
+    // Select only necessary fields for reviews
     const { data: rData } = await supabaseAdmin
       .from('reviews')
-      .select('*')
+      .select(`
+        id,
+        faculty_id,
+        student_name,
+        is_anonymous,
+        course,
+        semester,
+        rating,
+        teaching_quality,
+        accessibility,
+        course_material,
+        grading,
+        comment,
+        pros,
+        cons,
+        would_recommend,
+        created_at,
+        helpful,
+        reported
+      `)
       .eq('faculty_id', id)
       .eq('status', 'approved')
       .order('created_at', { ascending: false })
-      .limit(500)
+      .limit(100) // Reduced from 500 to 100 to reduce data transfer
 
     const faculty: Faculty = {
       id: fData.id,
@@ -99,7 +135,8 @@ export async function generateStaticParams() {
   if (!hasEnv) return []
   try {
     const { supabaseAdmin } = await import('@/lib/supabase-admin')
-    const { data } = await supabaseAdmin.from('faculty').select('id').limit(1000)
+    // Limit to 500 faculty members to reduce build time and resource usage
+    const { data } = await supabaseAdmin.from('faculty').select('id').eq('status', 'approved').limit(500)
     return (data || []).map((f: any) => ({ id: f.id }))
   } catch {
     return []
@@ -137,7 +174,7 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
   const reviewListJson = jsonLdReviewList({
     facultyName: faculty.name,
     facultyUrl: `/faculty/${faculty.id}`,
-    reviews: reviews.slice(0, 20).map(r => ({
+    reviews: reviews.slice(0, 20).map(r => ({ // Limit to 20 reviews for JSON-LD
       author: r.studentName,
       body: r.comment,
       rating: r.rating,
@@ -157,7 +194,12 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
               <div className="flex flex-col lg:flex-row gap-8">
                 <div className="flex-shrink-0">
                   <Avatar className="h-32 w-32">
-                    <AvatarImage src={faculty.profileImage || '/placeholder-user.jpg'} alt={faculty.name} />
+                    <AvatarImage 
+                      src={faculty.profileImage || '/placeholder-user.jpg'} 
+                      alt={faculty.name} 
+                      width={128}
+                      height={128}
+                    />
                     <AvatarFallback className="text-2xl">{faculty.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                   </Avatar>
                 </div>
@@ -181,14 +223,31 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
                     </Badge>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div className="flex items-center gap-2"><MapPin className="h-4 w-4 text-muted-foreground" /><span>Office: {faculty.office}</span></div>
-                    <div className="flex items-center gap-2"><Mail className="h-4 w-4 text-muted-foreground" /><span>{faculty.email}</span></div>
-                    {faculty.phone && <div className="flex items-center gap-2"><Phone className="h-4 w-4 text-muted-foreground" /><span>{faculty.phone}</span></div>}
-                    <div className="flex items-center gap-2"><Calendar className="h-4 w-4 text-muted-foreground" /><span>Joined: {new Date(faculty.joinDate).getFullYear()}</span></div>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                      <span>Office: {faculty.office}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Mail className="h-4 w-4 text-muted-foreground" />
+                      <span>{faculty.email}</span>
+                    </div>
+                    {faculty.phone && (
+                      <div className="flex items-center gap-2">
+                        <Phone className="h-4 w-4 text-muted-foreground" />
+                        <span>{faculty.phone}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                      <span>Joined: {new Date(faculty.joinDate).getFullYear()}</span>
+                    </div>
                   </div>
                   <div className="pt-4">
                     <WriteReviewDialog faculty={faculty}>
-                      <Button className="h-10 px-6"><PenTool className="h-5 w-5 mr-2" />Write Review</Button>
+                      <Button className="h-10 px-6">
+                        <PenTool className="h-5 w-5 mr-2" />
+                        Write Review
+                      </Button>
                     </WriteReviewDialog>
                     <p className="text-sm text-muted-foreground mt-2">
                       Share your experience with {faculty.name} to help other students
@@ -202,31 +261,78 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
             <div className="lg:col-span-1 space-y-6">
               {!!faculty.specialization.length && (
                 <Card>
-                  <CardHeader><CardTitle className="flex items-center gap-2"><BookOpen className="h-5 w-5" />Specialization</CardTitle></CardHeader>
-                  <CardContent><div className="flex flex-wrap gap-2">{faculty.specialization.map((s, i) => <Badge key={i} className="border">{s}</Badge>)}</div></CardContent>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <BookOpen className="h-5 w-5" />
+                      Specialization
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {faculty.specialization.map((s, i) => (
+                        <Badge key={i} className="border">
+                          {s}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
                 </Card>
               )}
               {!!faculty.education.length && (
                 <Card>
-                  <CardHeader><CardTitle className="flex items-center gap-2"><GraduationCap className="h-5 w-5" />Education</CardTitle></CardHeader>
-                  <CardContent><ul className="space-y-2 text-sm">{faculty.education.map((e, i) => <li key={i} className="flex items-start gap-2"><div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />{e}</li>)}</ul></CardContent>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <GraduationCap className="h-5 w-5" />
+                      Education
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm">
+                      {faculty.education.map((e, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                          {e}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
                 </Card>
               )}
               {!!faculty.courses.length && (
                 <Card>
-                  <CardHeader><CardTitle>Courses Taught</CardTitle></CardHeader>
-                  <CardContent><ul className="space-y-2 text-sm">{faculty.courses.map((c, i) => <li key={i} className="flex items-start gap-2"><div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />{c}</li>)}</ul></CardContent>
+                  <CardHeader>
+                    <CardTitle>Courses Taught</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2 text-sm">
+                      {faculty.courses.map((c, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0" />
+                          {c}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
                 </Card>
               )}
               <Card>
-                <CardHeader><CardTitle>Rating Breakdown</CardTitle></CardHeader>
-                <CardContent className="space-y-3">{[5,4,3,2,1].map(r => (
-                  <div key={r} className="flex items-center gap-3">
-                    <span className="text-sm w-8">{r} ★</span>
-                    <Progress value={(stats.ratingDistribution[r] / Math.max(stats.totalReviews, 1)) * 100} className="flex-1" />
-                    <span className="text-sm text-muted-foreground w-8">{stats.ratingDistribution[r]}</span>
-                  </div>
-                ))}</CardContent>
+                <CardHeader>
+                  <CardTitle>Rating Breakdown</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {[5, 4, 3, 2, 1].map((r) => (
+                    <div key={r} className="flex items-center gap-3">
+                      <span className="text-sm w-8">{r} ★</span>
+                      <Progress
+                        value={(stats.ratingDistribution[r] / Math.max(stats.totalReviews, 1)) * 100}
+                        className="flex-1"
+                      />
+                      <span className="text-sm text-muted-foreground w-8">
+                        {stats.ratingDistribution[r]}
+                      </span>
+                    </div>
+                  ))}
+                </CardContent>
               </Card>
             </div>
             <div className="lg:col-span-2">
@@ -237,13 +343,19 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
                 <Card className="p-8 text-center">
                   <PenTool className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                   <h3 className="text-lg font-semibold mb-2">No Reviews Yet</h3>
-                  <p className="text-muted-foreground mb-4">Be the first to share your experience with {faculty.name}</p>
+                  <p className="text-muted-foreground mb-4">
+                    Be the first to share your experience with {faculty.name}
+                  </p>
                   <WriteReviewDialog faculty={faculty}>
                     <Button>Write First Review</Button>
                   </WriteReviewDialog>
                 </Card>
               ) : (
-                <div className="space-y-4">{reviews.map(r => <ReviewCard key={r.id} review={r} />)}</div>
+                <div className="space-y-4">
+                  {reviews.map((r) => (
+                    <ReviewCard key={r.id} review={r} />
+                  ))}
+                </div>
               )}
             </div>
           </div>

@@ -43,6 +43,13 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
   if (!access.allow) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const { id } = await context.params
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
   const supabase = await getClient()
 
   const schema = z.object({
@@ -57,7 +64,7 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
   const body = await req.json().catch(() => null)
   const parsed = schema.safeParse(body)
   if (!parsed.success) {
-    return NextResponse.json({ error: 'Invalid payload', details: parsed.error.flatten() }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid payload', details: parsed.error.flatten() }, { status: 400, headers })
   }
 
   const { data, error } = await supabase
@@ -67,14 +74,21 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
     .select('*')
     .single()
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ data })
+  if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
+  return NextResponse.json({ data }, { headers })
 }
 
 // DELETE /api/help-desk/tickets/[id] (admin only)
 export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
   const access = await requireAdmin(req)
-  if (!access.allow) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  if (!access.allow) return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers })
 
   const { id } = await context.params
   const supabase = await getClient()
@@ -82,6 +96,6 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
   // delete responses then ticket (if RLS allows; otherwise rely on FK cascade if set)
   await supabase.from('help_desk_responses').delete().eq('ticket_id', id)
   const { error } = await supabase.from('help_desk_tickets').delete().eq('id', id)
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ ok: true })
+  if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
+  return NextResponse.json({ ok: true }, { headers })
 }

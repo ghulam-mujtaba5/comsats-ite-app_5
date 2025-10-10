@@ -49,7 +49,8 @@ export default function ResourcesPage() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await notifyFetch('/api/resources', { cache: 'no-store' }, { errorMessage: 'Failed to load resources' })
+        // Use force-cache to reduce function invocations on Vercel free tier
+        const res = await notifyFetch('/api/resources', { cache: 'force-cache' }, { errorMessage: 'Failed to load resources' })
         const j = await res.json()
         if (!res.ok) throw new Error(j?.error || 'Failed to load resources')
         setItems(j.data || [])

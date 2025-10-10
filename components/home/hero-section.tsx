@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useEffect, useState } from "react"
-import { ArrowRight, GraduationCap, Sparkles, TrendingUp, Users, BookOpen, Calculator, FileText, Calendar } from "lucide-react"
+import { ArrowRight, GraduationCap, Sparkles, TrendingUp, Users, BookOpen, Calculator, FileText, Calendar, Star, Award } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { notifyFetch } from "@/lib/notify"
@@ -105,14 +105,15 @@ export function HeroSection() {
   ]
 
   return (
-    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-muted/30">
-      {/* Simplified background elements */}
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-background via-muted/20 to-background">
+      {/* Enhanced background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="app-container relative z-10 py-24">
+      <div className="app-container relative z-10 py-16 md:py-24">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Content */}
           <div className="space-y-8">
@@ -131,8 +132,8 @@ export function HeroSection() {
                   />
                 </div>
                 <div>
-                  <Badge variant="soft" className="px-3 py-1.5 text-sm font-medium">
-                    <Sparkles className="h-3 w-3 mr-1.5 text-primary" />
+                  <Badge variant="soft" className="px-3 py-1.5 text-sm font-medium bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
+                    <Sparkles className="h-3 w-3 mr-1.5" />
                     CampusAxis
                   </Badge>
                 </div>
@@ -141,7 +142,7 @@ export function HeroSection() {
 
             {/* Enhanced main heading */}
             <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <h1 className="text-4xl lg:text-6xl font-bold leading-[1.1] text-balance mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-balance mb-6 bg-gradient-to-r from-foreground via-foreground to-primary bg-clip-text text-transparent">
                 Empowering Your{" "}
                 <span className="text-primary">
                   Academic Journey
@@ -151,7 +152,7 @@ export function HeroSection() {
 
             {/* Enhanced description */}
             <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-2">
+              <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-4">
                 Access past papers, calculate your GPA, explore learning resources, and read faculty reviews - 
                 all in one comprehensive academic portal designed specifically for COMSATS students.
               </p>
@@ -167,7 +168,7 @@ export function HeroSection() {
                   const Icon = stat.icon
                   return (
                     <div key={index} className="flex items-center gap-3 group">
-                      <div className="p-2.5 rounded-xl bg-muted group-hover:scale-110 transition-all duration-300">
+                      <div className="p-2.5 rounded-xl bg-muted group-hover:scale-110 transition-all duration-300 shadow-sm">
                         <Icon className={`h-4 w-4 ${stat.color}`} />
                       </div>
                       <div>
@@ -180,19 +181,19 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* About CampusAxis CTA replaces Explore Resources */}
+            {/* Enhanced CTA buttons */}
             <div className={`transition-all duration-700 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Button size="lg" className="text-base px-8 py-3 rounded-xl" asChild>
-                  <Link href="/about">
-                    About CampusAxis
+                <Button size="lg" className="text-base px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300">
+                  <Link href="/auth" className="flex items-center">
+                    Get Started
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="text-base px-8 py-3 rounded-xl" asChild>
-                  <Link href="/gpa-calculator">
-                    <Calculator className="mr-2 h-4 w-4" />
-                    Calculate GPA
+                <Button variant="outline" size="lg" className="text-base px-8 py-3 rounded-xl border-2 hover:shadow-md transition-all duration-300" asChild>
+                  <Link href="/about">
+                    <GraduationCap className="mr-2 h-4 w-4" />
+                    About CampusAxis
                   </Link>
                 </Button>
               </div>
@@ -205,7 +206,7 @@ export function HeroSection() {
                   const Icon = action.icon
                   return (
                     <Link key={index} href={action.href}>
-                      <Card className="p-4 hover:shadow-md transition-all duration-300 border cursor-pointer group">
+                      <Card className="p-4 hover:shadow-md transition-all duration-300 border cursor-pointer group bg-card/80 backdrop-blur-sm">
                         <div className="flex items-center gap-3">
                           <Icon className={`h-4 w-4 ${action.color} group-hover:scale-110 transition-transform`} />
                           <div>
@@ -221,16 +222,16 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Simplified Right Content - Stats Card */}
+          {/* Enhanced Right Content - Stats Card */}
           <div className={`transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="relative">
               {/* Main Stats Card */}
-              <Card className="relative p-6 bg-card border rounded-2xl shadow-lg">
+              <Card className="relative p-6 bg-card/80 border rounded-2xl shadow-xl backdrop-blur-sm">
                 <div className="space-y-6">
                   {/* Header Section */}
                   <div className="text-center space-y-3">
                     <div className="relative inline-block">
-                      <div className="relative p-4 bg-primary/10 rounded-xl">
+                      <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-xl">
                         <GraduationCap className="h-10 w-10 text-primary" />
                       </div>
                     </div>
@@ -243,7 +244,7 @@ export function HeroSection() {
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 gap-4">
                     {/* Community Engagement Card */}
-                    <div className="relative group/stat p-3 rounded-xl bg-muted border">
+                    <div className="relative group/stat p-3 rounded-xl bg-muted/50 border hover:bg-muted/70 transition-colors">
                       <div className="flex items-center justify-between mb-1.5">
                         <TrendingUp className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
@@ -255,12 +256,15 @@ export function HeroSection() {
                     </div>
 
                     {/* Faculty Rating Card */}
-                    <div className="relative group/stat p-3 rounded-xl bg-muted border">
+                    <div className="relative group/stat p-3 rounded-xl bg-muted/50 border hover:bg-muted/70 transition-colors">
                       <div className="flex items-center justify-between mb-1.5">
-                        <Users className="h-4 w-4 text-primary" />
+                        <div className="flex items-center">
+                          <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                          <span className="ml-1 text-xs font-medium text-foreground">{isLoading ? '...' : `${stats?.avgRating || 4.3}`}</span>
+                        </div>
                         <div className="flex text-yellow-500">
                           {[1,2,3,4,5].map((star) => (
-                            <span key={star} className={`text-xs ${star <= Math.floor(stats?.avgRating || 4.3) ? 'text-yellow-500' : 'text-gray-300'}`}>★</span>
+                            <span key={star} className={`text-xs ${star <= Math.floor(stats?.avgRating || 4.3) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`}>★</span>
                           ))}
                         </div>
                       </div>
@@ -271,7 +275,7 @@ export function HeroSection() {
                     </div>
 
                     {/* Active Events Card */}
-                    <div className="relative group/stat p-3 rounded-xl bg-muted border">
+                    <div className="relative group/stat p-3 rounded-xl bg-muted/50 border hover:bg-muted/70 transition-colors">
                       <div className="flex items-center justify-between mb-1.5">
                         <Calendar className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
@@ -283,7 +287,7 @@ export function HeroSection() {
                     </div>
 
                     {/* Faculty Count Card */}
-                    <div className="relative group/stat p-3 rounded-xl bg-muted border">
+                    <div className="relative group/stat p-3 rounded-xl bg-muted/50 border hover:bg-muted/70 transition-colors">
                       <div className="flex items-center justify-between mb-1.5">
                         <GraduationCap className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">{stats?.departmentCount || 2} Depts</span>
@@ -300,7 +304,7 @@ export function HeroSection() {
                     <div className="text-sm font-semibold text-foreground text-center mb-3">Quick Actions</div>
                     <div className="grid grid-cols-2 gap-3">
                       <Link href="/past-papers" className="group/action">
-                        <div className="p-2.5 rounded-lg bg-muted hover:bg-muted/80 border transition-all duration-300">
+                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300">
                           <div className="flex items-center gap-2">
                             <FileText className="h-4 w-4 text-primary group-hover/action:scale-110 transition-transform" />
                             <div>
@@ -311,7 +315,7 @@ export function HeroSection() {
                         </div>
                       </Link>
                       <Link href="/gpa-calculator" className="group/action">
-                        <div className="p-2.5 rounded-lg bg-muted hover:bg-muted/80 border transition-all duration-300">
+                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300">
                           <div className="flex items-center gap-2">
                             <Calculator className="h-4 w-4 text-primary group-hover/action:scale-110 transition-transform" />
                             <div>
@@ -325,7 +329,7 @@ export function HeroSection() {
                   </div>
 
                   {/* Trust Indicator */}
-                  <div className="text-center p-3 rounded-lg bg-muted border">
+                  <div className="text-center p-3 rounded-lg bg-muted/50 border">
                     <div className="flex items-center justify-center gap-2 mb-1.5">
                       <div className="flex items-center gap-1">
                         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -338,6 +342,14 @@ export function HeroSection() {
                   </div>
                 </div>
               </Card>
+              
+              {/* Achievement Badge */}
+              <div className="absolute -top-3 -right-3">
+                <Badge className="px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg">
+                  <Award className="h-4 w-4 mr-1" />
+                  Student Approved
+                </Badge>
+              </div>
             </div>
           </div>
         </div>

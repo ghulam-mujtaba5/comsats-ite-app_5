@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 
 export async function GET(request: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+
   try {
     const { searchParams } = new URL(request.url)
     const campusId = searchParams.get('campus_id')
@@ -27,11 +34,11 @@ export async function GET(request: NextRequest) {
 
     if (usersError) {
       console.error('Error fetching users:', usersError)
-      return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500, headers })
     }
 
     if (!users || users.length === 0) {
-      return NextResponse.json({ leaderboard: [] })
+      return NextResponse.json({ leaderboard: [] }, { headers })
     }
 
     // Calculate points for each user
@@ -123,11 +130,11 @@ export async function GET(request: NextRequest) {
       badge: getBadgeForRank(index + 1)
     }))
 
-    return NextResponse.json({ leaderboard: rankedLeaderboard })
+    return NextResponse.json({ leaderboard: rankedLeaderboard }, { headers })
 
   } catch (error) {
     console.error('Error generating leaderboard:', error)
-    return NextResponse.json({ error: 'Failed to generate leaderboard' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to generate leaderboard' }, { status: 500, headers })
   }
 }
 

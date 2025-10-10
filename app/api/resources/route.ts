@@ -2,9 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 export async function GET(req: NextRequest) {
+  // Set cache headers to reduce function invocations
+  const headers = {
+    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800', // Cache for 1 hour, stale for 30 min
+    'CDN-Cache-Control': 'public, s-maxage=3600',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=3600'
+  }
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  if (!url || !anon) return NextResponse.json({ error: 'Supabase env missing' }, { status: 500 })
+  if (!url || !anon) return NextResponse.json({ error: 'Supabase env missing' }, { status: 500, headers: { ...headers, "Content-Type": "application/json" } })
   const supabase = createClient(url, anon)
   
   // Get campus and department filters from query params
@@ -28,8 +35,6 @@ export async function GET(req: NextRequest) {
   }
   
   const { data, error } = await query
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json({ data })
+  if (error) return NextResponse.json({ error: error.message }, { status: 500, headers: { ...headers, "Content-Type": "application/json" } })
+  return NextResponse.json({ data }, { headers })
 }
-
-
