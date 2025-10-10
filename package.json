@@ -21,7 +21,6 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "build-pwa": "next build && next-pwa-build",
-    "export": "next export",
     "remind-graduates": "tsx scripts/send-graduation-reminders.ts"
   },
   "og-scripts": {

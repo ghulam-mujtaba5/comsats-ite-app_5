@@ -2,7 +2,7 @@ import withPWA from 'next-pwa'
 
 const nextPWA = withPWA({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
+  disable: process.env.NODE_ENV === 'development' || process.env.NEXT_OUTPUT === 'export',
   register: true,
   skipWaiting: true,
   sw: '/sw.js',
@@ -10,6 +10,7 @@ const nextPWA = withPWA({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   eslint: {
     // SECURITY: Never ignore ESLint in production
     ignoreDuringBuilds: process.env.NODE_ENV !== 'production',
@@ -52,6 +53,9 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
   },
   async headers() {
+    // Skip headers for static export as they're not supported
+    if (process.env.NEXT_OUTPUT === 'export') return []
+    
     const isProd = process.env.NODE_ENV === 'production'
     return [
       {
@@ -96,9 +100,9 @@ const nextConfig = {
               "base-uri 'self'",
               "form-action 'self'",
               "frame-ancestors 'self'",
-            ].join('; '),
-          },
-        ],
+            ].join('; ')
+          }
+        ]
       },
       {
         // Additional headers for API routes

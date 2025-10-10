@@ -23,8 +23,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-export const revalidate = 1800 // 30 minutes - cache faculty listing page to reduce function invocations
-
 export default function FacultyPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("All")
