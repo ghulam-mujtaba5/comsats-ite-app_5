@@ -9,14 +9,47 @@ UPDATE community_posts
 SET temp_user_id = user_id 
 WHERE avatar_url IS NULL OR avatar_url = '';
 
--- Update posts with avatar URLs from user metadata
-UPDATE community_posts cp
-SET avatar_url = (
-    SELECT COALESCE(u.user_metadata->>'avatar_url', '/student-avatar.png')
-    FROM auth.users u
-    WHERE u.id = cp.temp_user_id
-)
-WHERE cp.temp_user_id IS NOT NULL;
+-- Update posts with avatar URLs from user metadata (if available)
+DO $$
+BEGIN
+  -- Check if the auth.users table has the user_metadata column
+  IF EXISTS (
+    SELECT 1 
+    FROM information_schema.columns 
+    WHERE table_schema = 'auth' 
+    AND table_name = 'users' 
+    AND column_name = 'raw_user_meta_data'
+  ) THEN
+    -- Use raw_user_meta_data if available
+    UPDATE community_posts cp
+    SET avatar_url = (
+        SELECT COALESCE(u.raw_user_meta_data->>'avatar_url', '/student-avatar.png')
+        FROM auth.users u
+        WHERE u.id = cp.temp_user_id
+    )
+    WHERE cp.temp_user_id IS NOT NULL;
+  ELSIF EXISTS (
+    SELECT 1 
+    FROM information_schema.columns 
+    WHERE table_schema = 'auth' 
+    AND table_name = 'users' 
+    AND column_name = 'user_metadata'
+  ) THEN
+    -- Use user_metadata if available
+    UPDATE community_posts cp
+    SET avatar_url = (
+        SELECT COALESCE(u.user_metadata->>'avatar_url', '/student-avatar.png')
+        FROM auth.users u
+        WHERE u.id = cp.temp_user_id
+    )
+    WHERE cp.temp_user_id IS NOT NULL;
+  ELSE
+    -- Set default avatar if no metadata column exists
+    UPDATE community_posts
+    SET avatar_url = '/student-avatar.png'
+    WHERE temp_user_id IS NOT NULL;
+  END IF;
+END $$;
 
 -- Set default avatar for any remaining posts without avatar_url
 UPDATE community_posts

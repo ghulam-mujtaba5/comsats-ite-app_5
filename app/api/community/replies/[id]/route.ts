@@ -25,10 +25,10 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
     }
   )
 
-  // Fetch reply to get post_id for recount
+  // Fetch reply to get post_id and parent_comment_id for recount
   const { data: reply, error: fetchErr } = await supabase
-    .from('community_replies')
-    .select('id, post_id')
+    .from('post_comments_enhanced')
+    .select('id, post_id, parent_comment_id')
     .eq('id', id)
     .single()
 
@@ -37,24 +37,41 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
   }
 
   const { error } = await supabase
-    .from('community_replies')
+    .from('post_comments_enhanced')
     .delete()
     .eq('id', id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
 
-  // Best-effort: update comments_count
-  try {
-    const { count } = await supabase
-      .from('community_replies')
+  // Update replies count on parent comment if this was a reply to a comment
+  if (reply.parent_comment_id) {
+    const { count: repliesCount } = await supabase
+      .from('post_comments_enhanced')
       .select('*', { count: 'exact', head: true })
-      .eq('post_id', (reply as any).post_id)
+      .eq('parent_comment_id', reply.parent_comment_id)
 
-    if (typeof count === 'number') {
+    try {
+      if (typeof repliesCount === 'number') {
+        await supabase
+          .from('post_comments_enhanced')
+          .update({ replies_count: repliesCount })
+          .eq('id', reply.parent_comment_id)
+      }
+    } catch {}
+  }
+
+  // Update comment count on post
+  const { count: commentsCount } = await supabase
+    .from('post_comments_enhanced')
+    .select('*', { count: 'exact', head: true })
+    .eq('post_id', reply.post_id)
+
+  try {
+    if (typeof commentsCount === 'number') {
       await supabase
-        .from('community_posts')
-        .update({ comments_count: count })
-        .eq('id', (reply as any).post_id)
+        .from('community_posts_enhanced')
+        .update({ comments_count: commentsCount })
+        .eq('id', reply.post_id)
     }
   } catch {}
 

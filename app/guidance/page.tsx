@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
-import { Search, BookOpen, GraduationCap, FileText, DollarSign, MapPin, Newspaper, Eye } from "lucide-react"
+import { Search, BookOpen, GraduationCap, FileText, DollarSign, MapPin, Newspaper, Eye, Heart, Briefcase, Settings, Globe, Mail, Monitor, Library } from "lucide-react"
 import Link from "next/link"
 import { marked } from 'marked'
 
@@ -48,6 +48,29 @@ interface BlogArticle {
   updated_at: string
 }
 
+interface SupportResource {
+  id: string
+  title: string
+  description: string
+  category: string
+  contact_info?: string
+  availability?: string
+  priority?: string
+  tags?: string[]
+  is_emergency?: boolean
+}
+
+interface PortalResource {
+  id: string
+  title: string
+  description: string
+  url: string
+  category: string
+  icon_name?: string
+  requires_vpn?: boolean
+  is_external?: boolean
+}
+
 export default function GuidancePage() {
   const { selectedCampus } = useCampus()
   const [searchQuery, setSearchQuery] = useState("")
@@ -55,6 +78,8 @@ export default function GuidancePage() {
   const [guideSections, setGuideSections] = useState<GuideSection[]>([])
   const [faqs, setFaqs] = useState<FAQ[]>([])
   const [blogArticles, setBlogArticles] = useState<BlogArticle[]>([])
+  const [supportResources, setSupportResources] = useState<SupportResource[]>([])
+  const [portalResources, setPortalResources] = useState<PortalResource[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -64,10 +89,12 @@ export default function GuidancePage() {
       setError(null)
       try {
         const campusParam = selectedCampus?.id ? `?campus_id=${selectedCampus.id}` : ''
-        const [contentResponse, faqResponse, blogResponse] = await Promise.all([
+        const [contentResponse, faqResponse, blogResponse, supportResponse, portalResponse] = await Promise.all([
           fetch(`/api/guidance/content${campusParam}`),
           fetch(`/api/guidance/faq${campusParam}`),
-          fetch(`/api/blog${campusParam}&limit=6`)
+          fetch(`/api/blog${campusParam}&limit=6`),
+          fetch(`/api/student-support/resources${campusParam}`),
+          fetch('/api/student-portal/resources')
         ])
 
         if (contentResponse.ok && faqResponse.ok) {
@@ -82,6 +109,16 @@ export default function GuidancePage() {
         if (blogResponse.ok) {
           const blogData = await blogResponse.json()
           setBlogArticles(blogData.data || [])
+        }
+
+        if (supportResponse.ok) {
+          const supportData = await supportResponse.json()
+          setSupportResources(supportData || [])
+        }
+
+        if (portalResponse.ok) {
+          const portalData = await portalResponse.json()
+          setPortalResources(portalData || [])
         }
       } catch (e: any) {
         setError(e?.message || "Failed to load guidance data")
@@ -160,6 +197,69 @@ export default function GuidancePage() {
             tags: ["clubs", "activities", "student life"]
           }
         ])
+        setSupportResources([
+          {
+            id: "1",
+            title: "Academic Advising",
+            description: "Get help with course selection, academic planning, and degree requirements",
+            category: "academic",
+            contact_info: "advising@cuilahore.edu.pk",
+            availability: "Mon-Fri 9:00 AM - 5:00 PM",
+            tags: ["advising", "courses", "planning"]
+          },
+          {
+            id: "2",
+            title: "Mental Health Counseling",
+            description: "Confidential counseling services for stress, anxiety, and personal issues",
+            category: "mental-health",
+            contact_info: "counseling@cuilahore.edu.pk",
+            availability: "Mon-Fri 9:00 AM - 5:00 PM",
+            is_emergency: false,
+            tags: ["mental health", "counseling", "wellness"]
+          },
+          {
+            id: "3",
+            title: "Crisis Helpline",
+            description: "24/7 emergency support for students in crisis situations",
+            category: "mental-health",
+            contact_info: "Crisis Hotline: 042-111-911-911",
+            availability: "24/7 Available",
+            is_emergency: true,
+            tags: ["emergency", "crisis", "support"]
+          }
+        ])
+        setPortalResources([
+          {
+            id: "1",
+            title: "CU Online Portal",
+            description: "Access your student account, registration, fee challans, and academic records",
+            url: "https://cuonline.cuilahore.edu.pk",
+            category: "cuonline",
+            icon_name: "Globe",
+            requires_vpn: false,
+            is_external: true
+          },
+          {
+            id: "2",
+            title: "Student Email",
+            description: "Access your official COMSATS student email account",
+            url: "https://outlook.office.com",
+            category: "email",
+            icon_name: "Mail",
+            requires_vpn: false,
+            is_external: true
+          },
+          {
+            id: "3",
+            title: "Moodle LMS",
+            description: "Learning Management System for course materials, assignments, and quizzes",
+            url: "https://lms.cuilahore.edu.pk",
+            category: "lms",
+            icon_name: "BookOpen",
+            requires_vpn: false,
+            is_external: true
+          }
+        ])
       } finally {
         setLoading(false)
       }
@@ -189,6 +289,21 @@ export default function GuidancePage() {
                          article.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          article.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
     const matchesCategory = selectedCategory === "all" || article.category === selectedCategory
+    return matchesSearch && matchesCategory
+  })
+
+  const filteredSupportResources = supportResources.filter((resource) => {
+    const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         resource.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         (resource.tags && resource.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())))
+    const matchesCategory = selectedCategory === "all" || resource.category === selectedCategory
+    return matchesSearch && matchesCategory
+  })
+
+  const filteredPortalResources = portalResources.filter((resource) => {
+    const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         resource.description.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesCategory = selectedCategory === "all" || resource.category === selectedCategory
     return matchesSearch && matchesCategory
   })
 
@@ -231,66 +346,100 @@ export default function GuidancePage() {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case "academic":
-        return "bg-blue-100 text-blue-800 border-blue-200"
+        return "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-200 dark:border-blue-700/50"
       case "admission":
-        return "bg-green-100 text-green-800 border-green-200"
+        return "bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-200 dark:border-green-700/50"
       case "campus":
-        return "bg-purple-100 text-purple-800 border-purple-200"
+        return "bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/30 dark:text-purple-200 dark:border-purple-700/50"
       case "financial":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200"
+        return "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-200 dark:border-yellow-700/50"
       case "policies":
-        return "bg-primary/10 text-primary border-primary/20"
+        return "bg-primary/10 text-primary border-primary/20 dark:bg-primary/20 dark:text-primary-foreground dark:border-primary/40"
+      case "mental-health":
+        return "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-200 dark:border-red-700/50"
+      case "career":
+        return "bg-indigo-100 text-indigo-800 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-200 dark:border-indigo-700/50"
+      case "technical":
+        return "bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700/50"
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200"
+        return "bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700/50"
     }
   }
 
   const getBlogCategoryColor = (category: string) => {
     switch (category) {
       case "academic":
-        return "bg-blue-100 text-blue-800 border-blue-200"
+        return "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-200 dark:border-blue-700/50"
       case "campus-life":
-        return "bg-green-100 text-green-800 border-green-200"
+        return "bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-200 dark:border-green-700/50"
       case "career":
-        return "bg-purple-100 text-purple-800 border-purple-200"
+        return "bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/30 dark:text-purple-200 dark:border-purple-700/50"
       case "technology":
-        return "bg-red-100 text-red-800 border-red-200"
+        return "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-200 dark:border-red-700/50"
       case "research":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200"
+        return "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-200 dark:border-yellow-700/50"
       case "events":
-        return "bg-indigo-100 text-indigo-800 border-indigo-200"
+        return "bg-indigo-100 text-indigo-800 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-200 dark:border-indigo-700/50"
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200"
+        return "bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700/50"
+    }
+  }
+
+  const getResourceIcon = (category: string) => {
+    switch (category) {
+      case "academic":
+        return BookOpen
+      case "mental-health":
+        return Heart
+      case "career":
+        return Briefcase
+      case "financial":
+        return DollarSign
+      case "technical":
+        return Settings
+      case "cuonline":
+        return Globe
+      case "email":
+        return Mail
+      case "lms":
+        return Monitor
+      case "library":
+        return Library
+      default:
+        return FileText
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Student Guidance Portal</h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Your comprehensive guide to academic policies, procedures, and campus resources
+    <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/30">
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Header with Reduced Visual Intensity */}
+        <div className="mb-8 bg-card rounded-2xl p-6 border">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Student Guidance Portal</h1>
+          <p className="text-muted-foreground max-w-4xl">
+            Your comprehensive guide to academic policies, procedures, campus resources, support services, and portal links
           </p>
         </div>
 
-        {/* Search and Filters */}
-        <div className="mb-6 flex gap-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              placeholder="Search guides, FAQs, and articles..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
+        {/* Search and Filters with Reduced Visual Intensity */}
+        <div className="mb-6 bg-card rounded-xl p-5 border">
+          <div className="flex flex-col md:flex-row gap-4 mb-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                placeholder="Search guides, FAQs, articles, and resources..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-background border-muted"
+              />
+            </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button
               variant={selectedCategory === "all" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("all")}
+              className={selectedCategory === "all" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
             >
               All
             </Button>
@@ -298,6 +447,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "academic" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("academic")}
+              className={selectedCategory === "academic" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
             >
               Academic
             </Button>
@@ -305,6 +455,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "admission" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("admission")}
+              className={selectedCategory === "admission" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
             >
               Admission
             </Button>
@@ -312,6 +463,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "campus" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("campus")}
+              className={selectedCategory === "campus" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
             >
               Campus
             </Button>
@@ -319,6 +471,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "financial" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("financial")}
+              className={selectedCategory === "financial" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
             >
               Financial
             </Button>
@@ -326,37 +479,94 @@ export default function GuidancePage() {
               variant={selectedCategory === "policies" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("policies")}
+              className={selectedCategory === "policies" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
             >
               Policies
+            </Button>
+            <Button
+              variant={selectedCategory === "mental-health" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory("mental-health")}
+              className={selectedCategory === "mental-health" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+            >
+              Mental Health
+            </Button>
+            <Button
+              variant={selectedCategory === "career" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory("career")}
+              className={selectedCategory === "career" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+            >
+              Career
+            </Button>
+            <Button
+              variant={selectedCategory === "technical" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory("technical")}
+              className={selectedCategory === "technical" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+            >
+              Technical
+            </Button>
+            <Button
+              variant={selectedCategory === "cuonline" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory("cuonline")}
+              className={selectedCategory === "cuonline" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+            >
+              CU Online
+            </Button>
+            <Button
+              variant={selectedCategory === "email" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory("email")}
+              className={selectedCategory === "email" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+            >
+              Email
+            </Button>
+            <Button
+              variant={selectedCategory === "lms" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory("lms")}
+              className={selectedCategory === "lms" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+            >
+              LMS
+            </Button>
+            <Button
+              variant={selectedCategory === "library" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory("library")}
+              className={selectedCategory === "library" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+            >
+              Library
             </Button>
           </div>
         </div>
 
         <Tabs defaultValue="guides" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="guides">Guidance Sections</TabsTrigger>
-            <TabsTrigger value="faqs">Frequently Asked Questions</TabsTrigger>
-            <TabsTrigger value="blog">Blog & Articles</TabsTrigger>
-            <TabsTrigger value="resources">Resources</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-muted rounded-lg p-1">
+            <TabsTrigger value="guides" className="data-[state=active]:bg-background data-[state=active]:shadow-sm">Guidance Sections</TabsTrigger>
+            <TabsTrigger value="faqs" className="data-[state=active]:bg-background data-[state=active]:shadow-sm">Frequently Asked Questions</TabsTrigger>
+            <TabsTrigger value="blog" className="data-[state=active]:bg-background data-[state=active]:shadow-sm">Blog & Articles</TabsTrigger>
+            <TabsTrigger value="resources" className="data-[state=active]:bg-background data-[state=active]:shadow-sm">Support & Portals</TabsTrigger>
           </TabsList>
 
           <TabsContent value="guides" className="space-y-6">
             {loading ? (
               <CenteredLoader message="Loading guidance content..." />
             ) : error ? (
-              <div className="text-center py-8 text-destructive">{error}</div>
+              <div className="text-center py-8 text-destructive max-w-4xl mx-auto">{error}</div>
             ) : filteredSections.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">No guidance sections found matching your criteria</div>
+              <div className="text-center py-8 text-muted-foreground max-w-4xl mx-auto">No guidance sections found matching your criteria</div>
             ) : (
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="grid gap-6 md:grid-cols-2 max-w-6xl mx-auto">
                 {filteredSections.map((section) => {
                   const Icon = getCategoryIcon(section.category)
                   return (
-                    <Card key={section.id} className="hover:shadow-lg transition-shadow">
+                    <Card key={section.id} className="bg-card border rounded-xl hover:shadow-md transition-all duration-300">
                       <CardHeader>
                         <div className="flex items-start justify-between">
                           <div className="flex items-center gap-2">
-                            <Icon className="h-5 w-5 text-blue-600" />
+                            <Icon className="h-5 w-5 text-primary" />
                             <CardTitle className="text-lg">{section.title}</CardTitle>
                             {section.is_important && (
                               <Badge variant="destructive" className="text-xs">
@@ -371,12 +581,12 @@ export default function GuidancePage() {
                         <CardDescription>{section.description}</CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <div className="prose prose-sm max-w-none mb-4">
+                        <div className="prose prose-sm max-w-none mb-4 dark:prose-invert">
                           <div 
                             dangerouslySetInnerHTML={{ __html: marked(section.content || '') }} 
                           />
                         </div>
-                        <div className="flex items-center justify-between text-xs text-gray-500">
+                        <div className="flex items-center justify-between text-xs text-muted-foreground">
                           <span>Last updated: {new Date(section.last_updated).toLocaleDateString()}</span>
                         </div>
                       </CardContent>
@@ -391,14 +601,14 @@ export default function GuidancePage() {
             {loading ? (
               <CenteredLoader message="Loading FAQs..." />
             ) : error ? (
-              <div className="text-center py-8 text-destructive">{error}</div>
+              <div className="text-center py-8 text-destructive max-w-4xl mx-auto">{error}</div>
             ) : filteredFaqs.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">No FAQs found matching your criteria</div>
+              <div className="text-center py-8 text-muted-foreground max-w-4xl mx-auto">No FAQs found matching your criteria</div>
             ) : (
-              <Accordion type="single" collapsible className="space-y-4">
+              <Accordion type="single" collapsible className="space-y-4 max-w-4xl mx-auto">
                 {filteredFaqs.map((faq) => (
-                  <AccordionItem key={faq.id} value={faq.id} className="border rounded-lg px-4">
-                    <AccordionTrigger className="text-left">
+                  <AccordionItem key={faq.id} value={faq.id} className="bg-card border rounded-lg px-4">
+                    <AccordionTrigger className="text-left pr-8 hover:no-underline">
                       <div className="flex items-center justify-between w-full mr-4">
                         <span>{faq.question}</span>
                         <Badge className={getCategoryColor(faq.category)} variant="outline">
@@ -408,10 +618,10 @@ export default function GuidancePage() {
                     </AccordionTrigger>
                     <AccordionContent>
                       <div className="pt-2 pb-4">
-                        <p className="text-gray-700 dark:text-gray-300 mb-3">{faq.answer}</p>
-                        <div className="flex gap-2">
+                        <p className="text-muted-foreground mb-3">{faq.answer}</p>
+                        <div className="flex flex-wrap gap-2">
                           {faq.tags.map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
+                            <Badge key={tag} variant="secondary" className="text-xs bg-muted">
                               {tag}
                             </Badge>
                           ))}
@@ -428,22 +638,22 @@ export default function GuidancePage() {
             {loading ? (
               <CenteredLoader message="Loading blog articles..." />
             ) : error ? (
-              <div className="text-center py-8 text-destructive">{error}</div>
+              <div className="text-center py-8 text-destructive max-w-4xl mx-auto">{error}</div>
             ) : filteredBlogArticles.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                <Newspaper className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+              <div className="text-center py-8 text-muted-foreground max-w-4xl mx-auto">
+                <Newspaper className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
                 <p>No blog articles found matching your criteria.</p>
                 <Button asChild className="mt-4">
                   <Link href="/blog">View All Blog Articles</Link>
                 </Button>
               </div>
             ) : (
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
                 {filteredBlogArticles.map((article) => {
                   const Icon = getBlogCategoryIcon(article.category)
                   return (
                     <Link key={article.id} href={`/blog/${article.slug}`} className="block">
-                      <Card className="h-full hover:shadow-lg transition-shadow">
+                      <Card className="h-full bg-card border rounded-xl hover:shadow-md transition-all duration-300">
                         {article.featured_image_url && (
                           <img 
                             src={article.featured_image_url} 
@@ -453,7 +663,7 @@ export default function GuidancePage() {
                         )}
                         <CardHeader>
                           <div className="flex items-center justify-between mb-2">
-                            <Icon className="h-4 w-4 text-blue-600" />
+                            <Icon className="h-4 w-4 text-primary" />
                             <Badge className={getBlogCategoryColor(article.category)}>
                               {article.category.replace('-', ' ')}
                             </Badge>
@@ -462,7 +672,7 @@ export default function GuidancePage() {
                           <CardDescription className="line-clamp-2">{article.excerpt}</CardDescription>
                         </CardHeader>
                         <CardContent>
-                          <div className="flex items-center justify-between text-xs text-gray-500">
+                          <div className="flex items-center justify-between text-xs text-muted-foreground">
                             <span>{new Date(article.published_at).toLocaleDateString()}</span>
                             <div className="flex items-center gap-1">
                               <Eye className="h-3 w-3" />
@@ -474,12 +684,12 @@ export default function GuidancePage() {
                     </Link>
                   )
                 })}
-                <Card className="h-full border-dashed border-2 flex items-center justify-center">
+                <Card className="h-full bg-card border rounded-xl flex items-center justify-center">
                   <CardContent className="text-center p-6">
-                    <Newspaper className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">More Articles Available</h3>
-                    <p className="text-sm text-gray-500 mb-4">Visit our full blog for more articles and insights</p>
-                    <Button asChild size="sm">
+                    <Newspaper className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                    <h3 className="font-semibold text-foreground mb-2">More Articles Available</h3>
+                    <p className="text-sm text-muted-foreground mb-4">Visit our full blog for more articles and insights</p>
+                    <Button asChild size="sm" variant="outline">
                       <Link href="/blog">View All Articles</Link>
                     </Button>
                   </CardContent>
@@ -489,16 +699,123 @@ export default function GuidancePage() {
           </TabsContent>
 
           <TabsContent value="resources" className="space-y-6">
-            <div className="text-center py-12">
-              <FileText className="h-16 w-16 mx-auto text-gray-400 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Resources Section</h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                This section will contain downloadable resources, forms, and documents.
-              </p>
-              <p className="text-sm text-gray-500">
-                Coming soon in a future update.
-              </p>
-            </div>
+            {loading ? (
+              <CenteredLoader message="Loading resources..." />
+            ) : error ? (
+              <div className="text-center py-8 text-destructive max-w-4xl mx-auto">{error}</div>
+            ) : (
+              <div className="space-y-8 max-w-6xl mx-auto">
+                <div>
+                  <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                    <Heart className="h-5 w-5 text-red-500" />
+                    Student Support Resources
+                  </h3>
+                  {filteredSupportResources.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground max-w-4xl mx-auto">
+                      <Heart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                      <p>No support resources found matching your criteria.</p>
+                    </div>
+                  ) : (
+                    <div className="grid gap-4 md:grid-cols-2 max-w-4xl mx-auto">
+                      {filteredSupportResources.map((resource) => {
+                        const Icon = getResourceIcon(resource.category)
+                        return (
+                          <Card key={resource.id} className="bg-card border rounded-xl hover:shadow-md transition-all duration-300">
+                            <CardHeader>
+                              <div className="flex items-start justify-between">
+                                <div className="flex items-center gap-2">
+                                  <Icon className="h-5 w-5 text-primary" />
+                                  <CardTitle className="text-lg">{resource.title}</CardTitle>
+                                  {resource.is_emergency && (
+                                    <Badge variant="destructive" className="text-xs">
+                                      Emergency
+                                    </Badge>
+                                  )}
+                                </div>
+                                <Badge className={getCategoryColor(resource.category)}>
+                                  {resource.category.replace('-', ' ')}
+                                </Badge>
+                              </div>
+                              <CardDescription>{resource.description}</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                              {resource.contact_info && (
+                                <p className="text-sm text-muted-foreground mb-1">
+                                  <strong>Contact:</strong> {resource.contact_info}
+                                </p>
+                              )}
+                              {resource.availability && (
+                                <p className="text-sm text-muted-foreground">
+                                  <strong>Availability:</strong> {resource.availability}
+                                </p>
+                              )}
+                              {resource.tags && resource.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mt-2">
+                                  {resource.tags.map((tag) => (
+                                    <Badge key={tag} variant="secondary" className="text-xs bg-muted">
+                                      {tag}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                    <Globe className="h-5 w-5 text-blue-500" />
+                    Student Portal Resources
+                  </h3>
+                  {filteredPortalResources.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground max-w-4xl mx-auto">
+                      <Globe className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                      <p>No portal resources found matching your criteria.</p>
+                    </div>
+                  ) : (
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+                      {filteredPortalResources.map((resource) => {
+                        const Icon = getResourceIcon(resource.category)
+                        return (
+                          <Link key={resource.id} href={resource.url} target="_blank" rel="noopener noreferrer">
+                            <Card className="h-full bg-card border rounded-xl hover:shadow-md transition-all duration-300 cursor-pointer">
+                              <CardHeader>
+                                <div className="flex items-start justify-between">
+                                  <div className="flex items-center gap-2">
+                                    <Icon className="h-5 w-5 text-primary" />
+                                    <CardTitle className="text-lg">{resource.title}</CardTitle>
+                                  </div>
+                                  <Badge className={getCategoryColor(resource.category)}>
+                                    {resource.category}
+                                  </Badge>
+                                </div>
+                                <CardDescription>{resource.description}</CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <div className="flex items-center justify-between">
+                                  <Badge variant="outline" className="text-xs">
+                                    {resource.is_external ? 'External' : 'Internal'}
+                                  </Badge>
+                                  {resource.requires_vpn && (
+                                    <Badge variant="destructive" className="text-xs">
+                                      VPN Required
+                                    </Badge>
+                                  )}
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>

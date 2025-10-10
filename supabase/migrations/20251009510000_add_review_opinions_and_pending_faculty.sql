@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS review_opinions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   review_id UUID NOT NULL REFERENCES reviews(id) ON DELETE CASCADE,
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   opinion TEXT NOT NULL CHECK (opinion IN ('agree', 'disagree')),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   UNIQUE(review_id, user_id) -- One opinion per user per review
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS pending_faculty (
   specialization TEXT,
   qualifications TEXT,
   campus_id UUID NOT NULL REFERENCES campuses(id) ON DELETE CASCADE,
-  submitted_by UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  submitted_by UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
   submitted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   reviewed_at TIMESTAMP WITH TIME ZONE,

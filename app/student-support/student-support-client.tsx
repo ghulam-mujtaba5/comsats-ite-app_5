@@ -140,27 +140,81 @@ export default function StudentSupportClient() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30 border border-red-200 dark:border-red-700/30 text-sm font-medium text-red-700 dark:text-red-300 mb-6"><Heart className="h-4 w-4" /> Student Wellbeing</div>
-          <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">Student <span className="bg-gradient-to-r from-red-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">Support</span></h1>
-          <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto mb-8 font-medium leading-relaxed">Get the help and support you need for your academic and personal well-being. We're here to help you succeed.</p>
+    <div className="min-h-screen flex flex-col bg-muted/20">
+      <div className="container mx-auto px-4 py-10 max-w-7xl">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted text-sm font-medium text-foreground mb-5">
+            <Heart className="h-3.5 w-3.5" /> Student Wellbeing
+          </div>
+          <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">Student <span className="text-primary">Support</span></h1>
+          <p className="text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
+            Get the help and support you need for your academic and personal well-being. We're here to help you succeed.
+          </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl"><CardContent className="flex items-center gap-4 p-6"><div className="p-3 rounded-2xl bg-gradient-to-br from-red-500/20 to-pink-600/20 border border-red-200/30 dark:border-red-700/30"><Heart className="h-8 w-8 text-red-600 dark:text-red-400" /></div><div><div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{supportResources.length}</div><div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Support Services</div></div></CardContent></Card>
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl"><CardContent className="flex items-center gap-4 p-6"><div className="p-3 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-600/20 border border-orange-200/30 dark:border-orange-700/30"><AlertTriangle className="h-8 w-8 text-orange-600 dark:text-orange-400" /></div><div><div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{emergencyResources.length}</div><div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Emergency Resources</div></div></CardContent></Card>
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl"><CardContent className="flex items-center gap-4 p-6"><div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30"><Users className="h-8 w-8 text-blue-600 dark:text-blue-400" /></div><div><div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{supportResources.filter(r=>r.category==='mental-health').length}</div><div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Mental Health</div></div></CardContent></Card>
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl"><CardContent className="flex items-center gap-4 p-6"><div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30 dark:border-green-700/30"><BookOpen className="h-8 w-8 text-green-600 dark:text-green-400" /></div><div><div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{supportResources.filter(r=>r.category==='academic').length}</div><div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Academic Support</div></div></CardContent></Card>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-10 max-w-6xl mx-auto">
+          <Card className="border">
+            <CardContent className="flex items-center gap-3 p-5">
+              <div className="p-2.5 rounded-xl bg-primary/10">
+                <Heart className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold tracking-tight text-foreground">{supportResources.length}</div>
+                <div className="text-xs text-muted-foreground">Support Services</div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border">
+            <CardContent className="flex items-center gap-3 p-5">
+              <div className="p-2.5 rounded-xl bg-primary/10">
+                <AlertTriangle className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold tracking-tight text-foreground">{emergencyResources.length}</div>
+                <div className="text-xs text-muted-foreground">Emergency Resources</div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border">
+            <CardContent className="flex items-center gap-3 p-5">
+              <div className="p-2.5 rounded-xl bg-primary/10">
+                <Users className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold tracking-tight text-foreground">{supportResources.filter(r=>r.category==='mental-health').length}</div>
+                <div className="text-xs text-muted-foreground">Mental Health</div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border">
+            <CardContent className="flex items-center gap-3 p-5">
+              <div className="p-2.5 rounded-xl bg-primary/10">
+                <BookOpen className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold tracking-tight text-foreground">{supportResources.filter(r=>r.category==='academic').length}</div>
+                <div className="text-xs text-muted-foreground">Academic Support</div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
         {emergencyResources.length>0 && (
-          <div className="mb-8" aria-live="polite" {...(loading ? ({ 'aria-busy': 'true' } as any) : {})}>
-            <h2 className="text-xl font-semibold text-primary mb-4 flex items-center"><Shield className="h-5 w-5 mr-2" /> Emergency Support</h2>
-            <div className="grid gap-4 md:grid-cols-2">
+          <div className="mb-8 max-w-6xl mx-auto" aria-live="polite" {...(loading ? ({ 'aria-busy': 'true' } as any) : {})}>
+            <h2 className="text-lg font-semibold text-foreground mb-3 flex items-center">
+              <Shield className="h-4 w-4 mr-2" /> Emergency Support
+            </h2>
+            <div className="grid gap-4 md:grid-cols-2 max-w-4xl mx-auto">
               {emergencyResources.map(r => (
-                <Card key={r.id} className="border-primary/30 bg-primary/10 dark:bg-primary/15">
-                  <CardHeader><CardTitle className="text-primary flex items-center"><Phone className="h-4 w-4 mr-2" />{r.title}</CardTitle></CardHeader>
-                  <CardContent><p className="text-primary mb-2">{r.description}</p><p className="text-sm text-primary font-medium">{r.contactInfo}</p><p className="text-xs text-primary/80 mt-1">{r.availability}</p></CardContent>
+                <Card key={r.id} className="border border-destructive/30 bg-destructive/5">
+                  <CardHeader>
+                    <CardTitle className="text-foreground flex items-center text-base">
+                      <Phone className="h-3.5 w-3.5 mr-2" />{r.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-foreground mb-2 text-sm">{r.description}</p>
+                    <p className="text-sm text-foreground font-medium">{r.contactInfo}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{r.availability}</p>
+                  </CardContent>
                 </Card>
               ))}
             </div>
@@ -183,40 +237,120 @@ export default function StudentSupportClient() {
           showActiveFilterCount
           collapsible
           defaultCollapsed={false}
-          className="mb-10"
-          right={<div className="flex items-center gap-4"><Button variant={showEmergencyOnly ? 'default':'outline'} size="sm" onClick={()=>setShowEmergencyOnly(!showEmergencyOnly)} className="flex items-center gap-2"><AlertTriangle className="h-4 w-4" /> Emergency Only</Button><Button variant="outline" size="sm" onClick={()=>{setSearchQuery('');setSelectedCategory('all');setSelectedPriority('all');setShowEmergencyOnly(false)}} className="flex items-center gap-2 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20"><RotateCcw className="h-4 w-4" /> Clear All</Button></div>}
+          className="mb-8 max-w-6xl mx-auto"
+          right={<div className="flex items-center gap-3"><Button variant={showEmergencyOnly ? 'default':'outline'} size="sm" onClick={()=>setShowEmergencyOnly(!showEmergencyOnly)} className="flex items-center gap-2 text-xs"><AlertTriangle className="h-3.5 w-3.5" /> Emergency Only</Button><Button variant="outline" size="sm" onClick={()=>{setSearchQuery('');setSelectedCategory('all');setSelectedPriority('all');setShowEmergencyOnly(false)}} className="flex items-center gap-2 text-xs"><RotateCcw className="h-3.5 w-3.5" /> Clear All</Button></div>}
         />
-        <div className="mb-8">
+        <div className="mb-8 max-w-6xl mx-auto">
           <Dialog open={showRequestDialog} onOpenChange={setShowRequestDialog}>
             <DialogTrigger asChild>
-              <Button ref={triggerRef} className="w-full md:w-auto"><MessageCircle className="h-4 w-4 mr-2" /> Request Support</Button>
+              <Button ref={triggerRef} size="sm" className="w-full md:w-auto">
+                <MessageCircle className="h-3.5 w-3.5 mr-2" /> Request Support
+              </Button>
             </DialogTrigger>
-            <DialogContent>
-              <DialogHeader><DialogTitle>Request Support</DialogTitle></DialogHeader>
+            <DialogContent className="max-w-lg">
+              <DialogHeader>
+                <DialogTitle>Request Support</DialogTitle>
+              </DialogHeader>
               <div className="space-y-4">
-                <div><Label htmlFor="name">Name</Label><Input id="name" value={requestForm.name} onChange={e=>setRequestForm(p=>({...p,name:e.target.value}))} placeholder="Your full name" required aria-required="true" autoComplete="name" /></div>
-                <div><Label htmlFor="email">Email</Label><Input id="email" type="email" value={requestForm.email} onChange={e=>setRequestForm(p=>({...p,email:e.target.value}))} placeholder="your.email@student.cuilahore.edu.pk" required aria-required="true" autoComplete="email" /></div>
-                <div><Label htmlFor="category">Category</Label><Select value={requestForm.category} onValueChange={v=>setRequestForm(p=>({...p,category:v}))}><SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger><SelectContent><SelectItem value="mental-health">Mental Health</SelectItem><SelectItem value="academic">Academic</SelectItem><SelectItem value="financial">Financial</SelectItem><SelectItem value="career">Career</SelectItem><SelectItem value="personal">Personal</SelectItem></SelectContent></Select></div>
-                <div><Label htmlFor="message">Message</Label><Textarea id="message" value={requestForm.message} onChange={e=>setRequestForm(p=>({...p,message:e.target.value}))} placeholder="Describe your situation and how we can help..." rows={4} required aria-required="true" autoComplete="off" /></div>
-                <div className="flex items-center space-x-2"><input type="checkbox" id="anonymous" name="anonymous" aria-label="Submit anonymously" checked={requestForm.isAnonymous} onChange={e=>setRequestForm(p=>({...p,isAnonymous:e.target.checked}))} /><Label htmlFor="anonymous">Submit anonymously</Label></div>
-                <div className="flex justify-end space-x-2"><Button variant="outline" onClick={()=>setShowRequestDialog(false)}>Cancel</Button><Button onClick={handleSubmitRequest} disabled={submitting || !requestForm.name || !requestForm.email || !requestForm.message}>{submitting ? 'Submitting...' : 'Submit Request'}</Button></div>
+                <div>
+                  <Label htmlFor="name">Name</Label>
+                  <Input id="name" value={requestForm.name} onChange={e=>setRequestForm(p=>({...p,name:e.target.value}))} placeholder="Your full name" required aria-required="true" autoComplete="name" />
+                </div>
+                <div>
+                  <Label htmlFor="email">Email</Label>
+                  <Input id="email" type="email" value={requestForm.email} onChange={e=>setRequestForm(p=>({...p,email:e.target.value}))} placeholder="your.email@student.cuilahore.edu.pk" required aria-required="true" autoComplete="email" />
+                </div>
+                <div>
+                  <Label htmlFor="category">Category</Label>
+                  <Select value={requestForm.category} onValueChange={v=>setRequestForm(p=>({...p,category:v}))}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="mental-health">Mental Health</SelectItem>
+                      <SelectItem value="academic">Academic</SelectItem>
+                      <SelectItem value="financial">Financial</SelectItem>
+                      <SelectItem value="career">Career</SelectItem>
+                      <SelectItem value="personal">Personal</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="message">Message</Label>
+                  <Textarea id="message" value={requestForm.message} onChange={e=>setRequestForm(p=>({...p,message:e.target.value}))} placeholder="Describe your situation and how we can help..." rows={4} required aria-required="true" autoComplete="off" />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input 
+                    type="checkbox" 
+                    id="anonymous" 
+                    name="anonymous" 
+                    aria-label="Submit anonymously" 
+                    checked={requestForm.isAnonymous} 
+                    onChange={e=>setRequestForm(p=>({...p,isAnonymous:e.target.checked}))} 
+                    className="rounded border-muted text-primary focus:ring-primary"
+                  />
+                  <Label htmlFor="anonymous">Submit anonymously</Label>
+                </div>
+                <div className="flex justify-end space-x-2">
+                  <Button variant="outline" onClick={()=>setShowRequestDialog(false)}>Cancel</Button>
+                  <Button onClick={handleSubmitRequest} disabled={submitting || !requestForm.name || !requestForm.email || !requestForm.message}>
+                    {submitting ? 'Submitting...' : 'Submit Request'}
+                  </Button>
+                </div>
               </div>
             </DialogContent>
           </Dialog>
         </div>
-        <div aria-live="polite" {...(loading ? ({ 'aria-busy': 'true' } as any) : {})}>
-          <h2 className="text-xl font-semibold mb-4">Available Support Resources</h2>
+        <div aria-live="polite" {...(loading ? ({ 'aria-busy': 'true' } as any) : {})} className="max-w-6xl mx-auto">
+          <h2 className="text-lg font-semibold mb-4">Available Support Resources</h2>
           <div className="sr-only" role="status" aria-live="polite">{regularResources.length} resources shown</div>
           {loading ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">{Array.from({ length: 6 }).map((_,i)=>(<Card key={`sk-${i}`} className="p-4"><div className="flex items-start justify-between mb-3"><Skeleton className="h-5 w-40" /><Skeleton className="h-5 w-20" /></div><Skeleton className="h-4 w-full mb-2" /><Skeleton className="h-4 w-5/6 mb-4" /><div className="space-y-2"><Skeleton className="h-4 w-64" /><Skeleton className="h-4 w-48" /></div></Card>))}</div>
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+              {Array.from({ length: 6 }).map((_,i)=>(
+                <Card key={`sk-${i}`} className="p-4 border">
+                  <div className="flex items-start justify-between mb-3">
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-4 w-16" />
+                  </div>
+                  <Skeleton className="h-3 w-full mb-2" />
+                  <Skeleton className="h-3 w-5/6 mb-3" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-3 w-48" />
+                    <Skeleton className="h-3 w-36" />
+                  </div>
+                </Card>
+              ))}
+            </div>
           ) : error ? (
-            <div className="text-center py-8 text-destructive">{error}</div>
+            <div className="text-center py-6 text-destructive max-w-4xl mx-auto">{error}</div>
           ) : regularResources.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">No support resources found matching your criteria</div>
+            <div className="text-center py-6 text-muted-foreground max-w-4xl mx-auto">No support resources found matching your criteria</div>
           ) : (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">{regularResources.map(r=> (
-              <Card key={r.id} className="hover:shadow-lg transition-shadow interactive hover-lift"><CardHeader><div className="flex items-start justify-between"><CardTitle className="text-lg">{r.title}</CardTitle><Badge variant="outline">{r.category.replace('-', ' ')}</Badge></div></CardHeader><CardContent><p className="text-gray-600 dark:text-gray-400 mb-4">{r.description}</p><div className="space-y-2"><div className="flex items-center text-sm"><Mail className="h-4 w-4 mr-2 text-blue-500" />{(()=>{const c=contactToHref(r.contactInfo);return c.href? <a href={c.href} className="text-blue-600 underline underline-offset-2" aria-label={`Contact ${r.title}: ${r.contactInfo}`}>{c.text}</a>:<span className="text-blue-600">{c.text}</span>})()}</div><div className="flex items-center text-sm"><Clock className="h-4 w-4 mr-2 text-green-500" /><span className="text-green-600">{r.availability}</span></div></div></CardContent></Card>
-            ))}</div>
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+              {regularResources.map(r=> (
+                <Card key={r.id} className="border hover:shadow-md transition-shadow">
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <CardTitle className="text-base">{r.title}</CardTitle>
+                      <Badge variant="outline" className="text-xs">{r.category.replace('-', ' ')}</Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground mb-3 text-sm">{r.description}</p>
+                    <div className="space-y-2">
+                      <div className="flex items-center text-sm">
+                        <Mail className="h-3.5 w-3.5 mr-2 text-primary" />
+                        {(()=>{const c=contactToHref(r.contactInfo);return c.href? <a href={c.href} className="text-primary underline underline-offset-2 text-xs" aria-label={`Contact ${r.title}: ${r.contactInfo}`}>{c.text}</a>:<span className="text-primary text-xs">{c.text}</span>})()}
+                      </div>
+                      <div className="flex items-center text-sm">
+                        <Clock className="h-3.5 w-3.5 mr-2 text-primary" />
+                        <span className="text-primary text-xs">{r.availability}</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           )}
         </div>
       </div>

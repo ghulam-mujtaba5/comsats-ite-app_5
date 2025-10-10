@@ -32,7 +32,7 @@ export async function PATCH(
 
     // Verify ownership
     const { data: comment } = await supabase
-      .from('community_comments')
+      .from('post_comments_enhanced')
       .select('user_id')
       .eq('id', id)
       .single()
@@ -42,7 +42,7 @@ export async function PATCH(
     }
 
     const { data, error } = await supabase
-      .from('community_comments')
+      .from('post_comments_enhanced')
       .update({ content })
       .eq('id', id)
       .select(`
@@ -91,7 +91,7 @@ export async function DELETE(
 
     // Verify ownership
     const { data: comment } = await supabase
-      .from('community_comments')
+      .from('post_comments_enhanced')
       .select('user_id, post_id')
       .eq('id', id)
       .single()
@@ -101,7 +101,7 @@ export async function DELETE(
     }
 
     const { error } = await supabase
-      .from('community_comments')
+      .from('post_comments_enhanced')
       .delete()
       .eq('id', id)
 
@@ -109,8 +109,18 @@ export async function DELETE(
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
-    // Decrement comment count
-    await supabase.rpc('decrement_comment_count', { post_id: comment.post_id })
+    // Update comment count
+    const { count } = await supabase
+      .from('post_comments_enhanced')
+      .select('*', { count: 'exact', head: true })
+      .eq('post_id', comment.post_id)
+
+    if (typeof count === 'number') {
+      await supabase
+        .from('community_posts_enhanced')
+        .update({ comments_count: count })
+        .eq('id', comment.post_id)
+    }
 
     return NextResponse.json({ message: 'Comment deleted' })
   } catch (error) {

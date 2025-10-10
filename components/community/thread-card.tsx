@@ -7,22 +7,23 @@ import { Post } from "@/lib/community-data"
 import { cn } from "@/lib/utils"
 
 interface ThreadCardProps {
-  thread: Post
-  handleLike: (id: string) => void
+  post: Post
+  onLike: (id: string) => void
+  currentUser?: any
 }
 
-export function ThreadCard({ thread, handleLike }: ThreadCardProps) {
+export function ThreadCard({ post, onLike, currentUser }: ThreadCardProps) {
   // Determine if post should have special styling
-  const isAchievement = thread.type === "achievement"
-  const isPopular = thread.likes > 50
-  const isTrending = thread.comments > 20
+  const isAchievement = post.type === "achievement"
+  const isPopular = post.likes > 50
+  const isTrending = post.comments > 20
   
   // User badges based on activity level
   const getUserBadges = () => {
     const badges = []
     
     // Top contributor badge
-    if (thread.likes > 100) {
+    if (post.likes > 100) {
       badges.push(
         <Badge key="top-contributor" className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-transparent">
           <Crown className="h-3 w-3" />
@@ -32,7 +33,7 @@ export function ThreadCard({ thread, handleLike }: ThreadCardProps) {
     }
     
     // Active member badge
-    if (thread.likes > 25) {
+    if (post.likes > 25) {
       badges.push(
         <Badge key="active-member" className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white border-transparent">
           <UserCheck className="h-3 w-3" />
@@ -42,7 +43,7 @@ export function ThreadCard({ thread, handleLike }: ThreadCardProps) {
     }
     
     // Rising star badge
-    if (thread.likes > 10 && thread.comments > 5) {
+    if (post.likes > 10 && post.comments > 5) {
       badges.push(
         <Badge key="rising-star" className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-green-500 to-emerald-500 text-white border-transparent">
           <Star className="h-3 w-3" />
@@ -54,9 +55,25 @@ export function ThreadCard({ thread, handleLike }: ThreadCardProps) {
     return badges
   }
 
+  // Get post type badge styling
+  const getPostTypeBadge = () => {
+    const baseClasses = "capitalize font-medium"
+    
+    switch (post.type) {
+      case "achievement":
+        return cn(baseClasses, "bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-transparent")
+      case "study":
+        return cn(baseClasses, "bg-gradient-to-r from-blue-500 to-indigo-500 text-white border-transparent")
+      case "opportunity":
+        return cn(baseClasses, "bg-gradient-to-r from-green-500 to-emerald-500 text-white border-transparent")
+      default:
+        return cn(baseClasses, "bg-secondary text-secondary-foreground border-transparent")
+    }
+  }
+
   return (
     <Card className={cn(
-      "hover:shadow-lg transition-all duration-300 group border-border",
+      "hover:shadow-md transition-all duration-300 group border",
       isAchievement && "border-l-4 border-l-yellow-500",
       isPopular && "border-r-2 border-r-blue-500",
       isTrending && "border-t-2 border-t-red-500"
@@ -66,9 +83,9 @@ export function ThreadCard({ thread, handleLike }: ThreadCardProps) {
           {/* User Avatar with Online Status and Gamification Elements */}
           <div className="relative">
             <Avatar className="h-12 w-12 ring-2 ring-primary/20">
-              <AvatarImage src={thread.avatar || "/placeholder.svg"} />
+              <AvatarImage src={post.avatar || "/placeholder.svg"} />
               <AvatarFallback className="font-medium">
-                {thread.author
+                {post.author
                   .split(" ")
                   .map((n) => n[0])
                   .join("")}
@@ -85,8 +102,8 @@ export function ThreadCard({ thread, handleLike }: ThreadCardProps) {
           <div className="flex-1 min-w-0">
             {/* User Info and Badges */}
             <div className="flex flex-wrap items-center gap-2 mb-3">
-              <h4 className="font-semibold text-gray-900 dark:text-white truncate">
-                {thread.author}
+              <h4 className="font-semibold text-foreground truncate">
+                {post.author}
               </h4>
               
               {/* User Gamification Badges */}
@@ -120,30 +137,30 @@ export function ThreadCard({ thread, handleLike }: ThreadCardProps) {
               
               {/* Department and Batch Badges */}
               <Badge className="border-transparent bg-secondary text-secondary-foreground text-xs">
-                {thread.department}
+                {post.department}
               </Badge>
               
               <Badge className="text-xs border text-foreground">
-                {thread.semester}
+                {post.semester}
               </Badge>
               
-              {thread.batch && (
+              {post.batch && (
                 <Badge className="text-xs bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
-                  {thread.batch}
+                  {post.batch}
                 </Badge>
               )}
               
-              <span className="text-sm text-gray-500 whitespace-nowrap">{thread.time}</span>
+              <span className="text-sm text-muted-foreground whitespace-nowrap">{post.time}</span>
             </div>
             
             {/* Post Content */}
-            <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
-              {thread.content}
+            <p className="text-muted-foreground mb-4 leading-relaxed">
+              {post.content}
             </p>
             
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-4">
-              {thread.tags.map((tag) => (
+              {post.tags.map((tag) => (
                 <Badge 
                   key={tag} 
                   className="text-xs border cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
@@ -161,17 +178,17 @@ export function ThreadCard({ thread, handleLike }: ThreadCardProps) {
                   onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
-                    handleLike(thread.id)
+                    onLike(post.id)
                   }}
                   variant="ghost"
                   size="sm"
                   className={cn(
                     "flex items-center space-x-2 hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors",
-                    thread.liked && "text-red-500 hover:text-red-600 dark:hover:text-red-400"
+                    post.liked && "text-red-500 hover:text-red-600 dark:hover:text-red-400"
                   )}
                 >
-                  <Heart className={cn("h-4 w-4", thread.liked ? "fill-current" : "")} />
-                  <span className="text-sm font-medium">{thread.likes}</span>
+                  <Heart className={cn("h-4 w-4", post.liked ? "fill-current" : "")} />
+                  <span className="text-sm font-medium">{post.likes}</span>
                 </Button>
                 
                 <Button
@@ -184,7 +201,7 @@ export function ThreadCard({ thread, handleLike }: ThreadCardProps) {
                   }}
                 >
                   <MessageCircle className="h-4 w-4" />
-                  <span className="text-sm font-medium">{thread.comments}</span>
+                  <span className="text-sm font-medium">{post.comments}</span>
                 </Button>
                 
                 <Button
@@ -197,24 +214,13 @@ export function ThreadCard({ thread, handleLike }: ThreadCardProps) {
                   }}
                 >
                   <Share2 className="h-4 w-4" />
-                  <span className="text-sm font-medium">{thread.shares}</span>
+                  <span className="text-sm font-medium">{post.shares}</span>
                 </Button>
               </div>
               
               {/* Post Type Badge */}
-              <Badge
-                className={cn(
-                  "capitalize font-medium",
-                  thread.type === "achievement" 
-                    ? "bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-transparent" 
-                    : thread.type === "study"
-                    ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white border-transparent"
-                    : thread.type === "opportunity"
-                    ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white border-transparent"
-                    : "bg-secondary text-secondary-foreground border-transparent"
-                )}
-              >
-                {thread.type}
+              <Badge className={getPostTypeBadge()}>
+                {post.type}
               </Badge>
             </div>
           </div>

@@ -27,10 +27,12 @@ export async function GET(req: NextRequest) {
     }
   )
 
+  // Get replies (comments with parent_comment_id) for a post
   const { data, error } = await supabase
-    .from('community_replies')
+    .from('post_comments_enhanced')
     .select('*')
     .eq('post_id', postId)
+    .not('parent_comment_id', 'is', null)
     .order('created_at', { ascending: true })
     .range(offset, offset + limit - 1)
 
@@ -53,7 +55,7 @@ export async function GET(req: NextRequest) {
 }
 
 // POST /api/community/replies
-// body: { post_id: uuid, content: string, author_name?: string, avatar_url?: string }
+// body: { post_id: uuid, parent_id: uuid, content: string }
 export async function POST(req: NextRequest) {
   const cookieStore = await (cookies() as any)
   const supabase = createServerClient(
@@ -75,9 +77,8 @@ export async function POST(req: NextRequest) {
 
   const schema = z.object({
     post_id: z.string().uuid(),
+    parent_id: z.string().uuid(),
     content: z.string().min(1),
-    author_name: z.string().optional(),
-    avatar_url: z.string().url().optional(),
   })
 
   const body = await req.json().catch(() => null)
@@ -88,32 +89,46 @@ export async function POST(req: NextRequest) {
 
   const payload = {
     post_id: parsed.data.post_id,
+    parent_comment_id: parsed.data.parent_id,
+    user_id: auth.user.id,
     content: parsed.data.content,
-    author_name: parsed.data.author_name ?? null,
-    avatar_url: parsed.data.avatar_url ?? null,
-    // likes default 0, created_at default now
+    // likes_count default 0, replies_count default 0, created_at default now
   }
 
   const { data, error } = await supabase
-    .from('community_replies')
+    .from('post_comments_enhanced')
     .insert(payload)
     .select('*')
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
 
-  // Best-effort: recompute replies count and update community_posts.comments_count
-  // Non-fatal if fails
-  try {
-    const { count } = await supabase
-      .from('community_replies')
-      .select('*', { count: 'exact', head: true })
-      .eq('post_id', parsed.data.post_id)
+  // Update replies count on parent comment
+  const { count: repliesCount } = await supabase
+    .from('post_comments_enhanced')
+    .select('*', { count: 'exact', head: true })
+    .eq('parent_comment_id', parsed.data.parent_id)
 
-    if (typeof count === 'number') {
+  try {
+    if (typeof repliesCount === 'number') {
       await supabase
-        .from('community_posts')
-        .update({ comments_count: count })
+        .from('post_comments_enhanced')
+        .update({ replies_count: repliesCount })
+        .eq('id', parsed.data.parent_id)
+    }
+  } catch {}
+
+  // Update comment count on post
+  const { count: commentsCount } = await supabase
+    .from('post_comments_enhanced')
+    .select('*', { count: 'exact', head: true })
+    .eq('post_id', parsed.data.post_id)
+
+  try {
+    if (typeof commentsCount === 'number') {
+      await supabase
+        .from('community_posts_enhanced')
+        .update({ comments_count: commentsCount })
         .eq('id', parsed.data.post_id)
     }
   } catch {}

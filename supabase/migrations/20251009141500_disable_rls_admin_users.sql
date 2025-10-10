@@ -3,7 +3,6 @@ BEGIN;
 
 -- 1) Disable RLS entirely on admin_users
 ALTER TABLE public.admin_users DISABLE ROW LEVEL SECURITY;
-ALTER TABLE public.admin_users FORCE ROW LEVEL SECURITY FALSE;
 
 -- 2) Drop any leftover policies safely
 DROP POLICY IF EXISTS "authenticated_read_admin_users" ON public.admin_users CASCADE;

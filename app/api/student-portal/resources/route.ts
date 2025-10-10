@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const cookieStore = await cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,13 +15,27 @@ export async function GET() {
       },
     }
   )
+  const { searchParams } = new URL(request.url)
+  const isAdmin = searchParams.get('admin') === 'true'
+  const campusId = searchParams.get('campus_id')
 
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from('student_portal_resources')
       .select('*')
-      .eq('status', 'active')
       .order('sort_order', { ascending: true })
+
+    // For admin requests, show all resources; for public, only active ones
+    if (!isAdmin) {
+      query = query.eq('status', 'active')
+    }
+
+    // Filter by campus if provided
+    if (campusId) {
+      query = query.eq('campus_id', campusId)
+    }
+
+    const { data, error } = await query
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 })
@@ -56,7 +70,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { title, description, url, category, icon_name, requires_vpn, is_external } = body
+    const { title, description, url, category, icon_name, sort_order, requires_vpn, is_external, status, campus_id } = body
 
     const { data, error } = await supabase
       .from('student_portal_resources')
@@ -66,8 +80,11 @@ export async function POST(request: NextRequest) {
         url,
         category,
         icon_name: icon_name || 'Globe',
+        sort_order: sort_order || 0,
         requires_vpn: requires_vpn || false,
-        is_external: is_external !== false
+        is_external: is_external !== false,
+        status: status || 'active',
+        campus_id: campus_id || null
       })
       .select()
       .single()

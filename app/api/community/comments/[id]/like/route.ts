@@ -27,25 +27,51 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Increment likes - first get current value, then increment
-    const { data: comment } = await supabase
-      .from('community_comments')
-      .select('likes')
-      .eq('id', id)
-      .single()
+    // Check if already liked
+    const { data: existing, error: fetchErr } = await supabase
+      .from('comment_reactions')
+      .select('comment_id,user_id')
+      .eq('comment_id', id)
+      .eq('user_id', user.id)
+      .eq('reaction_type', 'like')
+      .maybeSingle()
 
-    const { data, error } = await supabase
-      .from('community_comments')
-      .update({ likes: (comment?.likes || 0) + 1 })
-      .eq('id', id)
-      .select()
-      .single()
+    if (fetchErr) return NextResponse.json({ error: fetchErr.message }, { status: 400 })
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
+    if (existing) {
+      // unlike
+      const { error: delErr } = await supabase
+        .from('comment_reactions')
+        .delete()
+        .eq('comment_id', id)
+        .eq('user_id', user.id)
+        .eq('reaction_type', 'like')
+      if (delErr) return NextResponse.json({ error: delErr.message }, { status: 400 })
+    } else {
+      // like
+      const { error: insErr } = await supabase
+        .from('comment_reactions')
+        .insert({ comment_id: id, user_id: user.id, reaction_type: 'like' })
+      if (insErr) return NextResponse.json({ error: insErr.message }, { status: 400 })
     }
 
-    return NextResponse.json(data)
+    // recompute like count and update post_comments_enhanced.likes_count best-effort
+    const { count } = await supabase
+      .from('comment_reactions')
+      .select('*', { count: 'exact', head: true })
+      .eq('comment_id', id)
+      .eq('reaction_type', 'like')
+
+    try {
+      if (typeof count === 'number') {
+        await supabase
+          .from('post_comments_enhanced')
+          .update({ likes_count: count })
+          .eq('id', id)
+      }
+    } catch {}
+
+    return NextResponse.json({ count: count || 0 })
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }

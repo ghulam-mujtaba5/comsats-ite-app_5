@@ -16,9 +16,10 @@ export function useRealtimeLikes(postId: string) {
         
         // Get likes count
         const { count, error: countError } = await supabase
-          .from('post_likes')
+          .from('post_reactions')
           .select('*', { count: 'exact', head: true })
           .eq('post_id', postId)
+          .eq('reaction_type', 'like')
 
         if (countError) throw countError
 
@@ -28,10 +29,11 @@ export function useRealtimeLikes(postId: string) {
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
           const { data, error: likeError } = await supabase
-            .from('post_likes')
+            .from('post_reactions')
             .select('id')
             .eq('post_id', postId)
             .eq('user_id', user.id)
+            .eq('reaction_type', 'like')
             .maybeSingle()
 
           if (likeError) throw likeError
@@ -55,7 +57,7 @@ export function useRealtimeLikes(postId: string) {
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'post_likes',
+          table: 'post_reactions',
           filter: `post_id=eq.${postId}`,
         },
         () => {
@@ -68,7 +70,7 @@ export function useRealtimeLikes(postId: string) {
         {
           event: 'DELETE',
           schema: 'public',
-          table: 'post_likes',
+          table: 'post_reactions',
           filter: `post_id=eq.${postId}`,
         },
         () => {
@@ -92,10 +94,11 @@ export function useRealtimeLikes(postId: string) {
       if (isLiked) {
         // Remove like
         const { error } = await supabase
-          .from('post_likes')
+          .from('post_reactions')
           .delete()
           .eq('post_id', postId)
           .eq('user_id', user.id)
+          .eq('reaction_type', 'like')
 
         if (error) throw error
 
@@ -104,10 +107,11 @@ export function useRealtimeLikes(postId: string) {
       } else {
         // Add like
         const { error } = await supabase
-          .from('post_likes')
+          .from('post_reactions')
           .insert({
             post_id: postId,
             user_id: user.id,
+            reaction_type: 'like',
           })
 
         if (error) throw error

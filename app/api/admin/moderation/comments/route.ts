@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const { data: comments, error } = await supabase
-      .from('community_comments')
+      .from('post_comments_enhanced')
       .select(`
         id,
         content,
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
         created_at,
         status,
         reports_count,
-        post:community_posts(title)
+        post:community_posts_enhanced(title)
       `)
       .order('created_at', { ascending: false })
 

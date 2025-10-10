@@ -114,7 +114,7 @@ export default function AdminFaqPage() {
         <div className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 backdrop-blur-3xl" />
           <div className="relative app-container pt-12 pb-8">
-            <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+            <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 max-w-6xl mx-auto">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
@@ -154,8 +154,8 @@ export default function AdminFaqPage() {
             </div>
           </div>
         </div>
-        <div className="app-container space-y-6 pb-12">
-          <div className="flex items-center justify-between">
+        <div className="app-container space-y-6 pb-12 max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">FAQ Items</h2>
             <Dialog open={showFaqDialog} onOpenChange={(open) => {
               setShowFaqDialog(open)
@@ -240,7 +240,7 @@ export default function AdminFaqPage() {
               {filteredFaqs.map((faq) => (
                 <Card key={faq.id} variant="elevated" className="transition-shadow hover:shadow-lg interactive hover-lift slide-up">
                   <CardHeader>
-                    <div className="flex items-start justify-between">
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                       <div>
                         <div className="flex items-center gap-2">
                           <HelpCircle className="h-5 w-5 text-green-600" />

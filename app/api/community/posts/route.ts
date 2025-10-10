@@ -1,39 +1,19 @@
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { createSupabaseClient, extractQueryParams, transformPostRecord } from '@/lib/supabase-utils'
 import { NextRequest, NextResponse } from 'next/server'
 
+/**
+ * GET /api/community/posts
+ * Fetches community posts with optional filtering and pagination
+ */
 export async function GET(request: NextRequest) {
-  const cookieStore = await (cookies() as any)
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value
-        },
-        set(name: string, value: string, options?: any) {
-          cookieStore.set({ name, value, ...options })
-        },
-        remove(name: string, options?: any) {
-          cookieStore.set({ name, value: '', ...options })
-        },
-      },
-    }
-  )
-
+  const supabase = await createSupabaseClient()
+  
   try {
-    const { searchParams } = new URL(request.url)
-    const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '20', 10), 1), 100)
-    const offset = Math.max(parseInt(searchParams.get('offset') || '0', 10), 0)
-    const withMeta = (searchParams.get('meta') || '') === '1'
-    const campusId = searchParams.get('campus_id')
-    const departmentId = searchParams.get('department_id')
-    const batch = searchParams.get('batch') // e.g., 'FA22-BSE'
+    const { limit, offset, withMeta, campusId, departmentId, batch } = extractQueryParams(request)
 
-    // Enhanced query with joins to get campus and department information
+    // Build the base query with joins to get campus and department information
     let query = supabase
-      .from('community_posts')
+      .from('community_posts_enhanced')
       .select(`
         *,
         campuses(name, code),
@@ -42,60 +22,20 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1)
 
-    // Filter by campus if provided
-    if (campusId) {
-      query = query.eq('campus_id', campusId)
-    }
-
-    // Filter by department if provided
-    if (departmentId) {
-      query = query.eq('department_id', departmentId)
-    }
-
-    // Filter by batch if provided
-    if (batch) {
-      query = query.eq('batch', batch)
-    }
+    // Apply filters
+    query = applyFilters(query, { campusId, departmentId, batch })
 
     const { data: posts, error } = await query
 
     if (error) throw error
 
     // Determine current user and liked posts
-    const { data: auth } = await supabase.auth.getUser()
-    let likedSet = new Set<string>()
-    if (auth?.user && posts && posts.length) {
-      const ids = (posts as any[]).map((p) => p.id)
-      const { data: likedRows } = await supabase
-        .from('post_likes')
-        .select('post_id')
-        .eq('user_id', auth.user.id)
-        .in('post_id', ids)
-      if (likedRows) {
-        likedSet = new Set(likedRows.map((r: any) => String(r.post_id)))
-      }
-    }
+    const likedSet = await getUserLikedPosts(supabase, posts)
 
     // Transform data to match frontend interface
-    const transformedPosts = (posts as any[]).map((post: any) => ({
-      id: post.id.toString(),
-      author: post.author_name || 'Anonymous',
-      avatar: post.avatar_url || '/student-avatar.png',
-      department: post.department || (post.departments ? post.departments.name : ''),
-      departmentCode: post.departments ? post.departments.code : '',
-      campus: post.campuses ? post.campuses.name : '',
-      campusCode: post.campuses ? post.campuses.code : '',
-      semester: post.semester || '',
-      batch: post.batch || '', // e.g., 'FA22-BSE'
-      time: new Date(post.created_at).toLocaleString(),
-      content: post.content,
-      likes: post.likes || 0,
-      comments: post.comments_count || 0,
-      shares: post.shares || 0,
-      tags: Array.isArray(post.tags) ? post.tags : [],
-      liked: likedSet.has(String(post.id)),
-      type: post.type || 'general'
-    }))
+    const transformedPosts = (posts as any[]).map((post: any) => 
+      transformPostRecord(post, likedSet)
+    )
 
     if (withMeta) {
       const pageLen = transformedPosts.length
@@ -117,25 +57,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
+/**
+ * POST /api/community/posts
+ * Creates a new community post
+ */
 export async function POST(request: NextRequest) {
-  const cookieStore = await (cookies() as any)
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value
-        },
-        set(name: string, value: string, options?: any) {
-          cookieStore.set({ name, value, ...options })
-        },
-        remove(name: string, options?: any) {
-          cookieStore.set({ name, value: '', ...options })
-        },
-      },
-    }
-  )
+  const supabase = await createSupabaseClient()
 
   try {
     const { data: { user } } = await supabase.auth.getUser()
@@ -145,62 +72,27 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { content, type, tags, campusId, departmentId, batch } = body
+    const { content, type, tags } = body
 
     if (!content || content.trim().length < 10) {
       return NextResponse.json({ error: 'Content must be at least 10 characters' }, { status: 400 })
     }
 
-    // Get user's campus and department from user_preferences if not provided
-    let finalCampusId = campusId
-    let finalDepartmentId = departmentId
-    let finalBatch = batch
-    
-    if (!finalCampusId || !finalDepartmentId || !finalBatch) {
-      const { data: userPrefs } = await supabase
-        .from('user_preferences')
-        .select('campus_id, department_id, program_id, semester')
-        .eq('user_id', user.id)
-        .single()
-      
-      if (userPrefs) {
-        finalCampusId = finalCampusId || userPrefs.campus_id
-        finalDepartmentId = finalDepartmentId || userPrefs.department_id
-        
-        // Generate batch code if not provided and we have program and semester info
-        if (!finalBatch && userPrefs.program_id && userPrefs.semester) {
-          const { data: program } = await supabase
-            .from('programs')
-            .select('code')
-            .eq('id', userPrefs.program_id)
-            .single()
-          
-          if (program) {
-            // Generate batch code like FA22-BSE, SP23-BSEE, etc.
-            const semesterCode = userPrefs.semester % 2 === 1 ? 'FA' : 'SP'
-            const year = new Date().getFullYear()
-            const yearCode = year.toString().substring(2) // Get last 2 digits of year
-            finalBatch = `${semesterCode}${yearCode}-${program.code}`
-          }
-        }
-      }
-    }
+    // Get user's campus and department from user_preferences
+    const { campusId, departmentId, batch } = await getUserContext(supabase, user.id, body)
 
     // Get user's avatar URL from their profile metadata
-    let avatarUrl = '/student-avatar.png'
-    if (user.user_metadata?.avatar_url) {
-      avatarUrl = user.user_metadata.avatar_url
-    }
+    const avatarUrl = user.user_metadata?.avatar_url || '/student-avatar.png'
 
     const { data: post, error } = await supabase
-      .from('community_posts')
+      .from('community_posts_enhanced')
       .insert({
         content: content.trim(),
         type: type || 'general',
         tags: tags || [],
-        batch: finalBatch || '', // e.g., 'FA22-BSE'
-        campus_id: finalCampusId,
-        department_id: finalDepartmentId,
+        batch: batch || '', // e.g., 'FA22-BSE'
+        campus_id: campusId,
+        department_id: departmentId,
         user_id: user.id,
         author_name: user.email?.split('@')[0] || 'Anonymous',
         avatar_url: avatarUrl
@@ -215,29 +107,104 @@ export async function POST(request: NextRequest) {
     if (error) throw error
 
     // Transform response to match frontend interface
-    const transformedPost = {
-      id: post.id.toString(),
-      author: post.author_name,
-      avatar: post.avatar_url,
-      department: post.department || (post.departments ? post.departments.name : ''),
-      departmentCode: post.departments ? post.departments.code : '',
-      campus: post.campuses ? post.campuses.name : '',
-      campusCode: post.campuses ? post.campuses.code : '',
-      semester: post.semester || '',
-      batch: post.batch || '',
-      time: new Date(post.created_at).toLocaleString(),
-      content: post.content,
-      likes: post.likes || 0,
-      comments: post.comments_count || 0,
-      shares: post.shares || 0,
-      tags: Array.isArray(post.tags) ? post.tags : [],
-      liked: false,
-      type: post.type
-    }
+    const transformedPost = transformPostRecord(post)
 
     return NextResponse.json(transformedPost)
   } catch (error) {
     console.error('Error creating post:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
+}
+
+// === Helper Functions ===
+
+/**
+ * Applies filters to the Supabase query
+ */
+function applyFilters(
+  query: any, 
+  filters: { campusId?: string | null; departmentId?: string | null; batch?: string | null }
+) {
+  let result = query
+  
+  if (filters.campusId) {
+    result = result.eq('campus_id', filters.campusId)
+  }
+
+  if (filters.departmentId) {
+    result = result.eq('department_id', filters.departmentId)
+  }
+
+  if (filters.batch) {
+    result = result.eq('batch', filters.batch)
+  }
+  
+  return result
+}
+
+/**
+ * Gets the set of post IDs that the current user has liked
+ */
+async function getUserLikedPosts(supabase: any, posts: any[]): Promise<Set<string>> {
+  const { data: auth } = await supabase.auth.getUser()
+  const likedSet = new Set<string>()
+  
+  if (auth?.user && posts && posts.length) {
+    const ids = posts.map((p) => p.id)
+    const { data: likedRows } = await supabase
+      .from('post_reactions')
+      .select('post_id')
+      .eq('user_id', auth.user.id)
+      .in('post_id', ids)
+      
+    if (likedRows) {
+      likedRows.forEach((r: any) => likedSet.add(String(r.post_id)))
+    }
+  }
+  
+  return likedSet
+}
+
+/**
+ * Gets user context (campus, department, batch) for post creation
+ */
+async function getUserContext(
+  supabase: any, 
+  userId: string, 
+  body: any
+): Promise<{ campusId: string | null; departmentId: string | null; batch: string | null }> {
+  let { campus_id: campusId, department_id: departmentId, batch } = body
+  
+  // If not provided in body, get from user preferences
+  if (!campusId || !departmentId || !batch) {
+    const { data: userPrefs } = await supabase
+      .from('user_preferences')
+      .select('campus_id, department_id, program_id, semester')
+      .eq('user_id', userId)
+      .single()
+    
+    if (userPrefs) {
+      campusId = campusId || userPrefs.campus_id
+      departmentId = departmentId || userPrefs.department_id
+      
+      // Generate batch code if not provided and we have program and semester info
+      if (!batch && userPrefs.program_id && userPrefs.semester) {
+        const { data: program } = await supabase
+          .from('programs')
+          .select('code')
+          .eq('id', userPrefs.program_id)
+          .single()
+        
+        if (program) {
+          // Import the generateBatchCode function
+          const semesterCode = userPrefs.semester % 2 === 1 ? 'FA' : 'SP'
+          const year = new Date().getFullYear()
+          const yearCode = year.toString().substring(2) // Get last 2 digits of year
+          batch = `${semesterCode}${yearCode}-${program.code}`
+        }
+      }
+    }
+  }
+  
+  return { campusId, departmentId, batch }
 }

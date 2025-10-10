@@ -118,7 +118,7 @@ export default function CommunitySearchPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-primary/15 to-blue-500/15 border border-primary/30 text-sm font-medium text-primary mb-4 backdrop-blur-sm">
-            <Search className="h-4 w-4" />
+            <Search className="h-10 w-10" />
             <span>Advanced Search</span>
           </div>
           
@@ -126,7 +126,7 @@ export default function CommunitySearchPage() {
             Find What You're <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Looking For</span>
           </h1>
           
-          <p className="text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-6">
+          <p className="text-base text-slate-600 dark:text-slate-300 max-w-10xl mx-auto mb-6">
             Search across posts, groups, events, and more with advanced filtering options.
           </p>
         </div>
@@ -136,7 +136,7 @@ export default function CommunitySearchPage() {
           <CardContent className="p-6">
             <div className="flex flex-col lg:flex-row gap-4">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" />
+                <Search className="absolute left-3 top-3.5 h-10 w-10 text-gray-400" />
                 <Input
                   placeholder="Search posts, tags, people..."
                   value={filters.query}
@@ -151,7 +151,7 @@ export default function CommunitySearchPage() {
                   className="flex items-center gap-2 h-12"
                   onClick={() => setShowFilters(!showFilters)}
                 >
-                  <SlidersHorizontal className="h-4 w-4" />
+                  <SlidersHorizontal className="h-10 w-10" />
                   Filters
                 </Button>
                 
@@ -159,7 +159,7 @@ export default function CommunitySearchPage() {
                   className="h-12 px-6"
                   onClick={() => updateFilters({ query: filters.query })}
                 >
-                  <Search className="h-4 w-4 mr-2" />
+                  <Search className="h-10 w-10 mr-2" />
                   Search
                 </Button>
               </div>
@@ -177,17 +177,17 @@ export default function CommunitySearchPage() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-4 w-4"
+                      className="h-10 w-10"
                       onClick={() => handleTagToggle(tag)}
                     >
-                      <X className="h-3 w-3" />
+                      <X className="h-10 w-10" />
                     </Button>
                   </Badge>
                 ))}
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-6 px-2 text-xs"
+                  className="h-10 px-2 text-xs"
                   onClick={() => setSelectedTags([])}
                 >
                   Clear all
@@ -335,7 +335,7 @@ export default function CommunitySearchPage() {
                               updateFilters({ postTypes: currentTypes.filter(t => t !== type.value) })
                             }
                           }}
-                          className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                          className="h-10 w-10 rounded border-gray-300 text-primary focus:ring-primary"
                         />
                         <label 
                           htmlFor={`type-${type.value}`} 
@@ -429,7 +429,7 @@ export default function CommunitySearchPage() {
                           </AvatarFallback>
                         </Avatar>
                         
-                        <div className="flex-1 min-w-0">
+                        <div className="flex-1 min-w-10">
                           <div className="flex items-center gap-2 mb-2">
                             <h3 className="font-semibold text-gray-900 dark:text-white">
                               {result.author}
@@ -450,20 +450,20 @@ export default function CommunitySearchPage() {
                           
                           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                             <div className="flex items-center gap-1">
-                              <Heart className="h-4 w-4" />
+                              <Heart className="h-10 w-10" />
                               <span>{result.likes}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <MessageCircle className="h-4 w-4" />
+                              <MessageCircle className="h-10 w-10" />
                               <span>{result.comments}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <MapPin className="h-4 w-4" />
+                              <MapPin className="h-10 w-10" />
                               <span>{result.campus}</span>
                             </div>
                             {result.batch && (
                               <div className="flex items-center gap-1">
-                                <Users className="h-4 w-4" />
+                                <Users className="h-10 w-10" />
                                 <span>{result.batch}</span>
                               </div>
                             )}

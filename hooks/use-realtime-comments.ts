@@ -15,7 +15,7 @@ export function useRealtimeComments(postId: string) {
       try {
         setLoading(true)
         const { data, error } = await supabase
-          .from('community_comments')
+          .from('post_comments_enhanced')
           .select(`
             *,
             user:user_id (
@@ -36,7 +36,7 @@ export function useRealtimeComments(postId: string) {
           avatar: comment.avatar_url || '/student-avatar.png',
           time: new Date(comment.created_at).toLocaleString(),
           content: comment.content,
-          likes: comment.likes || 0,
+          likes: comment.likes_count || 0,
           liked: false, // Will be updated when we get user likes
         }))
 
@@ -58,7 +58,7 @@ export function useRealtimeComments(postId: string) {
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'community_comments',
+          table: 'post_comments_enhanced',
           filter: `post_id=eq.${postId}`,
         },
         (payload) => {
@@ -71,7 +71,7 @@ export function useRealtimeComments(postId: string) {
             avatar: newComment.avatar_url || '/student-avatar.png',
             time: new Date(newComment.created_at).toLocaleString(),
             content: newComment.content,
-            likes: newComment.likes || 0,
+            likes: newComment.likes_count || 0,
             liked: false,
           }
 
@@ -83,7 +83,7 @@ export function useRealtimeComments(postId: string) {
         {
           event: 'UPDATE',
           schema: 'public',
-          table: 'community_comments',
+          table: 'post_comments_enhanced',
           filter: `post_id=eq.${postId}`,
         },
         (payload) => {
@@ -96,7 +96,7 @@ export function useRealtimeComments(postId: string) {
             avatar: updatedComment.avatar_url || '/student-avatar.png',
             time: new Date(updatedComment.created_at).toLocaleString(),
             content: updatedComment.content,
-            likes: updatedComment.likes || 0,
+            likes: updatedComment.likes_count || 0,
             liked: false,
           }
 
@@ -112,7 +112,7 @@ export function useRealtimeComments(postId: string) {
         {
           event: 'DELETE',
           schema: 'public',
-          table: 'community_comments',
+          table: 'post_comments_enhanced',
           filter: `post_id=eq.${postId}`,
         },
         (payload) => {
@@ -133,7 +133,7 @@ export function useRealtimeComments(postId: string) {
   const addComment = async (content: string) => {
     try {
       const { data, error } = await supabase
-        .from('community_comments')
+        .from('post_comments_enhanced')
         .insert({
           post_id: postId,
           content,
@@ -152,7 +152,7 @@ export function useRealtimeComments(postId: string) {
   const deleteComment = async (commentId: string) => {
     try {
       const { error } = await supabase
-        .from('community_comments')
+        .from('post_comments_enhanced')
         .delete()
         .eq('id', commentId)
 

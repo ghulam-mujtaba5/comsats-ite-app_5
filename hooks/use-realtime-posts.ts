@@ -13,7 +13,7 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
       try {
         setLoading(true)
         let query = supabase
-          .from('community_posts')
+          .from('community_posts_enhanced')
           .select(`
             *,
             campuses(name, code),
@@ -52,9 +52,9 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
           batch: post.batch || '',
           time: new Date(post.created_at).toLocaleString(),
           content: post.content,
-          likes: post.likes || 0,
+          likes: post.likes_count || 0,
           comments: post.comments_count || 0,
-          shares: post.shares || 0,
+          shares: post.shares_count || 0,
           tags: Array.isArray(post.tags) ? post.tags : [],
           liked: false, // Will be updated when we get user likes
           type: post.type || 'general'
@@ -78,7 +78,7 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'community_posts',
+          table: 'community_posts_enhanced',
         },
         (payload) => {
           const newPost = payload.new
@@ -87,17 +87,17 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
             id: newPost.id.toString(),
             author: newPost.author_name || 'Anonymous',
             avatar: newPost.avatar_url || '/student-avatar.png',
-            department: newPost.department || '',
-            departmentCode: '',
-            campus: '',
-            campusCode: '',
+            department: newPost.department || (newPost.departments ? newPost.departments.name : ''),
+            departmentCode: newPost.departments ? newPost.departments.code : '',
+            campus: newPost.campuses ? newPost.campuses.name : '',
+            campusCode: newPost.campuses ? newPost.campuses.code : '',
             semester: newPost.semester || '',
             batch: newPost.batch || '',
             time: new Date(newPost.created_at).toLocaleString(),
             content: newPost.content,
-            likes: newPost.likes || 0,
+            likes: newPost.likes_count || 0,
             comments: newPost.comments_count || 0,
-            shares: newPost.shares || 0,
+            shares: newPost.shares_count || 0,
             tags: Array.isArray(newPost.tags) ? newPost.tags : [],
             liked: false,
             type: newPost.type || 'general'
@@ -125,7 +125,7 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
         {
           event: 'UPDATE',
           schema: 'public',
-          table: 'community_posts',
+          table: 'community_posts_enhanced',
         },
         (payload) => {
           const updatedPost = payload.new
@@ -134,17 +134,17 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
             id: updatedPost.id.toString(),
             author: updatedPost.author_name || 'Anonymous',
             avatar: updatedPost.avatar_url || '/student-avatar.png',
-            department: updatedPost.department || '',
-            departmentCode: '',
-            campus: '',
-            campusCode: '',
+            department: updatedPost.department || (updatedPost.departments ? updatedPost.departments.name : ''),
+            departmentCode: updatedPost.departments ? updatedPost.departments.code : '',
+            campus: updatedPost.campuses ? updatedPost.campuses.name : '',
+            campusCode: updatedPost.campuses ? updatedPost.campuses.code : '',
             semester: updatedPost.semester || '',
             batch: updatedPost.batch || '',
             time: new Date(updatedPost.created_at).toLocaleString(),
             content: updatedPost.content,
-            likes: updatedPost.likes || 0,
+            likes: updatedPost.likes_count || 0,
             comments: updatedPost.comments_count || 0,
-            shares: updatedPost.shares || 0,
+            shares: updatedPost.shares_count || 0,
             tags: Array.isArray(updatedPost.tags) ? updatedPost.tags : [],
             liked: false,
             type: updatedPost.type || 'general'
@@ -162,7 +162,7 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
         {
           event: 'DELETE',
           schema: 'public',
-          table: 'community_posts',
+          table: 'community_posts_enhanced',
         },
         (payload) => {
           const deletedPostId = payload.old.id.toString()

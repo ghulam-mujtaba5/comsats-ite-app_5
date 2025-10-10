@@ -96,9 +96,9 @@ export default function ResetPasswordPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-green-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '4s' }} />
         
         {/* Floating geometric shapes */}
-        <div className="absolute top-20 right-20 w-4 h-4 bg-primary/30 rotate-45 animate-bounce" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-32 left-20 w-6 h-6 bg-blue-500/30 rounded-full animate-bounce" style={{ animationDelay: '3s' }} />
-        <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-500/30 rotate-45 animate-bounce" style={{ animationDelay: '5s' }} />
+        <div className="absolute top-20 right-20 w-10 h-10 bg-primary/30 rotate-45 animate-bounce" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-32 left-20 w-10 h-10 bg-blue-500/30 rounded-full animate-bounce" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-1/3 right-1/3 w-10 h-10 bg-purple-500/30 rotate-45 animate-bounce" style={{ animationDelay: '5s' }} />
       </div>
 
       {/* Modern gradient overlay */}
@@ -113,13 +113,13 @@ export default function ResetPasswordPage() {
             onClick={() => router.push("/auth")}
             className="flex items-center gap-3 text-muted-foreground hover:text-foreground px-4 py-3 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift shadow-lg"
           >
-            <ArrowLeft className="h-5 w-5" />
+            <ArrowLeft className="h-10 w-10" />
             <span className="font-medium">Back to Login</span>
           </Button>
         </div>
 
         {/* Enhanced Main Card */}
-        <Card className="card-modern border-0 backdrop-blur-sm shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-3xl">
+        <Card className="card-modern border-0 backdrop-blur-sm shadow-10xl hover:shadow-10xl transition-all duration-500 rounded-3xl">
           <CardHeader className="p-8 pb-6 text-center">
             {/* Enhanced Security Icon */}
             <div className="flex justify-center mb-6">
@@ -145,7 +145,7 @@ export default function ResetPasswordPage() {
               {error && (
                 <Alert variant="destructive" className="border-0 bg-gradient-to-r from-red-500/10 to-orange-500/10 backdrop-blur-sm rounded-xl">
                   <div className="p-2 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/20 mr-3">
-                    <Shield className="h-4 w-4 text-red-600" />
+                    <Shield className="h-10 w-10 text-red-600" />
                   </div>
                   <AlertDescription className="font-medium">{error}</AlertDescription>
                 </Alert>
@@ -155,7 +155,7 @@ export default function ResetPasswordPage() {
               {message && (
                 <Alert className="border-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 backdrop-blur-sm rounded-xl">
                   <div className="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-green-600/20 mr-3">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
+                    <CheckCircle className="h-10 w-10 text-green-600" />
                   </div>
                   <AlertDescription className="font-medium text-green-700">{message}</AlertDescription>
                 </Alert>
@@ -164,7 +164,7 @@ export default function ResetPasswordPage() {
               {/* Enhanced Password Input */}
               <div className="space-y-3">
                 <Label htmlFor="password" className="text-sm font-semibold text-foreground flex items-center gap-2">
-                  <Lock className="h-4 w-4 text-primary" />
+                  <Lock className="h-10 w-10 text-primary" />
                   New Password
                 </Label>
                 <div className="relative">
@@ -182,13 +182,13 @@ export default function ResetPasswordPage() {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg hover:bg-muted/50 transition-all duration-200"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg hover:bg-muted/50 transition-all duration-200"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? (
-                      <EyeOff className="h-4 w-4 text-muted-foreground" />
+                      <EyeOff className="h-10 w-10 text-muted-foreground" />
                     ) : (
-                      <Eye className="h-4 w-4 text-muted-foreground" />
+                      <Eye className="h-10 w-10 text-muted-foreground" />
                     )}
                   </Button>
                 </div>
@@ -197,7 +197,7 @@ export default function ResetPasswordPage() {
               {/* Enhanced Confirm Password Input */}
               <div className="space-y-3">
                 <Label htmlFor="confirmPassword" className="text-sm font-semibold text-foreground flex items-center gap-2">
-                  <Lock className="h-4 w-4 text-primary" />
+                  <Lock className="h-10 w-10 text-primary" />
                   Confirm New Password
                 </Label>
                 <div className="relative">
@@ -215,13 +215,13 @@ export default function ResetPasswordPage() {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg hover:bg-muted/50 transition-all duration-200"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg hover:bg-muted/50 transition-all duration-200"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
                     {showConfirmPassword ? (
-                      <EyeOff className="h-4 w-4 text-muted-foreground" />
+                      <EyeOff className="h-10 w-10 text-muted-foreground" />
                     ) : (
-                      <Eye className="h-4 w-4 text-muted-foreground" />
+                      <Eye className="h-10 w-10 text-muted-foreground" />
                     )}
                   </Button>
                 </div>
@@ -235,12 +235,12 @@ export default function ResetPasswordPage() {
               >
                 {loading ? (
                   <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <div className="w-10 h-10 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     Updating...
                   </div>
                 ) : (
                   <div className="flex items-center gap-3">
-                    <Shield className="h-5 w-5" />
+                    <Shield className="h-10 w-10" />
                     Update Password
                   </div>
                 )}
@@ -251,7 +251,7 @@ export default function ResetPasswordPage() {
             <div className="mt-8 p-4 rounded-xl bg-gradient-to-r from-primary/5 to-blue-500/5 border border-primary/20">
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <div className="p-2 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5">
-                  <Sparkles className="h-4 w-4 text-primary" />
+                  <Sparkles className="h-10 w-10 text-primary" />
                 </div>
                 <span className="font-medium">
                   Your password will be encrypted and stored securely

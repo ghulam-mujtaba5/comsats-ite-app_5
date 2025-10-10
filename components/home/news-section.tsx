@@ -67,34 +67,34 @@ export function NewsSection() {
   }, [])
 
   return (
-    <section className="py-20 px-4">
+    <section className="py-16 px-4 bg-muted/20">
       <div className="container mx-auto max-w-6xl">
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">Latest News & Updates</h2>
-            <p className="text-lg text-muted-foreground font-serif">
+            <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-3">Latest News & Updates</h2>
+            <p className="text-base text-muted-foreground">
               Stay informed about important announcements and events
             </p>
             {isMock && (
-              <div className="mt-3 text-xs border border-yellow-300 bg-yellow-50 text-yellow-900 rounded px-3 py-2">
+              <div className="mt-2 text-xs border border-yellow-300 bg-yellow-50 text-yellow-900 rounded px-2.5 py-1.5">
                 Mock fallback data (non-persistent) is being shown.
               </div>
             )}
           </div>
-          <Button variant="outline" asChild className="hidden sm:flex bg-transparent">
+          <Button variant="outline" asChild className="hidden sm:flex">
             <Link href="/news-events">
               View All News
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 h-3.5 w-3.5" />
             </Link>
           </Button>
         </div>
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={`nsk-${i}`} className="slide-up">
-                <div className="border border-border rounded-lg overflow-hidden">
+                <div className="border rounded-lg overflow-hidden bg-card">
                   <div className="sk-thumb skeleton" />
-                  <div className="p-5 space-y-3">
+                  <div className="p-4 space-y-2.5">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <div className="loader-ring sm" />
                       <div className="sk-line w-24 rounded" />
@@ -108,36 +108,36 @@ export function NewsSection() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {items.slice(0, maxCount).map((item) => (
               <Link key={item.id} href={`/news/${item.id}`} className="block">
-              <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
+              <Card className="group hover:shadow-md transition-all duration-300 overflow-hidden border">
                 <div className="aspect-video relative overflow-hidden">
                   <img
                     src={item.image_url || "/placeholder.svg"}
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">Published</Badge>
+                  <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs">Published</Badge>
                 </div>
                 <CardHeader className="pb-2">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                    <Calendar className="h-4 w-4" />
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1.5">
+                    <Calendar className="h-3.5 w-3.5" />
                     {item.published_at ? new Date(item.published_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }) : 'Draft'}
                   </div>
-                  <CardTitle className="text-xl group-hover:text-primary transition-colors line-clamp-2">
+                  <CardTitle className="text-lg group-hover:text-primary transition-colors line-clamp-2">
                     {item.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="font-serif line-clamp-3">{item.content}</CardDescription>
+                  <CardDescription className="line-clamp-3 text-sm">{item.content}</CardDescription>
                 </CardContent>
               </Card>
               </Link>
             ))}
             {items.length === 0 && (
               <Card>
-                <CardContent className="p-6">
+                <CardContent className="p-5">
                   <CardDescription>{error ? error : 'No news yet.'}</CardDescription>
                 </CardContent>
               </Card>
@@ -145,11 +145,11 @@ export function NewsSection() {
           </div>
         )}
 
-        <div className="text-center mt-8 sm:hidden">
-          <Button variant="outline" asChild>
+        <div className="text-center mt-6 sm:hidden">
+          <Button variant="outline" asChild size="sm">
             <Link href="/news-events">
               View All News
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 h-3.5 w-3.5" />
             </Link>
           </Button>
         </div>

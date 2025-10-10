@@ -163,10 +163,10 @@ export default function CommunityProfilePage() {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="absolute bottom-2 right-2 h-8 w-8 rounded-full bg-white dark:bg-slate-800 border border-white dark:border-slate-700"
+                    className="absolute bottom-2 right-2 h-10 w-10 rounded-full bg-white dark:bg-slate-800 border border-white dark:border-slate-700"
                     onClick={() => document.getElementById('avatar-upload')?.click()}
                   >
-                    <Camera className="h-4 w-4" />
+                    <Camera className="h-10 w-10" />
                   </Button>
                 )}
                 <input
@@ -197,19 +197,19 @@ export default function CommunityProfilePage() {
                 
                 <div className="flex flex-wrap items-center gap-4 mt-2">
                   <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
-                    <Mail className="h-4 w-4" />
+                    <Mail className="h-10 w-10" />
                     <span>{profile.email}</span>
                   </div>
                   
                   {profile.campusId && (
                     <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
-                      <MapPin className="h-4 w-4" />
+                      <MapPin className="h-10 w-10" />
                       <span>Campus</span>
                     </div>
                   )}
                   
                   <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
-                    <Calendar className="h-4 w-4" />
+                    <Calendar className="h-10 w-10" />
                     <span>Joined {new Date(profile.joinDate).toLocaleDateString()}</span>
                   </div>
                   
@@ -225,11 +225,11 @@ export default function CommunityProfilePage() {
                     value={editedProfile.bio}
                     onChange={(e) => setEditedProfile(prev => ({ ...prev, bio: e.target.value }))}
                     placeholder="Tell us about yourself..."
-                    className="mt-3 max-w-2xl"
+                    className="mt-3 max-w-10xl"
                     rows={3}
                   />
                 ) : (
-                  <p className="mt-3 text-gray-700 dark:text-gray-300 max-w-2xl">
+                  <p className="mt-3 text-gray-700 dark:text-gray-300 max-w-10xl">
                     {profile.bio || "No bio available"}
                   </p>
                 )}
@@ -244,12 +244,12 @@ export default function CommunityProfilePage() {
                   >
                     {isFollowing ? (
                       <>
-                        <Check className="h-4 w-4 mr-2" />
+                        <Check className="h-10 w-10 mr-2" />
                         Following
                       </>
                     ) : (
                       <>
-                        <Plus className="h-4 w-4 mr-2" />
+                        <Plus className="h-10 w-10 mr-2" />
                         Follow
                       </>
                     )}
@@ -269,7 +269,7 @@ export default function CommunityProfilePage() {
                         variant="outline"
                         className="rounded-full"
                       >
-                        <Edit3 className="h-4 w-4 mr-2" />
+                        <Edit3 className="h-10 w-10 mr-2" />
                         Edit Profile
                       </Button>
                     )}
@@ -277,7 +277,7 @@ export default function CommunityProfilePage() {
                 )}
                 
                 <Button variant="outline" size="icon" className="rounded-full">
-                  <Settings className="h-4 w-4" />
+                  <Settings className="h-10 w-10" />
                 </Button>
               </div>
             </div>

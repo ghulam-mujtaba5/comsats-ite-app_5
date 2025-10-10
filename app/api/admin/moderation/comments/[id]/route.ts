@@ -71,7 +71,7 @@ export async function PATCH(
     }
 
     const { error } = await supabase
-      .from('community_comments')
+      .from('post_comments_enhanced')
       .update(updateData)
       .eq('id', id)
 

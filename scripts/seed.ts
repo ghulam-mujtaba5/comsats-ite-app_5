@@ -208,7 +208,7 @@ async function seedDatabase() {
           likes: 8,
         },
       ];
-      const { error: repliesErr } = await supabase.from("community_replies").insert(replies);
+      const { error: repliesErr } = await supabase.from("post_comments_enhanced").insert(replies);
       if (repliesErr) throw repliesErr;
       console.log("Inserted replies for the first community post.");
     }
@@ -223,7 +223,7 @@ async function seedDatabase() {
           likes: 3,
         },
       ];
-      const { error: repliesErr2 } = await supabase.from("community_replies").insert(replies);
+      const { error: repliesErr2 } = await supabase.from("post_comments_enhanced").insert(replies);
       if (repliesErr2) throw repliesErr2;
       console.log("Inserted replies for the second community post.");
     }

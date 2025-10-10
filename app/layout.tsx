@@ -97,7 +97,7 @@ export const metadata: Metadata = {
       // Standard favicon endpoint; we serve the logo here via a route handler
       { url: "/favicon.ico" },
       // Direct logo as a fallback/reference
-  { url: "/new-logo.svg", type: "image/svg+xml" },
+  { url: "/logo-square.svg", type: "image/svg+xml" },
     ],
     shortcut: [
       { url: "/favicon.ico" },
@@ -258,7 +258,7 @@ html {
           <AuthProvider>
             <CampusProvider>
               <Header />
-              <div className="min-h-[60vh]">
+              <div className="min-h-[60vh] max-w-full overflow-x-hidden">
                 {children}
               </div>
               <FooterConditional />

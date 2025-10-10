@@ -16,7 +16,6 @@ function Card({ className, variant = "default", ...props }: CardProps) {
         // Micro-interactions
         "transition-all duration-200 ease-out will-change-transform",
         "hover:shadow-md hover:-translate-y-0.5",
-        "focus-within:shadow-md focus-within:-translate-y-0.5",
         // Accessible focus ring using theme ring color
         "outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         // Variants

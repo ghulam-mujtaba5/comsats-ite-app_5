@@ -19,13 +19,18 @@ export async function GET(request: NextRequest) {
   
   const category = searchParams.get('category')
   const campusId = searchParams.get('campus_id')
+  const isAdmin = searchParams.get('admin') === 'true'
 
   try {
     let query = supabase
       .from('support_resources')
       .select('*')
-      .eq('is_active', true)
       .order('created_at', { ascending: false })
+
+    // For admin requests, show all resources; for public, only active ones
+    if (!isAdmin) {
+      query = query.eq('is_active', true)
+    }
 
     // Filter by campus if provided
     if (campusId) {
@@ -70,17 +75,21 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { name, email, category, message, is_anonymous } = body
+    const { title, description, category, contact_info, availability, priority, tags, is_active, campus_id } = body
 
     const { data, error } = await supabase
-      .from('support_requests')
+      .from('support_resources')
       .insert({
-        name: is_anonymous ? null : name,
-        email: is_anonymous ? null : email,
+        title,
+        description,
         category,
-        message,
-        is_anonymous,
-        user_id: user.id
+        contact_info,
+        availability,
+        priority,
+        tags,
+        is_active,
+        campus_id: campus_id || null,
+        created_by: user.id
       })
       .select()
       .single()

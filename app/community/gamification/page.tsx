@@ -76,9 +76,6 @@ export default function CommunityGamificationPage() {
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-primary/15 to-blue-500/15 border border-primary/30 text-sm font-medium text-primary mb-4 backdrop-blur-sm">
             <Trophy className="h-4 w-4" />
             <span>Gamification Center</span>
-            <Badge className="ml-2 bg-primary text-primary-foreground text-xs">
-              Beta
-            </Badge>
           </div>
           
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">

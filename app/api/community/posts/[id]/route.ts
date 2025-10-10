@@ -27,7 +27,7 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
 
   try {
     const { data: post, error } = await supabase
-      .from('community_posts')
+      .from('community_posts_enhanced')
       .select('*')
       .eq('id', id)
       .maybeSingle()
@@ -42,10 +42,11 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
       const userId = auth?.user?.id
       if (userId) {
         const { data: likeRow } = await supabase
-          .from('post_likes')
+          .from('post_reactions')
           .select('post_id')
           .eq('post_id', id)
           .eq('user_id', userId)
+          .eq('reaction_type', 'like')
           .maybeSingle()
         liked = !!likeRow
       }
@@ -59,9 +60,9 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
       semester: post.semester || '',
       time: post.created_at ? new Date(post.created_at).toLocaleString() : '',
       content: post.content || '',
-      likes: Number(post.likes || 0),
+      likes: Number(post.likes_count || 0),
       comments: Number(post.comments_count || 0),
-      shares: Number(post.shares || 0),
+      shares: Number(post.shares_count || 0),
       tags: Array.isArray(post.tags) ? post.tags : [],
       liked,
       type: post.type || 'general',

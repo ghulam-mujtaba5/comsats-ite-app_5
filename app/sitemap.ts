@@ -188,9 +188,9 @@ export async function imageMap() {
       caption: 'CampusAxis brand logo',
     },
     {
-      url: `${siteUrl}/new-logo.svg`,
-      title: 'CampusAxis New Logo',
-      caption: 'Updated CampusAxis logo design',
+      url: `${siteUrl}/logo-square.svg`,
+      title: 'CampusAxis Square Logo',
+      caption: 'Updated CampusAxis square logo design',
     },
   ]
   

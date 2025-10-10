@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
 
     // Get posts with user and campus/department info
     let query = supabase
-      .from('community_posts')
+      .from('community_posts_enhanced')
       .select(`
         *,
         user:user_id (
@@ -96,7 +96,7 @@ export async function GET(request: NextRequest) {
         avatar: post.user?.user_metadata?.avatar_url || '/student-avatar.png'
       },
       createdAt: post.created_at,
-      likes: post.likes || 0,
+      likes: post.likes_count || 0,
       comments: post.comments_count || 0,
       visibility: post.visibility || 'public',
       status: post.status || 'active',
@@ -167,7 +167,7 @@ export async function PATCH(request: NextRequest) {
 
     // Update post status
     const { error } = await supabase
-      .from('community_posts')
+      .from('community_posts_enhanced')
       .update({ status })
       .eq('id', postId)
 

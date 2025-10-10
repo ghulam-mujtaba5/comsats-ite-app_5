@@ -22,11 +22,12 @@ export const SITE_LINKS: SiteLink[] = [
   { label: 'GPA Calculator', href: '/gpa-calculator', status: 'live', group: 'student' },
   { label: 'Resources', href: '/resources', status: 'beta', group: 'student' },
   { label: 'Guidance', href: '/guidance', status: 'coming_soon', group: 'student' },
+  { label: 'Student Support', href: '/student-support', status: 'live', group: 'student' }, // Added Student Support
 
   // Community
   { label: 'Faculty Reviews', href: '/faculty', status: 'working', group: 'community' },
   { label: 'Lost & Found', href: '/lost-found', status: 'live', group: 'community' },
-  { label: 'Community', href: '/community', status: 'coming_soon', group: 'community' },
+  { label: 'Community', href: '/community', status: 'live', group: 'community' },
 
   // Support & Legal
   { label: 'Contribute', href: '/contribute', status: 'live', group: 'support' },

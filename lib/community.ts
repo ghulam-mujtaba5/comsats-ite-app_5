@@ -61,15 +61,15 @@ export async function toggleLikePost(post: Post) {
   return { ...post, ...updated }
 }
 
-// Attempts to toggle like using a per-user likes table (post_likes).
+// Attempts to toggle like using a per-user likes table (post_reactions).
 // If the table or constraint doesn't exist, throws so caller can fallback.
 export async function toggleLikePerUser(postId: string, userId: string, currentlyLiked: boolean) {
   try {
     if (currentlyLiked) {
-      const { error } = await supabase.from("post_likes").delete().eq("post_id", postId).eq("user_id", userId)
+      const { error } = await supabase.from("post_reactions").delete().eq("post_id", postId).eq("user_id", userId).eq("reaction_type", "like")
       if (error) throw error
     } else {
-      const { error } = await supabase.from("post_likes").insert({ post_id: postId, user_id: userId })
+      const { error } = await supabase.from("post_reactions").insert({ post_id: postId, user_id: userId, reaction_type: "like" })
       if (error) throw error
     }
   } catch (e) {
@@ -81,9 +81,10 @@ export async function fetchLikedForUser(postIds: string[], userId: string): Prom
   if (!postIds.length) return {}
   try {
     const { data, error } = await supabase
-      .from("post_likes")
+      .from("post_reactions")
       .select("post_id")
       .eq("user_id", userId)
+      .eq("reaction_type", "like")
       .in("post_id", postIds)
     if (error) throw error
     const map: Record<string, boolean> = {}
@@ -101,7 +102,7 @@ export async function addReply(postId: string, reply: Omit<Reply, "id" | "time">
     author_name: reply.author,
     avatar_url: reply.avatar,
   }
-  const { data, error } = await supabase.from("community_replies").insert(toInsert).select("*").single()
+  const { data, error } = await supabase.from("post_comments_enhanced").insert(toInsert).select("*").single()
   if (error) throw error
   return {
     id: String(data.id),
@@ -110,14 +111,14 @@ export async function addReply(postId: string, reply: Omit<Reply, "id" | "time">
     avatar: data.avatar_url || reply.avatar,
     time: data.created_at ? new Date(data.created_at).toLocaleString() : "",
     content: data.content,
-    likes: Number(data.likes ?? 0),
+    likes: Number(data.likes_count ?? 0),
     liked: !!data.liked,
   } as Reply
 }
 
 export async function incrementComments(postId: string, by = 1) {
   const { data, error } = await supabase
-    .from("community_posts")
+    .from("community_posts_enhanced")
     .update({ comments_count: supabase.rpc as any }) // placeholder if RPC used later
     .eq("id", postId)
 }
@@ -135,9 +136,9 @@ function rowToPost(row: any): Post {
     batch: row.batch || "",
     time: row.created_at ? new Date(row.created_at).toLocaleString() : "",
     content: row.content || "",
-    likes: Number(row.likes ?? 0),
+    likes: Number(row.likes_count ?? 0),
     comments: Number(row.comments_count ?? 0),
-    shares: Number(row.shares ?? 0),
+    shares: Number(row.shares_count ?? 0),
     tags: Array.isArray(row.tags) ? row.tags : [],
     liked: !!row.liked,
     type: row.type || "general",

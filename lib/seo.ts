@@ -78,7 +78,7 @@ export function jsonLdOrganization() {
     "@type": "Organization",
     name: "CampusAxis",
     url: siteUrl,
-    logo: `${siteUrl}/new-logo.svg`,
+    logo: `${siteUrl}/logo-square.svg`,
   }
 }
 
@@ -92,7 +92,7 @@ export function jsonLdEducationalOrganization() {
     sameAs: [
       'https://www.comsats.edu.pk/',
     ],
-    logo: `${siteUrl}/new-logo.svg`,
+    logo: `${siteUrl}/logo-square.svg`,
     description: 'CampusAxis provides COMSATS students with past papers, GPA calculators, fee challan help, scholarships and academic guidance in Pakistan.',
   }
 }
@@ -259,7 +259,7 @@ export function jsonLdBlogPosting(post: { title: string; description: string; sl
     datePublished: post.datePublished,
     dateModified: post.dateModified || post.datePublished,
     author: { '@type': 'Person', name: post.authorName || 'CampusAxis' },
-  publisher: { '@type': 'Organization', name: 'CampusAxis', logo: { '@type': 'ImageObject', url: new URL('/new-logo.svg', siteUrl).toString() } },
+  publisher: { '@type': 'Organization', name: 'CampusAxis', logo: { '@type': 'ImageObject', url: new URL('/logo-square.svg', siteUrl).toString() } },
     image: post.image ? [new URL(post.image, siteUrl).toString()] : [new URL('/og-preview.png', siteUrl).toString()],
     mainEntityOfPage: { '@type': 'WebPage', '@id': new URL(`/blog/${post.slug}`, siteUrl).toString() },
   }
@@ -407,7 +407,7 @@ export function jsonLdNewsArticle(article: {
     datePublished: article.datePublished,
     dateModified: article.dateModified || article.datePublished,
     author: { '@type': 'Person', name: article.authorName || 'CampusAxis' },
-  publisher: { '@type': 'Organization', name: 'CampusAxis', logo: { '@type': 'ImageObject', url: new URL('/new-logo.svg', siteUrl).toString() } },
+  publisher: { '@type': 'Organization', name: 'CampusAxis', logo: { '@type': 'ImageObject', url: new URL('/logo-square.svg', siteUrl).toString() } },
     articleSection: article.section,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     image: article.image ? [new URL(article.image, siteUrl).toString()] : [new URL('/og-preview.png', siteUrl).toString()],

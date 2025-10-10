@@ -41,7 +41,8 @@ Modern university portal built with Next.js 15, React 19, Tailwind CSS 4, and Mo
 - Admin dashboard (analytics, timetable, content management)
 - Auth (login, reset-password, delete account)
 - Community threads and interaction
-- Responsive UI with Radix UI + Tailwind + shadcn-like components
+- Fully responsive UI with PWA support for all 108 pages
+- Mobile-first design optimized for all screen sizes
 - MongoDB with Mongoose models and seeding scripts
 - Analytics hooks and tracking utilities
 
@@ -53,6 +54,7 @@ Modern university portal built with Next.js 15, React 19, Tailwind CSS 4, and Mo
 - MongoDB + Mongoose
 - Supabase (SSR helpers and JS SDK)
 - Radix UI primitives, Lucide icons, Framer Motion, Recharts
+- Progressive Web App (PWA) with full mobile support
 
 ## Getting Started
 
@@ -103,6 +105,7 @@ Defined in `package.json`:
 - `db:seed` – Seed baseline data
 - `db:seed-complete` – Seed complete dataset
 - `db:seed-timetable` – Seed timetable data
+- `build-pwa` – Build with PWA support for mobile deployment
 
 Run with pnpm:
 
@@ -114,6 +117,7 @@ pnpm lint
 pnpm run db:seed
 pnpm run db:seed-complete
 pnpm run db:seed-timetable
+pnpm run build-pwa
 ```
 
 ## Project Structure

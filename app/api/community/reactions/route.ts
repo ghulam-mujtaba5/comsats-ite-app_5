@@ -71,9 +71,9 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Failed to remove reaction' }, { status: 500 })
       }
 
-      // Update reaction counts in community_posts
+      // Update reaction counts in community_posts_enhanced
       const { data: post, error: postError } = await supabase
-        .from('community_posts')
+        .from('community_posts_enhanced')
         .select('reaction_counts')
         .eq('id', postId)
         .single()
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
       }
 
       const { error: updateError } = await supabase
-        .from('community_posts')
+        .from('community_posts_enhanced')
         .update({ reaction_counts: updatedReactionCounts })
         .eq('id', postId)
 

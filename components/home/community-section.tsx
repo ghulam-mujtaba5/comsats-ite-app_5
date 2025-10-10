@@ -35,12 +35,12 @@ export function CommunitySection() {
   }, [])
 
   return (
-    <section className="py-20 px-4 bg-muted/30">
+    <section className="py-16 px-4 bg-muted/20">
       <div className="container mx-auto max-w-6xl">
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">Growing Community</h2>
-            <p className="text-lg text-muted-foreground font-serif">
+            <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-3">Growing Community</h2>
+            <p className="text-base text-muted-foreground">
               Connect with fellow students and share academic experiences
             </p>
           </div>
@@ -49,20 +49,20 @@ export function CommunitySection() {
         {loading ? (
           <p>Loading…</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {items.map((c) => (
-              <Card key={c.id} className="group hover:shadow-lg transition-all duration-300">
+              <Card key={c.id} className="group hover:shadow-md transition-all duration-300 border">
                 <CardHeader>
-                  <CardTitle className="text-xl group-hover:text-primary transition-colors">{c.title}</CardTitle>
+                  <CardTitle className="text-lg group-hover:text-primary transition-colors">{c.title}</CardTitle>
                   {c.subtitle && <div className="text-sm text-muted-foreground">{c.subtitle}</div>}
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  {c.description && <CardDescription className="font-serif">{c.description}</CardDescription>}
+                  {c.description && <CardDescription className="text-sm">{c.description}</CardDescription>}
                   {c.link_url && (
-                    <Button asChild variant="outline" className="bg-transparent">
+                    <Button asChild variant="outline" size="sm">
                       <Link href={c.link_url} target={c.link_url.startsWith('http') ? '_blank' : undefined}>
                         Learn more
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                        <ArrowRight className="ml-2 h-3.5 w-3.5" />
                       </Link>
                     </Button>
                   )}
@@ -71,7 +71,7 @@ export function CommunitySection() {
             ))}
             {items.length === 0 && (
               <Card>
-                <CardContent className="p-6">
+                <CardContent className="p-5">
                   <CardDescription>No community items yet.</CardDescription>
                 </CardContent>
               </Card>
