@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 
 export interface Notification {
   id: string
-  userId: string
-  type: 'like' | 'comment' | 'follow' | 'mention' | 'group_invite' | 'event_reminder' | 'poll_vote'
+  user_id: string
+  actor_id?: string
+  type: 'like' | 'comment' | 'follow' | 'mention' | 'group_invite' | 'event_reminder' | 'poll_vote' | 'share' | 'reply' | 'reaction'
   title: string
   message: string
-  read: boolean
-  createdAt: string
-  relatedId?: string // ID of the related post, comment, etc.
-  relatedType?: 'post' | 'comment' | 'group' | 'event' | 'poll'
+  is_read: boolean
+  read_at?: string
+  created_at: string
+  related_id?: string // ID of the related post, comment, etc.
+  related_type?: 'post' | 'comment' | 'group' | 'event' | 'poll' | 'reply'
+  metadata?: Record<string, any>
 }
 
 export function useNotifications() {
@@ -19,36 +22,49 @@ export function useNotifications() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        setLoading(true)
-        const { data: { user } } = await supabase.auth.getUser()
-        
-        if (!user) {
-          setLoading(false)
-          return
-        }
-
-        // Fetch notifications
-        const { data, error } = await supabase
-          .from('notifications')
-          .select('*')
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false })
-          .limit(50)
-
-        if (error) throw error
-
-        setNotifications(data || [])
-        setUnreadCount((data || []).filter(n => !n.read).length)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch notifications')
-      } finally {
+  const fetchNotifications = useCallback(async () => {
+    try {
+      setLoading(true)
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (!user) {
         setLoading(false)
+        setNotifications([])
+        setUnreadCount(0)
+        return
       }
-    }
 
+      // Fetch notifications
+      const { data, error } = await supabase
+        .from('notifications_enhanced')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(50)
+
+      if (error) throw error
+
+      const mappedData = (data || []).map(n => ({
+        ...n,
+        // For backward compatibility with old interface
+        read: n.is_read,
+        createdAt: n.created_at,
+        userId: n.user_id,
+        relatedId: n.related_id,
+        relatedType: n.related_type
+      })) as any[]
+
+      setNotifications(mappedData as Notification[])
+      setUnreadCount(mappedData.filter(n => !n.is_read).length)
+    } catch (err) {
+      console.error('Error fetching notifications:', err)
+      setError(err instanceof Error ? err.message : 'Failed to fetch notifications')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
     fetchNotifications()
 
     // Subscribe to real-time notification changes
@@ -59,12 +75,14 @@ export function useNotifications() {
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'notifications',
+          table: 'notifications_enhanced',
         },
         (payload) => {
           const newNotification = payload.new as Notification
           setNotifications((prev) => [newNotification, ...prev])
-          setUnreadCount((prev) => prev + 1)
+          if (!newNotification.is_read) {
+            setUnreadCount((prev) => prev + 1)
+          }
         }
       )
       .on(
@@ -72,7 +90,7 @@ export function useNotifications() {
         {
           event: 'UPDATE',
           schema: 'public',
-          table: 'notifications',
+          table: 'notifications_enhanced',
         },
         (payload) => {
           const updatedNotification = payload.new as Notification
@@ -80,11 +98,16 @@ export function useNotifications() {
             prev.map((n) => (n.id === updatedNotification.id ? updatedNotification : n))
           )
           
-          // Update unread count
-          const unread = notifications.filter(n => 
-            n.id === updatedNotification.id ? !updatedNotification.read : !n.read
-          ).length
-          setUnreadCount(unread)
+          // Recalculate unread count
+          setUnreadCount((prev) => {
+            const oldNotification = notifications.find(n => n.id === updatedNotification.id)
+            if (oldNotification && !oldNotification.is_read && updatedNotification.is_read) {
+              return Math.max(0, prev - 1)
+            } else if (oldNotification && oldNotification.is_read && !updatedNotification.is_read) {
+              return prev + 1
+            }
+            return prev
+          })
         }
       )
       .subscribe()
@@ -93,19 +116,19 @@ export function useNotifications() {
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [])
+  }, [fetchNotifications])
 
   const markAsRead = async (notificationId: string) => {
     try {
       const { error } = await supabase
-        .from('notifications')
-        .update({ read: true })
+        .from('notifications_enhanced')
+        .update({ is_read: true, read_at: new Date().toISOString() })
         .eq('id', notificationId)
 
       if (error) throw error
 
       setNotifications((prev) =>
-        prev.map((n) => (n.id === notificationId ? { ...n, read: true } : n))
+        prev.map((n) => (n.id === notificationId ? { ...n, is_read: true, read_at: new Date().toISOString() } : n))
       )
       setUnreadCount((prev) => Math.max(0, prev - 1))
     } catch (err) {
@@ -120,15 +143,15 @@ export function useNotifications() {
       if (!user) throw new Error('User not authenticated')
 
       const { error } = await supabase
-        .from('notifications')
-        .update({ read: true })
+        .from('notifications_enhanced')
+        .update({ is_read: true, read_at: new Date().toISOString() })
         .eq('user_id', user.id)
-        .eq('read', false)
+        .eq('is_read', false)
 
       if (error) throw error
 
       setNotifications((prev) =>
-        prev.map((n) => (n.read ? n : { ...n, read: true }))
+        prev.map((n) => (n.is_read ? n : { ...n, is_read: true, read_at: new Date().toISOString() }))
       )
       setUnreadCount(0)
     } catch (err) {
@@ -139,14 +162,20 @@ export function useNotifications() {
 
   const deleteNotification = async (notificationId: string) => {
     try {
+      const notification = notifications.find(n => n.id === notificationId)
+      const wasUnread = notification && !notification.is_read
+      
       const { error } = await supabase
-        .from('notifications')
+        .from('notifications_enhanced')
         .delete()
         .eq('id', notificationId)
 
       if (error) throw error
 
       setNotifications((prev) => prev.filter((n) => n.id !== notificationId))
+      if (wasUnread) {
+        setUnreadCount((prev) => Math.max(0, prev - 1))
+      }
     } catch (err) {
       console.error('Error deleting notification:', err)
       throw err
@@ -159,18 +188,23 @@ export function useNotifications() {
     title: string,
     message: string,
     relatedId?: string,
-    relatedType?: Notification['relatedType']
+    relatedType?: Notification['relatedType'],
+    metadata?: Record<string, any>
   ) => {
     try {
+      const { data: { user: currentUser } } = await supabase.auth.getUser()
+      
       const { error } = await supabase
-        .from('notifications')
+        .from('notifications_enhanced')
         .insert({
           user_id: userId,
+          actor_id: currentUser?.id,
           type,
           title,
           message,
           related_id: relatedId,
           related_type: relatedType,
+          metadata: metadata || null,
         })
 
       if (error) throw error
@@ -179,6 +213,8 @@ export function useNotifications() {
       throw err
     }
   }
+
+  const refresh = fetchNotifications
 
   return {
     notifications,
@@ -189,5 +225,6 @@ export function useNotifications() {
     markAllAsRead,
     deleteNotification,
     sendNotification,
+    refresh,
   }
 }

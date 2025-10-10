@@ -25,16 +25,20 @@ export async function GET(request: NextRequest) {
       .select(`
         id,
         user_id,
+        author_name,
+        avatar_url,
         content,
         type,
         media,
         location,
         feeling,
         tagged_users,
+        tags,
         visibility,
         campus_id,
         department_id,
         batch,
+        semester,
         is_pinned,
         is_edited,
         edited_at,
@@ -47,6 +51,7 @@ export async function GET(request: NextRequest) {
         campuses(name, code),
         departments(name, code)
       `)
+      .order('is_pinned', { ascending: false })
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1)
 
@@ -107,17 +112,24 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { content, type, tags } = body
+    const { content, type, tags, media, location, feeling, tagged_users, visibility } = body
 
-    if (!content || content.trim().length < 10) {
-      return NextResponse.json({ error: 'Content must be at least 10 characters' }, { status: 400, headers })
+    if (!content || content.trim().length < 3) {
+      return NextResponse.json({ error: 'Content must be at least 3 characters' }, { status: 400, headers })
     }
 
     // Get user's campus and department from user_preferences
     const { campusId, departmentId, batch } = await getUserContext(supabase, user.id, body)
 
-    // Get user's avatar URL from their profile metadata
-    const avatarUrl = user.user_metadata?.avatar_url || '/student-avatar.png'
+    // Get user profile info
+    const { data: userProfile } = await supabase
+      .from('user_profiles')
+      .select('full_name, avatar_url')
+      .eq('user_id', user.id)
+      .single()
+
+    const authorName = userProfile?.full_name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Anonymous'
+    const avatarUrl = userProfile?.avatar_url || user.user_metadata?.avatar_url || '/student-avatar.png'
 
     const { data: post, error } = await supabase
       .from('community_posts_enhanced')
@@ -125,26 +137,35 @@ export async function POST(request: NextRequest) {
         content: content.trim(),
         type: type || 'general',
         tags: tags || [],
+        media: media || [],
+        location: location || null,
+        feeling: feeling || null,
+        tagged_users: tagged_users || [],
+        visibility: visibility || 'public',
         batch: batch || '', // e.g., 'FA22-BSE'
         campus_id: campusId,
         department_id: departmentId,
         user_id: user.id,
-        author_name: user.email?.split('@')[0] || 'Anonymous',
+        author_name: authorName,
         avatar_url: avatarUrl
       })
       .select(`
         id,
         user_id,
+        author_name,
+        avatar_url,
         content,
         type,
         media,
         location,
         feeling,
         tagged_users,
+        tags,
         visibility,
         campus_id,
         department_id,
         batch,
+        semester,
         is_pinned,
         is_edited,
         edited_at,

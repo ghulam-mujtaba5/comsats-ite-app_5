@@ -40,43 +40,32 @@ export function useAchievements() {
       try {
         setLoading(true)
         
-        // Fetch all achievements
-        const { data: achievementsData, error: achievementsError } = await supabase
-          .from('achievements')
-          .select('*')
-          .order('points', { ascending: false })
+        // Fetch all achievements via API
+        const achievementsRes = await fetch('/api/gamification/achievements')
+        const achievementsJson = await achievementsRes.json()
+        
+        if (!achievementsRes.ok) throw new Error(achievementsJson.error || 'Failed to fetch achievements')
+        
+        setAchievements(achievementsJson.achievements || [])
 
-        if (achievementsError) throw achievementsError
-
-        setAchievements(achievementsData || [])
-
-        // Fetch user achievements
+        // Fetch user achievements via API
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
-          const { data: userAchievementsData, error: userAchievementsError } = await supabase
-            .from('user_achievements')
-            .select(`
-              *,
-              achievement:achievements (*)
-            `)
-            .eq('user_id', user.id)
-            .order('created_at', { ascending: false })
-
-          if (userAchievementsError) throw userAchievementsError
-
-          setUserAchievements(userAchievementsData || [])
+          const userAchievementsRes = await fetch('/api/gamification/unlock')
+          const userAchievementsJson = await userAchievementsRes.json()
+          
+          if (userAchievementsRes.ok) {
+            setUserAchievements(userAchievementsJson.achievements || [])
+          }
         }
 
-        // Fetch leaderboard
-        const { data: leaderboardData, error: leaderboardError } = await supabase
-          .from('leaderboard')
-          .select('*')
-          .order('total_points', { ascending: false })
-          .limit(50)
-
-        if (leaderboardError) throw leaderboardError
-
-        setLeaderboard(leaderboardData || [])
+        // Fetch leaderboard via API
+        const leaderboardRes = await fetch('/api/gamification/leaderboard?limit=50')
+        const leaderboardJson = await leaderboardRes.json()
+        
+        if (leaderboardRes.ok) {
+          setLeaderboard(leaderboardJson.leaderboard || [])
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch achievements')
       } finally {
@@ -101,23 +90,25 @@ export function useAchievements() {
         return existing
       }
 
-      // Unlock the achievement
-      const { data, error } = await supabase
-        .from('user_achievements')
-        .insert({
-          user_id: user.id,
+      // Unlock the achievement via API
+      const response = await fetch('/api/gamification/unlock', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           achievement_id: achievementId,
-        })
-        .select(`
-          *,
-          achievement:achievements (*)
-        `)
-        .single()
+        }),
+      })
 
-      if (error) throw error
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to unlock achievement')
+      }
 
       // Add to user achievements
-      const newUserAchievement = data as UserAchievement
+      const newUserAchievement = result.achievement as UserAchievement
       setUserAchievements(prev => [newUserAchievement, ...prev])
 
       return newUserAchievement
@@ -127,15 +118,31 @@ export function useAchievements() {
     }
   }
 
-  const getAchievementProgress = (userId: string) => {
-    // This would calculate progress toward achievements
-    // For now, we'll return a mock implementation
-    return {
-      posts: 0,
-      comments: 0,
-      likes: 0,
-      groups: 0,
-      events: 0,
+  const getAchievementProgress = async (userId: string) => {
+    try {
+      const response = await fetch('/api/gamification/progress')
+      const result = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to fetch progress')
+      }
+      
+      return result.progress?.stats || {
+        posts: 0,
+        comments: 0,
+        likes: 0,
+        groups: 0,
+        events: 0,
+      }
+    } catch (err) {
+      console.error('Error fetching achievement progress:', err)
+      return {
+        posts: 0,
+        comments: 0,
+        likes: 0,
+        groups: 0,
+        events: 0,
+      }
     }
   }
 

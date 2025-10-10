@@ -97,6 +97,9 @@ export async function POST(_req: NextRequest, context: { params: Promise<{ id: s
         .from('post_reactions')
         .insert({ post_id: id, user_id: userId, reaction_type: 'like' })
       if (insErr) return NextResponse.json({ error: insErr.message }, { status: 400, headers })
+      
+      // Send notification to post author (don't notify if user likes their own post)
+      await sendLikeNotification(supabase, id, userId, auth.user)
     }
 
     // Recompute like count and update community_posts_enhanced.likes_count
@@ -137,5 +140,50 @@ async function updateLikeCount(supabase: any, postId: string): Promise<number> {
   } catch (error) {
     console.error('Error updating like count:', error)
     return 0
+  }
+}
+
+/**
+ * Sends a notification to the post author when someone likes their post
+ */
+async function sendLikeNotification(supabase: any, postId: string, likerId: string, likerUser: any): Promise<void> {
+  try {
+    // Get post details
+    const { data: post } = await supabase
+      .from('community_posts_enhanced')
+      .select('user_id, author_name, content')
+      .eq('id', postId)
+      .single()
+
+    if (!post || post.user_id === likerId) {
+      // Don't notify if post not found or user likes their own post
+      return
+    }
+
+    // Get liker's name
+    const { data: likerProfile } = await supabase
+      .from('user_profiles')
+      .select('full_name')
+      .eq('user_id', likerId)
+      .single()
+
+    const likerName = likerProfile?.full_name || likerUser.user_metadata?.full_name || likerUser.email?.split('@')[0] || 'Someone'
+
+    // Create notification
+    await supabase
+      .from('notifications_enhanced')
+      .insert({
+        user_id: post.user_id,
+        actor_id: likerId,
+        type: 'like',
+        title: 'New Like on Your Post',
+        message: `${likerName} liked your post`,
+        related_id: postId,
+        related_type: 'post',
+        metadata: { post_preview: post.content.substring(0, 100) }
+      })
+  } catch (error) {
+    console.error('Error sending like notification:', error)
+    // Don't throw - notification failure shouldn't block the like action
   }
 }

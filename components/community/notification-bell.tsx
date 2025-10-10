@@ -31,13 +31,14 @@ export function NotificationBell() {
     notifications, 
     unreadCount, 
     markAsRead,
-    markAllAsRead
+    markAllAsRead,
+    loading
   } = useNotifications()
   const [open, setOpen] = useState(false)
 
   // Get the 5 most recent unread notifications
   const recentNotifications = notifications
-    .filter(n => !n.read)
+    .filter(n => !n.is_read)
     .slice(0, 5)
 
   const getNotificationIcon = (type: string) => {
@@ -124,7 +125,7 @@ export function NotificationBell() {
                         {notification.message}
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {new Date(notification.createdAt).toLocaleTimeString([], { 
+                        {new Date(notification.created_at).toLocaleTimeString([], { 
                           hour: '2-digit', 
                           minute: '2-digit' 
                         })}

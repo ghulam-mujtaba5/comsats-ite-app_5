@@ -48,28 +48,106 @@ export function UploadResourceDialog({ children }: UploadResourceDialogProps) {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null
+    
+    // Validate file size and type
+    if (file) {
+      const maxSize = 50 * 1024 * 1024 // 50MB
+      const allowedTypes = ['.pdf', '.doc', '.docx', '.ppt', '.pptx', '.txt', '.zip']
+      const fileExt = file.name.substring(file.name.lastIndexOf('.')).toLowerCase()
+      
+      if (file.size > maxSize) {
+        toast({
+          title: "File too large",
+          description: "Maximum file size is 50MB",
+          variant: "destructive"
+        })
+        e.target.value = ''
+        return
+      }
+      
+      if (!allowedTypes.includes(fileExt)) {
+        toast({
+          title: "Invalid file type",
+          description: "Supported: PDF, DOC, DOCX, PPT, PPTX, TXT, ZIP",
+          variant: "destructive"
+        })
+        e.target.value = ''
+        return
+      }
+    }
+    
     setFormData((prev) => ({ ...prev, file }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Uploading resource:", formData)
-    // Mock upload functionality
-    toast({
-      title: "Submitted",
-      description: "Your paper has been submitted to Admin for review.",
-    })
-    setOpen(false)
-    setFormData({
-      title: "",
-      description: "",
-      type: "",
-      department: "",
-      difficulty: "",
-      tags: "",
-      url: "",
-      file: null,
-    })
+    
+    // Validation
+    if (!formData.title.trim()) {
+      toast({ title: "Error", description: "Title is required", variant: "destructive" })
+      return
+    }
+    if (!formData.description.trim()) {
+      toast({ title: "Error", description: "Description is required", variant: "destructive" })
+      return
+    }
+    if (!formData.type) {
+      toast({ title: "Error", description: "Resource type is required", variant: "destructive" })
+      return
+    }
+    if (!formData.department) {
+      toast({ title: "Error", description: "Department is required", variant: "destructive" })
+      return
+    }
+    if (!formData.file && !formData.url.trim()) {
+      toast({ 
+        title: "Error", 
+        description: "Please provide either a file or URL", 
+        variant: "destructive" 
+      })
+      return
+    }
+
+    // Prepare form data for upload
+    const uploadData = new FormData()
+    uploadData.append('title', formData.title.trim())
+    uploadData.append('description', formData.description.trim())
+    uploadData.append('type', formData.type)
+    uploadData.append('department', formData.department)
+    if (formData.difficulty) uploadData.append('difficulty', formData.difficulty)
+    if (formData.tags.trim()) uploadData.append('tags', formData.tags.trim())
+    if (formData.url.trim()) uploadData.append('url', formData.url.trim())
+    if (formData.file) uploadData.append('file', formData.file)
+
+    try {
+      const response = await fetch('/api/resources/upload', {
+        method: 'POST',
+        body: uploadData,
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Upload failed')
+      }
+
+      toast({
+        title: "Success!",
+        description: result.message || "Your resource has been submitted for review.",
+      })
+
+      // Reset form and close dialog
+      resetForm()
+      setOpen(false)
+      
+    } catch (error: any) {
+      console.error('Upload error:', error)
+      toast({
+        title: "Upload Failed",
+        description: error.message || "Failed to upload resource. Please try again.",
+        variant: "destructive",
+      })
+    }
   }
 
   const resetForm = () => {

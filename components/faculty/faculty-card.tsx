@@ -57,16 +57,17 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
         <div className="flex items-start gap-4">
           <Avatar className="h-16 w-16 ring-2 ring-primary/20">
             <AvatarImage 
-              src={faculty.profileImage || "/placeholder-user.jpg"} 
+              src={faculty.profileImage || faculty.profile_image || "/placeholder-user.jpg"} 
               alt={faculty.name} 
-              width={64}
-              height={64}
+              className="object-cover"
             />
-            <AvatarFallback className="text-lg font-medium">
+            <AvatarFallback className="text-lg font-medium bg-gradient-to-br from-primary/20 to-blue-500/20">
               {faculty.name
                 .split(" ")
                 .map((n) => n[0])
-                .join("")}
+                .join("")
+                .toUpperCase()
+                .slice(0, 2)}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">

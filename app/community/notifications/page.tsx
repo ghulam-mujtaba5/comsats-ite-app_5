@@ -38,8 +38,8 @@ export default function CommunityNotificationsPage() {
   const [filter, setFilter] = useState<'all' | 'unread' | 'read'>('all')
 
   const filteredNotifications = notifications.filter(notification => {
-    if (filter === 'unread') return !notification.read
-    if (filter === 'read') return notification.read
+    if (filter === 'unread') return !notification.is_read
+    if (filter === 'read') return notification.is_read
     return true
   })
 
@@ -188,7 +188,7 @@ export default function CommunityNotificationsPage() {
                   key={notification.id} 
                   className={cn(
                     "bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden",
-                    !notification.read && "border-l-4 border-l-primary"
+                    !notification.is_read && "border-l-4 border-l-primary"
                   )}
                 >
                   <CardContent className="p-0">
@@ -210,26 +210,28 @@ export default function CommunityNotificationsPage() {
                               {notification.message}
                             </p>
                             <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                              {new Date(notification.createdAt).toLocaleString()}
+                              {new Date(notification.created_at).toLocaleString()}
                             </p>
                           </div>
                           
-                          {!notification.read && (
+                                                      </div>
+                          </div>
+                          {!notification.is_read && (
                             <Badge className="ml-2 bg-primary text-primary-foreground text-xs">
                               New
                             </Badge>
                           )}
                         </div>
                         
-                        {notification.relatedId && notification.relatedType && (
+                        {notification.related_id && notification.related_type && (
                           <div className="mt-3">
                             <Button 
                               variant="outline" 
                               size="sm" 
                               asChild
                             >
-                              <Link href={`/community/${notification.relatedType}/${notification.relatedId}`}>
-                                View {notification.relatedType}
+                              <Link href={`/community/${notification.related_type}/${notification.related_id}`}>
+                                View {notification.related_type}
                               </Link>
                             </Button>
                           </div>
@@ -239,7 +241,9 @@ export default function CommunityNotificationsPage() {
                     
                     <div className="flex items-center justify-end p-4 bg-gray-50 dark:bg-slate-700/30 border-t border-gray-100 dark:border-slate-700">
                       <div className="flex gap-2">
-                        {!notification.read ? (
+                                                </div>
+                      </div>
+                      {!notification.is_read ? (
                           <Button
                             variant="outline"
                             size="sm"

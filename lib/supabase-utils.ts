@@ -54,25 +54,54 @@ export function extractQueryParams(request: NextRequest) {
  * @returns Transformed post object
  */
 export function transformPostRecord(post: any, likedSet: Set<string> = new Set()): any {
+  // Format time ago
+  const timeAgo = formatTimeAgo(post.created_at)
+  
   return {
     id: post.id.toString(),
-    author: post.author_name || 'Anonymous',
-    avatar: post.avatar_url || '/student-avatar.png',
+    author: post.author_name || post.user?.email?.split('@')[0] || 'Anonymous',
+    avatar: post.avatar_url || post.user?.user_metadata?.avatar_url || '/student-avatar.png',
     department: post.department || (post.departments ? post.departments.name : ''),
     departmentCode: post.departments ? post.departments.code : '',
     campus: post.campuses ? post.campuses.name : '',
     campusCode: post.campuses ? post.campuses.code : '',
     semester: post.semester || '',
     batch: post.batch || '', // e.g., 'FA22-BSE'
-    time: new Date(post.created_at).toLocaleString(),
+    time: timeAgo,
     content: post.content,
     likes: post.likes_count || 0,
     comments: post.comments_count || 0,
     shares: post.shares_count || 0,
     tags: Array.isArray(post.tags) ? post.tags : [],
     liked: likedSet.has(String(post.id)),
-    type: post.type || 'general'
+    type: post.type || 'general',
+    media: post.media || [],
+    location: post.location || null,
+    feeling: post.feeling || null,
+    isEdited: post.is_edited || false,
+    isPinned: post.is_pinned || false,
+    createdAt: post.created_at,
+    updatedAt: post.updated_at
   }
+}
+
+/**
+ * Formats a date string to relative time (e.g., "2 hours ago")
+ * @param dateString Date string to format
+ * @returns Formatted relative time string
+ */
+function formatTimeAgo(dateString: string): string {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+
+  if (diffInSeconds < 60) return 'Just now'
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`
+  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`
+  if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 604800)}w ago`
+  
+  return date.toLocaleDateString()
 }
 
 /**

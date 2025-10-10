@@ -204,6 +204,10 @@ export async function PUT(req: NextRequest) {
   if (size_bytes !== undefined) payload.size_bytes = size_bytes
   if (mime_type !== undefined) payload.mime_type = mime_type
   if (storage_path !== null) payload.storage_path = storage_path
+  
+  // Check if status is being updated
+  const status = form.get('status') as string | null
+  if (status !== null) payload.status = status
 
   const { data, error } = await supabaseAdmin
     .from('resources')
@@ -211,6 +215,23 @@ export async function PUT(req: NextRequest) {
     .eq('id', id)
     .select('*').single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  
+  // Send email notification if resource was approved and has an uploader
+  if (status === 'approved' && data?.uploaded_by) {
+    fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'}/api/email/send`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'resource_approved',
+        recipient_id: data.uploaded_by,
+        data: {
+          resourceTitle: data.title,
+          resourceId: data.id,
+        }
+      })
+    }).catch(err => console.log('Failed to send resource approval email:', err))
+  }
+  
   return NextResponse.json({ data })
 }
 

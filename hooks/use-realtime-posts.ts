@@ -19,6 +19,7 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
             campuses(name, code),
             departments(name, code)
           `)
+          .order('is_pinned', { ascending: false })
           .order('created_at', { ascending: false })
           .limit(50)
 
@@ -39,6 +40,39 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
 
         if (error) throw error
 
+        // Get current user's liked posts
+        const { data: { user } } = await supabase.auth.getUser()
+        const likedPostIds = new Set<string>()
+        
+        if (user && data && data.length > 0) {
+          const postIds = data.map(p => p.id)
+          const { data: likes } = await supabase
+            .from('post_reactions')
+            .select('post_id')
+            .eq('user_id', user.id)
+            .in('post_id', postIds)
+            .eq('reaction_type', 'like')
+          
+          if (likes) {
+            likes.forEach((like: any) => likedPostIds.add(like.post_id))
+          }
+        }
+
+        // Helper function to format time ago
+        const formatTimeAgo = (dateString: string): string => {
+          const date = new Date(dateString)
+          const now = new Date()
+          const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+
+          if (diffInSeconds < 60) return 'Just now'
+          if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`
+          if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`
+          if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`
+          if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 604800)}w ago`
+          
+          return date.toLocaleDateString()
+        }
+
         // Transform data to match frontend interface
         const transformedPosts = (data || []).map((post: any) => ({
           id: post.id.toString(),
@@ -50,18 +84,19 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
           campusCode: post.campuses ? post.campuses.code : '',
           semester: post.semester || '',
           batch: post.batch || '',
-          time: new Date(post.created_at).toLocaleString(),
+          time: formatTimeAgo(post.created_at),
           content: post.content,
           likes: post.likes_count || 0,
           comments: post.comments_count || 0,
           shares: post.shares_count || 0,
           tags: Array.isArray(post.tags) ? post.tags : [],
-          liked: false, // Will be updated when we get user likes
+          liked: likedPostIds.has(post.id),
           type: post.type || 'general'
         }))
 
         setPosts(transformedPosts)
       } catch (err) {
+        console.error('Error fetching posts:', err)
         setError(err instanceof Error ? err.message : 'Failed to fetch posts')
       } finally {
         setLoading(false)
