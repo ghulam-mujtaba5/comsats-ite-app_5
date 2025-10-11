@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 // GET - Get user's roles and permissions
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization')
@@ -25,7 +25,7 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const userId = params.id
+  const { id: userId } = await params
 
     // Get user roles
     const { data: userRoles, error } = await supabase
@@ -77,7 +77,7 @@ export async function GET(
 // POST - Assign role to user (admin only)
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization')
@@ -106,7 +106,7 @@ export async function POST(
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
 
-    const userId = params.id
+  const { id: userId } = await params
     const body = await request.json()
     const { roleId, expiresAt } = body
 
@@ -199,7 +199,7 @@ export async function POST(
 // DELETE - Remove role from user (admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const authHeader = request.headers.get('authorization')
@@ -228,7 +228,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
     }
 
-    const userId = params.id
+  const { id: userId } = await params
     const { searchParams } = new URL(request.url)
     const roleId = searchParams.get('roleId')
 
