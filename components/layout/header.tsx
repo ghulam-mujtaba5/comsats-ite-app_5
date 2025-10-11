@@ -97,7 +97,7 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 w-full glass-nav border-b glass-border-subtle">
       <div className="container mx-auto px-2 sm:px-4 lg:px-6 h-16 flex items-center justify-between gap-1 sm:gap-2">
         <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-shrink">
           <Link
@@ -132,8 +132,8 @@ export function Header() {
                 href={item.href}
                 className={`relative inline-flex items-center h-10 px-3 rounded-2xl text-sm font-semibold transition-all duration-300 interactive hover-lift group box-border whitespace-nowrap ${
                   isActivePath(item.href) 
-                    ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 text-blue-600 dark:text-blue-400 border border-blue-200/30 dark:border-blue-400/30 backdrop-blur-sm shadow-lg" 
-                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm hover:shadow-md hover:border-white/40 dark:hover:border-slate-600/40 border border-transparent"
+                    ? "glass-medium glass-border-light text-blue-600 dark:text-blue-400 shadow-lg glass-hover-glow" 
+                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white glass-light glass-hover glass-border-subtle hover:shadow-md border border-transparent"
                 }`}
                 aria-current={isActivePath(item.href) ? "page" : undefined}
               >
@@ -188,7 +188,7 @@ export function Header() {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[80vw] max-w-[360px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen p-4">
+            <SheetContent side="right" className="w-[80vw] max-w-[360px] glass-modal glass-border-light glass-noise shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen p-4">
               <div className="flex flex-col space-y-4 mt-4 pb-4 w-full">
                 <div className="flex items-center justify-center pb-6 border-b border-white/20 dark:border-white/10 w-full max-w-full box-border">
                   <div className="relative flex-shrink-0 w-16 h-16 admin-nav-logo-container admin-nav-logo-wrapper">

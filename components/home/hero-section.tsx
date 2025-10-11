@@ -8,6 +8,8 @@ import { ArrowRight, GraduationCap, Sparkles, TrendingUp, Users, BookOpen, Calcu
 import Link from "next/link"
 import Image from "next/image"
 import { notifyFetch } from "@/lib/notify"
+import { FadeInScroll, AnimatedCard, CountUp, Pulse, AnimatedButton } from "@/components/animations/enhanced"
+import { motion } from "framer-motion"
 
 export function HeroSection() {
   const [stats, setStats] = useState<{
@@ -105,12 +107,12 @@ export function HeroSection() {
   ]
 
   return (
-    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-background via-muted/20 to-background">
-      {/* Enhanced background elements */}
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-purple-50/20 dark:from-slate-900/50 dark:via-slate-800/30 dark:to-slate-900/20">
+      {/* Enhanced background elements with glassmorphism */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/10 to-blue-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-secondary/10 to-amber-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-pink-500/5 rounded-full blur-3xl" />
       </div>
 
       <div className="app-container relative z-10 py-16 md:py-24">
@@ -168,12 +170,18 @@ export function HeroSection() {
                   const Icon = stat.icon
                   return (
                     <div key={index} className="flex items-center gap-3 group">
-                      <div className="p-2.5 rounded-xl bg-muted group-hover:scale-110 transition-all duration-300 shadow-sm">
+                      <div className="p-2.5 rounded-xl glass-light glass-border-subtle group-hover:scale-110 transition-all duration-300 shadow-md glass-hover">
                         <Icon className={`h-4 w-4 ${stat.color}`} />
                       </div>
                       <div>
-                        <div className="text-xl font-bold tracking-tight">{stat.value}</div>
-                        <div className="text-sm text-muted-foreground">{stat.label}</div>
+                      <div className="text-xl font-bold tracking-tight">
+                        {typeof stat.value === 'number' ? (
+                          <CountUp end={stat.value} duration={2000} />
+                        ) : (
+                          stat.value
+                        )}
+                      </div>
+                      <div className="text-sm text-muted-foreground">{stat.label}</div>
                       </div>
                     </div>
                   )
@@ -244,19 +252,19 @@ export function HeroSection() {
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 gap-4">
                     {/* Community Engagement Card */}
-                    <div className="relative group/stat p-3 rounded-xl bg-muted/50 border hover:bg-muted/70 transition-colors">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border">
                       <div className="flex items-center justify-between mb-1.5">
                         <TrendingUp className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
                       </div>
                       <div className="text-lg font-bold text-foreground mb-1">
-                        {isLoading ? '...' : `${stats?.communityPosts || 2}`}
+                        {isLoading ? '...' : <CountUp end={stats?.communityPosts || 2} duration={1500} />}
                       </div>
                       <div className="text-xs text-muted-foreground">Community Posts</div>
-                    </div>
+                    </AnimatedCard>
 
                     {/* Faculty Rating Card */}
-                    <div className="relative group/stat p-3 rounded-xl bg-muted/50 border hover:bg-muted/70 transition-colors">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border">
                       <div className="flex items-center justify-between mb-1.5">
                         <div className="flex items-center">
                           <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
@@ -272,31 +280,31 @@ export function HeroSection() {
                         {isLoading ? '...' : `${stats?.avgRating || 4.3}`}
                       </div>
                       <div className="text-xs text-muted-foreground">Avg Rating</div>
-                    </div>
+                    </AnimatedCard>
 
                     {/* Active Events Card */}
-                    <div className="relative group/stat p-3 rounded-xl bg-muted/50 border hover:bg-muted/70 transition-colors">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border">
                       <div className="flex items-center justify-between mb-1.5">
                         <Calendar className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
                       </div>
                       <div className="text-lg font-bold text-foreground mb-1">
-                        {isLoading ? '...' : `${stats?.eventsCount || 1}`}
+                        {isLoading ? '...' : <CountUp end={stats?.eventsCount || 1} duration={1500} />}
                       </div>
                       <div className="text-xs text-muted-foreground">Live Events</div>
-                    </div>
+                    </AnimatedCard>
 
                     {/* Faculty Count Card */}
-                    <div className="relative group/stat p-3 rounded-xl bg-muted/50 border hover:bg-muted/70 transition-colors">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border">
                       <div className="flex items-center justify-between mb-1.5">
                         <GraduationCap className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">{stats?.departmentCount || 2} Depts</span>
                       </div>
                       <div className="text-lg font-bold text-foreground mb-1">
-                        {isLoading ? '...' : `${stats?.facultyCount || 2}`}
+                        {isLoading ? '...' : <CountUp end={stats?.facultyCount || 2} duration={1500} />}
                       </div>
                       <div className="text-xs text-muted-foreground">Faculty Members</div>
-                    </div>
+                    </AnimatedCard>
                   </div>
 
                   {/* Quick Actions */}
@@ -332,7 +340,9 @@ export function HeroSection() {
                   <div className="text-center p-3 rounded-lg bg-muted/50 border">
                     <div className="flex items-center justify-center gap-2 mb-1.5">
                       <div className="flex items-center gap-1">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <Pulse active={true}>
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        </Pulse>
                         <span className="text-xs font-medium text-green-600 dark:text-green-400">Live</span>
                       </div>
                       <span className="text-xs text-muted-foreground">•</span>

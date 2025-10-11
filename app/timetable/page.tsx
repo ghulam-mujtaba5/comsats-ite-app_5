@@ -302,7 +302,7 @@ export default function TimetablePage() {
             
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-              <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+              <Card className="glass-card glass-border-light glass-hover rounded-2xl transition-all duration-300">
                 <CardContent className="flex items-center gap-4 p-6">
                   <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30">
                     <FileText className="h-6 w-6 text-blue-600 dark:text-blue-400" />
@@ -313,7 +313,7 @@ export default function TimetablePage() {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+              <Card className="glass-card glass-border-light glass-hover rounded-2xl transition-all duration-300">
                 <CardContent className="flex items-center gap-4 p-6">
                   <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30 dark:border-green-700/30">
                     <Building className="h-6 w-6 text-green-600 dark:text-green-400" />
@@ -324,7 +324,7 @@ export default function TimetablePage() {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+              <Card className="glass-card glass-border-light glass-hover rounded-2xl transition-all duration-300">
                 <CardContent className="flex items-center gap-4 p-6">
                   <div className="p-3 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-200/30 dark:border-purple-700/30">
                     <GraduationCap className="h-6 w-6 text-purple-600 dark:text-purple-400" />
@@ -335,7 +335,7 @@ export default function TimetablePage() {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+              <Card className="glass-card glass-border-light glass-hover rounded-2xl transition-all duration-300">
                 <CardContent className="flex items-center gap-4 p-6">
                   <div className="p-3 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-600/20 border border-orange-200/30 dark:border-orange-700/30">
                     <Download className="h-6 w-6 text-orange-600 dark:text-orange-400" />
@@ -350,7 +350,7 @@ export default function TimetablePage() {
           </div>
 
           {adminLoading ? (
-            <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl">
+            <Card className="mb-8 glass-card glass-border-subtle rounded-2xl">
               <CardContent className="p-8 text-center">
                 <div className="flex items-center justify-center gap-3">
                   <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
@@ -359,7 +359,7 @@ export default function TimetablePage() {
               </CardContent>
             </Card>
           ) : isAdmin ? (
-            <Card className="mb-8 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <Card className="mb-8 glass-card-premium glass-border-glow glass-hover glass-gradient rounded-3xl transition-all duration-300">
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
               <CardHeader className="p-8 pb-6 relative z-10">
                 <CardTitle className="flex items-center gap-3 text-2xl font-bold text-slate-900 dark:text-white">
@@ -379,7 +379,7 @@ export default function TimetablePage() {
                         placeholder="e.g., CS Department Fall 2024"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="h-12 px-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 rounded-xl focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                        className="h-12 px-4 glass-input glass-border-subtle rounded-xl focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
                         required
                       />
                     </div>
@@ -389,7 +389,7 @@ export default function TimetablePage() {
                         placeholder="e.g., Computer Science"
                         value={department}
                         onChange={(e) => setDepartment(e.target.value)}
-                        className="h-12 px-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 rounded-xl focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                        className="h-12 px-4 glass-input glass-border-subtle rounded-xl focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
                         required
                       />
                     </div>
@@ -399,7 +399,7 @@ export default function TimetablePage() {
                         placeholder="e.g., Fall 2024"
                         value={term}
                         onChange={(e) => setTerm(e.target.value)}
-                        className="h-12 px-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 rounded-xl focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                        className="h-12 px-4 glass-input glass-border-subtle rounded-xl focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
                       />
                     </div>
                   </div>
@@ -550,7 +550,7 @@ export default function TimetablePage() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {Array.from({ length: 6 }).map((_, i) => (
-                <Card key={i} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl">
+                <Card key={i} className="glass-card glass-border-subtle rounded-2xl">
                   <CardContent className="p-6">
                     <div className="animate-pulse space-y-4">
                       <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded" />
@@ -562,7 +562,7 @@ export default function TimetablePage() {
               ))}
             </div>
           ) : filteredDocs.length === 0 ? (
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl shadow-lg">
+            <Card className="glass-card glass-border-light glass-hover rounded-2xl">
               <CardContent className="p-16 text-center">
                 <div className="p-4 rounded-full bg-gradient-to-br from-slate-400/20 to-slate-500/20 border border-slate-400/30 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
                   <FileText className="h-10 w-10 text-slate-400" />
@@ -590,7 +590,7 @@ export default function TimetablePage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredDocs.map((doc) => (
-                <Card key={doc.id} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl group">
+                <Card key={doc.id} className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl transition-all duration-300 hover:-translate-y-1 group">
                   <CardHeader className="p-6 pb-4">
                     <div className="flex items-start gap-4">
                       <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30 group-hover:scale-110 transition-transform duration-300">
@@ -635,8 +635,8 @@ export default function TimetablePage() {
                         variant="outline"
                         onClick={() => handlePreview(doc)}
                         className={cn(
-                          "h-10 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
-                          "border-white/30 dark:border-slate-700/30",
+                          "h-10 glass-input glass-interactive",
+                          "glass-border-subtle",
                           "hover:border-primary/40 hover:bg-primary/10",
                           "rounded-xl transition-all duration-200"
                         )}

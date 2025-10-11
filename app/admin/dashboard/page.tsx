@@ -253,7 +253,7 @@ export default function AdminDashboardPage() {
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {/* Total Users */}
-            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+            <Card className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl group hover:scale-[1.02] transition-all duration-300">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Total Users</CardTitle>
                 <div className="relative">
@@ -277,7 +277,7 @@ export default function AdminDashboardPage() {
             </Card>
 
             {/* Faculty Members */}
-            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+            <Card className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl group hover:scale-[1.02] transition-all duration-300">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Faculty Members</CardTitle>
                 <div className="relative">
@@ -371,7 +371,7 @@ export default function AdminDashboardPage() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5" aria-live="polite">
           {loading ? (
             Array.from({ length: 5 }).map((_, i) => (
-              <div key={`sk-${i}`} className="glass-card border border-white/20 dark:border-white/10 rounded-2xl p-6 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 animate-pulse">
+              <div key={`sk-${i}`} className="glass-card-premium glass-border-glow glass-shimmer rounded-2xl p-6 animate-pulse">
                 <div className="flex items-center justify-between mb-4">
                   <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded-full w-24" />
                   <div className="h-6 w-6 bg-slate-200 dark:bg-slate-700 rounded-full" />
@@ -401,7 +401,7 @@ export default function AdminDashboardPage() {
                   className="group block outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
                   style={{ animationDelay: `${Math.min(idx, 6) * 60}ms` as any }}
                 >
-                  <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 backdrop-blur-xl glass-card h-full transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-blue-500/10">
+                  <Card className="relative overflow-hidden glass-card-premium glass-border-light glass-hover-glow glass-gradient rounded-2xl h-full transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-blue-500/10">
                     <div className={`absolute inset-0 bg-gradient-to-br ${gradientColors} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                     <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-2xl" />
                     

@@ -128,7 +128,7 @@ export default function SupportPage() {
             const Icon = option.icon
             return (
               <Link key={index} href={option.href} className="block group">
-                <Card className="card-modern border-0 backdrop-blur-sm shadow-lg hover:shadow-2xl transition-all duration-500 rounded-2xl h-full hover-lift group-hover:scale-[1.02]">
+                <Card className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl h-full transition-all duration-500 group-hover:scale-[1.02]">
                   <CardHeader className="p-8">
                     <div className="flex items-start justify-between mb-4">
                       <div className={`p-4 rounded-2xl bg-gradient-to-br ${option.color} border ${option.borderColor} group-hover:scale-110 transition-transform duration-300`}>
@@ -162,7 +162,7 @@ export default function SupportPage() {
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Enhanced Quick Links */}
-          <Card className="card-modern border-0 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+          <Card className="glass-card glass-border-light glass-hover rounded-2xl transition-all duration-300">
             <CardHeader className="p-8">
               <CardTitle className="flex items-center gap-3 text-2xl font-bold text-foreground">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30">
@@ -182,7 +182,7 @@ export default function SupportPage() {
                     <Link key={index} href={link.href}>
                       <Button 
                         variant="outline" 
-                        className="w-full justify-start h-12 rounded-xl bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift"
+                        className="w-full justify-start h-12 rounded-xl glass-input glass-interactive glass-border-subtle transition-all duration-300 hover-lift"
                       >
                         <div className="flex items-center gap-3">
                           <div className="p-2 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5">
@@ -199,7 +199,7 @@ export default function SupportPage() {
           </Card>
 
           {/* Enhanced Top FAQs */}
-          <Card className="card-modern border-0 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+          <Card className="glass-card glass-border-light glass-hover rounded-2xl transition-all duration-300">
             <CardHeader className="p-8">
               <CardTitle className="flex items-center gap-3 text-2xl font-bold text-foreground">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30">
@@ -237,7 +237,7 @@ export default function SupportPage() {
         </div>
 
         {/* Enhanced Response Time Notice */}
-        <Card className="card-modern border-0 backdrop-blur-sm shadow-lg mt-12 rounded-2xl">
+        <Card className="glass-card-premium glass-border-glow glass-hover glass-gradient mt-12 rounded-2xl">
           <CardContent className="p-8 text-center">
             <div className="flex justify-center mb-4">
               <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30">

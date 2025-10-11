@@ -8,6 +8,7 @@ import { FileText, Calculator, Users, BookOpen, Calendar, ArrowRight, Bug, Trend
 import Link from "next/link"
 import Image from "next/image"
 import { notifyFetch } from "@/lib/notify"
+import { StaggerContainer, StaggerItem, AnimatedCard, AnimatedButton, FadeInScroll } from "@/components/animations/enhanced"
 
 export function FeatureCards() {
   const [stats, setStats] = useState({ pastPapersCount: 1000, reviewsCount: 500, facultyCount: 156, resourcesCount: 324 })
@@ -141,16 +142,16 @@ export function FeatureCards() {
         </div>
 
         {/* Enhanced Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" staggerDelay={0.1}>
           {features.map((feature, index) => {
             const Icon = feature.icon
             return (
-              <div
-                key={index}
-                className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
-                style={{ animationDelay: `${100 + (index * 50)}ms` }}
-              >
-                <Card className="group relative h-full overflow-hidden border bg-card/80 hover:shadow-xl transition-all duration-500 backdrop-blur-sm hover:-translate-y-2">
+              <StaggerItem key={index}>
+                <AnimatedCard 
+                  enableHover={true} 
+                  enableGlow={true}
+                  className="group relative h-full overflow-hidden border bg-card/80 backdrop-blur-sm"
+                >
                   {/* Enhanced badge */}
                   <div className="absolute top-4 right-4 z-10">
                     <Badge 
@@ -202,15 +203,15 @@ export function FeatureCards() {
                   {/* Decorative elements */}
                   <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-primary/5 rounded-full blur-xl" />
                   <div className="absolute -top-6 -left-6 w-24 h-24 bg-secondary/5 rounded-full blur-xl" />
-                </Card>
-              </div>
+                </AnimatedCard>
+              </StaggerItem>
             )
           })}
-        </div>
+        </StaggerContainer>
 
         {/* Enhanced call to action */}
-        <div className={`text-center mt-20 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <Card className="inline-block p-8 border bg-card/80 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-500 max-w-3xl mx-auto">
+        <FadeInScroll className="text-center mt-20" delay={0.5}>
+          <AnimatedCard enableHover={true} className="inline-block p-8 border bg-card/80 backdrop-blur-sm shadow-xl max-w-3xl mx-auto">
             <div className="space-y-6">
               <div className="flex justify-center">
                 <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl">
@@ -240,8 +241,8 @@ export function FeatureCards() {
                 <span>Join in less than 2 minutes</span>
               </div>
             </div>
-          </Card>
-        </div>
+          </AnimatedCard>
+        </FadeInScroll>
       </div>
     </section>
   )

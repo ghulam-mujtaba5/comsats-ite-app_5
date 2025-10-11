@@ -107,7 +107,7 @@ export default function ArticleClient() {
               <CenteredLoader message="Loading article..." />
             </div>
           ) : error ? (
-            <Card className="card-modern border-0 backdrop-blur-sm">
+            <Card className="glass-card glass-border-light glass-hover rounded-2xl">
               <CardContent className="p-12 text-center">
                 <div className="max-w-md mx-auto">
                   <div className="p-4 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 w-16 h-16 mx-auto mb-6 flex items-center justify-center">
@@ -121,7 +121,7 @@ export default function ArticleClient() {
           ) : item ? (
             <article className="space-y-8">
               {/* Enhanced Article Header */}
-              <Card className="card-modern border-0 backdrop-blur-sm shadow-xl">
+              <Card className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl">
                 <CardHeader className="p-10 pb-6">
                   {/* Article Category & Status */}
                   <div className="flex items-center justify-between mb-6">
@@ -206,7 +206,7 @@ export default function ArticleClient() {
 
               {/* Featured Image */}
               {item.image_url && (
-                <Card className="card-modern border-0 backdrop-blur-sm overflow-hidden shadow-xl">
+                <Card className="glass-card glass-border-light glass-hover overflow-hidden rounded-2xl">
                   <div className="relative">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img 
@@ -220,7 +220,7 @@ export default function ArticleClient() {
               )}
 
               {/* Enhanced Article Content */}
-              <Card className="card-modern border-0 backdrop-blur-sm shadow-xl">
+              <Card className="glass-card-premium glass-border-light glass-hover glass-gradient rounded-2xl">
                 <CardContent className="p-10">
                   <div className="prose prose-lg prose-neutral max-w-none whitespace-pre-wrap leading-relaxed">
                     <style jsx>{`
@@ -249,7 +249,7 @@ export default function ArticleClient() {
               </Card>
 
               {/* Enhanced Article Footer */}
-              <Card className="card-modern border-0 backdrop-blur-sm shadow-lg">
+              <Card className="glass-card glass-border-light glass-hover glass-gradient rounded-2xl">
                 <CardContent className="p-8">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">

@@ -320,7 +320,7 @@ export function SearchClient() {
         </div>
 
         {/* Enhanced Search Interface */}
-        <Card className="mb-8 card-modern border-0 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-500">
+        <Card className="mb-8 glass-card-premium glass-border-glow glass-hover-glow glass-noise transition-all duration-500">
           <CardContent className="p-8">
             <form onSubmit={onSubmit} className="relative">
               <div className="relative">
@@ -333,7 +333,7 @@ export function SearchClient() {
                   onFocus={() => setShowSuggestions(suggestions.length > 0)}
                   onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                   placeholder="Search for anything... (Ctrl+K or /)"
-                  className="pl-16 pr-16 h-20 bg-background/50 backdrop-blur-sm border-border/50 focus:border-primary/50 rounded-2xl text-xl font-medium focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                  className="pl-16 pr-16 h-20 glass-input glass-interactive glass-border-light focus:border-primary/50 rounded-2xl text-xl font-medium focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                   disabled={isSearching}
                 />
                 
@@ -341,7 +341,7 @@ export function SearchClient() {
                 {showSuggestions && suggestions.length > 0 && (
                   <div 
                     ref={suggestionsRef}
-                    className="absolute top-full left-0 right-0 mt-3 card-modern border-0 backdrop-blur-md shadow-2xl z-50 max-h-60 overflow-y-auto rounded-2xl"
+                    className="absolute top-full left-0 right-0 mt-3 glass-modal glass-border-light glass-noise z-50 max-h-60 overflow-y-auto rounded-2xl"
                   >
                     {suggestions.map((suggestion, index) => (
                       <button
@@ -432,7 +432,7 @@ export function SearchClient() {
 
         {/* Enhanced Recent Searches */}
         {recent.length > 0 && !q && (
-          <Card className="mb-8 card-modern border-0 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300">
+          <Card className="mb-8 glass-card glass-border-light glass-hover rounded-2xl transition-all duration-300">
             <CardHeader className="p-6">
               <div className="flex items-center justify-between">
                 <CardTitle className="flex items-center gap-3 text-xl font-bold">
@@ -468,7 +468,7 @@ export function SearchClient() {
                       setQ(item)
                       router.replace(`/search?q=${encodeURIComponent(item)}`)
                     }}
-                    className="bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 rounded-xl transition-all duration-200 group hover-lift"
+                    className="glass-input glass-interactive glass-border-subtle rounded-xl transition-all duration-200 group hover-lift"
                   >
                     <Clock className="h-4 w-4 mr-2 text-muted-foreground group-hover:text-primary transition-colors" />
                     {item}
@@ -481,7 +481,7 @@ export function SearchClient() {
 
         {/* Enhanced Popular Suggestions */}
         {!q && (
-          <Card className="mb-8 card-modern border-0 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300">
+          <Card className="mb-8 glass-card glass-border-light glass-hover rounded-2xl transition-all duration-300">
             <CardHeader className="p-6">
               <CardTitle className="flex items-center gap-3 text-xl font-bold">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30">
@@ -501,7 +501,7 @@ export function SearchClient() {
                     type="button"
                     variant="outline"
                     onClick={() => selectSuggestion(suggestion)}
-                    className="bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 rounded-xl transition-all duration-200 justify-start h-14 group hover-lift"
+                    className="glass-input glass-interactive glass-border-subtle rounded-xl transition-all duration-200 justify-start h-14 group hover-lift"
                   >
                     <div className="p-2 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 mr-3 group-hover:scale-110 transition-transform duration-200">
                       <Sparkles className="h-4 w-4 text-primary" />
@@ -589,7 +589,7 @@ function SearchResults({
   if (searchError) {
     return (
       <section className="mt-8 fade-in" aria-live="polite">
-        <Card className="card-modern border-0 backdrop-blur-sm border-red-200/50">
+        <Card className="glass-card glass-border-light rounded-2xl border-red-200/50">
           <CardContent className="p-8 text-center">
             <div className="text-red-600 mb-4">
               <AlertCircle className="h-12 w-12 mx-auto" />

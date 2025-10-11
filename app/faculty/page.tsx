@@ -199,7 +199,7 @@ export default function FacultyPage() {
     
     return (
       <>
-        <Card className="border-2 border-dashed border-primary/30 hover:border-primary/60 bg-gradient-to-br from-primary/5 to-blue-500/10 hover:from-primary/10 hover:to-blue-500/15 backdrop-blur-sm transition-all duration-300 hover:shadow-xl group cursor-pointer h-full flex flex-col overflow-hidden"
+        <Card className="border-2 border-dashed border-primary/30 hover:border-primary/60 glass-card-premium glass-hover glass-gradient transition-all duration-300 group cursor-pointer h-full flex flex-col overflow-hidden rounded-2xl"
           onClick={() => setOpen(true)}>
           <CardContent className="p-6 flex flex-col items-center justify-center h-full text-center flex-grow">
             <div className="relative mb-4">
@@ -294,7 +294,7 @@ export default function FacultyPage() {
 
           {/* Enhanced Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-            <Card className="border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
+            <Card className="glass-card glass-border-light glass-hover rounded-2xl hover-lift transition-all duration-300 group">
               <CardContent className="flex items-center gap-4 p-4">
                 <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-blue-500/20 border border-primary/30 text-primary group-hover:scale-110 transition-transform duration-300">
                   <Users className="h-6 w-6" />
@@ -305,7 +305,7 @@ export default function FacultyPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
+            <Card className="glass-card glass-border-light glass-hover rounded-2xl hover-lift transition-all duration-300 group">
               <CardContent className="flex items-center gap-4 p-4">
                 <div className="p-3 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-300/30 text-green-500 group-hover:scale-110 transition-transform duration-300">
                   <MessageSquare className="h-6 w-6" />
@@ -316,7 +316,7 @@ export default function FacultyPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
+            <Card className="glass-card glass-border-light glass-hover rounded-2xl hover-lift transition-all duration-300 group">
               <CardContent className="flex items-center gap-4 p-4">
                 <div className="p-3 rounded-xl bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-300/30 text-yellow-600 group-hover:scale-110 transition-transform duration-300">
                   <Star className="h-6 w-6" />
@@ -327,7 +327,7 @@ export default function FacultyPage() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-0 backdrop-blur-sm hover-lift transition-all duration-300 group shadow-lg hover:shadow-xl">
+            <Card className="glass-card glass-border-light glass-hover rounded-2xl hover-lift transition-all duration-300 group">
               <CardContent className="flex items-center gap-4 p-4">
                 <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-300/30 text-purple-500 group-hover:scale-110 transition-transform duration-300">
                   <GraduationCap className="h-6 w-6" />
@@ -474,7 +474,7 @@ export default function FacultyPage() {
           {loading ? (
             <CenteredLoader message="Loading faculty members..." />
           ) : error ? (
-            <Card className="border-0 backdrop-blur-sm p-8 text-center">
+            <Card className="glass-card glass-border-light glass-hover rounded-2xl p-8 text-center">
               <div className="max-w-md mx-auto">
                 <div className="p-4 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 w-16 h-16 mx-auto mb-6 flex items-center justify-center">
                   <Users className="h-8 w-8 text-red-500" />
@@ -487,7 +487,7 @@ export default function FacultyPage() {
               </div>
             </Card>
           ) : filteredFaculty.length === 0 ? (
-            <Card className="border-0 backdrop-blur-sm p-12 text-center shadow-lg">
+            <Card className="glass-card glass-border-light glass-hover rounded-2xl p-12 text-center">
               <div className="max-w-md mx-auto">
                 <div className="p-6 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 w-20 h-20 mx-auto mb-8 flex items-center justify-center">
                   <Users className="h-10 w-10 text-muted-foreground" />

@@ -18,10 +18,10 @@ function Card({ className, variant = "default", ...props }: CardProps) {
         "hover:shadow-md hover:-translate-y-0.5",
         // Accessible focus ring using theme ring color
         "outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        // Variants
-        variant === "elevated" && "shadow-md",
-        variant === "soft" && "surface surface-soft",
-        variant === "glass" && "surface surface-glass",
+        // Variants with 2025 glassmorphism
+        variant === "elevated" && "shadow-md glass-card glass-border-subtle glass-hover",
+        variant === "soft" && "glass-light glass-border-subtle",
+        variant === "glass" && "glass-card-premium glass-border-glow glass-hover-glow glass-noise",
         className
       )}
       {...props}
