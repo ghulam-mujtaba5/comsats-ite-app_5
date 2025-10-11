@@ -123,13 +123,11 @@ export default function BlogArticlePage({ params }: { params: Promise<{ slug: st
         description={article.excerpt}
         type="article"
         image={article.featured_image_url || undefined}
-        article={{
-          publishedTime: article.published_at,
-          modifiedTime: article.updated_at,
-          author: article.author_name,
-          section: article.category,
-          tags: article.tags
-        }}
+        publishedTime={article.published_at}
+        modifiedTime={article.updated_at}
+        author={article.author_name}
+        section={article.category}
+        tags={article.tags}
       />
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Back Button */}
