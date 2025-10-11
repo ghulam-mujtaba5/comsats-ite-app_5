@@ -57,7 +57,7 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
         <div className="flex items-start gap-4">
           <Avatar className="h-16 w-16 ring-2 ring-primary/20">
             <AvatarImage 
-              src={faculty.profileImage || faculty.profile_image || "/placeholder-user.jpg"} 
+              src={faculty.profileImage || "/placeholder-user.jpg"} 
               alt={faculty.name} 
               className="object-cover"
             />

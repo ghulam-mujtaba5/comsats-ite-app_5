@@ -143,18 +143,22 @@ export async function POST(req: NextRequest) {
     }
 
     // Log email sent (optional)
-    await supabase.from('email_logs').insert({
+    const { error: logError } = await supabase.from('email_logs').insert({
       user_id: recipient_id,
       email: user.email,
       type,
       status: 'sent',
       sent_at: new Date().toISOString()
-    }).catch(err => console.log('Failed to log email:', err))
+    })
+    
+    if (logError) {
+      console.log('Failed to log email:', logError)
+    }
 
     return NextResponse.json({ 
       success: true,
       message: 'Email sent successfully',
-      emailId: result.data?.id
+      emailId: (result.data as any)?.data?.id || 'sent'
     }, { status: 200, headers })
 
   } catch (error: any) {

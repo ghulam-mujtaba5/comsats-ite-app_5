@@ -6,10 +6,12 @@ import { useParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, ArrowLeft, User, Clock, Share2, Bookmark, Eye, Newspaper, Sparkles } from "lucide-react"
+import { Calendar, ArrowLeft, User, Clock, Bookmark, Eye, Newspaper, Sparkles } from "lucide-react"
 // Footer is provided by the root layout; avoid importing locally to prevent duplicates
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
+import { ShareButton } from "@/components/share/share-button"
+import { SEOMeta } from "@/components/seo/seo-meta"
 
 type News = {
   id: string
@@ -43,9 +45,19 @@ export default function ArticleClient() {
   }, [params.id])
 
   return (
-    <div className="min-h-screen bg-mesh overflow-hidden relative">
-      {/* Enhanced animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <>
+      {item && (
+        <SEOMeta
+          title={item.title}
+          description={item.content?.slice(0, 160)}
+          image={item.image_url ?? undefined}
+          type="article"
+          publishedTime={item.published_at ?? undefined}
+        />
+      )}
+      <div className="min-h-screen bg-mesh overflow-hidden relative">
+        {/* Enhanced animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-green-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '4s' }} />
@@ -72,16 +84,22 @@ export default function ArticleClient() {
             </Button>
             
             {/* Article Actions */}
-            <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm" className="bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 rounded-xl transition-all duration-300">
-                <Share2 className="h-4 w-4 mr-2" />
-                Share
-              </Button>
-              <Button variant="outline" size="sm" className="bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 rounded-xl transition-all duration-300">
-                <Bookmark className="h-4 w-4 mr-2" />
-                Save
-              </Button>
-            </div>
+            {item && (
+              <div className="flex items-center gap-3">
+                <ShareButton
+                  title={item.title}
+                  text={item.content?.slice(0, 100)}
+                  url={`/news/${item.id}`}
+                  resourceType="news"
+                  resourceId={item.id}
+                  className="bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 rounded-xl transition-all duration-300"
+                />
+                <Button variant="outline" size="sm" className="bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 rounded-xl transition-all duration-300">
+                  <Bookmark className="h-4 w-4 mr-2" />
+                  Save
+                </Button>
+              </div>
+            )}
           </div>
 
           {loading ? (
@@ -253,7 +271,7 @@ export default function ArticleClient() {
           ) : null}
         </div>
       </main>
-
-    </div>
+      </div>
+    </>
   )
 }

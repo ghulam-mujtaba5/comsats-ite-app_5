@@ -214,8 +214,6 @@ export default function CommunityNotificationsPage() {
                             </p>
                           </div>
                           
-                                                      </div>
-                          </div>
                           {!notification.is_read && (
                             <Badge className="ml-2 bg-primary text-primary-foreground text-xs">
                               New
@@ -241,9 +239,7 @@ export default function CommunityNotificationsPage() {
                     
                     <div className="flex items-center justify-end p-4 bg-gray-50 dark:bg-slate-700/30 border-t border-gray-100 dark:border-slate-700">
                       <div className="flex gap-2">
-                                                </div>
-                      </div>
-                      {!notification.is_read ? (
+                        {!notification.is_read ? (
                           <Button
                             variant="outline"
                             size="sm"

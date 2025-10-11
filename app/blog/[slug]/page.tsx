@@ -10,6 +10,8 @@ import { Calendar, Eye, User, Tag, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { marked } from 'marked'
+import { ShareButton } from "@/components/share/share-button"
+import { SEOMeta } from "@/components/seo/seo-meta"
 
 interface BlogArticle {
   id: string
@@ -116,6 +118,19 @@ export default function BlogArticlePage({ params }: { params: Promise<{ slug: st
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <SEOMeta 
+        title={article.title}
+        description={article.excerpt}
+        type="article"
+        image={article.featured_image_url || undefined}
+        article={{
+          publishedTime: article.published_at,
+          modifiedTime: article.updated_at,
+          author: article.author_name,
+          section: article.category,
+          tags: article.tags
+        }}
+      />
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Back Button */}
         <div className="mb-6">
@@ -196,6 +211,16 @@ export default function BlogArticlePage({ params }: { params: Promise<{ slug: st
             </div>
           </div>
         )}
+
+        {/* Share Button */}
+        <div className="mb-8 flex justify-center">
+          <ShareButton
+            contentId={article.id}
+            contentType="blog"
+            title={article.title}
+            text={article.excerpt}
+          />
+        </div>
 
         {/* Related Articles Section */}
         <section className="mt-12">

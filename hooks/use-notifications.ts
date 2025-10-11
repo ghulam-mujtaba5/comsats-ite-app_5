@@ -188,7 +188,7 @@ export function useNotifications() {
     title: string,
     message: string,
     relatedId?: string,
-    relatedType?: Notification['relatedType'],
+    relatedType?: Notification['related_type'],
     metadata?: Record<string, any>
   ) => {
     try {
