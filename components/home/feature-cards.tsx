@@ -119,11 +119,11 @@ export function FeatureCards() {
   }
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-b from-background to-muted/20">
+    <section className="py-16 px-4 bg-gradient-to-b from-background to-muted/20 glass-hero glass-depth">
       <div className="app-container">
         {/* Enhanced Header */}
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-primary border border-primary/30">
+          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-primary border border-primary/30 glass-button glass-border-light glass-depth">
             <Sparkles className="h-4 w-4 mr-2" />
             Academic Tools & Resources
           </Badge>
@@ -150,7 +150,7 @@ export function FeatureCards() {
                 <AnimatedCard 
                   enableHover={true} 
                   enableGlow={true}
-                  className="group relative h-full overflow-hidden border bg-card/80 backdrop-blur-sm"
+                  className="group relative h-full overflow-hidden border bg-card/80 backdrop-blur-sm glass-card glass-border-subtle glass-hover glass-depth glass-gradient"
                 >
                   {/* Enhanced badge */}
                   <div className="absolute top-4 right-4 z-10">
@@ -164,7 +164,7 @@ export function FeatureCards() {
 
                   <CardHeader className="relative z-10 pb-4">
                     {/* Enhanced icon */}
-                    <div className={`w-14 h-14 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-5 shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-110`}>
+                    <div className={`w-14 h-14 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-5 shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-110 glass-button glass-border-light glass-hover glass-depth`}>
                       <Icon className={`h-7 w-7 ${feature.color}`} />
                     </div>
 
@@ -190,7 +190,7 @@ export function FeatureCards() {
                     {/* Enhanced CTA */}
                     <Button 
                       variant="ghost" 
-                      className="w-full justify-between hover:bg-muted group/btn p-3 h-auto" 
+                      className="w-full justify-between hover:bg-muted group/btn p-3 h-auto glass-button glass-border-subtle glass-hover glass-depth" 
                       asChild
                     >
                       <Link href={feature.href} className="font-medium">
@@ -211,10 +211,10 @@ export function FeatureCards() {
 
         {/* Enhanced call to action */}
         <FadeInScroll className="text-center mt-20" delay={0.5}>
-          <AnimatedCard enableHover={true} className="inline-block p-8 border bg-card/80 backdrop-blur-sm shadow-xl max-w-3xl mx-auto">
+          <AnimatedCard enableHover={true} className="inline-block p-8 border bg-card/80 backdrop-blur-sm shadow-xl max-w-3xl mx-auto glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient">
             <div className="space-y-6">
               <div className="flex justify-center">
-                <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl">
+                <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl glass-button glass-border-light glass-depth">
                   <GraduationCap className="h-12 w-12 text-primary" />
                 </div>
               </div>
@@ -223,13 +223,13 @@ export function FeatureCards() {
                 Join thousands of COMSATS students who are already using CampusAxis to excel in their studies and connect with their academic community.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <Button size="lg" className="text-base px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300" asChild>
+                <Button size="lg" className="text-base px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 glass-button glass-border-light glass-hover glass-depth" asChild>
                   <Link href="/auth" className="flex items-center">
                     Get Started Free
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="text-base px-8 py-3 rounded-xl border-2 hover:shadow-md transition-all duration-300" asChild>
+                <Button variant="outline" size="lg" className="text-base px-8 py-3 rounded-xl border-2 hover:shadow-md transition-all duration-300 glass-button glass-border-light glass-hover glass-depth" asChild>
                   <Link href="/about" className="flex items-center">
                     <MessageSquare className="mr-2 h-4 w-4" />
                     Learn More

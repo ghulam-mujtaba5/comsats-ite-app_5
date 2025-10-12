@@ -40,11 +40,11 @@ const betaFeatures = [
 
 export function ComingSoonSection() {
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background">
+    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-hero glass-depth">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
-            <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl">
+            <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl glass-button glass-border-light glass-depth">
               <Zap className="h-10 w-10 text-primary" />
             </div>
           </div>
@@ -62,10 +62,10 @@ export function ComingSoonSection() {
             const Icon = feature.icon
             return (
               <Link key={index} href={feature.href} className="block group">
-                <Card className="bg-card/80 border rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-1 h-full backdrop-blur-sm">
+                <Card className="bg-card/80 border rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-1 h-full backdrop-blur-sm glass-card glass-border-subtle glass-hover glass-depth">
                   <CardHeader>
                     <div className="flex items-center gap-4">
-                      <div className="bg-primary/10 p-3 rounded-xl">
+                      <div className="bg-primary/10 p-3 rounded-xl glass-button glass-border-light glass-depth">
                         <Icon className="h-6 w-6 text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -97,10 +97,10 @@ export function ComingSoonSection() {
         
         {/* Feedback CTA */}
         <div className="text-center mt-12">
-          <Card className="inline-block p-6 border bg-card/80 backdrop-blur-sm max-w-3xl mx-auto">
+          <Card className="inline-block p-6 border bg-card/80 backdrop-blur-sm max-w-3xl mx-auto glass-card-premium glass-border-glow glass-depth">
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <div className="flex-shrink-0">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 flex items-center justify-center">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 flex items-center justify-center glass-button glass-border-light glass-depth">
                   <Sparkles className="h-7 w-7 text-amber-500" />
                 </div>
               </div>
@@ -109,7 +109,7 @@ export function ComingSoonSection() {
                 <p className="text-muted-foreground">We're always looking for ways to improve CampusAxis. Share your suggestions with us!</p>
               </div>
               <div className="mt-4 sm:mt-0">
-                <a href="/report-issue" className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-primary to-indigo-600 text-primary-foreground rounded-xl hover:from-primary/90 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl">
+                <a href="/report-issue" className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-primary to-indigo-600 text-primary-foreground rounded-xl hover:from-primary/90 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl glass-button glass-border-light glass-hover glass-depth">
                   Share Feedback
                 </a>
               </div>

@@ -135,8 +135,8 @@ export async function generateStaticParams() {
   if (!hasEnv) return []
   try {
     const { supabaseAdmin } = await import('@/lib/supabase-admin')
-    // Limit to 500 faculty members to reduce build time and resource usage
-    const { data } = await supabaseAdmin.from('faculty').select('id').eq('status', 'approved').limit(500)
+    // Limit to 50 faculty members to reduce build time and resource usage
+    const { data } = await supabaseAdmin.from('faculty').select('id').eq('status', 'approved').limit(50)
     return (data || []).map((f: any) => ({ id: f.id }))
   } catch {
     return []

@@ -5,17 +5,48 @@ import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { CheckIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { cva, VariantProps } from "class-variance-authority"
+import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
-function Checkbox({
-  className,
-  ...props
-}: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
+const checkboxVariants = cva(
+  "peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "bg-white/10 backdrop-blur-xl border-white/20 data-[state=checked]:bg-white/20 data-[state=checked]:border-white/30 focus:ring-2 focus:ring-white/30 focus:border-white/30 shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 data-[state=checked]:bg-white/15 data-[state=checked]:border-white/20 focus:ring-1 focus:ring-white/20 focus:border-white/20 shadow-glass-sm",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+interface CheckboxProps
+  extends React.ComponentProps<typeof CheckboxPrimitive.Root>,
+    VariantProps<typeof checkboxVariants> {}
+
+const Checkbox = React.forwardRef<
+  React.ElementRef<typeof CheckboxPrimitive.Root>,
+  CheckboxProps
+>(({ className, variant, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300 hover:scale-110"
+
   return (
     <CheckboxPrimitive.Root
+      ref={ref}
       data-slot="checkbox"
       className={cn(
-        "peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
-        className
+        checkboxVariants({ variant, className }),
+        animationClasses,
+        variant?.startsWith("glass") && "dark"
       )}
       {...props}
     >
@@ -27,6 +58,7 @@ function Checkbox({
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   )
-}
+})
+Checkbox.displayName = CheckboxPrimitive.Root.displayName
 
 export { Checkbox }

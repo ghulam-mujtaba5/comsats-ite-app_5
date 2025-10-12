@@ -60,9 +60,9 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
   }
 
   return (
-    <footer className="relative glass-card glass-border-subtle supports-[backdrop-filter]:glass-card">
+    <footer className="relative glass-card-premium glass-border-glow supports-[backdrop-filter]:glass-card rounded-2xl glass-depth glass-gradient">
       <div className="app-container py-12">
-        <div className="mb-10 p-4 md:p-6 glass-light glass-border-light glass-hover rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3 glass-gradient">
+        <div className="mb-10 p-4 md:p-6 glass-card-premium glass-border-glow glass-hover-glow rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3 glass-gradient glass-depth glass-floating">
           <div className="text-center md:text-left">
             <div className="font-semibold text-foreground flex items-center justify-center md:justify-start gap-2">
               <Users className="h-5 w-5 text-primary" />
@@ -71,11 +71,11 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             <p className="text-sm text-muted-foreground font-serif">Help other students and shape CampusAxis with your contributions.</p>
           </div>
           <div className="flex items-center gap-3">
-            <Button asChild>
+            <Button asChild className="glass-button glass-border-light glass-hover glass-depth">
               <Link href="/contribute">Contribute</Link>
             </Button>
             <a href="mailto:campusaxis0@gmail.com?subject=Contribute%20to%20CampusAxis" rel="noreferrer">
-              <Button variant="outline">
+              <Button variant="outline" className="glass-button glass-border-light glass-hover glass-depth">
                 <Mail className="h-4 w-4 mr-2" /> Email Us
               </Button>
             </a>

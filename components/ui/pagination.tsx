@@ -7,23 +7,88 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
+import { cva, type VariantProps } from "class-variance-authority"
+import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
-function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+const paginationVariants = cva(
+  "mx-auto flex w-full justify-center",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "",
+        "glass-subtle": "",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const paginationLinkVariants = cva(
+  "",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "text-white hover:bg-white/20",
+        "glass-subtle": "text-white hover:bg-white/15",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const paginationEllipsisVariants = cva(
+  "flex size-9 items-center justify-center",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "text-white",
+        "glass-subtle": "text-white",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+interface PaginationProps
+  extends React.ComponentProps<"nav">,
+    VariantProps<typeof paginationVariants> {}
+
+function Pagination({ className, variant, ...props }: PaginationProps) {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+
   return (
     <nav
       role="navigation"
       aria-label="pagination"
       data-slot="pagination"
-      className={cn("mx-auto flex w-full justify-center", className)}
+      className={cn(
+        paginationVariants({ variant }),
+        animationClasses,
+        className,
+        variant?.startsWith("glass") && "dark"
+      )}
       {...props}
     />
   )
 }
 
-function PaginationContent({
-  className,
-  ...props
-}: React.ComponentProps<"ul">) {
+interface PaginationContentProps extends React.ComponentProps<"ul"> {}
+
+function PaginationContent({ className, ...props }: PaginationContentProps) {
   return (
     <ul
       data-slot="pagination-content"
@@ -33,21 +98,32 @@ function PaginationContent({
   )
 }
 
-function PaginationItem({ ...props }: React.ComponentProps<"li">) {
+interface PaginationItemProps extends React.ComponentProps<"li"> {}
+
+function PaginationItem({ ...props }: PaginationItemProps) {
   return <li data-slot="pagination-item" {...props} />
 }
 
 type PaginationLinkProps = {
   isActive?: boolean
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
-  React.ComponentProps<"a">
+  React.ComponentProps<"a"> &
+  VariantProps<typeof paginationLinkVariants>
 
 function PaginationLink({
   className,
+  variant,
   isActive,
   size = "icon",
   ...props
 }: PaginationLinkProps) {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300 hover:scale-105"
+
   return (
     <a
       aria-current={isActive ? "page" : undefined}
@@ -56,23 +132,31 @@ function PaginationLink({
       className={cn(
         buttonVariants({
           variant: isActive ? "outline" : "ghost",
-          size,
         }),
-        className
+        paginationLinkVariants({ variant }),
+        size === "icon" ? "size-9" : "px-2.5 py-1.5",
+        animationClasses,
+        className,
+        variant?.startsWith("glass") && "dark"
       )}
       {...props}
     />
   )
 }
 
+interface PaginationPreviousProps
+  extends Omit<React.ComponentProps<typeof PaginationLink>, 'size'> {}
+
 function PaginationPrevious({
   className,
+  variant,
   ...props
-}: Omit<React.ComponentProps<typeof PaginationLink>, 'size'>) {
+}: PaginationPreviousProps) {
   return (
     <PaginationLink
       aria-label="Go to previous page"
       size="default"
+      variant={variant}
       className={cn("gap-1 px-2.5 sm:pl-2.5", className)}
       {...props}
     >
@@ -82,14 +166,19 @@ function PaginationPrevious({
   )
 }
 
+interface PaginationNextProps
+  extends Omit<React.ComponentProps<typeof PaginationLink>, 'size'> {}
+
 function PaginationNext({
   className,
+  variant,
   ...props
-}: Omit<React.ComponentProps<typeof PaginationLink>, 'size'>) {
+}: PaginationNextProps) {
   return (
     <PaginationLink
       aria-label="Go to next page"
       size="default"
+      variant={variant}
       className={cn("gap-1 px-2.5 sm:pr-2.5", className)}
       {...props}
     >
@@ -99,15 +188,24 @@ function PaginationNext({
   )
 }
 
+interface PaginationEllipsisProps
+  extends React.ComponentProps<"span">,
+    VariantProps<typeof paginationEllipsisVariants> {}
+
 function PaginationEllipsis({
   className,
+  variant,
   ...props
-}: React.ComponentProps<"span">) {
+}: PaginationEllipsisProps) {
   return (
     <span
       aria-hidden
       data-slot="pagination-ellipsis"
-      className={cn("flex size-9 items-center justify-center", className)}
+      className={cn(
+        paginationEllipsisVariants({ variant }),
+        className,
+        variant?.startsWith("glass") && "dark"
+      )}
       {...props}
     >
       <MoreHorizontalIcon className="size-4" />

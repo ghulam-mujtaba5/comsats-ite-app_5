@@ -107,12 +107,12 @@ export function HeroSection() {
   ]
 
   return (
-    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-purple-50/20 dark:from-slate-900/50 dark:via-slate-800/30 dark:to-slate-900/20">
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-purple-50/20 dark:from-slate-900/50 dark:via-slate-800/30 dark:to-slate-900/20 glass-hero glass-border-glow glass-depth">
       {/* Enhanced background elements with glassmorphism */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/10 to-blue-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-secondary/10 to-amber-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-pink-500/5 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/10 to-blue-500/10 rounded-full blur-3xl animate-pulse glass-depth" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-secondary/10 to-amber-500/10 rounded-full blur-3xl animate-pulse glass-depth" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-pink-500/5 rounded-full blur-3xl glass-depth" />
       </div>
 
       <div className="app-container relative z-10 py-16 md:py-24">
@@ -123,13 +123,13 @@ export function HeroSection() {
             <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <div className="flex items-center gap-6 mb-8">
                 <div className="relative group">
-                  <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-lg opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-lg opacity-50 group-hover:opacity-70 transition-opacity duration-500 glass-depth" />
                   <Image 
                     src="/logo-square.svg" 
                     alt="CampusAxis Logo" 
                     width={80} 
                     height={80} 
-                    className="rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-500 relative z-10"
+                    className="rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-500 relative z-10 glass-card glass-border-light glass-hover"
                     priority
                   />
                 </div>
@@ -170,7 +170,7 @@ export function HeroSection() {
                   const Icon = stat.icon
                   return (
                     <div key={index} className="flex items-center gap-3 group">
-                      <div className="p-2.5 rounded-xl glass-light glass-border-subtle group-hover:scale-110 transition-all duration-300 shadow-md glass-hover">
+                      <div className="p-2.5 rounded-xl glass-light glass-border-subtle group-hover:scale-110 transition-all duration-300 shadow-md glass-hover glass-depth">
                         <Icon className={`h-4 w-4 ${stat.color}`} />
                       </div>
                       <div>
@@ -192,13 +192,13 @@ export function HeroSection() {
             {/* Enhanced CTA buttons */}
             <div className={`transition-all duration-700 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Button size="lg" className="text-base px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300">
+                <Button size="lg" className="text-base px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 glass-button glass-border-light glass-hover glass-depth">
                   <Link href="/auth" className="flex items-center">
                     Get Started
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="text-base px-8 py-3 rounded-xl border-2 hover:shadow-md transition-all duration-300" asChild>
+                <Button variant="outline" size="lg" className="text-base px-8 py-3 rounded-xl border-2 hover:shadow-md transition-all duration-300 glass-button glass-border-light glass-hover glass-depth" asChild>
                   <Link href="/about">
                     <GraduationCap className="mr-2 h-4 w-4" />
                     About CampusAxis
@@ -214,7 +214,7 @@ export function HeroSection() {
                   const Icon = action.icon
                   return (
                     <Link key={index} href={action.href}>
-                      <Card className="p-4 hover:shadow-md transition-all duration-300 border cursor-pointer group bg-card/80 backdrop-blur-sm">
+                      <Card className="p-4 hover:shadow-md transition-all duration-300 border cursor-pointer group bg-card/80 backdrop-blur-sm glass-card glass-border-subtle glass-hover glass-depth">
                         <div className="flex items-center gap-3">
                           <Icon className={`h-4 w-4 ${action.color} group-hover:scale-110 transition-transform`} />
                           <div>
@@ -234,7 +234,7 @@ export function HeroSection() {
           <div className={`transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="relative">
               {/* Main Stats Card */}
-              <Card className="relative p-6 bg-card/80 border rounded-2xl shadow-xl backdrop-blur-sm">
+              <Card className="relative p-6 bg-card/80 border rounded-2xl shadow-xl backdrop-blur-sm glass-card-premium glass-border-glow glass-depth glass-gradient">
                 <div className="space-y-6">
                   {/* Header Section */}
                   <div className="text-center space-y-3">
@@ -252,7 +252,7 @@ export function HeroSection() {
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 gap-4">
                     {/* Community Engagement Card */}
-                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth">
                       <div className="flex items-center justify-between mb-1.5">
                         <TrendingUp className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
@@ -264,7 +264,7 @@ export function HeroSection() {
                     </AnimatedCard>
 
                     {/* Faculty Rating Card */}
-                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth">
                       <div className="flex items-center justify-between mb-1.5">
                         <div className="flex items-center">
                           <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
@@ -283,7 +283,7 @@ export function HeroSection() {
                     </AnimatedCard>
 
                     {/* Active Events Card */}
-                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth">
                       <div className="flex items-center justify-between mb-1.5">
                         <Calendar className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
@@ -295,7 +295,7 @@ export function HeroSection() {
                     </AnimatedCard>
 
                     {/* Faculty Count Card */}
-                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth">
                       <div className="flex items-center justify-between mb-1.5">
                         <GraduationCap className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">{stats?.departmentCount || 2} Depts</span>
@@ -312,7 +312,7 @@ export function HeroSection() {
                     <div className="text-sm font-semibold text-foreground text-center mb-3">Quick Actions</div>
                     <div className="grid grid-cols-2 gap-3">
                       <Link href="/past-papers" className="group/action">
-                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300">
+                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300 glass-card glass-border-subtle glass-hover glass-depth">
                           <div className="flex items-center gap-2">
                             <FileText className="h-4 w-4 text-primary group-hover/action:scale-110 transition-transform" />
                             <div>
@@ -323,7 +323,7 @@ export function HeroSection() {
                         </div>
                       </Link>
                       <Link href="/gpa-calculator" className="group/action">
-                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300">
+                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300 glass-card glass-border-subtle glass-hover glass-depth">
                           <div className="flex items-center gap-2">
                             <Calculator className="h-4 w-4 text-primary group-hover/action:scale-110 transition-transform" />
                             <div>
@@ -337,7 +337,7 @@ export function HeroSection() {
                   </div>
 
                   {/* Trust Indicator */}
-                  <div className="text-center p-3 rounded-lg bg-muted/50 border">
+                  <div className="text-center p-3 rounded-lg bg-muted/50 border glass-card glass-border-subtle glass-depth">
                     <div className="flex items-center justify-center gap-2 mb-1.5">
                       <div className="flex items-center gap-1">
                         <Pulse active={true}>
@@ -355,7 +355,7 @@ export function HeroSection() {
               
               {/* Achievement Badge */}
               <div className="absolute -top-3 -right-3">
-                <Badge className="px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg">
+                <Badge className="px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg glass-button glass-border-light glass-hover glass-depth">
                   <Award className="h-4 w-4 mr-1" />
                   Student Approved
                 </Badge>

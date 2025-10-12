@@ -8,7 +8,27 @@
      Ô£ô optimizeCss
      Ô£ô nextScriptWorkers
 
+   Creating an optimized production build ...
+> [PWA] PWA support is disabled
+> [PWA] PWA support is disabled
+ Ô£ô Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+ ÔÜá Using edge runtime on a page currently disables static generation for that page
+[Error: Failed to collect configuration for /_not-found] {
+  [cause]: Error: Module build failed (from ./node_modules/.pnpm/next@15.2.4_@babel+core@7.2_7510a00be9783ea2c05b8c7735c85f4b/node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js):
+  NextFontError: Failed to fetch `Manrope` from Google Fonts.
+      at nextFontError (E:\comsats-ite-app_5\node_modules\.pnpm\next@15.2.4_@babel+core@7.2_7510a00be9783ea2c05b8c7735c85f4b\node_modules\next\dist\compiled\@next\font\dist\next-font-error.js:8:17)
+      at nextFontGoogleFontLoader (E:\comsats-ite-app_5\node_modules\.pnpm\next@15.2.4_@babel+core@7.2_7510a00be9783ea2c05b8c7735c85f4b\node_modules\next\dist\compiled\@next\font\dist\google\loader.js:97:49)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Span.traceAsyncFn (E:\comsats-ite-app_5\node_modules\.pnpm\next@15.2.4_@babel+core@7.2_7510a00be9783ea2c05b8c7735c85f4b\node_modules\next\dist\trace\trace.js:157:20)
+      at async E:\comsats-ite-app_5\node_modules\.pnpm\next@15.2.4_@babel+core@7.2_7510a00be9783ea2c05b8c7735c85f4b\node_modules\next\dist\build\webpack\loaders\next-font-loader\index.js:84:87
+      at async Span.traceAsyncFn (E:\comsats-ite-app_5\node_modules\.pnpm\next@15.2.4_@babel+core@7.2_7510a00be9783ea2c05b8c7735c85f4b\node_modules\next\dist\trace\trace.js:157:20)
+      at 45184 (E:\comsats-ite-app_5\.next\server\chunks\8438.js:73:84373)
+      at t (E:\comsats-ite-app_5\.next\server\webpack-runtime.js:1:143)
+      at 94776 (E:\comsats-ite-app_5\.next\server\chunks\6045.js:1:109242)
+      at Function.t (E:\comsats-ite-app_5\.next\server\webpack-runtime.js:1:143)
+}
 
 > Build error occurred
-SyntaxError: Unexpected end of JSON input
-    at JSON.parse (<anonymous>)
+[Error: Failed to collect page data for /_not-found] { type: 'Error' }

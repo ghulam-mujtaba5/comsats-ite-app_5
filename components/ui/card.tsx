@@ -3,7 +3,7 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 type CardProps = React.ComponentProps<"div"> & {
-  variant?: "default" | "elevated" | "soft" | "glass"
+  variant?: "default" | "elevated" | "soft" | "glass" | "glass-premium" | "glass-floating" | "glass-layered"
 }
 
 function Card({ className, variant = "default", ...props }: CardProps) {
@@ -12,7 +12,7 @@ function Card({ className, variant = "default", ...props }: CardProps) {
       data-slot="card"
       data-variant={variant}
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        "flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
         // Micro-interactions
         "transition-all duration-200 ease-out will-change-transform",
         "hover:shadow-md hover:-translate-y-0.5",
@@ -22,6 +22,9 @@ function Card({ className, variant = "default", ...props }: CardProps) {
         variant === "elevated" && "shadow-md glass-card glass-border-subtle glass-hover",
         variant === "soft" && "glass-light glass-border-subtle",
         variant === "glass" && "glass-card-premium glass-border-glow glass-hover-glow glass-noise",
+        variant === "glass-premium" && "glass-premium glass-border-glow glass-hover-glow glass-gradient glass-noise",
+        variant === "glass-floating" && "glass-floating glass-border-light glass-hover glass-noise",
+        variant === "glass-layered" && "glass-layered glass-border-subtle glass-hover glass-gradient glass-depth glass-noise",
         className
       )}
       {...props}

@@ -5,6 +5,24 @@ import { OTPInput, OTPInputContext } from "input-otp"
 import { MinusIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { cva } from "class-variance-authority"
+import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+
+const inputOTPSlotVariants = cva(
+  "border-input relative flex h-9 w-9 items-center justify-center border-y border-r text-sm shadow-xs transition-all outline-none first:rounded-l-md first:border-l last:rounded-r-md data-[active=true]:z-10 data-[active=true]:ring-[3px] data-[active=true]:border-ring data-[active=true]:ring-ring/50",
+  {
+    variants: {
+      variant: {
+        default: "data-[active=true]:aria-invalid:ring-destructive/20 dark:data-[active=true]:aria-invalid:ring-destructive/40 aria-invalid:border-destructive data-[active=true]:aria-invalid:border-destructive dark:bg-input/30",
+        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white data-[active=true]:border-white/30 data-[active=true]:ring-white/30 data-[active=true]:aria-invalid:ring-white/20 aria-invalid:border-white/30 shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white data-[active=true]:border-white/20 data-[active=true]:ring-white/20 data-[active=true]:aria-invalid:ring-white/10 aria-invalid:border-white/20 shadow-glass-sm",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
 
 function InputOTP({
   className,

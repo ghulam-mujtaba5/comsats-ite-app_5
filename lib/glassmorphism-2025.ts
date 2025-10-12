@@ -14,6 +14,9 @@ export type GlassVariant =
   | 'glass-nav'         // Optimized for navigation
   | 'glass-modal'       // Optimized for modals/dialogs
   | 'glass-hero'        // Optimized for hero sections
+  | 'glass-floating'    // Apple 2025 floating effect
+  | 'glass-layered'     // Apple 2025 layered effect
+  | 'glass-depth'       // Apple 2025 depth effect
 
 export type GlassBorder = 
   | 'border-none'
@@ -29,6 +32,7 @@ export type GlassShadow =
   | 'shadow-medium'
   | 'shadow-strong'
   | 'shadow-glow'
+  | 'shadow-apple'     // Apple 2025 shadow style
 
 export interface GlassOptions {
   variant?: GlassVariant
@@ -38,6 +42,8 @@ export interface GlassOptions {
   interactive?: boolean
   glow?: boolean
   gradient?: boolean
+  floating?: boolean
+  depth?: boolean
 }
 
 /**
@@ -51,6 +57,8 @@ export function getGlassClasses({
   interactive = false,
   glow = false,
   gradient = false,
+  floating = false,
+  depth = false,
 }: GlassOptions = {}): string {
   const classes: string[] = []
 
@@ -58,79 +66,106 @@ export function getGlassClasses({
   switch (variant) {
     case 'glass-subtle':
       classes.push(
-        'bg-white/5 dark:bg-white/[0.02]',
-        'backdrop-blur-sm',
-        'backdrop-saturate-150'
+        'bg-white/[var(--glass-bg-opacity)] dark:bg-white/[0.05]',
+        'backdrop-blur-[var(--glass-blur-sm)]',
+        'saturate-[var(--glass-saturation)]'
       )
       break
     case 'glass-light':
       classes.push(
-        'bg-white/10 dark:bg-white/[0.03]',
-        'backdrop-blur-md',
-        'backdrop-saturate-150'
+        'bg-white/[calc(var(--glass-bg-opacity)+0.05)] dark:bg-white/[0.08]',
+        'backdrop-blur-[var(--glass-blur-md)]',
+        'saturate-[var(--glass-saturation)]'
       )
       break
     case 'glass-medium':
       classes.push(
-        'bg-white/20 dark:bg-white/[0.05]',
-        'backdrop-blur-lg',
-        'backdrop-saturate-150',
-        'backdrop-brightness-110'
+        'bg-white/[calc(var(--glass-bg-opacity)+0.1)] dark:bg-white/[0.12]',
+        'backdrop-blur-[var(--glass-blur-lg)]',
+        'saturate-[var(--glass-saturation)]',
+        'brightness-[var(--glass-brightness)]'
       )
       break
     case 'glass-strong':
       classes.push(
-        'bg-white/30 dark:bg-white/[0.08]',
-        'backdrop-blur-xl',
-        'backdrop-saturate-150',
-        'backdrop-brightness-110'
+        'bg-white/[calc(var(--glass-bg-opacity)+0.15)] dark:bg-white/[0.18]',
+        'backdrop-blur-[var(--glass-blur-xl)]',
+        'saturate-[var(--glass-saturation)]',
+        'brightness-[var(--glass-brightness)]'
       )
       break
     case 'glass-premium':
       classes.push(
-        'bg-white/40 dark:bg-white/[0.1]',
-        'backdrop-blur-2xl',
-        'backdrop-saturate-200',
-        'backdrop-brightness-110'
+        'bg-white/[calc(var(--glass-bg-opacity)+0.2)] dark:bg-white/[0.25]',
+        'backdrop-blur-[var(--glass-blur-2xl)]',
+        'saturate-[calc(var(--glass-saturation)+20%)]',
+        'brightness-[var(--glass-brightness)]'
       )
       break
     case 'glass-ultra':
       classes.push(
-        'bg-gradient-to-br from-white/50 via-white/30 to-white/20',
+        'bg-gradient-to-br from-white/[calc(var(--glass-bg-opacity)+0.3)] via-white/[calc(var(--glass-bg-opacity)+0.2)] to-white/[calc(var(--glass-bg-opacity)+0.15)]',
         'dark:from-white/[0.12] dark:via-white/[0.08] dark:to-white/[0.04]',
-        'backdrop-blur-3xl',
-        'backdrop-saturate-200',
-        'backdrop-brightness-125'
+        'backdrop-blur-[var(--glass-blur-3xl)]',
+        'saturate-[calc(var(--glass-saturation)+40%)]',
+        'brightness-[calc(var(--glass-brightness)+15%)]'
       )
       break
     case 'glass-card':
       classes.push(
-        'bg-white/30 dark:bg-slate-900/30',
-        'backdrop-blur-xl',
-        'backdrop-saturate-150'
+        'bg-white/[calc(var(--glass-bg-opacity)+0.12)] dark:bg-slate-900/[0.2]',
+        'backdrop-blur-[var(--glass-blur-xl)]',
+        'saturate-[var(--glass-saturation)]'
       )
       break
     case 'glass-nav':
       classes.push(
-        'bg-white/70 dark:bg-slate-900/70',
-        'backdrop-blur-2xl',
-        'backdrop-saturate-150',
-        'backdrop-brightness-110'
+        'bg-white/[calc(var(--glass-bg-opacity)+0.4)] dark:bg-slate-900/[0.5]',
+        'backdrop-blur-[var(--glass-blur-2xl)]',
+        'saturate-[var(--glass-saturation)]',
+        'brightness-[var(--glass-brightness)]'
       )
       break
     case 'glass-modal':
       classes.push(
-        'bg-white/80 dark:bg-slate-900/80',
-        'backdrop-blur-3xl',
-        'backdrop-saturate-150'
+        'bg-white/[calc(var(--glass-bg-opacity)+0.5)] dark:bg-slate-900/[0.6]',
+        'backdrop-blur-[var(--glass-blur-3xl)]',
+        'saturate-[var(--glass-saturation)]'
       )
       break
     case 'glass-hero':
       classes.push(
-        'bg-gradient-to-br from-white/60 via-white/40 to-white/20',
-        'dark:from-slate-900/60 dark:via-slate-900/40 dark:to-slate-900/20',
-        'backdrop-blur-2xl',
-        'backdrop-saturate-200'
+        'bg-gradient-to-br from-white/[calc(var(--glass-bg-opacity)+0.35)] via-white/[calc(var(--glass-bg-opacity)+0.25)] to-white/[calc(var(--glass-bg-opacity)+0.2)]',
+        'dark:from-slate-900/[0.6] dark:via-slate-900/[0.4] dark:to-slate-900/[0.2]',
+        'backdrop-blur-[var(--glass-blur-2xl)]',
+        'saturate-[calc(var(--glass-saturation)+20%)]'
+      )
+      break
+    case 'glass-floating':
+      classes.push(
+        'bg-white/[calc(var(--glass-bg-opacity)+0.15)] dark:bg-slate-900/[0.25]',
+        'backdrop-blur-[var(--glass-blur-xl)]',
+        'saturate-[var(--glass-saturation)]',
+        'relative',
+        'animation float 6s ease-in-out infinite'
+      )
+      break
+    case 'glass-layered':
+      classes.push(
+        'bg-white/[calc(var(--glass-bg-opacity)+0.12)] dark:bg-slate-900/[0.2]',
+        'backdrop-blur-[var(--glass-blur-lg)]',
+        'saturate-[var(--glass-saturation)]',
+        'relative overflow-hidden'
+      )
+      break
+    case 'glass-depth':
+      classes.push(
+        'bg-white/[calc(var(--glass-bg-opacity)+0.15)] dark:bg-slate-900/[0.25]',
+        'backdrop-blur-[var(--glass-blur-xl)]',
+        'saturate-[var(--glass-saturation)]',
+        'relative',
+        'transform-style preserve-3d',
+        'animation apple-glass-depth 6s ease-in-out infinite'
       )
       break
   }
@@ -139,31 +174,31 @@ export function getGlassClasses({
   switch (border) {
     case 'border-subtle':
       classes.push(
-        'border border-white/10 dark:border-white/[0.05]'
+        'border border-white/[var(--glass-border-opacity)] dark:border-white/[0.08]'
       )
       break
     case 'border-light':
       classes.push(
-        'border border-white/20 dark:border-white/[0.1]'
+        'border border-white/[calc(var(--glass-border-opacity)+0.05)] dark:border-white/[0.12]'
       )
       break
     case 'border-medium':
       classes.push(
-        'border-2 border-white/30 dark:border-white/[0.15]'
+        'border-2 border-white/[calc(var(--glass-border-opacity)+0.1)] dark:border-white/[0.18]'
       )
       break
     case 'border-glow':
       classes.push(
-        'border border-white/20 dark:border-white/[0.1]',
-        'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]',
-        'dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]'
+        'border border-white/[calc(var(--glass-border-opacity)+0.05)] dark:border-white/[0.12]',
+        'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_0_8px_rgba(59,130,246,0.1)]',
+        'dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),0_0_8px_rgba(59,130,246,0.2)]'
       )
       break
     case 'border-gradient':
       classes.push(
         'border-2 border-transparent',
-        'bg-gradient-to-r from-white/20 via-white/10 to-white/20 bg-origin-border',
-        'dark:from-white/[0.1] dark:via-white/[0.05] dark:to-white/[0.1]'
+        'bg-gradient-to-r from-white/[calc(var(--glass-border-opacity)+0.1)] via-white/[calc(var(--glass-border-opacity)+0.05)] to-white/[calc(var(--glass-border-opacity)+0.1)] bg-origin-border',
+        'dark:from-white/[0.12] dark:via-white/[0.08] dark:to-white/[0.12]'
       )
       break
   }
@@ -172,22 +207,27 @@ export function getGlassClasses({
   switch (shadow) {
     case 'shadow-soft':
       classes.push(
-        'shadow-lg shadow-black/5 dark:shadow-black/20'
+        'shadow-lg shadow-black/[calc(var(--glass-shadow-opacity)*0.5)] dark:shadow-black/[var(--glass-shadow-opacity)]'
       )
       break
     case 'shadow-medium':
       classes.push(
-        'shadow-xl shadow-black/10 dark:shadow-black/30'
+        'shadow-xl shadow-black/[calc(var(--glass-shadow-opacity)*1.5)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*3)]'
       )
       break
     case 'shadow-strong':
       classes.push(
-        'shadow-2xl shadow-black/15 dark:shadow-black/40'
+        'shadow-2xl shadow-black/[calc(var(--glass-shadow-opacity)*3)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*6)]'
       )
       break
     case 'shadow-glow':
       classes.push(
         'shadow-2xl shadow-primary/10 dark:shadow-primary/20'
+      )
+      break
+    case 'shadow-apple':
+      classes.push(
+        'shadow-lg shadow-black/[calc(var(--glass-shadow-opacity)*1.2)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*2.5)]'
       )
       break
   }
@@ -196,7 +236,7 @@ export function getGlassClasses({
   if (glow) {
     classes.push(
       'after:absolute after:inset-0 after:rounded-[inherit]',
-      'after:bg-gradient-to-br after:from-primary/10 after:via-transparent after:to-blue-500/10',
+      'after:bg-gradient-to-br after:from-primary/15 after:via-transparent after:to-blue-500/15',
       'after:opacity-0 after:transition-opacity after:duration-300',
       'after:pointer-events-none'
     )
@@ -206,8 +246,28 @@ export function getGlassClasses({
   if (gradient) {
     classes.push(
       'before:absolute before:inset-0 before:rounded-[inherit]',
-      'before:bg-gradient-to-br before:from-white/5 before:via-transparent before:to-white/5',
+      'before:bg-gradient-to-br before:from-white/10 before:via-transparent before:to-white/10',
       'before:pointer-events-none'
+    )
+  }
+
+  // Floating effect
+  if (floating) {
+    classes.push(
+      'relative',
+      'before:absolute before:-inset-4 before:rounded-[calc(var(--radius)+1rem)] before:pointer-events-none',
+      'before:bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.05)_0%,rgba(59,130,246,0)_70%)]',
+      'before:z-[-1]'
+    )
+  }
+
+  // Depth effect
+  if (depth) {
+    classes.push(
+      'relative',
+      'before:absolute before:inset-0 before:rounded-[inherit]',
+      'before:bg-[linear-gradient(135deg,rgba(255,255,255,0.15)_0%,rgba(255,255,255,0)_50%,rgba(255,255,255,0.1)_100%)]',
+      'before:transform translateZ(-2px)'
     )
   }
 
@@ -215,10 +275,10 @@ export function getGlassClasses({
   if (hover) {
     classes.push(
       'transition-all duration-300 ease-out',
-      'hover:bg-white/25 dark:hover:bg-white/[0.08]',
-      'hover:backdrop-blur-2xl',
-      'hover:shadow-xl hover:shadow-black/10 dark:hover:shadow-black/30',
-      'hover:-translate-y-0.5'
+      'hover:bg-white/[calc(var(--glass-bg-opacity)+0.15)] dark:hover:bg-white/[0.2]',
+      'hover:backdrop-blur-[var(--glass-blur-2xl)]',
+      'hover:shadow-xl hover:shadow-black/[calc(var(--glass-shadow-opacity)*1.5)] dark:hover:shadow-black/[calc(var(--glass-shadow-opacity)*3)]',
+      'hover:-translate-y-0.5 hover:scale-[1.01]'
     )
     if (glow) {
       classes.push('hover:after:opacity-100')
@@ -230,12 +290,12 @@ export function getGlassClasses({
     classes.push(
       'cursor-pointer',
       'active:scale-[0.98]',
-      'active:backdrop-blur-3xl'
+      'active:backdrop-blur-[var(--glass-blur-3xl)]'
     )
   }
 
   // Base positioning for pseudo-elements
-  if (glow || gradient) {
+  if (glow || gradient || floating || depth) {
     classes.push('relative')
   }
 
@@ -316,6 +376,20 @@ export const glassPresets = {
     variant: 'glass-modal' as GlassVariant,
     border: 'border-light' as GlassBorder,
     shadow: 'shadow-strong' as GlassShadow,
+  },
+  floatingCard: {
+    variant: 'glass-floating' as GlassVariant,
+    border: 'border-light' as GlassBorder,
+    shadow: 'shadow-apple' as GlassShadow,
+    floating: true,
+    hover: true,
+  },
+  layeredCard: {
+    variant: 'glass-layered' as GlassVariant,
+    border: 'border-subtle' as GlassBorder,
+    shadow: 'shadow-medium' as GlassShadow,
+    gradient: true,
+    depth: true,
   },
 } as const
 

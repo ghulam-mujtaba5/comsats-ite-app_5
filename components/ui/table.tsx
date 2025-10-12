@@ -3,102 +3,316 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
+import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+const tableVariants = cva(
+  "w-full caption-bottom text-sm",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "text-white",
+        "glass-subtle": "text-white",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const tableContainerVariants = cva(
+  "relative w-full overflow-x-auto",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "",
+        "glass-subtle": "",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const tableHeaderVariants = cva(
+  "[&_tr]:border-b",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "[&_tr]:border-white/20",
+        "glass-subtle": "[&_tr]:border-white/10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const tableBodyVariants = cva(
+  "[&_tr:last-child]:border-0",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "",
+        "glass-subtle": "",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const tableFooterVariants = cva(
+  "border-t font-medium [&>tr]:last:border-b-0",
+  {
+    variants: {
+      variant: {
+        default: "bg-muted/50",
+        glass: "bg-white/10 backdrop-blur-xl border-white/20",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const tableRowVariants = cva(
+  "border-b transition-colors",
+  {
+    variants: {
+      variant: {
+        default: "hover:bg-muted/50 data-[state=selected]:bg-muted",
+        glass: "hover:bg-white/10 data-[state=selected]:bg-white/10 border-white/20",
+        "glass-subtle": "hover:bg-white/5 data-[state=selected]:bg-white/5 border-white/10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const tableHeadVariants = cva(
+  "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "text-white bg-white/5",
+        "glass-subtle": "text-white bg-white/3",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const tableCellVariants = cva(
+  "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "text-white",
+        "glass-subtle": "text-white",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const tableCaptionVariants = cva(
+  "mt-4 text-sm",
+  {
+    variants: {
+      variant: {
+        default: "text-muted-foreground",
+        glass: "text-white/70",
+        "glass-subtle": "text-white/60",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+interface TableProps
+  extends React.ComponentProps<"table">,
+    VariantProps<typeof tableVariants> {}
+
+function Table({ className, variant, ...props }: TableProps) {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+
   return (
     <div
       data-slot="table-container"
-      className="relative w-full overflow-x-auto"
+      className={cn(
+        tableContainerVariants({ variant }),
+        animationClasses,
+        variant?.startsWith("glass") && "dark"
+      )}
     >
       <table
         data-slot="table"
-        className={cn("w-full caption-bottom text-sm", className)}
+        className={cn(
+          tableVariants({ variant }),
+          className,
+          variant?.startsWith("glass") && "dark"
+        )}
         {...props}
       />
     </div>
   )
 }
 
-function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
+interface TableHeaderProps
+  extends React.ComponentProps<"thead">,
+    VariantProps<typeof tableHeaderVariants> {}
+
+function TableHeader({ className, variant, ...props }: TableHeaderProps) {
   return (
     <thead
       data-slot="table-header"
-      className={cn("[&_tr]:border-b", className)}
+      className={cn(
+        tableHeaderVariants({ variant }),
+        className,
+        variant?.startsWith("glass") && "dark"
+      )}
       {...props}
     />
   )
 }
 
-function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
+interface TableBodyProps
+  extends React.ComponentProps<"tbody">,
+    VariantProps<typeof tableBodyVariants> {}
+
+function TableBody({ className, variant, ...props }: TableBodyProps) {
   return (
     <tbody
       data-slot="table-body"
-      className={cn("[&_tr:last-child]:border-0", className)}
+      className={cn(
+        tableBodyVariants({ variant }),
+        className,
+        variant?.startsWith("glass") && "dark"
+      )}
       {...props}
     />
   )
 }
 
-function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
+interface TableFooterProps
+  extends React.ComponentProps<"tfoot">,
+    VariantProps<typeof tableFooterVariants> {}
+
+function TableFooter({ className, variant, ...props }: TableFooterProps) {
   return (
     <tfoot
       data-slot="table-footer"
       className={cn(
-        "bg-muted/50 border-t font-medium [&>tr]:last:border-b-0",
-        className
+        tableFooterVariants({ variant }),
+        className,
+        variant?.startsWith("glass") && "dark"
       )}
       {...props}
     />
   )
 }
 
-function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
+interface TableRowProps
+  extends React.ComponentProps<"tr">,
+    VariantProps<typeof tableRowVariants> {}
+
+function TableRow({ className, variant, ...props }: TableRowProps) {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+
   return (
     <tr
       data-slot="table-row"
       className={cn(
-        "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
-        className
+        tableRowVariants({ variant }),
+        animationClasses,
+        className,
+        variant?.startsWith("glass") && "dark"
       )}
       {...props}
     />
   )
 }
 
-function TableHead({ className, ...props }: React.ComponentProps<"th">) {
+interface TableHeadProps
+  extends React.ComponentProps<"th">,
+    VariantProps<typeof tableHeadVariants> {}
+
+function TableHead({ className, variant, ...props }: TableHeadProps) {
   return (
     <th
       data-slot="table-head"
       className={cn(
-        "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
-        className
+        tableHeadVariants({ variant }),
+        className,
+        variant?.startsWith("glass") && "dark"
       )}
       {...props}
     />
   )
 }
 
-function TableCell({ className, ...props }: React.ComponentProps<"td">) {
+interface TableCellProps
+  extends React.ComponentProps<"td">,
+    VariantProps<typeof tableCellVariants> {}
+
+function TableCell({ className, variant, ...props }: TableCellProps) {
   return (
     <td
       data-slot="table-cell"
       className={cn(
-        "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
-        className
+        tableCellVariants({ variant }),
+        className,
+        variant?.startsWith("glass") && "dark"
       )}
       {...props}
     />
   )
 }
 
-function TableCaption({
-  className,
-  ...props
-}: React.ComponentProps<"caption">) {
+interface TableCaptionProps
+  extends React.ComponentProps<"caption">,
+    VariantProps<typeof tableCaptionVariants> {}
+
+function TableCaption({ className, variant, ...props }: TableCaptionProps) {
   return (
     <caption
       data-slot="table-caption"
-      className={cn("text-muted-foreground mt-4 text-sm", className)}
+      className={cn(
+        tableCaptionVariants({ variant }),
+        className,
+        variant?.startsWith("glass") && "dark"
+      )}
       {...props}
     />
   )

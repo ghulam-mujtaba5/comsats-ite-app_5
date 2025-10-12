@@ -28,14 +28,14 @@ export function BrandedBanner({
   className = "",
 }: BrandedBannerProps) {
   const variantClasses = {
-    default: "bg-gradient-to-r from-primary/10 via-blue-500/10 to-purple-500/10 border-primary/20",
-    gradient: "bg-gradient-to-br from-blue-600/20 via-indigo-600/20 to-purple-600/20 backdrop-blur-xl border-blue-500/30",
-    glass: "bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-white/30 dark:border-slate-700/30",
+    default: "glass-card glass-border-subtle glass-hover glass-depth",
+    gradient: "glass-hero glass-border-glow glass-hover-glow glass-depth glass-gradient",
+    glass: "glass-card-premium glass-border-light glass-hover glass-depth glass-layered",
   }
 
   return (
     <Card
-      className={`relative overflow-hidden border-2 shadow-2xl hover:shadow-3xl transition-all duration-500 ${variantClasses[variant]} ${className}`}
+      className={`relative overflow-hidden border-2 shadow-2xl hover:shadow-3xl transition-all duration-500 glass-floating ${variantClasses[variant]} ${className}`}
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-mesh opacity-30" />

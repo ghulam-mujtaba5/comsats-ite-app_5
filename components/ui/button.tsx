@@ -22,6 +22,8 @@ const buttonVariants = cva(
         success: "bg-[--success] text-[--success-foreground] hover:bg-[color-mix(in_oklab,var(--success)_85%,black_15%)]",
         warning: "bg-[--warning] text-[--warning-foreground] hover:bg-[color-mix(in_oklab,var(--warning)_85%,black_15%)]",
         info: "bg-[--info] text-[--info-foreground] hover:bg-[color-mix(in_oklab,var(--info)_85%,black_15%)]",
+        glass: "glass-button glass-border-subtle glass-hover glass-interactive",
+        "glass-premium": "glass-premium glass-border-glow glass-hover-glow glass-interactive",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

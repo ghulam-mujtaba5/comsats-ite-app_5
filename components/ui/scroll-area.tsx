@@ -4,16 +4,82 @@ import * as React from "react"
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 
 import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
+import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
-function ScrollArea({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
+const scrollAreaVariants = cva(
+  "relative",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg shadow-glass-sm",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const scrollBarVariants = cva(
+  "flex touch-none p-px transition-colors select-none",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "border-white/20",
+        "glass-subtle": "border-white/10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const scrollAreaThumbVariants = cva(
+  "relative flex-1 rounded-full",
+  {
+    variants: {
+      variant: {
+        default: "bg-border",
+        glass: "bg-white/30",
+        "glass-subtle": "bg-white/20",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+interface ScrollAreaProps
+  extends React.ComponentProps<typeof ScrollAreaPrimitive.Root>,
+    VariantProps<typeof scrollAreaVariants> {}
+
+const ScrollArea = React.forwardRef<
+  React.ElementRef<typeof ScrollAreaPrimitive.Root>,
+  ScrollAreaProps
+>(({ className, variant, children, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+
   return (
     <ScrollAreaPrimitive.Root
+      ref={ref}
       data-slot="scroll-area"
-      className={cn("relative", className)}
+      className={cn(
+        scrollAreaVariants({ variant }),
+        animationClasses,
+        className,
+        variant?.startsWith("glass") && "dark"
+      )}
       {...props}
     >
       <ScrollAreaPrimitive.Viewport
@@ -22,23 +88,28 @@ function ScrollArea({
       >
         {children}
       </ScrollAreaPrimitive.Viewport>
-      <ScrollBar />
+      <ScrollBar variant={variant} />
       <ScrollAreaPrimitive.Corner />
     </ScrollAreaPrimitive.Root>
   )
-}
+})
+ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName
 
-function ScrollBar({
-  className,
-  orientation = "vertical",
-  ...props
-}: React.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>) {
+interface ScrollBarProps
+  extends React.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
+    VariantProps<typeof scrollBarVariants> {}
+
+const ScrollBar = React.forwardRef<
+  React.ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
+  ScrollBarProps
+>(({ className, variant, orientation = "vertical", ...props }, ref) => {
   return (
     <ScrollAreaPrimitive.ScrollAreaScrollbar
+      ref={ref}
       data-slot="scroll-area-scrollbar"
       orientation={orientation}
       className={cn(
-        "flex touch-none p-px transition-colors select-none",
+        scrollBarVariants({ variant }),
         orientation === "vertical" &&
           "h-full w-2.5 border-l border-l-transparent",
         orientation === "horizontal" &&
@@ -49,10 +120,13 @@ function ScrollBar({
     >
       <ScrollAreaPrimitive.ScrollAreaThumb
         data-slot="scroll-area-thumb"
-        className="bg-border relative flex-1 rounded-full"
+        className={cn(
+          scrollAreaThumbVariants({ variant })
+        )}
       />
     </ScrollAreaPrimitive.ScrollAreaScrollbar>
   )
-}
+})
+ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName
 
 export { ScrollArea, ScrollBar }

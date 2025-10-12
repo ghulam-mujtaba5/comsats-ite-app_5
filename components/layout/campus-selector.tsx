@@ -39,7 +39,7 @@ export function CampusSelector() {
 
   if (isLoading || !selectedCampus) {
     return (
-      <Button variant="outline" size="sm" disabled className="h-9">
+      <Button variant="outline" size="sm" disabled className="h-9 glass-button glass-border-subtle glass-hover">
         <MapPin className="h-4 w-4 mr-2" />
         Loading...
       </Button>
@@ -49,7 +49,7 @@ export function CampusSelector() {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="h-9 gap-2">
+        <Button variant="outline" size="sm" className="h-9 gap-2 glass-button glass-border-light glass-hover glass-depth">
           <MapPin className="h-4 w-4" />
           <span className="hidden sm:inline">{selectedCampus.name}</span>
           <span className="sm:hidden">{selectedCampus.code}</span>
@@ -82,9 +82,9 @@ export function CampusSelector() {
                 <Card
                   key={campus.id}
                   className={cn(
-                    "cursor-pointer transition-all hover:shadow-md",
+                    "cursor-pointer transition-all hover:shadow-md glass-card glass-border-subtle glass-hover glass-depth",
                     selectedCampus?.id === campus.id
-                      ? "border-primary bg-primary/5"
+                      ? "border-primary bg-primary/5 glass-card-premium glass-border-glow"
                       : "hover:border-primary/50"
                   )}
                   onClick={() => {
@@ -126,9 +126,9 @@ export function CampusSelector() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 <Card
                   className={cn(
-                    "cursor-pointer transition-all hover:shadow-md",
+                    "cursor-pointer transition-all hover:shadow-md glass-card glass-border-subtle glass-hover glass-depth",
                     !selectedDepartment
-                      ? "border-primary bg-primary/5"
+                      ? "border-primary bg-primary/5 glass-card-premium glass-border-glow"
                       : "hover:border-primary/50"
                   )}
                   onClick={() => setSelectedDepartment(null)}
@@ -152,9 +152,9 @@ export function CampusSelector() {
                   <Card
                     key={dept.id}
                     className={cn(
-                      "cursor-pointer transition-all hover:shadow-md",
+                      "cursor-pointer transition-all hover:shadow-md glass-card glass-border-subtle glass-hover glass-depth",
                       selectedDepartment?.id === dept.id
-                        ? "border-primary bg-primary/5"
+                        ? "border-primary bg-primary/5 glass-card-premium glass-border-glow"
                         : "hover:border-primary/50"
                     )}
                     onClick={() => setSelectedDepartment(dept)}
@@ -180,10 +180,10 @@ export function CampusSelector() {
 
           {/* Apply Button */}
           <div className="flex justify-end gap-3 pt-4 border-t">
-            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="glass-button glass-border-light glass-hover">
               Cancel
             </Button>
-            <Button onClick={() => setIsDialogOpen(false)}>
+            <Button onClick={() => setIsDialogOpen(false)} className="glass-button glass-border-light glass-hover glass-depth">
               Apply Selection
             </Button>
           </div>
@@ -202,7 +202,7 @@ export function CampusSelectorCompact() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="h-9 gap-1 px-2">
+        <Button variant="ghost" size="sm" className="h-9 gap-1 px-2 glass-button glass-border-subtle glass-hover">
           <MapPin className="h-4 w-4" />
           <span className="truncate max-w-[60px]">{selectedCampus.code}</span>
           {selectedDepartment && (
@@ -213,7 +213,7 @@ export function CampusSelectorCompact() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent align="end" className="w-56 glass-card glass-border-light glass-depth">
         <DropdownMenuLabel>Quick Campus Switch</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {campuses.map((campus) => (
@@ -221,8 +221,8 @@ export function CampusSelectorCompact() {
             key={campus.id}
             onClick={() => setSelectedCampus(campus)}
             className={cn(
-              "flex items-center justify-between",
-              selectedCampus.id === campus.id && "bg-accent"
+              "flex items-center justify-between glass-button glass-border-subtle glass-hover",
+              selectedCampus.id === campus.id && "bg-accent glass-card-premium glass-border-glow"
             )}
           >
             <span className="truncate">{campus.name}</span>

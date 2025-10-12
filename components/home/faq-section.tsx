@@ -78,11 +78,11 @@ export function FAQSection() {
     fetchFaqs()
   }, [])
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20">
+    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20 glass-hero glass-depth">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
-            <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl">
+            <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl glass-button glass-border-light glass-depth">
               <HelpCircle className="h-10 w-10 text-primary" />
             </div>
           </div>
@@ -98,7 +98,7 @@ export function FAQSection() {
           )}
         </div>
 
-        <Card className="bg-card/80 backdrop-blur-sm border shadow-xl">
+        <Card className="bg-card/80 backdrop-blur-sm border shadow-xl glass-card-premium glass-border-glow glass-depth">
           {loading ? (
             <div role="status" aria-live="polite" className="space-y-4 p-6">
               {Array.from({ length: 4 }).map((_, i) => (
@@ -120,7 +120,7 @@ export function FAQSection() {
           ) : (
             <Accordion type="single" collapsible className="space-y-4 p-2">
               {faqs.map((faq, index) => (
-                <AccordionItem key={faq.id} value={`item-${index}`} className="bg-muted/30 border rounded-xl px-5 transition-all duration-300 hover:bg-muted/50">
+                <AccordionItem key={faq.id} value={`item-${index}`} className="bg-muted/30 border rounded-xl px-5 transition-all duration-300 hover:bg-muted/50 glass-card glass-border-subtle glass-hover">
                   <AccordionTrigger className="text-left hover:text-primary transition-colors pr-8 py-4 text-base">
                     {faq.question}
                   </AccordionTrigger>
@@ -135,10 +135,10 @@ export function FAQSection() {
         
         {/* Additional Help CTA */}
         <div className="text-center mt-12">
-          <Card className="inline-block p-6 border bg-card/80 backdrop-blur-sm max-w-2xl mx-auto">
+          <Card className="inline-block p-6 border bg-card/80 backdrop-blur-sm max-w-2xl mx-auto glass-card glass-border-subtle glass-depth">
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <div className="flex-shrink-0">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center glass-button glass-border-light glass-depth">
                   <Users className="h-6 w-6 text-primary" />
                 </div>
               </div>
@@ -147,7 +147,7 @@ export function FAQSection() {
                 <p className="text-muted-foreground text-sm">Our support team is ready to assist you with any questions</p>
               </div>
               <div className="mt-2 sm:mt-0">
-                <a href="/student-support" className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium">
+                <a href="/student-support" className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium glass-button glass-border-light glass-hover glass-depth">
                   Contact Support
                 </a>
               </div>

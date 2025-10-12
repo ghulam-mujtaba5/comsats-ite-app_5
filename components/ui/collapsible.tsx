@@ -1,33 +1,77 @@
 "use client"
 
+import * as React from "react"
 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible"
 
-function Collapsible({
-  ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Root>) {
-  return <CollapsiblePrimitive.Root data-slot="collapsible" {...props} />
-}
+import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
+import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
-function CollapsibleTrigger({
-  ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>) {
+const collapsibleContentVariants = cva(
+  "",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg shadow-glass-sm",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+// Use the primitive components directly
+const Collapsible = CollapsiblePrimitive.Root
+
+interface CollapsibleTriggerProps
+  extends React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger> {}
+
+const CollapsibleTrigger = React.forwardRef<
+  React.ElementRef<typeof CollapsiblePrimitive.CollapsibleTrigger>,
+  CollapsibleTriggerProps
+>(({ ...props }, ref) => {
   return (
     <CollapsiblePrimitive.CollapsibleTrigger
+      ref={ref}
       data-slot="collapsible-trigger"
       {...props}
     />
   )
-}
+})
+CollapsibleTrigger.displayName = CollapsiblePrimitive.CollapsibleTrigger.displayName
 
-function CollapsibleContent({
-  ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>) {
+interface CollapsibleContentProps
+  extends React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>,
+    VariantProps<typeof collapsibleContentVariants> {}
+
+const CollapsibleContent = React.forwardRef<
+  React.ElementRef<typeof CollapsiblePrimitive.CollapsibleContent>,
+  CollapsibleContentProps
+>(({ className, variant, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+
   return (
     <CollapsiblePrimitive.CollapsibleContent
+      ref={ref}
       data-slot="collapsible-content"
+      className={cn(
+        collapsibleContentVariants({ variant }),
+        animationClasses,
+        className,
+        variant?.startsWith("glass") && "dark"
+      )}
       {...props}
     />
   )
-}
+})
+CollapsibleContent.displayName = CollapsiblePrimitive.CollapsibleContent.displayName
 
 export { Collapsible, CollapsibleTrigger, CollapsibleContent }

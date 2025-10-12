@@ -4,6 +4,7 @@ import { Component, ReactNode } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { AlertCircle, RefreshCw } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface Props {
   children: ReactNode
@@ -37,7 +38,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="container mx-auto px-4 py-8">
-          <Card className="max-w-2xl mx-auto">
+          <Card className="max-w-2xl mx-auto glass-card">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <AlertCircle className="h-6 w-6 text-destructive" />
@@ -49,8 +50,14 @@ export class ErrorBoundary extends Component<Props, State> {
             </CardHeader>
             <CardContent className="space-y-4">
               {this.state.error && (
-                <div className="bg-muted p-4 rounded-lg">
-                  <p className="text-sm font-mono text-muted-foreground">
+                <div className={cn(
+                  "p-4 rounded-lg",
+                  "bg-white/10 backdrop-blur-xl border border-white/20"
+                )}>
+                  <p className={cn(
+                    "text-sm font-mono",
+                    "text-white/80"
+                  )}>
                     {this.state.error.message}
                   </p>
                 </div>
@@ -61,6 +68,7 @@ export class ErrorBoundary extends Component<Props, State> {
                   window.location.reload()
                 }}
                 className="w-full"
+                variant="glass"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Reload Page

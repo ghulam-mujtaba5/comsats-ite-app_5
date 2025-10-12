@@ -1,11 +1,60 @@
 import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
 
-interface LoadingSpinnerProps {
+const loadingSpinnerVariants = cva(
+  "animate-spin",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "text-white",
+        "glass-subtle": "text-white",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const fullPageLoaderVariants = cva(
+  "fixed inset-0 z-50 flex flex-col items-center justify-center",
+  {
+    variants: {
+      variant: {
+        default: "bg-background/80 backdrop-blur-sm",
+        glass: "bg-black/30 backdrop-blur-xl",
+        "glass-subtle": "bg-black/20 backdrop-blur-lg",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const centeredLoaderVariants = cva(
+  "flex flex-col items-center justify-center py-12",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "",
+        "glass-subtle": "",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+interface LoadingSpinnerProps extends VariantProps<typeof loadingSpinnerVariants> {
   className?: string
   size?: number
 }
 
-export const LoadingSpinner = ({ className, size = 24 }: LoadingSpinnerProps) => {
+export const LoadingSpinner = ({ className, size = 24, variant }: LoadingSpinnerProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,27 +66,51 @@ export const LoadingSpinner = ({ className, size = 24 }: LoadingSpinnerProps) =>
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={cn("animate-spin", className)}
+      className={cn(
+        loadingSpinnerVariants({ variant }),
+        className,
+        variant?.startsWith("glass") && "dark"
+      )}
     >
       <path d="M21 12a9 9 0 1 1-6.219-8.56" />
     </svg>
   )
 }
 
-export function FullPageLoader({ message = "Loading..." }: { message?: string }) {
+interface FullPageLoaderProps extends VariantProps<typeof fullPageLoaderVariants> {
+  message?: string
+}
+
+export function FullPageLoader({ message = "Loading...", variant }: FullPageLoaderProps) {
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
-      <LoadingSpinner size={48} className="text-primary" />
-      <p className="mt-4 text-lg text-muted-foreground">{message}</p>
+    <div className={cn(
+      fullPageLoaderVariants({ variant }),
+      variant?.startsWith("glass") && "dark"
+    )}>
+      <LoadingSpinner size={48} variant={variant} />
+      <p className={cn(
+        "mt-4 text-lg",
+        variant?.startsWith("glass") ? "text-white" : "text-muted-foreground"
+      )}>{message}</p>
     </div>
   );
 }
 
-export function CenteredLoader({ message }: { message?: string }) {
+interface CenteredLoaderProps extends VariantProps<typeof centeredLoaderVariants> {
+  message?: string
+}
+
+export function CenteredLoader({ message, variant }: CenteredLoaderProps) {
     return (
-        <div className="flex flex-col items-center justify-center py-12">
-            <LoadingSpinner size={32} className="text-primary" />
-            {message && <p className="mt-3 text-base text-muted-foreground">{message}</p>}
+        <div className={cn(
+          centeredLoaderVariants({ variant }),
+          variant?.startsWith("glass") && "dark"
+        )}>
+            <LoadingSpinner size={32} variant={variant} />
+            {message && <p className={cn(
+              "mt-3 text-base",
+              variant?.startsWith("glass") ? "text-white" : "text-muted-foreground"
+            )}>{message}</p>}
         </div>
     );
 }

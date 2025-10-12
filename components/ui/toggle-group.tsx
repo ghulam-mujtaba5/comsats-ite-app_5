@@ -6,12 +6,15 @@ import { cva, type VariantProps } from "@/lib/cva"
 
 import { cn } from "@/lib/utils"
 import { toggleVariants } from "@/components/ui/toggle"
+import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const toggleGroupVariants = cva("flex items-center justify-center gap-1", {
   variants: {
     variant: {
       default: "bg-transparent",
       outline: "border border-input bg-transparent shadow-xs",
+      glass: "bg-white/10 backdrop-blur-xl border border-white/20 shadow-glass",
+      "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10 shadow-glass-sm",
     },
     size: {
       default: "h-9",
@@ -32,15 +35,28 @@ type ToggleGroupProps = (
 const ToggleGroup = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Root>,
   ToggleGroupProps
->(({ className, variant, size, children, ...props }, ref) => (
-  <ToggleGroupPrimitive.Root
-    ref={ref}
-    className={cn(toggleGroupVariants({ variant, size, className }))}
-    {...(props as any)}
-  >
-    {children}
-  </ToggleGroupPrimitive.Root>
-))
+>(({ className, variant, size, children, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+
+  return (
+    <ToggleGroupPrimitive.Root
+      ref={ref}
+      className={cn(
+        toggleGroupVariants({ variant, size, className }),
+        animationClasses,
+        variant?.startsWith("glass") && "dark"
+      )}
+      {...(props as any)}
+    >
+      {children}
+    </ToggleGroupPrimitive.Root>
+  )
+})
 
 ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName
 
@@ -52,15 +68,29 @@ type ToggleGroupItemProps = Omit<ToggleGroupItemBase, 'value'> &
 const ToggleGroupItem = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Item>,
   ToggleGroupItemProps
->(({ className, children, variant, size, ...props }, ref) => (
-  <ToggleGroupPrimitive.Item
-    ref={ref}
-    className={cn(toggleVariants({ variant, size }), className)}
-    {...(props as any)}
-  >
-    {children}
-  </ToggleGroupPrimitive.Item>
-))
+>(({ className, children, variant, size, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300 hover:scale-105"
+
+  return (
+    <ToggleGroupPrimitive.Item
+      ref={ref}
+      className={cn(
+        toggleVariants({ variant, size }),
+        animationClasses,
+        className,
+        variant?.startsWith("glass") && "dark"
+      )}
+      {...(props as any)}
+    >
+      {children}
+    </ToggleGroupPrimitive.Item>
+  )
+})
 
 ToggleGroupItem.displayName = ToggleGroupPrimitive.Item.displayName
 

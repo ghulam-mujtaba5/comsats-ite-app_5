@@ -1,8 +1,9 @@
-import type * as React from "react"
+import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "@/lib/cva"
 
 import { cn } from "@/lib/utils"
+import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const badgeVariants = cva(
   "inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow,transform] overflow-hidden active:scale-[.98]",
@@ -19,6 +20,8 @@ const badgeVariants = cva(
         info: "border-transparent bg-[--info] text-[--info-foreground]",
         muted: "border-transparent bg-muted text-muted-foreground",
         soft: "border-[color-mix(in_oklab,var(--primary)_15%,var(--border))] bg-[color-mix(in_oklab,var(--primary)_6%,var(--background))] text-foreground",
+        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white shadow-glass-sm",
       },
     },
     defaultVariants: {
@@ -27,15 +30,37 @@ const badgeVariants = cva(
   },
 )
 
-function Badge({
-  className,
-  variant,
-  asChild = false,
-  ...props
-}: React.ComponentProps<"span"> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot : "span"
-
-  return <Comp data-slot="badge" className={cn(badgeVariants({ variant }), className)} {...props} />
+interface BadgeProps
+  extends React.ComponentProps<"span">,
+    VariantProps<typeof badgeVariants> {
+  asChild?: boolean
 }
+
+const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
+  ({ className, variant, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "span"
+    const prefersReducedMotion = usePrefersReducedMotion()
+    
+    // Apply animation classes conditionally based on user preferences
+    const animationClasses = prefersReducedMotion 
+      ? "" 
+      : "transition-all duration-300 hover:scale-105"
+
+    return (
+      <Comp
+        ref={ref}
+        data-slot="badge"
+        className={cn(
+          badgeVariants({ variant }),
+          animationClasses,
+          className,
+          variant?.startsWith("glass") && "dark"
+        )}
+        {...props}
+      />
+    )
+  }
+)
+Badge.displayName = "Badge"
 
 export { Badge, badgeVariants }

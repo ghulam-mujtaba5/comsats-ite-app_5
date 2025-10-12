@@ -5,120 +5,244 @@ import * as MenubarPrimitive from "@radix-ui/react-menubar"
 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
+import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
-function Menubar({
-  className,
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Root>) {
+const menubarVariants = cva(
+  "flex h-9 items-center gap-1 rounded-md border p-1 shadow-xs",
+  {
+    variants: {
+      variant: {
+        default: "bg-background",
+        glass: "bg-white/10 backdrop-blur-xl border-white/20 shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 shadow-glass-sm",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const menubarTriggerVariants = cva(
+  "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex items-center rounded-sm px-2 py-1 text-sm font-medium outline-hidden select-none",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "text-white focus:bg-white/20 data-[state=open]:bg-white/20",
+        "glass-subtle": "text-white focus:bg-white/15 data-[state=open]:bg-white/15",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const menubarContentVariants = cva(
+  "data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[12rem] origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-md",
+  {
+    variants: {
+      variant: {
+        default: "bg-popover text-popover-foreground",
+        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white shadow-glass-sm",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+const menubarItemVariants = cva(
+  "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glass: "text-white focus:bg-white/20",
+        "glass-subtle": "text-white focus:bg-white/15",
+      },
+      itemVariant: {
+        default: "[&_svg:not([class*='text-'])]:text-muted-foreground",
+        destructive: "text-destructive focus:bg-destructive/10 dark:focus:bg-destructive/20 focus:text-destructive *:[svg]:!text-destructive",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      itemVariant: "default",
+    },
+  }
+)
+
+const menubarSubContentVariants = cva(
+  "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg",
+  {
+    variants: {
+      variant: {
+        default: "bg-popover text-popover-foreground",
+        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white shadow-glass-sm",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+interface MenubarProps
+  extends React.ComponentProps<typeof MenubarPrimitive.Root>,
+    VariantProps<typeof menubarVariants> {}
+
+const Menubar = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Root>,
+  MenubarProps
+>(({ className, variant, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+
   return (
     <MenubarPrimitive.Root
+      ref={ref}
       data-slot="menubar"
       className={cn(
-        "bg-background flex h-9 items-center gap-1 rounded-md border p-1 shadow-xs",
-        className
+        menubarVariants({ variant }),
+        animationClasses,
+        className,
+        variant?.startsWith("glass") && "dark"
       )}
       {...props}
     />
   )
-}
+})
+Menubar.displayName = MenubarPrimitive.Root.displayName
 
-function MenubarMenu({
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Menu>) {
-  return <MenubarPrimitive.Menu data-slot="menubar-menu" {...props} />
-}
+// Use the primitive components directly
+const MenubarMenu = MenubarPrimitive.Menu
+const MenubarGroup = MenubarPrimitive.Group
+const MenubarPortal = MenubarPrimitive.Portal
+const MenubarRadioGroup = MenubarPrimitive.RadioGroup
+const MenubarSub = MenubarPrimitive.Sub
 
-function MenubarGroup({
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Group>) {
-  return <MenubarPrimitive.Group data-slot="menubar-group" {...props} />
-}
+interface MenubarTriggerProps
+  extends React.ComponentProps<typeof MenubarPrimitive.Trigger>,
+    VariantProps<typeof menubarTriggerVariants> {}
 
-function MenubarPortal({
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Portal>) {
-  return <MenubarPrimitive.Portal data-slot="menubar-portal" {...props} />
-}
+const MenubarTrigger = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Trigger>,
+  MenubarTriggerProps
+>(({ className, variant, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300 hover:scale-[1.02]"
 
-function MenubarRadioGroup({
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.RadioGroup>) {
-  return (
-    <MenubarPrimitive.RadioGroup data-slot="menubar-radio-group" {...props} />
-  )
-}
-
-function MenubarTrigger({
-  className,
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Trigger>) {
   return (
     <MenubarPrimitive.Trigger
+      ref={ref}
       data-slot="menubar-trigger"
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex items-center rounded-sm px-2 py-1 text-sm font-medium outline-hidden select-none",
-        className
+        menubarTriggerVariants({ variant }),
+        animationClasses,
+        className,
+        variant?.startsWith("glass") && "dark"
       )}
       {...props}
     />
   )
-}
+})
+MenubarTrigger.displayName = MenubarPrimitive.Trigger.displayName
 
-function MenubarContent({
-  className,
-  align = "start",
-  alignOffset = -4,
-  sideOffset = 8,
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Content>) {
+interface MenubarContentProps
+  extends React.ComponentProps<typeof MenubarPrimitive.Content>,
+    VariantProps<typeof menubarContentVariants> {}
+
+const MenubarContent = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Content>,
+  MenubarContentProps
+>(({ className, variant, align = "start", alignOffset = -4, sideOffset = 8, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+
   return (
-    <MenubarPortal>
+    <MenubarPrimitive.Portal>
       <MenubarPrimitive.Content
+        ref={ref}
         data-slot="menubar-content"
         align={align}
         alignOffset={alignOffset}
         sideOffset={sideOffset}
         className={cn(
-          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[12rem] origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-md",
-          className
+          menubarContentVariants({ variant }),
+          animationClasses,
+          className,
+          variant?.startsWith("glass") && "dark"
         )}
         {...props}
       />
-    </MenubarPortal>
+    </MenubarPrimitive.Portal>
   )
+})
+MenubarContent.displayName = MenubarPrimitive.Content.displayName
+
+interface MenubarItemProps
+  extends React.ComponentProps<typeof MenubarPrimitive.Item>,
+    VariantProps<typeof menubarItemVariants> {
+  inset?: boolean
 }
 
-function MenubarItem({
-  className,
-  inset,
-  variant = "default",
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Item> & {
-  inset?: boolean
-  variant?: "default" | "destructive"
-}) {
+const MenubarItem = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Item>,
+  MenubarItemProps
+>(({ className, variant, itemVariant = "default", inset, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300 hover:scale-[1.01]"
+
   return (
     <MenubarPrimitive.Item
+      ref={ref}
       data-slot="menubar-item"
       data-inset={inset}
-      data-variant={variant}
+      data-variant={itemVariant}
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
+        menubarItemVariants({ variant, itemVariant }),
+        animationClasses,
+        className,
+        variant?.startsWith("glass") && "dark"
       )}
       {...props}
     />
   )
-}
+})
+MenubarItem.displayName = MenubarPrimitive.Item.displayName
 
-function MenubarCheckboxItem({
-  className,
-  children,
-  checked,
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.CheckboxItem>) {
+interface MenubarCheckboxItemProps
+  extends React.ComponentProps<typeof MenubarPrimitive.CheckboxItem> {}
+
+const MenubarCheckboxItem = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.CheckboxItem>,
+  MenubarCheckboxItemProps
+>(({ className, children, checked, ...props }, ref) => {
   return (
     <MenubarPrimitive.CheckboxItem
+      ref={ref}
       data-slot="menubar-checkbox-item"
       className={cn(
         "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-xs py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
@@ -135,15 +259,19 @@ function MenubarCheckboxItem({
       {children}
     </MenubarPrimitive.CheckboxItem>
   )
-}
+})
+MenubarCheckboxItem.displayName = MenubarPrimitive.CheckboxItem.displayName
 
-function MenubarRadioItem({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.RadioItem>) {
+interface MenubarRadioItemProps
+  extends React.ComponentProps<typeof MenubarPrimitive.RadioItem> {}
+
+const MenubarRadioItem = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.RadioItem>,
+  MenubarRadioItemProps
+>(({ className, children, ...props }, ref) => {
   return (
     <MenubarPrimitive.RadioItem
+      ref={ref}
       data-slot="menubar-radio-item"
       className={cn(
         "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-xs py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
@@ -159,17 +287,21 @@ function MenubarRadioItem({
       {children}
     </MenubarPrimitive.RadioItem>
   )
+})
+MenubarRadioItem.displayName = MenubarPrimitive.RadioItem.displayName
+
+interface MenubarLabelProps
+  extends React.ComponentProps<typeof MenubarPrimitive.Label> {
+  inset?: boolean
 }
 
-function MenubarLabel({
-  className,
-  inset,
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Label> & {
-  inset?: boolean
-}) {
+const MenubarLabel = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Label>,
+  MenubarLabelProps
+>(({ className, inset, ...props }, ref) => {
   return (
     <MenubarPrimitive.Label
+      ref={ref}
       data-slot="menubar-label"
       data-inset={inset}
       className={cn(
@@ -179,27 +311,37 @@ function MenubarLabel({
       {...props}
     />
   )
-}
+})
+MenubarLabel.displayName = MenubarPrimitive.Label.displayName
 
-function MenubarSeparator({
-  className,
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Separator>) {
+interface MenubarSeparatorProps
+  extends React.ComponentProps<typeof MenubarPrimitive.Separator> {}
+
+const MenubarSeparator = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Separator>,
+  MenubarSeparatorProps
+>(({ className, ...props }, ref) => {
   return (
     <MenubarPrimitive.Separator
+      ref={ref}
       data-slot="menubar-separator"
       className={cn("bg-border -mx-1 my-1 h-px", className)}
       {...props}
     />
   )
-}
+})
+MenubarSeparator.displayName = MenubarPrimitive.Separator.displayName
 
-function MenubarShortcut({
-  className,
-  ...props
-}: React.ComponentProps<"span">) {
+interface MenubarShortcutProps
+  extends React.ComponentProps<"span"> {}
+
+const MenubarShortcut = React.forwardRef<
+  HTMLSpanElement,
+  MenubarShortcutProps
+>(({ className, ...props }, ref) => {
   return (
     <span
+      ref={ref}
       data-slot="menubar-shortcut"
       className={cn(
         "text-muted-foreground ml-auto text-xs tracking-widest",
@@ -208,24 +350,21 @@ function MenubarShortcut({
       {...props}
     />
   )
-}
+})
+MenubarShortcut.displayName = "MenubarShortcut"
 
-function MenubarSub({
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Sub>) {
-  return <MenubarPrimitive.Sub data-slot="menubar-sub" {...props} />
-}
-
-function MenubarSubTrigger({
-  className,
-  inset,
-  children,
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.SubTrigger> & {
+interface MenubarSubTriggerProps
+  extends React.ComponentProps<typeof MenubarPrimitive.SubTrigger> {
   inset?: boolean
-}) {
+}
+
+const MenubarSubTrigger = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.SubTrigger>,
+  MenubarSubTriggerProps
+>(({ className, inset, children, ...props }, ref) => {
   return (
     <MenubarPrimitive.SubTrigger
+      ref={ref}
       data-slot="menubar-sub-trigger"
       data-inset={inset}
       className={cn(
@@ -238,23 +377,39 @@ function MenubarSubTrigger({
       <ChevronRightIcon className="ml-auto h-4 w-4" />
     </MenubarPrimitive.SubTrigger>
   )
-}
+})
+MenubarSubTrigger.displayName = MenubarPrimitive.SubTrigger.displayName
 
-function MenubarSubContent({
-  className,
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.SubContent>) {
+interface MenubarSubContentProps
+  extends React.ComponentProps<typeof MenubarPrimitive.SubContent>,
+    VariantProps<typeof menubarSubContentVariants> {}
+
+const MenubarSubContent = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.SubContent>,
+  MenubarSubContentProps
+>(({ className, variant, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+
   return (
     <MenubarPrimitive.SubContent
+      ref={ref}
       data-slot="menubar-sub-content"
       className={cn(
-        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg",
-        className
+        menubarSubContentVariants({ variant }),
+        animationClasses,
+        className,
+        variant?.startsWith("glass") && "dark"
       )}
       {...props}
     />
   )
-}
+})
+MenubarSubContent.displayName = MenubarPrimitive.SubContent.displayName
 
 export {
   Menubar,

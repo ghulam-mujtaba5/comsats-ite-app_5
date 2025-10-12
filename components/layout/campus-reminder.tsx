@@ -52,7 +52,7 @@ export function CampusReminder() {
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4"
         >
-          <Card className="border-2 border-primary/20 shadow-xl bg-background/95 backdrop-blur-sm">
+          <Card className="border-2 border-primary/20 shadow-xl bg-background/95 backdrop-blur-sm glass-card glass-border-glow glass-hover glass-depth">
             <CardContent className="p-4">
               <div className="flex items-start gap-3">
                 <div className="p-2 rounded-lg bg-primary/10">
@@ -124,7 +124,7 @@ export function CampusBanner({
       exit={{ opacity: 0, height: 0 }}
       className="mb-6"
     >
-      <Card className="border-primary/30 bg-primary/5">
+      <Card className="border-primary/30 bg-primary/5 glass-card glass-border-light glass-hover glass-depth">
         <CardContent className="p-4">
           <div className="flex items-center gap-4">
             <div className="p-2 rounded-lg bg-primary/10">
@@ -174,6 +174,7 @@ export function CampusIndicator() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
+        className="glass-button glass-border-light glass-hover glass-depth glass-floating"
       >
         <CampusSelector />
       </motion.div>
