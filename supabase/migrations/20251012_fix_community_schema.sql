@@ -34,6 +34,11 @@ CREATE INDEX IF NOT EXISTS idx_community_posts_created_at ON community_posts(cre
 -- Add RLS policies for post_reactions
 ALTER TABLE post_reactions ENABLE ROW LEVEL SECURITY;
 
+-- Drop policies if they already exist to make this migration idempotent
+DROP POLICY IF EXISTS "Anyone can view reactions" ON post_reactions;
+DROP POLICY IF EXISTS "Authenticated users can create reactions" ON post_reactions;
+DROP POLICY IF EXISTS "Users can delete their own reactions" ON post_reactions;
+
 CREATE POLICY "Anyone can view reactions" ON post_reactions
     FOR SELECT USING (true);
 
@@ -45,6 +50,12 @@ CREATE POLICY "Users can delete their own reactions" ON post_reactions
 
 -- Add RLS policies for post_comments
 ALTER TABLE post_comments ENABLE ROW LEVEL SECURITY;
+
+-- Drop policies if they already exist to avoid duplicates
+DROP POLICY IF EXISTS "Anyone can view comments" ON post_comments;
+DROP POLICY IF EXISTS "Authenticated users can create comments" ON post_comments;
+DROP POLICY IF EXISTS "Users can update their own comments" ON post_comments;
+DROP POLICY IF EXISTS "Users can delete their own comments" ON post_comments;
 
 CREATE POLICY "Anyone can view comments" ON post_comments
     FOR SELECT USING (true);
