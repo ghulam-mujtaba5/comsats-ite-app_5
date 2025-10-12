@@ -213,10 +213,11 @@ export default function BlogArticlePage({ params }: { params: Promise<{ slug: st
         {/* Share Button */}
         <div className="mb-8 flex justify-center">
           <ShareButton
-            contentId={article.id}
-            contentType="blog"
+            resourceId={article.id}
+            resourceType="blog"
             title={article.title}
             text={article.excerpt}
+            url={`/blog/${article.slug}`}
           />
         </div>
 
