@@ -1,5 +1,6 @@
 export interface Post {
   id: string
+  user_id: string
   author: string
   avatar: string
   department: string
@@ -16,6 +17,24 @@ export interface Post {
   tags: string[]
   liked: boolean
   type: string
+  media?: MediaItem[]
+  location?: string
+  feeling?: string
+  visibility?: 'public' | 'followers' | 'private'
+  is_pinned?: boolean
+  is_edited?: boolean
+  edited_at?: string
+  views_count?: number
+  created_at: string
+  updated_at?: string
+}
+
+export interface MediaItem {
+  id: string
+  type: 'image' | 'video' | 'document'
+  url: string
+  thumbnail?: string
+  alt?: string
 }
 
 export interface Reply {
@@ -27,6 +46,121 @@ export interface Reply {
   content: string
   likes: number
   liked: boolean
+}
+
+export interface Comment {
+  id: string
+  post_id: string
+  parent_id?: string | null
+  user_id: string
+  author: string
+  avatar: string
+  content: string
+  likes_count: number
+  replies_count: number
+  media?: MediaItem[]
+  mentions?: string[]
+  is_edited?: boolean
+  edited_at?: string
+  created_at: string
+  updated_at?: string
+  liked: boolean
+  user?: {
+    id: string
+    email: string
+  }
+}
+
+export interface Reaction {
+  id: string
+  post_id: string
+  user_id: string
+  reaction_type: 'like' | 'love' | 'laugh' | 'wow' | 'sad' | 'angry'
+  created_at: string
+}
+
+export interface Group {
+  id: string
+  name: string
+  description: string
+  members_count: number
+  posts_count: number
+  is_joined: boolean
+  category: string
+  is_private?: boolean
+  avatar_url?: string
+  created_at: string
+}
+
+export interface Event {
+  id: string
+  title: string
+  description: string
+  date: string
+  time: string
+  location: string
+  attendees_count: number
+  is_online?: boolean
+  category?: string
+  status?: 'upcoming' | 'ongoing' | 'completed'
+  image_url?: string
+  created_by: string
+  created_at: string
+}
+
+export interface Notification {
+  id: string
+  user_id: string
+  actor_id: string
+  type: 'like' | 'comment' | 'reply' | 'follow' | 'mention' | 'tag' | 'group_invite' | 'event_reminder'
+  title: string
+  message: string
+  entity_type?: string
+  entity_id?: string
+  action_url?: string
+  is_read: boolean
+  read_at?: string
+  created_at: string
+}
+
+export interface Conversation {
+  id: string
+  type: 'direct' | 'group'
+  name?: string
+  avatar_url?: string
+  participants: ConversationParticipant[]
+  last_message?: Message
+  last_message_at?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface ConversationParticipant {
+  id: string
+  conversation_id: string
+  user_id: string
+  role: 'admin' | 'member'
+  joined_at: string
+  last_read_at?: string
+  is_muted: boolean
+}
+
+export interface Message {
+  id: string
+  conversation_id: string
+  sender_id: string
+  sender_name: string
+  sender_avatar: string
+  content?: string
+  media?: MediaItem[]
+  reply_to_id?: string
+  reply_to?: Message
+  is_edited: boolean
+  edited_at?: string
+  is_deleted: boolean
+  reactions?: Record<string, string> // {user_id: reaction_type}
+  created_at: string
+  updated_at?: string
 }
 
 export const mockReplies: Reply[] = [

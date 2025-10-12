@@ -1,11 +1,12 @@
-import type * as React from "react"
+import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "@/lib/cva"
 
 import { cn } from "@/lib/utils"
+import { useRippleEffect, usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 interactive hover-lift active:scale-[.99]",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 interactive hover-lift active:scale-[.99] relative overflow-hidden animate-ease-spring animate-duration-300",
   {
     variants: {
       variant: {
@@ -40,19 +41,57 @@ const buttonVariants = cva(
   },
 )
 
-function Button({
-  className,
-  variant,
-  size,
-  asChild = false,
-  ...props
-}: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-  }) {
-  const Comp = asChild ? Slot : "button"
-
-  return <Comp data-slot="button" className={cn(buttonVariants({ variant, size }), className)} {...props} />
+interface ButtonProps extends React.ComponentProps<"button">,
+  VariantProps<typeof buttonVariants> {
+  asChild?: boolean
 }
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, onClick, ...props }, ref) => {
+    const { ripples, createRipple } = useRippleEffect()
+    const prefersReducedMotion = usePrefersReducedMotion()
+    
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      createRipple(e)
+      onClick?.(e)
+    }
+
+    const Comp = asChild ? Slot : "button"
+
+    return (
+      <Comp
+        ref={ref}
+        data-slot="button"
+        className={cn(
+          buttonVariants({ variant, size }), 
+          className,
+          prefersReducedMotion ? "transition-none" : ""
+        )}
+        onClick={handleClick}
+        {...props}
+      >
+        {ripples.map(ripple => (
+          <span
+            key={ripple.id}
+            className={cn(
+              "absolute rounded-full bg-current opacity-30",
+              prefersReducedMotion ? "" : "animate-ripple"
+            )}
+            style={{
+              top: ripple.y,
+              left: ripple.x,
+              width: '100px',
+              height: '100px',
+              transform: 'translate(-50%, -50%)',
+            }}
+          />
+        ))}
+        {props.children}
+      </Comp>
+    )
+  }
+)
+
+Button.displayName = "Button"
 
 export { Button, buttonVariants }

@@ -37,8 +37,8 @@ const HoverCardTrigger = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300 hover:scale-[1.02]"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-spring hover:scale-[1.02]"
 
   return (
     <HoverCardPrimitive.Trigger
@@ -67,8 +67,8 @@ const HoverCardContent = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-default"
 
   return (
     <HoverCardPrimitive.Portal data-slot="hover-card-portal">

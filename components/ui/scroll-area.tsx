@@ -68,7 +68,7 @@ const ScrollArea = React.forwardRef<
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
     ? "" 
-    : "transition-all duration-300"
+    : "transition-all animate-duration-300 animate-ease-default"
 
   return (
     <ScrollAreaPrimitive.Root
@@ -84,7 +84,10 @@ const ScrollArea = React.forwardRef<
     >
       <ScrollAreaPrimitive.Viewport
         data-slot="scroll-area-viewport"
-        className="focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1"
+        className={cn(
+          "focus-visible:ring-ring/50 size-full rounded-[inherit] outline-none focus-visible:ring-[3px] focus-visible:outline-1",
+          prefersReducedMotion ? "transition-none" : "transition-[color,box-shadow] animate-duration-200 animate-ease-default"
+        )}
       >
         {children}
       </ScrollAreaPrimitive.Viewport>
@@ -103,6 +106,8 @@ const ScrollBar = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
   ScrollBarProps
 >(({ className, variant, orientation = "vertical", ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
   return (
     <ScrollAreaPrimitive.ScrollAreaScrollbar
       ref={ref}
@@ -121,7 +126,8 @@ const ScrollBar = React.forwardRef<
       <ScrollAreaPrimitive.ScrollAreaThumb
         data-slot="scroll-area-thumb"
         className={cn(
-          scrollAreaThumbVariants({ variant })
+          scrollAreaThumbVariants({ variant }),
+          prefersReducedMotion ? "transition-none" : "transition-all animate-duration-200 animate-ease-default"
         )}
       />
     </ScrollAreaPrimitive.ScrollAreaScrollbar>

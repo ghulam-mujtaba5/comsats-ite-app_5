@@ -1,49 +1,54 @@
+import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(request: NextRequest) {
-  // Set cache headers to reduce function invocations
-  const headers = {
-    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800', // Cache for 1 hour, stale for 30 min
-    'CDN-Cache-Control': 'public, s-maxage=3600',
-    'Vercel-CDN-Cache-Control': 'public, s-maxage=3600'
-  }
-
-  const cookieStore = await cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) { return cookieStore.get(name)?.value },
-        set(name: string, value: string, options?: any) { cookieStore.set({ name, value, ...options }) },
-        remove(name: string, options?: any) { cookieStore.set({ name, value: '', ...options }) },
-      },
-    }
-  )
-
-  const { searchParams } = new URL(request.url)
-  const departmentId = searchParams.get('department_id')
-
+// GET /api/programs?department_id=...
+export async function GET(req: NextRequest) {
   try {
-    let query = supabase
-      .from('programs')
-      .select('*')
-      .eq('is_active', true)
+    const cookieStore = await (cookies() as any)
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) { return cookieStore.get(name)?.value },
+          set(name: string, value: string, options?: any) { cookieStore.set({ name, value, ...options }) },
+          remove(name: string, options?: any) { cookieStore.set({ name, value: '', ...options }) },
+        },
+      }
+    )
 
-    if (departmentId) {
-      query = query.eq('department_id', departmentId)
+    const { searchParams } = new URL(req.url)
+    const departmentId = searchParams.get('department_id')
+
+    if (!departmentId) {
+      return NextResponse.json(
+        { error: 'Department ID is required' }, 
+        { status: 400 }
+      )
     }
 
-    const { data, error } = await query
+    // Fetch programs for the specified department
+    const { data, error } = await supabase
+      .from('programs')
+      .select('id, name, degree_type, duration')
+      .eq('department_id', departmentId)
+      .order('name')
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400, headers })
+      console.error('Database error:', error)
+      return NextResponse.json(
+        { error: 'Failed to fetch programs' }, 
+        { status: 500 }
+      )
     }
 
-    return NextResponse.json(data || [], { headers })
+    return NextResponse.json(data, { status: 200 })
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
+    console.error('API error:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' }, 
+      { status: 500 }
+    )
   }
 }

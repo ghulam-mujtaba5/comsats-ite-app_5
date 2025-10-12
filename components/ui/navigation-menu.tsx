@@ -143,8 +143,8 @@ const NavigationMenuTrigger = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300 hover:scale-[1.02]"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-spring hover:scale-[1.02]"
 
   return (
     <NavigationMenuPrimitive.Trigger
@@ -161,7 +161,10 @@ const NavigationMenuTrigger = React.forwardRef<
     >
       {children}{" "}
       <ChevronDownIcon
-        className="relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180"
+        className={cn(
+          "relative top-[1px] ml-1 size-3",
+          prefersReducedMotion ? "transition-none" : "transition duration-300 group-data-[state=open]:rotate-180"
+        )}
         aria-hidden="true"
       />
     </NavigationMenuPrimitive.Trigger>
@@ -204,8 +207,8 @@ const NavigationMenuViewport = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-default"
 
   return (
     <div className={cn("absolute top-full left-0 isolate z-50 flex justify-center")}>
@@ -236,8 +239,8 @@ const NavigationMenuLink = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300 hover:scale-[1.01]"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-spring hover:scale-[1.01]"
 
   return (
     <NavigationMenuPrimitive.Link

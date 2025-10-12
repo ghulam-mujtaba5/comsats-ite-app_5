@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
-import type { Post } from '@/lib/community-data'
+import { Post } from '@/lib/community-data'
 
-export function useRealtimePosts(campusId?: string, departmentId?: string, batch?: string) {
+export function useRealtimePosts(campusId?: string | null, departmentId?: string | null, batch?: string | null) {
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -13,26 +13,27 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
       try {
         setLoading(true)
         let query = supabase
-          .from('community_posts')
+          .from('community_posts_enhanced')
           .select(`
             *,
-            campuses(name, code),
-            departments(name, code)
+            user:user_id (
+              id,
+              email
+            )
           `)
-          .order('is_pinned', { ascending: false })
           .order('created_at', { ascending: false })
           .limit(50)
 
-        // Apply filters if provided
+        // Apply filters
         if (campusId) {
           query = query.eq('campus_id', campusId)
         }
-
+        
         if (departmentId) {
           query = query.eq('department_id', departmentId)
         }
-
-        if (batch && batch !== '__all__') {
+        
+        if (batch) {
           query = query.eq('batch', batch)
         }
 
@@ -40,64 +41,43 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
 
         if (error) throw error
 
-        // Get current user's liked posts
-        const { data: { user } } = await supabase.auth.getUser()
-        const likedPostIds = new Set<string>()
-        
-        if (user && data && data.length > 0) {
-          const postIds = data.map(p => p.id)
-          const { data: likes } = await supabase
-            .from('post_reactions')
-            .select('post_id')
-            .eq('user_id', user.id)
-            .in('post_id', postIds)
-            .eq('reaction_type', 'like')
-          
-          if (likes) {
-            likes.forEach((like: any) => likedPostIds.add(like.post_id))
-          }
-        }
-
-        // Helper function to format time ago
-        const formatTimeAgo = (dateString: string): string => {
-          const date = new Date(dateString)
-          const now = new Date()
-          const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
-
-          if (diffInSeconds < 60) return 'Just now'
-          if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`
-          if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`
-          if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`
-          if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 604800)}w ago`
-          
-          return date.toLocaleDateString()
-        }
-
-        // Transform data to match frontend interface
+        // Transform data to match Post interface
         const transformedPosts = (data || []).map((post: any) => ({
-          id: post.id.toString(),
-          author: post.author_name || 'Anonymous',
-          avatar: post.avatar_url || '/student-avatar.png',
-          department: post.department || (post.departments ? post.departments.name : ''),
-          departmentCode: post.departments ? post.departments.code : '',
-          campus: post.campuses ? post.campuses.name : '',
-          campusCode: post.campuses ? post.campuses.code : '',
-          semester: post.semester || '',
+          id: post.id,
+          user_id: post.user_id,
+          author: post.user?.email?.split('@')[0] || 'Anonymous',
+          avatar: post.avatar_url || '/placeholder.svg',
+          department: post.department_id || '',
+          departmentCode: '',
+          campus: post.campus_id || '',
+          campusCode: '',
+          semester: '',
           batch: post.batch || '',
-          time: formatTimeAgo(post.created_at),
-          content: post.content,
+          time: new Date(post.created_at).toLocaleDateString(),
+          content: post.content || '',
           likes: post.likes_count || 0,
           comments: post.comments_count || 0,
           shares: post.shares_count || 0,
-          tags: Array.isArray(post.tags) ? post.tags : [],
-          liked: likedPostIds.has(post.id),
-          type: post.type || 'general'
+          tags: [],
+          liked: false,
+          type: post.type || 'general',
+          media: post.media || [],
+          location: post.location || '',
+          feeling: post.feeling || '',
+          visibility: post.visibility || 'public',
+          is_pinned: post.is_pinned || false,
+          is_edited: post.is_edited || false,
+          edited_at: post.edited_at || '',
+          views_count: post.views_count || 0,
+          created_at: post.created_at,
+          updated_at: post.updated_at || ''
         }))
 
         setPosts(transformedPosts)
+        setError(null)
       } catch (err) {
         console.error('Error fetching posts:', err)
-        setError(err instanceof Error ? err.message : 'Failed to fetch posts')
+        setError('Failed to load posts')
       } finally {
         setLoading(false)
       }
@@ -105,9 +85,9 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
 
     fetchPosts()
 
-    // Subscribe to real-time changes
+    // Subscribe to real-time updates
     const channel = supabase
-      .channel('community-posts-changes')
+      .channel('community-posts')
       .on(
         'postgres_changes',
         {
@@ -117,42 +97,39 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
         },
         (payload) => {
           const newPost = payload.new
-          // Transform new post to match frontend interface
+          // Transform new post to match Post interface
           const transformedPost = {
-            id: newPost.id.toString(),
-            author: newPost.author_name || 'Anonymous',
-            avatar: newPost.avatar_url || '/student-avatar.png',
-            department: newPost.department || (newPost.departments ? newPost.departments.name : ''),
-            departmentCode: newPost.departments ? newPost.departments.code : '',
-            campus: newPost.campuses ? newPost.campuses.name : '',
-            campusCode: newPost.campuses ? newPost.campuses.code : '',
-            semester: newPost.semester || '',
+            id: newPost.id,
+            user_id: newPost.user_id,
+            author: newPost.user?.email?.split('@')[0] || 'Anonymous',
+            avatar: newPost.avatar_url || '/placeholder.svg',
+            department: newPost.department_id || '',
+            departmentCode: '',
+            campus: newPost.campus_id || '',
+            campusCode: '',
+            semester: '',
             batch: newPost.batch || '',
-            time: new Date(newPost.created_at).toLocaleString(),
-            content: newPost.content,
+            time: new Date(newPost.created_at).toLocaleDateString(),
+            content: newPost.content || '',
             likes: newPost.likes_count || 0,
             comments: newPost.comments_count || 0,
             shares: newPost.shares_count || 0,
-            tags: Array.isArray(newPost.tags) ? newPost.tags : [],
+            tags: [],
             liked: false,
-            type: newPost.type || 'general'
+            type: newPost.type || 'general',
+            media: newPost.media || [],
+            location: newPost.location || '',
+            feeling: newPost.feeling || '',
+            visibility: newPost.visibility || 'public',
+            is_pinned: newPost.is_pinned || false,
+            is_edited: newPost.is_edited || false,
+            edited_at: newPost.edited_at || '',
+            views_count: newPost.views_count || 0,
+            created_at: newPost.created_at,
+            updated_at: newPost.updated_at || ''
           }
-
-          // Apply filters to new post
-          let shouldInclude = true
-          if (campusId && newPost.campus_id !== campusId) {
-            shouldInclude = false
-          }
-          if (departmentId && newPost.department_id !== departmentId) {
-            shouldInclude = false
-          }
-          if (batch && batch !== '__all__' && newPost.batch !== batch) {
-            shouldInclude = false
-          }
-
-          if (shouldInclude) {
-            setPosts((prevPosts) => [transformedPost, ...prevPosts])
-          }
+          
+          setPosts((prev) => [transformedPost, ...prev])
         }
       )
       .on(
@@ -164,29 +141,40 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
         },
         (payload) => {
           const updatedPost = payload.new
-          // Transform updated post to match frontend interface
+          // Transform updated post to match Post interface
           const transformedPost = {
-            id: updatedPost.id.toString(),
-            author: updatedPost.author_name || 'Anonymous',
-            avatar: updatedPost.avatar_url || '/student-avatar.png',
-            department: updatedPost.department || (updatedPost.departments ? updatedPost.departments.name : ''),
-            departmentCode: updatedPost.departments ? updatedPost.departments.code : '',
-            campus: updatedPost.campuses ? updatedPost.campuses.name : '',
-            campusCode: updatedPost.campuses ? updatedPost.campuses.code : '',
-            semester: updatedPost.semester || '',
+            id: updatedPost.id,
+            user_id: updatedPost.user_id,
+            author: updatedPost.user?.email?.split('@')[0] || 'Anonymous',
+            avatar: updatedPost.avatar_url || '/placeholder.svg',
+            department: updatedPost.department_id || '',
+            departmentCode: '',
+            campus: updatedPost.campus_id || '',
+            campusCode: '',
+            semester: '',
             batch: updatedPost.batch || '',
-            time: new Date(updatedPost.created_at).toLocaleString(),
-            content: updatedPost.content,
+            time: new Date(updatedPost.created_at).toLocaleDateString(),
+            content: updatedPost.content || '',
             likes: updatedPost.likes_count || 0,
             comments: updatedPost.comments_count || 0,
             shares: updatedPost.shares_count || 0,
-            tags: Array.isArray(updatedPost.tags) ? updatedPost.tags : [],
+            tags: [],
             liked: false,
-            type: updatedPost.type || 'general'
+            type: updatedPost.type || 'general',
+            media: updatedPost.media || [],
+            location: updatedPost.location || '',
+            feeling: updatedPost.feeling || '',
+            visibility: updatedPost.visibility || 'public',
+            is_pinned: updatedPost.is_pinned || false,
+            is_edited: updatedPost.is_edited || false,
+            edited_at: updatedPost.edited_at || '',
+            views_count: updatedPost.views_count || 0,
+            created_at: updatedPost.created_at,
+            updated_at: updatedPost.updated_at || ''
           }
-
-          setPosts((prevPosts) =>
-            prevPosts.map((post) =>
+          
+          setPosts((prev) => 
+            prev.map((post) => 
               post.id === transformedPost.id ? transformedPost : post
             )
           )
@@ -200,10 +188,8 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
           table: 'community_posts_enhanced',
         },
         (payload) => {
-          const deletedPostId = payload.old.id.toString()
-          setPosts((prevPosts) =>
-            prevPosts.filter((post) => post.id !== deletedPostId)
-          )
+          const deletedPostId = payload.old.id
+          setPosts((prev) => prev.filter((post) => post.id !== deletedPostId))
         }
       )
       .subscribe()

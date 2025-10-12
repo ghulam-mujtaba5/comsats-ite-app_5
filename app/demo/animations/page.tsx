@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { 
@@ -18,7 +19,8 @@ import {
   CheckCircle,
   PartyPopper,
   Flame,
-  Star
+  Star,
+  ArrowRight
 } from 'lucide-react'
 import { RippleButton, GlowCard, SuccessInput, AnimatedCheckmark } from '@/components/animations/ui-feedback-animations'
 
@@ -72,6 +74,30 @@ export default function AnimationsDemoPage() {
             Experience the emotional and celebratory animations that make CampusAxis more engaging and fun
           </p>
         </div>
+
+        {/* New Celebration Animations Section */}
+        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5" />
+              New Celebration Animations
+            </CardTitle>
+            <CardDescription>Enhanced celebratory animations with wrapping ribbons and more</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+              <p className="text-slate-700 dark:text-slate-300">
+                Experience the new enhanced celebration animations with wrapping ribbons, improved confetti, and more.
+              </p>
+              <Link href="/demo/celebration-demo">
+                <Button className="rounded-xl group">
+                  Try New Animations
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Celebration Animations */}
         <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
@@ -229,7 +255,7 @@ export default function AnimationsDemoPage() {
         </Card>
 
         {/* Integration Examples */}
-        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
+        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Star className="h-5 w-5" />

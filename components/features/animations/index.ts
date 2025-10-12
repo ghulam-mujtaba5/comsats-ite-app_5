@@ -1,0 +1,11 @@
+// Animations Feature Components Export
+export * from '@/components/animations/celebration-animation'
+export * from '@/components/animations/thank-you-animation'
+export * from '@/components/animations/level-up-effect'
+export * from '@/components/animations/sparkle-trail'
+export * from '@/components/animations/emotion-animation'
+export * from '@/components/animations/ui-feedback-animations'
+export * from '@/components/animations/wrapping-ribbons'
+export * from '@/components/animations/celebration-demo'
+export * from '@/components/animations/form-celebration-example'
+export * from '@/components/animations/achievement-badge'

@@ -21,19 +21,32 @@ export async function GET(request: NextRequest) {
     // Build the base query with joins to get campus and department information
     // Select only necessary fields to reduce data transfer and CPU usage
     let query = supabase
-      .from('community_posts')
+      .from('community_posts_enhanced')
       .select(`
         id,
         user_id,
-        title,
         content,
         type,
-        tags,
-        likes,
-        comments,
+        media,
+        location,
+        feeling,
+        visibility,
+        campus_id,
+        department_id,
+        batch,
+        is_pinned,
+        is_edited,
+        edited_at,
+        likes_count,
         comments_count,
-        shares,
-        created_at
+        shares_count,
+        views_count,
+        created_at,
+        updated_at,
+        user:user_id (
+          id,
+          email
+        )
       `)
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1)
@@ -50,7 +63,7 @@ export async function GET(request: NextRequest) {
 
     // Transform data to match frontend interface
     const transformedPosts = (posts as any[]).map((post: any) => 
-      transformPostRecord(post, likedSet)
+      transformEnhancedPostRecord(post, likedSet)
     )
 
     if (withMeta) {
@@ -95,14 +108,26 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { content, type, tags, media, location, feeling, tagged_users, visibility } = body
+    const { 
+      content, 
+      type, 
+      tags, 
+      media, 
+      location, 
+      feeling, 
+      tagged_users, 
+      visibility,
+      campus_id,
+      department_id,
+      batch
+    } = body
 
     if (!content || content.trim().length < 3) {
       return NextResponse.json({ error: 'Content must be at least 3 characters' }, { status: 400, headers })
     }
 
     // Get user's campus and department from user_preferences
-    const { campusId, departmentId, batch } = await getUserContext(supabase, user.id, body)
+    const { campusId, departmentId, batchValue } = await getUserContext(supabase, user.id, body)
 
     // Get user profile info
     const { data: userProfile } = await supabase
@@ -115,39 +140,192 @@ export async function POST(request: NextRequest) {
     const avatarUrl = userProfile?.avatar_url || user.user_metadata?.avatar_url || '/student-avatar.png'
 
     const { data: post, error } = await supabase
-      .from('community_posts')
+      .from('community_posts_enhanced')
       .insert({
         user_id: user.id,
-        title: '',
         content: content.trim(),
         type: type || 'general',
-        tags: tags || [],
-        likes: 0,
-        comments: 0,
-        shares: 0
+        media: media || [],
+        location: location || null,
+        feeling: feeling || null,
+        tagged_users: tagged_users || [],
+        visibility: visibility || 'public',
+        campus_id: campus_id || campusId,
+        department_id: department_id || departmentId,
+        batch: batch || batchValue,
+        likes_count: 0,
+        comments_count: 0,
+        shares_count: 0,
+        views_count: 0
       })
       .select(`
         id,
         user_id,
-        title,
         content,
         type,
-        tags,
-        likes,
-        comments,
-        shares,
-        created_at
+        media,
+        location,
+        feeling,
+        visibility,
+        campus_id,
+        department_id,
+        batch,
+        is_pinned,
+        is_edited,
+        edited_at,
+        likes_count,
+        comments_count,
+        shares_count,
+        views_count,
+        created_at,
+        updated_at
       `)
       .single()
 
     if (error) throw error
 
     // Transform response to match frontend interface
-    const transformedPost = transformPostRecord(post)
+    const transformedPost = transformEnhancedPostRecord(post)
 
     return NextResponse.json(transformedPost, { headers })
   } catch (error) {
     console.error('Error creating post:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
+  }
+}
+
+/**
+ * PATCH /api/community/posts/[id]
+ * Updates an existing community post
+ */
+export async function PATCH(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150',
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
+  const supabase = await createSupabaseClient()
+
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
+    }
+
+    const body = await request.json()
+    const { content, type, media, location, feeling, visibility } = body
+
+    // Check if post exists and user is the owner
+    const { data: existingPost, error: fetchError } = await supabase
+      .from('community_posts_enhanced')
+      .select('user_id')
+      .eq('id', id)
+      .single()
+
+    if (fetchError) {
+      return NextResponse.json({ error: 'Post not found' }, { status: 404, headers })
+    }
+
+    if (existingPost.user_id !== user.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers })
+    }
+
+    const { data: post, error } = await supabase
+      .from('community_posts_enhanced')
+      .update({
+        content: content?.trim(),
+        type,
+        media,
+        location,
+        feeling,
+        visibility,
+        is_edited: true,
+        edited_at: new Date().toISOString()
+      })
+      .eq('id', id)
+      .select(`
+        id,
+        user_id,
+        content,
+        type,
+        media,
+        location,
+        feeling,
+        visibility,
+        campus_id,
+        department_id,
+        batch,
+        is_pinned,
+        is_edited,
+        edited_at,
+        likes_count,
+        comments_count,
+        shares_count,
+        views_count,
+        created_at,
+        updated_at
+      `)
+      .single()
+
+    if (error) throw error
+
+    const transformedPost = transformEnhancedPostRecord(post)
+    return NextResponse.json(transformedPost, { headers })
+  } catch (error) {
+    console.error('Error updating post:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
+  }
+}
+
+/**
+ * DELETE /api/community/posts/[id]
+ * Deletes a community post
+ */
+export async function DELETE(request: NextRequest, context: { params: Promise<{ id: string }> }) {
+  const { id } = await context.params
+  const headers = {
+    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150',
+    'CDN-Cache-Control': 'public, s-maxage=300',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+  }
+  
+  const supabase = await createSupabaseClient()
+
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers })
+    }
+
+    // Check if post exists and user is the owner
+    const { data: existingPost, error: fetchError } = await supabase
+      .from('community_posts_enhanced')
+      .select('user_id')
+      .eq('id', id)
+      .single()
+
+    if (fetchError) {
+      return NextResponse.json({ error: 'Post not found' }, { status: 404, headers })
+    }
+
+    if (existingPost.user_id !== user.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers })
+    }
+
+    const { error } = await supabase
+      .from('community_posts_enhanced')
+      .delete()
+      .eq('id', id)
+
+    if (error) throw error
+
+    return NextResponse.json({ message: 'Post deleted successfully' }, { headers })
+  } catch (error) {
+    console.error('Error deleting post:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
   }
 }
@@ -208,11 +386,11 @@ async function getUserContext(
   supabase: any, 
   userId: string, 
   body: any
-): Promise<{ campusId: string | null; departmentId: string | null; batch: string | null }> {
-  let { campus_id: campusId, department_id: departmentId, batch } = body
+): Promise<{ campusId: string | null; departmentId: string | null; batchValue: string | null }> {
+  let { campus_id: campusId, department_id: departmentId, batch: batchValue } = body
   
   // If not provided in body, get from user preferences
-  if (!campusId || !departmentId || !batch) {
+  if (!campusId || !departmentId || !batchValue) {
     const { data: userPrefs } = await supabase
       .from('user_preferences')
       .select('campus_id, department_id, program_id, semester')
@@ -224,7 +402,7 @@ async function getUserContext(
       departmentId = departmentId || userPrefs.department_id
       
       // Generate batch code if not provided and we have program and semester info
-      if (!batch && userPrefs.program_id && userPrefs.semester) {
+      if (!batchValue && userPrefs.program_id && userPrefs.semester) {
         const { data: program } = await supabase
           .from('programs')
           .select('code')
@@ -236,11 +414,47 @@ async function getUserContext(
           const semesterCode = userPrefs.semester % 2 === 1 ? 'FA' : 'SP'
           const year = new Date().getFullYear()
           const yearCode = year.toString().substring(2) // Get last 2 digits of year
-          batch = `${semesterCode}${yearCode}-${program.code}`
+          batchValue = `${semesterCode}${yearCode}-${program.code}`
         }
       }
     }
   }
   
-  return { campusId, departmentId, batch }
+  return { campusId, departmentId, batchValue }
+}
+
+/**
+ * Transforms an enhanced post record to match the frontend interface
+ */
+function transformEnhancedPostRecord(post: any, likedSet: Set<string> = new Set()): any {
+  return {
+    id: post.id,
+    user_id: post.user_id,
+    author: post.user?.email?.split('@')[0] || 'Anonymous',
+    avatar: post.avatar_url || '/student-avatar.png',
+    department: post.department_id || '',
+    departmentCode: '',
+    campus: post.campus_id || '',
+    campusCode: '',
+    semester: '',
+    batch: post.batch || '',
+    time: new Date(post.created_at).toLocaleDateString(),
+    content: post.content || '',
+    likes: post.likes_count || 0,
+    comments: post.comments_count || 0,
+    shares: post.shares_count || 0,
+    tags: [],
+    liked: likedSet.has(post.id),
+    type: post.type || 'general',
+    media: post.media || [],
+    location: post.location || '',
+    feeling: post.feeling || '',
+    visibility: post.visibility || 'public',
+    is_pinned: post.is_pinned || false,
+    is_edited: post.is_edited || false,
+    edited_at: post.edited_at || '',
+    views_count: post.views_count || 0,
+    created_at: post.created_at,
+    updated_at: post.updated_at || ''
+  }
 }

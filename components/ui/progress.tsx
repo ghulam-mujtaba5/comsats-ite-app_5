@@ -51,8 +51,8 @@ const Progress = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-default"
 
   return (
     <ProgressPrimitive.Root
@@ -68,7 +68,8 @@ const Progress = React.forwardRef<
       <ProgressPrimitive.Indicator
         data-slot="progress-indicator"
         className={cn(
-          progressIndicatorVariants({ variant })
+          progressIndicatorVariants({ variant }),
+          prefersReducedMotion ? "transition-none" : "transition-all animate-duration-300 animate-ease-linear"
         )}
         style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
       />

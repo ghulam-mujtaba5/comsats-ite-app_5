@@ -119,6 +119,28 @@ html, body {
   }
 }
 
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes firework {
+  0% { transform: translate(0, 0); width: 4px; height: 4px; opacity: 1; }
+  50% { opacity: 1; }
+  100% { 
+    transform: translate(var(--x), var(--y)); 
+    width: 2px; 
+    height: 2px; 
+    opacity: 0; 
+  }
+}
+
+.animate-ripple {
+  animation: ripple 0.6s linear;
+}
+
 .float {
   animation: float 6s ease-in-out infinite;
 }
@@ -158,6 +180,12 @@ html, body {
 
 .apple-glass {
   animation: apple-glass-pulse 4s ease-in-out infinite;
+}
+
+.firework {
+  --x: 0px;
+  --y: 0px;
+  animation: firework 1s ease-out forwards;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -357,8 +385,178 @@ html, body {
   /* ========================================
      2025 ADVANCED GLASSMORPHISM SYSTEM
      Modern frosted glass effects with depth
+     
+     Accessibility & Performance Features:
+     - All glass effects respect prefers-reduced-motion media query
+     - Automatic performance optimization for mobile devices
+     - Proper focus states and ARIA attributes
+     - High contrast mode support
+     - Reduced motion support for accessibility
      ======================================== */
   
+  /* Consistent Animation Timing and Easing System */
+  .animate-ease-default {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); /* easeInOut */
+  }
+  
+  .animate-ease-in {
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1); /* easeIn */
+  }
+  
+  .animate-ease-out {
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1); /* easeOut */
+  }
+  
+  .animate-ease-linear {
+    transition-timing-function: linear;
+  }
+  
+  .animate-ease-spring {
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.1); /* spring */
+  }
+  
+  .animate-ease-bounce {
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* bounce */
+  }
+  
+  .animate-ease-elastic {
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* elastic */
+  }
+  
+  /* Consistent Animation Duration Classes */
+  .animate-duration-75 {
+    transition-duration: 75ms;
+  }
+  
+  .animate-duration-100 {
+    transition-duration: 100ms;
+  }
+  
+  .animate-duration-150 {
+    transition-duration: 150ms;
+  }
+  
+  .animate-duration-200 {
+    transition-duration: 200ms;
+  }
+  
+  .animate-duration-300 {
+    transition-duration: 300ms;
+  }
+  
+  .animate-duration-400 {
+    transition-duration: 400ms;
+  }
+  
+  .animate-duration-500 {
+    transition-duration: 500ms;
+  }
+  
+  .animate-duration-700 {
+    transition-duration: 700ms;
+  }
+  
+  .animate-duration-1000 {
+    transition-duration: 1000ms;
+  }
+  
+  /* Consistent Animation Delay Classes */
+  .animate-delay-75 {
+    animation-delay: 75ms;
+  }
+  
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .animate-delay-150 {
+    animation-delay: 150ms;
+  }
+  
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+  
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  .animate-delay-700 {
+    animation-delay: 700ms;
+  }
+  
+  .animate-delay-1000 {
+    animation-delay: 1000ms;
+  }
+  
+  /* Consistent Animation Fill Mode Classes */
+  .animate-fill-none {
+    animation-fill-mode: none;
+  }
+  
+  .animate-fill-forwards {
+    animation-fill-mode: forwards;
+  }
+  
+  .animate-fill-backwards {
+    animation-fill-mode: backwards;
+  }
+  
+  .animate-fill-both {
+    animation-fill-mode: both;
+  }
+  
+  /* Consistent Animation Iteration Count Classes */
+  .animate-repeat-1 {
+    animation-iteration-count: 1;
+  }
+  
+  .animate-repeat-2 {
+    animation-iteration-count: 2;
+  }
+  
+  .animate-repeat-3 {
+    animation-iteration-count: 3;
+  }
+  
+  .animate-repeat-infinite {
+    animation-iteration-count: infinite;
+  }
+  
+  /* Consistent Animation Direction Classes */
+  .animate-direction-normal {
+    animation-direction: normal;
+  }
+  
+  .animate-direction-reverse {
+    animation-direction: reverse;
+  }
+  
+  .animate-direction-alternate {
+    animation-direction: alternate;
+  }
+  
+  .animate-direction-alternate-reverse {
+    animation-direction: alternate-reverse;
+  }
+  
+  /* Consistent Animation Play State Classes */
+  .animate-running {
+    animation-play-state: running;
+  }
+  
+  .animate-paused {
+    animation-play-state: paused;
+  }
+
   /* Base Glass Effects - Apple 2025 Style */
   .glass-subtle {
     @apply bg-white/[var(--glass-bg-opacity)] dark:bg-white/[0.05] backdrop-blur-[var(--glass-blur-sm)] saturate-[var(--glass-saturation)];
@@ -798,6 +996,26 @@ html, body {
       backdrop-filter: blur(6px);
     }
     
+    .backdrop-blur-3xl {
+      backdrop-filter: blur(12px);
+    }
+    
+    /* Reduce glass effect intensity on mobile for performance */
+    .glass-premium,
+    .glass-ultra,
+    .glass-modal,
+    .glass-hero {
+      backdrop-filter: blur(12px);
+    }
+    
+    .glass-card-premium {
+      backdrop-filter: blur(10px);
+    }
+    
+    .glass-nav {
+      backdrop-filter: blur(8px);
+    }
+    
     /* Ensure proper width constraints on mobile */
     .container {
       max-width: 100% !important;
@@ -949,7 +1167,7 @@ html, body {
   
   @keyframes ripple-animation {
     to {
-      transform: scale(4);
+      transform: translate(-50%, -50%) scale(4);
       opacity: 0;
     }
   }
@@ -962,6 +1180,83 @@ html, body {
   /* Prevent pull-to-refresh on mobile */
   .no-pull-to-refresh {
     overscroll-behavior-y: contain;
+  }
+  
+  /* Responsive text classes */
+  .text-responsive-title {
+    font-size: 1.5rem; /* 24px on mobile */
+  }
+  
+  @media (min-width: 640px) {
+    .text-responsive-title {
+      font-size: 1.875rem; /* 30px on sm */
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .text-responsive-title {
+      font-size: 2.25rem; /* 36px on md */
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .text-responsive-title {
+      font-size: 2.5rem; /* 40px on lg */
+    }
+  }
+  
+  .text-responsive-heading {
+    font-size: 1.125rem; /* 18px on mobile */
+  }
+  
+  @media (min-width: 640px) {
+    .text-responsive-heading {
+      font-size: 1.25rem; /* 20px on sm */
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .text-responsive-heading {
+      font-size: 1.5rem; /* 24px on md */
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .text-responsive-heading {
+      font-size: 1.875rem; /* 30px on lg */
+    }
+  }
+  
+  .text-responsive-body {
+    font-size: 0.875rem; /* 14px on mobile */
+  }
+  
+  @media (min-width: 640px) {
+    .text-responsive-body {
+      font-size: 1rem; /* 16px on sm */
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .text-responsive-body {
+      font-size: 1.125rem; /* 18px on lg */
+    }
+  }
+  
+  .text-responsive-caption {
+    font-size: 0.75rem; /* 12px on mobile */
+  }
+  
+  @media (min-width: 640px) {
+    .text-responsive-caption {
+      font-size: 0.875rem; /* 14px on sm */
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .text-responsive-caption {
+      font-size: 1rem; /* 16px on lg */
+    }
   }
   
   /* Ensure proper width constraints for all components */
@@ -995,6 +1290,54 @@ html, body {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+    }
+    
+    /* Reduce glass effects when reduced motion is preferred */
+    .glass-floating,
+    .glass-depth,
+    .glass-layered,
+    .glass-gradient,
+    .glass-hover-glow,
+    .glass-shimmer {
+      animation: none !important;
+      transform: none !important;
+    }
+    
+    .glass-floating::before,
+    .glass-depth::before,
+    .glass-layered::before,
+    .glass-layered::after {
+      display: none !important;
+    }
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .glass-subtle,
+    .glass-light,
+    .glass-medium,
+    .glass-strong,
+    .glass-premium,
+    .glass-ultra {
+      background: hsl(var(--background)) !important;
+      border: 2px solid hsl(var(--foreground)) !important;
+      backdrop-filter: none !important;
+    }
+    
+    .glass-card,
+    .glass-card-premium,
+    .glass-nav,
+    .glass-modal,
+    .glass-hero {
+      background: hsl(var(--card)) !important;
+      border: 2px solid hsl(var(--border)) !important;
+      backdrop-filter: none !important;
+    }
+    
+    .glass-button {
+      background: hsl(var(--background)) !important;
+      border: 2px solid hsl(var(--border)) !important;
+      backdrop-filter: none !important;
     }
   }
 }

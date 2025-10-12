@@ -95,7 +95,7 @@ import {
 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
-import type { Post } from "@/lib/community-data"
+import type { Post, Group, Event } from "@/lib/community-data"
 import { ThreadCard } from "@/components/community/thread-card"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
@@ -106,32 +106,7 @@ import { SharingButton } from "@/components/community/sharing-button"
 import { EnhancedSharingDialog } from "@/components/community/enhanced-sharing-dialog"
 import { PostFilters } from "@/components/community/post-filters"
 import { supabase } from "@/lib/supabase"
-
-interface Group {
-  id: number
-  name: string
-  members: number
-  description: string
-  category: string
-  isJoined: boolean
-  recentActivity: string
-  posts: number
-  isPrivate?: boolean
-  pinnedPosts?: number
-  onlineMembers?: number
-}
-
-interface Event {
-  id: string
-  title: string
-  date: string
-  time: string
-  location: string
-  attendees: number
-  isOnline?: boolean
-  category?: string
-  status?: 'upcoming' | 'ongoing' | 'completed'
-}
+import { CommentSection } from "@/components/community/comment-section"
 
 export default function CommunityPage() {
   const [newPost, setNewPost] = useState("")
@@ -140,37 +115,37 @@ export default function CommunityPage() {
   const [groups, setGroups] = useState<Group[]>([
     // Mock data for groups
     {
-      id: 1,
+      id: "1",
       name: "Computer Science Students",
-      members: 1247,
       description: "Discussion group for CS students",
+      members_count: 1247,
+      posts_count: 42,
+      is_joined: true,
       category: "Academic",
-      isJoined: true,
-      recentActivity: "2 hours ago",
-      posts: 42,
-      onlineMembers: 23
+      is_private: false,
+      created_at: "2023-01-15T10:30:00Z"
     },
     {
-      id: 2,
+      id: "2",
       name: "Final Year Project Hub",
-      members: 892,
       description: "FYP collaboration and resources",
+      members_count: 892,
+      posts_count: 28,
+      is_joined: false,
       category: "Academic",
-      isJoined: false,
-      recentActivity: "5 hours ago",
-      posts: 28,
-      onlineMembers: 15
+      is_private: false,
+      created_at: "2023-02-20T14:15:00Z"
     },
     {
-      id: 3,
+      id: "3",
       name: "Sports Club",
-      members: 563,
       description: "Campus sports activities",
+      members_count: 563,
+      posts_count: 15,
+      is_joined: true,
       category: "Recreation",
-      isJoined: true,
-      recentActivity: "1 day ago",
-      posts: 15,
-      onlineMembers: 8
+      is_private: false,
+      created_at: "2023-03-10T09:45:00Z"
     }
   ])
   const [events, setEvents] = useState<Event[]>([
@@ -178,32 +153,44 @@ export default function CommunityPage() {
     {
       id: "1",
       title: "AI Workshop",
+      description: "Learn about the latest AI technologies and applications",
       date: "2023-12-15",
       time: "10:00 AM",
       location: "CS Building, Room 201",
-      attendees: 42,
+      attendees_count: 42,
       category: "Workshop",
-      status: "upcoming"
+      status: "upcoming",
+      image_url: "/events/ai-workshop.jpg",
+      created_by: "user123",
+      created_at: "2023-11-01T08:00:00Z"
     },
     {
       id: "2",
       title: "Career Fair",
+      description: "Meet potential employers and explore career opportunities",
       date: "2023-12-20",
       time: "9:00 AM",
       location: "Main Auditorium",
-      attendees: 120,
+      attendees_count: 120,
       category: "Career",
-      status: "upcoming"
+      status: "upcoming",
+      image_url: "/events/career-fair.jpg",
+      created_by: "admin456",
+      created_at: "2023-11-15T12:30:00Z"
     },
     {
       id: "3",
       title: "Hackathon",
+      description: "48-hour coding competition with exciting prizes",
       date: "2024-01-10",
       time: "8:00 AM",
       location: "Engineering Block",
-      attendees: 85,
+      attendees_count: 85,
       category: "Competition",
-      status: "upcoming"
+      status: "upcoming",
+      image_url: "/events/hackathon.jpg",
+      created_by: "student789",
+      created_at: "2023-12-01T16:45:00Z"
     }
   ])
   const [selectedCategory, setSelectedCategory] = useState("all")
@@ -233,6 +220,8 @@ export default function CommunityPage() {
   const [sortBy, setSortBy] = useState('recent') // New state for sorting
   const isMobile = useIsMobile()
   const [newPostMedia, setNewPostMedia] = useState<File[]>([])
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
+  const [isCommentSectionOpen, setIsCommentSectionOpen] = useState(false)
   
   // Use real-time posts instead of manual fetching
   const { posts: realtimePosts, loading: realtimeLoading, error: realtimeError } = useRealtimePosts(
@@ -375,7 +364,20 @@ export default function CommunityPage() {
     }
   }
 
-  const handleJoinGroup = (groupId: number) => {
+  const handleComment = (postId: string) => {
+    setSelectedPostId(postId)
+    setIsCommentSectionOpen(true)
+  }
+
+  const handleShare = (postId: string) => {
+    // In a real implementation, this would open a share dialog
+    toast({
+      title: "Share Post",
+      description: "Share functionality would be implemented here"
+    })
+  }
+
+  const handleJoinGroup = (groupId: string) => {
     if (!user) {
       toast({
         title: "Authentication Required",
@@ -390,8 +392,8 @@ export default function CommunityPage() {
         group.id === groupId
           ? {
               ...group,
-              isJoined: !group.isJoined,
-              members: group.isJoined ? group.members - 1 : group.members + 1,
+              is_joined: !group.is_joined,
+              members_count: group.is_joined ? group.members_count - 1 : group.members_count + 1,
             }
           : group,
       )
@@ -399,8 +401,8 @@ export default function CommunityPage() {
 
     const group = groups.find((g: Group) => g.id === groupId)
     toast({
-      title: group?.isJoined ? "Left group" : "Joined group",
-      description: group?.isJoined ? `You left ${group.name}` : `Welcome to ${group?.name}!`,
+      title: group?.is_joined ? "Left group" : "Joined group",
+      description: group?.is_joined ? `You left ${group.name}` : `Welcome to ${group?.name}!`,
     })
   }
 
@@ -566,9 +568,9 @@ export default function CommunityPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="md:col-span-2 space-y-6">
             {/* View Mode Tabs */}
             <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as any)} className="w-full">
               <TabsList className="grid w-full grid-cols-3 bg-muted p-1 rounded-2xl">
@@ -683,6 +685,8 @@ export default function CommunityPage() {
                           key={post.id}
                           post={post}
                           onLike={handleLike}
+                          onComment={handleComment}
+                          onShare={handleShare}
                           currentUser={user}
                         />
                       ))}
@@ -739,7 +743,7 @@ export default function CommunityPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="md:col-span-1 space-y-6">
             {/* Quick Actions */}
             <Card className="border">
               <CardHeader>
@@ -869,14 +873,14 @@ export default function CommunityPage() {
                     </Avatar>
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium text-sm line-clamp-1">{group.name}</h4>
-                      <p className="text-xs text-muted-foreground">{group.members} members</p>
+                      <p className="text-xs text-muted-foreground">{group.members_count} members</p>
                     </div>
                     <Button 
                       size="sm" 
-                      variant={group.isJoined ? "default" : "outline"}
+                      variant={group.is_joined ? "default" : "outline"}
                       onClick={() => handleJoinGroup(group.id)}
                     >
-                      {group.isJoined ? "Joined" : "Join"}
+                      {group.is_joined ? "Joined" : "Join"}
                     </Button>
                   </div>
                 ))}
@@ -902,6 +906,21 @@ export default function CommunityPage() {
         onOpenChange={setIsCreatePostOpen}
         onShare={handleCreatePost}
       />
+      
+      {/* Comment Section Dialog */}
+      {selectedPostId && (
+        <Dialog open={isCommentSectionOpen} onOpenChange={setIsCommentSectionOpen}>
+          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Comments</DialogTitle>
+              <DialogDescription>
+                Join the conversation
+              </DialogDescription>
+            </DialogHeader>
+            <CommentSection postId={selectedPostId} />
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   )
 }

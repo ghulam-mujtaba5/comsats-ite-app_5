@@ -1,6 +1,12 @@
 /**
  * Advanced Glassmorphism 2025 Utility Library
  * Modern, sophisticated glass effects for CampusAxis
+ * 
+ * Accessibility & Performance Notes:
+ * - All glass effects automatically respect prefers-reduced-motion media query
+ * - Glass effects are automatically reduced on mobile devices for performance
+ * - All components have proper focus states and ARIA attributes
+ * - High contrast mode support is built into the CSS variables
  */
 
 export type GlassVariant = 

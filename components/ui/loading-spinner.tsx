@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
+import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const loadingSpinnerVariants = cva(
   "animate-spin",
@@ -55,6 +56,13 @@ interface LoadingSpinnerProps extends VariantProps<typeof loadingSpinnerVariants
 }
 
 export const LoadingSpinner = ({ className, size = 24, variant }: LoadingSpinnerProps) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "animate-none" 
+    : "animate-spin"
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -68,6 +76,7 @@ export const LoadingSpinner = ({ className, size = 24, variant }: LoadingSpinner
       strokeLinejoin="round"
       className={cn(
         loadingSpinnerVariants({ variant }),
+        animationClasses,
         className,
         variant?.startsWith("glass") && "dark"
       )}
@@ -82,9 +91,17 @@ interface FullPageLoaderProps extends VariantProps<typeof fullPageLoaderVariants
 }
 
 export function FullPageLoader({ message = "Loading...", variant }: FullPageLoaderProps) {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+
   return (
     <div className={cn(
       fullPageLoaderVariants({ variant }),
+      animationClasses,
       variant?.startsWith("glass") && "dark"
     )}>
       <LoadingSpinner size={48} variant={variant} />
@@ -101,9 +118,17 @@ interface CenteredLoaderProps extends VariantProps<typeof centeredLoaderVariants
 }
 
 export function CenteredLoader({ message, variant }: CenteredLoaderProps) {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+    
     return (
         <div className={cn(
           centeredLoaderVariants({ variant }),
+          animationClasses,
           variant?.startsWith("glass") && "dark"
         )}>
             <LoadingSpinner size={32} variant={variant} />

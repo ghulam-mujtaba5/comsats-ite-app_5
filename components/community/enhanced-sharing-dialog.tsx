@@ -104,7 +104,7 @@ import { useCampus } from "@/contexts/campus-context"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
 import { RichTextEditor } from "@/components/community/rich-text-editor"
-import { MediaUploader } from "@/components/community/media-uploader"
+import { MediaUploader, MediaUploaderRef } from "@/components/community/media-uploader"
 import { cn } from "@/lib/utils"
 
 export interface SharingContent {
@@ -124,6 +124,7 @@ export interface SharingContent {
   shares?: number
   views?: number
   isPublic: boolean
+  media?: any[]
 }
 
 interface EnhancedSharingDialogProps {
@@ -146,7 +147,6 @@ export function EnhancedSharingDialog({
   const [category, setCategory] = useState(initialContent.category || "")
   const [tags, setTags] = useState<string[]>(initialContent.tags || [])
   const [newTag, setNewTag] = useState("")
-  const [media, setMedia] = useState<File[]>([])
   const [url, setUrl] = useState(initialContent.url || "")
   const [isPublic, setIsPublic] = useState(initialContent.isPublic ?? true)
   const [searchQuery, setSearchQuery] = useState("")
@@ -156,6 +156,7 @@ export function EnhancedSharingDialog({
   const { selectedCampus, selectedDepartment } = useCampus()
   const { user } = useAuth()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const mediaUploaderRef = useRef<MediaUploaderRef>(null)
 
   // Content types with icons and descriptions
   const contentTypes = [
@@ -199,106 +200,47 @@ export function EnhancedSharingDialog({
       value: "blog", 
       label: "Blog Post", 
       icon: <MessageSquare className="h-4 w-4" />,
-      description: "Share personal experiences, opinions, or insights"
+      description: "Share personal insights, experiences, or opinions"
     },
     { 
       value: "review", 
-      label: "Faculty Review", 
+      label: "Review", 
       icon: <Star className="h-4 w-4" />,
-      description: "Share reviews or feedback about faculty members"
+      description: "Review courses, faculty, books, or services"
     },
     { 
       value: "faculty", 
-      label: "Faculty Profile", 
+      label: "Faculty Info", 
       icon: <GraduationCap className="h-4 w-4" />,
       description: "Share information about faculty members"
     },
     { 
       value: "lostfound", 
       label: "Lost & Found", 
-      icon: <MapPin className="h-4 w-4" />,
-      description: "Share lost or found items on campus"
+      icon: <Search className="h-4 w-4" />,
+      description: "Report lost items or found items"
     },
     { 
       value: "other", 
-      label: "Other Content", 
+      label: "Other", 
       icon: <MoreHorizontal className="h-4 w-4" />,
-      description: "Share any other type of content"
+      description: "Share anything else with the community"
     }
   ]
 
-  // Categories for different content types
-  const categories = {
-    news: ["Announcements", "Achievements", "Campus Life", "Research", "Alumni"],
-    event: ["Workshop", "Seminar", "Competition", "Social", "Career"],
-    faq: ["Academic", "Admission", "Finance", "Technical", "General"],
-    guide: ["Study", "Career", "Technical", "Campus", "Software"],
-    paper: ["Midterm", "Final", "Assignment", "Quiz", "Project"],
-    resource: ["Book", "Tool", "Website", "Video", "Document"],
-    blog: ["Experience", "Opinion", "Tutorial", "Review", "Tips"],
-    review: ["Teaching", "Research", "Support", "Communication", "Overall"],
-    faculty: ["Profile", "Achievement", "Publication", "Award", "Event"],
-    lostfound: ["Lost Item", "Found Item", "Campus Location", "Personal Item", "Electronics", "Documents"],
-    other: ["General", "Miscellaneous", "Other"]
-  }
-
-  // Mock content library for sharing
-  const contentLibrary: SharingContent[] = [
-    {
-      id: "1",
-      title: "New AI Lab Inauguration",
-      description: "COMSATS Lahore campus inaugurates state-of-the-art AI research lab with advanced computing facilities.",
-      type: "news",
-      category: "Campus Life",
-      tags: ["AI", "Research", "Inauguration"],
-      isPublic: true,
-      likes: 42,
-      shares: 15,
-      views: 210
-    },
-    {
-      id: "2",
-      title: "Web Development Workshop",
-      description: "Join our hands-on workshop to learn modern web development techniques using React and Next.js.",
-      type: "event",
-      category: "Workshop",
-      tags: ["Web", "React", "Workshop"],
-      isPublic: true,
-      likes: 28,
-      shares: 12,
-      views: 156
-    },
-    {
-      id: "3",
-      title: "How to Calculate GPA",
-      description: "Step-by-step guide on calculating your semester and cumulative GPA at COMSATS.",
-      type: "guide",
-      category: "Academic",
-      tags: ["GPA", "Academic", "Guide"],
-      isPublic: true,
-      likes: 67,
-      shares: 32,
-      views: 420
-    },
-    {
-      id: "4",
-      title: "Dr. Ahmed's Review",
-      description: "Excellent teaching methodology and deep subject knowledge. Highly recommended for advanced courses.",
-      type: "review",
-      category: "Teaching",
-      tags: ["Faculty", "Review", "CS"],
-      isPublic: true,
-      likes: 15,
-      shares: 3,
-      views: 89
-    }
+  // Categories for content
+  const categories = [
+    "Academic",
+    "Career",
+    "Social",
+    "Sports",
+    "Technology",
+    "Arts",
+    "Research",
+    "Campus Life",
+    "Events",
+    "Resources"
   ]
-
-  const filteredContent = contentLibrary.filter(item => 
-    item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-  )
 
   const handleAddTag = () => {
     if (newTag.trim() && !tags.includes(newTag.trim())) {
@@ -312,27 +254,9 @@ export function EnhancedSharingDialog({
   }
 
   const handleShareContent = async () => {
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please sign in to share content.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    if (!title.trim()) {
-      toast({
-        title: "Title Required",
-        description: "Please enter a title for your content.",
-        variant: "destructive",
-      })
-      return
-    }
-
     if (!content.trim()) {
       toast({
-        title: "Content Required",
+        title: "Content required",
         description: "Please enter some content to share.",
         variant: "destructive",
       })
@@ -340,552 +264,389 @@ export function EnhancedSharingDialog({
     }
 
     try {
-      const sharingContent: SharingContent = {
-        id: Math.random().toString(36).substr(2, 9),
-        title,
-        description: content,
+      // Get media from uploader
+      const media = mediaUploaderRef.current?.getMedia() || []
+      
+      await onShare({
+        id: Date.now().toString(),
+        title: title.trim(),
+        description: content.trim(),
         type,
-        category,
+        url: url.trim() || undefined,
         tags,
+        category: category || "General",
         isPublic,
-        url: url || undefined
-      }
-
-      await onShare(sharingContent)
+        media
+      })
       
       // Reset form
-      setTitle("")
       setContent("")
+      setTitle("")
+      setTags([])
+      setUrl("")
       setType("other")
       setCategory("")
-      setTags([])
-      setMedia([])
-      setUrl("")
-      setIsPublic(true)
-      
-      toast({ 
-        title: "Content shared successfully!", 
-        description: "Your content has been shared with the community." 
-      })
+      mediaUploaderRef.current?.clearMedia()
       
       onOpenChange(false)
-    } catch (err: any) {
-      toast({ 
-        title: "Failed to share content", 
-        description: err.message ?? "Unknown error", 
-        variant: "destructive" 
-      })
+    } catch (error) {
+      console.error("Error sharing content:", error)
     }
   }
 
-  const handleShareExistingContent = async () => {
-    if (!selectedContent) {
-      toast({
-        title: "No Content Selected",
-        description: "Please select content to share.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    try {
-      await onShare(selectedContent)
-      toast({ 
-        title: "Content shared successfully!", 
-        description: "The selected content has been shared with the community." 
-      })
-      onOpenChange(false)
-    } catch (err: any) {
-      toast({ 
-        title: "Failed to share content", 
-        description: err.message ?? "Unknown error", 
-        variant: "destructive" 
-      })
-    }
-  }
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const shareToSocialMedia = (platform: string) => {
-    const url = window.location.href
-    const title = selectedContent?.title || "Check this out!"
-    
-    const socialUrls: Record<string, string> = {
-      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-      whatsapp: `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`,
-      telegram: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
-      reddit: `https://reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`
-    }
-
-    if (socialUrls[platform]) {
-      window.open(socialUrls[platform], '_blank')
-    }
-  }
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl flex items-center gap-2">
-            <Share2 className="h-6 w-6 text-primary" />
-            Share Content
+          <DialogTitle className="flex items-center gap-2">
+            <Share2 className="h-5 w-5" />
+            Share with Community
           </DialogTitle>
-          <DialogDescription className="text-base">
-            Easily share news, events, FAQs, guides, papers, resources, blogs, faculty reviews and more with the community.
+          <DialogDescription>
+            Create and share content with your fellow students
           </DialogDescription>
         </DialogHeader>
         
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="create">Create New</TabsTrigger>
-            <TabsTrigger value="library">Content Library</TabsTrigger>
-            <TabsTrigger value="share">Share Link</TabsTrigger>
+            <TabsTrigger value="share">Share Existing</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="create" className="space-y-6 py-4">
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                  Content Title
-                </label>
-                <Input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Enter a title for your content"
-                  className="h-12"
-                />
+          <TabsContent value="create" className="space-y-6 mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Left Column - Content Type Selection */}
+              <div className="md:col-span-1 space-y-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Content Type</CardTitle>
+                    <CardDescription>Select the type of content you're sharing</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    {contentTypes.map((contentType) => (
+                      <Button
+                        key={contentType.value}
+                        variant={type === contentType.value ? "default" : "outline"}
+                        className="w-full justify-start h-auto py-3 px-4 text-left"
+                        onClick={() => setType(contentType.value as SharingContent['type'])}
+                      >
+                        <div className="flex items-center gap-3">
+                          {contentType.icon}
+                          <div>
+                            <div className="font-medium text-sm">{contentType.label}</div>
+                            <div className="text-xs text-muted-foreground">{contentType.description}</div>
+                          </div>
+                        </div>
+                      </Button>
+                    ))}
+                  </CardContent>
+                </Card>
+                
+                {/* Visibility Settings */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Visibility</CardTitle>
+                    <CardDescription>Who can see this post</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Globe className="h-4 w-4" />
+                        <span>Public</span>
+                      </div>
+                      <Button
+                        variant={isPublic ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setIsPublic(true)}
+                      >
+                        {isPublic ? <Check className="h-4 w-4" /> : "Select"}
+                      </Button>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Lock className="h-4 w-4" />
+                        <span>Private</span>
+                      </div>
+                      <Button
+                        variant={!isPublic ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setIsPublic(false)}
+                      >
+                        {!isPublic ? <Check className="h-4 w-4" /> : "Select"}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                    Content Type
-                  </label>
-                  <Select value={type} onValueChange={(value) => setType(value as SharingContent['type'])}>
-                    <SelectTrigger className="h-12">
-                      <SelectValue placeholder="Select content type" />
+              {/* Right Column - Content Creation */}
+              <div className="md:col-span-2 space-y-6">
+                {/* Title Input */}
+                {type !== "other" && (
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Title</label>
+                    <Input
+                      placeholder={`Enter a title for your ${type}`}
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </div>
+                )}
+                
+                {/* Content Editor */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Content</label>
+                  <Textarea
+                    placeholder="What would you like to share with the community?"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    rows={6}
+                  />
+                </div>
+                
+                {/* Media Uploader */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Media</label>
+                  <MediaUploader ref={mediaUploaderRef} maxFiles={5} accept="image/*,video/*,application/pdf" />
+                </div>
+                
+                {/* Category Selection */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Category</label>
+                  <Select value={category} onValueChange={setCategory}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent>
-                      {contentTypes.map((contentType) => (
-                        <SelectItem key={contentType.value} value={contentType.value}>
-                          <div className="flex items-center gap-2">
-                            {contentType.icon}
-                            {contentType.label}
-                          </div>
-                        </SelectItem>
+                      {categories.map((cat) => (
+                        <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
                 
-                <div>
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                    Category
-                  </label>
-                  <Select value={category} onValueChange={setCategory}>
-                    <SelectTrigger className="h-12">
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {(categories[type as keyof typeof categories] || categories.other).map((cat: string) => (
-                        <SelectItem key={cat} value={cat}>
-                          {cat}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              
-              <div>
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                  Content Description
-                </label>
-                <RichTextEditor
-                  value={content}
-                  onChange={setContent}
-                  placeholder="Describe your content in detail..."
-                  className="min-h-[150px]"
-                />
-              </div>
-              
-              <div>
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                  Tags
-                </label>
-                <div className="flex gap-2 mb-2 flex-wrap">
-                  {tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="flex items-center gap-1">
-                      <Tag className="h-3 w-3" />
-                      {tag}
-                      <button 
-                        onClick={() => handleRemoveTag(tag)}
-                        className="ml-1 hover:bg-muted rounded-full p-0.5"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </Badge>
-                  ))}
-                </div>
-                <div className="flex gap-2">
-                  <Input
-                    value={newTag}
-                    onChange={(e) => setNewTag(e.target.value)}
-                    placeholder="Add a tag"
-                    onKeyDown={(e) => e.key === 'Enter' && handleAddTag()}
-                    className="flex-1"
-                  />
-                  <Button onClick={handleAddTag} variant="outline">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add
-                  </Button>
-                </div>
-              </div>
-              
-              <div>
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                  Attach Media (Optional)
-                </label>
-                <MediaUploader 
-                  onMediaAdded={setMedia}
-                  maxFiles={5}
-                  maxSize={10}
-                />
-              </div>
-              
-              <div>
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                  External URL (Optional)
-                </label>
-                <Input
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="https://example.com"
-                  type="url"
-                />
-              </div>
-              
-              <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
-                <div className="flex items-center gap-2">
-                  {isPublic ? (
-                    <Globe className="h-4 w-4 text-primary" />
-                  ) : (
-                    <Lock className="h-4 w-4 text-primary" />
-                  )}
-                  <span className="font-medium">
-                    {isPublic ? "Public" : "Private"}
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    {isPublic 
-                      ? "Visible to everyone" 
-                      : "Only visible to you and selected groups"}
-                  </span>
-                </div>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setIsPublic(!isPublic)}
-                >
-                  {isPublic ? "Make Private" : "Make Public"}
-                </Button>
-              </div>
-              
-              <div className="flex justify-end gap-3 pt-4">
-                <Button variant="outline" onClick={() => onOpenChange(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={handleShareContent}>
-                  <Send className="h-4 w-4 mr-2" />
-                  Share Content
-                </Button>
-              </div>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="library" className="space-y-6 py-4">
-            <div className="space-y-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search content to share..."
-                  className="pl-10"
-                />
-              </div>
-              
-              <div className="space-y-3 max-h-[400px] overflow-y-auto">
-                {filteredContent.length > 0 ? (
-                  filteredContent.map((item) => (
-                    <Card 
-                      key={item.id} 
-                      className={cn(
-                        "cursor-pointer transition-colors",
-                        selectedContent?.id === item.id 
-                          ? "border-primary bg-primary/5" 
-                          : "hover:bg-muted/50"
-                      )}
-                      onClick={() => setSelectedContent(item)}
-                    >
-                      <CardHeader className="pb-2">
-                        <div className="flex items-start justify-between">
-                          <CardTitle className="text-lg flex items-center gap-2">
-                            {contentTypes.find(ct => ct.value === item.type)?.icon}
-                            {item.title}
-                          </CardTitle>
-                          {selectedContent?.id === item.id && (
-                            <Check className="h-5 w-5 text-primary" />
-                          )}
-                        </div>
-                        <CardDescription className="flex items-center gap-2">
-                          <Badge variant="secondary">{item.type}</Badge>
-                          <Badge variant="outline">{item.category}</Badge>
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-                          {item.description}
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          {item.tags.map((tag) => (
-                            <Badge key={tag} variant="outline" className="text-xs">
-                              <Hash className="h-3 w-3 mr-1" />
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                        <div className="flex items-center justify-between mt-3 text-xs text-muted-foreground">
-                          <div className="flex items-center gap-3">
-                            <span className="flex items-center gap-1">
-                              <ThumbsUp className="h-3 w-3" />
-                              {item.likes}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Share2 className="h-3 w-3" />
-                              {item.shares}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Eye className="h-3 w-3" />
-                              {item.views}
-                            </span>
-                          </div>
-                          <span>{item.date || "Today"}</span>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))
-                ) : (
-                  <div className="text-center py-8 text-muted-foreground">
-                    <FileText className="h-12 w-12 mx-auto mb-3" />
-                    <p>No content found matching your search</p>
-                  </div>
-                )}
-              </div>
-              
-              <div className="flex justify-between items-center pt-4">
-                <div className="text-sm text-muted-foreground">
-                  {selectedContent 
-                    ? "Selected: " + selectedContent.title 
-                    : "Select content to share"}
-                </div>
-                <div className="flex gap-3">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => onOpenChange(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button 
-                    onClick={handleShareExistingContent}
-                    disabled={!selectedContent}
-                  >
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share Selected
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="share" className="space-y-6 py-4">
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Link2 className="h-5 w-5" />
-                    Share Any Link
-                  </CardTitle>
-                  <CardDescription>
-                    Share external links, articles, or resources with the community
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                      URL to Share
-                    </label>
+                {/* Tags */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Tags</label>
+                  <div className="flex gap-2">
                     <Input
-                      value={url}
-                      onChange={(e) => setUrl(e.target.value)}
-                      placeholder="https://example.com/article"
-                      type="url"
-                      className="h-12"
+                      placeholder="Add tags (press Enter)"
+                      value={newTag}
+                      onChange={(e) => setNewTag(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          handleAddTag()
+                        }
+                      }}
                     />
-                  </div>
-                  
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                      Custom Title (Optional)
-                    </label>
-                    <Input
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder="Enter a custom title for this link"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
-                      Description (Optional)
-                    </label>
-                    <Textarea
-                      value={content}
-                      onChange={(e) => setContent(e.target.value)}
-                      placeholder="Add a brief description of this link..."
-                      rows={3}
-                    />
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
-                    <div className="flex items-center gap-2">
-                      {isPublic ? (
-                        <Globe className="h-4 w-4 text-primary" />
-                      ) : (
-                        <Lock className="h-4 w-4 text-primary" />
-                      )}
-                      <span className="font-medium">
-                        {isPublic ? "Public" : "Private"}
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        {isPublic 
-                          ? "Visible to everyone" 
-                          : "Only visible to you and selected groups"}
-                      </span>
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setIsPublic(!isPublic)}
-                    >
-                      {isPublic ? "Make Private" : "Make Public"}
+                    <Button onClick={handleAddTag} size="sm">
+                      <Plus className="h-4 w-4" />
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="flex flex-wrap gap-2">
+                    {tags.map((tag) => (
+                      <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+                        #{tag}
+                        <button 
+                          onClick={() => handleRemoveTag(tag)}
+                          className="ml-1 hover:bg-muted rounded-full"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Additional Options */}
+                <div className="space-y-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full justify-between"
+                    onClick={() => setShowMoreOptions(!showMoreOptions)}
+                  >
+                    More Options
+                    {showMoreOptions ? (
+                      <ChevronUp className="h-4 w-4" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4" />
+                    )}
+                  </Button>
+                  
+                  {showMoreOptions && (
+                    <div className="space-y-4 p-4 border rounded-lg">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">External URL</label>
+                        <Input
+                          placeholder="https://example.com"
+                          value={url}
+                          onChange={(e) => setUrl(e.target.value)}
+                        />
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm text-muted-foreground">
+                          {selectedCampus?.name || "No campus selected"}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <Building2 className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm text-muted-foreground">
+                          {selectedDepartment?.name || "No department selected"}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="flex justify-end gap-3">
+                  <Button variant="outline" onClick={() => onOpenChange(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleShareContent}>
+                    <Send className="h-4 w-4 mr-2" />
+                    Share
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="share" className="space-y-6 mt-6">
+            <div className="space-y-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search for content to share..."
+                  className="pl-10"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
               
-              {url && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[1, 2, 3, 4].map((item) => (
+                  <Card 
+                    key={item} 
+                    className={cn(
+                      "cursor-pointer hover:border-primary transition-colors",
+                      selectedContent?.id === `item-${item}` && "border-primary"
+                    )}
+                    onClick={() => setSelectedContent({
+                      id: `item-${item}`,
+                      title: `Sample Content ${item}`,
+                      description: "This is a sample content description that would appear in the sharing dialog.",
+                      type: "other",
+                      tags: ["sample", "content"],
+                      category: "General",
+                      isPublic: true
+                    })}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-start gap-3">
+                        <div className="bg-muted p-2 rounded-lg">
+                          <FileDocument className="h-5 w-5" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-medium text-sm">Sample Content {item}</h3>
+                          <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                            This is a sample content description that would appear in the sharing dialog.
+                          </p>
+                          <div className="flex items-center gap-2 mt-2">
+                            <Badge variant="secondary" className="text-xs">
+                              Sample
+                            </Badge>
+                            <Badge variant="secondary" className="text-xs">
+                              Content
+                            </Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              
+              {selectedContent && (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Globe2 className="h-5 w-5" />
-                      Share to Social Media
-                    </CardTitle>
-                    <CardDescription>
-                      Share this link directly to your social networks
-                    </CardDescription>
+                    <CardTitle className="text-lg">Share Options</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                      <Button 
-                        variant="outline" 
-                        className="h-16 flex flex-col gap-1"
-                        onClick={() => shareToSocialMedia('twitter')}
+                    <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-background p-2 rounded-lg">
+                          <FileDocument className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <h3 className="font-medium text-sm">{selectedContent.title}</h3>
+                          <p className="text-xs text-muted-foreground">
+                            {selectedContent.description.substring(0, 50)}...
+                          </p>
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setSelectedContent(null)}
                       >
-                        <Twitter className="h-5 w-5" />
-                        <span className="text-xs">Twitter</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="h-16 flex flex-col gap-1"
-                        onClick={() => shareToSocialMedia('facebook')}
-                      >
-                        <Facebook className="h-5 w-5" />
-                        <span className="text-xs">Facebook</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="h-16 flex flex-col gap-1"
-                        onClick={() => shareToSocialMedia('linkedin')}
-                      >
-                        <Linkedin className="h-5 w-5" />
-                        <span className="text-xs">LinkedIn</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="h-16 flex flex-col gap-1"
-                        onClick={() => shareToSocialMedia('whatsapp')}
-                      >
-                        <Send className="h-5 w-5" />
-                        <span className="text-xs">WhatsApp</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="h-16 flex flex-col gap-1"
-                        onClick={() => shareToSocialMedia('telegram')}
-                      >
-                        <Send className="h-5 w-5" />
-                        <span className="text-xs">Telegram</span>
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        className="h-16 flex flex-col gap-1"
-                        onClick={() => shareToSocialMedia('reddit')}
-                      >
-                        <FileText className="h-5 w-5" />
-                        <span className="text-xs">Reddit</span>
+                        <X className="h-4 w-4" />
                       </Button>
                     </div>
                     
-                    <div className="flex items-center gap-2">
-                      <Input
-                        value={url}
-                        readOnly
-                        className="flex-1"
-                      />
-                      <Button 
-                        onClick={() => copyToClipboard(url)}
-                        variant="outline"
-                      >
+                    <div className="flex flex-wrap gap-2">
+                      <Button variant="outline" size="sm">
+                        <CopyIcon className="h-4 w-4 mr-2" />
+                        Copy Link
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        <Mail className="h-4 w-4 mr-2" />
+                        Email
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        <Twitter className="h-4 w-4 mr-2" />
+                        Twitter
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        <Facebook className="h-4 w-4 mr-2" />
+                        Facebook
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        <Linkedin className="h-4 w-4 mr-2" />
+                        LinkedIn
+                      </Button>
+                    </div>
+                    
+                    <div className="pt-4 border-t">
+                      <Button className="w-full" onClick={handleCopyLink}>
                         {copied ? (
-                          <Check className="h-4 w-4 text-green-500" />
+                          <>
+                            <Check className="h-4 w-4 mr-2" />
+                            Copied!
+                          </>
                         ) : (
-                          <CopyIcon className="h-4 w-4" />
+                          <>
+                            <Copy className="h-4 w-4 mr-2" />
+                            Copy Shareable Link
+                          </>
                         )}
-                        {copied ? "Copied!" : "Copy"}
                       </Button>
                     </div>
                   </CardContent>
                 </Card>
               )}
-              
-              <div className="flex justify-end gap-3">
-                <Button variant="outline" onClick={() => onOpenChange(false)}>
-                  Cancel
-                </Button>
-                <Button 
-                  onClick={handleShareContent}
-                  disabled={!url}
-                >
-                  <Share2 className="h-4 w-4 mr-2" />
-                  Share Link
-                </Button>
-              </div>
             </div>
           </TabsContent>
         </Tabs>

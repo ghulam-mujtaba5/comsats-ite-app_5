@@ -54,8 +54,8 @@ const AccordionItem = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-default"
 
   return (
     <AccordionPrimitive.Item
@@ -85,8 +85,8 @@ const AccordionTrigger = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300 hover:scale-[1.01]"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-spring hover:scale-[1.01]"
 
   return (
     <AccordionPrimitive.Header className="flex">
@@ -102,7 +102,10 @@ const AccordionTrigger = React.forwardRef<
         {...props}
       >
         {children}
-        <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+        <ChevronDownIcon className={cn(
+          "text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5",
+          prefersReducedMotion ? "transition-none" : "transition-transform animate-duration-200"
+        )} />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   )

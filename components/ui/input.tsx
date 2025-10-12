@@ -39,8 +39,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     
     // Apply animation classes conditionally based on user preferences
     const animationClasses = prefersReducedMotion 
-      ? '' 
-      : 'transition-all duration-300 hover:scale-[1.02] focus:scale-100'
+      ? 'transition-none' 
+      : 'transition-all animate-duration-300 animate-ease-spring hover:scale-[1.02] focus:scale-100'
 
     return (
       <input

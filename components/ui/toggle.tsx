@@ -42,8 +42,8 @@ const Toggle = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300 hover:scale-105"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-spring hover:scale-105"
 
   return (
     <TogglePrimitive.Root

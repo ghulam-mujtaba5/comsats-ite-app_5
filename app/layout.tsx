@@ -22,6 +22,9 @@ import { PwaFallback } from "@/components/compatibility/pwa-fallback"
 // Import AnimationProvider and GlobalAnimationController
 import { AnimationProvider } from "@/contexts/animation-context"
 import { GlobalAnimationController } from "@/components/animations/global-animation-controller"
+// Import emotion system
+import { CampusAxisEmotionProvider } from "@/components/emotion/emotion-provider"
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 export const dynamic = 'force-dynamic'
 
@@ -289,30 +292,34 @@ html {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <AuthProvider>
             <AnimationProvider>
-              <CampusProvider>
-                <Header />
-                <div className="min-h-[60vh] max-w-full overflow-x-hidden">
-                  {children}
-                </div>
-                <FooterConditional />
-                <Toaster />
-                {/* Global animation controller */}
-                <GlobalAnimationController />
-                {/* Browser compatibility warnings */}
-                <Suspense fallback={null}>
-                  <FallbackWarning />
-                </Suspense>
-                <Suspense fallback={null}>
-                  <PwaFallback />
-                </Suspense>
-                {/* Client-side route change tracking - only in production */}
-                {isProd && (
-                  <Suspense fallback={null}>
-                    <AnalyticsTracker />
-                    <WebVitalsReporter />
-                  </Suspense>
-                )}
-              </CampusProvider>
+              <CampusAxisEmotionProvider>
+                <TooltipProvider>
+                  <CampusProvider>
+                    <Header />
+                    <div className="min-h-[60vh] max-w-full overflow-x-hidden">
+                      {children}
+                    </div>
+                    <FooterConditional />
+                    <Toaster />
+                    {/* Global animation controller */}
+                    <GlobalAnimationController />
+                    {/* Browser compatibility warnings */}
+                    <Suspense fallback={null}>
+                      <FallbackWarning />
+                    </Suspense>
+                    <Suspense fallback={null}>
+                      <PwaFallback />
+                    </Suspense>
+                    {/* Client-side route change tracking - only in production */}
+                    {isProd && (
+                      <Suspense fallback={null}>
+                        <AnalyticsTracker />
+                        <WebVitalsReporter />
+                      </Suspense>
+                    )}
+                  </CampusProvider>
+                </TooltipProvider>
+              </CampusAxisEmotionProvider>
             </AnimationProvider>
           </AuthProvider>
         </ThemeProvider>

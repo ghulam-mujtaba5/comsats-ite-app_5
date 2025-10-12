@@ -68,7 +68,7 @@ function Pagination({ className, variant, ...props }: PaginationProps) {
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
     ? "" 
-    : "transition-all duration-300"
+    : "transition-all animate-duration-300 animate-ease-default"
 
   return (
     <nav
@@ -121,8 +121,8 @@ function PaginationLink({
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300 hover:scale-105"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-spring hover:scale-105"
 
   return (
     <a

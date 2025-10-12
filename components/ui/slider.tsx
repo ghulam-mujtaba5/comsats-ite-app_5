@@ -77,8 +77,8 @@ const Slider = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-default"
 
   return (
     <SliderPrimitive.Root
@@ -104,7 +104,8 @@ const Slider = React.forwardRef<
         <SliderPrimitive.Range
           data-slot="slider-range"
           className={cn(
-            sliderRangeVariants({ variant })
+            sliderRangeVariants({ variant }),
+            prefersReducedMotion ? "transition-none" : "transition-all animate-duration-300 animate-ease-linear"
           )}
         />
       </SliderPrimitive.Track>
@@ -114,7 +115,8 @@ const Slider = React.forwardRef<
           key={index}
           className={cn(
             sliderThumbVariants({ variant }),
-            variant?.startsWith("glass") && "dark"
+            variant?.startsWith("glass") && "dark",
+            prefersReducedMotion ? "transition-none" : "transition-all animate-duration-200 animate-ease-spring"
           )}
         />
       ))}

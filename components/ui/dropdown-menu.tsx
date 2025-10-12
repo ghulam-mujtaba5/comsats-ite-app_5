@@ -101,8 +101,8 @@ const DropdownMenuItem = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300 hover:scale-[1.01]"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-spring hover:scale-[1.01]"
 
   return (
     <DropdownMenuPrimitive.Item

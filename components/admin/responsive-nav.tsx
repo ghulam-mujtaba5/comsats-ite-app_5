@@ -23,7 +23,8 @@ import {
   BookOpen,
   Bell,
   Home,
-  ChevronRight
+  ChevronRight,
+  GraduationCap
 } from 'lucide-react'
 
 interface NavItem {
@@ -52,6 +53,12 @@ const navigationItems: NavItem[] = [
     href: "/admin/users",
     icon: Users,
     description: "Manage user accounts"
+  },
+  {
+    label: "Admissions",
+    href: "/admin/admissions",
+    icon: FileText,
+    description: "Manage admission applications"
   },
   {
     label: "Content Moderation",
@@ -94,6 +101,12 @@ const navigationItems: NavItem[] = [
     href: "/admin/lost-found",
     icon: Search,
     description: "Item recovery system"
+  },
+  {
+    label: "Documentation",
+    href: "/admin/docs",
+    icon: BookOpen,
+    description: "System documentation and guides"
   },
   {
     label: "Settings",

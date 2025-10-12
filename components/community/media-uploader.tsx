@@ -1,260 +1,260 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, forwardRef, useImperativeHandle } from "react"
 import { Button } from "@/components/ui/button"
 import { 
-  Image, 
-  Paperclip, 
-  X, 
-  Upload,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { 
+  FileImage,
+  FileVideo,
   FileText,
-  Film,
-  Music,
-  Archive
+  Upload,
+  X,
+  Loader2,
+  FileAudio,
+  FileArchive
 } from "lucide-react"
+import { toast } from "@/hooks/use-toast"
+import { MediaItem } from "@/lib/community-data"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
-interface MediaFile {
-  id: string
-  file: File
-  previewUrl?: string
-  type: 'image' | 'document' | 'video' | 'audio' | 'archive' | 'other'
-  progress: number
-  uploaded: boolean
-  error?: string
+export interface MediaUploaderRef {
+  getMedia: () => MediaItem[]
+  clearMedia: () => void
 }
 
 interface MediaUploaderProps {
-  onMediaAdded: (files: File[]) => void
+  onMediaChange?: (media: MediaItem[]) => void
   maxFiles?: number
-  maxSize?: number // in MB
-  allowedTypes?: string[]
+  accept?: string
 }
 
-export function MediaUploader({ 
-  onMediaAdded,
+export const MediaUploader = forwardRef<MediaUploaderRef, MediaUploaderProps>(({
+  onMediaChange,
   maxFiles = 5,
-  maxSize = 10,
-  allowedTypes = ['image/*', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
-}: MediaUploaderProps) {
-  const [files, setFiles] = useState<MediaFile[]>([])
-  const [isDragging, setIsDragging] = useState(false)
+  accept = "image/*,video/*,application/pdf"
+}, ref) => {
+  const [media, setMedia] = useState<MediaItem[]>([])
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState(0)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const getFileType = (file: File): MediaFile['type'] => {
-    if (file.type.startsWith('image/')) return 'image'
-    if (file.type === 'application/pdf' || 
-        file.type === 'application/msword' || 
-        file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') 
-      return 'document'
-    if (file.type.startsWith('video/')) return 'video'
-    if (file.type.startsWith('audio/')) return 'audio'
-    if (file.type === 'application/zip' || 
-        file.type === 'application/x-rar-compressed') 
-      return 'archive'
-    return 'other'
-  }
+  // Expose methods to parent components
+  useImperativeHandle(ref, () => ({
+    getMedia: () => media,
+    clearMedia: () => setMedia([])
+  }))
 
-  const getFileIcon = (type: MediaFile['type']) => {
-    switch (type) {
-      case 'image': return <Image className="h-5 w-5" />
-      case 'document': return <FileText className="h-5 w-5" />
-      case 'video': return <Film className="h-5 w-5" />
-      case 'audio': return <Music className="h-5 w-5" />
-      case 'archive': return <Archive className="h-5 w-5" />
-      default: return <Paperclip className="h-5 w-5" />
-    }
-  }
+  const handleFileSelect = (files: FileList | null) => {
+    if (!files || files.length === 0) return
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes'
-    const k = 1024
-    const sizes = ['Bytes', 'KB', 'MB', 'GB']
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-  }
-
-  const validateFile = (file: File): string | null => {
-    // Check file size
-    if (file.size > maxSize * 1024 * 1024) {
-      return `File size exceeds ${maxSize}MB limit`
+    // Check if we exceed the max files limit
+    if (media.length + files.length > maxFiles) {
+      toast({
+        title: "Too many files",
+        description: `You can only upload up to ${maxFiles} files.`,
+        variant: "destructive",
+      })
+      return
     }
 
-    // Check file type
-    const isValidType = allowedTypes.some(type => {
-      if (type === '*') return true
-      if (type.endsWith('/*')) {
-        const prefix = type.slice(0, -1) // Remove the *
-        return file.type.startsWith(prefix)
-      }
-      return file.type === type
-    })
-
-    if (!isValidType) {
-      return 'File type not allowed'
-    }
-
-    return null
-  }
-
-  const handleFiles = (fileList: FileList) => {
-    const newFiles: MediaFile[] = []
-    const validFiles: File[] = []
-
-    Array.from(fileList).forEach(file => {
-      // Validate file
-      const error = validateFile(file)
+    // Convert FileList to Array
+    const fileList = Array.from(files)
+    
+    // Validate file types
+    const validFiles = fileList.filter(file => {
+      const isValidType = accept.includes(file.type) || 
+        accept.includes(file.type.split('/')[0] + '/*') ||
+        accept === "*/*"
       
-      if (error) {
-        // Add file with error
-        newFiles.push({
-          id: Math.random().toString(36).substr(2, 9),
-          file,
-          type: getFileType(file),
-          progress: 0,
-          uploaded: false,
-          error
+      if (!isValidType) {
+        toast({
+          title: "Invalid file type",
+          description: `${file.name} is not a supported file type.`,
+          variant: "destructive",
         })
-      } else if (files.length + validFiles.length < maxFiles) {
-        // Add valid file
-        const mediaFile: MediaFile = {
-          id: Math.random().toString(36).substr(2, 9),
-          file,
-          type: getFileType(file),
-          progress: 0,
-          uploaded: false
-        }
-
-        // Create preview for images
-        if (mediaFile.type === 'image') {
-          mediaFile.previewUrl = URL.createObjectURL(file)
-        }
-
-        newFiles.push(mediaFile)
-        validFiles.push(file)
       }
+      
+      return isValidType
     })
 
-    setFiles(prev => [...prev, ...newFiles])
-    
-    // Notify parent of valid files
     if (validFiles.length > 0) {
-      onMediaAdded(validFiles)
+      uploadFiles(validFiles)
     }
   }
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    setIsDragging(false)
-    
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      handleFiles(e.dataTransfer.files)
+  const uploadFiles = async (files: File[]) => {
+    setIsUploading(true)
+    setUploadProgress(0)
+
+    try {
+      const uploadedMedia: MediaItem[] = []
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        
+        // Update progress
+        setUploadProgress(Math.round(((i + 1) / files.length) * 100))
+        
+        // Create FormData
+        const formData = new FormData()
+        formData.append('file', file)
+        
+        // Upload file
+        const response = await fetch('/api/community/media', {
+          method: 'POST',
+          body: formData
+        })
+        
+        if (!response.ok) {
+          const error = await response.json()
+          throw new Error(error.error || 'Failed to upload file')
+        }
+        
+        const result = await response.json()
+        
+        // Add to uploaded media
+        uploadedMedia.push({
+          id: `media_${Date.now()}_${i}`,
+          type: result.type,
+          url: result.url,
+          thumbnail: result.thumbnailUrl,
+          alt: file.name
+        })
+      }
+      
+      // Update state
+      const newMedia = [...media, ...uploadedMedia]
+      setMedia(newMedia)
+      onMediaChange?.(newMedia)
+      
+      toast({
+        title: "Upload successful",
+        description: `${files.length} file(s) uploaded successfully.`
+      })
+    } catch (error: any) {
+      toast({
+        title: "Upload failed",
+        description: error.message || "Failed to upload files.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsUploading(false)
+      setUploadProgress(0)
     }
   }
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    setIsDragging(true)
-  }
-
-  const handleDragLeave = () => {
-    setIsDragging(false)
-  }
-
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      handleFiles(e.target.files)
-    }
-    // Reset input to allow selecting the same file again
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
-    }
-  }
-
-  const removeFile = (id: string) => {
-    setFiles(prev => prev.filter(file => file.id !== id))
+  const removeMedia = (id: string) => {
+    const newMedia = media.filter(item => item.id !== id)
+    setMedia(newMedia)
+    onMediaChange?.(newMedia)
   }
 
   const triggerFileSelect = () => {
     fileInputRef.current?.click()
   }
 
+  const getFileIcon = (type: string) => {
+    switch (type) {
+      case 'image':
+        return <FileImage className="h-6 w-6 text-blue-500" />
+      case 'video':
+        return <FileVideo className="h-6 w-6 text-red-500" />
+      case 'audio':
+        return <FileAudio className="h-6 w-6 text-purple-500" />
+      case 'archive':
+        return <FileArchive className="h-6 w-6 text-yellow-500" />
+      default:
+        return <FileText className="h-6 w-6 text-gray-500" />
+    }
+  }
+
   return (
     <div className="space-y-4">
-      {/* Upload area */}
-      <div 
-        className={cn(
-          "border-2 border-dashed rounded-lg p-6 text-center transition-colors",
-          isDragging ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"
-        )}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onClick={triggerFileSelect}
-      >
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileInput}
-          className="hidden"
-          multiple
-          accept={allowedTypes.join(',')}
-        />
-        
-        <div className="flex flex-col items-center gap-2">
-          <Upload className="h-8 w-8 text-muted-foreground" />
-          <div className="font-medium">Drop files here or click to upload</div>
-          <div className="text-sm text-muted-foreground">
-            Supports images, documents up to {maxSize}MB (max {maxFiles} files)
-          </div>
-          <Button variant="outline" size="sm" className="mt-2">
-            <Paperclip className="h-4 w-4 mr-2" />
-            Select Files
-          </Button>
-        </div>
-      </div>
-      
-      {/* File previews */}
-      {files.length > 0 && (
-        <div className="space-y-2">
-          <div className="text-sm font-medium">
-            Selected files ({files.length}/{maxFiles})
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {files.map((mediaFile) => (
-              <div 
-                key={mediaFile.id} 
-                className="flex items-center gap-2 p-2 rounded-lg border bg-muted/50"
+      {/* Upload Area */}
+      <Card className="border-dashed border-2 hover:border-primary/50 transition-colors cursor-pointer"
+           onClick={triggerFileSelect}>
+        <CardContent className="p-6 text-center">
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            accept={accept}
+            onChange={(e) => handleFileSelect(e.target.files)}
+            className="hidden"
+          />
+          
+          {isUploading ? (
+            <div className="space-y-2">
+              <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
+              <p className="text-sm text-muted-foreground">Uploading... {uploadProgress}%</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <Upload className="h-8 w-8 mx-auto text-muted-foreground" />
+              <CardTitle className="text-base">Upload Media</CardTitle>
+              <CardDescription className="text-sm">
+                Click to select files or drag and drop<br />
+                <span className="text-xs">(Max {maxFiles} files, 10MB each)</span>
+              </CardDescription>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Preview Area */}
+      {media.length > 0 && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+          {media.map((item) => (
+            <div key={item.id} className="relative group">
+              {item.type === 'image' ? (
+                <div className="relative aspect-square rounded-md overflow-hidden">
+                  <Image
+                    src={item.url}
+                    alt={item.alt || "Uploaded image"}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="aspect-square rounded-md bg-muted flex flex-col items-center justify-center p-2">
+                  {getFileIcon(item.type)}
+                  <span className="text-xs text-center mt-1 line-clamp-2">
+                    {item.alt?.split('.').slice(0, -1).join('.') || "File"}
+                  </span>
+                </div>
+              )}
+              
+              <Button
+                variant="destructive"
+                size="sm"
+                className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  removeMedia(item.id)
+                }}
               >
-                <div className="p-2 rounded-md bg-background">
-                  {getFileIcon(mediaFile.type)}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium truncate">
-                    {mediaFile.file.name}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    {formatFileSize(mediaFile.file.size)}
-                    {mediaFile.error && (
-                      <span className="text-destructive ml-2">
-                        {mediaFile.error}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeFile(mediaFile.id)}
-                  className="h-8 w-8"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
-          </div>
+                <X className="h-3 w-3" />
+              </Button>
+            </div>
+          ))}
         </div>
+      )}
+
+      {/* File Info */}
+      {media.length > 0 && (
+        <p className="text-xs text-muted-foreground text-center">
+          {media.length} of {maxFiles} files uploaded
+        </p>
       )}
     </div>
   )
-}
+})
+
+MediaUploader.displayName = "MediaUploader"

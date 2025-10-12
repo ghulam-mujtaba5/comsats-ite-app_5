@@ -31,6 +31,7 @@ export type AnimationType =
   | 'checkmarkDraw'
   | 'pageTransition'
   | 'xpGlow'
+  | 'ribbons'
 
 export interface AnimationTrigger {
   id: string

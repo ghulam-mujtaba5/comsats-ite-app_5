@@ -11,6 +11,10 @@ export { LevelUpEffect } from './level-up-effect'
 export { SparkleTrail } from './sparkle-trail'
 export type { SparkleTrailProps } from './sparkle-trail'
 
+// Wrapping Ribbons
+export { WrappingRibbons } from './wrapping-ribbons'
+export type { WrappingRibbonsProps } from './wrapping-ribbons'
+
 // Emotion Animation
 export {
   EmotionAnimation,

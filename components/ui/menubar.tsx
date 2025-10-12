@@ -105,8 +105,8 @@ const Menubar = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-default"
 
   return (
     <MenubarPrimitive.Root
@@ -143,8 +143,8 @@ const MenubarTrigger = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300 hover:scale-[1.02]"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-spring hover:scale-[1.02]"
 
   return (
     <MenubarPrimitive.Trigger
@@ -174,8 +174,8 @@ const MenubarContent = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-default"
 
   return (
     <MenubarPrimitive.Portal>
@@ -212,8 +212,8 @@ const MenubarItem = React.forwardRef<
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300 hover:scale-[1.01]"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-spring hover:scale-[1.01]"
 
   return (
     <MenubarPrimitive.Item

@@ -6,6 +6,7 @@ import { cva, type VariantProps } from "@/lib/cva"
 import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const ToastProvider = ToastPrimitives.Provider
 
@@ -34,6 +35,10 @@ const toastVariants = cva(
       variant: {
         default: "border border-white/20 dark:border-white/10 bg-white/40 dark:bg-slate-900/40 text-foreground",
         destructive: "destructive group border-destructive border-red-200/50 dark:border-red-800/50 bg-red-50/80 dark:bg-red-950/80 text-destructive-foreground",
+        success: "border border-green-200/50 dark:border-green-800/50 bg-green-50/80 dark:bg-green-950/80 text-green-foreground",
+        warning: "border border-yellow-200/50 dark:border-yellow-800/50 bg-yellow-50/80 dark:bg-yellow-950/80 text-yellow-foreground",
+        info: "border border-blue-200/50 dark:border-blue-800/50 bg-blue-50/80 dark:bg-blue-950/80 text-blue-foreground",
+        loading: "border border-muted bg-muted/50 text-foreground",
       },
     },
     defaultVariants: {
@@ -46,10 +51,17 @@ const Toast = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> & VariantProps<typeof toastVariants>
 >(({ className, variant, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-all duration-300"
+
   return (
     <ToastPrimitives.Root
       ref={ref}
-      className={cn(toastVariants({ variant }), className)}
+      className={cn(toastVariants({ variant }), animationClasses, className)}
       role="status"
       aria-live="polite"
       {...props}
@@ -61,34 +73,54 @@ Toast.displayName = ToastPrimitives.Root.displayName
 const ToastAction = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Action>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Action>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Action
-    ref={ref}
-    className={cn(
-      "inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive",
-      className,
-    )}
-    {...props}
-  />
-))
+>(({ className, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-colors duration-200"
+
+  return (
+    <ToastPrimitives.Action
+      ref={ref}
+      className={cn(
+        "inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive",
+        animationClasses,
+        className,
+      )}
+      {...props}
+    />
+  )
+})
 ToastAction.displayName = ToastPrimitives.Action.displayName
 
 const ToastClose = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Close>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Close>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Close
-    ref={ref}
-    className={cn(
-      "absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100 group-[.destructive]:text-blue-300 group-[.destructive]:hover:text-blue-50 group-[.destructive]:focus:ring-blue-400 group-[.destructive]:focus:ring-offset-blue-600",
-      className,
-    )}
-    toast-close=""
-    {...props}
-  >
-    <X className="h-4 w-4" />
-  </ToastPrimitives.Close>
-))
+>(({ className, ...props }, ref) => {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  
+  // Apply animation classes conditionally based on user preferences
+  const animationClasses = prefersReducedMotion 
+    ? "" 
+    : "transition-opacity duration-200 hover:opacity-100 focus:opacity-100"
+
+  return (
+    <ToastPrimitives.Close
+      ref={ref}
+      className={cn(
+        "absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:outline-none focus:ring-2 group-hover:opacity-100 group-[.destructive]:text-blue-300 group-[.destructive]:hover:text-blue-50 group-[.destructive]:focus:ring-blue-400 group-[.destructive]:focus:ring-offset-blue-600",
+        animationClasses,
+        className,
+      )}
+      toast-close=""
+      {...props}
+    >
+      <X className="h-4 w-4" />
+    </ToastPrimitives.Close>
+  )
+})
 ToastClose.displayName = ToastPrimitives.Close.displayName
 
 const ToastTitle = React.forwardRef<

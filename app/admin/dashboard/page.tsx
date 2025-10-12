@@ -9,6 +9,7 @@ import { AdminGuard } from "@/components/admin/admin-guard"
 import { AdminPageHeader } from "@/components/admin/admin-page-header"
 import { Users, MessageSquare, Search, HelpCircle, Newspaper, Heart, FileText, AlertTriangle, Server, TrendingUp, Activity, Zap, BarChart3, Globe, Settings, Bell, GraduationCap, Library, RefreshCw } from "lucide-react"
 import { useOffline } from "@/hooks/use-offline"
+import { AdmissionsWidget } from "@/components/admin/admissions-widget"
 
 interface DashboardStats {
   lostFoundItems: number
@@ -440,6 +441,11 @@ export default function AdminDashboardPage() {
               )
             })
           )}
+        </div>
+        
+        {/* Add Admissions Widget */}
+        <div className="app-container space-y-6">
+          <AdmissionsWidget />
         </div>
         
         {/* Enhanced Action Panels */}

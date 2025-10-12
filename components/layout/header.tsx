@@ -51,6 +51,11 @@ const navigationItems = [
     icon: Calculator,
   },
   {
+    name: "Admissions",
+    href: "/admissions",
+    description: "Apply for admission to COMSATS",
+  },
+  {
     name: "Timetable",
     href: "/timetable",
     description: "Upload, preview, and download timetables (PDF)",
@@ -130,7 +135,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative inline-flex items-center h-10 px-3 rounded-2xl text-sm font-semibold transition-all duration-300 interactive hover-lift group box-border whitespace-nowrap ${
+                className={`relative inline-flex items-center h-10 px-3 rounded-2xl text-sm font-semibold transition-all duration-300 interactive hover-lift group box-border whitespace-nowrap min-h-[44px] ${
                   isActivePath(item.href) 
                     ? "glass-medium glass-border-light text-blue-600 dark:text-blue-400 shadow-lg glass-hover-glow" 
                     : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white glass-light glass-hover glass-border-subtle hover:shadow-md border border-transparent"
@@ -183,7 +188,7 @@ export function Header() {
           <ThemeToggle />
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="lg:hidden interactive p-2 sm:p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 relative z-[110] h-9 w-9">
+              <Button variant="ghost" size="sm" className="lg:hidden interactive p-2 sm:p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 relative z-[110] h-9 w-9 min-h-[44px] min-w-[44px]">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
@@ -204,7 +209,7 @@ export function Header() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift group backdrop-blur-sm border w-full max-w-full box-border ${
+                      className={`relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift group backdrop-blur-sm border w-full max-w-full box-border flex items-center ${
                         isActivePath(item.href) ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border-blue-200/30 dark:border-blue-400/30 shadow-lg" : "border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md"
                       }`}
                       aria-current={isActivePath(item.href) ? "page" : undefined}
@@ -231,7 +236,7 @@ export function Header() {
                   <Link
                     href="/admin"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md w-full"
+                    className="relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md w-full flex items-center"
                   >
                     <div className="relative z-10 flex items-start space-x-3 w-full min-w-0">
                       <Shield className="h-5 w-5 mt-0.5 flex-shrink-0" />
@@ -249,7 +254,7 @@ export function Header() {
           {isAuthenticated && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 sm:h-9 sm:w-9 rounded-full interactive hover-lift flex-shrink-0 admin-nav-logo-wrapper">
+                <Button variant="ghost" className="relative h-8 w-8 sm:h-9 sm:w-9 rounded-full interactive hover-lift flex-shrink-0 admin-nav-logo-wrapper min-h-[44px] min-w-[44px]">
                   <Avatar className="h-8 w-8 sm:h-9 sm:w-9 admin-nav-logo">
                     <AvatarImage src={(user as any).user_metadata?.avatar_url || undefined} alt={user.email || "Profile"} />
                     <AvatarFallback className="bg-primary text-primary-foreground admin-nav-logo">
@@ -291,7 +296,7 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <Link href="/auth" className="flex-shrink-0">
-              <Button size="sm" className="font-semibold interactive hover-lift bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-0 shadow-lg hover:shadow-xl backdrop-blur-sm transition-all duration-300 rounded-xl h-8 sm:h-9 px-3 sm:px-4 text-xs sm:text-sm">
+              <Button size="sm" className="font-semibold interactive hover-lift bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white border-0 shadow-lg hover:shadow-xl backdrop-blur-sm transition-all duration-300 rounded-xl h-8 sm:h-9 px-3 sm:px-4 text-xs sm:text-sm min-h-[44px]">
                 Sign In
               </Button>
             </Link>

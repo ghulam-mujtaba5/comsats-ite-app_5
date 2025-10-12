@@ -6,11 +6,17 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useAnimation } from '@/contexts/animation-context'
 
 interface CelebrationAnimationProps {
-  type: 'confetti' | 'fireworks' | 'balloons' | 'sparkles' | 'successGlow' | 'trophyShine'
+  type: 'confetti' | 'fireworks' | 'balloons' | 'sparkles' | 'successGlow' | 'trophyShine' | 'ribbons'
   message?: string
   duration?: number
   position?: { x: number; y: number }
   onComplete?: () => void
+  options?: {
+    ribbonCount?: number
+    colors?: string[]
+    balloonCount?: number
+    lightCount?: number
+  }
 }
 
 export function CelebrationAnimation({ 
@@ -18,7 +24,8 @@ export function CelebrationAnimation({
   message, 
   duration = 5000,
   position,
-  onComplete 
+  onComplete,
+  options
 }: CelebrationAnimationProps) {
   const [windowSize, setWindowSize] = useState({
     width: typeof window !== 'undefined' ? window.innerWidth : 1200,
@@ -97,7 +104,7 @@ export function CelebrationAnimation({
       case 'balloons':
         return (
           <div className="fixed inset-0 pointer-events-none z-50">
-            {[...Array(15)].map((_, i) => (
+            {[...Array(options?.balloonCount || 15)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-8 h-10 rounded-full"
@@ -125,7 +132,7 @@ export function CelebrationAnimation({
       case 'sparkles':
         return (
           <div className="fixed inset-0 pointer-events-none z-50">
-            {[...Array(50)].map((_, i) => (
+            {[...Array(options?.lightCount || 50)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-2 h-2 rounded-full bg-yellow-300"
@@ -201,6 +208,42 @@ export function CelebrationAnimation({
           </motion.div>
         )
       
+      case 'ribbons':
+        return (
+          <div className="fixed inset-0 pointer-events-none z-50">
+            {[...Array(options?.ribbonCount || 10)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-24 rounded-full origin-bottom"
+                style={{
+                  backgroundColor: (options?.colors || ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'])[i % (options?.colors?.length || 5)],
+                  left: `${Math.random() * 100}%`,
+                  top: Math.random() > 0.5 ? '-10%' : '110%',
+                  boxShadow: `0 0 8px ${(options?.colors || ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'])[i % (options?.colors?.length || 5)]}, 0 0 16px ${(options?.colors || ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'])[i % (options?.colors?.length || 5)]}`
+                }}
+                initial={{ 
+                  rotate: 0,
+                  scaleY: 0,
+                  opacity: 0
+                }}
+                animate={{ 
+                  rotate: [0, 45, 90, 135, 180, 225, 270, 315, 360],
+                  scaleY: [0, 1, 1, 1, 0],
+                  opacity: [0, 1, 1, 1, 0],
+                  x: [0, (Math.random() - 0.5) * 200],
+                  y: Math.random() > 0.5 ? [-windowSize.height * 0.3, windowSize.height * 0.3] : [windowSize.height * 0.3, -windowSize.height * 0.3]
+                }}
+                transition={{
+                  duration: duration / 1000,
+                  delay: Math.random() * 1000 / 1000,
+                  times: [0, 0.1, 0.5, 0.9, 1],
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+          </div>
+        )
+      
       default:
         return null
     }
@@ -220,7 +263,7 @@ export function CelebrationAnimation({
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-xl border border-gray-200 dark:border-gray-700">
+          <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-xl border border-gray-200 dark:border-gray-700 glass-card">
             <p className="text-lg font-bold text-center text-gray-800 dark:text-gray-200">
               {message}
             </p>
