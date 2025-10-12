@@ -190,14 +190,22 @@ export default function NewsListPage() {
           ) : (
             <div className="space-y-8">
               {error && (
-                <Card className="card-modern border-0 backdrop-blur-sm">
-                  <CardContent className="p-8 text-center">
-                    <div className="max-w-md mx-auto">
-                      <div className="p-4 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                <Card className="card-modern border-0 backdrop-blur-sm border-destructive/20">
+                  <CardContent className="p-6 sm:p-8 text-center">
+                    <div className="max-w-md mx-auto space-y-4">
+                      <div className="p-4 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 w-16 h-16 mx-auto flex items-center justify-center">
                         <Newspaper className="h-8 w-8 text-red-500" />
                       </div>
-                      <h3 className="text-xl font-semibold text-foreground mb-3">Error Loading News</h3>
-                      <CardDescription className="text-red-600 font-medium">{error}</CardDescription>
+                      <h3 className="text-lg sm:text-xl font-semibold text-foreground">Unable to Load News</h3>
+                      <CardDescription className="text-sm sm:text-base text-muted-foreground">We encountered an issue fetching news articles. Please try again later.</CardDescription>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => window.location.reload()}
+                        className="w-full sm:w-auto"
+                      >
+                        <Clock className="h-4 w-4 mr-2" />
+                        Try Again
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -279,9 +287,9 @@ export default function NewsListPage() {
               </div>
               
               {pageItems.length === 0 && !error && (
-                <Card className="card-modern border-0 backdrop-blur-sm p-12 text-center">
-                  <div className="max-w-md mx-auto">
-                    <div className="p-4 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                <Card className="card-modern border-0 backdrop-blur-sm p-6 sm:p-12 text-center">
+                  <div className="max-w-md mx-auto space-y-4">
+                    <div className="p-4 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 w-16 h-16 mx-auto flex items-center justify-center">
                       <Search className="h-8 w-8 text-muted-foreground" />
                     </div>
                     <h3 className="text-xl font-semibold text-foreground mb-3">No Articles Found</h3>

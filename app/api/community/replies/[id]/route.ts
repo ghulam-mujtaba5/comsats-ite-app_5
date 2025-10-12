@@ -69,7 +69,7 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
   try {
     if (typeof commentsCount === 'number') {
       await supabase
-        .from('community_posts_enhanced')
+        .from('community_posts')
         .update({ comments_count: commentsCount })
         .eq('id', reply.post_id)
     }

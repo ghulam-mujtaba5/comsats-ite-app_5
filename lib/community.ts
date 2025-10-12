@@ -118,7 +118,7 @@ export async function addReply(postId: string, reply: Omit<Reply, "id" | "time">
 
 export async function incrementComments(postId: string, by = 1) {
   const { data, error } = await supabase
-    .from("community_posts_enhanced")
+    .from("community_posts")
     .update({ comments_count: supabase.rpc as any }) // placeholder if RPC used later
     .eq("id", postId)
 }

@@ -131,7 +131,7 @@ export async function DELETE(
 
     if (typeof count === 'number') {
       await supabase
-        .from('community_posts_enhanced')
+        .from('community_posts')
         .update({ comments_count: count })
         .eq('id', comment.post_id)
     }

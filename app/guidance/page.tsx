@@ -100,9 +100,10 @@ export default function GuidancePage() {
         if (contentResponse.ok && faqResponse.ok) {
           const contentData = await contentResponse.json()
           const faqData = await faqResponse.json()
-          setGuideSections(contentData)
-          setFaqs(faqData)
+          setGuideSections(Array.isArray(contentData) ? contentData : [])
+          setFaqs(Array.isArray(faqData) ? faqData : [])
         } else {
+          console.error('Failed to fetch guidance data:', contentResponse.status, faqResponse.status)
           throw new Error('Failed to fetch guidance data')
         }
 

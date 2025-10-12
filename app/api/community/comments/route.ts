@@ -129,13 +129,13 @@ export async function POST(request: NextRequest) {
 async function updateCommentCount(supabase: any, postId: string): Promise<void> {
   try {
     const { count } = await supabase
-      .from('post_comments_enhanced')
+      .from('post_comments')
       .select('*', { count: 'exact', head: true })
       .eq('post_id', postId)
 
     if (typeof count === 'number') {
       await supabase
-        .from('community_posts_enhanced')
+        .from('community_posts')
         .update({ comments_count: count })
         .eq('id', postId)
     }
@@ -181,7 +181,7 @@ async function sendCommentNotification(
     } else {
       // This is a comment on a post
       const { data: post } = await supabase
-        .from('community_posts_enhanced')
+        .from('community_posts')
         .select('user_id, author_name')
         .eq('id', postId)
         .single()

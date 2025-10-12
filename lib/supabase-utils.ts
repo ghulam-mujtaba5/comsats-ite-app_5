@@ -59,19 +59,20 @@ export function transformPostRecord(post: any, likedSet: Set<string> = new Set()
   
   return {
     id: post.id.toString(),
-    author: post.author_name || post.user?.email?.split('@')[0] || 'Anonymous',
+    author: post.author_name || post.user?.email?.split('@')[0] || post.user?.user_metadata?.full_name || 'Anonymous',
     avatar: post.avatar_url || post.user?.user_metadata?.avatar_url || '/student-avatar.png',
-    department: post.department || (post.departments ? post.departments.name : ''),
-    departmentCode: post.departments ? post.departments.code : '',
-    campus: post.campuses ? post.campuses.name : '',
-    campusCode: post.campuses ? post.campuses.code : '',
+    department: post.department || (post.departments ? post.departments.name : '') || 'Computer Science',
+    departmentCode: post.departments ? post.departments.code : 'CS',
+    campus: post.campuses ? post.campuses.name : 'Lahore Campus',
+    campusCode: post.campuses ? post.campuses.code : 'LHR',
     semester: post.semester || '',
     batch: post.batch || '', // e.g., 'FA22-BSE'
     time: timeAgo,
     content: post.content,
-    likes: post.likes_count || 0,
-    comments: post.comments_count || 0,
-    shares: post.shares_count || 0,
+    title: post.title || '',
+    likes: post.likes_count || post.likes || 0,
+    comments: post.comments_count || post.comments || 0,
+    shares: post.shares_count || post.shares || 0,
     tags: Array.isArray(post.tags) ? post.tags : [],
     liked: likedSet.has(String(post.id)),
     type: post.type || 'general',
@@ -81,7 +82,7 @@ export function transformPostRecord(post: any, likedSet: Set<string> = new Set()
     isEdited: post.is_edited || false,
     isPinned: post.is_pinned || false,
     createdAt: post.created_at,
-    updatedAt: post.updated_at
+    updatedAt: post.updated_at || post.created_at
   }
 }
 

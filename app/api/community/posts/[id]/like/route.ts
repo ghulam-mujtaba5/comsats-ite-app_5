@@ -102,7 +102,7 @@ export async function POST(_req: NextRequest, context: { params: Promise<{ id: s
       await sendLikeNotification(supabase, id, userId, auth.user)
     }
 
-    // Recompute like count and update community_posts_enhanced.likes_count
+    // Recompute like count and update community_posts.likes
     const likeCount = await updateLikeCount(supabase, id)
 
     // Respond with new state
@@ -130,8 +130,8 @@ async function updateLikeCount(supabase: any, postId: string): Promise<number> {
     // Update the post's like count
     if (typeof count === 'number') {
       await supabase
-        .from('community_posts_enhanced')
-        .update({ likes_count: count })
+        .from('community_posts')
+        .update({ likes: count })
         .eq('id', postId)
       return count
     }
@@ -150,8 +150,8 @@ async function sendLikeNotification(supabase: any, postId: string, likerId: stri
   try {
     // Get post details
     const { data: post } = await supabase
-      .from('community_posts_enhanced')
-      .select('user_id, author_name, content')
+      .from('community_posts')
+      .select('user_id, content')
       .eq('id', postId)
       .single()
 

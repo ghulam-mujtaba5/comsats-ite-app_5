@@ -13,7 +13,7 @@ export function useRealtimePosts(campusId?: string, departmentId?: string, batch
       try {
         setLoading(true)
         let query = supabase
-          .from('community_posts_enhanced')
+          .from('community_posts')
           .select(`
             *,
             campuses(name, code),

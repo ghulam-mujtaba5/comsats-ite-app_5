@@ -34,7 +34,7 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
 
   try {
     const { data: post, error } = await supabase
-      .from('community_posts_enhanced')
+      .from('community_posts')
       .select('*')
       .eq('id', id)
       .maybeSingle()

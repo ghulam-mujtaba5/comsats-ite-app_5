@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
 
     // Get posts with user and campus/department info
     let query = supabase
-      .from('community_posts_enhanced')
+      .from('community_posts')
       .select(`
         *,
         user:user_id (
@@ -167,7 +167,7 @@ export async function PATCH(request: NextRequest) {
 
     // Update post status
     const { error } = await supabase
-      .from('community_posts_enhanced')
+      .from('community_posts')
       .update({ status })
       .eq('id', postId)
 

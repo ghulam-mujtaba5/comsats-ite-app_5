@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
         created_at,
         status,
         reports_count,
-        post:community_posts_enhanced(title)
+        post:community_posts(title)
       `)
       .order('created_at', { ascending: false })
 

@@ -21,37 +21,20 @@ export async function GET(request: NextRequest) {
     // Build the base query with joins to get campus and department information
     // Select only necessary fields to reduce data transfer and CPU usage
     let query = supabase
-      .from('community_posts_enhanced')
+      .from('community_posts')
       .select(`
         id,
         user_id,
-        author_name,
-        avatar_url,
+        title,
         content,
         type,
-        media,
-        location,
-        feeling,
-        tagged_users,
         tags,
-        visibility,
-        campus_id,
-        department_id,
-        batch,
-        semester,
-        is_pinned,
-        is_edited,
-        edited_at,
-        likes_count,
+        likes,
+        comments,
         comments_count,
-        shares_count,
-        views_count,
-        created_at,
-        updated_at,
-        campuses(name, code),
-        departments(name, code)
+        shares,
+        created_at
       `)
-      .order('is_pinned', { ascending: false })
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1)
 
@@ -132,51 +115,28 @@ export async function POST(request: NextRequest) {
     const avatarUrl = userProfile?.avatar_url || user.user_metadata?.avatar_url || '/student-avatar.png'
 
     const { data: post, error } = await supabase
-      .from('community_posts_enhanced')
+      .from('community_posts')
       .insert({
+        user_id: user.id,
+        title: '',
         content: content.trim(),
         type: type || 'general',
         tags: tags || [],
-        media: media || [],
-        location: location || null,
-        feeling: feeling || null,
-        tagged_users: tagged_users || [],
-        visibility: visibility || 'public',
-        batch: batch || '', // e.g., 'FA22-BSE'
-        campus_id: campusId,
-        department_id: departmentId,
-        user_id: user.id,
-        author_name: authorName,
-        avatar_url: avatarUrl
+        likes: 0,
+        comments: 0,
+        shares: 0
       })
       .select(`
         id,
         user_id,
-        author_name,
-        avatar_url,
+        title,
         content,
         type,
-        media,
-        location,
-        feeling,
-        tagged_users,
         tags,
-        visibility,
-        campus_id,
-        department_id,
-        batch,
-        semester,
-        is_pinned,
-        is_edited,
-        edited_at,
-        likes_count,
-        comments_count,
-        shares_count,
-        views_count,
-        created_at,
-        updated_at,
-        campuses(name, code),
-        departments(name, code)
+        likes,
+        comments,
+        shares,
+        created_at
       `)
       .single()
 
