@@ -536,6 +536,11 @@ CREATE POLICY "Users can delete own posts" ON community_posts_enhanced
     FOR DELETE USING (auth.uid() = user_id);
 
 -- RLS Policies for reactions
+-- Ensure reaction policies are dropped first to make this migration re-runnable
+DROP POLICY IF EXISTS "Users can view reactions" ON post_reactions;
+DROP POLICY IF EXISTS "Users can add reactions" ON post_reactions;
+DROP POLICY IF EXISTS "Users can remove own reactions" ON post_reactions;
+
 CREATE POLICY "Users can view reactions" ON post_reactions
     FOR SELECT USING (true);
 

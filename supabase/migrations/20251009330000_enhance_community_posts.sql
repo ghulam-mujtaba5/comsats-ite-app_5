@@ -80,6 +80,11 @@ ALTER TABLE community_post_reactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE community_post_bookmarks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE community_post_shares ENABLE ROW LEVEL SECURITY;
 
+-- Ensure existing policies are removed first to make migration re-runnable
+DROP POLICY IF EXISTS "Users can create reactions" ON community_post_reactions;
+DROP POLICY IF EXISTS "Users can delete own reactions" ON community_post_reactions;
+DROP POLICY IF EXISTS "Public can view reactions" ON community_post_reactions;
+
 -- Users can create reactions
 CREATE POLICY "Users can create reactions" ON community_post_reactions 
 FOR INSERT TO authenticated 
@@ -96,6 +101,12 @@ FOR SELECT TO public
 USING (true);
 
 -- Users can create bookmarks
+
+DROP POLICY IF EXISTS "Users can create bookmarks" ON community_post_bookmarks;
+DROP POLICY IF EXISTS "Users can delete own bookmarks" ON community_post_bookmarks;
+DROP POLICY IF EXISTS "Users can view own bookmarks" ON community_post_bookmarks;
+
+-- Users can create bookmarks
 CREATE POLICY "Users can create bookmarks" ON community_post_bookmarks 
 FOR INSERT TO authenticated 
 WITH CHECK (user_id = auth.uid());
@@ -109,6 +120,11 @@ USING (user_id = auth.uid());
 CREATE POLICY "Users can view own bookmarks" ON community_post_bookmarks 
 FOR SELECT TO authenticated 
 USING (user_id = auth.uid());
+
+-- Users can create shares
+
+DROP POLICY IF EXISTS "Users can create shares" ON community_post_shares;
+DROP POLICY IF EXISTS "Public can view shares" ON community_post_shares;
 
 -- Users can create shares
 CREATE POLICY "Users can create shares" ON community_post_shares 
