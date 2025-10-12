@@ -12,8 +12,6 @@ import { notifyFetch } from "@/lib/notify"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 
- 
-
 type Resource = {
   id: string
   title: string
@@ -64,7 +62,6 @@ export default function ResourcesPage() {
 
   return (
     <div className="min-h-screen relative">
-
       <main className="relative flex-1 py-12 px-4">
         <div className="container mx-auto max-w-7xl">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Resources" }]} className="mb-6" />
@@ -286,7 +283,6 @@ export default function ResourcesPage() {
                   .filter((r) => (resourceType === "All" ? true : r.type === resourceType))
                   .filter((r) => (!showVerifiedOnly ? true : r.is_verified === true))
               }, [items, search, dept, term, difficulty, resourceType, showVerifiedOnly]).map((r, index) => (
-                              }).map((r, index) => (
                 <Card key={r.id} className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl group hover:scale-[1.02] transition-all duration-300 overflow-hidden" style={{ animationDelay: `${index * 100}ms` }}>
                   {/* Resource Header */}
                   <div className="relative p-6 pb-4">
