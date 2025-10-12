@@ -18,3 +18,12 @@
 > [PWA]   scope: /
  Ô£ô Compiled successfully
    Linting and checking validity of types ...
+   Collecting page data ...
+
+> Build error occurred
+[Error: ENOENT: no such file or directory, open 'E:\comsats-ite-app_5\.next\server\pages-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'E:\\comsats-ite-app_5\\.next\\server\\pages-manifest.json'
+}
