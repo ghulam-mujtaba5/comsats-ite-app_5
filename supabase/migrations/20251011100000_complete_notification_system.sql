@@ -275,47 +275,59 @@ CREATE INDEX IF NOT EXISTS idx_share_analytics_platform ON share_analytics(platf
 -- ============================================================================
 -- RLS POLICIES
 -- ============================================================================
-
 -- Notifications
 ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can view their own notifications" ON notifications;
+DROP POLICY IF EXISTS "Users can update their own notifications" ON notifications;
 CREATE POLICY "Users can view their own notifications" ON notifications FOR SELECT USING (auth.uid() = user_id);
 CREATE POLICY "Users can update their own notifications" ON notifications FOR UPDATE USING (auth.uid() = user_id);
 
 -- Support Tickets
 ALTER TABLE support_tickets ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can view their own tickets" ON support_tickets;
+DROP POLICY IF EXISTS "Users can create tickets" ON support_tickets;
+DROP POLICY IF EXISTS "Users can update their own tickets" ON support_tickets;
 CREATE POLICY "Users can view their own tickets" ON support_tickets FOR SELECT USING (auth.uid() = user_id OR auth.uid() = assigned_to);
 CREATE POLICY "Users can create tickets" ON support_tickets FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Users can update their own tickets" ON support_tickets FOR UPDATE USING (auth.uid() = user_id);
 
 -- Support Ticket Responses
 ALTER TABLE support_ticket_responses ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can view responses to their tickets" ON support_ticket_responses;
+DROP POLICY IF EXISTS "Users can create responses" ON support_ticket_responses;
 CREATE POLICY "Users can view responses to their tickets" ON support_ticket_responses FOR SELECT 
   USING (EXISTS (SELECT 1 FROM support_tickets WHERE id = ticket_id AND user_id = auth.uid()));
 CREATE POLICY "Users can create responses" ON support_ticket_responses FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 -- Blogs
 ALTER TABLE blogs ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Published blogs are viewable by everyone" ON blogs;
+DROP POLICY IF EXISTS "Authors can manage their blogs" ON blogs;
 CREATE POLICY "Published blogs are viewable by everyone" ON blogs FOR SELECT USING (status = 'published' OR auth.uid() = author_id);
 CREATE POLICY "Authors can manage their blogs" ON blogs FOR ALL USING (auth.uid() = author_id);
 
 -- Guidance Materials
 ALTER TABLE guidance_materials ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Published guidance is viewable by everyone" ON guidance_materials;
+DROP POLICY IF EXISTS "Authors can manage their guidance" ON guidance_materials;
 CREATE POLICY "Published guidance is viewable by everyone" ON guidance_materials FOR SELECT USING (status = 'published' OR auth.uid() = author_id);
 CREATE POLICY "Authors can manage their guidance" ON guidance_materials FOR ALL USING (auth.uid() = author_id);
 
--- Activity Logs (admin only)
+-- Activity Logs
 ALTER TABLE activity_logs ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Only admins can view logs" ON activity_logs;
 CREATE POLICY "Only admins can view logs" ON activity_logs FOR SELECT USING (
-  EXISTS (SELECT 1 FROM user_roles ur 
-    JOIN custom_roles cr ON ur.role_id = cr.id 
-    WHERE ur.user_id = auth.uid() AND cr.name IN ('super_admin', 'admin'))
+  EXISTS (
+    SELECT 1 FROM user_roles ur
+    JOIN custom_roles cr ON ur.role_id = cr.id
+    WHERE ur.user_id = auth.uid() AND cr.name IN ('super_admin', 'admin')
+  )
 );
 
 -- ============================================================================
 -- FUNCTIONS
 -- ============================================================================
 
--- Function to create notification
 CREATE OR REPLACE FUNCTION create_notification(
   p_user_id UUID,
   p_actor_id UUID,
@@ -369,15 +381,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Ensure triggers are dropped first to allow idempotent migration
+DROP TRIGGER IF EXISTS update_notifications_updated_at ON notifications;
 CREATE TRIGGER update_notifications_updated_at BEFORE UPDATE ON notifications
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_support_tickets_updated_at ON support_tickets;
 CREATE TRIGGER update_support_tickets_updated_at BEFORE UPDATE ON support_tickets
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_blogs_updated_at ON blogs;
 CREATE TRIGGER update_blogs_updated_at BEFORE UPDATE ON blogs
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_guidance_updated_at ON guidance_materials;
 CREATE TRIGGER update_guidance_updated_at BEFORE UPDATE ON guidance_materials
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
