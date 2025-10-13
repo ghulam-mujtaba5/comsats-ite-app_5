@@ -1,7 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
-import dynamic from "next/dynamic"
+import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { 
@@ -18,15 +17,115 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-// Dynamically import ReactQuill to avoid SSR issues
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
-import "react-quill/dist/quill.snow.css"
+// Lexical imports
+import { LexicalComposer } from "@lexical/react/LexicalComposer"
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin"
+import { ContentEditable } from "@lexical/react/LexicalContentEditable"
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin"
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin"
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
+import { $getRoot, $createParagraphNode, $createTextNode } from "lexical"
+import { HeadingNode } from "@lexical/rich-text"
+import { ListItemNode, ListNode } from "@lexical/list"
+import { LinkNode } from "@lexical/link"
 
 interface RichTextEditorProps {
   value: string
   onChange: (value: string) => void
   placeholder?: string
   className?: string
+}
+
+// Custom toolbar component
+function ToolbarPlugin() {
+  const [editor] = useLexicalComposerContext()
+  
+  const formatText = (command: string) => {
+    editor.dispatchCommand(command as any, undefined)
+  }
+
+  return (
+    <div className="flex flex-wrap items-center gap-1 p-2 border-b border-border bg-muted/50">
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => formatText('bold')}
+        className="h-8 px-2"
+      >
+        <Bold className="h-4 w-4" />
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => formatText('italic')}
+        className="h-8 px-2"
+      >
+        <Italic className="h-4 w-4" />
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => formatText('underline')}
+        className="h-8 px-2"
+      >
+        <Underline className="h-4 w-4" />
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => editor.dispatchCommand('insert_unordered_list' as any, undefined)}
+        className="h-8 px-2"
+      >
+        <List className="h-4 w-4" />
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => editor.dispatchCommand('insert_ordered_list' as any, undefined)}
+        className="h-8 px-2"
+      >
+        <ListOrdered className="h-4 w-4" />
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        className="h-8 px-2"
+      >
+        <Link className="h-4 w-4" />
+      </Button>
+    </div>
+  )
+}
+
+// Custom plugin to handle initial content
+function InitialContentPlugin({ content }: { content: string }) {
+  const [editor] = useLexicalComposerContext()
+  
+  // Set initial content
+  useEffect(() => {
+    if (content) {
+      editor.update(() => {
+        const root = $getRoot()
+        const paragraph = $createParagraphNode()
+        const textNode = $createTextNode(content)
+        paragraph.append(textNode)
+        root.append(paragraph)
+      })
+    }
+  }, [content, editor])
+  
+  return null
+}
+
+// Error boundary component
+function EditorErrorBoundary({ children }: { children: React.ReactNode }) {
+  return <div>{children}</div>
 }
 
 export function RichTextEditor({ 
@@ -39,24 +138,50 @@ export function RichTextEditor({
   const [showToolbar, setShowToolbar] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // Quill modules configuration
-  const modules = {
-    toolbar: [
-      [{ 'header': [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline'],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      ['link', 'image'],
-      ['clean']
+  // Lexical editor configuration
+  const initialConfig = {
+    namespace: 'CommunityEditor',
+    theme: {
+      ltr: 'ltr',
+      rtl: 'rtl',
+      placeholder: 'editor-placeholder',
+      paragraph: 'editor-paragraph',
+      quote: 'editor-quote',
+      heading: {
+        h1: 'editor-heading-h1',
+        h2: 'editor-heading-h2',
+        h3: 'editor-heading-h3',
+        h4: 'editor-heading-h4',
+        h5: 'editor-heading-h5',
+      },
+      list: {
+        nested: {
+          listitem: 'editor-nested-listitem',
+        },
+        ol: 'editor-list-ol',
+        ul: 'editor-list-ul',
+        listitem: 'editor-listitem',
+      },
+      link: 'editor-link',
+      text: {
+        bold: 'editor-text-bold',
+        italic: 'editor-text-italic',
+        underline: 'editor-text-underline',
+        strikethrough: 'editor-text-strikethrough',
+        underlineStrikethrough: 'editor-text-underlineStrikethrough',
+        code: 'editor-text-code',
+      },
+    },
+    nodes: [
+      HeadingNode,
+      ListNode,
+      ListItemNode,
+      LinkNode,
     ],
+    onError: (error: Error) => {
+      console.error(error)
+    },
   }
-
-  // Quill formats configuration
-  const formats = [
-    'header',
-    'bold', 'italic', 'underline',
-    'list', 'bullet',
-    'link', 'image'
-  ]
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -74,119 +199,26 @@ export function RichTextEditor({
 
   return (
     <div className={cn("border rounded-lg bg-background", className)}>
-      {/* Simple toolbar for mobile and basic formatting */}
-      <div className="flex flex-wrap items-center gap-1 p-2 border-b border-border bg-muted/50">
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => setShowToolbar(!showToolbar)}
-          className="h-8 px-2"
-        >
-          <Bold className="h-4 w-4" />
-        </Button>
+      <LexicalComposer initialConfig={initialConfig}>
+        <ToolbarPlugin />
         
-        {showToolbar && (
-          <>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => document.execCommand('bold', false)}
-              className="h-8 px-2"
-            >
-              <Bold className="h-4 w-4" />
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => document.execCommand('italic', false)}
-              className="h-8 px-2"
-            >
-              <Italic className="h-4 w-4" />
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => document.execCommand('underline', false)}
-              className="h-8 px-2"
-            >
-              <Underline className="h-4 w-4" />
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => document.execCommand('insertUnorderedList', false)}
-              className="h-8 px-2"
-            >
-              <List className="h-4 w-4" />
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => document.execCommand('insertOrderedList', false)}
-              className="h-8 px-2"
-            >
-              <ListOrdered className="h-4 w-4" />
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2"
-            >
-              <Link className="h-4 w-4" />
-            </Button>
-          </>
-        )}
-        
-        <div className="flex-1"></div>
-        
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          onClick={() => fileInputRef.current?.click()}
-          className="h-8 px-2"
-        >
-          <Paperclip className="h-4 w-4" />
-        </Button>
-        
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileUpload}
-          className="hidden"
-          accept="image/*,.pdf,.doc,.docx"
-        />
-      </div>
-      
-      {/* Rich text editor */}
-      <div className="min-h-[200px]">
-        {typeof window !== "undefined" ? (
-          <ReactQuill
-            value={value}
-            onChange={onChange}
-            modules={modules}
-            formats={formats}
-            placeholder={placeholder}
-            className="h-full"
-            onFocus={() => setIsEditorFocused(true)}
-            onBlur={() => setIsEditorFocused(false)}
+        <div className="min-h-[200px]">
+          <RichTextPlugin
+            contentEditable={<ContentEditable className="min-h-[200px] p-4" />}
+            placeholder={<div className="absolute top-4 left-4 text-muted-foreground pointer-events-none">{placeholder}</div>}
+            ErrorBoundary={EditorErrorBoundary}
           />
-        ) : (
-          <Textarea
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder={placeholder}
-            className="min-h-[200px]"
-          />
-        )}
-      </div>
+          <HistoryPlugin />
+          <OnChangePlugin onChange={(editorState) => {
+            editorState.read(() => {
+              const root = $getRoot()
+              const text = root.getTextContent()
+              onChange(text)
+            })
+          }} />
+          <InitialContentPlugin content={value} />
+        </div>
+      </LexicalComposer>
       
       {/* Preview of uploaded files */}
       <div className="p-2 border-t border-border">
