@@ -16,6 +16,13 @@ export function middleware(req: NextRequest) {
     // ignore and use default
   }
 
+  // In development, use the actual host instead of hardcoded localhost:3000
+  if (!isProd) {
+    // Get the actual port the server is running on
+    const host = req.headers.get('host') || ''
+    canonicalHost = host
+  }
+
   const host = req.headers.get('host') || ''
   const forwardedProto = req.headers.get('x-forwarded-proto') || ''
 

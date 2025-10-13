@@ -15,6 +15,7 @@ export const SITE_LINKS: SiteLink[] = [
   { label: 'News & Events', href: '/news-events', status: 'live', group: 'core' },
   { label: 'Blog: Grading System', href: '/blog/comsats-grading-system', status: 'beta', group: 'core' },
   { label: 'Search', href: '/search', status: 'working', group: 'core' },
+  { label: 'Admin', href: '/admin', status: 'live', group: 'core' }, // Added Admin link
 
   // Student tools
   { label: 'Past Papers', href: '/past-papers', status: 'live', group: 'student' },
