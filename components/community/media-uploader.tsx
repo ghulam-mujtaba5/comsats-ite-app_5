@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, forwardRef, useImperativeHandle } from "react"
+import React, { useState, useRef, forwardRef, useImperativeHandle } from "react"
 import { Button } from "@/components/ui/button"
 import { 
   Card,
@@ -235,7 +235,7 @@ export const MediaUploader = forwardRef<MediaUploaderRef, MediaUploaderProps>(({
                 variant="destructive"
                 size="sm"
                 className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={(e) => {
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                   e.stopPropagation()
                   removeMedia(item.id)
                 }}

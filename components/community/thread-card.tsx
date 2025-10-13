@@ -1,3 +1,4 @@
+import React from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -225,7 +226,7 @@ export function ThreadCard({ post, onLike, onComment, onShare, currentUser }: Th
             <div className="flex items-center justify-between pt-3 border-t border-border">
               <div className="flex items-center space-x-4">
                 <Button
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.preventDefault()
                     e.stopPropagation()
                     onLike(post.id)
@@ -245,7 +246,7 @@ export function ThreadCard({ post, onLike, onComment, onShare, currentUser }: Th
                   variant="ghost"
                   size="sm"
                   className="flex items-center space-x-2 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors min-h-[44px] min-w-[44px]"
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.preventDefault()
                     e.stopPropagation()
                     onComment(post.id)
@@ -259,7 +260,7 @@ export function ThreadCard({ post, onLike, onComment, onShare, currentUser }: Th
                   variant="ghost"
                   size="sm"
                   className="flex items-center space-x-2 hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-colors min-h-[44px] min-w-[44px]"
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent) => {
                     e.preventDefault()
                     e.stopPropagation()
                     onShare(post.id)

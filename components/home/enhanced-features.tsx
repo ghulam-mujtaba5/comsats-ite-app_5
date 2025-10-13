@@ -11,6 +11,7 @@ import { notifyFetch } from "@/lib/notify"
 import { StaggerContainer, StaggerItem, AnimatedCard, AnimatedButton, FadeInScroll } from "@/components/animations/enhanced"
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
+import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
 
 export function EnhancedFeatures() {
   const [stats, setStats] = useState({ pastPapersCount: 1000, reviewsCount: 500, facultyCount: 156, resourcesCount: 324 })
@@ -18,6 +19,7 @@ export function EnhancedFeatures() {
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null)
   const { triggerAchievement } = useCelebrationAnimations()
   const { isAnimationEnabled } = useAnimation()
+  const { triggerFeedback } = useMotivationalFeedback()
 
   useEffect(() => {
     setIsVisible(true)
@@ -143,6 +145,12 @@ export function EnhancedFeatures() {
         title: `Exploring ${title}`,
         description: `You're discovering the ${title} feature`,
         type: 'badge'
+      })
+      
+      // Trigger motivational feedback
+      triggerFeedback({
+        type: 'challenge_completed',
+        message: `Exploring ${title}`
       })
     }
   }

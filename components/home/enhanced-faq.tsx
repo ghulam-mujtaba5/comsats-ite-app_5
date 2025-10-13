@@ -11,6 +11,7 @@ import { motion } from "framer-motion"
 import { StaggerContainer, StaggerItem, AnimatedCard, FadeInScroll } from "@/components/animations/enhanced"
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
+import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
 
 type FAQ = {
   id: string
@@ -27,6 +28,7 @@ export function EnhancedFAQ() {
   const [filteredFaqs, setFilteredFaqs] = useState<FAQ[]>([])
   const { triggerAchievement } = useCelebrationAnimations()
   const { isAnimationEnabled } = useAnimation()
+  const { triggerFeedback } = useMotivationalFeedback()
 
   // Curated static fallback suitable for the home page
   const STATIC_FAQS: FAQ[] = [
@@ -122,6 +124,12 @@ export function EnhancedFAQ() {
         title: "Getting Help",
         description: "You're reaching out for support!",
         type: 'badge'
+      })
+      
+      // Trigger motivational feedback
+      triggerFeedback({
+        type: 'help_provided',
+        message: "Reaching out for support!"
       })
     }
   }

@@ -98,7 +98,7 @@ export function FeedbackToast({
   return (
     <Toast
       open={open}
-      onOpenChange={(newOpen) => {
+      onOpenChange={(newOpen: boolean) => {
         setOpen(newOpen)
         onOpenChange?.(newOpen)
       }}

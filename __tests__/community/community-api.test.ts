@@ -1,11 +1,10 @@
-import { describe, it, expect, beforeEach, vi, Mock } from 'vitest'
 import { GET, POST } from '@/app/api/community/posts/route'
 import { createSupabaseClient } from '@/lib/supabase-utils'
 
 // Mock Supabase client
-vi.mock('@/lib/supabase-utils', () => ({
-  createSupabaseClient: vi.fn(),
-  extractQueryParams: vi.fn().mockReturnValue({
+jest.mock('@/lib/supabase-utils', () => ({
+  createSupabaseClient: jest.fn(),
+  extractQueryParams: jest.fn().mockReturnValue({
     limit: 20,
     offset: 0,
     withMeta: false,
@@ -13,30 +12,30 @@ vi.mock('@/lib/supabase-utils', () => ({
     departmentId: null,
     batch: null
   }),
-  transformPostRecord: vi.fn().mockImplementation((post) => post)
+  transformPostRecord: jest.fn().mockImplementation((post: unknown) => post)
 }))
 
 // Mock NextRequest
-const createMockRequest = (url: string = 'http://localhost:3000', method: string = 'GET', body?: any) => {
+const createMockRequest = (url: string = 'http://localhost:3000', method: string = 'GET', body?: unknown) => {
   return {
     url,
     method,
-    json: vi.fn().mockResolvedValue(body || {}),
+    json: jest.fn().mockResolvedValue(body || {}),
     headers: {
-      get: vi.fn()
+      get: jest.fn()
     }
   }
 }
 
 // Mock NextResponse
-const mockJsonResponse = vi.fn()
+const mockJsonResponse = jest.fn()
 const mockNextResponse = {
   json: mockJsonResponse
 }
 
-vi.mock('next/server', () => ({
+jest.mock('next/server', () => ({
   NextResponse: {
-    json: vi.fn().mockImplementation((data, options) => {
+    json: jest.fn().mockImplementation((data: unknown, options: unknown) => {
       mockJsonResponse(data, options)
       return { json: () => Promise.resolve(data) }
     })
@@ -45,20 +44,20 @@ vi.mock('next/server', () => ({
 
 describe('Community API Routes', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
+    jest.clearAllMocks()
   })
 
   describe('GET /api/community/posts', () => {
     it('should fetch posts successfully', async () => {
       const mockSupabase = {
-        from: vi.fn().mockReturnThis(),
-        select: vi.fn().mockReturnThis(),
-        order: vi.fn().mockReturnThis(),
-        range: vi.fn().mockReturnThis(),
-        eq: vi.fn().mockReturnThis()
+        from: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        order: jest.fn().mockReturnThis(),
+        range: jest.fn().mockReturnThis(),
+        eq: jest.fn().mockReturnThis()
       }
       
-      ;(createSupabaseClient as Mock).mockResolvedValue(mockSupabase)
+      ;(createSupabaseClient as jest.Mock).mockResolvedValue(mockSupabase)
       mockSupabase.select.mockResolvedValue({
         data: [{ id: '1', content: 'Test post' }],
         error: null
@@ -79,13 +78,13 @@ describe('Community API Routes', () => {
 
     it('should handle errors gracefully', async () => {
       const mockSupabase = {
-        from: vi.fn().mockReturnThis(),
-        select: vi.fn().mockReturnThis(),
-        order: vi.fn().mockReturnThis(),
-        range: vi.fn().mockReturnThis()
+        from: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        order: jest.fn().mockReturnThis(),
+        range: jest.fn().mockReturnThis()
       }
       
-      ;(createSupabaseClient as Mock).mockResolvedValue(mockSupabase)
+      ;(createSupabaseClient as jest.Mock).mockResolvedValue(mockSupabase)
       mockSupabase.select.mockResolvedValue({
         data: null,
         error: new Error('Database error')
@@ -105,17 +104,17 @@ describe('Community API Routes', () => {
     it('should create a post successfully', async () => {
       const mockSupabase = {
         auth: {
-          getUser: vi.fn().mockResolvedValue({
+          getUser: jest.fn().mockResolvedValue({
             data: { user: { id: 'user123', email: 'test@example.com' } }
           })
         },
-        from: vi.fn().mockReturnThis(),
-        select: vi.fn().mockReturnThis(),
-        insert: vi.fn().mockReturnThis(),
-        single: vi.fn().mockReturnThis()
+        from: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        insert: jest.fn().mockReturnThis(),
+        single: jest.fn().mockReturnThis()
       }
       
-      ;(createSupabaseClient as Mock).mockResolvedValue(mockSupabase)
+      ;(createSupabaseClient as jest.Mock).mockResolvedValue(mockSupabase)
       mockSupabase.insert.mockResolvedValue({
         data: { id: 'post123', content: 'New post' },
         error: null
@@ -146,13 +145,13 @@ describe('Community API Routes', () => {
     it('should reject posts with insufficient content', async () => {
       const mockSupabase = {
         auth: {
-          getUser: vi.fn().mockResolvedValue({
+          getUser: jest.fn().mockResolvedValue({
             data: { user: { id: 'user123' } }
           })
         }
       }
       
-      ;(createSupabaseClient as Mock).mockResolvedValue(mockSupabase)
+      ;(createSupabaseClient as jest.Mock).mockResolvedValue(mockSupabase)
       
       const request = createMockRequest('http://localhost:3000', 'POST', {
         content: 'ab', // Less than 3 characters
@@ -170,13 +169,13 @@ describe('Community API Routes', () => {
     it('should reject unauthenticated requests', async () => {
       const mockSupabase = {
         auth: {
-          getUser: vi.fn().mockResolvedValue({
+          getUser: jest.fn().mockResolvedValue({
             data: { user: null }
           })
         }
       }
       
-      ;(createSupabaseClient as Mock).mockResolvedValue(mockSupabase)
+      ;(createSupabaseClient as jest.Mock).mockResolvedValue(mockSupabase)
       
       const request = createMockRequest('http://localhost:3000', 'POST', {
         content: 'Test post',

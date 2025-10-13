@@ -4,9 +4,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Star, MapPin, Mail, Phone, BookOpen, Users } from "lucide-react"
+import { Star, MapPin, Mail, Phone, BookOpen, Users, Trophy, Award } from "lucide-react"
 import type { Faculty } from "@/lib/faculty-data"
 import Link from "next/link"
+import { useEmotion } from "@/contexts/emotion-context"
+import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
+import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
+import { useState, useEffect } from "react"
 
 interface FacultyCardProps {
   faculty: Faculty
@@ -14,6 +18,11 @@ interface FacultyCardProps {
 }
 
 export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
+  const { emotionState, updateEmotionState } = useEmotion()
+  const { triggerConfetti, triggerBalloons } = useCelebrationAnimations()
+  const { triggerFeedback } = useMotivationalFeedback()
+  const [viewCount, setViewCount] = useState(0)
+
   const highlight = (text: string) => {
     const term = (searchTerm || '').trim()
     if (!term) return text
@@ -44,12 +53,62 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
     ))
   }
 
+  // Track faculty profile views
+  const trackProfileView = () => {
+    const newCount = viewCount + 1
+    setViewCount(newCount)
+    
+    // Update emotion state
+    updateEmotionState({
+      motivationLevel: emotionState.motivationLevel === 'low' ? 'medium' : emotionState.motivationLevel,
+      focusLevel: emotionState.focusLevel === 'low' ? 'medium' : emotionState.focusLevel
+    })
+    
+    // Trigger achievements based on view count
+    if (newCount === 1) {
+      // First faculty profile viewed
+      triggerFeedback({
+        type: 'achievement_unlocked',
+        message: "First Faculty Profile Viewed!"
+      })
+    } else if (newCount === 5) {
+      // Multiple faculty profiles viewed
+      triggerConfetti({
+        message: "Academic Explorer! 🎓",
+        duration: 5000,
+        particleCount: 200
+      })
+      
+      triggerFeedback({
+        type: 'achievement_unlocked',
+        message: "Viewed 5 Faculty Profiles!"
+      })
+    } else if (newCount === 10) {
+      // Extensive faculty research
+      triggerBalloons({
+        message: "Research Master! 🎈",
+        duration: 6000,
+        balloonCount: 15
+      })
+      
+      triggerFeedback({
+        type: 'achievement_unlocked',
+        message: "Viewed 10 Faculty Profiles!"
+      })
+    }
+  }
+
   return (
     <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden border-border">
       {/* Decorative accent */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-blue-500"></div>
       
-      <Link href={`/faculty/${faculty.id}`} className="absolute inset-0 z-0" aria-label={`View profile for ${faculty.name}`}>
+      <Link 
+        href={`/faculty/${faculty.id}`} 
+        className="absolute inset-0 z-0" 
+        aria-label={`View profile for ${faculty.name}`}
+        onClick={trackProfileView}
+      >
         <span className="sr-only">View profile for {faculty.name}</span>
       </Link>
       
@@ -93,6 +152,21 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
             <div className="text-xs text-muted-foreground">({faculty.totalReviews} reviews)</div>
           </div>
         </div>
+
+        {/* Achievement badges for highly rated faculty */}
+        {faculty.averageRating >= 4.5 && (
+          <div className="flex items-center justify-center gap-1 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-lg p-2">
+            <Trophy className="h-4 w-4 text-yellow-500" />
+            <span className="text-xs font-medium text-yellow-700 dark:text-yellow-300">Top Rated</span>
+          </div>
+        )}
+        
+        {faculty.totalReviews >= 50 && (
+          <div className="flex items-center justify-center gap-1 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-lg p-2">
+            <Award className="h-4 w-4 text-blue-500" />
+            <span className="text-xs font-medium text-blue-700 dark:text-blue-300">Popular Choice</span>
+          </div>
+        )}
 
         {/* Contact Info */}
         <div className="space-y-2 text-sm">
@@ -149,7 +223,7 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
         {/* Action Button */}
         <div className="pt-2">
           <Button asChild className="w-full group/btn">
-            <Link href={`/faculty/${faculty.id}`}>
+            <Link href={`/faculty/${faculty.id}`} onClick={(e) => e.stopPropagation()}>
               View Profile & Reviews
               <span className="ml-2 opacity-0 group-hover/btn:opacity-100 transition-opacity">→</span>
             </Link>

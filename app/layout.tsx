@@ -25,6 +25,7 @@ import { GlobalAnimationController } from "@/components/animations/global-animat
 // Import emotion system
 import { CampusAxisEmotionProvider } from "@/components/emotion/emotion-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { MotivationalProvider } from "@/components/motivational/motivational-provider"
 
 export const dynamic = 'force-dynamic'
 
@@ -294,30 +295,32 @@ html {
             <AnimationProvider>
               <CampusAxisEmotionProvider>
                 <TooltipProvider>
-                  <CampusProvider>
-                    <Header />
-                    <div className="min-h-[60vh] max-w-full overflow-x-hidden">
-                      {children}
-                    </div>
-                    <FooterConditional />
-                    <Toaster />
-                    {/* Global animation controller */}
-                    <GlobalAnimationController />
-                    {/* Browser compatibility warnings */}
-                    <Suspense fallback={null}>
-                      <FallbackWarning />
-                    </Suspense>
-                    <Suspense fallback={null}>
-                      <PwaFallback />
-                    </Suspense>
-                    {/* Client-side route change tracking - only in production */}
-                    {isProd && (
+                  <MotivationalProvider>
+                    <CampusProvider>
+                      <Header />
+                      <div className="min-h-[60vh] max-w-full overflow-x-hidden">
+                        {children}
+                      </div>
+                      <FooterConditional />
+                      <Toaster />
+                      {/* Global animation controller */}
+                      <GlobalAnimationController />
+                      {/* Browser compatibility warnings */}
                       <Suspense fallback={null}>
-                        <AnalyticsTracker />
-                        <WebVitalsReporter />
+                        <FallbackWarning />
                       </Suspense>
-                    )}
-                  </CampusProvider>
+                      <Suspense fallback={null}>
+                        <PwaFallback />
+                      </Suspense>
+                      {/* Client-side route change tracking - only in production */}
+                      {isProd && (
+                        <Suspense fallback={null}>
+                          <AnalyticsTracker />
+                          <WebVitalsReporter />
+                        </Suspense>
+                      )}
+                    </CampusProvider>
+                  </MotivationalProvider>
                 </TooltipProvider>
               </CampusAxisEmotionProvider>
             </AnimationProvider>

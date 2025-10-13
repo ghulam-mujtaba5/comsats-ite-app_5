@@ -10,6 +10,7 @@ import { motion } from "framer-motion"
 import { StaggerContainer, StaggerItem, AnimatedCard, FadeInScroll } from "@/components/animations/enhanced"
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
+import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
 
 type News = {
   id: string
@@ -28,6 +29,7 @@ export function EnhancedNews() {
   const [maxCount, setMaxCount] = useState(4)
   const { triggerConfetti } = useCelebrationAnimations()
   const { isAnimationEnabled } = useAnimation()
+  const { triggerFeedback } = useMotivationalFeedback()
 
   useEffect(() => {
     ;(async () => {
@@ -78,6 +80,12 @@ export function EnhancedNews() {
         message: "Stay Updated!",
         duration: 3000,
         particleCount: 100
+      })
+      
+      // Trigger motivational feedback
+      triggerFeedback({
+        type: 'content_created',
+        message: "Staying informed!"
       })
     }
   }

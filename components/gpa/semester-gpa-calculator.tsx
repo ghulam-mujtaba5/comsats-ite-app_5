@@ -1,17 +1,42 @@
 "use client"
 
-import { useMemo, useState, useCallback } from "react"
+import { useMemo, useState, useCallback, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Trash2, Plus, Calculator } from "lucide-react"
+import { Trash2, Plus, Calculator, Trophy, Zap, Flame } from "lucide-react"
 import { type Course, GRADES, calculateSemesterGPA, getGradeFromGPA } from "@/lib/gpa-utils"
+import { useEmotion } from "@/contexts/emotion-context"
+import { useAnimation } from "@/contexts/animation-context"
+import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
+import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 
 export function SemesterGPACalculator() {
   const [courses, setCourses] = useState<Course[]>([{ id: "1", name: "", creditHours: 3, grade: "" }])
+  const [studyTime, setStudyTime] = useState(0) // Track study time in minutes
+  const [startTime, setStartTime] = useState<number | null>(null)
+
+  const { emotionState, updateEmotionState } = useEmotion()
+  const { triggerAnimation } = useAnimation()
+  const { triggerFeedback } = useMotivationalFeedback()
+  const { triggerConfetti, triggerBalloons, triggerFlickeringLights } = useCelebrationAnimations()
+
+  // Track study time
+  useEffect(() => {
+    if (courses.length > 1 && !startTime) {
+      setStartTime(Date.now())
+    }
+    
+    return () => {
+      if (startTime) {
+        const elapsed = Math.floor((Date.now() - startTime) / 60000) // Convert to minutes
+        setStudyTime(prev => prev + elapsed)
+      }
+    }
+  }, [courses.length, startTime])
 
   const validCourses = useMemo(
     () => courses.filter((course) => course.grade && course.creditHours > 0),
@@ -23,6 +48,36 @@ export function SemesterGPACalculator() {
     return calculateSemesterGPA(validCourses)
   }, [validCourses])
 
+  // Track user activity for emotion detection
+  const trackActivity = useCallback((activity: string) => {
+    // Update emotion state based on activity
+    switch (activity) {
+      case 'course_added':
+        updateEmotionState({
+          motivationLevel: emotionState.motivationLevel === 'low' ? 'medium' : emotionState.motivationLevel,
+          focusLevel: emotionState.focusLevel === 'low' ? 'medium' : emotionState.focusLevel
+        })
+        break
+      case 'grade_entered':
+        updateEmotionState({
+          motivationLevel: emotionState.motivationLevel === 'low' ? 'medium' : emotionState.motivationLevel
+        })
+        break
+      case 'high_gpa':
+        updateEmotionState({
+          mood: 'happy',
+          motivationLevel: 'high'
+        })
+        break
+      case 'low_gpa':
+        updateEmotionState({
+          mood: 'sad',
+          stressLevel: emotionState.stressLevel === 'low' ? 'medium' : emotionState.stressLevel
+        })
+        break
+    }
+  }, [emotionState, updateEmotionState])
+
   const addCourse = useCallback(() => {
     const newCourse: Course = {
       id: Date.now().toString(),
@@ -31,7 +86,8 @@ export function SemesterGPACalculator() {
       grade: "",
     }
     setCourses(prev => [...prev, newCourse])
-  }, [])
+    trackActivity('course_added')
+  }, [trackActivity])
 
   const removeCourse = useCallback((id: string) => {
     if (courses.length > 1) {
@@ -41,11 +97,76 @@ export function SemesterGPACalculator() {
 
   const updateCourse = useCallback((id: string, field: keyof Course, value: string | number) => {
     setCourses(prev => prev.map((course) => (course.id === id ? { ...course, [field]: value } : course)))
-  }, [])
+    
+    // Track grade entry activity
+    if (field === "grade" && value) {
+      trackActivity('grade_entered')
+    }
+  }, [trackActivity])
 
   const resetCalculator = useCallback(() => {
     setCourses([{ id: "1", name: "", creditHours: 3, grade: "" }])
+    setStartTime(null)
+    setStudyTime(0)
   }, [])
+
+  // Show motivational feedback when GPA is calculated
+  useEffect(() => {
+    if (liveResult) {
+      // Trigger emotion-based responses
+      if (liveResult.gpa >= 3.5) {
+        trackActivity('high_gpa')
+        
+        // Trigger celebration animations
+        triggerConfetti({
+          message: "Excellent Work! 🎉",
+          duration: 5000,
+          particleCount: 200
+        })
+        
+        // Trigger motivational feedback
+        triggerFeedback({
+          type: 'achievement_unlocked',
+          message: `Outstanding GPA: ${liveResult.gpa.toFixed(2)}!`
+        })
+      } else if (liveResult.gpa >= 3.0) {
+        trackActivity('high_gpa')
+        
+        // Trigger positive animation
+        triggerFlickeringLights({
+          message: "Good job! Keep it up! ✨",
+          duration: 3000
+        })
+        
+        // Trigger motivational feedback
+        triggerFeedback({
+          type: 'goal_reached',
+          message: `Great GPA: ${liveResult.gpa.toFixed(2)}!`
+        })
+      } else if (liveResult.gpa >= 2.0) {
+        // Neutral response
+        triggerFeedback({
+          type: 'challenge_completed',
+          message: `GPA: ${liveResult.gpa.toFixed(2)}. You can do better!`
+        })
+      } else {
+        trackActivity('low_gpa')
+        
+        // Trigger supportive animation
+        triggerAnimation({
+          type: 'sparkles',
+          message: "Don't give up! You've got this! 💪",
+          duration: 4000
+        })
+        
+        // Trigger motivational feedback
+        triggerFeedback({
+          type: 'low_motivation',
+          message: `GPA: ${liveResult.gpa.toFixed(2)}. Let's work on improvement!`
+        })
+      }
+    }
+  }, [liveResult, trackActivity, triggerConfetti, triggerFlickeringLights, triggerAnimation, triggerFeedback])
 
   return (
     <Card>
@@ -136,6 +257,40 @@ export function SemesterGPACalculator() {
                 <div className="flex justify-center gap-3">
                   <Badge variant="secondary" className="text-xs">Grade: {getGradeFromGPA(liveResult.gpa)}</Badge>
                   <Badge variant="outline" className="text-xs">Total Credits: {liveResult.totalCredits}</Badge>
+                  {studyTime > 0 && (
+                    <Badge variant="outline" className="text-xs flex items-center gap-1">
+                      <Flame className="h-3 w-3" />
+                      {studyTime} min
+                    </Badge>
+                  )}
+                </div>
+                
+                {/* Motivational badges based on GPA */}
+                <div className="flex justify-center gap-2 mt-2">
+                  {liveResult.gpa >= 3.5 && (
+                    <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white">
+                      <Trophy className="h-3 w-3 mr-1" />
+                      Excellent
+                    </Badge>
+                  )}
+                  {liveResult.gpa >= 3.0 && liveResult.gpa < 3.5 && (
+                    <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
+                      <Zap className="h-3 w-3 mr-1" />
+                      Good
+                    </Badge>
+                  )}
+                  {liveResult.gpa >= 2.0 && liveResult.gpa < 3.0 && (
+                    <Badge className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
+                      <Flame className="h-3 w-3 mr-1" />
+                      Keep Going
+                    </Badge>
+                  )}
+                  {liveResult.gpa < 2.0 && (
+                    <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                      <Zap className="h-3 w-3 mr-1" />
+                      Improvement
+                    </Badge>
+                  )}
                 </div>
               </div>
             </CardContent>

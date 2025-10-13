@@ -124,12 +124,12 @@ export function AdminPanel() {
       
       const formattedReports = reportsData?.map(report => ({
         id: report.id,
-        type: report.post_id ? 'post' : 'comment',
+        type: report.post_id ? 'post' : 'comment' as 'post' | 'comment',
         content: report.post?.content || report.comment?.content || 'Content not available',
         author: report.post?.user_id || report.comment?.user_id || 'Unknown',
         reporter: report.reporter?.full_name || 'Anonymous',
         reason: report.reason,
-        status: report.status,
+        status: report.status as 'pending' | 'reviewed' | 'resolved' | 'dismissed',
         created_at: report.created_at,
         post_id: report.post_id,
         comment_id: report.comment_id

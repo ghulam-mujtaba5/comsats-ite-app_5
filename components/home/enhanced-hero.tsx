@@ -12,6 +12,7 @@ import { notifyFetch } from "@/lib/notify"
 import { FadeInScroll, AnimatedCard, CountUp, Pulse, AnimatedButton, FloatingButton, Bounce, Shimmer } from "@/components/animations/enhanced"
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
+import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
 
 export function EnhancedHero() {
   const [stats, setStats] = useState<{
@@ -31,6 +32,7 @@ export function EnhancedHero() {
   const [activeFeature, setActiveFeature] = useState(0)
   const { triggerConfetti, triggerBalloons, triggerFlickeringLights } = useCelebrationAnimations()
   const { isAnimationEnabled } = useAnimation()
+  const { triggerFeedback } = useMotivationalFeedback()
 
   useEffect(() => {
     setIsVisible(true)
@@ -139,6 +141,12 @@ export function EnhancedHero() {
         duration: 3000,
         particleCount: 150
       })
+      
+      // Trigger motivational feedback
+      triggerFeedback({
+        type: 'achievement_unlocked',
+        message: "Welcome to CampusAxis!"
+      })
     }
   }
 
@@ -148,6 +156,12 @@ export function EnhancedHero() {
         message: "Discover amazing features!",
         duration: 4000,
         balloonCount: 10
+      })
+      
+      // Trigger motivational feedback
+      triggerFeedback({
+        type: 'challenge_completed',
+        message: "Exploring new features!"
       })
     }
   }

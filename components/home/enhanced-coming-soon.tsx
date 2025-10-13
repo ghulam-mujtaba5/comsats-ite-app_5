@@ -8,55 +8,63 @@ import { motion } from "framer-motion"
 import { StaggerContainer, StaggerItem, AnimatedCard } from "@/components/animations/enhanced"
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
-
-const betaFeatures = [
-  {
-    title: "Student Community",
-    href: "/community",
-    description: "Join discussions, share updates, and connect with peers.",
-    icon: Users,
-    isBeta: false, // Mark as fully functional
-    status: "live",
-    popularity: 92
-  },
-  {
-    title: "Lost & Found",
-    href: "/lost-found",
-    description: "Report lost items or help others by posting found items.",
-    icon: PackageSearch,
-    status: "beta",
-    popularity: 75
-  },
-  {
-    title: "News & Events",
-    href: "/news-events",
-    description: "Preview campus news and upcoming events in one place.",
-    icon: Newspaper,
-    status: "beta",
-    popularity: 88
-  },
-  {
-    title: "Guidance Portal",
-    href: "/guidance",
-    description: "Explore academic guidance and FAQs. Content is evolving.",
-    icon: HelpCircle,
-    status: "beta",
-    popularity: 81
-  },
-  {
-    title: "Student Support",
-    href: "/student-support",
-    description: "Access support resources for your academic journey.",
-    icon: LifeBuoy,
-    isBeta: false, // Mark as fully functional
-    status: "live",
-    popularity: 95
-  },
-]
+import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
 
 export function EnhancedComingSoon() {
   const { triggerConfetti } = useCelebrationAnimations()
   const { isAnimationEnabled } = useAnimation()
+  const { triggerFeedback } = useMotivationalFeedback()
+
+  const betaFeatures = [
+    {
+      title: "AI Study Assistant",
+      description: "Personalized study recommendations powered by artificial intelligence",
+      icon: Sparkles,
+      status: "beta",
+      popularity: 92,
+      href: "/ai-assistant"
+    },
+    {
+      title: "Virtual Study Groups",
+      description: "Connect with classmates for collaborative learning sessions",
+      icon: Users,
+      status: "beta",
+      popularity: 78,
+      href: "/study-groups"
+    },
+    {
+      title: "Career Path Explorer",
+      description: "Discover career opportunities based on your academic interests",
+      icon: PackageSearch,
+      status: "beta",
+      popularity: 85,
+      href: "/career-explorer"
+    },
+    {
+      title: "Campus News Hub",
+      description: "Stay updated with the latest campus announcements and events",
+      icon: Newspaper,
+      status: "live",
+      popularity: 95,
+      href: "/news"
+    },
+    {
+      title: "Peer Support Network",
+      description: "Connect with mentors and get help from senior students",
+      icon: HelpCircle,
+      status: "live",
+      popularity: 88,
+      href: "/peer-support"
+    },
+    {
+      title: "Emergency Support",
+      description: "Quick access to campus emergency contacts and resources",
+      icon: LifeBuoy,
+      status: "beta",
+      popularity: 70,
+      href: "/emergency"
+    }
+  ]
 
   const handleFeatureClick = (title: string) => {
     if (isAnimationEnabled) {
@@ -64,6 +72,12 @@ export function EnhancedComingSoon() {
         message: `Exploring ${title}!`,
         duration: 2000,
         particleCount: 50
+      })
+      
+      // Trigger motivational feedback
+      triggerFeedback({
+        type: 'challenge_completed',
+        message: `Exploring ${title}!`
       })
     }
   }

@@ -24,7 +24,7 @@ global.fetch = jest.fn(() =>
     headers: {
       get: () => null
     }
-  } as any)
+  } as unknown as Response)
 ) as jest.Mock
 
 describe('Enhanced Components', () => {

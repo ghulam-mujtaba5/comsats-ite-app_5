@@ -10,6 +10,7 @@ import { motion } from "framer-motion"
 import { StaggerContainer, StaggerItem, AnimatedCard, FadeInScroll } from "@/components/animations/enhanced"
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
+import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
 
 type CommunityCard = {
   id: string
@@ -26,6 +27,7 @@ export function EnhancedCommunity() {
   const [activeTab, setActiveTab] = useState("all")
   const { triggerConfetti } = useCelebrationAnimations()
   const { isAnimationEnabled } = useAnimation()
+  const { triggerFeedback } = useMotivationalFeedback()
 
   useEffect(() => {
     ;(async () => {
@@ -55,6 +57,12 @@ export function EnhancedCommunity() {
         message: "Welcome to the Community!",
         duration: 3000,
         particleCount: 100
+      })
+      
+      // Trigger motivational feedback
+      triggerFeedback({
+        type: 'peer_interaction',
+        message: "Joined the community!"
       })
     }
   }
