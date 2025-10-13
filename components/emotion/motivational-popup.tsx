@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useEmotion } from "@/contexts/emotion-context"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { X } from "lucide-react"
+import { X as XIcon } from "lucide-react"
 
 interface MotivationalMessage {
   id: string
@@ -63,6 +63,8 @@ export function MotivationalPopup() {
   const { emotionState } = useEmotion()
   const [visibleMessages, setVisibleMessages] = useState<MotivationalMessage[]>([])
   const [dismissedMessages, setDismissedMessages] = useState<Set<string>>(new Set())
+  // Track which messages have been shown to avoid repeated notifications
+  const [shownMessages, setShownMessages] = useState<Set<string>>(new Set())
 
   // Select appropriate messages based on current mood
   useEffect(() => {
@@ -70,13 +72,24 @@ export function MotivationalPopup() {
       message.mood.includes(emotionState.mood)
     )
     
-    // Randomly select 1-2 messages to show
-    if (relevantMessages.length > 0 && visibleMessages.length === 0) {
-      const shuffled = [...relevantMessages].sort(() => 0.5 - Math.random())
+    // Filter out messages that have already been shown or dismissed
+    const newMessages = relevantMessages.filter(message => 
+      !shownMessages.has(message.id) && !dismissedMessages.has(message.id)
+    )
+    
+    // Randomly select 1-2 new messages to show
+    if (newMessages.length > 0 && visibleMessages.length === 0) {
+      const shuffled = [...newMessages].sort(() => 0.5 - Math.random())
       const selected = shuffled.slice(0, Math.min(2, shuffled.length))
       setVisibleMessages(selected)
+      // Add these messages to the shown set
+      setShownMessages(prev => {
+        const newSet = new Set(prev)
+        selected.forEach(msg => newSet.add(msg.id))
+        return newSet
+      })
     }
-  }, [emotionState.mood, visibleMessages.length])
+  }, [emotionState.mood, visibleMessages.length, dismissedMessages, shownMessages])
 
   const dismissMessage = (id: string) => {
     setDismissedMessages(prev => new Set(prev).add(id))
@@ -84,6 +97,8 @@ export function MotivationalPopup() {
   }
 
   const dismissAll = () => {
+    // Add all current visible messages to dismissed set
+    visibleMessages.forEach(msg => setDismissedMessages(prev => new Set(prev).add(msg.id)))
     setVisibleMessages([])
   }
 
@@ -111,7 +126,7 @@ export function MotivationalPopup() {
                     className="absolute top-2 right-2 h-6 w-6 text-indigo-500 hover:text-indigo-700"
                     onClick={() => dismissMessage(message.id)}
                   >
-                    <X className="h-4 w-4" />
+                    <XIcon className="h-4 w-4" />
                   </Button>
                 </CardContent>
               </Card>

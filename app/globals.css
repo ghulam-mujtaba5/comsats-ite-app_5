@@ -366,18 +366,6 @@ html, body {
     @apply hidden;
   }
 
-  .surface {
-    @apply bg-background/80 backdrop-blur-lg;
-  }
-
-  .surface-soft {
-    @apply bg-muted/80 backdrop-blur-lg;
-  }
-
-  .surface-glass {
-    @apply bg-white/5 backdrop-blur-2xl border-white/10 shadow-2xl shadow-black/20;
-  }
-
   .app-container {
     @apply container mx-auto px-4 sm:px-6 lg:px-8;
   }
@@ -655,11 +643,6 @@ html, body {
       inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
   }
 
-  .glass-sidebar {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.4)] dark:bg-slate-900/[0.5] backdrop-blur-[var(--glass-blur-2xl)] saturate-[var(--glass-saturation)];
-    @apply border-r border-white/[var(--glass-border-opacity)] dark:border-white/[0.08] shadow-lg shadow-black/[calc(var(--glass-shadow-opacity)*0.5)] dark:shadow-black/[var(--glass-shadow-opacity)];
-  }
-
   .glass-button {
     @apply bg-white/[calc(var(--glass-bg-opacity)-0.1)] dark:bg-white/[0.08] backdrop-blur-[var(--glass-blur-md)] saturate-[var(--glass-saturation)];
     @apply border border-white/[calc(var(--glass-border-opacity)-0.05)] dark:border-white/[0.08] shadow-md shadow-black/[calc(var(--glass-shadow-opacity)*0.5)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*1.2)];
@@ -690,10 +673,6 @@ html, body {
     @apply border border-white/[calc(var(--glass-border-opacity)+0.05)] dark:border-white/[0.12];
   }
 
-  .glass-border-medium {
-    @apply border-2 border-white/[calc(var(--glass-border-opacity)+0.1)] dark:border-white/[0.18];
-  }
-
   .glass-border-glow {
     @apply border border-white/[calc(var(--glass-border-opacity)+0.05)] dark:border-white/[0.12];
     box-shadow: 
@@ -705,14 +684,6 @@ html, body {
     box-shadow: 
       inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
       0 0 8px rgba(59, 130, 246, 0.2);
-  }
-
-  .glass-border-gradient {
-    @apply border-2 border-transparent bg-gradient-to-r from-white/[calc(var(--glass-border-opacity)+0.1)] via-white/[calc(var(--glass-border-opacity)+0.05)] to-white/[calc(var(--glass-border-opacity)+0.1)] bg-origin-border;
-  }
-
-  .dark .glass-border-gradient {
-    @apply from-white/[0.12] via-white/[0.08] to-white/[0.12];
   }
 
   /* Glass Hover Effects - Apple 2025 Style */
@@ -872,96 +843,6 @@ html, body {
 
   .slide-up {
     @apply animate-in slide-in-from-bottom-4 duration-700;
-  }
-
-  .text-gradient {
-    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--chart-1)), hsl(var(--chart-5)));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .bg-gradient-radial {
-    background: radial-gradient(circle at center, var(--tw-gradient-stops));
-  }
-
-  .bg-mesh {
-    background-image: 
-      radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 0.08) 0px, transparent 0%),
-      radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 0.08) 0px, transparent 50%),
-      radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 0.08) 0px, transparent 50%),
-      radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 0.08) 0px, transparent 50%),
-      radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 0.08) 0px, transparent 50%),
-      radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 0.08) 0px, transparent 50%),
-      radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 0.08) 0px, transparent 50%);
-  }
-
-  .card-modern {
-    @apply bg-card/50 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-card/80;
-  }
-
-  .button-modern {
-    @apply relative overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95;
-  }
-
-  .input-modern {
-    @apply bg-background/50 backdrop-blur-sm border-border/50 transition-all duration-200 focus:border-primary/50 focus:bg-background/80;
-  }
-
-  /* Advanced 2025 Effects with reduced intensity */
-  .neo-brutalism {
-    @apply bg-background border-2 border-foreground transition-all duration-200;
-    box-shadow: 2px 2px 0px 0px hsl(var(--foreground));
-  }
-
-  .neo-brutalism:hover {
-    box-shadow: 3px 3px 0px 0px hsl(var(--foreground));
-  }
-
-  .glass-morphism {
-    @apply bg-white/10 dark:bg-black/10 backdrop-blur-2xl border border-white/20 dark:border-white/10 shadow-xl;
-  }
-
-  .neumorphism {
-    @apply bg-background;
-    box-shadow: 
-      inset 3px 3px 5px rgba(0, 0, 0, 0.05),
-      inset -3px -3px 5px rgba(255, 255, 255, 0.5);
-  }
-
-  .dark .neumorphism {
-    box-shadow: 
-      inset 3px 3px 5px rgba(0, 0, 0, 0.2),
-      inset -3px -3px 5px rgba(255, 255, 255, 0.05);
-  }
-
-  .holographic {
-    @apply bg-gradient-to-r from-pink-500/70 via-purple-500/70 to-cyan-500/70 transition-all duration-500;
-    background-size: 200% 200%;
-  }
-
-  .holographic:hover {
-    background-position: 100% 0;
-  }
-
-  .aurora {
-    @apply bg-gradient-to-r from-pink-500/50 via-purple-500/50 to-cyan-500/50 animate-pulse;
-  }
-
-  .cyber-grid {
-    background-image: 
-      linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  .perspective-card {
-    @apply transform-gpu transition-all duration-300 hover:scale-105;
-    perspective: 1000px;
-  }
-
-  .perspective-card:hover {
-    transform: perspective(1000px) rotateX(3deg) rotateY(3deg) scale(1.03);
   }
 
   /* Mobile Navigation Enhancements */

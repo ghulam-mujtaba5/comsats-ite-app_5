@@ -55,6 +55,8 @@ export function EmotionalResponseSystem() {
   const { emotionState, updateEmotionState } = useEmotion()
   const [isVisible, setIsVisible] = useState(false)
   const [currentResponse, setCurrentResponse] = useState<EmotionalResponse | null>(null)
+  // Track the last emotion state that triggered a notification
+  const [lastNotifiedEmotion, setLastNotifiedEmotion] = useState<string | null>(null)
 
   // Define emotional responses
   const emotionalResponses: EmotionalResponse[] = [
@@ -265,19 +267,23 @@ export function EmotionalResponseSystem() {
 
   // Update response when emotion state changes
   useEffect(() => {
-    const response = emotionalResponses.find(r => r.state === emotionState.mood)
-    if (response) {
-      setCurrentResponse(response)
-      setIsVisible(true)
-      
-      // Auto-hide after 10 seconds
-      const timer = setTimeout(() => {
-        setIsVisible(false)
-      }, 10000)
-      
-      return () => clearTimeout(timer)
+    // Only show notification if this is a new emotion state we haven't notified about yet
+    if (emotionState.mood !== lastNotifiedEmotion) {
+      const response = emotionalResponses.find(r => r.state === emotionState.mood)
+      if (response) {
+        setCurrentResponse(response)
+        setIsVisible(true)
+        setLastNotifiedEmotion(emotionState.mood)
+        
+        // Auto-hide after 10 seconds
+        const timer = setTimeout(() => {
+          setIsVisible(false)
+        }, 10000)
+        
+        return () => clearTimeout(timer)
+      }
     }
-  }, [emotionState.mood, emotionalResponses])
+  }, [emotionState.mood, emotionalResponses, lastNotifiedEmotion])
 
   if (!isVisible || !currentResponse) return null
 
