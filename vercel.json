@@ -5,6 +5,15 @@
     "enabled": false
   },
   "regions": ["iad1"],
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node",
+      "config": {
+        "packageManager": "npm"
+      }
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
