@@ -1,0 +1,150 @@
+name: Deploy to Oracle Cloud (Always Free Tier)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DOCKER_IMAGE: comsats-ite-app
+  CONTAINER_NAME: comsats-app
+
+jobs:
+  deploy:
+    name: Build and Deploy to OCI Free Tier
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Install OCI CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh -o install.sh
+          bash install.sh --accept-all-defaults --install-dir "$HOME/oci-cli" --exec-dir "$HOME/bin"
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Configure OCI CLI
+        env:
+          OCI_CLI_USER: ${{ secrets.OCI_USER_OCID }}
+          OCI_CLI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
+          OCI_CLI_TENANCY: ${{ secrets.OCI_TENANCY_OCID }}
+          OCI_CLI_REGION: ${{ secrets.OCI_REGION }}
+          OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.oci
+          echo "$OCI_CLI_KEY_CONTENT" > ~/.oci/oci_api_key.pem
+          chmod 600 ~/.oci/oci_api_key.pem
+          cat > ~/.oci/config <<EOF
+          [DEFAULT]
+          user=${OCI_CLI_USER}
+          fingerprint=${OCI_CLI_FINGERPRINT}
+          tenancy=${OCI_CLI_TENANCY}
+          region=${OCI_CLI_REGION}
+          key_file=$HOME/.oci/oci_api_key.pem
+          EOF
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_SUPABASE_URL="${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" \
+            --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY="${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" \
+            --build-arg NEXT_PUBLIC_SITE_URL="${{ secrets.NEXT_PUBLIC_SITE_URL }}" \
+            --build-arg NEXT_PUBLIC_GA_MEASUREMENT_ID="${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}" \
+            -t ${{ env.DOCKER_IMAGE }}:latest \
+            -t ${{ env.DOCKER_IMAGE }}:${{ github.sha }} \
+            .
+
+      - name: Save Docker image
+        run: docker save ${{ env.DOCKER_IMAGE }}:latest -o app-image.tar
+
+      - name: Upload image to compute instance
+        env:
+          OCI_INSTANCE_IP: ${{ secrets.OCI_INSTANCE_IP }}
+          OCI_SSH_PRIVATE_KEY: ${{ secrets.OCI_SSH_PRIVATE_KEY }}
+        run: |
+          # Save SSH key
+          mkdir -p ~/.ssh
+          echo "$OCI_SSH_PRIVATE_KEY" > ~/.ssh/oci_key
+          chmod 600 ~/.ssh/oci_key
+          
+          # Add to known_hosts
+          ssh-keyscan -H $OCI_INSTANCE_IP >> ~/.ssh/known_hosts
+          
+          # Upload Docker image
+          scp -i ~/.ssh/oci_key app-image.tar opc@${OCI_INSTANCE_IP}:/tmp/
+
+      - name: Deploy on compute instance
+        env:
+          OCI_INSTANCE_IP: ${{ secrets.OCI_INSTANCE_IP }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          MONGODB_DB: ${{ secrets.MONGODB_DB }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+        run: |
+          ssh -i ~/.ssh/oci_key opc@$OCI_INSTANCE_IP << 'ENDSSH'
+          set -e
+          
+          # Load new image
+          sudo docker load -i /tmp/app-image.tar
+          rm /tmp/app-image.tar
+          
+          # Stop and remove old container
+          sudo docker stop ${{ env.CONTAINER_NAME }} 2>/dev/null || true
+          sudo docker rm ${{ env.CONTAINER_NAME }} 2>/dev/null || true
+          
+          # Run new container
+          sudo docker run -d \
+            --name ${{ env.CONTAINER_NAME }} \
+            --restart unless-stopped \
+            -p 80:3000 \
+            -e NODE_ENV=production \
+            -e NEXT_PUBLIC_SUPABASE_URL="$NEXT_PUBLIC_SUPABASE_URL" \
+            -e NEXT_PUBLIC_SUPABASE_ANON_KEY="$NEXT_PUBLIC_SUPABASE_ANON_KEY" \
+            -e SUPABASE_SERVICE_ROLE_KEY="$SUPABASE_SERVICE_ROLE_KEY" \
+            -e SUPABASE_DB_PASSWORD="$SUPABASE_DB_PASSWORD" \
+            -e SUPABASE_DB_URL="$SUPABASE_DB_URL" \
+            -e MONGODB_URI="$MONGODB_URI" \
+            -e MONGODB_DB="$MONGODB_DB" \
+            -e RESEND_API_KEY="$RESEND_API_KEY" \
+            -e NEXT_PUBLIC_SITE_URL="$NEXT_PUBLIC_SITE_URL" \
+            -e NEXT_PUBLIC_GA_MEASUREMENT_ID="$NEXT_PUBLIC_GA_MEASUREMENT_ID" \
+            ${{ env.DOCKER_IMAGE }}:latest
+          
+          # Clean up old images
+          sudo docker image prune -f
+          
+          echo "Deployment completed successfully!"
+          ENDSSH
+
+      - name: Health check
+        env:
+          OCI_INSTANCE_IP: ${{ secrets.OCI_INSTANCE_IP }}
+        run: |
+          sleep 10
+          curl -f http://${OCI_INSTANCE_IP} || exit 1
+          echo "✅ Application is running at http://${OCI_INSTANCE_IP}"
+
+      - name: Deployment summary
+        run: |
+          echo "## 🚀 Deployment Successful!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment**: Oracle Cloud Always Free Tier" >> $GITHUB_STEP_SUMMARY
+          echo "- **Instance IP**: \`${{ secrets.OCI_INSTANCE_IP }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Container**: ${{ env.CONTAINER_NAME }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Image**: ${{ env.DOCKER_IMAGE }}:latest" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 **Live URL**: http://${{ secrets.OCI_INSTANCE_IP }}" >> $GITHUB_STEP_SUMMARY

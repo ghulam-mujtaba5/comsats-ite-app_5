@@ -1,0 +1,126 @@
+name: Deploy frontend to OCI (static)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    name: Build and upload static site to OCI Object Storage
+    runs-on: ubuntu-latest
+    env:
+      NODE_VERSION: '18'
+      OCI_CLI_SUPPRESS_FILE_PERMISSIONS_WARNING: 'True'
+      OCI_CLI_AUTH: api_key
+      OCI_CLI_PROFILE: DEFAULT
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Next.js
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
+          NEXT_OUTPUT: 'export'
+        run: |
+          # Prefer static export if available. Adjust if your project uses SSR.
+          if npm run | grep -q "export"; then
+            pnpm run build
+            pnpm run export
+          else
+            # Fallback: attempt next export directly after build
+            pnpm run build || exit 1
+            npx --yes next@latest export || true
+          fi
+          test -d out || (echo "Static 'out' directory not found. Ensure Next.js static export is configured (next.config.js: output: 'export')." && exit 1)
+
+      - name: Archive build
+        run: tar -czf out.tgz -C out .
+
+      - name: Install OCI CLI (Linux)
+        shell: bash
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh -o install.sh
+          bash install.sh --accept-all-defaults --install-dir "$HOME/oci-cli" --exec-dir "$HOME/bin"
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Configure OCI CLI
+        shell: bash
+        env:
+          OCI_TENANCY_OCID: ${{ secrets.OCI_TENANCY_OCID }}
+          OCI_USER_OCID: ${{ secrets.OCI_USER_OCID }}
+          OCI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
+          OCI_REGION: ${{ secrets.OCI_REGION }}
+          OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.oci
+          echo "$OCI_PRIVATE_KEY" > ~/.oci/oci_api_key.pem
+          chmod 600 ~/.oci/oci_api_key.pem
+          cat > ~/.oci/config <<EOF
+          [DEFAULT]
+          user=${OCI_USER_OCID}
+          fingerprint=${OCI_FINGERPRINT}
+          tenancy=${OCI_TENANCY_OCID}
+          region=${OCI_REGION}
+          key_file=/home/runner/.oci/oci_api_key.pem
+          EOF
+          oci --version
+
+      - name: Determine Object Storage namespace
+        id: ns
+        run: echo "namespace=$(oci os ns get --query 'data' --raw-output)" >> $GITHUB_OUTPUT
+
+      - name: Ensure bucket exists + website config
+        env:
+          OCI_COMPARTMENT_OCID: ${{ secrets.OCI_COMPARTMENT_OCID }}
+          OCI_BUCKET_NAME: ${{ secrets.OCI_BUCKET_NAME }}
+        run: |
+          set -euo pipefail
+          oci os bucket create \
+            --compartment-id "$OCI_COMPARTMENT_OCID" \
+            --name "$OCI_BUCKET_NAME" \
+            --public-access-type ObjectReadWithoutList \
+            --storage-tier Standard \
+            --query 'data.name' --raw-output || true
+
+          # Enable static website hosting
+          oci os bucket update \
+            --name "$OCI_BUCKET_NAME" \
+            --force \
+            --website-index-document index.html \
+            --website-error-document 404.html || true
+
+      - name: Upload site to bucket
+        env:
+          OCI_BUCKET_NAME: ${{ secrets.OCI_BUCKET_NAME }}
+        run: |
+          oci os object bulk-upload \
+            -bn "$OCI_BUCKET_NAME" \
+            --src-dir out \
+            --content-type auto \
+            --overwrite
+
+      - name: Print website URL
+        env:
+          OCI_REGION: ${{ secrets.OCI_REGION }}
+          OCI_BUCKET_NAME: ${{ secrets.OCI_BUCKET_NAME }}
+        run: |
+          echo "Website (static) may be accessible at:"
+          echo "https://objectstorage.${OCI_REGION}.oraclecloud.com/n/${{ steps.ns.outputs.namespace }}/b/${OCI_BUCKET_NAME}/o/index.html"
+          echo "If you configured bucket website hosting, you can use the above base URL without specifying the file when navigating within the site."
