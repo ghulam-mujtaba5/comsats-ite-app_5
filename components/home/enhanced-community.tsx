@@ -68,11 +68,11 @@ export function EnhancedCommunity() {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-hero glass-depth">
+    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background">
       <div className="app-container max-w-6xl mx-auto">
-        {/* Header with enhanced styling */}
-        <div className="text-center mb-16">
-          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/30 glass-button glass-border-light glass-depth">
+        {/* Header with enhanced styling and proper spacing */}
+        <div className="text-center mb-20">
+          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/30">
             <Flame className="h-4 w-4 mr-2" />
             Student Community
           </Badge>
@@ -90,8 +90,8 @@ export function EnhancedCommunity() {
           </p>
         </div>
 
-        {/* Community Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+        {/* Community Stats with proper spacing */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {communityStats.map((stat, index) => {
             const Icon = stat.icon
             return (
@@ -101,15 +101,15 @@ export function EnhancedCommunity() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-4 rounded-xl glass-card glass-border-subtle glass-hover glass-depth text-center"
+                className="p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg"
               >
-                <div className="flex justify-center mb-2">
-                  <div className="p-2 rounded-lg bg-purple-500/10">
-                    <Icon className="h-5 w-5 text-purple-500" />
+                <div className="flex justify-center mb-3">
+                  <div className="p-3 rounded-xl bg-purple-500/10">
+                    <Icon className="h-6 w-6 text-purple-500" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                <div className="text-sm text-muted-foreground mb-1">{stat.label}</div>
+                <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
+                <div className="text-sm text-muted-foreground mb-2">{stat.label}</div>
                 <div className="text-xs font-medium text-green-500 flex items-center justify-center">
                   <TrendingUp className="h-3 w-3 mr-1" />
                   {stat.change}
@@ -119,14 +119,14 @@ export function EnhancedCommunity() {
           })}
         </div>
 
-        {/* Community Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 justify-center">
+        {/* Community Tabs with proper spacing */}
+        <div className="flex flex-wrap gap-3 mb-10 justify-center">
           {["all", "discussions", "resources", "events", "projects"].map((tab) => (
             <Button
               key={tab}
               variant={activeTab === tab ? "default" : "outline"}
               size="sm"
-              className={`rounded-full px-4 ${activeTab === tab ? 'glass-button glass-border-light' : ''}`}
+              className={`rounded-full px-5 py-2 ${activeTab === tab ? '' : ''}`}
               onClick={() => setActiveTab(tab)}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -134,20 +134,20 @@ export function EnhancedCommunity() {
           ))}
         </div>
 
-        {/* Community Items Grid */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12" staggerDelay={0.1}>
+        {/* Community Items Grid with proper spacing */}
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16" staggerDelay={0.1}>
           {loading ? (
             Array.from({ length: 4 }).map((_, i) => (
               <StaggerItem key={i}>
-                <Card className="border glass-card glass-border-subtle glass-depth">
+                <Card className="border border-white/20 rounded-2xl">
                   <CardHeader>
-                    <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-muted rounded w-1/2"></div>
+                    <div className="h-5 bg-muted rounded w-3/4 mb-3"></div>
+                    <div className="h-4 bg-muted rounded w-1/2"></div>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-3 bg-muted rounded w-full mb-2"></div>
-                    <div className="h-3 bg-muted rounded w-5/6 mb-4"></div>
-                    <div className="h-8 bg-muted rounded w-24"></div>
+                    <div className="h-4 bg-muted rounded w-full mb-3"></div>
+                    <div className="h-4 bg-muted rounded w-5/6 mb-6"></div>
+                    <div className="h-10 bg-muted rounded w-32"></div>
                   </CardContent>
                 </Card>
               </StaggerItem>
@@ -161,8 +161,7 @@ export function EnhancedCommunity() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group h-full border glass-card glass-border-subtle glass-hover glass-depth"
-                    data-testid="community-card"
+                    className="group h-full border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl transition-all duration-300 hover:shadow-xl"
                   >
                     <CardHeader>
                       <div className="flex items-start justify-between">
@@ -172,7 +171,7 @@ export function EnhancedCommunity() {
                             <Zap className="h-4 w-4 ml-2 text-amber-500" />
                           </CardTitle>
                           {item.subtitle && (
-                            <div className="text-sm text-muted-foreground mt-1">{item.subtitle}</div>
+                            <div className="text-sm text-muted-foreground mt-2">{item.subtitle}</div>
                           )}
                         </div>
                         <Badge variant="secondary" className="text-xs">
@@ -181,7 +180,7 @@ export function EnhancedCommunity() {
                         </Badge>
                       </div>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-5">
                       {item.description && (
                         <CardDescription className="text-sm">
                           {item.description}
@@ -189,19 +188,19 @@ export function EnhancedCommunity() {
                       )}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <Users className="h-3 w-3" />
+                          <Users className="h-4 w-4" />
                           <span>1.2k members</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Star className="h-3 w-3 text-yellow-500 fill-yellow-500" />
+                          <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
                           <span className="text-xs font-medium">4.8</span>
                         </div>
                       </div>
                       {item.link_url && (
-                        <Button asChild variant="outline" size="sm" className="w-full glass-button glass-border-subtle glass-hover glass-depth">
+                        <Button asChild variant="outline" size="sm" className="w-full rounded-xl">
                           <Link href={item.link_url} target={item.link_url.startsWith('http') ? '_blank' : undefined}>
                             Join Community
-                            <ArrowRight className="ml-2 h-3.5 w-3.5" />
+                            <ArrowRight className="ml-2 h-4 w-4" />
                           </Link>
                         </Button>
                       )}
@@ -211,15 +210,15 @@ export function EnhancedCommunity() {
               </StaggerItem>
             ))
           ) : (
-            <Card className="col-span-full text-center p-12 glass-card glass-border-subtle glass-depth">
+            <Card className="col-span-full text-center p-16 border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl">
               <CardContent>
-                <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <CardTitle className="mb-2">No Community Items Yet</CardTitle>
-                <CardDescription className="mb-4">
+                <Users className="h-14 w-14 text-muted-foreground mx-auto mb-5" />
+                <CardTitle className="mb-3">No Community Items Yet</CardTitle>
+                <CardDescription className="mb-6">
                   Be the first to create a community discussion!
                 </CardDescription>
-                <Button onClick={handleJoinCommunity} className="glass-button glass-border-light glass-hover glass-depth">
-                  <MessageSquare className="h-4 w-4 mr-2" />
+                <Button onClick={handleJoinCommunity} className="rounded-xl">
+                  <MessageSquare className="h-5 w-5 mr-2" />
                   Start a Discussion
                 </Button>
               </CardContent>
@@ -227,32 +226,32 @@ export function EnhancedCommunity() {
           )}
         </StaggerContainer>
 
-        {/* Enhanced CTA Section */}
+        {/* Enhanced CTA Section with proper spacing */}
         <FadeInScroll className="text-center" delay={0.3}>
           <AnimatedCard 
             enableHover={true} 
-            className="p-8 border bg-card/80 backdrop-blur-sm shadow-xl max-w-3xl mx-auto glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient"
+            className="p-10 border border-white/20 bg-card/80 backdrop-blur-2xl shadow-2xl rounded-3xl max-w-3xl mx-auto"
           >
             <div className="space-y-6">
               <div className="flex justify-center">
-                <div className="relative p-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl glass-button glass-border-light glass-depth">
-                  <Users className="h-10 w-10 text-purple-500" />
+                <div className="relative p-5 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl">
+                  <Users className="h-12 w-12 text-purple-500" />
                 </div>
               </div>
               <h3 className="text-2xl md:text-3xl font-bold">Ready to Join the Community?</h3>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Connect with fellow students, share your knowledge, and be part of the growing COMSATS academic community.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
                 <Button 
                   size="lg" 
-                  className="text-base px-8 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 glass-button glass-border-light glass-hover glass-depth relative overflow-hidden group"
+                  className="text-base px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
                   onClick={handleJoinCommunity}
                   asChild
                 >
-                  <Link href="/community" className="flex items-center">
+                  <Link href="/community" className="flex items-center justify-center">
                     Join Community
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     <motion.div 
                       className="absolute inset-0 bg-white/20"
                       initial={{ x: '-100%' }}
@@ -264,18 +263,18 @@ export function EnhancedCommunity() {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="text-base px-8 py-3 rounded-xl border-2 hover:shadow-md transition-all duration-300 glass-button glass-border-light glass-hover glass-depth"
+                  className="text-base px-8 py-4 rounded-xl border-2 hover:shadow-md transition-all duration-300"
                   asChild
                 >
-                  <Link href="/community" className="flex items-center">
-                    <MessageSquare className="mr-2 h-4 w-4" />
+                  <Link href="/community" className="flex items-center justify-center">
+                    <MessageSquare className="mr-2 h-5 w-5" />
                     Browse Discussions
                   </Link>
                 </Button>
               </div>
-              <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground pt-4">
+              <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground pt-6">
                 <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
                   <span>2,847 Active Members</span>
                 </div>
                 <span>•</span>
@@ -288,10 +287,10 @@ export function EnhancedCommunity() {
           </AnimatedCard>
         </FadeInScroll>
 
-        {/* Trending Topics */}
-        <div className="mt-20">
-          <h3 className="text-2xl font-bold text-center mb-8">Trending Topics</h3>
-          <div className="flex flex-wrap justify-center gap-3">
+        {/* Trending Topics with proper spacing */}
+        <div className="mt-24">
+          <h3 className="text-2xl font-bold text-center mb-10">Trending Topics</h3>
+          <div className="flex flex-wrap justify-center gap-4">
             {["#FinalYearProject", "#Internship", "#Career", "#StudyGroup", "#Programming", "#AI", "#Research", "#Scholarship"].map((tag, index) => (
               <motion.div
                 key={tag}
@@ -302,7 +301,7 @@ export function EnhancedCommunity() {
               >
                 <Badge 
                   variant="secondary" 
-                  className="px-4 py-2 text-base cursor-pointer glass-button glass-border-subtle glass-hover glass-depth"
+                  className="px-5 py-2.5 text-base cursor-pointer rounded-full"
                 >
                   <Hash className="h-4 w-4 mr-1" />
                   {tag}

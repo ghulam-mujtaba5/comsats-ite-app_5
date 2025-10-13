@@ -167,34 +167,12 @@ export function EnhancedHero() {
   }
 
   return (
-    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-purple-50/20 dark:from-slate-900/50 dark:via-slate-800/30 dark:to-slate-900/20 glass-hero glass-border-glow glass-depth">
-      {/* Enhanced background elements with glassmorphism */}
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-purple-50/20 dark:from-slate-900/50 dark:via-slate-800/30 dark:to-slate-900/20">
+      {/* Enhanced background elements with proper spacing and reduced visual noise */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/10 to-blue-500/10 rounded-full blur-3xl animate-pulse glass-depth" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-secondary/10 to-amber-500/10 rounded-full blur-3xl animate-pulse glass-depth" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-pink-500/5 rounded-full blur-3xl glass-depth" />
-        
-        {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 rounded-full bg-primary/20"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.3, 0.8, 0.3],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/5 to-blue-500/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-secondary/5 to-amber-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-500/3 via-purple-500/3 to-pink-500/3 rounded-full blur-3xl" />
       </div>
 
       <div className="app-container relative z-10 py-16 md:py-24">
@@ -209,13 +187,13 @@ export function EnhancedHero() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-lg opacity-50 group-hover:opacity-70 transition-opacity duration-500 glass-depth" />
+                  <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-lg opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
                   <Image 
                     src="/logo-square.svg" 
                     alt="CampusAxis Logo" 
                     width={80} 
                     height={80} 
-                    className="rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-500 relative z-10 glass-card glass-border-light glass-hover"
+                    className="rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-500 relative z-10"
                     priority
                   />
                   <motion.div 
@@ -227,7 +205,7 @@ export function EnhancedHero() {
                   </motion.div>
                 </motion.div>
                 <div>
-                  <Badge variant="soft" className="px-3 py-1.5 text-sm font-medium bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg glass-button glass-border-light glass-depth">
+                  <Badge variant="soft" className="px-3 py-1.5 text-sm font-medium bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg">
                     <Sparkles className="h-3 w-3 mr-1.5" />
                     CampusAxis
                   </Badge>
@@ -255,9 +233,9 @@ export function EnhancedHero() {
               </h1>
             </div>
 
-            {/* Enhanced description with typing effect simulation */}
+            {/* Enhanced description with proper spacing and readability */}
             <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-4">
+              <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-6">
                 Access past papers, calculate your GPA, explore learning resources, and read faculty reviews - 
                 all in one comprehensive academic portal designed specifically for COMSATS students.
               </p>
@@ -266,7 +244,7 @@ export function EnhancedHero() {
               </p>
             </div>
 
-            {/* Quick Stats */}
+            {/* Quick Stats with improved visual hierarchy */}
             <div className="grid grid-cols-3 gap-4">
               {quickStats.map((stat, index) => {
                 const Icon = stat.icon
@@ -277,56 +255,28 @@ export function EnhancedHero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + index * 0.1 }}
                     whileHover={{ y: -5 }}
-                    className="p-3 rounded-xl glass-card glass-border-subtle glass-hover glass-depth text-center"
-                    data-testid="stat-item"
+                    className="p-4 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg"
                   >
-                    <Icon className={`h-5 w-5 mx-auto mb-2 ${stat.color}`} />
-                    <div className="text-lg font-bold text-foreground">{stat.value}</div>
+                    <Icon className={`h-6 w-6 mx-auto mb-3 ${stat.color}`} />
+                    <div className="text-xl font-bold text-foreground mb-1">{stat.value}</div>
                     <div className="text-xs text-muted-foreground">{stat.label}</div>
                   </motion.div>
                 )
               })}
             </div>
 
-            {/* Quick Actions */}
-            <div className="grid grid-cols-2 gap-4">
-              {quickActions.map((action, index) => {
-                const Icon = action.icon
-                return (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + index * 0.1 }}
-                    whileHover={{ y: -5 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Link href={action.href} onClick={handleGetStarted}>
-                      <Card className="p-4 border bg-card/80 backdrop-blur-sm cursor-pointer hover:shadow-lg transition-all duration-300 glass-card glass-border-subtle glass-hover glass-depth" data-testid="quick-action">
-                        <div className={`${action.bgColor} p-2 rounded-lg w-fit mb-3`}>
-                          <Icon className={`h-5 w-5 ${action.color}`} />
-                        </div>
-                        <h3 className="font-semibold text-foreground mb-1">{action.title}</h3>
-                        <p className="text-xs text-muted-foreground">{action.description}</p>
-                      </Card>
-                    </Link>
-                  </motion.div>
-                )
-              })}
-            </div>
-
-            {/* Enhanced CTA buttons with celebration animations */}
+            {/* Enhanced CTA buttons with proper spacing and visual hierarchy */}
             <div className={`transition-all duration-700 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="text-base px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 glass-button glass-border-light glass-hover glass-depth relative overflow-hidden group"
+                  className="text-base px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
                   onClick={handleGetStarted}
                   asChild
                 >
-                  <Link href="/auth" className="flex items-center">
+                  <Link href="/auth" className="flex items-center justify-center">
                     Get Started
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     <motion.div 
                       className="absolute inset-0 bg-white/20"
                       initial={{ x: '-100%' }}
@@ -338,45 +288,15 @@ export function EnhancedHero() {
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="text-base px-8 py-3 rounded-xl border-2 hover:shadow-md transition-all duration-300 glass-button glass-border-light glass-hover glass-depth relative"
+                  className="text-base px-8 py-4 rounded-xl border-2 hover:shadow-md transition-all duration-300 relative"
                   onClick={handleExploreFeatures}
                   asChild
                 >
-                  <Link href="/about" className="flex items-center">
-                    <GraduationCap className="mr-2 h-4 w-4" />
+                  <Link href="/about" className="flex items-center justify-center">
+                    <GraduationCap className="mr-2 h-5 w-5" />
                     Explore Features
                   </Link>
                 </Button>
-              </div>
-            </div>
-
-            {/* Enhanced quick actions with hover effects */}
-            <div className={`transition-all duration-700 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <div className="flex flex-wrap gap-4">
-                {quickActions.map((action, index) => {
-                  const Icon = action.icon
-                  return (
-                    <motion.div
-                      key={index}
-                      whileHover={{ y: -5, scale: 1.03 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Link href={action.href}>
-                        <Card className="p-4 hover:shadow-md transition-all duration-300 border cursor-pointer group bg-card/80 backdrop-blur-sm glass-card glass-border-subtle glass-hover glass-depth">
-                          <div className="flex items-center gap-3">
-                            <div className={`p-2 rounded-lg ${action.bgColor} group-hover:scale-110 transition-transform`}>
-                              <Icon className={`h-4 w-4 ${action.color}`} />
-                            </div>
-                            <div>
-                              <div className="font-medium text-sm">{action.title}</div>
-                              <div className="text-xs text-muted-foreground">{action.description}</div>
-                            </div>
-                          </div>
-                        </Card>
-                      </Link>
-                    </motion.div>
-                  )
-                })}
               </div>
             </div>
           </div>
@@ -385,7 +305,7 @@ export function EnhancedHero() {
           <div className={`transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="relative">
               {/* Main Stats Card with enhanced glass effect */}
-              <Card className="relative p-6 bg-card/80 border rounded-2xl shadow-xl backdrop-blur-sm glass-card-premium glass-border-glow glass-depth glass-gradient">
+              <Card className="relative p-6 bg-card/80 border border-white/20 rounded-3xl shadow-2xl backdrop-blur-2xl">
                 <div className="space-y-6">
                   {/* Header Section with animated icon */}
                   <div className="text-center space-y-3">
@@ -394,7 +314,7 @@ export function EnhancedHero() {
                       animate={{ rotate: [0, 5, -5, 0] }}
                       transition={{ duration: 4, repeat: Infinity }}
                     >
-                      <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-xl">
+                      <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl">
                         <GraduationCap className="h-10 w-10 text-primary" />
                       </div>
                     </motion.div>
@@ -409,30 +329,26 @@ export function EnhancedHero() {
                     {/* Community Engagement Card */}
                     <AnimatedCard 
                       enableHover={true} 
-                      className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth relative overflow-hidden"
+                      className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
                     >
-                      <div className="flex items-center justify-between mb-1.5">
-                        <TrendingUp className="h-4 w-4 text-primary" />
-                        <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
+                      <div className="flex items-center justify-between mb-2">
+                        <TrendingUp className="h-5 w-5 text-primary" />
+                        <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">Active</span>
                       </div>
-                      <div className="text-lg font-bold text-foreground mb-1">
+                      <div className="text-xl font-bold text-foreground mb-1">
                         {isLoading ? '...' : <CountUp end={stats?.communityPosts || 2} duration={1500} />}
                       </div>
                       <div className="text-xs text-muted-foreground">Community Posts</div>
-                      <motion.div 
-                        className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0"
-                        whileHover={{ opacity: 1 }}
-                      />
                     </AnimatedCard>
 
                     {/* Faculty Rating Card */}
                     <AnimatedCard 
                       enableHover={true} 
-                      className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth"
+                      className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
                     >
-                      <div className="flex items-center justify-between mb-1.5">
+                      <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center">
-                          <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                          <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
                           <span className="ml-1 text-xs font-medium text-foreground">{isLoading ? '...' : `${stats?.avgRating || 4.3}`}</span>
                         </div>
                         <div className="flex text-yellow-500">
@@ -441,7 +357,7 @@ export function EnhancedHero() {
                           ))}
                         </div>
                       </div>
-                      <div className="text-lg font-bold text-foreground mb-1">
+                      <div className="text-xl font-bold text-foreground mb-1">
                         {isLoading ? '...' : `${stats?.avgRating || 4.3}`}
                       </div>
                       <div className="text-xs text-muted-foreground">Avg Rating</div>
@@ -450,13 +366,13 @@ export function EnhancedHero() {
                     {/* Active Events Card */}
                     <AnimatedCard 
                       enableHover={true} 
-                      className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth"
+                      className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
                     >
-                      <div className="flex items-center justify-between mb-1.5">
-                        <Calendar className="h-4 w-4 text-primary" />
-                        <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
+                      <div className="flex items-center justify-between mb-2">
+                        <Calendar className="h-5 w-5 text-primary" />
+                        <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">Active</span>
                       </div>
-                      <div className="text-lg font-bold text-foreground mb-1">
+                      <div className="text-xl font-bold text-foreground mb-1">
                         {isLoading ? '...' : <CountUp end={stats?.eventsCount || 1} duration={1500} />}
                       </div>
                       <div className="text-xs text-muted-foreground">Live Events</div>
@@ -465,13 +381,13 @@ export function EnhancedHero() {
                     {/* Faculty Count Card */}
                     <AnimatedCard 
                       enableHover={true} 
-                      className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth"
+                      className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
                     >
-                      <div className="flex items-center justify-between mb-1.5">
-                        <GraduationCap className="h-4 w-4 text-primary" />
-                        <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">{stats?.departmentCount || 2} Depts</span>
+                      <div className="flex items-center justify-between mb-2">
+                        <GraduationCap className="h-5 w-5 text-primary" />
+                        <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">{stats?.departmentCount || 2} Depts</span>
                       </div>
-                      <div className="text-lg font-bold text-foreground mb-1">
+                      <div className="text-xl font-bold text-foreground mb-1">
                         {isLoading ? '...' : <CountUp end={stats?.facultyCount || 2} duration={1500} />}
                       </div>
                       <div className="text-xs text-muted-foreground">Faculty Members</div>
@@ -483,44 +399,36 @@ export function EnhancedHero() {
                     <div className="text-sm font-semibold text-foreground text-center mb-3">Quick Actions</div>
                     <div className="grid grid-cols-2 gap-3">
                       <Link href="/past-papers" className="group/action">
-                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300 glass-card glass-border-subtle glass-hover glass-depth relative overflow-hidden">
+                        <div className="p-3 rounded-xl bg-muted/50 hover:bg-muted/70 border border-white/20 transition-all duration-300 hover:shadow-md">
                           <div className="flex items-center gap-2">
-                            <FileText className="h-4 w-4 text-primary group-hover/action:scale-110 transition-transform" />
+                            <FileText className="h-5 w-5 text-primary group-hover/action:scale-110 transition-transform" />
                             <div>
                               <div className="text-sm font-medium text-foreground">Papers</div>
                               <div className="text-xs text-muted-foreground">{isLoading ? '...' : (stats?.pastPapersCount === 0 ? 'Soon' : `${stats?.pastPapersCount}+`)}</div>
                             </div>
                           </div>
-                          <motion.div 
-                            className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent opacity-0"
-                            whileHover={{ opacity: 1 }}
-                          />
                         </div>
                       </Link>
                       <Link href="/gpa-calculator" className="group/action">
-                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300 glass-card glass-border-subtle glass-hover glass-depth relative overflow-hidden">
+                        <div className="p-3 rounded-xl bg-muted/50 hover:bg-muted/70 border border-white/20 transition-all duration-300 hover:shadow-md">
                           <div className="flex items-center gap-2">
-                            <Calculator className="h-4 w-4 text-primary group-hover/action:scale-110 transition-transform" />
+                            <Calculator className="h-5 w-5 text-primary group-hover/action:scale-110 transition-transform" />
                             <div>
                               <div className="text-sm font-medium text-foreground">GPA Calc</div>
                               <div className="text-xs text-muted-foreground">Advanced</div>
                             </div>
                           </div>
-                          <motion.div 
-                            className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-transparent opacity-0"
-                            whileHover={{ opacity: 1 }}
-                          />
                         </div>
                       </Link>
                     </div>
                   </div>
 
                   {/* Trust Indicator with live pulse */}
-                  <div className="text-center p-3 rounded-lg bg-muted/50 border glass-card glass-border-subtle glass-depth">
-                    <div className="flex items-center justify-center gap-2 mb-1.5">
+                  <div className="text-center p-4 rounded-xl bg-muted/50 border border-white/20">
+                    <div className="flex items-center justify-center gap-2 mb-2">
                       <div className="flex items-center gap-1">
                         <Pulse active={true}>
-                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
                         </Pulse>
                         <span className="text-xs font-medium text-green-600 dark:text-green-400">Live</span>
                       </div>
@@ -544,27 +452,11 @@ export function EnhancedHero() {
                   ease: "easeInOut"
                 }}
               >
-                <Badge className="px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg glass-button glass-border-light glass-hover glass-depth">
+                <Badge className="px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg">
                   <Award className="h-4 w-4 mr-1" />
                   Student Approved
                 </Badge>
               </motion.div>
-              
-              {/* Floating action button */}
-              <FloatingButton 
-                className="glass-button glass-border-light glass-hover glass-depth"
-                onClick={() => {
-                  if (isAnimationEnabled) {
-                    triggerFlickeringLights({
-                      message: "✨ Amazing features await! ✨",
-                      duration: 3000,
-                      lightCount: 20
-                    })
-                  }
-                }}
-              >
-                <Zap className="h-6 w-6" />
-              </FloatingButton>
             </div>
           </div>
         </div>

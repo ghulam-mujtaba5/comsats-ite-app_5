@@ -142,11 +142,11 @@ export function EnhancedFAQ() {
   ]
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20 glass-hero glass-depth">
+    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20">
       <div className="app-container max-w-6xl mx-auto">
-        {/* Enhanced Header */}
-        <div className="text-center mb-16">
-          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 glass-button glass-border-light glass-depth">
+        {/* Enhanced Header with proper spacing */}
+        <div className="text-center mb-20">
+          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30">
             <HelpCircle className="h-4 w-4 mr-2" />
             Student Support
           </Badge>
@@ -164,8 +164,8 @@ export function EnhancedFAQ() {
           </p>
         </div>
 
-        {/* FAQ Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+        {/* FAQ Stats with proper spacing */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {faqStats.map((stat, index) => {
             const Icon = stat.icon
             return (
@@ -175,28 +175,28 @@ export function EnhancedFAQ() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-4 rounded-xl glass-card glass-border-subtle glass-hover glass-depth text-center"
+                className="p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg"
               >
-                <div className="flex justify-center mb-2">
-                  <div className="p-2 rounded-lg bg-indigo-500/10">
-                    <Icon className="h-5 w-5 text-indigo-500" />
+                <div className="flex justify-center mb-3">
+                  <div className="p-3 rounded-xl bg-indigo-500/10">
+                    <Icon className="h-6 w-6 text-indigo-500" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-foreground">{stat.value}</div>
+                <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
               </motion.div>
             )
           })}
         </div>
 
-        {/* Search Bar */}
+        {/* Search Bar with proper spacing */}
         <div className="mb-12 max-w-2xl mx-auto">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
             <input
               type="text"
               placeholder="Search for questions..."
-              className="w-full pl-12 pr-4 py-4 rounded-xl border bg-card/80 backdrop-blur-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 glass-card glass-border-subtle glass-depth"
+              className="w-full pl-12 pr-4 py-4 rounded-2xl border border-white/20 bg-card/80 backdrop-blur-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300"
               value={searchTerm}
               onChange={handleSearch}
             />
@@ -211,9 +211,9 @@ export function EnhancedFAQ() {
           </div>
         </div>
 
-        {/* Fallback Warning */}
+        {/* Fallback Warning with proper spacing */}
         {isFallback && (
-          <div className="mb-8 text-center">
+          <div className="mb-10 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-full text-sm">
               <Clock className="h-4 w-4" />
               <span>Showing default FAQs while live FAQs are unavailable</span>
@@ -221,12 +221,12 @@ export function EnhancedFAQ() {
           </div>
         )}
 
-        {/* FAQ Accordion */}
-        <Card className="bg-card/80 backdrop-blur-sm border shadow-xl glass-card-premium glass-border-glow glass-depth mb-12">
+        {/* FAQ Accordion with proper spacing */}
+        <Card className="bg-card/80 backdrop-blur-2xl border border-white/20 shadow-2xl rounded-3xl mb-16">
           {loading ? (
             <div role="status" aria-live="polite" className="space-y-4 p-6">
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={`fsk-${i}`} className="skeleton p-5 rounded-xl border">
+                <div key={`fsk-${i}`} className="skeleton p-5 rounded-2xl border border-white/20">
                   <div className="sk-title w-2/3 rounded mb-3 h-5" />
                   <div className="sk-line w-full rounded mb-2" />
                   <div className="sk-line w-5/6 rounded" />
@@ -247,7 +247,7 @@ export function EnhancedFAQ() {
                 <AccordionItem 
                   key={faq.id} 
                   value={`item-${index}`} 
-                  className="bg-muted/30 border rounded-xl px-5 transition-all duration-300 hover:bg-muted/50 glass-card glass-border-subtle glass-hover"
+                  className="bg-muted/30 border border-white/20 rounded-2xl px-5 transition-all duration-300 hover:bg-muted/50"
                 >
                   <AccordionTrigger className="text-left hover:text-indigo-600 transition-colors pr-8 py-4 text-base group">
                     <div className="flex items-center">
@@ -268,7 +268,7 @@ export function EnhancedFAQ() {
                   <Button 
                     asChild 
                     variant="outline" 
-                    className="glass-button glass-border-subtle glass-hover glass-depth"
+                    className="rounded-xl"
                     onClick={handleContactSupport}
                   >
                     <Link href="/student-support">
@@ -281,24 +281,24 @@ export function EnhancedFAQ() {
           )}
         </Card>
         
-        {/* Additional Help CTA */}
+        {/* Additional Help CTA with proper spacing */}
         <StaggerContainer className="text-center" staggerDelay={0.1}>
           <StaggerItem>
-            <Card className="inline-block p-6 border bg-card/80 backdrop-blur-sm max-w-2xl mx-auto glass-card glass-border-subtle glass-depth">
+            <Card className="inline-block p-6 border border-white/20 bg-card/80 backdrop-blur-lg rounded-2xl max-w-2xl mx-auto">
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center glass-button glass-border-light glass-depth">
-                    <Users className="h-6 w-6 text-indigo-500" />
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center">
+                    <Users className="h-7 w-7 text-indigo-500" />
                   </div>
                 </div>
                 <div className="text-center sm:text-left">
                   <h3 className="text-lg font-semibold mb-1">Need more help?</h3>
                   <p className="text-muted-foreground text-sm">Our support team is ready to assist you with any questions</p>
                 </div>
-                <div className="mt-2 sm:mt-0">
+                <div className="mt-4 sm:mt-0">
                   <Button 
                     asChild 
-                    className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium glass-button glass-border-light glass-hover glass-depth"
+                    className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-xl hover:bg-primary/90 transition-colors text-sm font-medium"
                     onClick={handleContactSupport}
                   >
                     <Link href="/student-support">

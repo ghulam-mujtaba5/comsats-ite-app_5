@@ -156,11 +156,11 @@ export function EnhancedFeatures() {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20 glass-hero glass-depth">
+    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20">
       <div className="app-container">
-        {/* Enhanced Header with gradient text */}
-        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-primary border border-primary/30 glass-button glass-border-light glass-depth">
+        {/* Enhanced Header with proper spacing and visual hierarchy */}
+        <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-primary border border-primary/30">
             <Sparkles className="h-4 w-4 mr-2" />
             Academic Tools & Resources
           </Badge>
@@ -178,7 +178,7 @@ export function EnhancedFeatures() {
           </p>
         </div>
 
-        {/* Enhanced Feature Grid with staggered animations */}
+        {/* Enhanced Feature Grid with proper spacing and visual hierarchy */}
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" staggerDelay={0.1}>
           {features.map((feature, index) => {
             const Icon = feature.icon
@@ -194,9 +194,7 @@ export function EnhancedFeatures() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    enableGlow={true}
-                    className="group relative h-full overflow-hidden border bg-card/80 backdrop-blur-sm glass-card glass-border-subtle glass-hover glass-depth glass-gradient"
-                    data-testid="feature-card"
+                    className="group relative h-full overflow-hidden border border-white/20 bg-card/80 backdrop-blur-xl rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl"
                   >
                     {/* Enhanced badge */}
                     <div className="absolute top-4 right-4 z-10">
@@ -211,14 +209,14 @@ export function EnhancedFeatures() {
                     <CardHeader className="relative z-10 pb-4">
                       {/* Enhanced icon with hover effect */}
                       <motion.div 
-                        className={`w-14 h-14 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-5 shadow-md group-hover:shadow-lg transition-all duration-300 glass-button glass-border-light glass-hover glass-depth`}
+                        className={`w-16 h-16 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-5 shadow-lg group-hover:shadow-xl transition-all duration-300`}
                         animate={isHovered ? { 
                           scale: [1, 1.1, 1],
                           rotate: [0, 5, 0]
                         } : {}}
                         transition={{ duration: 0.5 }}
                       >
-                        <Icon className={`h-7 w-7 ${feature.color}`} />
+                        <Icon className={`h-8 w-8 ${feature.color}`} />
                       </motion.div>
 
                       {/* Enhanced title and description */}
@@ -232,7 +230,7 @@ export function EnhancedFeatures() {
 
                     <CardContent className="relative z-10 pt-0">
                       {/* Enhanced stats */}
-                      <div className="flex items-center justify-between mb-5 py-3 border-t border-muted">
+                      <div className="flex items-center justify-between mb-5 py-3 border-t border-white/10">
                         <div className="flex items-center gap-2">
                           <TrendingUp className="h-4 w-4 text-primary" />
                           <span className="text-sm font-medium text-muted-foreground">{feature.stats}</span>
@@ -243,7 +241,7 @@ export function EnhancedFeatures() {
                       {/* Enhanced CTA with hover effect */}
                       <Button 
                         variant="ghost" 
-                        className="w-full justify-between hover:bg-muted group/btn p-3 h-auto glass-button glass-border-subtle glass-hover glass-depth relative overflow-hidden" 
+                        className="w-full justify-between hover:bg-muted group/btn p-3 h-auto rounded-xl relative overflow-hidden" 
                         asChild
                       >
                         <Link href={feature.href} className="font-medium">
@@ -257,16 +255,6 @@ export function EnhancedFeatures() {
                         </Link>
                       </Button>
                     </CardContent>
-                    
-                    {/* Decorative elements */}
-                    <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-primary/5 rounded-full blur-xl" />
-                    <div className="absolute -top-6 -left-6 w-24 h-24 bg-secondary/5 rounded-full blur-xl" />
-                    
-                    {/* Hover effect overlay */}
-                    <motion.div 
-                      className="absolute inset-0 bg-gradient-to-br from-transparent to-primary/5 opacity-0"
-                      animate={{ opacity: isHovered ? 0.3 : 0 }}
-                    />
                   </AnimatedCard>
                 </motion.div>
               </StaggerItem>
@@ -274,32 +262,32 @@ export function EnhancedFeatures() {
           })}
         </StaggerContainer>
 
-        {/* Enhanced call to action with celebration effect */}
-        <FadeInScroll className="text-center mt-20" delay={0.5}>
+        {/* Enhanced call to action with proper spacing */}
+        <FadeInScroll className="text-center mt-24" delay={0.5}>
           <motion.div
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <AnimatedCard enableHover={true} className="inline-block p-8 border bg-card/80 backdrop-blur-sm shadow-xl max-w-3xl mx-auto glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient">
+            <AnimatedCard enableHover={true} className="inline-block p-10 border border-white/20 bg-card/80 backdrop-blur-2xl shadow-2xl rounded-3xl max-w-3xl mx-auto">
               <div className="space-y-6">
                 <div className="flex justify-center">
-                  <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl glass-button glass-border-light glass-depth">
-                    <GraduationCap className="h-12 w-12 text-primary" />
+                  <div className="relative p-5 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl">
+                    <GraduationCap className="h-14 w-14 text-primary" />
                   </div>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold">Ready to Transform Your Academic Experience?</h3>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                   Join thousands of COMSATS students who are already using CampusAxis to excel in their studies and connect with their academic community.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
                   <Button 
                     size="lg" 
-                    className="text-base px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 glass-button glass-border-light glass-hover glass-depth relative overflow-hidden group"
+                    className="text-base px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
                     asChild
                   >
-                    <Link href="/auth" className="flex items-center">
+                    <Link href="/auth" className="flex items-center justify-center">
                       Get Started Free
-                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                       <motion.div 
                         className="absolute inset-0 bg-white/20"
                         initial={{ x: '-100%' }}
@@ -311,16 +299,16 @@ export function EnhancedFeatures() {
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="text-base px-8 py-3 rounded-xl border-2 hover:shadow-md transition-all duration-300 glass-button glass-border-light glass-hover glass-depth"
+                    className="text-base px-8 py-4 rounded-xl border-2 hover:shadow-md transition-all duration-300"
                     asChild
                   >
-                    <Link href="/about" className="flex items-center">
-                      <MessageSquare className="mr-2 h-4 w-4" />
+                    <Link href="/about" className="flex items-center justify-center">
+                      <MessageSquare className="mr-2 h-5 w-5" />
                       Learn More
                     </Link>
                   </Button>
                 </div>
-                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground pt-4">
+                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground pt-6">
                   <Clock className="h-4 w-4" />
                   <span>Join in less than 2 minutes</span>
                 </div>
@@ -329,8 +317,8 @@ export function EnhancedFeatures() {
           </motion.div>
         </FadeInScroll>
         
-        {/* Stats showcase section */}
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        {/* Stats showcase section with proper spacing */}
+        <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
           {[
             { icon: FileText, label: "Past Papers", value: "1000+", color: "text-blue-500" },
             { icon: Users, label: "Faculty Reviews", value: "500+", color: "text-purple-500" },
@@ -345,11 +333,11 @@ export function EnhancedFeatures() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * index }}
                 whileHover={{ y: -5 }}
-                className="text-center p-4 rounded-xl glass-card glass-border-subtle glass-hover glass-depth"
+                className="text-center p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 transition-all duration-300 hover:shadow-lg"
               >
                 <div className="flex justify-center mb-3">
                   <div className={`p-3 rounded-xl ${stat.color.replace('text', 'bg')}/10`}>
-                    <Icon className={`h-6 w-6 ${stat.color}`} />
+                    <Icon className={`h-7 w-7 ${stat.color}`} />
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-foreground">{stat.value}</div>

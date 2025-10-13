@@ -98,11 +98,11 @@ export function EnhancedNews() {
   ]
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-hero glass-depth">
+    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background">
       <div className="app-container max-w-6xl mx-auto">
-        {/* Enhanced Header */}
-        <div className="text-center mb-16">
-          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 glass-button glass-border-light glass-depth">
+        {/* Enhanced Header with proper spacing */}
+        <div className="text-center mb-20">
+          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30">
             <Zap className="h-4 w-4 mr-2" />
             Campus Updates
           </Badge>
@@ -120,8 +120,8 @@ export function EnhancedNews() {
           </p>
         </div>
 
-        {/* News Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+        {/* News Stats with proper spacing */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {newsStats.map((stat, index) => {
             const Icon = stat.icon
             return (
@@ -131,15 +131,15 @@ export function EnhancedNews() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-4 rounded-xl glass-card glass-border-subtle glass-hover glass-depth text-center"
+                className="p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg"
               >
-                <div className="flex justify-center mb-2">
-                  <div className="p-2 rounded-lg bg-amber-500/10">
-                    <Icon className="h-5 w-5 text-amber-500" />
+                <div className="flex justify-center mb-3">
+                  <div className="p-3 rounded-xl bg-amber-500/10">
+                    <Icon className="h-6 w-6 text-amber-500" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                <div className="text-sm text-muted-foreground mb-1">{stat.label}</div>
+                <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
+                <div className="text-sm text-muted-foreground mb-2">{stat.label}</div>
                 <div className="text-xs font-medium text-green-500 flex items-center justify-center">
                   <TrendingUp className="h-3 w-3 mr-1" />
                   {stat.change}
@@ -149,9 +149,9 @@ export function EnhancedNews() {
           })}
         </div>
 
-        {/* Mock Data Warning */}
+        {/* Mock Data Warning with proper spacing */}
         {isMock && (
-          <div className="mb-8 text-center">
+          <div className="mb-10 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-full text-sm">
               <Clock className="h-4 w-4" />
               <span>Showing sample data - non-persistent</span>
@@ -159,21 +159,21 @@ export function EnhancedNews() {
           </div>
         )}
 
-        {/* News Grid */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12" staggerDelay={0.1}>
+        {/* News Grid with proper spacing */}
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16" staggerDelay={0.1}>
           {loading ? (
             Array.from({ length: 4 }).map((_, i) => (
               <StaggerItem key={i}>
-                <Card className="border glass-card glass-border-subtle glass-depth">
-                  <div className="aspect-video bg-muted rounded-t-lg" />
+                <Card className="border border-white/20 rounded-2xl">
+                  <div className="aspect-video bg-muted rounded-t-2xl" />
                   <CardHeader>
-                    <div className="h-4 bg-muted rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-muted rounded w-1/2"></div>
+                    <div className="h-5 bg-muted rounded w-3/4 mb-3"></div>
+                    <div className="h-4 bg-muted rounded w-1/2"></div>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-3 bg-muted rounded w-full mb-2"></div>
-                    <div className="h-3 bg-muted rounded w-5/6 mb-4"></div>
-                    <div className="h-8 bg-muted rounded w-24"></div>
+                    <div className="h-4 bg-muted rounded w-full mb-3"></div>
+                    <div className="h-4 bg-muted rounded w-5/6 mb-6"></div>
+                    <div className="h-10 bg-muted rounded w-32"></div>
                   </CardContent>
                 </Card>
               </StaggerItem>
@@ -187,25 +187,24 @@ export function EnhancedNews() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group h-full overflow-hidden border glass-card glass-border-subtle glass-hover glass-depth"
-                    data-testid="news-card"
+                    className="group h-full overflow-hidden border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl transition-all duration-300 hover:shadow-xl"
                   >
-                    <div className="aspect-video relative overflow-hidden">
+                    <div className="aspect-video relative overflow-hidden rounded-t-2xl">
                       <img
                         src={item.image_url || "/placeholder.svg"}
                         alt={item.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <Badge className="absolute top-4 left-4 bg-amber-500 text-amber-50 text-xs px-2.5 py-1 rounded-full shadow-md glass-button glass-border-light glass-depth">
+                      <Badge className="absolute top-4 left-4 bg-amber-500 text-amber-50 text-xs px-3 py-1.5 rounded-full shadow-md">
                         <Flame className="h-3 w-3 mr-1" />
                         Featured
                       </Badge>
-                      <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground text-xs px-2.5 py-1 rounded-full shadow-md glass-button glass-border-light glass-depth">
+                      <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground text-xs px-3 py-1.5 rounded-full shadow-md">
                         Published
                       </Badge>
                     </div>
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                         <Calendar className="h-4 w-4" />
                         {item.published_at ? new Date(item.published_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }) : 'Draft'}
                       </div>
@@ -214,10 +213,10 @@ export function EnhancedNews() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <CardDescription className="line-clamp-3 text-sm">
+                      <CardDescription className="line-clamp-3 text-sm mb-5">
                         {item.content}
                       </CardDescription>
-                      <Button asChild variant="ghost" size="sm" className="mt-4 w-full justify-between glass-button glass-border-subtle glass-hover glass-depth">
+                      <Button asChild variant="ghost" size="sm" className="w-full justify-between rounded-xl">
                         <Link href={`/news/${item.id}`}>
                           Read Full Story
                           <ArrowRight className="ml-2 h-4 w-4" />
@@ -229,22 +228,22 @@ export function EnhancedNews() {
               </StaggerItem>
             ))
           ) : (
-            <Card className="col-span-full text-center py-12 glass-card glass-border-subtle glass-depth">
+            <Card className="col-span-full text-center py-16 border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl">
               <CardContent>
-                <Tag className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <CardDescription className="text-lg mb-2">{error ? error : 'No news yet.'}</CardDescription>
+                <Tag className="h-14 w-14 text-muted-foreground mx-auto mb-5" />
+                <CardDescription className="text-lg mb-3">{error ? error : 'No news yet.'}</CardDescription>
                 <p className="text-muted-foreground">Check back later for updates</p>
               </CardContent>
             </Card>
           )}
         </StaggerContainer>
 
-        {/* View All Button */}
+        {/* View All Button with proper spacing */}
         <div className="text-center">
           <Button 
             asChild 
             size="lg" 
-            className="px-8 py-3 text-base rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 glass-button glass-border-light glass-hover glass-depth"
+            className="px-8 py-4 text-base rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg hover:shadow-xl transition-all duration-300"
             onClick={handleViewAllNews}
           >
             <Link href="/news-events">

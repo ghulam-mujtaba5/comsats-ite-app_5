@@ -90,11 +90,11 @@ export function EnhancedComingSoon() {
   ]
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-hero glass-depth">
+    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background">
       <div className="app-container max-w-6xl mx-auto">
-        {/* Enhanced Header */}
-        <div className="text-center mb-16">
-          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 text-violet-600 dark:text-violet-400 border border-violet-500/30 glass-button glass-border-light glass-depth">
+        {/* Enhanced Header with proper spacing */}
+        <div className="text-center mb-20">
+          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 text-violet-600 dark:text-violet-400 border border-violet-500/30">
             <Zap className="h-4 w-4 mr-2" />
             Beta Testing Area
           </Badge>
@@ -117,8 +117,8 @@ export function EnhancedComingSoon() {
           </div>
         </div>
 
-        {/* Feature Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+        {/* Feature Stats with proper spacing */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {featureStats.map((stat, index) => {
             const Icon = stat.icon
             return (
@@ -128,22 +128,22 @@ export function EnhancedComingSoon() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-4 rounded-xl glass-card glass-border-subtle glass-hover glass-depth text-center"
+                className="p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg"
               >
-                <div className="flex justify-center mb-2">
-                  <div className="p-2 rounded-lg bg-violet-500/10">
-                    <Icon className="h-5 w-5 text-violet-500" />
+                <div className="flex justify-center mb-3">
+                  <div className="p-3 rounded-xl bg-violet-500/10">
+                    <Icon className="h-6 w-6 text-violet-500" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-foreground">{stat.value}</div>
+                <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
               </motion.div>
             )
           })}
         </div>
 
-        {/* Beta Features Grid */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-16" staggerDelay={0.1}>
+        {/* Beta Features Grid with proper spacing */}
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16" staggerDelay={0.1}>
           {betaFeatures.map((feature, index) => {
             const Icon = feature.icon
             return (
@@ -155,13 +155,12 @@ export function EnhancedComingSoon() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group h-full bg-card/80 border rounded-2xl shadow-lg backdrop-blur-sm glass-card glass-border-subtle glass-hover glass-depth"
-                    data-testid="beta-feature-card"
+                    className="group h-full bg-card/80 border border-white/20 rounded-2xl shadow-xl backdrop-blur-xl transition-all duration-300 hover:shadow-2xl"
                   >
                     <CardHeader>
                       <div className="flex items-center gap-4">
-                        <div className="bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 p-3 rounded-xl glass-button glass-border-light glass-depth">
-                          <Icon className="h-6 w-6 text-violet-500" />
+                        <div className="bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 p-3 rounded-2xl">
+                          <Icon className="h-7 w-7 text-violet-500" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <CardTitle className="text-xl font-semibold flex items-center gap-2">
@@ -182,7 +181,7 @@ export function EnhancedComingSoon() {
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground mb-4">{feature.description}</p>
+                      <p className="text-muted-foreground mb-5">{feature.description}</p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center text-xs text-muted-foreground">
                           <TrendingUp className="h-3 w-3 mr-1" />
@@ -204,24 +203,24 @@ export function EnhancedComingSoon() {
           })}
         </StaggerContainer>
         
-        {/* Feedback CTA */}
+        {/* Feedback CTA with proper spacing */}
         <StaggerContainer className="text-center" staggerDelay={0.1}>
           <StaggerItem>
-            <Card className="inline-block p-6 border bg-card/80 backdrop-blur-sm max-w-3xl mx-auto glass-card-premium glass-border-glow glass-depth">
-              <div className="flex flex-col sm:flex-row items-center gap-4">
+            <Card className="inline-block p-8 border border-white/20 bg-card/80 backdrop-blur-2xl rounded-3xl shadow-2xl max-w-3xl mx-auto">
+              <div className="flex flex-col sm:flex-row items-center gap-6">
                 <div className="flex-shrink-0">
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 flex items-center justify-center glass-button glass-border-light glass-depth">
-                    <Sparkles className="h-7 w-7 text-amber-500" />
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 flex items-center justify-center">
+                    <Sparkles className="h-8 w-8 text-amber-500" />
                   </div>
                 </div>
                 <div className="text-center sm:text-left flex-1">
-                  <h3 className="text-xl font-semibold mb-1">Have ideas for new features?</h3>
+                  <h3 className="text-xl font-semibold mb-2">Have ideas for new features?</h3>
                   <p className="text-muted-foreground">We're always looking for ways to improve CampusAxis. Share your suggestions with us!</p>
                 </div>
                 <div className="mt-4 sm:mt-0">
                   <Link 
                     href="/report-issue" 
-                    className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-primary-foreground rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg hover:shadow-xl glass-button glass-border-light glass-hover glass-depth"
+                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-primary-foreground rounded-2xl hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg hover:shadow-xl"
                   >
                     Share Feedback
                   </Link>
