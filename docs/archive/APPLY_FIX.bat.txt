@@ -1,0 +1,11 @@
+Archived: APPLY_FIX.bat (legacy helper)
+
+Reason: Replaced by scriptable package.json tasks and TypeScript/PowerShell scripts under scripts/. The batch file pointed to an outdated migration (20250109) while package.json uses 20251009.
+
+Use instead:
+- pnpm db:apply-admin-fix
+- pnpm db:seed
+- pnpm db:seed-complete
+
+If you still need to open the Supabase SQL editor manually, bookmark:
+https://supabase.com/dashboard/project/ctixprrqbnfivhepifsa/sql/new
