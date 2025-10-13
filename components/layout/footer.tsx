@@ -20,6 +20,12 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
     support: SITE_LINKS.filter(l => l.group === 'support'),
   }
 
+  // Add a special handler for the Admin link to redirect to login if not authenticated
+  const handleAdminClick = (e: React.MouseEvent) => {
+    // This will be handled by the AdminGuard component on the admin page
+    // We just need to ensure the link works properly
+  }
+
   const StatusBadge = ({ status, hideLive = false }: { status?: PageStatus; hideLive?: boolean }) => {
     if (!status) return null
     if (hideLive && status === 'live') return null
@@ -127,7 +133,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           <div>
             <h3 className="font-semibold text-foreground mb-3">Quick Links</h3>
             <ul className="space-y-1 text-[13px]">
-              {groups.core.concat(groups.student).map(link => (
+              {groups.core.filter(link => link.href !== '/admin').concat(groups.student).map(link => (
                 <li key={link.href} className="flex items-center justify-between gap-2 py-0.5 leading-tight">
                   <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
                     {link.label}
@@ -162,7 +168,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
                 <Instagram className="h-5 w-5" />
               </Link>
               <span className="mx-1 h-4 w-px bg-border" />
-              <Link href="/admin/login" aria-label="Admin Login" className="hover:text-primary transition-colors">
+              <Link href="/admin" aria-label="Admin Portal" className="hover:text-primary transition-colors" onClick={handleAdminClick}>
                 <ShieldCheck className="h-5 w-5" />
               </Link>
             </div>

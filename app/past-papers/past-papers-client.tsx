@@ -42,8 +42,25 @@ export default function PastPapersClient() {
       
       // Use force-cache to reduce function invocations on Vercel free tier
       const res = await fetch(`/api/past-papers?${params.toString()}`, { cache: 'force-cache' })
+      
+      // Handle non-OK responses gracefully
+      if (!res.ok) {
+        console.error("Failed to fetch past papers:", res.status, res.statusText)
+        // Don't throw error, just set empty array
+        setCoursesWithPapers([])
+        return
+      }
+      
       const json = await res.json()
-      if (!res.ok) throw new Error(json.error || 'Failed to fetch papers')
+      
+      // Handle API errors gracefully
+      if (json.error) {
+        console.error("API error:", json.error)
+        // Don't throw error, just set empty array
+        setCoursesWithPapers([])
+        return
+      }
+      
       const rows: any[] = Array.isArray(json.data) ? json.data : []
       const papers: PastPaper[] = rows.map((r) => ({
         id: r.id || `paper-${Math.random().toString(36).slice(2, 9)}`,
@@ -94,8 +111,12 @@ export default function PastPapersClient() {
       papers.forEach(paper => paper.tags.forEach(tag => allTags.add(tag)))
       setAvailableTags(Array.from(allTags).sort())
     } catch (e: any) {
-      setError(e.message || 'Failed to load past papers')
-    } finally { setLoading(false) }
+      console.error("Error loading past papers:", e)
+      // Don't set error state that would break the page, just set empty array
+      setCoursesWithPapers([])
+    } finally { 
+      setLoading(false) 
+    }
   }
 
   useEffect(() => { loadPapers() }, [searchTerm, selectedSemester, selectedYear, selectedCampus, campusDepartment])

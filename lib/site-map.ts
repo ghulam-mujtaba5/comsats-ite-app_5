@@ -18,17 +18,19 @@ export const SITE_LINKS: SiteLink[] = [
   { label: 'Admin', href: '/admin', status: 'live', group: 'core' }, // Added Admin link
 
   // Student tools
+  { label: 'Community', href: '/community', status: 'live', group: 'student' }, // Added Community
   { label: 'Past Papers', href: '/past-papers', status: 'live', group: 'student' },
   { label: 'Timetable', href: '/timetable', status: 'live', group: 'student' },
   { label: 'GPA Calculator', href: '/gpa-calculator', status: 'live', group: 'student' },
   { label: 'Resources', href: '/resources', status: 'beta', group: 'student' },
-  { label: 'Guidance', href: '/guidance', status: 'coming_soon', group: 'student' },
+  { label: 'Guidance', href: '/guidance', status: 'live', group: 'student' }, // Changed from coming_soon to live
   { label: 'Student Support', href: '/student-support', status: 'live', group: 'student' }, // Added Student Support
 
   // Community
   { label: 'Faculty Reviews', href: '/faculty', status: 'working', group: 'community' },
   { label: 'Lost & Found', href: '/lost-found', status: 'live', group: 'community' },
-  { label: 'Community', href: '/community', status: 'live', group: 'community' },
+  { label: 'Groups', href: '/community/groups', status: 'live', group: 'community' }, // Added Groups subpage
+  { label: 'Events', href: '/community/events', status: 'live', group: 'community' }, // Added Events subpage
 
   // Support & Legal
   { label: 'Contribute', href: '/contribute', status: 'live', group: 'support' },

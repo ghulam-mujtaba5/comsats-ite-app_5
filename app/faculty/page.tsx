@@ -80,11 +80,18 @@ export default function FacultyPage() {
       setStatsLoading(true)
       try {
         const res = await fetch('/api/faculty/stats')
-        if (!res.ok) throw new Error('Failed to fetch stats')
+        if (!res.ok) {
+          console.error("Failed to fetch stats:", res.status, res.statusText)
+          // Set default values instead of throwing error
+          setStats({ facultyCount: 0, totalReviews: 0, averageRating: 0, departmentCount: 0 })
+          return
+        }
         const data = await res.json()
         setStats(data)
       } catch (error) {
-        console.error(error)
+        console.error("Error fetching stats:", error)
+        // Set default values on error
+        setStats({ facultyCount: 0, totalReviews: 0, averageRating: 0, departmentCount: 0 })
       } finally {
         setStatsLoading(false)
       }
@@ -106,12 +113,17 @@ export default function FacultyPage() {
         const res = await fetch(url, { cache: 'force-cache' }) // Use force-cache to reduce function invocations
         if (!res.ok) {
           const body = await res.json().catch(() => ({}))
-          throw new Error(body?.error || 'Failed to fetch faculty')
+          console.error("Failed to fetch faculty:", res.status, res.statusText, body)
+          // Don't throw error, just set empty array
+          setFacultyList([])
+          return
         }
         const data = await res.json()
         setFacultyList(Array.isArray(data) ? data : [])
       } catch (e: any) {
-        setError(e?.message || 'Failed to load faculty')
+        console.error("Error loading faculty:", e)
+        // Don't set error state that would break the page, just set empty array
+        setFacultyList([])
       } finally {
         setLoading(false)
       }

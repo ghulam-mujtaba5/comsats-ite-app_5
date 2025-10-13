@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -51,6 +51,9 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [openItems, setOpenItems] = useState<string[]>([])
 
+  // Add state for tracking API errors
+  const [apiError, setApiError] = useState<string | null>(null)
+
   const categories: HelpCategory[] = [
     { id: "all", name: "All Topics", description: "Browse all help topics", icon: HelpCircle, color: "bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border-blue-200/30", count: 12 },
     { id: "general", name: "General", description: "Getting started and basic features", icon: BookOpen, color: "bg-gradient-to-br from-green-500/20 to-emerald-600/20 border-green-200/30", count: 4 },
@@ -71,6 +74,13 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
       faq.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
     return matchesCategory && matchesSearch
   })
+
+  // Add effect to handle API errors gracefully
+  useEffect(() => {
+    // In a real implementation, you might fetch additional FAQs from an API
+    // For now, we'll just use the static data passed in
+    setApiError(null) // Reset any previous errors
+  }, [])
 
   return (
     <div className="min-h-screen bg-mesh overflow-hidden relative">

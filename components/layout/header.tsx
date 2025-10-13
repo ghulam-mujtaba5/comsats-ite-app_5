@@ -25,6 +25,11 @@ import { NotificationBell } from "@/components/community/notification-bell"
 
 const navigationItems = [
   {
+    name: "Community",
+    href: "/community",
+    description: "Connect with fellow students and join discussions",
+  },
+  {
     name: "Past Papers",
     href: "/past-papers",
     description: "Browse and download past exam papers",
@@ -49,6 +54,16 @@ const navigationItems = [
     href: "/gpa-calculator",
     description: "Calculate GPA/CGPA with the latest scale",
     icon: Calculator,
+  },
+  {
+    name: "Student Support",
+    href: "/student-support",
+    description: "Access counseling, tutoring, and other support services",
+  },
+  {
+    name: "Guidance",
+    href: "/guidance",
+    description: "Official university policies and guidance documents",
   },
   {
     name: "Admissions",
@@ -185,6 +200,19 @@ export function Header() {
               </Button>
             </Link>
           )}
+          {/* Show Admin link for all users but redirect to login if not authenticated */}
+          {!isAdmin && (
+            <Link
+              href="/admin"
+              title="Admin Portal"
+              className="hidden lg:inline-flex"
+            >
+              <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 h-9">
+                <Shield className="h-5 w-5" />
+                <span className="sr-only">Admin Portal</span>
+              </Button>
+            </Link>
+          )}
           <ThemeToggle />
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
@@ -243,6 +271,21 @@ export function Header() {
                       <div className="flex flex-col min-w-0 flex-1">
                         <span className="font-semibold text-slate-900 dark:text-white truncate">Admin Panel</span>
                         <span className="text-sm text-slate-600 dark:text-slate-400 truncate">Manage site content</span>
+                      </div>
+                    </div>
+                  </Link>
+                )}
+                {!isAdmin && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md w-full flex items-center"
+                  >
+                    <div className="relative z-10 flex items-start space-x-3 w-full min-w-0">
+                      <Shield className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                      <div className="flex flex-col min-w-0 flex-1">
+                        <span className="font-semibold text-slate-900 dark:text-white truncate">Admin Portal</span>
+                        <span className="text-sm text-slate-600 dark:text-slate-400 truncate">Login required</span>
                       </div>
                     </div>
                   </Link>
