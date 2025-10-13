@@ -84,7 +84,9 @@ This document summarizes the comprehensive refactor of the CampusAxis project st
 1. `docs/PROJECT_STRUCTURE_REFACTOR.md` - Detailed refactor documentation
 2. `docs/NEW_PROJECT_STRUCTURE.md` - New structure documentation
 3. `README_STRUCTURE.md` - Structure README for developers
-4. `STRUCTURE_REFACTOR_SUMMARY.md` - This file
+Moved: docs/archive/STRUCTURE_REFACTOR_SUMMARY.md
+
+This legacy summary has been archived to keep the repository root lean.
 
 ### Script Files
 1. `scripts/migrate-structure.ts` - Migration script for import paths

@@ -122,19 +122,73 @@ pnpm run build-pwa
 
 ## Project Structure
 
+Our codebase follows **Clean Architecture** and **Feature-Slice Design** principles for maximum maintainability:
+
 ```
 app/                    # Next.js App Router pages & API routes
   admin/                # Admin area (dashboard, login, timetable, etc.)
   api/                  # Route handlers (account, admin, auth, ...)
-components/             # UI components
+
+src/                    # Source code (Refactored Structure) ⭐ NEW
+  core/                 # Core business logic (framework-agnostic)
+    domain/             # Entities, types, schemas
+    use-cases/          # Business logic & application services
+    repositories/       # Data access interfaces
+  
+  infrastructure/       # External services & implementations
+    database/           # MongoDB, Supabase implementations
+    email/              # Email service (Resend)
+    storage/            # File storage
+  
+  features/             # Feature modules (vertical slices)
+    auth/               # Authentication feature
+    admin/              # Admin feature
+    community/          # Community feature
+    timetable/          # Timetable feature
+    [feature]/          # Each feature contains:
+      api/              # - API handlers
+      components/       # - UI components
+      hooks/            # - React hooks
+      utils/            # - Utilities
+  
+  lib/                  # Shared utilities & helpers
+    utils/              # Pure utility functions
+    helpers/            # Helper functions with side effects
+    constants/          # Application constants
+    types/              # Shared TypeScript types
+  
+  config/               # Configuration files
+
+components/             # Shared UI components
+  ui/                   # Base UI components (shadcn/ui)
+  layout/               # Layout components (header, footer, sidebar)
+  common/               # Common reusable components
+  providers/            # Context providers
+
 contexts/               # React contexts (e.g., auth)
-docs/                   # Project documentation/specs
-hooks/                  # Custom React hooks
-lib/                    # Utilities (admin, auth, analytics, etc.)
+hooks/                  # Shared custom React hooks
+lib/                    # Legacy utilities (being migrated to src/lib)
+
+tests/                  # Test files ⭐ NEW
+  unit/                 # Unit tests
+  integration/          # Integration tests
+  e2e/                  # End-to-end tests (Playwright)
+
+docs/                   # Documentation
+  architecture/         # Architecture docs & ADRs ⭐ NEW
+  guides/               # Developer guides ⭐ NEW
+  api/                  # API documentation
+  features/             # Feature documentation
+
 public/                 # Static assets
 scripts/                # DB and utility scripts (seeders, etc.)
 styles/                 # Global styles (Tailwind)
 ```
+
+📖 **For detailed architecture information**, see:
+- [Architecture Overview](docs/architecture/ARCHITECTURE_OVERVIEW.md)
+- [Codebase Refactoring Plan](docs/CODEBASE_REFACTORING_PLAN.md)
+- [Contributing Guide](docs/guides/CONTRIBUTING.md)
 
 ## Roadmap
 

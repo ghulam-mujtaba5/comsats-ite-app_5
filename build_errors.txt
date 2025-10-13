@@ -1,0 +1,1 @@
+Removed: This file was a generated build errors log and is now ignored via .gitignore.
