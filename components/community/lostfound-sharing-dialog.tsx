@@ -51,6 +51,7 @@ import { useCampus } from "@/contexts/campus-context"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
 import { MediaUploader } from "@/components/community/media-uploader"
+import { MediaItem } from "@/lib/community-data"
 
 interface LostFoundItem {
   id: string
@@ -90,7 +91,7 @@ export function LostFoundSharingDialog({
   const [contactInfo, setContactInfo] = useState(initialItem.contact_info || "")
   const [tags, setTags] = useState<string[]>(initialItem.tags || [])
   const [newTag, setNewTag] = useState("")
-  const [media, setMedia] = useState<File[]>([])
+  const [media, setMedia] = useState<MediaItem[]>([])
   const [isPublic, setIsPublic] = useState(initialItem.isPublic ?? true)
   const { selectedCampus } = useCampus()
   const { user } = useAuth()
@@ -345,9 +346,9 @@ export function LostFoundSharingDialog({
               Attach Photos (Optional)
             </label>
             <MediaUploader 
-              onMediaAdded={setMedia}
+              onMediaChange={setMedia}
               maxFiles={3}
-              maxSize={5}
+              
             />
           </div>
           

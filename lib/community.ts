@@ -126,6 +126,7 @@ export async function incrementComments(postId: string, by = 1) {
 function rowToPost(row: any): Post {
   return {
     id: String(row.id),
+    user_id: String(row.user_id || ""),
     author: row.author_name || row.user_name || "Anonymous",
     avatar: row.avatar_url || "/student-avatar.png",
     department: row.department || "",
@@ -142,5 +143,6 @@ function rowToPost(row: any): Post {
     tags: Array.isArray(row.tags) ? row.tags : [],
     liked: !!row.liked,
     type: row.type || "general",
+    created_at: row.created_at || new Date().toISOString(),
   }
 }

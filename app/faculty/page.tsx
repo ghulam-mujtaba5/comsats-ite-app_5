@@ -216,7 +216,7 @@ export default function FacultyPage() {
               <Button 
                 variant="default" 
                 className="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-md hover:shadow-lg transition-all duration-300 group-hover:shadow-lg"
-                onClick={(e) => {
+                onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   setOpen(true);
                 }}

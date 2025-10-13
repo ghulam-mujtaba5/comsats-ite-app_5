@@ -134,13 +134,13 @@ export function RichTextEditorEnhanced({
       {/* Media Uploader */}
       {showMediaUploader && (
         <MediaUploader
-          onMediaAdded={(files) => {
+          onMediaChange={(files) => {
             // In a real implementation, you would upload files and insert URLs
             // For now, we'll just close the uploader
             setShowMediaUploader(false)
           }}
           maxFiles={5}
-          maxSize={10}
+          
         />
       )}
 

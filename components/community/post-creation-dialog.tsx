@@ -10,17 +10,18 @@ import { MediaUploader } from "@/components/community/media-uploader"
 import { Sparkles, Send, Hash, BookOpen, Trophy, Target, MessageSquare, Shield } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
+import { MediaItem } from "@/lib/community-data"
 
 interface PostCreationDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onCreatePost: (content: string, type: string, tags: string[], media: File[]) => Promise<void>
+  onCreatePost: (content: string, type: string, tags: string[], media: MediaItem[]) => Promise<void>
 }
 
 export function PostCreationDialog({ open, onOpenChange, onCreatePost }: PostCreationDialogProps) {
   const [content, setContent] = useState("")
   const [type, setType] = useState("general")
-  const [media, setMedia] = useState<File[]>([])
+  const [media, setMedia] = useState<MediaItem[]>([])
   const { selectedCampus, selectedDepartment, departments } = useCampus()
   const { user } = useAuth()
 
@@ -206,9 +207,9 @@ export function PostCreationDialog({ open, onOpenChange, onCreatePost }: PostCre
               Attach Media (Optional)
             </label>
             <MediaUploader 
-              onMediaAdded={setMedia}
+              onMediaChange={setMedia}
               maxFiles={5}
-              maxSize={10}
+              
             />
           </div>
           

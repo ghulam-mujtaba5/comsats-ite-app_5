@@ -243,7 +243,7 @@ export function ModerationTools() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={(e) => {
+                        onClick={(e: React.MouseEvent) => {
                           e.stopPropagation()
                           handleReportStatusChange(report.id, "resolved")
                         }}

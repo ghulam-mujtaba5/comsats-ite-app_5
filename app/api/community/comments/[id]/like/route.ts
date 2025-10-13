@@ -84,7 +84,7 @@ export async function POST(_req: NextRequest, context: { params: Promise<{ id: s
  * GET /api/community/comments/[id]/reactions
  * Gets all reactions for a comment with counts
  */
-export async function GET_ALL_REACTIONS(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params
   const supabase = await createSupabaseClient()
 

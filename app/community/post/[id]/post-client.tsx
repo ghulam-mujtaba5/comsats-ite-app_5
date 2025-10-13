@@ -13,8 +13,9 @@ import { toast } from "@/hooks/use-toast"
 import { useRealtimeComments } from "@/hooks/use-realtime-comments"
 import { useRealtimeLikes } from "@/hooks/use-realtime-likes"
 import type { Post, Reply } from "@/lib/community-data"
+import type { MediaItem } from "@/lib/community-data"
 
-interface PostWithMedia extends Post {
+type PostWithMedia = Omit<Post, 'media'> & {
   media?: string[]
 }
 
@@ -267,21 +268,21 @@ export function PostClient() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {post.media.map((mediaUrl, index) => (
                     <div key={index} className="relative aspect-square rounded-lg overflow-hidden">
-                      {mediaUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
+                      {typeof mediaUrl === 'string' && mediaUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
                         // Image
                         <img 
                           src={mediaUrl} 
                           alt={`Post media ${index + 1}`} 
                           className="w-full h-full object-cover"
                         />
-                      ) : mediaUrl.match(/\.(mp4|webm|ogg)$/i) ? (
+                      ) : typeof mediaUrl === 'string' && mediaUrl.match(/\.(mp4|webm|ogg)$/i) ? (
                         // Video
                         <video 
                           src={mediaUrl} 
                           className="w-full h-full object-cover"
                           controls
                         />
-                      ) : mediaUrl.match(/\.(pdf|doc|docx)$/i) ? (
+                      ) : typeof mediaUrl === 'string' && mediaUrl.match(/\.(pdf|doc|docx)$/i) ? (
                         // Document
                         <div className="w-full h-full flex items-center justify-center bg-muted">
                           <FileText className="h-8 w-8 text-muted-foreground" />

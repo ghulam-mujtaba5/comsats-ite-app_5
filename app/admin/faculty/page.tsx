@@ -668,7 +668,7 @@ export default function AdminFacultyPage() {
                                         variant="outline"
                                         aria-label={`Edit faculty ${r.name}`}
                                         className="glass-button lg:hidden ml-2"
-                                        onClick={(e) => { e.stopPropagation(); editRow(r) }}
+                                        onClick={(e: React.MouseEvent) => { e.stopPropagation(); editRow(r) }}
                                       >
                                         <Edit className="h-4 w-4" />
                                       </Button>
@@ -696,15 +696,15 @@ export default function AdminFacultyPage() {
                                   </td>
                                   <td className="py-3 px-4">
                                     <div className="flex gap-2">
-                                      <Button size="sm" variant="outline" onClick={(e) => { e.stopPropagation(); editRow(r) }} aria-label={`Edit faculty ${r.name}`} className="glass-button">
+                                      <Button size="sm" variant="outline" onClick={(e: React.MouseEvent) => { e.stopPropagation(); editRow(r) }} aria-label={`Edit faculty ${r.name}`} className="glass-button">
                                         <Edit className="h-4 w-4" />
                                       </Button>
-                                      <Button asChild size="sm" variant="outline" aria-label={`Preview faculty ${r.name}`} className="glass-button" onClick={(e) => e.stopPropagation()}>
-                                        <Link href={`/faculty/${r.id}`} target="_blank" onClick={(e) => e.stopPropagation()}>
+                                      <Button asChild size="sm" variant="outline" aria-label={`Preview faculty ${r.name}`} className="glass-button" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+                                        <Link href={`/faculty/${r.id}`} target="_blank" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
                                           <Eye className="h-4 w-4" />
                                         </Link>
                                       </Button>
-                                      <Button size="sm" variant="outline" onClick={(e) => { e.stopPropagation(); deleteRow(r.id) }} aria-label={`Delete faculty ${r.name}`} className="glass-button hover:bg-red-50 dark:hover:bg-red-950/50">
+                                      <Button size="sm" variant="outline" onClick={(e: React.MouseEvent) => { e.stopPropagation(); deleteRow(r.id) }} aria-label={`Delete faculty ${r.name}`} className="glass-button hover:bg-red-50 dark:hover:bg-red-950/50">
                                         <Trash2 className="h-4 w-4" />
                                       </Button>
                                     </div>

@@ -4,6 +4,7 @@ import { createSupabaseClient } from '@/lib/supabase-utils'
 /**
  * GET /api/community/posts/[id]/like
  * Gets the like count and whether the current user has liked a post
+ * Also gets all reactions for a post with counts if detailed query param is provided
  */
 export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
   // Set cache headers to reduce function invocations
@@ -15,35 +16,73 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
 
   const { id } = await context.params
   const supabase = await createSupabaseClient()
+  
+  // Check if detailed reactions are requested
+  const url = new URL(_req.url)
+  const detailed = url.searchParams.get('detailed') === 'true'
 
   try {
     // Get current user
     const { data: auth } = await supabase.auth.getUser()
     const userId = auth.user?.id
 
-    // Get like count
-    const { count, error: countErr } = await supabase
-      .from('post_reactions')
-      .select('*', { count: 'exact', head: true })
-      .eq('post_id', id)
-      .eq('reaction_type', 'like')
-
-    if (countErr) return NextResponse.json({ error: countErr.message }, { status: 400, headers })
-
-    // Check if current user has liked the post
-    let liked = false
-    if (userId) {
-      const { data: row } = await supabase
+    if (detailed) {
+      // Get reaction counts by type
+      const { data: reactions, error } = await supabase
         .from('post_reactions')
-        .select('post_id')
+        .select('reaction_type')
         .eq('post_id', id)
-        .eq('user_id', userId)
-        .eq('reaction_type', 'like')
-        .maybeSingle()
-      liked = !!row
-    }
 
-    return NextResponse.json({ count: count || 0, liked }, { headers })
+      if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
+
+      // Count reactions by type
+      const reactionCounts: Record<string, number> = {}
+      reactions.forEach(reaction => {
+        reactionCounts[reaction.reaction_type] = (reactionCounts[reaction.reaction_type] || 0) + 1
+      })
+
+      // Get current user's reaction
+      let currentUserReaction = null
+      if (userId) {
+        const { data: userReaction } = await supabase
+          .from('post_reactions')
+          .select('reaction_type')
+          .eq('post_id', id)
+          .eq('user_id', userId)
+          .maybeSingle()
+        
+        currentUserReaction = userReaction?.reaction_type || null
+      }
+
+      return NextResponse.json({ 
+        counts: reactionCounts,
+        currentUserReaction
+      }, { headers })
+    } else {
+      // Get like count
+      const { count, error: countErr } = await supabase
+        .from('post_reactions')
+        .select('*', { count: 'exact', head: true })
+        .eq('post_id', id)
+        .eq('reaction_type', 'like')
+
+      if (countErr) return NextResponse.json({ error: countErr.message }, { status: 400, headers })
+
+      // Check if current user has liked the post
+      let liked = false
+      if (userId) {
+        const { data: row } = await supabase
+          .from('post_reactions')
+          .select('post_id')
+          .eq('post_id', id)
+          .eq('user_id', userId)
+          .eq('reaction_type', 'like')
+          .maybeSingle()
+        liked = !!row
+      }
+
+      return NextResponse.json({ count: count || 0, liked }, { headers })
+    }
   } catch (error) {
     console.error('Error fetching like status:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
@@ -129,53 +168,6 @@ export async function POST(_req: NextRequest, context: { params: Promise<{ id: s
   } catch (error) {
     console.error('Error toggling like:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
-  }
-}
-
-/**
- * GET /api/community/posts/[id]/reactions
- * Gets all reactions for a post with counts
- */
-export async function GET_ALL_REACTIONS(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const { id } = await context.params
-  const supabase = await createSupabaseClient()
-
-  try {
-    // Get reaction counts by type
-    const { data: reactions, error } = await supabase
-      .from('post_reactions')
-      .select('reaction_type')
-      .eq('post_id', id)
-
-    if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-
-    // Count reactions by type
-    const reactionCounts: Record<string, number> = {}
-    reactions.forEach(reaction => {
-      reactionCounts[reaction.reaction_type] = (reactionCounts[reaction.reaction_type] || 0) + 1
-    })
-
-    // Get current user's reaction
-    const { data: auth } = await supabase.auth.getUser()
-    let currentUserReaction = null
-    if (auth.user?.id) {
-      const { data: userReaction } = await supabase
-        .from('post_reactions')
-        .select('reaction_type')
-        .eq('post_id', id)
-        .eq('user_id', auth.user.id)
-        .maybeSingle()
-      
-      currentUserReaction = userReaction?.reaction_type || null
-    }
-
-    return NextResponse.json({ 
-      counts: reactionCounts,
-      currentUserReaction
-    })
-  } catch (error) {
-    console.error('Error fetching reactions:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
 
