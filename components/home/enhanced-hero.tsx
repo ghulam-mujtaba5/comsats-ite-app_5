@@ -12,7 +12,7 @@ import { notifyFetch } from "@/lib/notify"
 import { FadeInScroll, AnimatedCard, CountUp, Pulse, AnimatedButton, FloatingButton, Bounce, Shimmer } from "@/components/animations/enhanced"
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
-import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
+import { useMotivationalFeedback } from "@/components/motivational"
 
 export function EnhancedHero() {
   const [stats, setStats] = useState<{

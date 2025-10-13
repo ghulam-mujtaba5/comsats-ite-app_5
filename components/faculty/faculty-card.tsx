@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Star, MapPin, Mail, Phone, BookOpen, Users, Trophy, Award } from "lucide-react"
+import { Star, MapPin, Mail, BookOpen, Users, Trophy, Award } from "lucide-react"
 import type { Faculty } from "@/lib/faculty-data"
 import Link from "next/link"
 import { useEmotion } from "@/contexts/emotion-context"
@@ -178,12 +178,6 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
             <Mail className="h-4 w-4 flex-shrink-0" />
             <span className="truncate">{faculty.email}</span>
           </div>
-          {faculty.phone && (
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Phone className="h-4 w-4 flex-shrink-0" />
-              <span className="truncate">{faculty.phone}</span>
-            </div>
-          )}
         </div>
 
         {/* Specialization */}

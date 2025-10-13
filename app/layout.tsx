@@ -35,6 +35,7 @@ const manrope = Manrope({
   variable: "--font-manrope",
   // Optimize font loading
   preload: true,
+  fallback: ['sans-serif'],
 })
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'

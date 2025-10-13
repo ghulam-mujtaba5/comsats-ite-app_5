@@ -10,7 +10,7 @@ import { motion } from "framer-motion"
 import { StaggerContainer, StaggerItem, AnimatedCard, FadeInScroll } from "@/components/animations/enhanced"
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
-import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
+import { useMotivationalFeedback } from "@/components/motivational"
 
 type CommunityCard = {
   id: string

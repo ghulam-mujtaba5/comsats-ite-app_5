@@ -11,7 +11,7 @@ import { notifyFetch } from "@/lib/notify"
 import { StaggerContainer, StaggerItem, AnimatedCard, AnimatedButton, FadeInScroll } from "@/components/animations/enhanced"
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
-import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
+import { useMotivationalFeedback } from "@/components/motivational"
 
 export function EnhancedFeatures() {
   const [stats, setStats] = useState({ pastPapersCount: 1000, reviewsCount: 500, facultyCount: 156, resourcesCount: 324 })

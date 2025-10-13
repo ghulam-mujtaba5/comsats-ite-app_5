@@ -8,7 +8,7 @@ import { motion } from "framer-motion"
 import { StaggerContainer, StaggerItem, AnimatedCard } from "@/components/animations/enhanced"
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
-import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
+import { useMotivationalFeedback } from "@/components/motivational"
 
 export function EnhancedComingSoon() {
   const { triggerConfetti } = useCelebrationAnimations()
