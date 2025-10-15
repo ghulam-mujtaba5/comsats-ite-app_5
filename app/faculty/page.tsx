@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { jsonLdCollectionPage } from "@/lib/seo"
 import { useCampus } from "@/contexts/campus-context"
+import { useAuth } from "@/contexts/auth-context"
 // Footer is provided by the root layout; avoid importing locally to prevent duplicates
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -14,6 +15,7 @@ import { Users, Star, MessageSquare, Filter, Award, BookOpen, RotateCcw, Graduat
 import { AdvancedFilterBar } from "@/components/search/advanced-filter-bar"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { AddFacultyDialog } from "@/components/faculty/add-faculty-dialog"
+import { getDepartmentFromEmail } from '@/lib/student-department-utils'
 import {
   Dialog,
   DialogContent,
@@ -38,7 +40,22 @@ export default function FacultyPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [debouncedSearch, setDebouncedSearch] = useState("")
+  const [userDepartment, setUserDepartment] = useState<string | null>(null)
   const { selectedCampus, selectedDepartment: campusDepartment } = useCampus()
+  const { user } = useAuth()
+  
+  // Get user's department from their email
+  useEffect(() => {
+    if (user?.email) {
+      const department = getDepartmentFromEmail(user.email)
+      setUserDepartment(department)
+      
+      // Auto-select user's department if no department is already selected
+      if (department && selectedDepartment === "All") {
+        setSelectedDepartment(department)
+      }
+    }
+  }, [user, selectedDepartment])
   
   // Preserve and restore scroll position when navigating to profile and back
   useEffect(() => {
@@ -134,11 +151,13 @@ export default function FacultyPage() {
   const filteredFaculty = useMemo(() => {
     let faculty = [...facultyList]
     
-    // Apply filters
-    if (selectedDepartment !== "All") {
-      faculty = faculty.filter((f) => f.department === selectedDepartment)
+    // Apply department filter
+    const departmentToFilter = selectedDepartment !== "All" ? selectedDepartment : userDepartment
+    if (departmentToFilter) {
+      faculty = faculty.filter((f) => f.department === departmentToFilter)
     }
     
+    // Apply other filters
     if (selectedSpecialization !== "All") {
       faculty = faculty.filter((f) => f.specialization?.includes(selectedSpecialization))
     }
@@ -204,7 +223,7 @@ export default function FacultyPage() {
     })
     
     return faculty
-  }, [debouncedSearch, selectedDepartment, selectedSpecialization, minRating, experienceLevel, coursesTaught, currentSort, sortDirection, facultyList])
+  }, [debouncedSearch, selectedDepartment, selectedSpecialization, minRating, experienceLevel, coursesTaught, currentSort, sortDirection, facultyList, userDepartment])
 
   function AddFacultyCard() {
     const [open, setOpen] = useState(false)
@@ -305,32 +324,21 @@ export default function FacultyPage() {
           </div>
 
           {/* Enhanced Stats Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <Card className="glass-card glass-border-light glass-hover rounded-2xl hover-lift transition-all duration-300 group">
               <CardContent className="flex items-center gap-4 p-4">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-blue-500/20 border border-primary/30 text-primary group-hover:scale-110 transition-transform duration-300">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-300/30 text-blue-500 group-hover:scale-110 transition-transform duration-300">
                   <Users className="h-6 w-6" />
                 </div>
                 <div>
                   <div className="text-2xl font-bold tracking-tight text-foreground">{statsLoading ? "..." : stats.facultyCount}</div>
-                  <div className="text-xs text-muted-foreground">Faculty Members</div>
+                  <div className="text-xs text-muted-foreground">Total Faculty</div>
                 </div>
               </CardContent>
             </Card>
             <Card className="glass-card glass-border-light glass-hover rounded-2xl hover-lift transition-all duration-300 group">
               <CardContent className="flex items-center gap-4 p-4">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-300/30 text-green-500 group-hover:scale-110 transition-transform duration-300">
-                  <MessageSquare className="h-6 w-6" />
-                </div>
-                <div>
-                  <div className="text-2xl font-bold tracking-tight text-foreground">{statsLoading ? "..." : stats.totalReviews}</div>
-                  <div className="text-xs text-muted-foreground">Total Reviews</div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="glass-card glass-border-light glass-hover rounded-2xl hover-lift transition-all duration-300 group">
-              <CardContent className="flex items-center gap-4 p-4">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-300/30 text-yellow-600 group-hover:scale-110 transition-transform duration-300">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-300/30 text-amber-500 group-hover:scale-110 transition-transform duration-300">
                   <Star className="h-6 w-6" />
                 </div>
                 <div>
@@ -352,6 +360,23 @@ export default function FacultyPage() {
             </Card>
           </div>
 
+          {/* User Department Info */}
+          {userDepartment && selectedDepartment === "All" && (
+            <div className="glass-card border border-blue-200/50 dark:border-blue-800/50 rounded-2xl p-4 bg-blue-50/80 dark:bg-blue-950/80 backdrop-blur-sm mb-6">
+              <div className="flex items-center gap-2 text-blue-800 dark:text-blue-200">
+                <GraduationCap className="h-4 w-4" />
+                <span className="font-medium">Your Department:</span> 
+                <span>{userDepartment}</span>
+                <Badge variant="secondary" className="ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                  Auto-filtered
+                </Badge>
+              </div>
+              <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                Showing faculty from your department. Select "All Departments" to view all faculty.
+              </p>
+            </div>
+          )}
+          
           {/* Enhanced Search and Filters */}
           <AdvancedFilterBar
             search={searchQuery}

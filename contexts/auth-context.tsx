@@ -5,6 +5,7 @@ import { createContext, useContext, useState, useEffect, useMemo } from "react"
 import { createBrowserClient } from "@supabase/ssr"
 import { autoSetUserPreferencesFromEmail } from "@/lib/user-campus-detector"
 import { updateUserAvatar, updateUserAvatarInPosts } from "@/lib/avatar-updater"
+import { useCampus } from "@/contexts/campus-context"
 
 // Using a simplified user type for the context
 export interface User {
@@ -32,6 +33,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const { selectedCampus } = useCampus()
   // Create Supabase browser client
   const supabase = useMemo(() => {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -142,15 +144,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(true)
     try {
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
-      const redirectTo = `${siteUrl}/auth/callback?next=${encodeURIComponent(nextPath)}`
-        const { error } = await supabase.auth.signInWithOAuth({
+      
+      // Include campus code in the redirect URL if available
+      let redirectTo = `${siteUrl}/auth/callback?next=${encodeURIComponent(nextPath)}`
+      if (selectedCampus?.code) {
+        redirectTo += `&campus_code=${selectedCampus.code}`
+      }
+      
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo,
           queryParams: {
             access_type: 'offline',
-                // Show account chooser without pre-filling domain hints
-                prompt: 'select_account',
+            // Show account chooser without pre-filling domain hints
+            prompt: 'select_account',
           },
         },
       } as any)

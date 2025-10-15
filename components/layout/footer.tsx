@@ -93,7 +93,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
                 <Image 
-                  src="/logo-square.svg" 
+                  src="/Campus Axis 1.svg" 
                   alt="CampusAxis Logo" 
                   width={48} 
                   height={48} 

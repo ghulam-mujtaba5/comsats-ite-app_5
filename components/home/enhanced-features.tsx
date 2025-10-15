@@ -156,30 +156,30 @@ export function EnhancedFeatures() {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20">
+    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20 glass-depth" aria-labelledby="features-heading">
       <div className="app-container">
         {/* Enhanced Header with proper spacing and visual hierarchy */}
-        <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-primary border border-primary/30">
-            <Sparkles className="h-4 w-4 mr-2" />
+        <div className={`text-center mb-16 md:mb-24 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <Badge variant="soft" className="mb-6 md:mb-8 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-primary border border-primary/30">
+            <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" aria-hidden="true" />
             Academic Tools & Resources
           </Badge>
           
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-6">
+          <h2 id="features-heading" className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-6 md:mb-8">
             Everything You Need for{" "}
             <span className="bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent">
               Academic Success
             </span>
           </h2>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-2">
             Comprehensive tools and resources designed specifically for COMSATS University students. 
             Access everything you need to excel in your academic journey.
           </p>
         </div>
 
         {/* Enhanced Feature Grid with proper spacing and visual hierarchy */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" staggerDelay={0.1}>
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10" staggerDelay={0.1}>
           {features.map((feature, index) => {
             const Icon = feature.icon
             const isHovered = hoveredFeature === index
@@ -191,66 +191,71 @@ export function EnhancedFeatures() {
                   onHoverStart={() => handleFeatureHover(index)}
                   onHoverEnd={handleFeatureLeave}
                   onClick={() => handleFeatureClick(feature.title)}
+                  role="article"
+                  aria-labelledby={`feature-title-${index}`}
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group relative h-full overflow-hidden border border-white/20 bg-card/80 backdrop-blur-xl rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl"
+                    className="group relative h-full overflow-hidden border border-white/20 bg-card/80 backdrop-blur-xl rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl glass-card-premium glass-border-glow glass-hover glass-depth"
                   >
                     {/* Enhanced badge */}
-                    <div className="absolute top-4 right-4 z-10">
+                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10">
                       <Badge 
                         variant={getBadgeVariant(feature.badgeColor)} 
-                        className="text-xs font-medium px-2.5 py-1"
+                        className="text-[10px] sm:text-xs font-medium px-2 py-0.5 sm:px-2.5 sm:py-1"
                       >
                         {feature.badge}
                       </Badge>
                     </div>
 
-                    <CardHeader className="relative z-10 pb-4">
+                    <CardHeader className="relative z-10 pb-4 sm:pb-6">
                       {/* Enhanced icon with hover effect */}
                       <motion.div 
-                        className={`w-16 h-16 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-5 shadow-lg group-hover:shadow-xl transition-all duration-300`}
+                        className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-4 sm:mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300`}
                         animate={isHovered ? { 
                           scale: [1, 1.1, 1],
                           rotate: [0, 5, 0]
                         } : {}}
                         transition={{ duration: 0.5 }}
+                        role="img"
+                        aria-label={`${feature.title} icon`}
                       >
-                        <Icon className={`h-8 w-8 ${feature.color}`} />
+                        <Icon className={`h-6 w-6 sm:h-8 sm:w-8 ${feature.color}`} aria-hidden="true" />
                       </motion.div>
 
                       {/* Enhanced title and description */}
-                      <CardTitle className="text-xl mb-3 group-hover:text-primary transition-colors">
+                      <CardTitle id={`feature-title-${index}`} className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 group-hover:text-primary-600 transition-colors">
                         {feature.title}
                       </CardTitle>
-                      <CardDescription className="text-base leading-relaxed">
+                      <CardDescription className="text-sm sm:text-base leading-relaxed text-muted-foreground/90">
                         {feature.description}
                       </CardDescription>
                     </CardHeader>
 
                     <CardContent className="relative z-10 pt-0">
                       {/* Enhanced stats */}
-                      <div className="flex items-center justify-between mb-5 py-3 border-t border-white/10">
-                        <div className="flex items-center gap-2">
-                          <TrendingUp className="h-4 w-4 text-primary" />
-                          <span className="text-sm font-medium text-muted-foreground">{feature.stats}</span>
+                      <div className="flex items-center justify-between mb-4 sm:mb-6 py-2 sm:py-3 border-t border-white/10">
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-primary-600" aria-hidden="true" />
+                          <span className="text-xs sm:text-sm font-medium text-muted-foreground/90">{feature.stats}</span>
                         </div>
-                        <div className="w-2 h-2 rounded-full bg-primary" />
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary" aria-hidden="true" />
                       </div>
 
                       {/* Enhanced CTA with hover effect */}
                       <Button 
                         variant="ghost" 
-                        className="w-full justify-between hover:bg-muted group/btn p-3 h-auto rounded-xl relative overflow-hidden" 
+                        className="w-full justify-between hover:bg-muted group/btn p-2 sm:p-3 h-auto rounded-lg sm:rounded-xl relative overflow-hidden text-sm sm:text-base" 
                         asChild
                       >
                         <Link href={feature.href} className="font-medium">
                           {feature.cta}
-                          <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                          <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 group-hover/btn:translate-x-1 transition-transform" aria-hidden="true" />
                           <motion.div 
                             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0"
                             whileHover={{ opacity: 1, x: '100%' }}
                             transition={{ duration: 0.5 }}
+                            aria-hidden="true"
                           />
                         </Link>
                       </Button>
@@ -263,53 +268,56 @@ export function EnhancedFeatures() {
         </StaggerContainer>
 
         {/* Enhanced call to action with proper spacing */}
-        <FadeInScroll className="text-center mt-24" delay={0.5}>
+        <FadeInScroll className="text-center mt-32" delay={0.5}>
           <motion.div
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            role="region"
+            aria-labelledby="cta-heading"
           >
-            <AnimatedCard enableHover={true} className="inline-block p-10 border border-white/20 bg-card/80 backdrop-blur-2xl shadow-2xl rounded-3xl max-w-3xl mx-auto">
-              <div className="space-y-6">
+            <AnimatedCard enableHover={true} className="inline-block p-8 sm:p-10 md:p-12 border border-white/20 bg-card/80 backdrop-blur-2xl shadow-2xl rounded-2xl sm:rounded-3xl max-w-3xl mx-auto glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient">
+              <div className="space-y-6 sm:space-y-8">
                 <div className="flex justify-center">
-                  <div className="relative p-5 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl">
-                    <GraduationCap className="h-14 w-14 text-primary" />
+                  <div className="relative p-4 sm:p-6 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl sm:rounded-2xl glass-layered">
+                    <GraduationCap className="h-12 w-12 sm:h-16 sm:w-16 text-primary" aria-hidden="true" />
                   </div>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold">Ready to Transform Your Academic Experience?</h3>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                <h3 id="cta-heading" className="text-xl sm:text-2xl md:text-3xl font-bold">Ready to Transform Your Academic Experience?</h3>
+                <p className="text-base sm:text-lg text-muted-foreground/90 max-w-2xl mx-auto">
                   Join thousands of COMSATS students who are already using CampusAxis to excel in their studies and connect with their academic community.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center pt-6 sm:pt-8">
                   <Button 
                     size="lg" 
-                    className="text-base px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
+                    className="text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
                     asChild
                   >
                     <Link href="/auth" className="flex items-center justify-center">
                       Get Started Free
-                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                       <motion.div 
                         className="absolute inset-0 bg-white/20"
                         initial={{ x: '-100%' }}
                         whileHover={{ x: '100%' }}
                         transition={{ duration: 0.5 }}
+                        aria-hidden="true"
                       />
                     </Link>
                   </Button>
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="text-base px-8 py-4 rounded-xl border-2 hover:shadow-md transition-all duration-300"
+                    className="text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl border-2 hover:shadow-md transition-all duration-300"
                     asChild
                   >
                     <Link href="/about" className="flex items-center justify-center">
-                      <MessageSquare className="mr-2 h-5 w-5" />
+                      <MessageSquare className="mr-2 h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
                       Learn More
                     </Link>
                   </Button>
                 </div>
-                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground pt-6">
-                  <Clock className="h-4 w-4" />
+                <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-muted-foreground/90 pt-6 sm:pt-8">
+                  <Clock className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
                   <span>Join in less than 2 minutes</span>
                 </div>
               </div>
@@ -318,7 +326,7 @@ export function EnhancedFeatures() {
         </FadeInScroll>
         
         {/* Stats showcase section with proper spacing */}
-        <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        <div className="mt-24 sm:mt-32 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto">
           {[
             { icon: FileText, label: "Past Papers", value: "1000+", color: "text-blue-500" },
             { icon: Users, label: "Faculty Reviews", value: "500+", color: "text-purple-500" },
@@ -333,15 +341,17 @@ export function EnhancedFeatures() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * index }}
                 whileHover={{ y: -5 }}
-                className="text-center p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 transition-all duration-300 hover:shadow-lg"
+                className="text-center p-4 sm:p-6 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light"
+                role="region"
+                aria-label={`${stat.label}: ${stat.value}`}
               >
-                <div className="flex justify-center mb-3">
-                  <div className={`p-3 rounded-xl ${stat.color.replace('text', 'bg')}/10`}>
-                    <Icon className={`h-7 w-7 ${stat.color}`} />
+                <div className="flex justify-center mb-3 sm:mb-4">
+                  <div className={`p-3 sm:p-4 rounded-xl ${stat.color.replace('text', 'bg')}/10`}>
+                    <Icon className={`h-6 w-6 sm:h-8 sm:w-8 ${stat.color}`} aria-hidden="true" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+                <div className="text-xl sm:text-2xl font-bold text-foreground">{stat.value}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
               </motion.div>
             )
           })}

@@ -125,7 +125,7 @@ export function HeroSection() {
                 <div className="relative group">
                   <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-lg opacity-50 group-hover:opacity-70 transition-opacity duration-500 glass-depth" />
                   <Image 
-                    src="/logo-square.svg" 
+                    src="/Campus Axis 1.svg" 
                     alt="CampusAxis Logo" 
                     width={80} 
                     height={80} 

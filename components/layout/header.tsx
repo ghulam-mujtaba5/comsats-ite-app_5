@@ -66,11 +66,6 @@ const navigationItems = [
     description: "Official university policies and guidance documents",
   },
   {
-    name: "Admissions",
-    href: "/admissions",
-    description: "Apply for admission to COMSATS",
-  },
-  {
     name: "Timetable",
     href: "/timetable",
     description: "Upload, preview, and download timetables (PDF)",
@@ -126,7 +121,7 @@ export function Header() {
             className="flex items-center space-x-2 sm:space-x-3 hover:opacity-90 transition-all duration-300 interactive group px-1 sm:px-2 py-1 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/30 backdrop-blur-sm min-w-0 flex-shrink"
           >
             <div className="relative flex-shrink-0 admin-nav-logo-container admin-nav-logo-wrapper">
-              <Image src="/logo-square.svg" alt="CampusAxis Logo" width={36} height={36} className="sm:w-10 sm:h-10 rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg admin-nav-logo" />
+              <Image src="/Campus Axis 1.svg" alt="CampusAxis Logo" width={36} height={36} className="sm:w-10 sm:h-10 rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg admin-nav-logo" />
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
             <div className="flex flex-col min-w-0">
@@ -209,9 +204,15 @@ export function Header() {
             <SheetContent side="right" className="w-[80vw] max-w-[360px] glass-modal glass-border-light glass-noise shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen p-4">
               <div className="flex flex-col space-y-4 mt-4 pb-4 w-full">
                 <div className="flex items-center justify-center pb-6 border-b border-white/20 dark:border-white/10 w-full max-w-full box-border">
-                  <div className="relative flex-shrink-0 w-16 h-16 admin-nav-logo-container admin-nav-logo-wrapper">
-                    <Image src="/logo-square.svg" alt="CampusAxis Logo" width={64} height={64} className="rounded-2xl shadow-lg admin-nav-logo" />
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-50" />
+                  <div className="relative group">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur-lg opacity-20" />
+                    <Image 
+                      src="/Campus Axis 1.svg" 
+                      alt="CampusAxis Logo" 
+                      width={64} 
+                      height={64} 
+                      className="rounded-2xl shadow-lg admin-nav-logo" 
+                    />
                   </div>
                 </div>
 

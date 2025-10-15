@@ -55,12 +55,6 @@ const navigationItems: NavItem[] = [
     description: "Manage user accounts"
   },
   {
-    label: "Admissions",
-    href: "/admin/admissions",
-    icon: FileText,
-    description: "Manage admission applications"
-  },
-  {
     label: "Content Moderation",
     href: "/admin/moderation",
     icon: Shield,

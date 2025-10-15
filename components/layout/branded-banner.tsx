@@ -48,7 +48,7 @@ export function BrandedBanner({
       {showLogo && (
         <div className="absolute top-6 right-6 opacity-10 dark:opacity-5">
           <Image
-            src="/logo-square.svg"
+            src="/Campus Axis 1.svg"
             alt="CampusAxis Logo"
             width={120}
             height={120}

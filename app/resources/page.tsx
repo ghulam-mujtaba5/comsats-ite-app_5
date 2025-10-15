@@ -5,12 +5,14 @@ import { useEffect, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { BookOpen, Upload, ExternalLink, Download, Shield, Star, Filter, RotateCcw, FileText } from "lucide-react"
+import { BookOpen, Upload, ExternalLink, Download, Shield, Star, Filter, RotateCcw, FileText, GraduationCap } from "lucide-react"
 import { AdvancedFilterBar, type Option } from "@/components/search/advanced-filter-bar"
 import { standardFilters, sortOptions, filterPresets } from "@/lib/filter-data"
 import { notifyFetch } from "@/lib/notify"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Breadcrumbs } from "@/components/ui/breadcrumbs"
+import { useAuth } from "@/contexts/auth-context"
+import { getDepartmentFromEmail } from '@/lib/student-department-utils'
 
 type Resource = {
   id: string
@@ -43,7 +45,22 @@ export default function ResourcesPage() {
   const [showVerifiedOnly, setShowVerifiedOnly] = useState(false)
   const [currentSort, setCurrentSort] = useState("date-desc")
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
-
+  const [userDepartment, setUserDepartment] = useState<string | null>(null)
+  const { user } = useAuth()
+  
+  // Get user's department from their email
+  useEffect(() => {
+    if (user?.email) {
+      const department = getDepartmentFromEmail(user.email)
+      setUserDepartment(department)
+      
+      // Auto-select user's department if no department is already selected
+      if (department && dept === "All") {
+        setDept(department)
+      }
+    }
+  }, [user, dept])
+  
   useEffect(() => {
     (async () => {
       try {
@@ -150,6 +167,23 @@ export default function ResourcesPage() {
               </CardContent>
             </Card>
           </div>
+
+          {/* User Department Info */}
+          {userDepartment && dept === "All" && (
+            <div className="glass-card border border-blue-200/50 dark:border-blue-800/50 rounded-2xl p-4 bg-blue-50/80 dark:bg-blue-950/80 backdrop-blur-sm mb-6">
+              <div className="flex items-center gap-2 text-blue-800 dark:text-blue-200">
+                <GraduationCap className="h-4 w-4" />
+                <span className="font-medium">Your Department:</span> 
+                <span>{userDepartment}</span>
+                <Badge variant="secondary" className="ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                  Auto-filtered
+                </Badge>
+              </div>
+              <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                Showing resources from your department. Select "All Departments" to view all resources.
+              </p>
+            </div>
+          )}
 
           {/* Enhanced Search and Filters */}
           <AdvancedFilterBar

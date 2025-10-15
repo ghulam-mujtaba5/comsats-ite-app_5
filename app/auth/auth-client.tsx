@@ -34,6 +34,12 @@ export default function AuthClient() {
         description: 'Please sign in with your COMSATS email (e.g., fa22-bse-105@cuilahore.edu.pk, fa22-bse-105@cuislamabad.edu.pk)',
         variant: 'destructive',
       })
+    } else if (error === 'campus_mismatch') {
+      toast({
+        title: 'Email domain does not match selected campus',
+        description: 'Please select the correct campus that matches your email domain or use an email from your selected campus.',
+        variant: 'destructive',
+      })
     } else if (error === 'callback_error') {
       toast({ title: 'Sign-in failed', description: 'Could not complete Google sign-in. Please try again.', variant: 'destructive'})
     }
@@ -102,7 +108,7 @@ export default function AuthClient() {
                 <div className="relative group">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
                   <Image 
-                    src="/logo-square.svg" 
+                    src="/Campus Axis 1.svg" 
                     alt="CampusAxis Logo" 
                     width={80} 
                     height={80} 

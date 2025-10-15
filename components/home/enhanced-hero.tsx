@@ -167,46 +167,48 @@ export function EnhancedHero() {
   }
 
   return (
-    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-purple-50/20 dark:from-slate-900/50 dark:via-slate-800/30 dark:to-slate-900/20">
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-purple-50/10 dark:from-slate-900/50 dark:via-slate-800/30 dark:to-slate-900/20 glass-hero glass-depth glass-gradient" aria-labelledby="hero-heading">
       {/* Enhanced background elements with proper spacing and reduced visual noise */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/5 to-blue-500/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-secondary/5 to-amber-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-500/3 via-purple-500/3 to-pink-500/3 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/10 to-blue-500/10 rounded-full blur-3xl animate-pulse glass-floating" aria-hidden="true" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-secondary/10 to-amber-500/10 rounded-full blur-3xl animate-pulse glass-floating" style={{ animationDelay: '2s' }} aria-hidden="true" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20 rounded-full blur-3xl glass-layered" aria-hidden="true" />
       </div>
 
-      <div className="app-container relative z-10 py-16 md:py-24">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <div className="app-container relative z-10 py-16 md:py-20 lg:py-28">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left Content */}
-          <div className="space-y-8">
+          <div className="space-y-8 md:space-y-10 flex flex-col justify-center h-full">
             {/* Logo showcase with enhanced animations */}
             <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <div className="flex items-center gap-6 mb-8">
+              <div className="flex items-center gap-4 md:gap-6 mb-8 md:mb-10 justify-center md:justify-start">
                 <motion.div 
                   className="relative group"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  role="banner"
                 >
-                  <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-lg opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-lg opacity-50 group-hover:opacity-70 transition-opacity duration-500" aria-hidden="true" />
                   <Image 
-                    src="/logo-square.svg" 
+                    src="/Campus Axis 1.svg" 
                     alt="CampusAxis Logo" 
                     width={80} 
                     height={80} 
-                    className="rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-500 relative z-10"
+                    className="rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-500 relative z-10 glass-card glass-border-light glass-hover"
                     priority
                   />
                   <motion.div 
                     className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center"
                     animate={{ scale: [1, 1.2, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
+                    aria-label="Online status"
                   >
-                    <div className="w-2 h-2 rounded-full bg-white" />
+                    <div className="w-2 h-2 rounded-full bg-white" aria-hidden="true" />
                   </motion.div>
                 </motion.div>
                 <div>
-                  <Badge variant="soft" className="px-3 py-1.5 text-sm font-medium bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg">
-                    <Sparkles className="h-3 w-3 mr-1.5" />
+                  <Badge variant="soft" className="px-3 py-1.5 text-sm font-medium bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg">
+                    <Sparkles className="h-3 w-3 mr-1.5" aria-hidden="true" />
                     CampusAxis
                   </Badge>
                 </div>
@@ -215,10 +217,10 @@ export function EnhancedHero() {
 
             {/* Enhanced main heading with gradient text */}
             <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-balance mb-6 bg-gradient-to-r from-foreground via-foreground to-primary bg-clip-text text-transparent">
+              <h1 id="hero-heading" className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] text-balance mb-6 md:mb-8 bg-gradient-to-r from-foreground via-foreground to-primary-600 bg-clip-text text-transparent text-center md:text-left">
                 Empowering Your{" "}
                 <motion.span 
-                  className="text-primary inline-block"
+                  className="text-primary-600 inline-block"
                   animate={{ 
                     scale: [1, 1.02, 1],
                   }}
@@ -235,17 +237,17 @@ export function EnhancedHero() {
 
             {/* Enhanced description with proper spacing and readability */}
             <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-6">
+              <p className="text-base sm:text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-6 md:mb-8 text-center md:text-left">
                 Access past papers, calculate your GPA, explore learning resources, and read faculty reviews - 
                 all in one comprehensive academic portal designed specifically for COMSATS students.
               </p>
-              <p className="text-base text-muted-foreground/80 max-w-xl">
+              <p className="text-sm sm:text-base text-muted-foreground/90 max-w-xl mb-2 text-center md:text-left">
                 A growing platform for COMSATS students to share resources and read faculty reviews.
               </p>
             </div>
 
             {/* Quick Stats with improved visual hierarchy */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-5 max-w-2xl mx-auto md:mx-0">
               {quickStats.map((stat, index) => {
                 const Icon = stat.icon
                 return (
@@ -255,10 +257,10 @@ export function EnhancedHero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + index * 0.1 }}
                     whileHover={{ y: -5 }}
-                    className="p-4 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg"
+                    className="p-3 sm:p-4 md:p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light"
                   >
-                    <Icon className={`h-6 w-6 mx-auto mb-3 ${stat.color}`} />
-                    <div className="text-xl font-bold text-foreground mb-1">{stat.value}</div>
+                    <Icon className={`h-5 w-5 sm:h-6 sm:w-6 mx-auto mb-2 sm:mb-3 ${stat.color}`} aria-hidden="true" />
+                    <div className="text-lg sm:text-xl font-bold text-foreground mb-1">{stat.value}</div>
                     <div className="text-xs text-muted-foreground">{stat.label}</div>
                   </motion.div>
                 )
@@ -267,33 +269,34 @@ export function EnhancedHero() {
 
             {/* Enhanced CTA buttons with proper spacing and visual hierarchy */}
             <div className={`transition-all duration-700 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 md:gap-5 justify-center md:justify-start">
                 <Button 
                   size="lg" 
-                  className="text-base px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
+                  className="text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
                   onClick={handleGetStarted}
                   asChild
                 >
                   <Link href="/auth" className="flex items-center justify-center">
                     Get Started
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                     <motion.div 
                       className="absolute inset-0 bg-white/20"
                       initial={{ x: '-100%' }}
                       whileHover={{ x: '100%' }}
                       transition={{ duration: 0.5 }}
+                      aria-hidden="true"
                     />
                   </Link>
                 </Button>
                 <Button 
                   variant="outline" 
                   size="lg" 
-                  className="text-base px-8 py-4 rounded-xl border-2 hover:shadow-md transition-all duration-300 relative"
+                  className="text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 rounded-xl border-2 hover:shadow-md transition-all duration-300 relative"
                   onClick={handleExploreFeatures}
                   asChild
                 >
                   <Link href="/about" className="flex items-center justify-center">
-                    <GraduationCap className="mr-2 h-5 w-5" />
+                    <GraduationCap className="mr-2 h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
                     Explore Features
                   </Link>
                 </Button>
@@ -305,7 +308,7 @@ export function EnhancedHero() {
           <div className={`transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="relative">
               {/* Main Stats Card with enhanced glass effect */}
-              <Card className="relative p-6 bg-card/80 border border-white/20 rounded-3xl shadow-2xl backdrop-blur-2xl">
+              <Card className="relative p-6 bg-card/80 border border-white/20 rounded-3xl shadow-2xl backdrop-blur-2xl glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient" role="region" aria-labelledby="platform-stats-heading">
                 <div className="space-y-6">
                   {/* Header Section with animated icon */}
                   <div className="text-center space-y-3">
@@ -313,13 +316,15 @@ export function EnhancedHero() {
                       className="relative inline-block"
                       animate={{ rotate: [0, 5, -5, 0] }}
                       transition={{ duration: 4, repeat: Infinity }}
+                      role="img"
+                      aria-label="Graduation cap icon"
                     >
-                      <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl">
-                        <GraduationCap className="h-10 w-10 text-primary" />
+                      <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl glass-layered">
+                        <GraduationCap className="h-10 w-10 text-primary" aria-hidden="true" />
                       </div>
                     </motion.div>
                     <div>
-                      <h3 className="text-xl font-bold text-foreground mb-1">CampusAxis Platform</h3>
+                      <h3 id="platform-stats-heading" className="text-xl font-bold text-foreground mb-1">CampusAxis Platform</h3>
                       <p className="text-muted-foreground">Real-time Academic Analytics</p>
                     </div>
                   </div>
@@ -330,9 +335,11 @@ export function EnhancedHero() {
                     <AnimatedCard 
                       enableHover={true} 
                       className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
+                      role="region"
+                      aria-label="Community Engagement"
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <TrendingUp className="h-5 w-5 text-primary" />
+                        <TrendingUp className="h-5 w-5 text-primary" aria-hidden="true" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">Active</span>
                       </div>
                       <div className="text-xl font-bold text-foreground mb-1">
@@ -345,15 +352,17 @@ export function EnhancedHero() {
                     <AnimatedCard 
                       enableHover={true} 
                       className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
+                      role="region"
+                      aria-label="Faculty Rating"
                     >
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center">
-                          <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                          <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" aria-hidden="true" />
                           <span className="ml-1 text-xs font-medium text-foreground">{isLoading ? '...' : `${stats?.avgRating || 4.3}`}</span>
                         </div>
-                        <div className="flex text-yellow-500">
+                        <div className="flex text-yellow-500" role="img" aria-label={`${stats?.avgRating || 4.3} out of 5 stars`}>
                           {[1,2,3,4,5].map((star) => (
-                            <span key={star} className={`text-xs ${star <= Math.floor(stats?.avgRating || 4.3) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`}>★</span>
+                            <span key={star} className={`text-xs ${star <= Math.floor(stats?.avgRating || 4.3) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} aria-hidden="true">★</span>
                           ))}
                         </div>
                       </div>
@@ -367,9 +376,11 @@ export function EnhancedHero() {
                     <AnimatedCard 
                       enableHover={true} 
                       className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
+                      role="region"
+                      aria-label="Active Events"
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <Calendar className="h-5 w-5 text-primary" />
+                        <Calendar className="h-5 w-5 text-primary" aria-hidden="true" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">Active</span>
                       </div>
                       <div className="text-xl font-bold text-foreground mb-1">
@@ -382,9 +393,11 @@ export function EnhancedHero() {
                     <AnimatedCard 
                       enableHover={true} 
                       className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
+                      role="region"
+                      aria-label="Faculty Information"
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <GraduationCap className="h-5 w-5 text-primary" />
+                        <GraduationCap className="h-5 w-5 text-primary" aria-hidden="true" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">{stats?.departmentCount || 2} Depts</span>
                       </div>
                       <div className="text-xl font-bold text-foreground mb-1">
@@ -401,7 +414,7 @@ export function EnhancedHero() {
                       <Link href="/past-papers" className="group/action">
                         <div className="p-3 rounded-xl bg-muted/50 hover:bg-muted/70 border border-white/20 transition-all duration-300 hover:shadow-md">
                           <div className="flex items-center gap-2">
-                            <FileText className="h-5 w-5 text-primary group-hover/action:scale-110 transition-transform" />
+                            <FileText className="h-5 w-5 text-primary group-hover/action:scale-110 transition-transform" aria-hidden="true" />
                             <div>
                               <div className="text-sm font-medium text-foreground">Papers</div>
                               <div className="text-xs text-muted-foreground">{isLoading ? '...' : (stats?.pastPapersCount === 0 ? 'Soon' : `${stats?.pastPapersCount}+`)}</div>
@@ -412,7 +425,7 @@ export function EnhancedHero() {
                       <Link href="/gpa-calculator" className="group/action">
                         <div className="p-3 rounded-xl bg-muted/50 hover:bg-muted/70 border border-white/20 transition-all duration-300 hover:shadow-md">
                           <div className="flex items-center gap-2">
-                            <Calculator className="h-5 w-5 text-primary group-hover/action:scale-110 transition-transform" />
+                            <Calculator className="h-5 w-5 text-primary group-hover/action:scale-110 transition-transform" aria-hidden="true" />
                             <div>
                               <div className="text-sm font-medium text-foreground">GPA Calc</div>
                               <div className="text-xs text-muted-foreground">Advanced</div>
@@ -428,7 +441,7 @@ export function EnhancedHero() {
                     <div className="flex items-center justify-center gap-2 mb-2">
                       <div className="flex items-center gap-1">
                         <Pulse active={true}>
-                          <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
+                          <div className="w-2.5 h-2.5 bg-green-500 rounded-full" aria-hidden="true"></div>
                         </Pulse>
                         <span className="text-xs font-medium text-green-600 dark:text-green-400">Live</span>
                       </div>
@@ -451,9 +464,11 @@ export function EnhancedHero() {
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
+                role="status"
+                aria-label="Student approved badge"
               >
                 <Badge className="px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg">
-                  <Award className="h-4 w-4 mr-1" />
+                  <Award className="h-4 w-4 mr-1" aria-hidden="true" />
                   Student Approved
                 </Badge>
               </motion.div>

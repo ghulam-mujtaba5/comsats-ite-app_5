@@ -112,6 +112,7 @@ export const metadata: Metadata = {
     'apple-mobile-web-app-title': 'CampusAxis',
     'apple-mobile-web-app-status-bar-style': 'black-translucent',
     'apple-mobile-web-app-capable': 'yes',
+    'apple-touch-icon': "/Campus Axis 1.svg",
     // Windows phone
     'msapplication-TileColor': '#0b0b0b',
     'msapplication-config': '/browserconfig.xml',
@@ -123,7 +124,7 @@ export const metadata: Metadata = {
       // Standard favicon endpoint; we serve the logo here via a route handler
       { url: "/favicon.ico" },
       // Direct logo as a fallback/reference
-  { url: "/logo-square.svg", type: "image/svg+xml" },
+      { url: "/Campus Axis 1.svg", type: "image/svg+xml" },
     ],
     shortcut: [
       { url: "/favicon.ico" },

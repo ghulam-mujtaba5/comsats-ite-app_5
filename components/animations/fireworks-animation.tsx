@@ -18,7 +18,7 @@ export function FireworksAnimation({
   onComplete 
 }: FireworksAnimationProps) {
   const [active, setActive] = useState(true)
-  const { isAnimationEnabled } = useAnimation()
+  const { isAnimationEnabled, animationIntensity } = useAnimation()
 
   useEffect(() => {
     if (!isAnimationEnabled) return
@@ -35,13 +35,26 @@ export function FireworksAnimation({
     return null
   }
 
+  // Calculate animation complexity based on intensity
+  const getAnimationComplexity = () => {
+    switch (animationIntensity) {
+      case 'low': return 0.5
+      case 'medium': return 1
+      case 'high': return 1.5
+      default: return 1
+    }
+  }
+
   const renderAnimation = () => {
+    const complexity = getAnimationComplexity()
+    
     switch (type) {
       case 'partyPopper':
+        const partyPopperParticleCount = Math.floor(100 * complexity)
         return (
           <div className="fixed inset-0 pointer-events-none z-50">
             {/* Confetti particles */}
-            {[...Array(100)].map((_, i) => (
+            {[...Array(partyPopperParticleCount)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-3 h-3 rounded-full"
@@ -103,10 +116,12 @@ export function FireworksAnimation({
         )
       
       case 'teamCelebration':
+        const burstCount = Math.floor(5 * complexity)
+        const particlesPerBurst = Math.floor(30 * complexity)
         return (
           <div className="fixed inset-0 pointer-events-none z-50">
             {/* Multiple confetti bursts */}
-            {[...Array(5)].map((_, i) => (
+            {[...Array(burstCount)].map((_, i) => (
               <div 
                 key={i}
                 className="absolute"
@@ -115,7 +130,7 @@ export function FireworksAnimation({
                   top: `${30 + (i % 2) * 20}%`,
                 }}
               >
-                {[...Array(30)].map((_, j) => (
+                {[...Array(particlesPerBurst)].map((_, j) => (
                   <motion.div
                     key={j}
                     className="absolute w-2 h-2 rounded-full"
@@ -180,10 +195,12 @@ export function FireworksAnimation({
         )
       
       case 'festiveTheme':
+        const iconCount = Math.floor(6 * complexity)
+        const festiveParticleCount = Math.floor(50 * complexity)
         return (
           <div className="fixed inset-0 pointer-events-none z-50">
             {/* Floating festive icons */}
-            {['🎄', '❄️', '✨', '🎉', '🎊', '🌟'].map((icon, i) => (
+            {['🎄', '❄️', '✨', '🎉', '🎊', '🌟'].slice(0, iconCount).map((icon, i) => (
               <motion.div
                 key={i}
                 className="absolute text-2xl"
@@ -208,7 +225,7 @@ export function FireworksAnimation({
             ))}
             
             {/* Soft background particles */}
-            {[...Array(50)].map((_, i) => (
+            {[...Array(festiveParticleCount)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-1 h-1 rounded-full bg-white"

@@ -137,7 +137,7 @@ export function BlogPostSchema({ post }: {
       "name": "CampusAxis",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://campusaxis.site/logo-square.svg"
+        "url": "https://campusaxis.site/Campus Axis 1.svg"
       }
     },
     "datePublished": post.publishedAt,
@@ -339,7 +339,7 @@ export function NewsArticleSchema({ article }: {
       "name": "CampusAxis",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://campusaxis.site/logo-square.svg"
+        "url": "https://campusaxis.site/Campus Axis 1.svg"
       }
     }
   }

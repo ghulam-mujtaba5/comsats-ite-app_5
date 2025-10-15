@@ -75,7 +75,7 @@ export function calculateCumulativeGPA(semesters: Semester[]): { cgpa: number; t
   return { cgpa: round2(cgpa), totalCredits }
 }
 
-// Aggregate calculation for admissions (typically Matric + Inter + Entry Test)
+// Aggregate calculation function (typically used for admission criteria)
 export interface AggregateData {
   matricMarks: number
   matricTotal: number

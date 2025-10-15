@@ -142,23 +142,23 @@ export function EnhancedFAQ() {
   ]
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20">
+    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20 glass-depth">
       <div className="app-container max-w-6xl mx-auto">
         {/* Enhanced Header with proper spacing */}
-        <div className="text-center mb-20">
-          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30">
-            <HelpCircle className="h-4 w-4 mr-2" />
+        <div className="text-center mb-16 md:mb-20">
+          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-indigo-600/20 to-purple-600/20 text-indigo-700 dark:text-indigo-300 border border-indigo-600/30">
+            <HelpCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
             Student Support
           </Badge>
           
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-4 sm:mb-6">
             Frequently Asked{" "}
-            <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-indigo-700 to-purple-700 bg-clip-text text-transparent">
               Questions
             </span>
           </h2>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground/90 max-w-3xl mx-auto leading-relaxed">
             Find answers to common questions about using the CampusAxis portal. 
             Can't find what you're looking for? Our support team is ready to help.
           </p>
@@ -175,34 +175,34 @@ export function EnhancedFAQ() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg"
+                className="p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light"
               >
                 <div className="flex justify-center mb-3">
                   <div className="p-3 rounded-xl bg-indigo-500/10">
                     <Icon className="h-6 w-6 text-indigo-500" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+                <div className="text-2xl font-semibold text-foreground mb-1">{stat.value}</div>
+                <div className="text-sm text-muted-foreground/90">{stat.label}</div>
               </motion.div>
             )
           })}
         </div>
 
         {/* Search Bar with proper spacing */}
-        <div className="mb-12 max-w-2xl mx-auto">
+        <div className="mb-10 sm:mb-12 max-w-2xl mx-auto">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+            <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 sm:h-5 sm:w-5" />
             <input
               type="text"
               placeholder="Search for questions..."
-              className="w-full pl-12 pr-4 py-4 rounded-2xl border border-white/20 bg-card/80 backdrop-blur-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300"
+              className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 rounded-2xl sm:rounded-2xl border border-white/20 bg-card/80 backdrop-blur-lg text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300 text-sm sm:text-base"
               value={searchTerm}
               onChange={handleSearch}
             />
             {searchTerm && (
               <button 
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground text-xs sm:text-sm"
                 onClick={() => setSearchTerm("")}
               >
                 Clear
@@ -222,53 +222,53 @@ export function EnhancedFAQ() {
         )}
 
         {/* FAQ Accordion with proper spacing */}
-        <Card className="bg-card/80 backdrop-blur-2xl border border-white/20 shadow-2xl rounded-3xl mb-16">
+        <Card className="bg-card/80 backdrop-blur-2xl border border-white/20 shadow-2xl rounded-2xl sm:rounded-3xl mb-12 sm:mb-16 glass-card-premium glass-border-glow glass-depth">
           {loading ? (
-            <div role="status" aria-live="polite" className="space-y-4 p-6">
+            <div role="status" aria-live="polite" className="space-y-4 p-4 sm:p-6">
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={`fsk-${i}`} className="skeleton p-5 rounded-2xl border border-white/20">
-                  <div className="sk-title w-2/3 rounded mb-3 h-5" />
-                  <div className="sk-line w-full rounded mb-2" />
-                  <div className="sk-line w-5/6 rounded" />
+                <div key={`fsk-${i}`} className="skeleton p-4 sm:p-5 rounded-2xl border border-white/20">
+                  <div className="sk-title w-2/3 rounded mb-2 sm:mb-3 h-4 sm:h-5" />
+                  <div className="sk-line w-full rounded mb-1.5 sm:mb-2 h-3 sm:h-4" />
+                  <div className="sk-line w-5/6 rounded h-3 sm:h-4" />
                 </div>
               ))}
-              <div className="flex items-center justify-center gap-2 text-muted-foreground py-4">
+              <div className="flex items-center justify-center gap-2 text-muted-foreground py-3 sm:py-4">
                 <div className="loader-ring sm" />
-                <span>Loading FAQs…</span>
+                <span className="text-sm sm:text-base">Loading FAQs…</span>
               </div>
             </div>
           ) : error ? (
-            <div role="alert" className="text-sm text-destructive p-6">
+            <div role="alert" className="text-sm text-destructive p-4 sm:p-6">
               {error}
             </div>
           ) : (
-            <Accordion type="single" collapsible className="space-y-4 p-2">
+            <Accordion type="single" collapsible className="space-y-3 sm:space-y-4 p-2">
               {(searchTerm ? filteredFaqs : faqs).map((faq, index) => (
                 <AccordionItem 
                   key={faq.id} 
                   value={`item-${index}`} 
-                  className="bg-muted/30 border border-white/20 rounded-2xl px-5 transition-all duration-300 hover:bg-muted/50"
+                  className="bg-muted/30 border border-white/20 rounded-xl sm:rounded-2xl px-4 sm:px-5 transition-all duration-300 hover:bg-muted/50"
                 >
-                  <AccordionTrigger className="text-left hover:text-indigo-600 transition-colors pr-8 py-4 text-base group">
+                  <AccordionTrigger className="text-left hover:text-indigo-700 transition-colors pr-6 sm:pr-8 py-3 sm:py-4 text-sm sm:text-base group">
                     <div className="flex items-center">
-                      <Zap className="h-4 w-4 mr-2 text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <Zap className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 text-amber-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                       {faq.question}
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-4 text-base">
+                  <AccordionContent className="text-muted-foreground/90 pb-3 sm:pb-4 text-sm sm:text-base">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
               ))}
               {filteredFaqs.length === 0 && searchTerm && (
-                <div className="text-center py-8">
-                  <HelpCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">No questions found</h3>
-                  <p className="text-muted-foreground mb-4">Try different search terms or ask our support team directly</p>
+                <div className="text-center py-6 sm:py-8">
+                  <HelpCircle className="h-10 w-10 sm:h-12 sm:w-12 text-muted-foreground mx-auto mb-3 sm:mb-4" />
+                  <h3 className="text-base sm:text-lg font-medium mb-1.5 sm:mb-2">No questions found</h3>
+                  <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4">Try different search terms or ask our support team directly</p>
                   <Button 
                     asChild 
                     variant="outline" 
-                    className="rounded-xl"
+                    className="rounded-lg sm:rounded-xl text-sm sm:text-base px-4 py-2"
                     onClick={handleContactSupport}
                   >
                     <Link href="/student-support">

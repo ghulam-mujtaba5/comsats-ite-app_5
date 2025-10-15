@@ -90,29 +90,29 @@ export function EnhancedComingSoon() {
   ]
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background">
+    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-depth">
       <div className="app-container max-w-6xl mx-auto">
         {/* Enhanced Header with proper spacing */}
-        <div className="text-center mb-20">
-          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 text-violet-600 dark:text-violet-400 border border-violet-500/30">
-            <Zap className="h-4 w-4 mr-2" />
+        <div className="text-center mb-16 md:mb-20">
+          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 text-violet-700 dark:text-violet-300 border border-violet-600/30">
+            <Zap className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
             Beta Testing Area
           </Badge>
           
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-4 sm:mb-6">
             Upcoming{" "}
-            <span className="bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-violet-700 to-fuchsia-700 bg-clip-text text-transparent">
               Features
             </span>
           </h2>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground/90 max-w-3xl mx-auto leading-relaxed">
             Try early versions of upcoming sections. Share feedback while we polish them to perfection. 
             Your input helps shape the future of CampusAxis!
           </p>
           
-          <div className="mt-6 inline-flex items-center gap-2 text-sm text-violet-600 dark:text-violet-400 bg-violet-500/10 px-4 py-2 rounded-full">
-            <Sparkles className="h-4 w-4" />
+          <div className="mt-4 sm:mt-6 inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-violet-700 dark:text-violet-300 bg-violet-600/10 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full">
+            <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
             Your feedback helps us build better features
           </div>
         </div>
@@ -128,22 +128,22 @@ export function EnhancedComingSoon() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg"
+                className="p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light"
               >
                 <div className="flex justify-center mb-3">
                   <div className="p-3 rounded-xl bg-violet-500/10">
                     <Icon className="h-6 w-6 text-violet-500" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+                <div className="text-2xl font-semibold text-foreground mb-1">{stat.value}</div>
+                <div className="text-sm text-muted-foreground/90">{stat.label}</div>
               </motion.div>
             )
           })}
         </div>
 
         {/* Beta Features Grid with proper spacing */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16" staggerDelay={0.1}>
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto mb-12 sm:mb-16" staggerDelay={0.1}>
           {betaFeatures.map((feature, index) => {
             const Icon = feature.icon
             return (
@@ -155,24 +155,24 @@ export function EnhancedComingSoon() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group h-full bg-card/80 border border-white/20 rounded-2xl shadow-xl backdrop-blur-xl transition-all duration-300 hover:shadow-2xl"
+                    className="group h-full bg-card/80 border border-white/20 rounded-2xl shadow-xl backdrop-blur-xl transition-all duration-300 hover:shadow-2xl glass-card-premium glass-border-glow glass-hover glass-depth"
                   >
                     <CardHeader>
-                      <div className="flex items-center gap-4">
-                        <div className="bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 p-3 rounded-2xl">
-                          <Icon className="h-7 w-7 text-violet-500" />
+                      <div className="flex items-center gap-3 sm:gap-4">
+                        <div className="bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 p-2.5 sm:p-3 rounded-2xl">
+                          <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-violet-500" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <CardTitle className="text-xl font-semibold flex items-center gap-2">
+                          <CardTitle className="text-lg sm:text-xl font-semibold flex items-center gap-1.5 sm:gap-2">
                             {feature.title}
                             {feature.status === "beta" && (
-                              <Badge variant="secondary" className="text-xs">
-                                <Clock className="h-3 w-3 mr-1" />
+                              <Badge variant="secondary" className="text-[10px] sm:text-xs px-2 py-0.5">
+                                <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
                                 Beta
                               </Badge>
                             )}
                             {feature.status === "live" && (
-                              <Badge className="text-xs bg-green-500/20 text-green-700 dark:text-green-300">
+                              <Badge className="text-[10px] sm:text-xs px-2 py-0.5 bg-green-500/20 text-green-700 dark:text-green-300">
                                 Live
                               </Badge>
                             )}
@@ -181,18 +181,18 @@ export function EnhancedComingSoon() {
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground mb-5">{feature.description}</p>
+                      <p className="text-sm sm:text-base text-muted-foreground/90 mb-4 sm:mb-5">{feature.description}</p>
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center text-xs text-muted-foreground">
-                          <TrendingUp className="h-3 w-3 mr-1" />
+                        <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
+                          <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
                           <span>{feature.popularity}% popular</span>
                         </div>
                         <Link 
                           href={feature.href} 
-                          className="text-xs font-medium text-violet-600 dark:text-violet-400 hover:underline flex items-center"
+                          className="text-[10px] sm:text-xs font-medium text-violet-700 dark:text-violet-300 hover:underline flex items-center"
                         >
                           Explore
-                          <Rocket className="h-3 w-3 ml-1" />
+                          <Rocket className="h-2.5 w-2.5 sm:h-3 sm:w-3 ml-1" />
                         </Link>
                       </div>
                     </CardContent>
@@ -206,21 +206,21 @@ export function EnhancedComingSoon() {
         {/* Feedback CTA with proper spacing */}
         <StaggerContainer className="text-center" staggerDelay={0.1}>
           <StaggerItem>
-            <Card className="inline-block p-8 border border-white/20 bg-card/80 backdrop-blur-2xl rounded-3xl shadow-2xl max-w-3xl mx-auto">
-              <div className="flex flex-col sm:flex-row items-center gap-6">
+            <Card className="inline-block p-6 sm:p-8 border border-white/20 bg-card/80 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl max-w-3xl mx-auto glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient">
+              <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-6">
                 <div className="flex-shrink-0">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 flex items-center justify-center">
-                    <Sparkles className="h-8 w-8 text-amber-500" />
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 flex items-center justify-center glass-layered">
+                    <Sparkles className="h-7 w-7 sm:h-8 sm:w-8 text-amber-500" />
                   </div>
                 </div>
                 <div className="text-center sm:text-left flex-1">
-                  <h3 className="text-xl font-semibold mb-2">Have ideas for new features?</h3>
-                  <p className="text-muted-foreground">We're always looking for ways to improve CampusAxis. Share your suggestions with us!</p>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-1.5 sm:mb-2">Have ideas for new features?</h3>
+                  <p className="text-sm sm:text-base text-muted-foreground/90">We're always looking for ways to improve CampusAxis. Share your suggestions with us!</p>
                 </div>
                 <div className="mt-4 sm:mt-0">
                   <Link 
                     href="/report-issue" 
-                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-primary-foreground rounded-2xl hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg hover:shadow-xl"
+                    className="inline-flex items-center px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-primary-foreground rounded-xl sm:rounded-2xl hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg hover:shadow-xl text-sm sm:text-base"
                   >
                     Share Feedback
                   </Link>

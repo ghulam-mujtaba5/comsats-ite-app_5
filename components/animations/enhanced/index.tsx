@@ -4,6 +4,7 @@ import React from 'react'
 import { motion, HTMLMotionProps } from 'framer-motion'
 import { usePageTransition, useScrollAnimation, useMicroInteraction } from '@/hooks/use-enhanced-animations'
 import { cn } from '@/lib/utils'
+import { useAnimation } from '@/contexts/animation-context'
 
 /**
  * Page transition wrapper
@@ -48,12 +49,30 @@ export function AnimatedCard({
   ...props 
 }: AnimatedCardProps) {
   const { hoverVariants, glowVariants, prefersReducedMotion } = useMicroInteraction()
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getIntensityScale = () => {
+    switch (animationIntensity) {
+      case 'low': return 1.01
+      case 'medium': return 1.05
+      case 'high': return 1.1
+      default: return 1.05
+    }
+  }
+
+  const intensityScale = getIntensityScale()
+
+  const adjustedHoverVariants = {
+    rest: { scale: 1 },
+    hover: { scale: prefersReducedMotion ? 1 : intensityScale }
+  }
 
   return (
     <motion.div
       initial="rest"
       whileHover={enableHover ? "hover" : undefined}
-      variants={enableGlow ? glowVariants : hoverVariants}
+      variants={enableGlow ? glowVariants : adjustedHoverVariants}
       transition={{ duration: 0.2 }}
       className={cn(
         'rounded-lg border bg-card text-card-foreground shadow-sm',
@@ -84,13 +103,31 @@ export function AnimatedButton({
   ...props 
 }: AnimatedButtonProps) {
   const { tapVariants, glowVariants, prefersReducedMotion } = useMicroInteraction()
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getIntensityScale = () => {
+    switch (animationIntensity) {
+      case 'low': return 0.98
+      case 'medium': return 0.95
+      case 'high': return 0.9
+      default: return 0.95
+    }
+  }
+
+  const intensityScale = getIntensityScale()
+
+  const adjustedTapVariants = {
+    rest: { scale: 1 },
+    tap: { scale: prefersReducedMotion ? 1 : intensityScale }
+  }
 
   return (
     <motion.button
       initial="rest"
       whileHover={variant === 'glow' ? "hover" : undefined}
       whileTap="tap"
-      variants={variant === 'glow' ? glowVariants : tapVariants}
+      variants={variant === 'glow' ? glowVariants : adjustedTapVariants}
       className={cn(
         'inline-flex items-center justify-center rounded-md font-medium',
         'transition-colors focus-visible:outline-none focus-visible:ring-2',
@@ -115,13 +152,26 @@ interface FadeInScrollProps {
 
 export function FadeInScroll({ children, className, delay = 0 }: FadeInScrollProps) {
   const { elementRef, isVisible } = useScrollAnimation()
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getDuration = () => {
+    switch (animationIntensity) {
+      case 'low': return 0.4
+      case 'medium': return 0.6
+      case 'high': return 0.8
+      default: return 0.6
+    }
+  }
+
+  const duration = getDuration()
 
   return (
     <motion.div
       ref={elementRef as React.RefObject<HTMLDivElement>}
       initial={{ opacity: 0, y: 50 }}
       animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.6, delay, ease: 'easeOut' }}
+      transition={{ duration, delay, ease: 'easeOut' }}
       className={className}
     >
       {children}
@@ -139,6 +189,20 @@ interface StaggerContainerProps {
 }
 
 export function StaggerContainer({ children, className, staggerDelay = 0.1 }: StaggerContainerProps) {
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getStaggerDelay = () => {
+    switch (animationIntensity) {
+      case 'low': return staggerDelay * 1.5
+      case 'medium': return staggerDelay
+      case 'high': return staggerDelay * 0.7
+      default: return staggerDelay
+    }
+  }
+
+  const adjustedStaggerDelay = getStaggerDelay()
+
   return (
     <motion.div
       initial="hidden"
@@ -148,7 +212,7 @@ export function StaggerContainer({ children, className, staggerDelay = 0.1 }: St
         visible: {
           opacity: 1,
           transition: {
-            staggerChildren: staggerDelay
+            staggerChildren: adjustedStaggerDelay
           }
         }
       }}
@@ -165,11 +229,25 @@ interface StaggerItemProps extends HTMLMotionProps<'div'> {
 }
 
 export function StaggerItem({ children, className, ...props }: StaggerItemProps) {
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getDuration = () => {
+    switch (animationIntensity) {
+      case 'low': return 0.3
+      case 'medium': return 0.5
+      case 'high': return 0.7
+      default: return 0.5
+    }
+  }
+
+  const duration = getDuration()
+
   return (
     <motion.div
       variants={{
         hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+        visible: { opacity: 1, y: 0, transition: { duration } }
       }}
       className={className}
       {...props}
@@ -198,6 +276,19 @@ export function AnimatedProgress({
   variant = 'default'
 }: AnimatedProgressProps) {
   const percentage = Math.min((value / max) * 100, 100)
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getDuration = () => {
+    switch (animationIntensity) {
+      case 'low': return 0.5
+      case 'medium': return 1
+      case 'high': return 1.5
+      default: return 1
+    }
+  }
+
+  const duration = getDuration()
 
   const getVariantClass = () => {
     switch (variant) {
@@ -216,7 +307,7 @@ export function AnimatedProgress({
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
-          transition={{ duration: 1, ease: 'easeOut' }}
+          transition={{ duration, ease: 'easeOut' }}
           className={cn('h-full rounded-full', getVariantClass())}
         />
       </div>
@@ -245,7 +336,21 @@ interface AnimatedModalProps {
 }
 
 export function AnimatedModal({ isOpen, onClose, children, className }: AnimatedModalProps) {
+  const { animationIntensity } = useAnimation()
+
   if (!isOpen) return null
+
+  // Adjust animation intensity
+  const getDuration = () => {
+    switch (animationIntensity) {
+      case 'low': return 0.2
+      case 'medium': return 0.5
+      case 'high': return 0.8
+      default: return 0.5
+    }
+  }
+
+  const duration = getDuration()
 
   return (
     <motion.div
@@ -259,7 +364,7 @@ export function AnimatedModal({ isOpen, onClose, children, className }: Animated
         initial={{ opacity: 0, scale: 0.75, y: 50 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.75, y: 50 }}
-        transition={{ type: 'spring', duration: 0.5 }}
+        transition={{ type: 'spring', duration }}
         className={cn(
           'relative bg-background rounded-lg shadow-xl max-w-lg w-full p-6',
           className
@@ -281,16 +386,31 @@ interface FloatingButtonProps extends HTMLMotionProps<'button'> {
 }
 
 export function FloatingButton({ children, className, ...props }: FloatingButtonProps) {
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getYMovement = () => {
+    switch (animationIntensity) {
+      case 'low': return 5
+      case 'medium': return 10
+      case 'high': return 15
+      default: return 10
+    }
+  }
+
+  const yMovement = getYMovement()
+  const duration = animationIntensity === 'low' ? 3 : animationIntensity === 'high' ? 1 : 2
+
   return (
     <motion.button
       whileHover={{ scale: 1.1, rotate: 5 }}
       whileTap={{ scale: 0.9 }}
       animate={{
-        y: [0, -10, 0],
+        y: [0, -yMovement, 0],
       }}
       transition={{
         y: {
-          duration: 2,
+          duration,
           repeat: Infinity,
           ease: 'easeInOut'
         }
@@ -317,6 +437,20 @@ interface PulseProps {
 }
 
 export function Pulse({ children, className, active = true }: PulseProps) {
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getDuration = () => {
+    switch (animationIntensity) {
+      case 'low': return 3
+      case 'medium': return 2
+      case 'high': return 1
+      default: return 2
+    }
+  }
+
+  const duration = getDuration()
+
   return (
     <motion.div
       animate={active ? {
@@ -324,7 +458,7 @@ export function Pulse({ children, className, active = true }: PulseProps) {
         opacity: [1, 0.8, 1]
       } : {}}
       transition={{
-        duration: 2,
+        duration,
         repeat: Infinity,
         ease: 'easeInOut'
       }}
@@ -345,15 +479,30 @@ interface BounceProps {
 }
 
 export function Bounce({ children, className, active = true }: BounceProps) {
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getDuration = () => {
+    switch (animationIntensity) {
+      case 'low': return 1
+      case 'medium': return 0.6
+      case 'high': return 0.3
+      default: return 0.6
+    }
+  }
+
+  const duration = getDuration()
+  const repeatDelay = animationIntensity === 'low' ? 3 : animationIntensity === 'high' ? 1 : 2
+
   return (
     <motion.div
       animate={active ? {
         y: [0, -10, 0]
       } : {}}
       transition={{
-        duration: 0.6,
+        duration,
         repeat: Infinity,
-        repeatDelay: 2
+        repeatDelay
       }}
       className={className}
     >
@@ -372,6 +521,20 @@ interface ShimmerProps {
 }
 
 export function Shimmer({ className, width = 'w-full', height = 'h-4' }: ShimmerProps) {
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getDuration = () => {
+    switch (animationIntensity) {
+      case 'low': return 2
+      case 'medium': return 1.5
+      case 'high': return 1
+      default: return 1.5
+    }
+  }
+
+  const duration = getDuration()
+
   return (
     <div className={cn('relative overflow-hidden rounded', width, height, className)}>
       <div className="absolute inset-0 bg-muted" />
@@ -381,7 +544,7 @@ export function Shimmer({ className, width = 'w-full', height = 'h-4' }: Shimmer
           x: ['-100%', '100%']
         }}
         transition={{
-          duration: 1.5,
+          duration,
           repeat: Infinity,
           ease: 'linear'
         }}
@@ -399,6 +562,20 @@ interface CheckmarkProps {
 }
 
 export function CheckmarkDraw({ className, size = 24 }: CheckmarkProps) {
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getDuration = () => {
+    switch (animationIntensity) {
+      case 'low': return 0.7
+      case 'medium': return 0.5
+      case 'high': return 0.3
+      default: return 0.5
+    }
+  }
+
+  const duration = getDuration()
+
   return (
     <svg
       width={size}
@@ -415,7 +592,7 @@ export function CheckmarkDraw({ className, size = 24 }: CheckmarkProps) {
         strokeLinejoin="round"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        transition={{ duration, ease: 'easeInOut' }}
       />
     </svg>
   )
@@ -434,6 +611,19 @@ interface CountUpProps {
 
 export function CountUp({ end, duration = 2000, className, prefix = '', suffix = '' }: CountUpProps) {
   const [count, setCount] = React.useState(0)
+  const { animationIntensity } = useAnimation()
+
+  // Adjust animation intensity
+  const getAdjustedDuration = () => {
+    switch (animationIntensity) {
+      case 'low': return duration * 1.5
+      case 'medium': return duration
+      case 'high': return duration * 0.7
+      default: return duration
+    }
+  }
+
+  const adjustedDuration = getAdjustedDuration()
 
   React.useEffect(() => {
     let startTime: number
@@ -441,7 +631,7 @@ export function CountUp({ end, duration = 2000, className, prefix = '', suffix =
 
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp
-      const progress = Math.min((timestamp - startTime) / duration, 1)
+      const progress = Math.min((timestamp - startTime) / adjustedDuration, 1)
       
       setCount(Math.floor(progress * end))
 
@@ -452,7 +642,7 @@ export function CountUp({ end, duration = 2000, className, prefix = '', suffix =
 
     animationFrame = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(animationFrame)
-  }, [end, duration])
+  }, [end, adjustedDuration])
 
   return (
     <span className={className}>

@@ -67,15 +67,27 @@ export function CelebrationAnimation({
   // Calculate particle count based on intensity
   const getParticleCount = () => {
     switch (animationIntensity) {
-      case 'low': return 100
-      case 'medium': return 200
-      case 'high': return 300
-      default: return 200
+      case 'low': return 50
+      case 'medium': return 150
+      case 'high': return 250
+      default: return 150
+    }
+  }
+
+  // Calculate animation complexity based on intensity
+  const getAnimationComplexity = () => {
+    switch (animationIntensity) {
+      case 'low': return 0.5
+      case 'medium': return 1
+      case 'high': return 1.5
+      default: return 1
     }
   }
 
   // Render different animation types
   const renderAnimation = () => {
+    const complexity = getAnimationComplexity()
+    
     switch (type) {
       case 'confetti':
         return (
@@ -94,17 +106,25 @@ export function CelebrationAnimation({
         return (
           <div className="fixed inset-0 pointer-events-none z-50">
             {/* We'll implement fireworks with CSS animations */}
-            <div className="absolute top-1/4 left-1/4 w-4 h-4 rounded-full bg-yellow-400 animate-firework"></div>
-            <div className="absolute top-1/3 right-1/3 w-4 h-4 rounded-full bg-red-500 animate-firework delay-100"></div>
-            <div className="absolute bottom-1/4 left-1/3 w-4 h-4 rounded-full bg-blue-400 animate-firework delay-200"></div>
-            <div className="absolute bottom-1/3 right-1/4 w-4 h-4 rounded-full bg-green-400 animate-firework delay-300"></div>
+            {[...Array(Math.floor(4 * complexity))].map((_, i) => (
+              <div 
+                key={i}
+                className="absolute w-4 h-4 rounded-full animate-firework"
+                style={{
+                  backgroundColor: ['#fbbf24', '#ef4444', '#3b82f6', '#10b981', '#8b5cf6'][i % 5],
+                  left: `${20 + i * 20}%`,
+                  top: `${20 + (i % 2) * 40}%`,
+                }}
+              />
+            ))}
           </div>
         )
       
       case 'balloons':
+        const balloonCount = Math.floor((options?.balloonCount || 15) * complexity)
         return (
           <div className="fixed inset-0 pointer-events-none z-50">
-            {[...Array(options?.balloonCount || 15)].map((_, i) => (
+            {[...Array(balloonCount)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-8 h-10 rounded-full"
@@ -130,9 +150,10 @@ export function CelebrationAnimation({
         )
       
       case 'sparkles':
+        const lightCount = Math.floor((options?.lightCount || 50) * complexity)
         return (
           <div className="fixed inset-0 pointer-events-none z-50">
-            {[...Array(options?.lightCount || 50)].map((_, i) => (
+            {[...Array(lightCount)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-2 h-2 rounded-full bg-yellow-300"
@@ -209,9 +230,10 @@ export function CelebrationAnimation({
         )
       
       case 'ribbons':
+        const ribbonCount = Math.floor((options?.ribbonCount || 10) * complexity)
         return (
           <div className="fixed inset-0 pointer-events-none z-50">
-            {[...Array(options?.ribbonCount || 10)].map((_, i) => (
+            {[...Array(ribbonCount)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-1 h-24 rounded-full origin-bottom"

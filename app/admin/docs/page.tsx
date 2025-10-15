@@ -19,13 +19,7 @@ import { BrandedBanner } from "@/components/layout/branded-banner"
 
 export default function DocumentationPage() {
   const docs = [
-    {
-      title: "Admissions System",
-      description: "Complete guide to the admission management system",
-      icon: GraduationCap,
-      href: "/admin/docs/admissions",
-      color: "from-blue-500 to-purple-500"
-    },
+    // Admissions System documentation removed as per user request to delete admissions module
     {
       title: "User Management",
       description: "Managing user accounts and permissions",

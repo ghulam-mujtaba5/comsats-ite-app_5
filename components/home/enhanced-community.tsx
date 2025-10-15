@@ -68,30 +68,30 @@ export function EnhancedCommunity() {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background">
+    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-depth">
       <div className="app-container max-w-6xl mx-auto">
         {/* Header with enhanced styling and proper spacing */}
-        <div className="text-center mb-20">
-          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/30">
-            <Flame className="h-4 w-4 mr-2" />
+        <div className="text-center mb-16 md:mb-20">
+          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-purple-600/20 to-pink-600/20 text-purple-700 dark:text-purple-300 border border-purple-600/30">
+            <Flame className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
             Student Community
           </Badge>
           
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-4 sm:mb-6">
             Connect with Your{" "}
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-purple-700 to-pink-700 bg-clip-text text-transparent">
               Academic Community
             </span>
           </h2>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground/90 max-w-3xl mx-auto leading-relaxed">
             Join thousands of COMSATS students sharing knowledge, opportunities, and academic journeys. 
             Engage in discussions, share resources, and build meaningful connections.
           </p>
         </div>
 
         {/* Community Stats with proper spacing */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16">
           {communityStats.map((stat, index) => {
             const Icon = stat.icon
             return (
@@ -101,17 +101,17 @@ export function EnhancedCommunity() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg"
+                className="p-4 sm:p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light"
               >
-                <div className="flex justify-center mb-3">
-                  <div className="p-3 rounded-xl bg-purple-500/10">
-                    <Icon className="h-6 w-6 text-purple-500" />
+                <div className="flex justify-center mb-2 sm:mb-3">
+                  <div className="p-2 sm:p-3 rounded-xl bg-purple-500/10">
+                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-purple-500" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
-                <div className="text-sm text-muted-foreground mb-2">{stat.label}</div>
-                <div className="text-xs font-medium text-green-500 flex items-center justify-center">
-                  <TrendingUp className="h-3 w-3 mr-1" />
+                <div className="text-xl sm:text-2xl font-bold text-foreground mb-1">{stat.value}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground/90 mb-1 sm:mb-2">{stat.label}</div>
+                <div className="text-[10px] sm:text-xs font-semibold text-green-600 flex items-center justify-center">
+                  <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
                   {stat.change}
                 </div>
               </motion.div>
@@ -135,19 +135,19 @@ export function EnhancedCommunity() {
         </div>
 
         {/* Community Items Grid with proper spacing */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16" staggerDelay={0.1}>
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-16" staggerDelay={0.1}>
           {loading ? (
             Array.from({ length: 4 }).map((_, i) => (
               <StaggerItem key={i}>
                 <Card className="border border-white/20 rounded-2xl">
                   <CardHeader>
-                    <div className="h-5 bg-muted rounded w-3/4 mb-3"></div>
-                    <div className="h-4 bg-muted rounded w-1/2"></div>
+                    <div className="h-4 sm:h-5 bg-muted rounded w-3/4 mb-2 sm:mb-3"></div>
+                    <div className="h-3 sm:h-4 bg-muted rounded w-1/2"></div>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-4 bg-muted rounded w-full mb-3"></div>
-                    <div className="h-4 bg-muted rounded w-5/6 mb-6"></div>
-                    <div className="h-10 bg-muted rounded w-32"></div>
+                    <div className="h-3 sm:h-4 bg-muted rounded w-full mb-2 sm:mb-3"></div>
+                    <div className="h-3 sm:h-4 bg-muted rounded w-5/6 mb-4 sm:mb-6"></div>
+                    <div className="h-8 sm:h-10 bg-muted rounded w-28 sm:w-32"></div>
                   </CardContent>
                 </Card>
               </StaggerItem>
@@ -161,46 +161,46 @@ export function EnhancedCommunity() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group h-full border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl transition-all duration-300 hover:shadow-xl"
+                    className="group h-full border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl transition-all duration-300 hover:shadow-xl glass-card-premium glass-border-glow glass-hover glass-depth"
                   >
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div>
-                          <CardTitle className="text-lg group-hover:text-primary transition-colors flex items-center">
+                          <CardTitle className="text-base sm:text-lg group-hover:text-primary-600 transition-colors flex items-center">
                             {item.title}
-                            <Zap className="h-4 w-4 ml-2 text-amber-500" />
+                            <Zap className="h-3 w-3 sm:h-4 sm:w-4 ml-1.5 sm:ml-2 text-amber-600" />
                           </CardTitle>
                           {item.subtitle && (
-                            <div className="text-sm text-muted-foreground mt-2">{item.subtitle}</div>
+                            <div className="text-xs sm:text-sm text-muted-foreground/90 mt-1.5 sm:mt-2">{item.subtitle}</div>
                           )}
                         </div>
-                        <Badge variant="secondary" className="text-xs">
-                          <Flame className="h-3 w-3 mr-1" />
+                        <Badge variant="secondary" className="text-[10px] sm:text-xs px-2 py-0.5">
+                          <Flame className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
                           Hot
                         </Badge>
                       </div>
                     </CardHeader>
-                    <CardContent className="space-y-5">
+                    <CardContent className="space-y-4 sm:space-y-5">
                       {item.description && (
-                        <CardDescription className="text-sm">
+                        <CardDescription className="text-xs sm:text-sm text-muted-foreground/90">
                           {item.description}
                         </CardDescription>
                       )}
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <Users className="h-4 w-4" />
+                        <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-muted-foreground">
+                          <Users className="h-3 w-3 sm:h-4 sm:w-4" />
                           <span>1.2k members</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                          <span className="text-xs font-medium">4.8</span>
+                          <Star className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-500 fill-yellow-500" />
+                          <span className="text-[10px] sm:text-xs font-medium">4.8</span>
                         </div>
                       </div>
                       {item.link_url && (
-                        <Button asChild variant="outline" size="sm" className="w-full rounded-xl">
+                        <Button asChild variant="outline" size="sm" className="w-full rounded-lg sm:rounded-xl text-xs sm:text-sm px-3 py-2">
                           <Link href={item.link_url} target={item.link_url.startsWith('http') ? '_blank' : undefined}>
                             Join Community
-                            <ArrowRight className="ml-2 h-4 w-4" />
+                            <ArrowRight className="ml-1.5 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
                           </Link>
                         </Button>
                       )}
@@ -210,15 +210,15 @@ export function EnhancedCommunity() {
               </StaggerItem>
             ))
           ) : (
-            <Card className="col-span-full text-center p-16 border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl">
+            <Card className="col-span-full text-center p-12 sm:p-16 border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl">
               <CardContent>
-                <Users className="h-14 w-14 text-muted-foreground mx-auto mb-5" />
-                <CardTitle className="mb-3">No Community Items Yet</CardTitle>
-                <CardDescription className="mb-6">
+                <Users className="h-10 w-10 sm:h-14 sm:w-14 text-muted-foreground mx-auto mb-4 sm:mb-5" />
+                <CardTitle className="mb-2 sm:mb-3 text-lg sm:text-xl">No Community Items Yet</CardTitle>
+                <CardDescription className="mb-4 sm:mb-6 text-sm sm:text-base">
                   Be the first to create a community discussion!
                 </CardDescription>
-                <Button onClick={handleJoinCommunity} className="rounded-xl">
-                  <MessageSquare className="h-5 w-5 mr-2" />
+                <Button onClick={handleJoinCommunity} className="rounded-lg sm:rounded-xl text-sm sm:text-base px-4 py-2">
+                  <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2" />
                   Start a Discussion
                 </Button>
               </CardContent>

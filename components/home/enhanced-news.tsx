@@ -98,30 +98,30 @@ export function EnhancedNews() {
   ]
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background">
+    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-depth">
       <div className="app-container max-w-6xl mx-auto">
         {/* Enhanced Header with proper spacing */}
-        <div className="text-center mb-20">
-          <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30">
-            <Zap className="h-4 w-4 mr-2" />
+        <div className="text-center mb-16 md:mb-20">
+          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-amber-600/20 to-orange-600/20 text-amber-700 dark:text-amber-300 border border-amber-600/30">
+            <Zap className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
             Campus Updates
           </Badge>
           
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-4 sm:mb-6">
             Stay Informed with{" "}
-            <span className="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-amber-700 to-orange-700 bg-clip-text text-transparent">
               Latest News
             </span>
           </h2>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground/90 max-w-3xl mx-auto leading-relaxed">
             Never miss important announcements, events, and updates from COMSATS University. 
             Stay connected with the latest happenings on campus.
           </p>
         </div>
 
         {/* News Stats with proper spacing */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16">
           {newsStats.map((stat, index) => {
             const Icon = stat.icon
             return (
@@ -131,17 +131,17 @@ export function EnhancedNews() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg"
+                className="p-4 sm:p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light"
               >
-                <div className="flex justify-center mb-3">
-                  <div className="p-3 rounded-xl bg-amber-500/10">
-                    <Icon className="h-6 w-6 text-amber-500" />
+                <div className="flex justify-center mb-2 sm:mb-3">
+                  <div className="p-2 sm:p-3 rounded-xl bg-amber-500/10">
+                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" />
                   </div>
                 </div>
-                <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
-                <div className="text-sm text-muted-foreground mb-2">{stat.label}</div>
-                <div className="text-xs font-medium text-green-500 flex items-center justify-center">
-                  <TrendingUp className="h-3 w-3 mr-1" />
+                <div className="text-xl sm:text-2xl font-bold text-foreground mb-1">{stat.value}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground/90 mb-1 sm:mb-2">{stat.label}</div>
+                <div className="text-[10px] sm:text-xs font-semibold text-green-600 flex items-center justify-center">
+                  <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
                   {stat.change}
                 </div>
               </motion.div>
@@ -160,20 +160,20 @@ export function EnhancedNews() {
         )}
 
         {/* News Grid with proper spacing */}
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16" staggerDelay={0.1}>
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-16" staggerDelay={0.1}>
           {loading ? (
             Array.from({ length: 4 }).map((_, i) => (
               <StaggerItem key={i}>
                 <Card className="border border-white/20 rounded-2xl">
                   <div className="aspect-video bg-muted rounded-t-2xl" />
                   <CardHeader>
-                    <div className="h-5 bg-muted rounded w-3/4 mb-3"></div>
-                    <div className="h-4 bg-muted rounded w-1/2"></div>
+                    <div className="h-4 sm:h-5 bg-muted rounded w-3/4 mb-2 sm:mb-3"></div>
+                    <div className="h-3 sm:h-4 bg-muted rounded w-1/2"></div>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-4 bg-muted rounded w-full mb-3"></div>
-                    <div className="h-4 bg-muted rounded w-5/6 mb-6"></div>
-                    <div className="h-10 bg-muted rounded w-32"></div>
+                    <div className="h-3 sm:h-4 bg-muted rounded w-full mb-2 sm:mb-3"></div>
+                    <div className="h-3 sm:h-4 bg-muted rounded w-5/6 mb-4 sm:mb-6"></div>
+                    <div className="h-8 sm:h-10 bg-muted rounded w-28 sm:w-32"></div>
                   </CardContent>
                 </Card>
               </StaggerItem>
@@ -187,7 +187,7 @@ export function EnhancedNews() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group h-full overflow-hidden border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl transition-all duration-300 hover:shadow-xl"
+                    className="group h-full overflow-hidden border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl transition-all duration-300 hover:shadow-xl glass-card-premium glass-border-glow glass-hover glass-depth"
                   >
                     <div className="aspect-video relative overflow-hidden rounded-t-2xl">
                       <img
@@ -195,31 +195,31 @@ export function EnhancedNews() {
                         alt={item.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <Badge className="absolute top-4 left-4 bg-amber-500 text-amber-50 text-xs px-3 py-1.5 rounded-full shadow-md">
-                        <Flame className="h-3 w-3 mr-1" />
+                      <Badge className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-amber-500 text-amber-50 text-[10px] sm:text-xs px-2 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-md">
+                        <Flame className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
                         Featured
                       </Badge>
-                      <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground text-xs px-3 py-1.5 rounded-full shadow-md">
+                      <Badge className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-primary text-primary-foreground text-[10px] sm:text-xs px-2 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-md">
                         Published
                       </Badge>
                     </div>
-                    <CardHeader className="pb-4">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                        <Calendar className="h-4 w-4" />
+                    <CardHeader className="pb-3 sm:pb-4">
+                      <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3">
+                        <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                         {item.published_at ? new Date(item.published_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }) : 'Draft'}
                       </div>
-                      <CardTitle className="text-lg group-hover:text-amber-600 transition-colors line-clamp-2">
+                      <CardTitle className="text-base sm:text-lg group-hover:text-amber-700 transition-colors line-clamp-2">
                         {item.title}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <CardDescription className="line-clamp-3 text-sm mb-5">
+                      <CardDescription className="line-clamp-3 text-xs sm:text-sm mb-4 sm:mb-5 text-muted-foreground/90">
                         {item.content}
                       </CardDescription>
-                      <Button asChild variant="ghost" size="sm" className="w-full justify-between rounded-xl">
+                      <Button asChild variant="ghost" size="sm" className="w-full justify-between rounded-lg sm:rounded-xl text-xs sm:text-sm px-3 py-2 text-muted-foreground hover:text-amber-700">
                         <Link href={`/news/${item.id}`}>
                           Read Full Story
-                          <ArrowRight className="ml-2 h-4 w-4" />
+                          <ArrowRight className="ml-1.5 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
                         </Link>
                       </Button>
                     </CardContent>
@@ -228,11 +228,11 @@ export function EnhancedNews() {
               </StaggerItem>
             ))
           ) : (
-            <Card className="col-span-full text-center py-16 border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl">
+            <Card className="col-span-full text-center py-12 sm:py-16 border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl">
               <CardContent>
-                <Tag className="h-14 w-14 text-muted-foreground mx-auto mb-5" />
-                <CardDescription className="text-lg mb-3">{error ? error : 'No news yet.'}</CardDescription>
-                <p className="text-muted-foreground">Check back later for updates</p>
+                <Tag className="h-10 w-10 sm:h-14 sm:w-14 text-muted-foreground mx-auto mb-4 sm:mb-5" />
+                <CardDescription className="text-base sm:text-lg mb-2 sm:mb-3">{error ? error : 'No news yet.'}</CardDescription>
+                <p className="text-sm sm:text-base text-muted-foreground">Check back later for updates</p>
               </CardContent>
             </Card>
           )}

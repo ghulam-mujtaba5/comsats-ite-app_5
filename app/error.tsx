@@ -47,7 +47,7 @@ export default function Error({
                 <div className="relative group">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur-lg opacity-20" />
                   <Image 
-                    src="/logo-square.svg" 
+                    src="/Campus Axis 1.svg" 
                     alt="CampusAxis Logo" 
                     width={60} 
                     height={60} 

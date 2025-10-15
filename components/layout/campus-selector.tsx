@@ -66,7 +66,8 @@ export function CampusSelector() {
         <DialogHeader>
           <DialogTitle>Select Your Campus & Department</DialogTitle>
           <DialogDescription>
-            Choose your campus location and department to see relevant content
+            Choose your campus location and department to see relevant content. 
+            If you plan to sign in with Google, make sure to select the campus that matches your email domain.
           </DialogDescription>
         </DialogHeader>
 

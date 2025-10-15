@@ -1,19 +1,93 @@
 # Page snapshot
 
 ```yaml
-- generic [ref=e3]:
-  - generic [ref=e6]:
-    - heading "This site can’t provide a secure connection" [level=1] [ref=e7]
-    - paragraph [ref=e8]:
-      - strong [ref=e9]: localhost
-      - text: sent an invalid response.
-    - generic [ref=e10]:
-      - paragraph
-      - list [ref=e11]:
-        - listitem [ref=e12]:
-          - link "Try running Windows Network Diagnostics" [ref=e13] [cursor=pointer]:
-            - /url: javascript:diagnoseErrors()
-          - text: .
-    - generic [ref=e14]: ERR_SSL_PROTOCOL_ERROR
-  - button "Reload" [ref=e17] [cursor=pointer]
+- generic [ref=e1]:
+  - 'heading "Application error: a client-side exception has occurred while loading localhost (see the browser console for more information)." [level=2] [ref=e4]'
+  - generic [active]:
+    - generic [ref=e9] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e10]:
+        - img [ref=e11]
+      - generic [ref=e14]:
+        - button "Open issues overlay" [ref=e15]:
+          - generic [ref=e16]:
+            - generic [ref=e17]: "0"
+            - generic [ref=e18]: "1"
+          - generic [ref=e19]: Issue
+        - button "Collapse issues badge" [ref=e20]:
+          - img [ref=e21]
+    - generic [ref=e25]:
+      - dialog "Unhandled Runtime Error" [ref=e26]:
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - generic [ref=e30]:
+              - generic [ref=e31]:
+                - generic [ref=e33]: Unhandled Runtime Error
+                - generic [ref=e34]:
+                  - button "Copy Stack Trace" [ref=e35] [cursor=pointer]:
+                    - img [ref=e36]
+                  - button "No related documentation found" [disabled] [ref=e38]:
+                    - img [ref=e39]
+                  - link "Learn more about enabling Node.js inspector for server code with Chrome DevTools" [ref=e41] [cursor=pointer]:
+                    - /url: https://nextjs.org/docs/app/building-your-application/configuring/debugging#server-side-code
+                    - img [ref=e42]
+              - paragraph [ref=e51]: "Error: useCampus must be used within a CampusProvider"
+            - generic [ref=e52]:
+              - generic [ref=e53]:
+                - paragraph [ref=e55]:
+                  - img [ref=e57]
+                  - generic [ref=e60]: contexts\campus-context.tsx (279:11) @ useCampus
+                  - button "Open in editor" [ref=e61] [cursor=pointer]:
+                    - img [ref=e63]
+                - generic [ref=e65]: "277 | const context = useContext(CampusContext) 278 | if (context === undefined) { > 279 | throw new Error(\"useCampus must be used within a CampusProvider\") | ^ 280 | } 281 | return context 282 | }"
+              - generic [ref=e66]:
+                - paragraph [ref=e68]:
+                  - text: Call Stack
+                  - generic [ref=e69]: "3"
+                - generic [ref=e70]:
+                  - generic [ref=e71]:
+                    - text: useCampus
+                    - button [ref=e72] [cursor=pointer]:
+                      - img [ref=e73]
+                  - text: contexts\campus-context.tsx (279:11)
+                - generic [ref=e75]:
+                  - generic [ref=e76]:
+                    - text: AuthProvider
+                    - button [ref=e77] [cursor=pointer]:
+                      - img [ref=e78]
+                  - text: contexts\auth-context.tsx (36:39)
+                - generic [ref=e80]:
+                  - generic [ref=e81]:
+                    - text: RootLayout
+                    - button [ref=e82] [cursor=pointer]:
+                      - img [ref=e83]
+                  - text: app\layout.tsx (296:11)
+          - contentinfo [ref=e86]:
+            - region "Error feedback" [ref=e87]:
+              - paragraph [ref=e88]:
+                - link "Was this helpful?" [ref=e89] [cursor=pointer]:
+                  - /url: https://nextjs.org/telemetry#error-feedback
+              - button "Mark as helpful" [ref=e90] [cursor=pointer]:
+                - img [ref=e91]
+              - button "Mark as not helpful" [ref=e94] [cursor=pointer]:
+                - img [ref=e95]
+          - generic [ref=e97]:
+            - generic [ref=e98]: "1"
+            - generic [ref=e99]: "2"
+      - generic [ref=e100]:
+        - generic [ref=e101]:
+          - navigation [ref=e102]:
+            - button "previous" [disabled] [ref=e103]:
+              - img "previous" [ref=e104]
+            - generic [ref=e106]:
+              - generic [ref=e107]: 1/
+              - text: "1"
+            - button "next" [disabled] [ref=e108]:
+              - img "next" [ref=e109]
+          - img
+        - generic [ref=e111]:
+          - link "Next.js 15.2.4 (stale)" [ref=e112] [cursor=pointer]:
+            - /url: https://nextjs.org/docs/messages/version-staleness
+            - img [ref=e113]
+            - generic "There is a newer version (15.5.5) available, upgrade recommended!" [ref=e115]: Next.js 15.2.4 (stale)
+          - img
 ```

@@ -52,7 +52,7 @@ export const organizationSchema = {
   "name": "CampusAxis",
   "alternateName": "CampusAxis - COMSATS Academic Portal",
   "url": "https://campusaxis.site",
-  "logo": "https://campusaxis.site/logo-square.svg",
+  "logo": "https://campusaxis.site/Campus Axis 1.svg",
   "description": siteConfig.description,
   "address": {
     "@type": "PostalAddress",

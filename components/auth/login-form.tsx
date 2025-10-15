@@ -10,7 +10,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast"
 import { validateCUIEmail } from "@/lib/auth"
 import { useAuth } from "@/contexts/auth-context"
-import { Eye, EyeOff, Loader2, Mail, Lock, ArrowRight } from "lucide-react"
+import { useCampus } from "@/contexts/campus-context"
+import { Eye, EyeOff, Loader2, Mail, Lock, ArrowRight, MapPin } from "lucide-react"
 import Image from 'next/image'
 
 interface LoginFormProps {
@@ -25,6 +26,7 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   const { toast } = useToast()
   const [resetLoading, setResetLoading] = useState(false)
   const { login, isLoading, loginWithGoogle } = useAuth()
+  const { selectedCampus } = useCampus()
 
   const normalizeError = (raw: string) => {
     const lower = raw.toLowerCase()
@@ -247,6 +249,12 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
           <p className="text-xs text-muted-foreground mt-2">
             Use your COMSATS Google account (e.g., <span className="font-mono">@cuilahore.edu.pk</span>, <span className="font-mono">@cuislamabad.edu.pk</span>).
           </p>
+          {selectedCampus && (
+            <p className="text-xs text-muted-foreground mt-1 flex items-center justify-center gap-1">
+              <MapPin className="h-3 w-3" />
+              Selected campus: <span className="font-medium">{selectedCampus.name}</span>
+            </p>
+          )}
         </div>
 
         {/* Contextual Actions Under Form */}

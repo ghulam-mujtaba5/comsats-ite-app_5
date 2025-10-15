@@ -15,7 +15,7 @@ export const CAMPUS_DOMAINS = [
 
 export type CampusDomain = typeof CAMPUS_DOMAINS[number]
 
-// Map campus code to domain
+// Map campus codes to their domains
 export const CAMPUS_CODE_TO_DOMAIN: Record<string, CampusDomain> = {
   'LHR': 'cuilahore.edu.pk',
   'ISB': 'cuislamabad.edu.pk',
@@ -27,7 +27,7 @@ export const CAMPUS_CODE_TO_DOMAIN: Record<string, CampusDomain> = {
   'VRT': 'comsats.edu.pk',
 }
 
-// Map domain to campus code
+// Map domains to campus codes
 export const DOMAIN_TO_CAMPUS_CODE: Record<string, string> = {
   'cuilahore.edu.pk': 'LHR',
   'cuislamabad.edu.pk': 'ISB',
@@ -39,6 +39,11 @@ export const DOMAIN_TO_CAMPUS_CODE: Record<string, string> = {
   'comsats.edu.pk': 'VRT',
 }
 
+/**
+ * Validate that an email belongs to a valid COMSATS domain
+ * @param email The email to validate
+ * @returns boolean indicating if the email is valid
+ */
 export const validateCUIEmail = (email: string): boolean => {
   // Enforce full university email format like: fa22-bse-105@cuilahore.edu.pk
   // pattern: <term><yy>-<program>-<roll>@<campus-domain>
@@ -54,17 +59,39 @@ export const validateCUIEmail = (email: string): boolean => {
   return strict.test(email)
 }
 
-// Validate a registration number like fa22-bse-105
-export const validateCUIRegistration = (regNo: string): boolean => {
-  const strict = /^[a-zA-Z]{2}\d{2}-[a-zA-Z]{2,5}-\d{3}$/
-  return strict.test(regNo)
+/**
+ * Validate that an email domain matches the expected campus domain
+ * @param email The email to validate
+ * @param campusCode The campus code to check against
+ * @returns boolean indicating if the email domain matches the campus
+ */
+export const validateEmailDomainForCampus = (email: string, campusCode: string): boolean => {
+  if (!email) return false;
+  
+  const emailParts = email.split('@');
+  if (emailParts.length !== 2) return false;
+  
+  const domain = emailParts[1];
+  const expectedDomain = CAMPUS_CODE_TO_DOMAIN[campusCode];
+  
+  return domain === expectedDomain;
 }
 
-// Extract campus code from email
+/**
+ * Get campus code from email domain
+ * @param email The email to extract campus code from
+ * @returns Campus code or null if not found
+ */
 export const getCampusFromEmail = (email: string): string | null => {
   if (!validateCUIEmail(email)) return null
   const domain = email.split('@')[1]
   return DOMAIN_TO_CAMPUS_CODE[domain] || null
+}
+
+// Validate a registration number like fa22-bse-105
+export const validateCUIRegistration = (regNo: string): boolean => {
+  const strict = /^[a-zA-Z]{2}\d{2}-[a-zA-Z]{2,5}-\d{3}$/
+  return strict.test(regNo)
 }
 
 // Convert registration number to institutional email (campus-specific)
