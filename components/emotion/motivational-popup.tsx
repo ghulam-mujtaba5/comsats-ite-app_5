@@ -5,13 +5,14 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useEmotion } from "@/contexts/emotion-context"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { X as XIcon } from "lucide-react"
+import { X as XIcon, Sparkles } from "lucide-react"
 
 interface MotivationalMessage {
   id: string
   text: string
   mood: string[]
   trigger: string
+  icon?: string
 }
 
 const MOTIVATIONAL_MESSAGES: MotivationalMessage[] = [
@@ -77,17 +78,12 @@ export function MotivationalPopup() {
       !shownMessages.has(message.id) && !dismissedMessages.has(message.id)
     )
     
-    // Randomly select 1-2 new messages to show
+    // Randomly select 1 new message to show
     if (newMessages.length > 0 && visibleMessages.length === 0) {
-      const shuffled = [...newMessages].sort(() => 0.5 - Math.random())
-      const selected = shuffled.slice(0, Math.min(2, shuffled.length))
-      setVisibleMessages(selected)
-      // Add these messages to the shown set
-      setShownMessages(prev => {
-        const newSet = new Set(prev)
-        selected.forEach(msg => newSet.add(msg.id))
-        return newSet
-      })
+      const selected = newMessages[Math.floor(Math.random() * newMessages.length)]
+      setVisibleMessages([selected])
+      // Add this message to the shown set
+      setShownMessages(prev => new Set(prev).add(selected.id))
     }
   }, [emotionState.mood, visibleMessages.length, dismissedMessages, shownMessages])
 
@@ -117,39 +113,27 @@ export function MotivationalPopup() {
               whileHover={{ scale: 1.02 }}
               className="relative"
             >
-              <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-indigo-200 shadow-lg max-w-xs">
-                <CardContent className="p-4 pr-10">
-                  <p className="text-indigo-800 font-medium">{message.text}</p>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute top-2 right-2 h-6 w-6 text-indigo-500 hover:text-indigo-700"
-                    onClick={() => dismissMessage(message.id)}
-                  >
-                    <XIcon className="h-4 w-4" />
-                  </Button>
+              <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-indigo-200 shadow-lg max-w-[280px] glass-card">
+                <CardContent className="p-3 pr-8">
+                  <div className="flex items-start gap-2">
+                    <Sparkles className="h-4 w-4 text-indigo-500 flex-shrink-0 mt-0.5" />
+                    <p className="text-indigo-800 text-xs font-medium leading-snug">
+                      {message.text}
+                    </p>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute top-1.5 right-1.5 h-5 w-5 text-indigo-500 hover:text-indigo-700 hover:bg-indigo-100"
+                      onClick={() => dismissMessage(message.id)}
+                    >
+                      <XIcon className="h-3 w-3" />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
           )
         ))}
-        
-        {visibleMessages.length > 1 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex justify-end"
-          >
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="text-xs"
-              onClick={dismissAll}
-            >
-              Dismiss All
-            </Button>
-          </motion.div>
-        )}
       </div>
     </AnimatePresence>
   )

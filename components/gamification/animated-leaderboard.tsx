@@ -196,7 +196,7 @@ export function AnimatedLeaderboard({ leaderboard, loading, user, category }: An
                     </Badge>
                   )}
                   {leaderboard[1].isAdmin && leaderboard[1].isAdminRole !== 'super_admin' && (
-                    <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 text-xs">
+                    <Badge className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-0 text-xs">
                       Admin
                     </Badge>
                   )}
@@ -262,7 +262,7 @@ export function AnimatedLeaderboard({ leaderboard, loading, user, category }: An
                     </Badge>
                   )}
                   {leaderboard[0].isAdmin && leaderboard[0].isAdminRole !== 'super_admin' && (
-                    <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0">
+                    <Badge className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-0">
                       Admin
                     </Badge>
                   )}
@@ -322,7 +322,7 @@ export function AnimatedLeaderboard({ leaderboard, loading, user, category }: An
                     </Badge>
                   )}
                   {leaderboard[2].isAdmin && leaderboard[2].isAdminRole !== 'super_admin' && (
-                    <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 text-xs">
+                    <Badge className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-0 text-xs">
                       Admin
                     </Badge>
                   )}

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -20,7 +20,8 @@ import {
   TrendingUp,
   CheckCircle2,
   Lock,
-  Sparkles
+  Sparkles,
+  RefreshCw
 } from "lucide-react"
 import { useAchievements } from "@/hooks/use-achievements"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
@@ -35,7 +36,8 @@ export default function CommunityGamificationPage() {
     error, 
     getTotalPoints,
     getRarityColor,
-    getRarityBg
+    getRarityBg,
+    refreshData // Add refresh function from hook
   } = useAchievements()
   const [activeTab, setActiveTab] = useState("achievements")
 
@@ -45,6 +47,15 @@ export default function CommunityGamificationPage() {
   const completionPercentage = totalAchievements > 0 
     ? Math.round((unlockedAchievements / totalAchievements) * 100) 
     : 0
+
+  // Add polling to refresh data periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshData();
+    }, 5 * 60 * 1000); // 5 minutes
+    
+    return () => clearInterval(interval);
+  }, [refreshData]);
 
   const getUserRank = () => {
     const userEntry = leaderboard.find(entry => 
@@ -76,6 +87,15 @@ export default function CommunityGamificationPage() {
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-primary/15 to-blue-500/15 border border-primary/30 text-sm font-medium text-primary mb-4 backdrop-blur-sm">
             <Trophy className="h-4 w-4" />
             <span>Gamification Center</span>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={refreshData}
+              disabled={loading}
+              className="p-1 h-6 w-6"
+            >
+              <RefreshCw className={cn("h-3 w-3", loading && "animate-spin")} />
+            </Button>
           </div>
           
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
@@ -181,12 +201,24 @@ export default function CommunityGamificationPage() {
                   <Lock className="h-12 w-12" />
                   <h3 className="font-medium text-lg">Error Loading Achievements</h3>
                   <p>{error}</p>
-                  <Button 
-                    onClick={() => window.location.reload()}
-                    className="mt-4"
-                  >
-                    Try Again
-                  </Button>
+                  <div className="flex gap-2 mt-4">
+                    <Button 
+                      onClick={refreshData}
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <>
+                          <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                          Refreshing...
+                        </>
+                      ) : (
+                        <>
+                          <RefreshCw className="h-4 w-4 mr-2" />
+                          Try Again
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </div>
               </Card>
             ) : (
@@ -286,12 +318,24 @@ export default function CommunityGamificationPage() {
                   <Lock className="h-12 w-12" />
                   <h3 className="font-medium text-lg">Error Loading Leaderboard</h3>
                   <p>{error}</p>
-                  <Button 
-                    onClick={() => window.location.reload()}
-                    className="mt-4"
-                  >
-                    Try Again
-                  </Button>
+                  <div className="flex gap-2 mt-4">
+                    <Button 
+                      onClick={refreshData}
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <>
+                          <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                          Refreshing...
+                        </>
+                      ) : (
+                        <>
+                          <RefreshCw className="h-4 w-4 mr-2" />
+                          Try Again
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </div>
               </Card>
             ) : (

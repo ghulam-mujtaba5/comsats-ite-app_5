@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@supabase/supabase-js"
 import { requireAdmin } from "@/lib/admin-access"
+import { notifyNewIssue } from "@/lib/notification-helpers"
 
 // POST /api/issues  -> public: create a new issue report
 // GET  /api/issues  -> admin: list issue reports
@@ -47,6 +48,12 @@ export async function POST(req: NextRequest) {
       .select()
 
     if (error) return NextResponse.json({ error: "Failed to submit issue" }, { status: 500, headers })
+    
+    // Send notification to admins about the new issue
+    if (data && data[0]) {
+      await notifyNewIssue(data[0].id, data[0].title, data[0].email || undefined)
+    }
+    
     return NextResponse.json({ message: "Issue submitted", issue: data?.[0] }, { status: 200, headers })
   } catch (e) {
     return NextResponse.json({ error: "Unexpected error" }, { status: 500, headers })

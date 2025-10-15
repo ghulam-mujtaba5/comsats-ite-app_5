@@ -1,4 +1,5 @@
 import { createSupabaseClient, extractQueryParams, transformPostRecord } from '@/lib/supabase-utils'
+import { checkAndUnlockAchievements } from '@/lib/gamification-achievements'
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
@@ -186,6 +187,36 @@ export async function POST(request: NextRequest) {
 
     // Transform response to match frontend interface
     const transformedPost = transformEnhancedPostRecord(post)
+
+    // Update user stats and check for achievements
+    try {
+      // First, get current stats
+      const { data: currentStats, error: fetchError } = await supabase
+        .from('user_stats')
+        .select('posts_count, total_points')
+        .eq('user_id', user.id)
+        .single()
+
+      if (!fetchError && currentStats) {
+        // Update stats with incremented values
+        const { error: statsError } = await supabase
+          .from('user_stats')
+          .update({ 
+            posts_count: currentStats.posts_count + 1,
+            total_points: currentStats.total_points + 15
+          })
+          .eq('user_id', user.id)
+
+        if (statsError) {
+          console.error('Error updating user stats:', statsError)
+        } else {
+          // Check for new achievements
+          await checkAndUnlockAchievements(supabase, user.id)
+        }
+      }
+    } catch (statsError) {
+      console.error('Error updating user stats:', statsError)
+    }
 
     return NextResponse.json(transformedPost, { headers })
   } catch (error) {

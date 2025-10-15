@@ -67,7 +67,7 @@ export default function DocumentationPage() {
       description: "Admin settings and configuration",
       icon: Settings,
       href: "#",
-      color: "from-gray-500 to-slate-500"
+      color: "from-blue-500 to-cyan-500"
     }
   ]
 

@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { MapPin, X, Building2 } from "lucide-react"
 import { useCampus } from "@/contexts/campus-context"
-import { CampusSelector } from "./campus-selector"
+import { CampusSelector, CampusSelectorCompact } from "./campus-selector"
 
 export function CampusReminder() {
   const { selectedCampus, selectedDepartment } = useCampus()
@@ -50,46 +50,46 @@ export function CampusReminder() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.95 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4"
+          className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-xs px-4"
         >
           <Card className="border-2 border-primary/20 shadow-xl bg-background/95 backdrop-blur-sm glass-card glass-border-glow glass-hover glass-depth">
-            <CardContent className="p-4">
-              <div className="flex items-start gap-3">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <MapPin className="h-5 w-5 text-primary" />
+            <CardContent className="p-3">
+              <div className="flex items-start gap-2">
+                <div className="p-1.5 rounded-lg bg-primary/10">
+                  <MapPin className="h-4 w-4 text-primary" />
                 </div>
-                <div className="flex-1 space-y-2">
+                <div className="flex-1 space-y-1.5">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="font-semibold text-sm">
+                      <h3 className="font-semibold text-xs">
                         {!selectedCampus
                           ? "Select Your Campus"
                           : "Select Your Department"}
                       </h3>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-[10px] text-muted-foreground mt-0.5">
                         {!selectedCampus
-                          ? "Get personalized content for your campus location"
-                          : "Filter content by your department for better results"}
+                          ? "Get personalized content"
+                          : "Filter by department"}
                       </p>
                     </div>
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-6 w-6 -mt-1"
+                      className="h-5 w-5 -mt-0.5"
                       onClick={handleDismiss}
                     >
-                      <X className="h-4 w-4" />
+                      <X className="h-3 w-3" />
                     </Button>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1.5">
                     <CampusSelector />
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={handleDismiss}
-                      className="text-xs"
+                      className="text-[10px] h-7 px-2"
                     >
-                      Maybe Later
+                      Later
                     </Button>
                   </div>
                 </div>
@@ -122,26 +122,27 @@ export function CampusBanner({
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: "auto" }}
       exit={{ opacity: 0, height: 0 }}
-      className="mb-6"
+      className="mb-4"
     >
       <Card className="border-primary/30 bg-primary/5 glass-card glass-border-light glass-hover glass-depth">
-        <CardContent className="p-4">
-          <div className="flex items-center gap-4">
-            <div className="p-2 rounded-lg bg-primary/10">
-              <Building2 className="h-6 w-6 text-primary" />
+        <CardContent className="p-3">
+          <div className="flex items-center gap-3">
+            <div className="p-1.5 rounded-lg bg-primary/10">
+              <Building2 className="h-4 w-4 text-primary" />
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold">{title}</h3>
-              <p className="text-sm text-muted-foreground">{description}</p>
+              <h3 className="font-semibold text-sm">{title}</h3>
+              <p className="text-xs text-muted-foreground">{description}</p>
             </div>
-            <div className="flex gap-2">
-              <CampusSelector />
+            <div className="flex gap-1.5">
+              <CampusSelectorCompact />
               <Button
                 variant="ghost"
-                size="sm"
+                size="icon"
                 onClick={() => setIsVisible(false)}
+                className="h-6 w-6"
               >
-                <X className="h-4 w-4" />
+                <X className="h-3 w-3" />
               </Button>
             </div>
           </div>
@@ -176,7 +177,7 @@ export function CampusIndicator() {
         }}
         className="glass-button glass-border-light glass-hover glass-depth glass-floating"
       >
-        <CampusSelector />
+        <CampusSelectorCompact />
       </motion.div>
     </motion.div>
   )

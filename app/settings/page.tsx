@@ -24,7 +24,15 @@ import {
   Settings as SettingsIcon,
   Activity,
   Trophy,
-  Sparkles
+  Sparkles,
+  User,
+  Key,
+  BookOpen,
+  Users,
+  Calendar,
+  Star,
+  Wrench,
+  AlertTriangle
 } from "lucide-react"
 import Link from "next/link"
 
@@ -38,6 +46,18 @@ interface Settings {
     lostFoundMatches: boolean
     newPapers: boolean
     weeklyDigest: boolean
+    userRegister: boolean
+    passwordReset: boolean
+    passwordChange: boolean
+    postCreated: boolean
+    resourceUploaded: boolean
+    reviewSubmitted: boolean
+    reviewApproved: boolean
+    timetableUpdated: boolean
+    groupJoined: boolean
+    achievementUnlocked: boolean
+    maintenanceScheduled: boolean
+    newFeature: boolean
   }
   privacy: {
     profileVisible: boolean
@@ -70,7 +90,19 @@ export default function SettingsPage() {
       helpDeskUpdates: true,
       lostFoundMatches: true,
       newPapers: false,
-      weeklyDigest: true
+      weeklyDigest: true,
+      userRegister: true,
+      passwordReset: true,
+      passwordChange: true,
+      postCreated: true,
+      resourceUploaded: true,
+      reviewSubmitted: true,
+      reviewApproved: true,
+      timetableUpdated: true,
+      groupJoined: true,
+      achievementUnlocked: true,
+      maintenanceScheduled: true,
+      newFeature: true
     },
     privacy: {
       profileVisible: true,
@@ -102,7 +134,6 @@ export default function SettingsPage() {
         setSettings(data.settings)
       }
     } catch (error) {
-      console.error('Error fetching settings:', error)
       toast({
         title: "Error",
         description: "Failed to load settings",
@@ -110,35 +141,6 @@ export default function SettingsPage() {
       })
     } finally {
       setLoading(false)
-    }
-  }
-
-  const saveSettings = async () => {
-    try {
-      setSaving(true)
-      const response = await fetch('/api/profile/settings', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ settings })
-      })
-
-      if (response.ok) {
-        toast({
-          title: "Success",
-          description: "Settings saved successfully"
-        })
-      } else {
-        throw new Error('Failed to save settings')
-      }
-    } catch (error) {
-      console.error('Error saving settings:', error)
-      toast({
-        title: "Error",
-        description: "Failed to save settings",
-        variant: "destructive"
-      })
-    } finally {
-      setSaving(false)
     }
   }
 
@@ -161,6 +163,36 @@ export default function SettingsPage() {
       ...prev,
       preferences: { ...prev.preferences, [key]: value }
     }))
+  }
+
+  const saveSettings = async () => {
+    try {
+      setSaving(true)
+      const response = await fetch('/api/profile/settings', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ settings })
+      })
+      
+      if (response.ok) {
+        toast({
+          title: "Settings Saved",
+          description: "Your preferences have been updated successfully."
+        })
+      } else {
+        throw new Error('Failed to save settings')
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save settings",
+        variant: "destructive"
+      })
+    } finally {
+      setSaving(false)
+    }
   }
 
   if (loading) {
@@ -252,6 +284,91 @@ export default function SettingsPage() {
 
                   <div className="border-t border-slate-200 dark:border-slate-700 my-4" />
 
+                  {/* Authentication Events */}
+                  <div className="space-y-4">
+                    <h3 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                      <User className="h-4 w-4" />
+                      Authentication Events
+                    </h3>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>User Registration</Label>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                          Welcome email when you register
+                        </p>
+                      </div>
+                      <Switch
+                        checked={settings.notifications.userRegister}
+                        onCheckedChange={(checked) => updateNotification('userRegister', checked)}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>Password Reset</Label>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                          Notifications when password reset is requested
+                        </p>
+                      </div>
+                      <Switch
+                        checked={settings.notifications.passwordReset}
+                        onCheckedChange={(checked) => updateNotification('passwordReset', checked)}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>Password Change</Label>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                          Confirmation when password is changed
+                        </p>
+                      </div>
+                      <Switch
+                        checked={settings.notifications.passwordChange}
+                        onCheckedChange={(checked) => updateNotification('passwordChange', checked)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="border-t border-slate-200 dark:border-slate-700 my-4" />
+
+                  {/* Content Updates */}
+                  <div className="space-y-4">
+                    <h3 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                      <BookOpen className="h-4 w-4" />
+                      Content Updates
+                    </h3>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>Post Created</Label>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                          Confirmation when you create a post
+                        </p>
+                      </div>
+                      <Switch
+                        checked={settings.notifications.postCreated}
+                        onCheckedChange={(checked) => updateNotification('postCreated', checked)}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>Resource Uploaded</Label>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                          Confirmation when you upload a resource
+                        </p>
+                      </div>
+                      <Switch
+                        checked={settings.notifications.resourceUploaded}
+                        onCheckedChange={(checked) => updateNotification('resourceUploaded', checked)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="border-t border-slate-200 dark:border-slate-700 my-4" />
+
                   {/* Specific Notifications */}
                   <div className="space-y-4">
                     <h3 className="font-semibold text-slate-900 dark:text-white">Activity Notifications</h3>
@@ -284,40 +401,102 @@ export default function SettingsPage() {
 
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
-                        <Label>Help Desk Updates</Label>
+                        <Label>Review Submitted</Label>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                          Status changes on your tickets
+                          Confirmation when you submit a review
                         </p>
                       </div>
                       <Switch
-                        checked={settings.notifications.helpDeskUpdates}
-                        onCheckedChange={(checked) => updateNotification('helpDeskUpdates', checked)}
+                        checked={settings.notifications.reviewSubmitted}
+                        onCheckedChange={(checked) => updateNotification('reviewSubmitted', checked)}
                       />
                     </div>
 
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
-                        <Label>Lost & Found Matches</Label>
+                        <Label>Review Approved</Label>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                          Potential matches for your items
+                          Notification when your review is approved
                         </p>
                       </div>
                       <Switch
-                        checked={settings.notifications.lostFoundMatches}
-                        onCheckedChange={(checked) => updateNotification('lostFoundMatches', checked)}
+                        checked={settings.notifications.reviewApproved}
+                        onCheckedChange={(checked) => updateNotification('reviewApproved', checked)}
                       />
                     </div>
 
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
-                        <Label>New Past Papers</Label>
+                        <Label>Timetable Updates</Label>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                          New papers in your department
+                          Notifications about timetable changes
                         </p>
                       </div>
                       <Switch
-                        checked={settings.notifications.newPapers}
-                        onCheckedChange={(checked) => updateNotification('newPapers', checked)}
+                        checked={settings.notifications.timetableUpdated}
+                        onCheckedChange={(checked) => updateNotification('timetableUpdated', checked)}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>Group Joined</Label>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                          Confirmation when you join a group
+                        </p>
+                      </div>
+                      <Switch
+                        checked={settings.notifications.groupJoined}
+                        onCheckedChange={(checked) => updateNotification('groupJoined', checked)}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>Achievement Unlocked</Label>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                          Notifications when you unlock achievements
+                        </p>
+                      </div>
+                      <Switch
+                        checked={settings.notifications.achievementUnlocked}
+                        onCheckedChange={(checked) => updateNotification('achievementUnlocked', checked)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="border-t border-slate-200 dark:border-slate-700 my-4" />
+
+                  {/* System Notifications */}
+                  <div className="space-y-4">
+                    <h3 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                      <AlertTriangle className="h-4 w-4" />
+                      System Notifications
+                    </h3>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>Maintenance Scheduled</Label>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                          Advance notice of system maintenance
+                        </p>
+                      </div>
+                      <Switch
+                        checked={settings.notifications.maintenanceScheduled}
+                        onCheckedChange={(checked) => updateNotification('maintenanceScheduled', checked)}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>New Features</Label>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                          Announcements about new platform features
+                        </p>
+                      </div>
+                      <Switch
+                        checked={settings.notifications.newFeature}
+                        onCheckedChange={(checked) => updateNotification('newFeature', checked)}
                       />
                     </div>
 
@@ -325,7 +504,7 @@ export default function SettingsPage() {
                       <div className="space-y-0.5">
                         <Label>Weekly Digest</Label>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                          Weekly summary of campus activity
+                          Weekly summary of platform activity
                         </p>
                       </div>
                       <Switch
@@ -334,6 +513,20 @@ export default function SettingsPage() {
                       />
                     </div>
                   </div>
+
+                  <Button onClick={saveSettings} disabled={saving} className="w-full">
+                    {saving ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="mr-2 h-4 w-4" />
+                        Save Notification Settings
+                      </>
+                    )}
+                  </Button>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -385,7 +578,7 @@ export default function SettingsPage() {
                         Show Activity
                       </Label>
                       <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Display your recent activity timeline
+                        Display your recent activity on your profile
                       </p>
                     </div>
                     <Switch
@@ -401,7 +594,7 @@ export default function SettingsPage() {
                         Allow Messages
                       </Label>
                       <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Allow other students to message you
+                        Allow other users to send you messages
                       </p>
                     </div>
                     <Switch
@@ -417,7 +610,7 @@ export default function SettingsPage() {
                         Show Stats
                       </Label>
                       <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Display your activity statistics
+                        Display your achievements and statistics
                       </p>
                     </div>
                     <Switch
@@ -428,14 +621,21 @@ export default function SettingsPage() {
 
                   <div className="border-t border-slate-200 dark:border-slate-700 my-4" />
 
-                  <div className="bg-slate-100 dark:bg-slate-900/50 p-4 rounded-xl">
-                    <div className="flex items-start gap-3">
-                      <Lock className="h-5 w-5 text-slate-600 dark:text-slate-400 mt-0.5" />
-                      <div className="space-y-1">
-                        <p className="font-medium text-slate-900 dark:text-white">Data Privacy</p>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
-                          Your data is encrypted and stored securely. We never share your personal information with third parties.
-                        </p>
+                  <div className="space-y-4">
+                    <h3 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                      <Lock className="h-4 w-4" />
+                      Data & Security
+                    </h3>
+                    
+                    <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl">
+                      <div className="flex items-start gap-3">
+                        <Shield className="h-5 w-5 text-green-500 mt-0.5" />
+                        <div>
+                          <p className="font-medium text-slate-900 dark:text-white">Privacy Protected</p>
+                          <p className="text-sm text-slate-600 dark:text-slate-400">
+                            Your data is encrypted and stored securely. We never share your personal information with third parties.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -470,7 +670,7 @@ export default function SettingsPage() {
                       </SelectContent>
                     </Select>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                      Choose your preferred color scheme
+                      Select your preferred theme
                     </p>
                   </div>
 
@@ -540,9 +740,23 @@ export default function SettingsPage() {
                       </SelectContent>
                     </Select>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                      Day of the week to receive your weekly digest
+                      Which day of the week to receive your weekly digest
                     </p>
                   </div>
+
+                  <Button onClick={saveSettings} disabled={saving} className="w-full">
+                    {saving ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="mr-2 h-4 w-4" />
+                        Save Preferences
+                      </>
+                    )}
+                  </Button>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -552,17 +766,17 @@ export default function SettingsPage() {
               <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
                 <CardHeader>
                   <CardTitle>Experience Settings</CardTitle>
-                  <CardDescription>Customize animations and visual effects</CardDescription>
+                  <CardDescription>Customize your user experience</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label className="flex items-center gap-2">
                         <Sparkles className="h-4 w-4" />
-                        Enable Animations
+                        Animations
                       </Label>
                       <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Show celebration and feedback animations throughout the app
+                        Enable or disable UI animations
                       </p>
                     </div>
                     <Switch
@@ -571,73 +785,63 @@ export default function SettingsPage() {
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label className="flex items-center gap-2">
-                      <Activity className="h-4 w-4" />
-                      Animation Intensity
-                    </Label>
-                    <Select
-                      value={settings.preferences.animationIntensity}
-                      onValueChange={(value) => updatePreference('animationIntensity', value)}
-                    >
-                      <SelectTrigger className="rounded-xl">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="low">Low</SelectItem>
-                        <SelectItem value="medium">Medium</SelectItem>
-                        <SelectItem value="high">High</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
-                      Control how intense the animations appear
-                    </p>
-                  </div>
+                  {settings.preferences.animationsEnabled && (
+                    <div className="space-y-2">
+                      <Label>Animation Intensity</Label>
+                      <Select
+                        value={settings.preferences.animationIntensity}
+                        onValueChange={(value: 'low' | 'medium' | 'high') => updatePreference('animationIntensity', value)}
+                      >
+                        <SelectTrigger className="rounded-xl">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="low">Low</SelectItem>
+                          <SelectItem value="medium">Medium</SelectItem>
+                          <SelectItem value="high">High</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Adjust the intensity of animations
+                      </p>
+                    </div>
+                  )}
 
                   <div className="border-t border-slate-200 dark:border-slate-700 my-4" />
 
-                  <div className="bg-slate-100 dark:bg-slate-900/50 p-4 rounded-xl">
-                    <div className="flex items-start gap-3">
-                      <Sparkles className="h-5 w-5 text-slate-600 dark:text-slate-400 mt-0.5" />
-                      <div className="space-y-1">
-                        <p className="font-medium text-slate-900 dark:text-white">Animation Effects</p>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
-                          Animations include confetti for achievements, progress bars, level-up effects, and more. 
-                          You can adjust the intensity or disable them completely based on your preference.
-                        </p>
+                  <div className="space-y-4">
+                    <h3 className="font-semibold text-slate-900 dark:text-white">Performance</h3>
+                    
+                    <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl">
+                      <div className="flex items-start gap-3">
+                        <Wrench className="h-5 w-5 text-blue-500 mt-0.5" />
+                        <div>
+                          <p className="font-medium text-slate-900 dark:text-white">Optimized Experience</p>
+                          <p className="text-sm text-slate-600 dark:text-slate-400">
+                            CampusAxis is optimized for performance. These settings help customize your experience based on your device capabilities.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
+
+                  <Button onClick={saveSettings} disabled={saving} className="w-full">
+                    {saving ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="mr-2 h-4 w-4" />
+                        Save Experience Settings
+                      </>
+                    )}
+                  </Button>
                 </CardContent>
               </Card>
             </TabsContent>
           </Tabs>
-
-          {/* Save Button */}
-          <div className="flex items-center justify-between mt-8">
-            <Link href="/profile">
-              <Button variant="outline" className="rounded-xl">
-                Back to Profile
-              </Button>
-            </Link>
-            <Button
-              onClick={saveSettings}
-              disabled={saving}
-              className="rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-            >
-              {saving ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Changes
-                </>
-              )}
-            </Button>
-          </div>
         </div>
       </div>
     </AuthGuard>

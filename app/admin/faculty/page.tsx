@@ -500,8 +500,8 @@ export default function AdminFacultyPage() {
               <CardHeader className="relative">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl blur-lg opacity-30" />
-                    <div className="relative bg-gradient-to-r from-blue-500 to-indigo-500 p-2 rounded-xl">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl blur-lg opacity-30" />
+                    <div className="relative bg-gradient-to-r from-blue-500 to-cyan-500 p-2 rounded-xl">
                       {editingId ? <Edit className="h-5 w-5 text-white" /> : <Plus className="h-5 w-5 text-white" />}
                     </div>
                   </div>

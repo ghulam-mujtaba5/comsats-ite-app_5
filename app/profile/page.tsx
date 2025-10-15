@@ -45,7 +45,7 @@ import {
   Ticket
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { LevelProgressCard } from "@/components/profile/level-progress-card"
 import { EnhancedBadgeShowcase } from "@/components/gamification/enhanced-badge-showcase"
 import { getLevelForPoints } from "@/lib/gamification"
@@ -84,97 +84,130 @@ export default function ProfilePage() {
   const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(false)
 
+  // Create a refresh function that can be called to reload all data
+  const refreshAllData = useCallback(async () => {
+    if (user && isAuthenticated) {
+      // Reset loading states
+      setStatsLoading(true);
+      setAchievementsLoading(true);
+      setActivityLoading(true);
+      setContributionLoading(true);
+      
+      // Fetch all data in parallel
+      await Promise.allSettled([
+        fetchUserStats(),
+        fetchAchievements(),
+        fetchActivity(),
+        fetchContributionPoints()
+      ]);
+    }
+  }, [user, isAuthenticated]);
+
   // Fetch user stats when component mounts and user is available
   useEffect(() => {
-    if (user && isAuthenticated) {
-      fetchUserStats()
-      fetchAchievements()
-      fetchActivity()
-      fetchContributionPoints()
-    }
-  }, [user, isAuthenticated])
+    refreshAllData();
+  }, [refreshAllData]);
+
+  // Add polling to refresh data periodically (every 5 minutes)
+  useEffect(() => {
+    if (!user || !isAuthenticated) return;
+    
+    const interval = setInterval(() => {
+      refreshAllData();
+    }, 5 * 60 * 1000); // 5 minutes
+    
+    return () => clearInterval(interval);
+  }, [user, isAuthenticated, refreshAllData]);
 
   const fetchUserStats = async () => {
     try {
-      setStatsLoading(true)
-      setStatsError(null)
-      const response = await fetch('/api/profile/stats')
+      setStatsLoading(true);
+      setStatsError(null);
+      const response = await fetch('/api/profile/stats');
       if (!response.ok) {
-        throw new Error(`Failed to fetch stats: ${response.status}`)
+        throw new Error(`Failed to fetch stats: ${response.status}`);
       }
-      const data = await response.json()
-      setUserStats(data)
+      const data = await response.json();
+      setUserStats(data);
     } catch (error) {
-      console.error('Error fetching user stats:', error)
-      setStatsError(error instanceof Error ? error.message : 'Failed to load stats')
+      console.error('Error fetching user stats:', error);
+      setStatsError(error instanceof Error ? error.message : 'Failed to load stats');
       // Keep default values on error
     } finally {
-      setStatsLoading(false)
+      setStatsLoading(false);
     }
   }
 
   const fetchAchievements = async () => {
     try {
-      setAchievementsLoading(true)
-      const response = await fetch('/api/profile/achievements')
+      setAchievementsLoading(true);
+      const response = await fetch('/api/profile/achievements');
       if (response.ok) {
-        const data = await response.json()
-        setAchievements(data.achievements || [])
+        const data = await response.json();
+        setAchievements(data.achievements || []);
+      } else {
+        throw new Error(`Failed to fetch achievements: ${response.status}`);
       }
     } catch (error) {
-      console.error('Error fetching achievements:', error)
+      console.error('Error fetching achievements:', error);
     } finally {
-      setAchievementsLoading(false)
+      setAchievementsLoading(false);
     }
   }
 
   const fetchActivity = async () => {
     try {
-      setActivityLoading(true)
-      const response = await fetch('/api/profile/activity?limit=20')
+      setActivityLoading(true);
+      const response = await fetch('/api/profile/activity?limit=20');
       if (response.ok) {
-        const data = await response.json()
-        setRecentActivity(data.activities || [])
+        const data = await response.json();
+        setRecentActivity(data.activities || []);
+      } else {
+        throw new Error(`Failed to fetch activity: ${response.status}`);
       }
     } catch (error) {
-      console.error('Error fetching activity:', error)
+      console.error('Error fetching activity:', error);
     } finally {
-      setActivityLoading(false)
+      setActivityLoading(false);
     }
   }
 
   const fetchContributionPoints = async () => {
     try {
-      setContributionLoading(true)
-      if (!user?.id) return
-      const response = await fetch(`/api/contributions/points?userId=${user.id}`)
+      setContributionLoading(true);
+      if (!user?.id) return;
+      const response = await fetch(`/api/contributions/points?userId=${user.id}`);
       if (response.ok) {
-        const data = await response.json()
-        setContributionData(data)
+        const data = await response.json();
+        setContributionData(data);
+      } else {
+        throw new Error(`Failed to fetch contribution points: ${response.status}`);
       }
       
       // Fetch admin-assigned gamification role and check admin status
-      const roleResponse = await fetch(`/api/admin/admin-users`)
+      const roleResponse = await fetch(`/api/admin/admin-users`);
       if (roleResponse.ok) {
-        const adminUsers = await roleResponse.json()
-        const myAdminRecord = adminUsers.find((au: any) => au.user_id === user.id)
+        const adminUsers = await roleResponse.json();
+        const myAdminRecord = adminUsers.find((au: any) => au.user_id === user.id);
         if (myAdminRecord) {
-          setIsAdmin(true)
+          setIsAdmin(true);
           if (myAdminRecord.role === 'super_admin') {
-            setIsSuperAdmin(true)
+            setIsSuperAdmin(true);
           }
           if (myAdminRecord.gamification_role) {
-            setGamificationRole(myAdminRecord.gamification_role)
+            setGamificationRole(myAdminRecord.gamification_role);
           }
         } else {
-          setIsAdmin(false)
-          setIsSuperAdmin(false)
+          setIsAdmin(false);
+          setIsSuperAdmin(false);
         }
+      } else {
+        throw new Error(`Failed to fetch admin roles: ${roleResponse.status}`);
       }
     } catch (error) {
-      console.error('Error fetching contribution points:', error)
+      console.error('Error fetching contribution points:', error);
     } finally {
-      setContributionLoading(false)
+      setContributionLoading(false);
     }
   }
 
@@ -378,6 +411,14 @@ export default function ProfilePage() {
                 <p className="text-red-600 dark:text-red-400 text-sm">
                   Failed to load stats: {statsError}
                 </p>
+                <Button 
+                  onClick={refreshAllData}
+                  variant="outline" 
+                  size="sm" 
+                  className="mt-2"
+                >
+                  Try Again
+                </Button>
               </div>
             )}
             <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">

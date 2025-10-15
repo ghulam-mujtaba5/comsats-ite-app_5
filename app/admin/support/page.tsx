@@ -201,13 +201,13 @@ export default function AdminSupportPage() {
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 rounded-2xl blur-xl opacity-30 animate-pulse" />
-                    <div className="relative bg-gradient-to-r from-pink-600 to-purple-600 p-3 rounded-2xl">
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl blur-xl opacity-30 animate-pulse" />
+                    <div className="relative bg-gradient-to-r from-cyan-600 to-blue-600 p-3 rounded-2xl">
                       <Heart className="h-8 w-8 text-white" />
                     </div>
                   </div>
                   <div>
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-pink-800 to-purple-800 dark:from-white dark:via-pink-200 dark:to-purple-200 bg-clip-text text-transparent">
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-blue-800 to-cyan-800 dark:from-white dark:via-blue-200 dark:to-cyan-200 bg-clip-text text-transparent">
                       Student Support Management
                     </h1>
                     <p className="text-slate-600 dark:text-slate-300 text-lg">
@@ -241,7 +241,7 @@ export default function AdminSupportPage() {
                   <Eye className="h-4 w-4 mr-2" />
                   Analytics
                 </Button>
-                <Button size="sm" onClick={fetchRequests} className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                <Button size="sm" onClick={fetchRequests} className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Refresh
                 </Button>
@@ -597,7 +597,7 @@ export default function AdminSupportPage() {
                   <Button 
                     onClick={sendResponse} 
                     disabled={!response.trim()}
-                    className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 border-0"
+                    className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 border-0"
                   >
                     <Send className="h-4 w-4 mr-2" />
                     Send Response & Mark Resolved

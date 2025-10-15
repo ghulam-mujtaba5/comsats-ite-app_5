@@ -1,5 +1,4 @@
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/admin-access'
 
@@ -13,24 +12,11 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
     const { id } = await context.params
     const body = await req.json()
 
-    const cookieStore = await (cookies() as any)
-    const supabase = createServerClient(
+    const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value
-          },
-          set(name: string, value: string, options?: any) {
-            cookieStore.set({ name, value, ...options })
-          },
-          remove(name: string, options?: any) {
-            cookieStore.set({ name, value: '', ...options })
-          },
-        },
-      }
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
+    
     const { data, error } = await supabase
       .from('faq_items')
       .update({
@@ -58,24 +44,11 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
     if (!auth.allow) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { id } = await context.params
-    const cookieStore = await (cookies() as any)
-    const supabase = createServerClient(
+    const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value
-          },
-          set(name: string, value: string, options?: any) {
-            cookieStore.set({ name, value, ...options })
-          },
-          remove(name: string, options?: any) {
-            cookieStore.set({ name, value: '', ...options })
-          },
-        },
-      }
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
+    
     const { error } = await supabase
       .from('faq_items')
       .delete()

@@ -188,8 +188,8 @@ export default function AdminReviewsPage() {
                     </Button>
                   </Link>
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-xl opacity-30 animate-pulse" />
-                    <div className="relative bg-gradient-to-r from-purple-600 to-pink-600 p-4 rounded-2xl">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur-xl opacity-30 animate-pulse" />
+                    <div className="relative bg-gradient-to-r from-blue-600 to-indigo-600 p-4 rounded-2xl">
                       <MessageSquare className="h-10 w-10 text-white" />
                     </div>
                   </div>
@@ -324,8 +324,8 @@ export default function AdminReviewsPage() {
             <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
               <div className="space-y-4">
                 <div className="relative mx-auto w-16 h-16">
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl blur-xl opacity-30" />
-                  <div className="relative bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl blur-xl opacity-30" />
+                  <div className="relative bg-gradient-to-r from-blue-500 to-cyan-500 p-4 rounded-2xl">
                     <MessageSquare className="h-8 w-8 text-white" />
                   </div>
                 </div>

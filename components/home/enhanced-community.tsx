@@ -72,14 +72,14 @@ export function EnhancedCommunity() {
       <div className="app-container max-w-6xl mx-auto">
         {/* Header with enhanced styling and proper spacing */}
         <div className="text-center mb-16 md:mb-20">
-          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-purple-600/20 to-pink-600/20 text-purple-700 dark:text-purple-300 border border-purple-600/30">
+          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-blue-600/20 to-indigo-600/20 text-blue-700 dark:text-blue-300 border border-blue-600/30">
             <Flame className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
             Student Community
           </Badge>
           
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-4 sm:mb-6">
             Connect with Your{" "}
-            <span className="bg-gradient-to-r from-purple-700 to-pink-700 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">
               Academic Community
             </span>
           </h2>
@@ -104,8 +104,8 @@ export function EnhancedCommunity() {
                 className="p-4 sm:p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light"
               >
                 <div className="flex justify-center mb-2 sm:mb-3">
-                  <div className="p-2 sm:p-3 rounded-xl bg-purple-500/10">
-                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-purple-500" />
+                  <div className="p-2 sm:p-3 rounded-xl bg-blue-500/10">
+                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />
                   </div>
                 </div>
                 <div className="text-xl sm:text-2xl font-bold text-foreground mb-1">{stat.value}</div>
@@ -234,8 +234,8 @@ export function EnhancedCommunity() {
           >
             <div className="space-y-6">
               <div className="flex justify-center">
-                <div className="relative p-5 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl">
-                  <Users className="h-12 w-12 text-purple-500" />
+                <div className="relative p-5 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-2xl">
+                  <Users className="h-12 w-12 text-blue-500" />
                 </div>
               </div>
               <h3 className="text-2xl md:text-3xl font-bold">Ready to Join the Community?</h3>
@@ -245,7 +245,7 @@ export function EnhancedCommunity() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
                 <Button 
                   size="lg" 
-                  className="text-base px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
+                  className="text-base px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
                   onClick={handleJoinCommunity}
                   asChild
                 >

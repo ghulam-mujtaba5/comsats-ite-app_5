@@ -1,18 +1,59 @@
 import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 
+// Define all possible notification types
+type NotificationType = 
+  // Existing types
+  'like' | 'comment' | 'follow' | 'mention' | 'group_invite' | 'event_reminder' | 'poll_vote' | 'share' | 'reply' | 'reaction' |
+  // Authentication events
+  'user_register' | 'password_reset' | 'password_change' | 'user_login' | 'user_logout' |
+  // Content updates
+  'post_created' | 'post_updated' | 'post_deleted' | 'post_approved' | 'post_rejected' |
+  'resource_uploaded' | 'resource_updated' | 'resource_deleted' | 'resource_approved' | 'resource_rejected' |
+  'blog_created' | 'blog_updated' | 'blog_deleted' | 'blog_published' |
+  'guidance_created' | 'guidance_updated' | 'guidance_deleted' | 'guidance_published' |
+  // Administrative actions
+  'admin_login' | 'admin_grant' | 'admin_revoke' |
+  'content_approve' | 'content_reject' | 'content_delete' |
+  'user_ban' | 'user_unban' | 'user_delete' |
+  'settings_update' | 'permissions_change' |
+  // Support tickets
+  'support_ticket_response' | 'support_ticket_closed' |
+  // Role management
+  'role_assigned' | 'role_removed' |
+  // Review & faculty events
+  'review_submitted' | 'review_approved' | 'review_rejected' | 'review_updated' |
+  'faculty_added' | 'faculty_updated' |
+  // Timetable events
+  'timetable_updated' | 'timetable_added' | 'timetable_deleted' |
+  // Community interactions
+  'group_created' | 'group_joined' | 'group_left' |
+  'poll_created' | 'poll_ended' | 'poll_deleted' |
+  'achievement_unlocked' | 'badge_earned' |
+  // System events
+  'maintenance_scheduled' | 'maintenance_completed' |
+  'new_feature' | 'announcement' |
+  'system_alert' | 'admin_message'
+
+type RelatedType = 
+  // Existing types
+  'post' | 'comment' | 'group' | 'event' | 'poll' | 'reply' |
+  // New types
+  'faculty' | 'review' | 'timetable' | 'resource' | 'blog' | 'guidance' | 
+  'support_ticket' | 'user' | 'lost_found' | 'achievement' | 'badge' | 'admin_action'
+
 export interface Notification {
   id: string
   user_id: string
   actor_id?: string
-  type: 'like' | 'comment' | 'follow' | 'mention' | 'group_invite' | 'event_reminder' | 'poll_vote' | 'share' | 'reply' | 'reaction'
+  type: NotificationType
   title: string
   message: string
   is_read: boolean
   read_at?: string
   created_at: string
-  related_id?: string // ID of the related post, comment, etc.
-  related_type?: 'post' | 'comment' | 'group' | 'event' | 'poll' | 'reply'
+  related_id?: string
+  related_type?: RelatedType
   metadata?: Record<string, any>
 }
 
@@ -36,7 +77,7 @@ export function useNotifications() {
 
       // Fetch notifications
       const { data, error } = await supabase
-        .from('notifications_enhanced')
+        .from('notifications')
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
@@ -75,7 +116,7 @@ export function useNotifications() {
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'notifications_enhanced',
+          table: 'notifications',
         },
         (payload) => {
           const newNotification = payload.new as Notification
@@ -90,7 +131,7 @@ export function useNotifications() {
         {
           event: 'UPDATE',
           schema: 'public',
-          table: 'notifications_enhanced',
+          table: 'notifications',
         },
         (payload) => {
           const updatedNotification = payload.new as Notification
@@ -110,18 +151,33 @@ export function useNotifications() {
           })
         }
       )
+      .on(
+        'postgres_changes',
+        {
+          event: 'DELETE',
+          schema: 'public',
+          table: 'notifications',
+        },
+        (payload) => {
+          const deletedNotification = payload.old as Notification
+          setNotifications((prev) => prev.filter(n => n.id !== deletedNotification.id))
+          if (!deletedNotification.is_read) {
+            setUnreadCount((prev) => Math.max(0, prev - 1))
+          }
+        }
+      )
       .subscribe()
 
     // Cleanup subscription
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [fetchNotifications])
+  }, [fetchNotifications, notifications])
 
   const markAsRead = async (notificationId: string) => {
     try {
       const { error } = await supabase
-        .from('notifications_enhanced')
+        .from('notifications')
         .update({ is_read: true, read_at: new Date().toISOString() })
         .eq('id', notificationId)
 
@@ -143,7 +199,7 @@ export function useNotifications() {
       if (!user) throw new Error('User not authenticated')
 
       const { error } = await supabase
-        .from('notifications_enhanced')
+        .from('notifications')
         .update({ is_read: true, read_at: new Date().toISOString() })
         .eq('user_id', user.id)
         .eq('is_read', false)
@@ -166,7 +222,7 @@ export function useNotifications() {
       const wasUnread = notification && !notification.is_read
       
       const { error } = await supabase
-        .from('notifications_enhanced')
+        .from('notifications')
         .delete()
         .eq('id', notificationId)
 
@@ -184,18 +240,18 @@ export function useNotifications() {
 
   const sendNotification = async (
     userId: string,
-    type: Notification['type'],
+    type: NotificationType,
     title: string,
     message: string,
     relatedId?: string,
-    relatedType?: Notification['related_type'],
+    relatedType?: RelatedType,
     metadata?: Record<string, any>
   ) => {
     try {
       const { data: { user: currentUser } } = await supabase.auth.getUser()
       
       const { error } = await supabase
-        .from('notifications_enhanced')
+        .from('notifications')
         .insert({
           user_id: userId,
           actor_id: currentUser?.id,

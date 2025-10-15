@@ -317,6 +317,16 @@ export default function FacultyPage() {
               Discover and review faculty members. Share your experiences to help fellow students make informed decisions.
             </p>
             
+            {/* Link to dedicated reviews page */}
+            <div className="mb-6">
+              <Button variant="outline" asChild>
+                <Link href="/faculty/reviews">
+                  <Star className="h-4 w-4 mr-2" />
+                  View All Faculty Reviews
+                </Link>
+              </Button>
+            </div>
+            
             {/* Prominent Add Faculty Button - REMOVED to avoid redundancy */}
             <div className="mb-8">
               {/* <AddFacultyDialog /> - Removed to avoid redundancy with the card at the end of the grid */}

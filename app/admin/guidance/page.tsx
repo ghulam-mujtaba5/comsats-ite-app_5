@@ -35,6 +35,7 @@ import {
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
+import { RichTextEditor } from "@/components/community/rich-text-editor"
 
 interface GuideSection {
   id: string
@@ -457,13 +458,11 @@ export default function AdminGuidancePage() {
                           </div>
                           <div>
                             <Label htmlFor="content" className="text-sm font-medium text-slate-700 dark:text-slate-200">Content</Label>
-                            <Textarea
-                              id="content"
+                            <RichTextEditor
                               value={editingGuide.content}
-                              onChange={(e) => setEditingGuide({...editingGuide, content: e.target.value})}
-                              placeholder="Guide content (supports markdown)"
-                              rows={8}
-                              className="glass-input bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 focus:bg-white/70 dark:focus:bg-slate-800/70"
+                              onChange={(content) => setEditingGuide({...editingGuide, content})}
+                              placeholder="Write your guide content here..."
+                              className="min-h-[300px] glass-input bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 focus:bg-white/70 dark:focus:bg-slate-800/70"
                             />
                           </div>
                           <div className="flex items-center space-x-6">
@@ -629,12 +628,11 @@ export default function AdminGuidancePage() {
                     </div>
                     <div>
                       <Label htmlFor="answer">Answer</Label>
-                      <Textarea
-                        id="answer"
+                      <RichTextEditor
                         value={editingFaq.answer}
-                        onChange={(e) => setEditingFaq({...editingFaq, answer: e.target.value})}
-                        placeholder="FAQ answer"
-                        rows={4}
+                        onChange={(answer) => setEditingFaq({...editingFaq, answer})}
+                        placeholder="Write your FAQ answer here..."
+                        className="min-h-[200px]"
                       />
                     </div>
                     <div>

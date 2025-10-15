@@ -388,7 +388,7 @@ export default function AdminDashboardPage() {
               const gradientColors = {
                 "text-blue-600": "from-blue-500/20 to-cyan-500/20",
                 "text-green-600": "from-green-500/20 to-emerald-500/20", 
-                "text-primary": "from-purple-500/20 to-pink-500/20",
+                "text-primary": "from-blue-500/20 to-indigo-500/20",
                 "text-purple-600": "from-purple-500/20 to-violet-500/20",
                 "text-indigo-600": "from-indigo-500/20 to-blue-500/20"
               }[card.color] || "from-slate-500/20 to-gray-500/20"
@@ -410,8 +410,8 @@ export default function AdminDashboardPage() {
                         {card.title}
                       </CardTitle>
                       <div className="relative">
-                        <div className={`absolute inset-0 bg-gradient-to-r ${card.color.includes('blue') ? 'from-blue-600 to-cyan-600' : card.color.includes('green') ? 'from-green-600 to-emerald-600' : card.color.includes('purple') ? 'from-purple-600 to-pink-600' : card.color.includes('indigo') ? 'from-indigo-600 to-blue-600' : 'from-slate-600 to-gray-600'} rounded-xl blur-lg opacity-30 group-hover:opacity-60 transition-opacity duration-300`} />
-                        <div className={`relative p-2 rounded-xl bg-gradient-to-r ${card.color.includes('blue') ? 'from-blue-600 to-cyan-600' : card.color.includes('green') ? 'from-green-600 to-emerald-600' : card.color.includes('purple') ? 'from-purple-600 to-pink-600' : card.color.includes('indigo') ? 'from-indigo-600 to-blue-600' : 'from-slate-600 to-gray-600'} group-hover:scale-110 transition-transform duration-300`}>
+                        <div className={`absolute inset-0 bg-gradient-to-r ${card.color.includes('blue') ? 'from-blue-600 to-cyan-600' : card.color.includes('green') ? 'from-green-600 to-emerald-600' : card.color.includes('purple') ? 'from-indigo-600 to-purple-600' : card.color.includes('indigo') ? 'from-indigo-600 to-blue-600' : 'from-slate-600 to-gray-600'} rounded-xl blur-lg opacity-30 group-hover:opacity-60 transition-opacity duration-300`} />
+                        <div className={`relative p-2 rounded-xl bg-gradient-to-r ${card.color.includes('blue') ? 'from-blue-600 to-cyan-600' : card.color.includes('green') ? 'from-green-600 to-emerald-600' : card.color.includes('purple') ? 'from-indigo-600 to-purple-600' : card.color.includes('indigo') ? 'from-indigo-600 to-blue-600' : 'from-slate-600 to-gray-600'} group-hover:scale-110 transition-transform duration-300`}>
                           <Icon className="h-4 w-4 text-white" />
                         </div>
                       </div>

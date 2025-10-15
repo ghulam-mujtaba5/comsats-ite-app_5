@@ -19,19 +19,36 @@ import {
   AlertTriangle,
   CheckCircle,
   XCircle,
-  X  // Add the missing X import
+  X,
+  Search,
+  Filter
 } from "lucide-react"
 import { toast } from "@/hooks/use-toast"
+import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { useRouter } from "next/navigation"
 
 interface CommunityPost {
   id: string
   content: string
-  author: string
+  author: {
+    id: string
+    name: string
+    avatar: string
+  }
   createdAt: string
   likes: number
   comments: number
   visibility: string
   status: 'active' | 'hidden' | 'deleted'
+  campus: string
+  department: string
 }
 
 interface CommunityUser {
@@ -42,123 +59,306 @@ interface CommunityUser {
   posts: number
   joinDate: string
   status: 'active' | 'suspended' | 'banned'
+  avatar: string
 }
 
 interface CommunityReport {
   id: string
   type: string
   content: string
-  reporter: string
+  reporter: {
+    id: string
+    name: string
+    avatar: string
+  }
   status: 'pending' | 'reviewed' | 'resolved' | 'dismissed'
   createdAt: string
+  targetId: string
 }
 
 export default function CommunityAdminPage() {
+  const router = useRouter()
+  const [authenticated, setAuthenticated] = useState(false)
+  const [loadingAuth, setLoadingAuth] = useState(true)
+  
+  // Check if user is authenticated as admin
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('/api/admin/session')
+        if (res.ok) {
+          const data = await res.json()
+          if (data.ok) {
+            setAuthenticated(true)
+          } else {
+            // Redirect to admin login
+            window.location.href = '/admin/auth'
+          }
+        } else {
+          // Redirect to admin login
+          window.location.href = '/admin/auth'
+        }
+      } catch (error) {
+        // Redirect to admin login
+        window.location.href = '/admin/auth'
+      } finally {
+        setLoadingAuth(false)
+      }
+    }
+    
+    checkAuth()
+  }, [])
+  
+  if (loadingAuth) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        </div>
+      </div>
+    )
+  }
+  
+  if (!authenticated) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-2">Access Denied</h2>
+            <p className="text-muted-foreground mb-4">You must be an administrator to access this page.</p>
+            <Button onClick={() => router.push('/admin/auth')}>Go to Admin Login</Button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  
+  return <CommunityAdminPageContent />
+}
+
+function CommunityAdminPageContent() {
   const [activeTab, setActiveTab] = useState("overview")
   const [posts, setPosts] = useState<CommunityPost[]>([])
   const [users, setUsers] = useState<CommunityUser[]>([])
   const [reports, setReports] = useState<CommunityReport[]>([])
   const [loading, setLoading] = useState(true)
+  const [stats, setStats] = useState({
+    totalPosts: 0,
+    activeUsers: 0,
+    pendingReports: 0,
+    engagementRate: 0
+  })
+  
+  // Search and filter states
+  const [postSearch, setPostSearch] = useState("")
+  const [userSearch, setUserSearch] = useState("")
+  const [reportStatusFilter, setReportStatusFilter] = useState("all")
+  const [postStatusFilter, setPostStatusFilter] = useState("all")
+  const [userStatusFilter, setUserStatusFilter] = useState("all")
 
-  // Mock data for demonstration
+  // Fetch data from API
   useEffect(() => {
-    // In a real app, this would fetch from API
-    const mockPosts: CommunityPost[] = [
-      {
-        id: "1",
-        content: "This is a sample post about campus life...",
-        author: "student123",
-        createdAt: "2025-10-09T10:30:00Z",
-        likes: 24,
-        comments: 8,
-        visibility: "public",
-        status: "active"
-      },
-      {
-        id: "2",
-        content: "Question about upcoming exams...",
-        author: "user456",
-        createdAt: "2025-10-09T09:15:00Z",
-        likes: 12,
-        comments: 15,
-        visibility: "department",
-        status: "active"
+    fetchData()
+  }, [activeTab])
+
+  const fetchData = async () => {
+    setLoading(true)
+    try {
+      if (activeTab === "overview") {
+        // Fetch stats
+        const [postsRes, usersRes, reportsRes] = await Promise.all([
+          fetch('/api/admin/community/posts?limit=100'),
+          fetch('/api/admin/community/users?limit=100'),
+          fetch('/api/admin/community/reports?limit=100')
+        ])
+        
+        const [postsData, usersData, reportsData] = await Promise.all([
+          postsRes.json(),
+          usersRes.json(),
+          reportsRes.json()
+        ])
+        
+        setPosts(postsData)
+        setUsers(usersData)
+        setReports(reportsData)
+        
+        // Calculate stats
+        setStats({
+          totalPosts: postsData.length,
+          activeUsers: usersData.filter((u: any) => u.status === 'active').length,
+          pendingReports: reportsData.filter((r: any) => r.status === 'pending').length,
+          engagementRate: postsData.length > 0 ? Math.min(100, Math.round((reportsData.length / postsData.length) * 100)) : 0
+        })
+      } else if (activeTab === "posts") {
+        const res = await fetch('/api/admin/community/posts?limit=100')
+        const data = await res.json()
+        setPosts(data)
+      } else if (activeTab === "users") {
+        const res = await fetch('/api/admin/community/users?limit=100')
+        const data = await res.json()
+        setUsers(data)
+      } else if (activeTab === "reports") {
+        const res = await fetch('/api/admin/community/reports?limit=100')
+        const data = await res.json()
+        setReports(data)
       }
-    ]
-
-    const mockUsers: CommunityUser[] = [
-      {
-        id: "1",
-        name: "John Doe",
-        email: "john.doe@campus.edu",
-        role: "student",
-        posts: 42,
-        joinDate: "2025-09-15",
-        status: "active"
-      },
-      {
-        id: "2",
-        name: "Jane Smith",
-        email: "jane.smith@campus.edu",
-        role: "student",
-        posts: 28,
-        joinDate: "2025-09-20",
-        status: "suspended"
-      }
-    ]
-
-    const mockReports: CommunityReport[] = [
-      {
-        id: "1",
-        type: "post",
-        content: "Inappropriate content in post...",
-        reporter: "user789",
-        status: "pending",
-        createdAt: "2025-10-09T08:45:00Z"
-      },
-      {
-        id: "2",
-        type: "comment",
-        content: "Harassment in comment...",
-        reporter: "moderator123",
-        status: "reviewed",
-        createdAt: "2025-10-08T14:20:00Z"
-      }
-    ]
-
-    setPosts(mockPosts)
-    setUsers(mockUsers)
-    setReports(mockReports)
-    setLoading(false)
-  }, [])
-
-  const handlePostAction = (postId: string, action: 'hide' | 'delete' | 'restore') => {
-    // In a real app, this would call an API
-    toast({
-      title: `Post ${action}d`,
-      description: `Post ${postId} has been ${action}d`
-    })
+    } catch (error) {
+      console.error("Error fetching data:", error)
+      toast({
+        title: "Error",
+        description: "Failed to fetch data. Please try again.",
+        variant: "destructive"
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const handleUserAction = (userId: string, action: 'suspend' | 'ban' | 'activate') => {
-    // In a real app, this would call an API
-    toast({
-      title: `User ${action}d`,
-      description: `User ${userId} has been ${action}d`
-    })
+  const handlePostAction = async (postId: string, action: 'active' | 'hidden' | 'deleted') => {
+    try {
+      const res = await fetch('/api/admin/community/posts', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+          // Note: Cookies are automatically included in fetch requests
+        },
+        body: JSON.stringify({ postId, status: action })
+      })
+      
+      if (res.ok) {
+        // Update local state
+        setPosts(posts.map(post => 
+          post.id === postId ? { ...post, status: action } : post
+        ))
+        
+        toast({
+          title: "Success",
+          description: `Post ${action} successfully`
+        })
+      } else {
+        const errorData = await res.json()
+        throw new Error(errorData.error || 'Failed to update post')
+      }
+    } catch (error: any) {
+      console.error("Error updating post:", error)
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update post. Please try again.",
+        variant: "destructive"
+      })
+    }
   }
 
-  const handleReportAction = (reportId: string, action: 'resolve' | 'dismiss') => {
-    // In a real app, this would call an API
-    toast({
-      title: `Report ${action}d`,
-      description: `Report ${reportId} has been ${action}d`
-    })
+  const handleUserAction = async (userId: string, action: 'active' | 'suspended' | 'banned') => {
+    try {
+      const res = await fetch('/api/admin/community/users', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId, status: action })
+      })
+      
+      if (res.ok) {
+        // Update local state
+        setUsers(users.map(user => 
+          user.id === userId ? { ...user, status: action } : user
+        ))
+        
+        toast({
+          title: "Success",
+          description: `User ${action} successfully`
+        })
+      } else {
+        const errorData = await res.json()
+        throw new Error(errorData.error || 'Failed to update user')
+      }
+    } catch (error: any) {
+      console.error("Error updating user:", error)
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update user. Please try again.",
+        variant: "destructive"
+      })
+    }
+  }
+
+  const handleReportAction = async (reportId: string, action: 'resolved' | 'dismissed') => {
+    try {
+      const res = await fetch('/api/admin/community/reports', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ reportId, status: action })
+      })
+      
+      if (res.ok) {
+        // Update local state
+        setReports(reports.map(report => 
+          report.id === reportId ? { ...report, status: action } : report
+        ))
+        
+        // Update stats if on overview tab
+        if (activeTab === "overview") {
+          setStats({
+            ...stats,
+            pendingReports: stats.pendingReports - 1
+          })
+        }
+        
+        toast({
+          title: "Success",
+          description: `Report ${action} successfully`
+        })
+      } else {
+        const errorData = await res.json()
+        throw new Error(errorData.error || 'Failed to update report')
+      }
+    } catch (error: any) {
+      console.error("Error updating report:", error)
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update report. Please try again.",
+        variant: "destructive"
+      })
+    }
+  }
+
+  // Filter posts based on search and status
+  const filteredPosts = posts.filter(post => {
+    const matchesSearch = post.content.toLowerCase().includes(postSearch.toLowerCase()) || 
+                          post.author.name.toLowerCase().includes(postSearch.toLowerCase())
+    const matchesStatus = postStatusFilter === "all" || post.status === postStatusFilter
+    return matchesSearch && matchesStatus
+  })
+
+  // Filter users based on search and status
+  const filteredUsers = users.filter(user => {
+    const matchesSearch = user.name.toLowerCase().includes(userSearch.toLowerCase()) || 
+                          user.email.toLowerCase().includes(userSearch.toLowerCase())
+    const matchesStatus = userStatusFilter === "all" || user.status === userStatusFilter
+    return matchesSearch && matchesStatus
+  })
+
+  // Filter reports based on status
+  const filteredReports = reports.filter(report => {
+    return reportStatusFilter === "all" || report.status === reportStatusFilter
+  })
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        </div>
+      </div>
+    )
   }
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div>
+      <div className="mb-8">
         <h1 className="text-3xl font-bold">Community Management</h1>
         <p className="text-muted-foreground">
           Manage posts, users, and reports in the community platform
@@ -197,7 +397,7 @@ export default function CommunityAdminPage() {
                 <MessageSquare className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">1,234</div>
+                <div className="text-2xl font-bold">{stats.totalPosts}</div>
                 <p className="text-xs text-muted-foreground">+12% from last month</p>
               </CardContent>
             </Card>
@@ -208,7 +408,7 @@ export default function CommunityAdminPage() {
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">856</div>
+                <div className="text-2xl font-bold">{stats.activeUsers}</div>
                 <p className="text-xs text-muted-foreground">+5% from last month</p>
               </CardContent>
             </Card>
@@ -219,7 +419,7 @@ export default function CommunityAdminPage() {
                 <Flag className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">24</div>
+                <div className="text-2xl font-bold">{stats.pendingReports}</div>
                 <p className="text-xs text-muted-foreground">-3 from yesterday</p>
               </CardContent>
             </Card>
@@ -230,7 +430,7 @@ export default function CommunityAdminPage() {
                 <BarChart3 className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">68%</div>
+                <div className="text-2xl font-bold">{stats.engagementRate}%</div>
                 <p className="text-xs text-muted-foreground">+2% from last month</p>
               </CardContent>
             </Card>
@@ -247,7 +447,7 @@ export default function CommunityAdminPage() {
                   {posts.slice(0, 3).map((post) => (
                     <div key={post.id} className="flex items-start gap-3">
                       <div className="flex-1 space-y-1">
-                        <p className="text-sm font-medium">{post.author}</p>
+                        <p className="text-sm font-medium">{post.author.name}</p>
                         <p className="text-sm text-muted-foreground line-clamp-2">
                           {post.content}
                         </p>
@@ -275,7 +475,7 @@ export default function CommunityAdminPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {reports.filter(r => r.status === 'pending').map((report) => (
+                  {reports.filter(r => r.status === 'pending').slice(0, 3).map((report) => (
                     <div key={report.id} className="flex items-start gap-3">
                       <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5" />
                       <div className="flex-1 space-y-1">
@@ -284,16 +484,24 @@ export default function CommunityAdminPage() {
                           {report.content}
                         </p>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <span>Reported by {report.reporter}</span>
+                          <span>Reported by {report.reporter.name}</span>
                           <span>•</span>
                           <span>{new Date(report.createdAt).toLocaleDateString()}</span>
                         </div>
                       </div>
                       <div className="flex gap-1">
-                        <Button variant="ghost" size="sm">
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => handleReportAction(report.id, 'resolved')}
+                        >
                           <CheckCircle className="h-4 w-4 text-green-500" />
                         </Button>
-                        <Button variant="ghost" size="sm">
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => handleReportAction(report.id, 'dismissed')}
+                        >
                           <XCircle className="h-4 w-4 text-red-500" />
                         </Button>
                       </div>
@@ -312,12 +520,38 @@ export default function CommunityAdminPage() {
               <CardDescription>Manage all posts in the community</CardDescription>
             </CardHeader>
             <CardContent>
+              {/* Search and Filter */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input
+                    placeholder="Search posts..."
+                    value={postSearch}
+                    onChange={(e) => setPostSearch(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                <div className="w-full sm:w-40">
+                  <Select value={postStatusFilter} onValueChange={setPostStatusFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Statuses</SelectItem>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="hidden">Hidden</SelectItem>
+                      <SelectItem value="deleted">Deleted</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              
               <div className="space-y-4">
-                {posts.map((post) => (
+                {filteredPosts.map((post) => (
                   <div key={post.id} className="flex items-start gap-3 p-4 rounded-lg border">
                     <div className="flex-1 space-y-2">
                       <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium">{post.author}</p>
+                        <p className="text-sm font-medium">{post.author.name}</p>
                         <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
                           post.status === 'active' 
                             ? 'bg-green-100 text-green-800' 
@@ -338,6 +572,8 @@ export default function CommunityAdminPage() {
                         <span>{post.likes} likes</span>
                         <span>{post.comments} comments</span>
                         <span>Visibility: {post.visibility}</span>
+                        <span>Campus: {post.campus}</span>
+                        <span>Department: {post.department}</span>
                       </div>
                     </div>
                     <div className="flex gap-1">
@@ -345,7 +581,7 @@ export default function CommunityAdminPage() {
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          onClick={() => handlePostAction(post.id, 'hide')}
+                          onClick={() => handlePostAction(post.id, 'hidden')}
                         >
                           <EyeOff className="h-4 w-4" />
                         </Button>
@@ -353,7 +589,7 @@ export default function CommunityAdminPage() {
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          onClick={() => handlePostAction(post.id, 'restore')}
+                          onClick={() => handlePostAction(post.id, 'active')}
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
@@ -361,7 +597,7 @@ export default function CommunityAdminPage() {
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        onClick={() => handlePostAction(post.id, 'delete')}
+                        onClick={() => handlePostAction(post.id, 'deleted')}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -380,8 +616,34 @@ export default function CommunityAdminPage() {
               <CardDescription>Manage user accounts and permissions</CardDescription>
             </CardHeader>
             <CardContent>
+              {/* Search and Filter */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input
+                    placeholder="Search users..."
+                    value={userSearch}
+                    onChange={(e) => setUserSearch(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                <div className="w-full sm:w-40">
+                  <Select value={userStatusFilter} onValueChange={setUserStatusFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Statuses</SelectItem>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="suspended">Suspended</SelectItem>
+                      <SelectItem value="banned">Banned</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              
               <div className="space-y-4">
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                   <div key={user.id} className="flex items-center gap-3 p-4 rounded-lg border">
                     <div className="flex-1 space-y-1">
                       <div className="flex items-center gap-2">
@@ -400,7 +662,7 @@ export default function CommunityAdminPage() {
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
                         <span>Role: {user.role}</span>
                         <span>{user.posts} posts</span>
-                        <span>Joined: {user.joinDate}</span>
+                        <span>Joined: {new Date(user.joinDate).toLocaleDateString()}</span>
                       </div>
                     </div>
                     <div className="flex gap-1">
@@ -408,7 +670,7 @@ export default function CommunityAdminPage() {
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          onClick={() => handleUserAction(user.id, 'suspend')}
+                          onClick={() => handleUserAction(user.id, 'suspended')}
                         >
                           <Lock className="h-4 w-4" />
                         </Button>
@@ -416,7 +678,7 @@ export default function CommunityAdminPage() {
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          onClick={() => handleUserAction(user.id, 'activate')}
+                          onClick={() => handleUserAction(user.id, 'active')}
                         >
                           <Unlock className="h-4 w-4" />
                         </Button>
@@ -424,7 +686,7 @@ export default function CommunityAdminPage() {
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          onClick={() => handleUserAction(user.id, 'activate')}
+                          onClick={() => handleUserAction(user.id, 'active')}
                         >
                           <Unlock className="h-4 w-4" />
                         </Button>
@@ -433,7 +695,7 @@ export default function CommunityAdminPage() {
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          onClick={() => handleUserAction(user.id, 'ban')}
+                          onClick={() => handleUserAction(user.id, 'banned')}
                         >
                           <Shield className="h-4 w-4" />
                         </Button>
@@ -453,8 +715,26 @@ export default function CommunityAdminPage() {
               <CardDescription>Review and resolve user reports</CardDescription>
             </CardHeader>
             <CardContent>
+              {/* Filter */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                <div className="w-full sm:w-40">
+                  <Select value={reportStatusFilter} onValueChange={setReportStatusFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Statuses</SelectItem>
+                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="reviewed">Reviewed</SelectItem>
+                      <SelectItem value="resolved">Resolved</SelectItem>
+                      <SelectItem value="dismissed">Dismissed</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              
               <div className="space-y-4">
-                {reports.map((report) => (
+                {filteredReports.map((report) => (
                   <div key={report.id} className="flex items-start gap-3 p-4 rounded-lg border">
                     <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5" />
                     <div className="flex-1 space-y-2">
@@ -476,7 +756,7 @@ export default function CommunityAdminPage() {
                         {report.content}
                       </p>
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                        <span>Reported by {report.reporter}</span>
+                        <span>Reported by {report.reporter.name}</span>
                         <span>{new Date(report.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
@@ -484,14 +764,14 @@ export default function CommunityAdminPage() {
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        onClick={() => handleReportAction(report.id, 'resolve')}
+                        onClick={() => handleReportAction(report.id, 'resolved')}
                       >
                         <CheckCircle className="h-4 w-4 text-green-500" />
                       </Button>
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        onClick={() => handleReportAction(report.id, 'dismiss')}
+                        onClick={() => handleReportAction(report.id, 'dismissed')}
                       >
                         <XCircle className="h-4 w-4 text-red-500" />
                       </Button>
@@ -568,7 +848,7 @@ export default function CommunityAdminPage() {
                     >
                       {word}
                       <button className="text-muted-foreground hover:text-foreground">
-                        <X className="h-3 w-3" /> {/* Fixed the X reference error */}
+                        <X className="h-3 w-3" />
                       </button>
                     </span>
                   ))}

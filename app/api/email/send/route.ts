@@ -7,7 +7,16 @@ import {
   sendLikeNotificationEmail,
   sendWelcomeEmail,
   sendResourceApprovedEmail,
-  sendWeeklyDigestEmail 
+  sendWeeklyDigestEmail,
+  sendUserRegisterEmail,
+  sendPasswordResetEmail,
+  sendPasswordChangeEmail,
+  sendReviewSubmittedEmail,
+  sendReviewApprovedEmail,
+  sendTimetableUpdatedEmail,
+  sendAchievementUnlockedEmail,
+  sendMaintenanceScheduledEmail,
+  sendNewFeatureEmail
 } from '@/lib/resend-email'
 
 const headers = {
@@ -129,9 +138,100 @@ export async function POST(req: NextRequest) {
         )
         break
 
+      case 'user_register':
+        result = await sendUserRegisterEmail(
+          user.email,
+          user.full_name || 'Student'
+        )
+        break
+
+      case 'password_reset':
+        result = await sendPasswordResetEmail(
+          user.email,
+          user.full_name || 'Student'
+        )
+        break
+
+      case 'password_change':
+        result = await sendPasswordChangeEmail(
+          user.email,
+          user.full_name || 'Student'
+        )
+        break
+
+      case 'review_submitted':
+        if (!data?.facultyName) {
+          return NextResponse.json({ error: 'facultyName required' }, { status: 400, headers })
+        }
+        result = await sendReviewSubmittedEmail(
+          user.email,
+          user.full_name || 'Student',
+          data.facultyName
+        )
+        break
+
+      case 'review_approved':
+        if (!data?.facultyName) {
+          return NextResponse.json({ error: 'facultyName required' }, { status: 400, headers })
+        }
+        result = await sendReviewApprovedEmail(
+          user.email,
+          user.full_name || 'Student',
+          data.facultyName
+        )
+        break
+
+      case 'timetable_updated':
+        if (!data?.department || !data?.term) {
+          return NextResponse.json({ error: 'department and term required' }, { status: 400, headers })
+        }
+        result = await sendTimetableUpdatedEmail(
+          user.email,
+          user.full_name || 'Student',
+          data.department,
+          data.term
+        )
+        break
+
+      case 'achievement_unlocked':
+        if (!data?.achievementTitle || !data?.points) {
+          return NextResponse.json({ error: 'achievementTitle and points required' }, { status: 400, headers })
+        }
+        result = await sendAchievementUnlockedEmail(
+          user.email,
+          user.full_name || 'Student',
+          data.achievementTitle,
+          data.points
+        )
+        break
+
+      case 'maintenance_scheduled':
+        if (!data?.startTime || !data?.endTime) {
+          return NextResponse.json({ error: 'startTime and endTime required' }, { status: 400, headers })
+        }
+        result = await sendMaintenanceScheduledEmail(
+          user.email,
+          user.full_name || 'Student',
+          data.startTime,
+          data.endTime
+        )
+        break
+
+      case 'new_feature':
+        if (!data?.featureName || !data?.description) {
+          return NextResponse.json({ error: 'featureName and description required' }, { status: 400, headers })
+        }
+        result = await sendNewFeatureEmail(
+          user.email,
+          user.full_name || 'Student',
+          data.featureName,
+          data.description
+        )
+        break
+
       default:
         return NextResponse.json({ 
-          error: 'Invalid type. Valid types: achievement, comment, like, welcome, resource_approved, weekly_digest' 
+          error: 'Invalid type. Valid types: achievement, comment, like, welcome, resource_approved, weekly_digest, user_register, password_reset, password_change, review_submitted, review_approved, timetable_updated, achievement_unlocked, maintenance_scheduled, new_feature' 
         }, { status: 400, headers })
     }
 
@@ -210,6 +310,52 @@ export async function GET(req: NextRequest) {
       weekly_digest: true,
       resource_updates: true,
       community_updates: true,
+      user_register: true,
+      password_reset: true,
+      password_change: true,
+      post_created: true,
+      post_updated: false,
+      post_deleted: false,
+      resource_uploaded: true,
+      resource_updated: false,
+      resource_deleted: false,
+      blog_created: true,
+      blog_updated: false,
+      blog_deleted: false,
+      guidance_created: true,
+      guidance_updated: false,
+      guidance_deleted: false,
+      admin_login: false,
+      admin_grant: true,
+      admin_revoke: true,
+      content_approve: true,
+      content_reject: true,
+      user_ban: true,
+      user_unban: false,
+      user_delete: false,
+      settings_update: false,
+      permissions_change: false,
+      review_submitted: true,
+      review_approved: true,
+      review_rejected: true,
+      review_updated: false,
+      faculty_added: true,
+      faculty_updated: false,
+      timetable_updated: true,
+      timetable_added: true,
+      timetable_deleted: false,
+      group_created: true,
+      group_joined: true,
+      group_left: false,
+      poll_created: true,
+      poll_ended: true,
+      poll_deleted: false,
+      achievement_unlocked: true,
+      badge_earned: true,
+      maintenance_scheduled: true,
+      maintenance_completed: true,
+      new_feature: true,
+      announcement: true
     }
 
     return NextResponse.json({ 

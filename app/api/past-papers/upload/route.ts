@@ -3,6 +3,7 @@ import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 import { revalidatePath } from "next/cache"
+import { checkAndUnlockAchievements } from '@/lib/gamification-achievements'
 import { rateLimit, RateLimitPresets, getRateLimitHeaders } from "@/lib/rate-limit"
 import { pastPaperUploadSchema, validateData, fileUploadSchema } from "@/lib/validation"
 import { Errors, formatErrorResponse, logError } from "@/lib/errors"
@@ -229,6 +230,36 @@ export async function POST(req: NextRequest) {
       // If DB insert fails, try to delete the uploaded file
       if (filePath) await supabaseAdmin.storage.from(BUCKET).remove([filePath])
       return NextResponse.json({ error: "Failed to save paper data" }, { status: 500 })
+    }
+
+    // Update user stats and check for achievements
+    try {
+      // First, get current stats
+      const { data: currentStats, error: fetchError } = await supabaseAdmin
+        .from('user_stats')
+        .select('papers_uploaded, total_points')
+        .eq('user_id', user.id)
+        .single()
+
+      if (!fetchError && currentStats) {
+        // Update stats with incremented values
+        const { error: statsError } = await supabaseAdmin
+          .from('user_stats')
+          .update({ 
+            papers_uploaded: currentStats.papers_uploaded + 1,
+            total_points: currentStats.total_points + 50
+          })
+          .eq('user_id', user.id)
+
+        if (statsError) {
+          console.error('Error updating user stats:', statsError)
+        } else {
+          // Check for new achievements
+          await checkAndUnlockAchievements(supabaseAdmin, user.id)
+        }
+      }
+    } catch (statsError) {
+      console.error('Error updating user stats:', statsError)
     }
 
     // Log audit trail

@@ -33,7 +33,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/timetable", changeFrequency: "weekly", priority: 0.7 },
     { path: "/timetables", changeFrequency: "weekly", priority: 0.7 },
     { path: "/community", changeFrequency: "weekly", priority: 0.6 },
-    { path: "/faculty", changeFrequency: "monthly", priority: 0.6 },
+    { path: "/faculty", changeFrequency: "weekly", priority: 0.7 },
+    { path: "/faculty/reviews", changeFrequency: "weekly", priority: 0.7 }, // Added faculty reviews page
     { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
     { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
     { path: "/legal", changeFrequency: "yearly", priority: 0.3 },
@@ -41,6 +42,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/legal/terms-of-service", changeFrequency: "yearly", priority: 0.3 },
     { path: "/report-issue", changeFrequency: "yearly", priority: 0.3 },
     { path: "/lost-found", changeFrequency: "monthly", priority: 0.4 },
+    // Admissions module pages
+    { path: "/admissions", changeFrequency: "weekly", priority: 0.7 },
+    { path: "/admissions#mentors", changeFrequency: "weekly", priority: 0.6 },
+    { path: "/admissions#resources", changeFrequency: "weekly", priority: 0.6 },
+    { path: "/admissions#prep", changeFrequency: "weekly", priority: 0.6 },
   ]
 
   // Helper that resolves a route object for sitemap
@@ -151,6 +157,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             entries.push(toEntry(`/community/post/${p.id}`, now, 'weekly', 0.5))
           } catch (e) {
             console.warn(`[sitemap] Invalid post entry`, p)
+          }
+        })
+      }
+
+      // MENTORS (admissions module)
+      const mentors = await safeFetch('mentors', `${siteUrl}/api/admissions/mentors`)
+      if (mentors?.mentors) {
+        mentors.mentors.slice(0, 100).forEach((m: any) => {
+          if (!m?.id) return
+          try {
+            entries.push(toEntry(`/admissions/mentor/${m.id}`, now, 'monthly', 0.5))
+          } catch (e) {
+            console.warn(`[sitemap] Invalid mentor entry`, m)
           }
         })
       }

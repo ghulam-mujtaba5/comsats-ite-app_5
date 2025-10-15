@@ -217,7 +217,7 @@ export const TEAM_ROLES: TeamRole[] = [
     requiredLevel: 9,
     requiredPoints: 15000,
     requiredBadges: ['community-leader', 'top-10'],
-    perks: ['Ambassador badge', 'Event hosting', 'Official swag', 'Monthly stipend'],
+    perks: ['Ambassador badge', 'Event hosting', 'Official swag'],
     color: 'yellow'
   }
 ]

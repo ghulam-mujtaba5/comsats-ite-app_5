@@ -21,7 +21,8 @@ import {
   BookOpen,
   Dumbbell,
   Palette,
-  Gamepad2
+  Gamepad2,
+  Target
 } from "lucide-react"
 
 // Define emotional states and responses
@@ -62,204 +63,204 @@ export function EmotionalResponseSystem() {
   const emotionalResponses: EmotionalResponse[] = [
     {
       state: 'happy',
-      message: 'You\'re feeling great today! Keep that positive energy going.',
+      message: 'Feeling great today!',
       icon: Smile,
       color: 'text-yellow-500',
       backgroundColor: 'bg-yellow-50 dark:bg-yellow-900/20',
       suggestions: [
-        'Share your positive energy with others',
-        'Try helping a classmate with their studies',
-        'Celebrate your recent achievements'
+        'Share your energy',
+        'Help a classmate',
+        'Celebrate achievements'
       ],
       activities: [
         {
           title: 'Spread Joy',
           icon: Heart,
-          description: 'Send a kind message to a friend'
+          description: 'Send a kind message'
         },
         {
           title: 'Creative Outlet',
           icon: Palette,
-          description: 'Express yourself through art or writing'
+          description: 'Express yourself'
         },
         {
-          title: 'Social Connection',
+          title: 'Socialize',
           icon: Gamepad2,
-          description: 'Connect with friends or community'
+          description: 'Connect with friends'
         }
       ]
     },
     {
       state: 'sad',
-      message: 'We noticed you might be feeling down. Remember, it\'s okay to feel this way.',
+      message: 'Feeling down? It\'s okay.',
       icon: Frown,
       color: 'text-blue-500',
       backgroundColor: 'bg-blue-50 dark:bg-blue-900/20',
       suggestions: [
-        'Take a break and do something you enjoy',
-        'Reach out to a friend or counselor',
-        'Practice self-compassion and be kind to yourself'
+        'Take a break',
+        'Reach out',
+        'Be kind to yourself'
       ],
       activities: [
         {
-          title: 'Mindful Breathing',
+          title: 'Breathe',
           icon: Wind,
-          description: 'Take 5 minutes for deep breathing'
+          description: 'Deep breathing'
         },
         {
-          title: 'Listen to Music',
+          title: 'Listen',
           icon: Music,
-          description: 'Play your favorite uplifting songs'
+          description: 'Uplifting songs'
         },
         {
-          title: 'Journaling',
+          title: 'Write',
           icon: BookOpen,
-          description: 'Write down your thoughts and feelings'
+          description: 'Journal thoughts'
         }
       ]
     },
     {
       state: 'stressed',
-      message: 'Feeling overwhelmed? Let\'s find ways to help you feel more balanced.',
+      message: 'Feeling overwhelmed?',
       icon: CloudRain,
       color: 'text-purple-500',
       backgroundColor: 'bg-purple-50 dark:bg-purple-900/20',
       suggestions: [
-        'Take regular breaks during study sessions',
-        'Practice time management techniques',
-        'Prioritize tasks and focus on what\'s most important'
+        'Take breaks',
+        'Manage time',
+        'Focus on priorities'
       ],
       activities: [
         {
-          title: 'Progressive Relaxation',
+          title: 'Relax',
           icon: Moon,
-          description: 'Tense and release muscle groups'
+          description: 'Muscle relaxation'
         },
         {
-          title: 'Take a Walk',
+          title: 'Walk',
           icon: Coffee,
-          description: 'Get some fresh air and movement'
+          description: 'Fresh air'
         },
         {
-          title: 'Organize Tasks',
+          title: 'Organize',
           icon: BookOpen,
-          description: 'Break down large tasks into smaller steps'
+          description: 'Break tasks down'
         }
       ]
     },
     {
       state: 'calm',
-      message: 'You\'re in a peaceful state of mind. This is a great time for reflection.',
+      message: 'Peaceful state of mind.',
       icon: Cloud,
       color: 'text-green-500',
       backgroundColor: 'bg-green-50 dark:bg-green-900/20',
       suggestions: [
-        'Use this calm state for deep focus work',
-        'Practice gratitude for the present moment',
-        'Engage in mindful activities'
+        'Deep focus work',
+        'Practice gratitude',
+        'Mindful activities'
       ],
       activities: [
         {
-          title: 'Meditation',
+          title: 'Meditate',
           icon: Moon,
-          description: 'Spend time in quiet reflection'
+          description: 'Quiet reflection'
         },
         {
-          title: 'Reading',
+          title: 'Read',
           icon: BookOpen,
-          description: 'Dive into an inspiring book'
+          description: 'Inspiring book'
         },
         {
-          title: 'Nature Connection',
+          title: 'Nature',
           icon: Sun,
-          description: 'Spend time outdoors'
+          description: 'Time outdoors'
         }
       ]
     },
     {
       state: 'focused',
-      message: 'Your concentration is sharp! This is the perfect time for intensive study.',
+      message: 'Sharp concentration!',
       icon: Target,
       color: 'text-indigo-500',
       backgroundColor: 'bg-indigo-50 dark:bg-indigo-900/20',
       suggestions: [
-        'Tackle your most challenging assignments now',
-        'Minimize distractions to maintain this focus',
-        'Take advantage of your productive state'
+        'Tackle challenges',
+        'Minimize distractions',
+        'Use productive state'
       ],
       activities: [
         {
-          title: 'Deep Work Session',
+          title: 'Deep Work',
           icon: Zap,
-          description: 'Work on complex problems'
+          description: 'Complex problems'
         },
         {
-          title: 'Skill Practice',
+          title: 'Practice',
           icon: Dumbbell,
-          description: 'Practice a difficult skill'
+          description: 'Difficult skill'
         },
         {
-          title: 'Research Project',
+          title: 'Research',
           icon: BookOpen,
-          description: 'Dive into detailed research'
+          description: 'Detailed research'
         }
       ]
     },
     {
       state: 'tired',
-      message: 'Feeling fatigued? Your body and mind need some rest and rejuvenation.',
+      message: 'Need some rest.',
       icon: Moon,
       color: 'text-gray-500',
       backgroundColor: 'bg-gray-50 dark:bg-gray-900/20',
       suggestions: [
-        'Take a short nap if possible',
-        'Stay hydrated and have a healthy snack',
-        'Consider rescheduling demanding tasks for later'
+        'Take a nap',
+        'Stay hydrated',
+        'Reschedule tasks'
       ],
       activities: [
         {
           title: 'Power Nap',
           icon: Moon,
-          description: '20-minute restorative nap'
+          description: '20-minute rest'
         },
         {
-          title: 'Hydration Break',
+          title: 'Hydrate',
           icon: Coffee,
-          description: 'Drink water and refresh yourself'
+          description: 'Drink water'
         },
         {
-          title: 'Light Movement',
+          title: 'Stretch',
           icon: Wind,
-          description: 'Gentle stretching or walking'
+          description: 'Gentle movement'
         }
       ]
     },
     {
       state: 'energized',
-      message: 'You\'re buzzing with energy! Channel this into productive activities.',
+      message: 'Buzzing with energy!',
       icon: Zap,
       color: 'text-orange-500',
       backgroundColor: 'bg-orange-50 dark:bg-orange-900/20',
       suggestions: [
-        'Use this energy for physical activities',
-        'Tackle tasks that require enthusiasm',
-        'Share your energy with group projects'
+        'Physical activity',
+        'Tackle tasks',
+        'Share energy'
       ],
       activities: [
         {
-          title: 'Physical Activity',
+          title: 'Exercise',
           icon: Dumbbell,
-          description: 'Exercise or sports'
+          description: 'Sports activity'
         },
         {
-          title: 'Creative Project',
+          title: 'Create',
           icon: Palette,
-          description: 'Start a creative endeavor'
+          description: 'Creative project'
         },
         {
-          title: 'Social Engagement',
+          title: 'Connect',
           icon: Gamepad2,
-          description: 'Connect with others'
+          description: 'Social engagement'
         }
       ]
     }
@@ -275,10 +276,10 @@ export function EmotionalResponseSystem() {
         setIsVisible(true)
         setLastNotifiedEmotion(emotionState.mood)
         
-        // Auto-hide after 10 seconds
+        // Auto-hide after 8 seconds
         const timer = setTimeout(() => {
           setIsVisible(false)
-        }, 10000)
+        }, 8000)
         
         return () => clearTimeout(timer)
       }
@@ -292,45 +293,43 @@ export function EmotionalResponseSystem() {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, x: 300 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: 300 }}
-        className="fixed bottom-4 right-4 z-50 max-w-sm w-full"
+        initial={{ opacity: 0, x: 300, scale: 0.9 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
+        exit={{ opacity: 0, x: 300, scale: 0.9 }}
+        transition={{ type: "spring", damping: 20, stiffness: 300 }}
+        className="fixed bottom-4 right-4 z-50 max-w-xs w-full"
       >
-        <div className={`${currentResponse.backgroundColor} rounded-2xl p-6 shadow-xl border border-white/20 backdrop-blur-xl`}>
-          <div className="flex items-start gap-4">
-            <div className={`flex-shrink-0 p-3 rounded-full ${currentResponse.backgroundColor.replace('bg-', 'bg-').replace('50', '200').replace('900/20', '800/30')}`}>
-              <IconComponent className={`w-6 h-6 ${currentResponse.color}`} />
+        <div className={`${currentResponse.backgroundColor} rounded-2xl p-5 shadow-2xl border border-white/30 backdrop-blur-xl glass-card`}>
+          <div className="flex items-start gap-3">
+            <div className={`flex-shrink-0 p-2.5 rounded-full ${currentResponse.backgroundColor.replace('bg-', 'bg-').replace('50', '200').replace('900/20', '800/30')}`}>
+              <IconComponent className={`w-5 h-5 ${currentResponse.color}`} />
             </div>
             
             <div className="flex-1">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+              <h3 className="font-bold text-gray-900 dark:text-white text-sm mb-1">
                 Emotional Check-in
               </h3>
               
-              <p className="text-gray-700 dark:text-gray-300 text-sm mb-4">
+              <p className="text-gray-700 dark:text-gray-300 text-xs mb-3">
                 {currentResponse.message}
               </p>
               
-              <div className="mb-4">
-                <h4 className="font-medium text-gray-900 dark:text-white text-sm mb-2">
-                  Suggestions:
-                </h4>
-                <ul className="space-y-1">
+              <div className="mb-3">
+                <div className="flex flex-wrap gap-1 mb-2">
                   {currentResponse.suggestions.map((suggestion, index) => (
-                    <li key={index} className="flex items-start gap-2 text-gray-600 dark:text-gray-400 text-sm">
-                      <Sparkles className="w-4 h-4 flex-shrink-0 mt-0.5 text-yellow-500" />
-                      <span>{suggestion}</span>
-                    </li>
+                    <span 
+                      key={index} 
+                      className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full bg-white/50 dark:bg-white/20 text-gray-700 dark:text-gray-300"
+                    >
+                      <Sparkles className="w-3 h-3 text-yellow-500" />
+                      {suggestion}
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
               
               <div>
-                <h4 className="font-medium text-gray-900 dark:text-white text-sm mb-2">
-                  Activities:
-                </h4>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-1.5">
                   {currentResponse.activities.map((activity, index) => {
                     const ActivityIcon = activity.icon
                     return (
@@ -341,10 +340,10 @@ export function EmotionalResponseSystem() {
                           console.log('Activity selected:', activity.title)
                           setIsVisible(false)
                         }}
-                        className="flex flex-col items-center gap-1 p-2 rounded-lg bg-white/50 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 transition-colors"
+                        className="flex flex-col items-center gap-1 p-2 rounded-lg bg-white/50 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 transition-all duration-200"
                       >
                         <ActivityIcon className="w-4 h-4 text-gray-700 dark:text-gray-300" />
-                        <span className="text-xs text-gray-700 dark:text-gray-300 text-center">
+                        <span className="text-[10px] text-gray-700 dark:text-gray-300 text-center leading-tight">
                           {activity.title}
                         </span>
                       </button>
@@ -353,10 +352,10 @@ export function EmotionalResponseSystem() {
                 </div>
               </div>
               
-              <div className="flex justify-end mt-4">
+              <div className="flex justify-end mt-3">
                 <button
                   onClick={() => setIsVisible(false)}
-                  className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                  className="text-[10px] text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                 >
                   Dismiss
                 </button>
@@ -426,6 +425,3 @@ export function useEmotionalResponses() {
     currentEmotion: emotionState.mood
   }
 }
-
-// Import Target icon for the focused state
-import { Target } from "lucide-react"

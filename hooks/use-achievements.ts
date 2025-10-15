@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 
 export interface Achievement {
@@ -35,46 +35,56 @@ export function useAchievements() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    const fetchAchievements = async () => {
-      try {
-        setLoading(true)
-        
-        // Fetch all achievements via API
-        const achievementsRes = await fetch('/api/gamification/achievements')
-        const achievementsJson = await achievementsRes.json()
-        
-        if (!achievementsRes.ok) throw new Error(achievementsJson.error || 'Failed to fetch achievements')
-        
-        setAchievements(achievementsJson.achievements || [])
+  const fetchAchievements = useCallback(async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      
+      // Fetch all achievements via API
+      const achievementsRes = await fetch('/api/gamification/achievements')
+      const achievementsJson = await achievementsRes.json()
+      
+      if (!achievementsRes.ok) throw new Error(achievementsJson.error || 'Failed to fetch achievements')
+      
+      setAchievements(achievementsJson.achievements || [])
 
-        // Fetch user achievements via API
-        const { data: { user } } = await supabase.auth.getUser()
-        if (user) {
-          const userAchievementsRes = await fetch('/api/gamification/unlock')
-          const userAchievementsJson = await userAchievementsRes.json()
-          
-          if (userAchievementsRes.ok) {
-            setUserAchievements(userAchievementsJson.achievements || [])
-          }
-        }
-
-        // Fetch leaderboard via API
-        const leaderboardRes = await fetch('/api/gamification/leaderboard?limit=50')
-        const leaderboardJson = await leaderboardRes.json()
+      // Fetch user achievements via API
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const userAchievementsRes = await fetch('/api/gamification/unlock')
+        const userAchievementsJson = await userAchievementsRes.json()
         
-        if (leaderboardRes.ok) {
-          setLeaderboard(leaderboardJson.leaderboard || [])
+        if (userAchievementsRes.ok) {
+          setUserAchievements(userAchievementsJson.achievements || [])
         }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch achievements')
-      } finally {
-        setLoading(false)
       }
-    }
 
-    fetchAchievements()
+      // Fetch leaderboard via API
+      const leaderboardRes = await fetch('/api/gamification/leaderboard?limit=50')
+      const leaderboardJson = await leaderboardRes.json()
+      
+      if (leaderboardRes.ok) {
+        setLeaderboard(leaderboardJson.leaderboard || [])
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch achievements')
+    } finally {
+      setLoading(false)
+    }
   }, [])
+
+  useEffect(() => {
+    fetchAchievements()
+  }, [fetchAchievements])
+
+  // Add polling to refresh data periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchAchievements()
+    }, 5 * 60 * 1000) // 5 minutes
+    
+    return () => clearInterval(interval)
+  }, [fetchAchievements])
 
   const unlockAchievement = async (achievementId: string) => {
     try {
@@ -183,5 +193,6 @@ export function useAchievements() {
     getTotalPoints,
     getRarityColor,
     getRarityBg,
+    refreshData: fetchAchievements // Add refresh function
   }
 }

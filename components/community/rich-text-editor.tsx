@@ -25,9 +25,11 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin"
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin"
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext"
 import { $getRoot, $createParagraphNode, $createTextNode } from "lexical"
+import { $generateNodesFromDOM } from "@lexical/html"
 import { HeadingNode } from "@lexical/rich-text"
 import { ListItemNode, ListNode } from "@lexical/list"
 import { LinkNode } from "@lexical/link"
+import { $generateHtmlFromNodes } from "@lexical/html"
 
 interface RichTextEditorProps {
   value: string
@@ -112,6 +114,10 @@ function InitialContentPlugin({ content }: { content: string }) {
     if (content) {
       editor.update(() => {
         const root = $getRoot()
+        root.clear()
+        
+        // For now, we'll convert HTML to nodes when we have that functionality
+        // For simplicity, we'll treat content as plain text for now
         const paragraph = $createParagraphNode()
         const textNode = $createTextNode(content)
         paragraph.append(textNode)
@@ -126,6 +132,22 @@ function InitialContentPlugin({ content }: { content: string }) {
 // Error boundary component
 function EditorErrorBoundary({ children }: { children: React.ReactNode }) {
   return <div>{children}</div>
+}
+
+// Custom plugin to handle HTML content changes
+function HtmlOnChangePlugin({ onChange }: { onChange: (html: string) => void }) {
+  const [editor] = useLexicalComposerContext()
+  
+  useEffect(() => {
+    return editor.registerUpdateListener(({ editorState }) => {
+      editorState.read(() => {
+        const html = $generateHtmlFromNodes(editor, null)
+        onChange(html)
+      })
+    })
+  }, [editor, onChange])
+  
+  return null
 }
 
 export function RichTextEditor({ 
@@ -209,13 +231,7 @@ export function RichTextEditor({
             ErrorBoundary={EditorErrorBoundary}
           />
           <HistoryPlugin />
-          <OnChangePlugin onChange={(editorState) => {
-            editorState.read(() => {
-              const root = $getRoot()
-              const text = root.getTextContent()
-              onChange(text)
-            })
-          }} />
+          <HtmlOnChangePlugin onChange={onChange} />
           <InitialContentPlugin content={value} />
         </div>
       </LexicalComposer>

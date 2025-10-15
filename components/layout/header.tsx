@@ -25,6 +25,11 @@ import { NotificationBell } from "@/components/community/notification-bell"
 
 const navigationItems = [
   {
+    name: "Admissions",
+    href: "/admissions",
+    description: "Get admission guidance, connect with mentors, and prepare for entrance exams",
+  },
+  {
     name: "Community",
     href: "/community",
     description: "Connect with fellow students and join discussions",

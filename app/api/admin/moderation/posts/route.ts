@@ -51,20 +51,31 @@ export async function GET(request: NextRequest) {
         id,
         title,
         content,
-        author_name,
-        author_email,
+        user_id,
         created_at,
-        status,
-        category,
-        likes_count,
-        comments_count,
-        reports_count
+        likes,
+        comments,
+        shares,
+        tags,
+        type
       `)
       .order('created_at', { ascending: false })
 
     if (error) throw error
 
-    return NextResponse.json(posts || [])
+    // Transform data to match the expected format
+    const transformedPosts = posts?.map(post => ({
+      ...post,
+      author_name: 'Unknown User', // We don't have author_name in the schema
+      author_email: 'unknown@example.com', // We don't have author_email in the schema
+      status: post.type === 'spam' ? 'flagged' : 'active', // Derive status from type
+      category: post.type,
+      likes_count: post.likes,
+      comments_count: post.comments,
+      reports_count: 0 // We don't have reports_count in the schema
+    })) || []
+
+    return NextResponse.json(transformedPosts || [])
   } catch (error: any) {
     console.error('Error fetching posts for moderation:', error)
     return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 })

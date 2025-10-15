@@ -36,6 +36,7 @@ import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useCampus } from "@/contexts/campus-context"
 import { marked } from 'marked'
+import { RichTextEditor } from "@/components/community/rich-text-editor"
 
 interface BlogArticle {
   id: string
@@ -465,15 +466,14 @@ export default function AdminBlogPage() {
                       Preview
                     </Button>
                   </div>
-                  <Textarea
-                    id="content"
+                  <RichTextEditor
                     value={editingArticle.content}
-                    onChange={(e) => setEditingArticle({
+                    onChange={(content) => setEditingArticle({
                       ...editingArticle,
-                      content: e.target.value
+                      content
                     })}
-                    placeholder="Write your article content here (Markdown supported)..."
-                    rows={15}
+                    placeholder="Write your article content here..."
+                    className="min-h-[300px]"
                   />
                   <p className="text-sm text-gray-500 mt-1">You can use Markdown syntax for formatting</p>
                 </div>

@@ -641,7 +641,7 @@ export default function AdminUsersPage() {
                       label: adminUser.role === 'super_admin' ? 'Super Admin' : adminUser.role,
                       className: adminUser.role === 'super_admin' 
                         ? "bg-gradient-to-r from-red-600 to-orange-600 text-white border-0" 
-                        : "bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0"
+                        : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0"
                     },
                     ...(adminUser.gamification_role ? [{
                       label: adminUser.gamification_role.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),

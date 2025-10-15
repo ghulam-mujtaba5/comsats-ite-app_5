@@ -433,8 +433,8 @@ export default function AdminSettingsPage() {
                 <CardHeader className="relative">
                   <div className="flex items-center gap-3">
                     <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl blur-lg opacity-30" />
-                      <div className="relative bg-gradient-to-r from-purple-500 to-pink-500 p-2 rounded-xl">
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl blur-lg opacity-30" />
+                      <div className="relative bg-gradient-to-r from-blue-500 to-cyan-500 p-2 rounded-xl">
                         <Palette className="h-5 w-5 text-white" />
                       </div>
                     </div>
@@ -540,7 +540,7 @@ export default function AdminSettingsPage() {
                     </div>
                   </div>
 
-                  <Button onClick={() => handleSave('appearance')} disabled={saving} className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 border-0 w-full">
+                  <Button onClick={() => handleSave('appearance')} disabled={saving} className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 border-0 w-full">
                     <Palette className="h-4 w-4 mr-2" />
                     {saving ? "Saving..." : "Save Appearance Settings"}
                   </Button>

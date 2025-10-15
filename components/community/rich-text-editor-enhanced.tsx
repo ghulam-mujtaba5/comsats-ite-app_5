@@ -29,6 +29,7 @@ import { $getRoot, $getSelection, $createParagraphNode, $createTextNode } from "
 import { HeadingNode } from "@lexical/rich-text"
 import { ListItemNode, ListNode } from "@lexical/list"
 import { LinkNode } from "@lexical/link"
+import { $generateHtmlFromNodes } from "@lexical/html"
 
 interface RichTextEditorEnhancedProps {
   value: string
@@ -116,6 +117,22 @@ function EditorErrorBoundary({ children }: { children: React.ReactNode }) {
   return <div>{children}</div>
 }
 
+// Custom plugin to handle HTML content changes
+function HtmlOnChangePlugin({ onChange }: { onChange: (html: string) => void }) {
+  const [editor] = useLexicalComposerContext()
+  
+  useEffect(() => {
+    return editor.registerUpdateListener(({ editorState }) => {
+      editorState.read(() => {
+        const html = $generateHtmlFromNodes(editor, null)
+        onChange(html)
+      })
+    })
+  }, [editor, onChange])
+  
+  return null
+}
+
 export function RichTextEditorEnhanced({
   value,
   onChange,
@@ -195,13 +212,7 @@ export function RichTextEditorEnhanced({
             ErrorBoundary={EditorErrorBoundary}
           />
           <HistoryPlugin />
-          <OnChangePlugin onChange={(editorState) => {
-            editorState.read(() => {
-              const root = $getRoot()
-              const text = root.getTextContent()
-              onChange(text)
-            })
-          }} />
+          <HtmlOnChangePlugin onChange={onChange} />
           <InitialContentPlugin content={value} />
         </div>
       </LexicalComposer>
