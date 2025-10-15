@@ -24,17 +24,30 @@ export default function FacultyProfileClient({ initialFaculty, initialReviews }:
   useEffect(() => {
     // If no initial data was provided, attempt client-side fetch as a fallback
     if (!initialFaculty) {
-      const params = new URLSearchParams(window.location.pathname.split('/').slice(-1)[0])
       const id = window.location.pathname.split('/').slice(-1)[0]
       if (!id) return
+      
       const load = async () => {
         setLoading(true)
+        setError(null)
+        
         try {
+          // Fetch with timeout and retry
+          const fetchWithTimeout = (url: string, timeout = 8000) => {
+            return Promise.race([
+              fetch(url, { cache: 'no-store' }),
+              new Promise<Response>((_, reject) =>
+                setTimeout(() => reject(new Error('Request timeout')), timeout)
+              )
+            ])
+          }
+
           const [fRes, rRes] = await Promise.all([
-            fetch(`/api/faculty/${id}`, { cache: 'no-store' }),
-            fetch(`/api/reviews?facultyId=${id}`, { cache: 'no-store' })
+            fetchWithTimeout(`/api/faculty/${id}`).catch(() => null),
+            fetchWithTimeout(`/api/reviews?facultyId=${id}`).catch(() => null)
           ])
-          if (fRes.ok) {
+          
+          if (fRes && fRes.ok) {
             const fJson = await fRes.json().catch(() => ({ data: null }))
             const fData = fJson.data
             if (fData) {
@@ -58,7 +71,7 @@ export default function FacultyProfileClient({ initialFaculty, initialReviews }:
             }
           }
 
-          if (rRes.ok) {
+          if (rRes && rRes.ok) {
             const rJson = await rRes.json().catch(() => ({ data: [] }))
             setReviews((rJson.data || []).map((row: any) => ({
               id: row.id,
@@ -135,7 +148,15 @@ export default function FacultyProfileClient({ initialFaculty, initialReviews }:
                 <div className="flex flex-col lg:flex-row gap-8">
                   <div className="flex-shrink-0">
                     <Avatar className="h-32 w-32">
-                      <AvatarImage src={faculty.profileImage || "/placeholder.svg"} alt={faculty.name} />
+                      <AvatarImage 
+                        src={faculty.profileImage || "/placeholder-user.svg"} 
+                        alt={faculty.name}
+                        loading="eager"
+                        onError={(e: any) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                        }}
+                      />
                       <AvatarFallback className="text-2xl">
                         {faculty.name
                           .split(" ")

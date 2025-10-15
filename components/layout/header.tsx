@@ -188,31 +188,16 @@ export function Header() {
           <div className="hidden sm:block">
             <NotificationBell />
           </div>
-          {isAdmin && (
-            <Link
-              href="/admin"
-              title="Admin Panel"
-              className="hidden lg:inline-flex"
-            >
-              <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 h-9">
-                <Shield className="h-5 w-5" />
-                <span className="sr-only">Admin Panel</span>
-              </Button>
-            </Link>
-          )}
-          {/* Show Admin link for all users but redirect to login if not authenticated */}
-          {!isAdmin && (
-            <Link
-              href="/admin"
-              title="Admin Portal"
-              className="hidden lg:inline-flex"
-            >
-              <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 h-9">
-                <Shield className="h-5 w-5" />
-                <span className="sr-only">Admin Portal</span>
-              </Button>
-            </Link>
-          )}
+          <Link
+            href="/admin"
+            title={isAdmin ? "Admin Panel" : "Admin Portal"}
+            className="hidden lg:inline-flex"
+          >
+            <Button variant="ghost" size="sm" className="px-3 py-2 interactive hover-lift rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 backdrop-blur-sm border border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md transition-all duration-300 h-9">
+              <Shield className="h-5 w-5" />
+              <span className="sr-only">{isAdmin ? "Admin Panel" : "Admin Portal"}</span>
+            </Button>
+          </Link>
           <ThemeToggle />
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>

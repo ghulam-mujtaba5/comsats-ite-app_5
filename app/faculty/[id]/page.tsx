@@ -195,10 +195,15 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
                 <div className="flex-shrink-0">
                   <Avatar className="h-32 w-32">
                     <AvatarImage 
-                      src={faculty.profileImage || '/placeholder-user.jpg'} 
+                      src={faculty.profileImage || '/placeholder-user.svg'} 
                       alt={faculty.name} 
                       width={128}
                       height={128}
+                      loading="eager"
+                      onError={(e: any) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                      }}
                     />
                     <AvatarFallback className="text-2xl">{faculty.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                   </Avatar>

@@ -116,9 +116,14 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
         <div className="flex items-start gap-4">
           <Avatar className="h-16 w-16 ring-2 ring-primary/20">
             <AvatarImage 
-              src={faculty.profileImage || "/placeholder-user.jpg"} 
+              src={faculty.profileImage || "/placeholder-user.svg"} 
               alt={faculty.name} 
               className="object-cover"
+              loading="lazy"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
             />
             <AvatarFallback className="text-lg font-medium bg-gradient-to-br from-primary/20 to-blue-500/20">
               {faculty.name

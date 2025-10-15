@@ -34,13 +34,13 @@ export function DesktopNavigation() {
   const pathname = usePathname()
   
   return (
-    <nav className="hidden lg:block w-64 flex-shrink-0 border-r border-border bg-background/80 backdrop-blur-lg">
-      <div className="p-6">
-        <h2 className="text-xl font-bold text-foreground">Community</h2>
-        <p className="text-sm text-muted-foreground mt-1">Connect with fellow students</p>
+    <nav className="hidden lg:block w-64 flex-shrink-0 border-r border-border bg-background/95 backdrop-blur-lg sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
+      <div className="p-6 border-b border-border">
+        <h2 className="text-xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">Community Hub</h2>
+        <p className="text-sm text-muted-foreground mt-1">Connect & engage with peers</p>
       </div>
       
-      <div className="px-4 space-y-1">
+      <div className="px-3 py-4 space-y-1">
         {navigationItems.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href
@@ -50,21 +50,27 @@ export function DesktopNavigation() {
               key={item.name}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 group relative overflow-hidden",
                 isActive
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  ? "bg-gradient-to-r from-primary to-blue-600 text-primary-foreground shadow-lg shadow-primary/25"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground hover:shadow-md"
               )}
             >
-              <Icon className="h-4 w-4" />
-              {item.name}
+              {isActive && (
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-blue-600/10 animate-pulse" />
+              )}
+              <Icon className={cn(
+                "h-4 w-4 transition-transform group-hover:scale-110",
+                isActive && "animate-pulse"
+              )} />
+              <span className="relative z-10">{item.name}</span>
             </Link>
           )
         })}
       </div>
       
-      <div className="p-4 mt-4">
-        <Button className="w-full" variant="outline">
+      <div className="p-4 border-t border-border mt-auto sticky bottom-0 bg-background/95 backdrop-blur-lg">
+        <Button className="w-full bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all" variant="default">
           <MessageSquare className="h-4 w-4 mr-2" />
           New Discussion
         </Button>
