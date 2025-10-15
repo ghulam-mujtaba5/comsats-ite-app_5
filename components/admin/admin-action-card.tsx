@@ -25,6 +25,7 @@ interface AdminActionCardProps {
   metadata?: string
   isProblematic?: boolean
   children?: ReactNode
+  footer?: ReactNode
 }
 
 export function AdminActionCard({
@@ -35,7 +36,8 @@ export function AdminActionCard({
   actions = [],
   metadata,
   isProblematic = false,
-  children
+  children,
+  footer
 }: AdminActionCardProps) {
   return (
     <Card className={`glass-card border-0 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl group ${
@@ -51,17 +53,15 @@ export function AdminActionCard({
             <div className="flex items-start gap-3">
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold ${
                 isProblematic 
-                  ? 'bg-gradient-to-br from-red-500 to-orange-500'
-                  : 'bg-gradient-to-br from-blue-500 to-purple-500'
+                  ? 'bg-gradient-to-br from-red-500 to-orange-500' 
+                  : 'bg-gradient-to-br from-blue-500 to-indigo-500'
               }`}>
                 <Icon className="h-5 w-5" />
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white group-hover:scale-105 transition-transform duration-300">
-                  {title}
-                </h3>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">{title}</h3>
                 {description && (
-                  <p className="text-sm text-slate-600 dark:text-slate-300 mt-1 line-clamp-3">
+                  <p className="text-slate-600 dark:text-slate-300 text-sm">
                     {description}
                   </p>
                 )}
@@ -86,6 +86,7 @@ export function AdminActionCard({
               </div>
             </div>
             {children}
+            {footer}
           </div>
           
           {actions.length > 0 && (

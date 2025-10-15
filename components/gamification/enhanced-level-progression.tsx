@@ -17,7 +17,8 @@ import {
   UserPlus,
   TrendingUp,
   Target,
-  Sparkles
+  Sparkles,
+  CheckCircle
 } from "lucide-react"
 import { LEVELS, getProgressToNextLevel } from "@/lib/gamification"
 import { cn } from "@/lib/utils"

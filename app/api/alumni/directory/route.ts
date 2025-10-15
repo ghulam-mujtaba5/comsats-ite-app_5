@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { createServerClient } from '@supabase/ssr'
 
-export const dynamic = 'force-dynamic'
-
-// Helper function to create Supabase client
-function createClient() {
-  const cookieStore = cookies()
+async function createClient() {
+  const cookieStore = await cookies()
   
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -16,23 +13,11 @@ function createClient() {
         get(name: string) {
           return cookieStore.get(name)?.value
         },
-        set(name: string, value: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value, ...options })
-          } catch (error) {
-            // The `set` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
-          }
+        set(name: string, value: string, options: any) {
+          cookieStore.set({ name, value, ...options })
         },
-        remove(name: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value: '', ...options })
-          } catch (error) {
-            // The `remove` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
-          }
+        remove(name: string, options: any) {
+          cookieStore.set({ name, value: '', ...options })
         },
       },
     }
@@ -42,7 +27,7 @@ function createClient() {
 // GET - Fetch alumni directory
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
     
     // Get the user
     const { data: { user }, error: userError } = await supabase.auth.getUser()
@@ -118,20 +103,20 @@ export async function GET(request: NextRequest) {
     }
     
     // Format the response
-    const formattedAlumni = alumni.map(profile => ({
+    const formattedAlumni = alumni.map((profile: any) => ({
       user_id: profile.user_id,
       full_name: profile.full_name || 'Alumni',
       company: profile.company || 'Not specified',
       position: profile.position || 'Not specified',
       graduation_year: profile.graduation_year || 'Unknown',
       degree: profile.degree || 'Unknown',
-      campus: profile.campuses ? {
-        name: profile.campuses.name,
-        code: profile.campuses.code
+      campus: profile.campuses && profile.campuses.length > 0 && profile.campuses[0] ? {
+        name: profile.campuses[0].name,
+        code: profile.campuses[0].code
       } : null,
-      department: profile.departments ? {
-        name: profile.departments.name,
-        code: profile.departments.code
+      department: profile.departments && profile.departments.length > 0 && profile.departments[0] ? {
+        name: profile.departments[0].name,
+        code: profile.departments[0].code
       } : null
     }))
     

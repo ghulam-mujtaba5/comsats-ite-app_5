@@ -1,9 +1,10 @@
+import { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth-server'
 
 // Create a mentoring request
 export async function POST(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -55,7 +56,7 @@ export async function POST(
 
 // Get mentoring requests for a mentor (requires authentication)
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {

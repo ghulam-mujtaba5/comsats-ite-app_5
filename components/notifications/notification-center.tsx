@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Bell, X, Check, Clock, AlertCircle, User, MessageSquare, Star, Calendar, BookOpen, Users, Trophy, Wrench } from "lucide-react"
+import { Bell, X, Check, Clock, AlertCircle, User, MessageSquare, Star, Calendar, BookOpen, Users, Trophy, Wrench, Heart, AtSign, BarChart, Share, Reply, Smile, UserPlus, Key, Lock, FileText, Edit, Trash, Upload, CheckCircle, XCircle, Rocket } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useNotifications } from "@/hooks/use-notifications"
@@ -269,24 +269,3 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
     </div>
   )
 }
-
-// Import all the icons we need
-import { 
-  Heart, 
-  AtSign, 
-  BarChart, 
-  Share, 
-  Reply, 
-  Smile, 
-  UserPlus, 
-  Key, 
-  Lock, 
-  FileText, 
-  Edit, 
-  Trash, 
-  Upload, 
-  CheckCircle, 
-  XCircle, 
-  Star, 
-  Rocket 
-} from "lucide-react"

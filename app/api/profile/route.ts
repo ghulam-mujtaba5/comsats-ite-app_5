@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
 
-export const dynamic = 'force-dynamic'
-
-// Helper function to create Supabase client
-function createClient() {
-  const cookieStore = cookies()
+async function createClient() {
+  const cookieStore = await cookies()
   
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -39,10 +36,12 @@ function createClient() {
   )
 }
 
+export const dynamic = 'force-dynamic'
+
 // GET - Fetch user profile
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
     
     // Get the user
     const { data: { user }, error: userError } = await supabase.auth.getUser()
@@ -121,7 +120,7 @@ export async function GET(request: NextRequest) {
 // PUT - Update user profile
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = createClient()
+    const supabase = await createClient()
     
     // Get the user
     const { data: { user }, error: userError } = await supabase.auth.getUser()

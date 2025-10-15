@@ -1,8 +1,9 @@
+import { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/admin-access'
 
 // Get pending moderation items
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     const access = await requireAdmin(request)
     if (!access.allow) {
@@ -69,7 +70,7 @@ export async function GET(request: Request) {
 }
 
 // Update moderation item status
-export async function PUT(request: Request) {
+export async function PUT(request: NextRequest) {
   try {
     const access = await requireAdmin(request)
     if (!access.allow) {

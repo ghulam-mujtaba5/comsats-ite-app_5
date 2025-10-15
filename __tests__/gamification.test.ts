@@ -51,7 +51,7 @@ describe('Gamification System', () => {
         }
       ];
       
-      const userAchievements = [];
+      const userAchievements: any[] = [];
 
       // Mock Supabase responses
       mockSupabase.single
@@ -101,7 +101,7 @@ describe('Gamification System', () => {
         }
       ];
       
-      const userAchievements = [];
+      const userAchievements: any[] = [];
 
       // Mock Supabase responses
       mockSupabase.single

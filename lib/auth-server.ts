@@ -17,3 +17,11 @@ export async function requireUser() {
   const { data } = await supabase.auth.getUser()
   return { user: data.user || null }
 }
+
+export async function requireAuth() {
+  const { user } = await requireUser()
+  if (!user) {
+    throw new Error('Unauthorized')
+  }
+  return user
+}

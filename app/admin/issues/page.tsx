@@ -137,7 +137,7 @@ export default function AdminIssuesPage() {
                     </div>
                   </div>
                   <div>
-                    <h1 id="issues-heading" className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-red-800 to-orange-800 dark:from-white dark:via-red-200 dark:to-orange-200 bg-clip-text text-transparent">
+                    <h1 id="issues-heading" className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-red-800 to-orange-600 dark:from-white dark:via-red-200 dark:to-orange-200 bg-clip-text text-transparent">
                       Issue Tracking
                     </h1>
                     <p className="text-slate-600 dark:text-slate-300 text-lg mt-1">
@@ -382,7 +382,7 @@ export default function AdminIssuesPage() {
                         {it.status !== 'resolved' && (
                           <Button 
                             variant="outline" 
-                            onClick={(e) => {
+                            onClick={(e: React.MouseEvent) => {
                               e.stopPropagation()
                               setStatus(it.id, 'resolved')
                             }}

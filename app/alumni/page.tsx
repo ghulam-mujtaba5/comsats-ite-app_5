@@ -477,8 +477,8 @@ export default function AlumniPortal() {
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Member Since</span>
                       <span>
-                        {user?.created_at 
-                          ? new Date(user.created_at).toLocaleDateString() 
+                        {user?.user_metadata?.created_at 
+                          ? new Date(user.user_metadata.created_at).toLocaleDateString() 
                           : "Unknown"}
                       </span>
                     </div>

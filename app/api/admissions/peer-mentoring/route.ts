@@ -1,9 +1,10 @@
+import { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { requireAuth } from '@/lib/auth-server'
 
 // Get potential mentors for a student based on their interests
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const user = await requireAuth()
     if (!user) {
@@ -77,7 +78,7 @@ export async function POST(request: Request) {
 }
 
 // Get mentor requests for the current user (either as student or mentor)
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     const user = await requireAuth()
     if (!user) {

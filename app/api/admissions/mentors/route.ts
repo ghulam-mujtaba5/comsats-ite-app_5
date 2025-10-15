@@ -1,9 +1,10 @@
+import { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { requireAuth } from '@/lib/auth-server'
 
 // Get all mentors
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const department = searchParams.get('department')
@@ -96,7 +97,7 @@ export async function GET(request: Request) {
 }
 
 // Register as a mentor (requires authentication)
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const user = await requireAuth()
     if (!user) {
