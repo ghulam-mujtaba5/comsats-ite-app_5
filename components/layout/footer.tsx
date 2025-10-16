@@ -1,5 +1,5 @@
 "use client"
-import { GraduationCap, Mail, Phone, MapPin, Users, Github, Twitter, Instagram, Sparkles, BookOpen, Users2, ShieldCheck } from "lucide-react"
+import { GraduationCap, Mail, MapPin, Users, Github, Twitter, Instagram, Sparkles, BookOpen, Users2, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -125,10 +125,6 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
                 <li className="flex items-center space-x-2">
                   <Mail className="h-4 w-4 text-primary" />
                   <span className="text-muted-foreground">campusaxis0@gmail.com</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <Phone className="h-4 w-4 text-primary" />
-                  <span className="text-muted-foreground">+92-42-111-001-007</span>
                 </li>
               </ul>
             </div>

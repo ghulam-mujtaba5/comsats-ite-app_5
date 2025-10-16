@@ -4,23 +4,28 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Coffee, Wind, Music, Moon, X } from 'lucide-react'
 import { useEmotionState } from '@/hooks/use-emotion-state'
+import { useSessionTracker } from '@/hooks/use-session-tracker'
 
 export interface MindfulBreakProps {
   autoTrigger?: boolean
   onClose?: () => void
+  /** Disable session time check (for manual triggers) */
+  ignoreSessionTime?: boolean
 }
 
-export function MindfulBreak({ autoTrigger = false, onClose }: MindfulBreakProps) {
+export function MindfulBreak({ autoTrigger = false, onClose, ignoreSessionTime = false }: MindfulBreakProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [breathCount, setBreathCount] = useState(0)
   const [breathPhase, setBreathPhase] = useState<'inhale' | 'hold' | 'exhale'>('inhale')
   const { resetSession } = useEmotionState()
+  const { shouldShowWellnessNotifications, activeMinutes } = useSessionTracker()
 
   useEffect(() => {
-    if (autoTrigger) {
+    // Only show if autoTrigger is true AND either ignoreSessionTime or enough time has passed
+    if (autoTrigger && (ignoreSessionTime || shouldShowWellnessNotifications)) {
       setIsOpen(true)
     }
-  }, [autoTrigger])
+  }, [autoTrigger, shouldShowWellnessNotifications, ignoreSessionTime])
 
   useEffect(() => {
     if (!isOpen) return

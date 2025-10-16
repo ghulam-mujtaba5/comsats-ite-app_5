@@ -8,148 +8,20 @@ import { EnhancedFAQ } from "@/components/home/enhanced-faq"
 import { EnhancedComingSoon } from "@/components/home/enhanced-coming-soon"
 import { AnimatedSections } from "@/components/home/animated-sections"
 
-// Create loading skeletons with MAXIMUM glassmorphism - Megicode Brand Style
-function NewsSkeleton() {
+// Simplified unified loading skeleton
+function ContentSkeleton() {
   return (
-    <div className="py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-blue-50/20 to-white dark:from-[#12161b] dark:to-[#0f1115] backdrop-blur-xl">
-      <div className="app-container max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="h-10 bg-gradient-to-r from-[#4573df]/30 to-[#667eea]/20 dark:from-[#4573df]/50 dark:to-[#667eea]/40 rounded-xl w-1/3 mx-auto mb-12 backdrop-blur-2xl border border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.1)] shadow-[0_3px_6px_rgba(60,60,60,0.16),0_3px_6px_rgba(60,60,60,0.23)]"></div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+    <div className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 animate-pulse">
+      <div className="app-container max-w-7xl mx-auto">
+        <div className="h-8 bg-gradient-to-r from-primary/20 to-blue-500/20 dark:from-primary/30 dark:to-blue-500/30 rounded-lg w-1/3 mx-auto mb-12"></div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="group border border-white/30 dark:border-[rgba(255,255,255,0.15)] rounded-2xl bg-white/95 dark:bg-[#1a1f27]/80 backdrop-blur-3xl shadow-clean-lg hover:shadow-xl transition-all duration-300">
-              <div className="aspect-video bg-gradient-to-br from-[#4573df]/20 to-[#2d4fa2]/15 dark:from-[#4573df]/40 dark:to-[#2d4fa2]/35 rounded-t-2xl border-b border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.15)] backdrop-blur-xl" />
-              <div className="p-5 sm:p-6 space-y-3">
-                <div className="h-6 bg-gradient-to-r from-[#4573df]/25 to-[#667eea]/20 dark:from-[#4573df]/45 dark:to-[#667eea]/40 rounded-lg w-3/4 backdrop-blur-md"></div>
-                <div className="space-y-2">
-                  <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-full backdrop-blur-md"></div>
-                  <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-5/6 backdrop-blur-md"></div>
-                </div>
-                <div className="h-10 bg-gradient-to-r from-[#4573df]/30 to-[#2d4fa2]/25 dark:from-[#4573df]/50 dark:to-[#2d4fa2]/45 rounded-lg w-32 mt-4 border border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.15)] backdrop-blur-xl shadow-[0_1px_3px_rgba(60,60,60,0.12),0_1px_2px_rgba(60,60,60,0.24)]"></div>
-              </div>
+            <div key={i} className="border border-white/20 dark:border-white/10 rounded-xl bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm p-6 space-y-3">
+              <div className="h-6 bg-gradient-to-r from-primary/20 to-blue-500/15 dark:from-primary/30 dark:to-blue-500/25 rounded w-3/4"></div>
+              <div className="h-4 bg-slate-200/60 dark:bg-slate-700/60 rounded w-full"></div>
+              <div className="h-4 bg-slate-200/60 dark:bg-slate-700/60 rounded w-5/6"></div>
             </div>
           ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function CommunitySkeleton() {
-  return (
-    <div className="py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-blue-50/20 to-white dark:from-[#0f1115] dark:to-[#12161b] backdrop-blur-xl">
-      <div className="app-container max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="h-10 bg-gradient-to-r from-[#ff9800]/30 to-[#764ba2]/20 dark:from-[#ff9800]/50 dark:to-[#764ba2]/40 rounded-xl w-1/3 mx-auto mb-12 backdrop-blur-2xl border border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.1)] shadow-[0_3px_6px_rgba(60,60,60,0.16),0_3px_6px_rgba(60,60,60,0.23)]"></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {[...Array(2)].map((_, i) => (
-            <div key={i} className="border border-white/30 dark:border-[rgba(255,255,255,0.15)] rounded-2xl bg-white/95 dark:bg-[#1a1f27]/80 backdrop-blur-3xl shadow-clean-lg p-5 sm:p-6">
-              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.15)]">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#4573df]/30 to-[#667eea]/25 dark:from-[#4573df]/50 dark:to-[#667eea]/45 backdrop-blur-md"></div>
-                <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-gradient-to-r from-[#4573df]/25 to-[#667eea]/20 dark:from-[#4573df]/45 dark:to-[#667eea]/40 rounded w-1/3 backdrop-blur-md"></div>
-                  <div className="h-3 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-1/4 backdrop-blur-md"></div>
-                </div>
-              </div>
-              <div className="space-y-3 mb-4">
-                <div className="h-5 bg-gradient-to-r from-[#4573df]/25 to-[#667eea]/20 dark:from-[#4573df]/45 dark:to-[#667eea]/40 rounded-lg w-3/4 backdrop-blur-md"></div>
-                <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-full backdrop-blur-md"></div>
-                <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-5/6 backdrop-blur-md"></div>
-              </div>
-              <div className="flex items-center gap-4 pt-4 border-t border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.15)]">
-                <div className="h-8 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded-lg w-20 backdrop-blur-md"></div>
-                <div className="h-8 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded-lg w-20 backdrop-blur-md"></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function FAQSkeleton() {
-  return (
-    <div className="py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-blue-50/20 to-white dark:from-[#12161b] dark:to-[#0f1115] backdrop-blur-xl">
-      <div className="app-container max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="h-10 bg-gradient-to-r from-[#4573df]/30 to-[#667eea]/20 dark:from-[#4573df]/50 dark:to-[#667eea]/40 rounded-xl w-1/3 mx-auto mb-12 backdrop-blur-2xl border border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.1)] shadow-[0_3px_6px_rgba(60,60,60,0.16),0_3px_6px_rgba(60,60,60,0.23)]"></div>
-        <div className="space-y-4">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="border border-white/30 dark:border-[rgba(255,255,255,0.15)] rounded-2xl bg-white/95 dark:bg-[#1a1f27]/80 backdrop-blur-3xl shadow-clean-lg p-5 sm:p-6">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 space-y-3">
-                  <div className="h-5 bg-gradient-to-r from-[#4573df]/25 to-[#667eea]/20 dark:from-[#4573df]/45 dark:to-[#667eea]/40 rounded-lg w-3/4 backdrop-blur-md"></div>
-                  <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-full backdrop-blur-md"></div>
-                  <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-5/6 backdrop-blur-md"></div>
-                </div>
-                <div className="w-5 h-5 rounded bg-gradient-to-br from-[#4573df]/30 to-[#667eea]/25 dark:from-[#4573df]/50 dark:to-[#667eea]/45 backdrop-blur-md"></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function ComingSoonSkeleton() {
-  return (
-    <div className="py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-blue-50/20 to-white dark:from-[#0f1115] dark:to-[#12161b] backdrop-blur-xl">
-      <div className="app-container max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="h-10 bg-gradient-to-r from-[#ff9800]/30 to-[#764ba2]/20 dark:from-[#ff9800]/50 dark:to-[#764ba2]/40 rounded-xl w-1/3 mx-auto mb-12 backdrop-blur-2xl border border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.1)] shadow-[0_3px_6px_rgba(60,60,60,0.16),0_3px_6px_rgba(60,60,60,0.23)]"></div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="border border-white/30 dark:border-[rgba(255,255,255,0.15)] rounded-2xl bg-white/95 dark:bg-[#1a1f27]/80 backdrop-blur-3xl shadow-clean-lg">
-              <div className="p-5 sm:p-6 space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ff9800]/30 to-[#764ba2]/25 dark:from-[#ff9800]/50 dark:to-[#764ba2]/45 border border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.15)] backdrop-blur-xl shadow-[0_1px_3px_rgba(60,60,60,0.12),0_1px_2px_rgba(60,60,60,0.24)]"></div>
-                <div className="space-y-3">
-                  <div className="h-6 bg-gradient-to-r from-[#ff9800]/25 to-[#764ba2]/20 dark:from-[#ff9800]/45 dark:to-[#764ba2]/40 rounded-lg w-3/4 backdrop-blur-md"></div>
-                  <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-full backdrop-blur-md"></div>
-                  <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-5/6 backdrop-blur-md"></div>
-                </div>
-                <div className="flex items-center gap-2 pt-3 border-t border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.15)]">
-                  <div className="h-5 w-5 rounded-full bg-gradient-to-br from-[#ff9800]/30 to-[#764ba2]/25 dark:from-[#ff9800]/50 dark:to-[#764ba2]/45 backdrop-blur-md"></div>
-                  <div className="h-3 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-24 backdrop-blur-md"></div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function AnimatedSectionsSkeleton() {
-  return (
-    <div className="py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-blue-50/20 to-white dark:from-[#12161b] dark:to-[#0f1115] backdrop-blur-xl">
-      <div className="app-container max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="h-10 bg-gradient-to-r from-[#4573df]/30 to-[#667eea]/20 dark:from-[#4573df]/50 dark:to-[#667eea]/40 rounded-xl w-1/3 mx-auto mb-12 backdrop-blur-2xl border border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.1)] shadow-[0_3px_6px_rgba(60,60,60,0.16),0_3px_6px_rgba(60,60,60,0.23)]"></div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="border border-white/30 dark:border-[rgba(255,255,255,0.15)] rounded-2xl bg-white/95 dark:bg-[#1a1f27]/80 backdrop-blur-3xl shadow-clean-lg">
-              <div className="p-5 sm:p-6 space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#4573df]/30 to-[#667eea]/25 dark:from-[#4573df]/50 dark:to-[#667eea]/45 border border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.15)] backdrop-blur-xl shadow-[0_1px_3px_rgba(60,60,60,0.12),0_1px_2px_rgba(60,60,60,0.24)]"></div>
-                <div className="space-y-3">
-                  <div className="h-6 bg-gradient-to-r from-[#4573df]/25 to-[#667eea]/20 dark:from-[#4573df]/45 dark:to-[#667eea]/40 rounded-lg w-3/4 backdrop-blur-md"></div>
-                  <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-full backdrop-blur-md"></div>
-                  <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded w-5/6 backdrop-blur-md"></div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="border border-white/30 dark:border-[rgba(255,255,255,0.15)] rounded-3xl bg-white/98 dark:bg-[#1a1f27]/90 backdrop-blur-3xl shadow-clean-lg p-8 sm:p-10 md:p-12 max-w-3xl mx-auto">
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#4573df]/30 to-[#667eea]/25 dark:from-[#4573df]/50 dark:to-[#667eea]/45 border border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.15)] backdrop-blur-xl shadow-[0_3px_6px_rgba(60,60,60,0.16),0_3px_6px_rgba(60,60,60,0.23)]"></div>
-          </div>
-          <div className="space-y-4 text-center">
-            <div className="h-8 bg-gradient-to-r from-[#4573df]/25 to-[#667eea]/20 dark:from-[#4573df]/45 dark:to-[#667eea]/40 rounded-xl w-1/2 mx-auto backdrop-blur-md"></div>
-            <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded-lg w-3/4 mx-auto backdrop-blur-md"></div>
-            <div className="h-4 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded-lg w-2/3 mx-auto backdrop-blur-md"></div>
-            <div className="flex gap-4 justify-center mt-6 pt-6 border-t border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.15)]">
-              <div className="h-12 bg-gradient-to-r from-[#4573df]/30 to-[#2d4fa2]/25 dark:from-[#4573df]/50 dark:to-[#2d4fa2]/45 rounded-xl w-40 border border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.15)] backdrop-blur-xl shadow-[0_1px_3px_rgba(60,60,60,0.12),0_1px_2px_rgba(60,60,60,0.24)]"></div>
-              <div className="h-12 bg-gradient-to-r from-[#f5f7fa]/80 to-[#f5f7fa]/60 dark:from-[#2a2f38]/90 dark:to-[#2a2f38]/70 rounded-xl w-40 border border-[rgba(107,114,128,0.15)] dark:border-[rgba(255,255,255,0.15)] backdrop-blur-md"></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -190,24 +62,15 @@ export default function HomePage() {
         <div className="space-y-0">
           <EnhancedFeatures />
           
-          {/* Lazy loaded sections */}
-          <Suspense fallback={<AnimatedSectionsSkeleton />}>
+          {/* Combine multiple sections in one Suspense boundary for better performance */}
+          <Suspense fallback={<ContentSkeleton />}>
             <AnimatedSections />
-          </Suspense>
-          
-          <Suspense fallback={<ComingSoonSkeleton />}>
             <EnhancedComingSoon />
           </Suspense>
           
-          <Suspense fallback={<CommunitySkeleton />}>
+          <Suspense fallback={<ContentSkeleton />}>
             <EnhancedCommunity />
-          </Suspense>
-          
-          <Suspense fallback={<NewsSkeleton />}>
             <EnhancedNews />
-          </Suspense>
-          
-          <Suspense fallback={<FAQSkeleton />}>
             <EnhancedFAQ />
           </Suspense>
         </div>

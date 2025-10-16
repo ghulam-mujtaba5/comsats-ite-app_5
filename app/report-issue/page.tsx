@@ -85,8 +85,20 @@ export default function ReportIssuePage() {
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="email">Email (optional)</Label>
-                  <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <Label htmlFor="email">
+                    Email <span className="text-xs text-muted-foreground">(for updates)</span>
+                  </Label>
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    placeholder="you@example.com" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    className="border-blue-200 focus:border-blue-400 dark:border-blue-800 dark:focus:border-blue-600"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    📧 Provide your email to receive updates on your issue
+                  </p>
                 </div>
               </div>
 

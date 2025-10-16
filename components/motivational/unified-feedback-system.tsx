@@ -95,16 +95,16 @@ export function UnifiedFeedbackSystem() {
       case 'sad':
         return {
           animation: 'successGlow',
-          intensity: 'medium',
-          message: 'Take a deep breath. You\'re doing great!',
+          intensity: 'low', // Reduced from 'medium' to be less intrusive
+          message: '💙 Take a breath - you\'re doing great',
           icon: Heart
         }
       
       case 'focused':
         return {
           animation: 'spotlight',
-          intensity: 'medium',
-          message: 'Your focus is impressive!',
+          intensity: 'low', // Reduced to not interrupt focus
+          message: '🎯 Great focus!',
           icon: Target
         }
       
@@ -113,7 +113,7 @@ export function UnifiedFeedbackSystem() {
         return {
           animation: 'motivationalText',
           intensity: 'low',
-          message: 'Time for a quick break?',
+          message: '✨ Quick break?',
           icon: Sparkles
         }
       
@@ -243,12 +243,13 @@ export function UnifiedFeedbackSystem() {
         })
     }
 
-    // Show toast notification for important events
+    // Show toast notification for important events (with reduced duration)
     if (['achievement_unlocked', 'goal_reached', 'challenge_completed'].includes(event.type)) {
       toast({
-        title: "Achievement Unlocked!",
+        title: "🎉 Achievement Unlocked!",
         description: event.message,
-        variant: "success"
+        variant: "success",
+        duration: 4000, // Reduced from default 5000ms
       })
     }
   }, [
@@ -279,10 +280,12 @@ export function UnifiedFeedbackSystem() {
   const handleStressDetection = useCallback(() => {
     activateCalmMode(600000) // 10 minutes
     
+    // Reduced duration and made less intrusive
     toast({
-      title: "Take a Break",
-      description: "We've noticed you might be feeling stressed. Let's take a moment to breathe.",
-      variant: "warning"
+      title: "💙 Wellness Check",
+      description: "Consider taking a short break",
+      variant: "warning",
+      duration: 3000, // Reduced from default 5000ms to 3000ms
     })
     
     updateEmotionState({
@@ -294,10 +297,12 @@ export function UnifiedFeedbackSystem() {
   const handleLowMotivation = useCallback(() => {
     boostMotivation("Remember, every small step counts!")
     
+    // Reduced duration for less intrusion
     toast({
-      title: "You're Doing Great!",
+      title: "✨ You've Got This!",
       description: "Progress isn't always linear. Keep going!",
-      variant: "info"
+      variant: "info",
+      duration: 3000, // Reduced from default
     })
   }, [boostMotivation, toast])
 
