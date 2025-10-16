@@ -70,6 +70,7 @@ export function AnimatedCard({
           'rounded-lg border bg-card text-card-foreground shadow-sm',
           className
         )}
+        suppressHydrationWarning
         {...props}
       >
         {children}
@@ -106,6 +107,7 @@ export function AnimatedCard({
         enableHover && 'cursor-pointer',
         className
       )}
+      suppressHydrationWarning
       {...restProps}
     >
       {children}
@@ -145,6 +147,7 @@ export function AnimatedButton({
           'disabled:pointer-events-none disabled:opacity-50',
           className
         )}
+        suppressHydrationWarning
         {...props}
       >
         {children}
@@ -181,6 +184,7 @@ export function AnimatedButton({
         'disabled:pointer-events-none disabled:opacity-50',
         className
       )}
+      suppressHydrationWarning
       {...restProps}
     >
       {children}
@@ -204,7 +208,7 @@ export function FadeInScroll({ children, className, delay = 0 }: FadeInScrollPro
 
   // Disable animations if user prefers reduced motion or animations are disabled
   if (prefersReducedMotion || !isAnimationEnabled) {
-    return <div className={className}>{children}</div>
+    return <div className={className} suppressHydrationWarning>{children}</div>
   }
 
   // Adjust animation intensity
@@ -226,6 +230,7 @@ export function FadeInScroll({ children, className, delay = 0 }: FadeInScrollPro
       animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration, delay, ease: 'easeOut' }}
       className={className}
+      suppressHydrationWarning
     >
       {children}
     </motion.div>
@@ -247,7 +252,7 @@ export function StaggerContainer({ children, className, staggerDelay = 0.1 }: St
 
   // Disable animations if user prefers reduced motion or animations are disabled
   if (prefersReducedMotion || !isAnimationEnabled) {
-    return <div className={className}>{children}</div>
+    return <div className={className} suppressHydrationWarning>{children}</div>
   }
 
   // Adjust animation intensity
@@ -276,6 +281,7 @@ export function StaggerContainer({ children, className, staggerDelay = 0.1 }: St
         }
       }}
       className={className}
+      suppressHydrationWarning
     >
       {children}
     </motion.div>
@@ -294,7 +300,7 @@ export function StaggerItem({ children, className, ...props }: StaggerItemProps)
 
   // Disable animations if user prefers reduced motion or animations are disabled
   if (prefersReducedMotion || !isAnimationEnabled) {
-    return <div className={className}>{children}</div>
+    return <div className={className} suppressHydrationWarning>{children}</div>
   }
 
   // Adjust animation intensity
@@ -316,6 +322,7 @@ export function StaggerItem({ children, className, ...props }: StaggerItemProps)
         visible: { opacity: 1, y: 0, transition: { duration } }
       }}
       className={className}
+      suppressHydrationWarning
       {...props}
     >
       {children}

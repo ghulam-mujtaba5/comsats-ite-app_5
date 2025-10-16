@@ -30,9 +30,9 @@ const inputVariants = cva(
         campus: 'border-[#007BFF]/20 dark:border-[#1F8FFF]/20 focus:border-[#007BFF] dark:focus:border-[#1F8FFF] focus:ring-[#007BFF]/20 dark:focus:ring-[#1F8FFF]/20',
       },
       inputSize: {
-        default: 'h-11 px-4 py-3 text-base',
-        sm: 'h-10 px-3 py-2.5 text-sm min-h-[40px]',
-        lg: 'h-12 px-5 py-4 text-lg min-h-[48px]',
+        default: 'h-11 min-h-[48px] px-4 py-3 text-base',
+        sm: 'h-10 min-h-[44px] px-3 py-2.5 text-sm',
+        lg: 'h-12 min-h-[52px] px-5 py-4 text-lg',
       },
     },
     defaultVariants: {

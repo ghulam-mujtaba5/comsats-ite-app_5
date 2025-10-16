@@ -185,7 +185,7 @@ export function EnhancedHero() {
   }
 
   return (
-    <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/30 via-indigo-50/20 to-blue-100/10 dark:from-slate-900/30 dark:via-slate-800/20 dark:to-slate-900/10" aria-labelledby="hero-heading" ref={ref} role="region">
+    <section className="relative min-h-[85vh] flex items-center overflow-hidden px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50/30 via-indigo-50/20 to-blue-100/10 dark:from-slate-900/30 dark:via-slate-800/20 dark:to-slate-900/10" aria-labelledby="hero-heading" ref={ref} role="region">
       {/* Enhanced background elements with proper spacing and reduced visual noise */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl" aria-hidden="true" />

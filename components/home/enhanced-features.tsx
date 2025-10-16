@@ -168,7 +168,7 @@ export function EnhancedFeatures() {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-background/80 to-muted/30 glass-primary" aria-labelledby="features-heading" ref={ref}>
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background/80 to-muted/30 glass-primary" aria-labelledby="features-heading" ref={ref}>
       <div className="app-container">
         {/* Enhanced Header with proper spacing and visual hierarchy */}
         <div className={`text-center mb-xl md:mb-2xl transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>

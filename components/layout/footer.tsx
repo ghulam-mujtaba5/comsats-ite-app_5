@@ -66,11 +66,11 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
   }
 
   return (
-    <footer className="relative glass-card-premium glass-border-glow supports-[backdrop-filter]:glass-card rounded-2xl glass-depth glass-gradient overflow-hidden dark:bg-slate-900/70 dark:border-slate-700/40">
+    <footer className="relative glass-card-premium glass-border-glow supports-[backdrop-filter]:glass-card rounded-2xl glass-depth glass-gradient overflow-hidden dark:bg-slate-900/70 dark:border-slate-700/40 mx-4 sm:mx-6 lg:mx-8 mb-6 mt-12">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/3 via-indigo-500/3 to-purple-500/3 rounded-2xl dark:from-slate-800/20 dark:via-slate-800/15 dark:to-slate-900/20"></div>
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-500/5 to-transparent rounded-r-2xl dark:from-slate-700/15 dark:to-slate-900/5"></div>
       <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-t from-indigo-500/5 to-transparent rounded-bl-2xl dark:from-slate-800/15 dark:to-slate-900/5"></div>
-      <div className="app-container py-10 relative z-10">
+      <div className="app-container py-10 px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="mb-8 p-4 md:p-5 glass-card-premium glass-border-glow glass-hover-glow rounded-xl flex flex-col md:flex-row items-center justify-between gap-3 glass-gradient glass-depth glass-floating">
           <div className="text-center md:text-left">
             <div className="font-semibold text-foreground flex items-center justify-center md:justify-start gap-2">
