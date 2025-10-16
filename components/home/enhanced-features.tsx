@@ -191,7 +191,7 @@ export function EnhancedFeatures() {
         </div>
 
         {/* Enhanced Feature Grid with proper spacing and visual hierarchy */}
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10" staggerDelay={0.1}>
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-8" staggerDelay={0.1}>
           {features.map((feature, index) => {
             const Icon = feature.icon
             const isHovered = hoveredFeature === index
@@ -207,7 +207,7 @@ export function EnhancedFeatures() {
                   aria-labelledby={`feature-title-${index}`}
                   className="interactive-scale"
                 >
-                  <Card className="group relative h-full overflow-hidden border border-white/30 bg-card/90 backdrop-blur-3xl rounded-2xl shadow-2xl transition-all duration-300 hover:shadow-2xl glass-primary focus-ring" tabIndex={0}>
+                  <Card className="group relative h-full overflow-hidden border border-white/20 bg-card/80 backdrop-blur-2xl rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl glass-secondary focus-ring" tabIndex={0}>
                     {/* Enhanced badge */}
                     <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10">
                       <Badge 
@@ -221,7 +221,7 @@ export function EnhancedFeatures() {
                     <CardHeader className="relative z-10 pb-4 sm:pb-6">
                       {/* Enhanced icon with hover effect */}
                       <motion.div 
-                        className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl ${feature.bgColor} flex items-center justify-center mb-4 sm:mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300`}
+                        className={`w-12 h-12 rounded-xl ${feature.bgColor} flex items-center justify-center mb-4 shadow-md group-hover:shadow-lg transition-all duration-300`}
                         animate={isAnimationEnabled && isHovered && isInView ? { 
                           scale: [1, 1.1, 1],
                           rotate: [0, 5, 0]
@@ -230,7 +230,7 @@ export function EnhancedFeatures() {
                         role="img"
                         aria-label={`${feature.title} icon`}
                       >
-                        <Icon className={`h-6 w-6 sm:h-8 sm:w-8 ${feature.color}`} aria-hidden="true" />
+                        <Icon className={`h-6 w-6 ${feature.color}`} aria-hidden="true" />
                       </motion.div>
 
                       {/* Enhanced title and description */}
@@ -280,7 +280,7 @@ export function EnhancedFeatures() {
         </StaggerContainer>
 
         {/* Enhanced call to action with proper spacing */}
-        <FadeInScroll className="text-center mt-32" delay={0.5}>
+        <FadeInScroll className="text-center mt-24" delay={0.5}>
           <motion.div
             whileHover={isAnimationEnabled ? { scale: 1.02 } : {}}
             whileTap={isAnimationEnabled ? { scale: 0.98 } : {}}
@@ -340,7 +340,7 @@ export function EnhancedFeatures() {
         </FadeInScroll>
       
         {/* Stats showcase section with proper spacing */}
-        <div className="mt-24 sm:mt-32 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto">
+        <div className="mt-20 sm:mt-24 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-4xl mx-auto">
           {[
             { icon: FileText, label: "Past Papers", value: "1000+", color: "text-blue-500" },
             { icon: Users, label: "Faculty Reviews", value: "500+", color: "text-purple-500" },
@@ -355,7 +355,7 @@ export function EnhancedFeatures() {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.1 * index }}
                 whileHover={isAnimationEnabled && isInView ? { y: -5 } : {}}
-                className="text-center p-4 sm:p-6 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 transition-all duration-300 hover:shadow-lg glass-card"
+                className="text-center p-3 sm:p-5 rounded-xl bg-card/70 backdrop-blur-md border border-white/15 transition-all duration-300 hover:shadow-md glass-subtle"
                 role="region"
                 aria-label={`${stat.label}: ${stat.value}`}
               >

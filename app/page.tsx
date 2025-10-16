@@ -136,7 +136,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/20 to-indigo-50/10 dark:from-background dark:via-blue-950/20 dark:to-indigo-950/10">
+    <div className="min-h-screen bg-gradient-to-br from-background via-blue-50/20 to-indigo-50/10 dark:from-background dark:via-slate-900 dark:to-slate-900">
       {/* Enhanced Background Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {/* Gradient orbs - adjusted to use more professional blue/indigo tones */}

@@ -185,21 +185,21 @@ export function EnhancedHero() {
   }
 
   return (
-    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-blue-100/20 dark:from-slate-900/50 dark:via-slate-800/30 dark:to-slate-900/20 glass-primary" aria-labelledby="hero-heading" ref={ref} role="region">
+    <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/30 via-indigo-50/20 to-blue-100/10 dark:from-slate-900/30 dark:via-slate-800/20 dark:to-slate-900/10" aria-labelledby="hero-heading" ref={ref} role="region">
       {/* Enhanced background elements with proper spacing and reduced visual noise */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-500/15 to-indigo-500/15 rounded-full blur-3xl animate-pulse glass-subtle" aria-hidden="true" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-blue-600/15 to-indigo-600/15 rounded-full blur-3xl animate-pulse glass-subtle" style={{ animationDelay: '2s' }} aria-hidden="true" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-blue-400/10 to-indigo-400/10 rounded-full blur-3xl glass-subtle" aria-hidden="true" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl" aria-hidden="true" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-blue-600/10 to-indigo-600/10 rounded-full blur-3xl" style={{ animationDelay: '2s' }} aria-hidden="true" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-blue-400/5 to-indigo-400/5 rounded-full blur-3xl" aria-hidden="true" />
       </div>
 
-      <div className="app-container relative z-10 py-16 md:py-20 lg:py-28">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div className="app-container relative z-10 py-12 md:py-16 lg:py-20">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left Content */}
-          <div className="space-y-8 md:space-y-10 flex flex-col justify-center h-full">
+          <div className="space-y-6 md:space-y-8 flex flex-col justify-center h-full">
             {/* Logo showcase with enhanced animations */}
             <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <div className="flex items-center gap-4 md:gap-6 mb-8 md:mb-10 justify-center md:justify-start">
+              <div className="flex items-center gap-4 md:gap-5 mb-6 md:mb-8 justify-center md:justify-start">
                 <motion.div 
                   className="relative group"
                   whileHover={isAnimationEnabled ? { scale: 1.05 } : {}}
