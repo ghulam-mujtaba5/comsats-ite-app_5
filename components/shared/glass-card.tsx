@@ -64,7 +64,7 @@ export function GlassCard({
 
   // Get accessibility classes
   const focusClasses = glassAccessibility.getFocusClasses()
-  const textContrastClasses = glassAccessibility.getTextContrastClasses(glassVariantMap[glassVariant] as any)
+  const textContrastClasses = glassAccessibility.getTextContrastClasses(glassVariantMap[glassVariant] as 'glass-primary' | 'glass-secondary' | 'glass-subtle')
 
   return (
     <Card 

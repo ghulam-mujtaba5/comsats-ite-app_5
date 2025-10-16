@@ -134,9 +134,9 @@ export async function rateLimit(
   limit: number = 10,
   windowMs: number = 60000
 ): Promise<void> {
-  const allowed = checkRateLimit(key, limit, windowMs)
+  const result = await checkRateLimit(request, { limit, windowMs: windowMs || 60000 })
   
-  if (!allowed) {
+  if (!result.success) {
     throw createError('Rate limit exceeded. Please try again later.', 'RATE_LIMITED', 429)
   }
 }
@@ -283,7 +283,7 @@ export async function verifyOwnership(
       .single()
 
     if (error || !data) return false
-    return data[userIdField] === userId
+    return (data as any)[userIdField] === userId
   } catch (error) {
     return false
   }

@@ -6,10 +6,10 @@ export * from './utils'
 export * from './config'
 
 // Design System Exports (New & Legacy)
-export * from './design-system'
+export { designSystem } from './design-system'
 export * from './glassmorphism-2025'
-export * from './ui-ux-framework'
-export * from './campusaxis-standards'
+export { uiUxFramework } from './ui-ux-framework'
+export { campusAxisStandards } from './campusaxis-standards'
 
 // Additional modules can be added here as they are organized
 // export * from './middleware'

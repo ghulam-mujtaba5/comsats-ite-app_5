@@ -56,6 +56,8 @@ export function AnimatedCard({
   enableGlow = false,
   ...props 
 }: AnimatedCardProps) {
+  // Remove motion-specific props that might conflict with HTMLDivElement
+  const { style, ...restProps } = props as any
   const { hoverVariants, glowVariants } = useMicroInteraction()
   const { animationIntensity, isAnimationEnabled } = useAnimation()
   const prefersReducedMotion = useReducedMotion()
@@ -104,7 +106,7 @@ export function AnimatedCard({
         enableHover && 'cursor-pointer',
         className
       )}
-      {...props}
+      {...restProps}
     >
       {children}
     </motion.div>
@@ -127,6 +129,8 @@ export function AnimatedButton({
   variant = 'default',
   ...props 
 }: AnimatedButtonProps) {
+  // Remove motion-specific props that might conflict with HTMLButtonElement
+  const { style, ...restProps } = props as any
   const { tapVariants, glowVariants } = useMicroInteraction()
   const { animationIntensity, isAnimationEnabled } = useAnimation()
   const prefersReducedMotion = useReducedMotion()
@@ -177,7 +181,7 @@ export function AnimatedButton({
         'disabled:pointer-events-none disabled:opacity-50',
         className
       )}
-      {...props}
+      {...restProps}
     >
       {children}
     </motion.button>
@@ -501,6 +505,8 @@ interface FloatingButtonProps {
 }
 
 export function FloatingButton({ children, className, ...props }: FloatingButtonProps) {
+  // Remove motion-specific props that might conflict with HTMLButtonElement
+  const { style, ...restProps } = props as any
   const { animationIntensity, isAnimationEnabled } = useAnimation()
   const prefersReducedMotion = useReducedMotion()
 
@@ -552,7 +558,7 @@ export function FloatingButton({ children, className, ...props }: FloatingButton
         'bg-primary text-primary-foreground z-50',
         className
       )}
-      {...props}
+      {...restProps}
     >
       {children}
     </motion.button>

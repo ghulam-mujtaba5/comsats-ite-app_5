@@ -274,8 +274,6 @@ self.addEventListener('push', (event: PushEvent) => {
         icon: '/icon-192x192.png',
         badge: '/icon-192x192.png',
         tag: 'campusaxis-notification',
-        renotify: true,
-        vibrate: [200, 100, 200],
         data: {
           url: data.url || '/',
           timestamp: Date.now(),

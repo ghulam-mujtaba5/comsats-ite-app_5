@@ -92,7 +92,7 @@ export default function GlassmorphismTestPage() {
               </p>
             </CardContent>
           </Card>
-          <Card variant="glass-subtle">
+          <Card variant="soft">
             <CardHeader>
               <CardTitle>Subtle Glass Card</CardTitle>
               <CardDescription>
@@ -122,7 +122,7 @@ export default function GlassmorphismTestPage() {
         <h2 className="text-2xl font-semibold mb-4">Badges</h2>
         <div className="flex flex-wrap gap-4">
           <Badge variant="glass">Glass Badge</Badge>
-          <Badge variant="glass-subtle">Subtle Glass Badge</Badge>
+          <Badge variant="soft">Subtle Glass Badge</Badge>
         </div>
       </section>
 
@@ -234,7 +234,7 @@ export default function GlassmorphismTestPage() {
             </Card>
           </TabsContent>
           <TabsContent value="tab2" className="mt-4">
-            <Card variant="glass-subtle">
+            <Card variant="soft">
               <CardHeader>
                 <CardTitle>Second Tab Content</CardTitle>
                 <CardDescription>
