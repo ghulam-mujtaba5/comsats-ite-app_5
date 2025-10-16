@@ -92,6 +92,7 @@ const AvatarImage = React.forwardRef<
         width={width}
         height={height}
         className={cn("aspect-square size-full object-cover", className)}
+        unoptimized={typeof src === 'string' && !src.startsWith('/')}
         {...props}
         onError={(e) => {
           // Handle image loading errors by hiding the image
