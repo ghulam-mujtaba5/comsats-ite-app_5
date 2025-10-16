@@ -5,15 +5,19 @@ import { cn } from "@/lib/utils"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+  "relative w-full rounded-2xl border-2 px-6 py-4 text-base grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-4 gap-y-2 items-start [&>svg]:size-5 [&>svg]:translate-y-0.5 [&>svg]:text-current transition-all duration-300 ease-in-out",
   {
     variants: {
       variant: {
-        default: "bg-card text-card-foreground",
+        default: "bg-card text-card-foreground border-border shadow-sm",
         destructive:
-          "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white shadow-glass-sm",
+          "text-destructive bg-destructive/10 border-destructive/30 [&>svg]:text-destructive *:data-[slot=alert-description]:text-destructive/90 shadow-sm",
+        success: "text-[#22C55E] bg-[#22C55E]/10 border-[#22C55E]/30 [&>svg]:text-[#22C55E] *:data-[slot=alert-description]:text-[#22C55E]/90 shadow-sm",
+        warning: "text-[#F59E0B] bg-[#F59E0B]/10 border-[#F59E0B]/30 [&>svg]:text-[#F59E0B] *:data-[slot=alert-description]:text-[#F59E0B]/90 shadow-sm",
+        info: "text-[#3B82F6] bg-[#3B82F6]/10 border-[#3B82F6]/30 [&>svg]:text-[#3B82F6] *:data-[slot=alert-description]:text-[#3B82F6]/90 shadow-sm",
+        glass: "bg-white/10 backdrop-blur-[15px] dark:backdrop-blur-[25px] border-white/20 dark:border-white/10 text-foreground shadow-sm",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-foreground shadow-sm",
+        campus: "text-[#007BFF] dark:text-[#1F8FFF] bg-[#007BFF]/10 dark:bg-[#1F8FFF]/10 border-[#007BFF]/30 dark:border-[#1F8FFF]/30 [&>svg]:text-[#007BFF] dark:[&>svg]:text-[#1F8FFF] shadow-sm",
       },
     },
     defaultVariants: {

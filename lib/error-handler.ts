@@ -137,3 +137,121 @@ export const CommonErrors = {
   NETWORK_ERROR: () => createError('Network connection error', 'NETWORK_ERROR', 500),
   RATE_LIMITED: () => createError('Too many requests. Please try again later', 'RATE_LIMITED', 429)
 }
+
+/**
+ * Retry function with exponential backoff
+ */
+export async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  options?: {
+    maxRetries?: number
+    initialDelay?: number
+    maxDelay?: number
+    backoffFactor?: number
+    onRetry?: (attempt: number, error: Error) => void
+  }
+): Promise<T> {
+  const {
+    maxRetries = 3,
+    initialDelay = 1000,
+    maxDelay = 10000,
+    backoffFactor = 2,
+    onRetry,
+  } = options || {}
+
+  let lastError: Error
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn()
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error))
+      
+      if (attempt < maxRetries) {
+        const delay = Math.min(
+          initialDelay * Math.pow(backoffFactor, attempt),
+          maxDelay
+        )
+        
+        onRetry?.(attempt + 1, lastError)
+        
+        await new Promise(resolve => setTimeout(resolve, delay))
+      }
+    }
+  }
+
+  throw lastError!
+}
+
+/**
+ * Create user-friendly error message
+ */
+export function createErrorMessage(
+  error: unknown,
+  fallbackMessage: string = 'Something went wrong'
+): string {
+  if (error && typeof error === 'object' && 'message' in error) {
+    const message = String(error.message)
+    if (message.includes('fetch') || message.includes('network')) {
+      return 'Network connection issue. Please check your internet connection.'
+    }
+    return message
+  }
+  
+  if (typeof error === 'string') {
+    return error
+  }
+  
+  return fallbackMessage
+}
+
+/**
+ * Parse error into a user-friendly message
+ */
+export function parseError(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message
+  }
+  
+  if (typeof error === 'string') {
+    return error
+  }
+  
+  if (error && typeof error === 'object' && 'message' in error) {
+    return String(error.message)
+  }
+  
+  return 'An unexpected error occurred. Please try again.'
+}
+
+/**
+ * Safe error handler that never throws
+ */
+export function safeErrorHandler<T>(
+  fn: () => T,
+  fallback: T,
+  context?: string
+): T {
+  try {
+    return fn()
+  } catch (error) {
+    console.error(`[${context || 'SafeErrorHandler'}] Error:`, error)
+    return fallback
+  }
+}
+
+/**
+ * Async safe error handler
+ */
+export async function safeAsyncHandler<T>(
+  fn: () => Promise<T>,
+  fallback: T,
+  context?: string
+): Promise<T> {
+  try {
+    return await fn()
+  } catch (error) {
+    console.error(`[${context || 'SafeAsyncHandler'}] Error:`, error)
+    return fallback
+  }
+}

@@ -134,18 +134,44 @@ export default function Error({
               </div>
 
               {/* Enhanced Development Error Details */}
-              {process.env.NODE_ENV === "development" && error.message && (
+              {error && (
                 <div className="pt-8 border-t border-border/50">
-                  <details className="text-left">
+                  <details className="text-left" open={process.env.NODE_ENV === "development"}>
                     <summary className="cursor-pointer text-sm font-semibold text-muted-foreground mb-4 hover:text-foreground transition-colors duration-200 flex items-center gap-2">
                       <AlertTriangle className="h-4 w-4" />
-                      Error Details (Development Only)
+                      Error Details {process.env.NODE_ENV === "development" && "(Development Only)"}
                     </summary>
                     <Card className="card-modern border-0 backdrop-blur-sm mt-4">
-                      <CardContent className="p-6">
-                        <pre className="text-sm bg-gradient-to-br from-red-500/10 to-orange-500/10 p-4 rounded-xl overflow-auto text-muted-foreground border border-red-500/20 backdrop-blur-sm">
-                          {error.message}
-                        </pre>
+                      <CardContent className="p-6 space-y-4">
+                        {error.message && (
+                          <div>
+                            <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Error Message</h4>
+                            <pre className="text-sm bg-gradient-to-br from-red-500/10 to-orange-500/10 p-4 rounded-xl overflow-auto text-foreground border border-red-500/20 backdrop-blur-sm whitespace-pre-wrap break-words">
+                              {error.message}
+                            </pre>
+                          </div>
+                        )}
+                        {error.digest && (
+                          <div>
+                            <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Error Digest</h4>
+                            <pre className="text-sm bg-gradient-to-br from-orange-500/10 to-yellow-500/10 p-4 rounded-xl overflow-auto text-foreground border border-orange-500/20 backdrop-blur-sm font-mono">
+                              {error.digest}
+                            </pre>
+                          </div>
+                        )}
+                        {error.stack && process.env.NODE_ENV === "development" && (
+                          <div>
+                            <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Stack Trace</h4>
+                            <pre className="text-xs bg-gradient-to-br from-red-500/10 to-orange-500/10 p-4 rounded-xl overflow-auto text-muted-foreground border border-red-500/20 backdrop-blur-sm whitespace-pre-wrap break-words max-h-64">
+                              {error.stack}
+                            </pre>
+                          </div>
+                        )}
+                        {!error.message && !error.digest && !error.stack && (
+                          <div>
+                            <p className="text-sm text-muted-foreground italic">No additional error details available.</p>
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
                   </details>

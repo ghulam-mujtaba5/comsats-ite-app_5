@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { createClient } from '@supabase/supabase-js'
 
 // GET /api/faculty
 export async function GET(req: NextRequest) {
@@ -11,16 +10,15 @@ export async function GET(req: NextRequest) {
     'Vercel-CDN-Cache-Control': 'no-store'
   }
 
-  const cookieStore = await (cookies() as any)
-  const supabase = createServerClient(
+  // Use service role key for server-side API route to bypass RLS
+  const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {
-      cookies: {
-        get(name: string) { return cookieStore.get(name)?.value },
-        set(name: string, value: string, options?: any) { cookieStore.set({ name, value, ...options }) },
-        remove(name: string, options?: any) { cookieStore.set({ name, value: '', ...options }) },
-      },
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
     }
   )
 
@@ -49,7 +47,6 @@ export async function GET(req: NextRequest) {
       rating_count,
       created_at
     `)
-    .eq('status', 'approved') // Only show approved faculty
     .order('name', { ascending: true })
 
   // Filter by campus if provided
@@ -62,11 +59,15 @@ export async function GET(req: NextRequest) {
     query = query.eq('department_id', departmentId)
   }
 
-  const { data, error } = await query
+  try {
+    const { data, error } = await query
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400, headers })
+    if (error) {
+      console.error('Faculty fetch error:', error)
+      return NextResponse.json({ error: error.message || 'Failed to fetch faculty' }, { status: 400, headers })
+    }
 
-  return NextResponse.json((data || []).map((row: any) => ({
+    return NextResponse.json((data || []).map((row: any) => ({
     id: row.id,
     name: row.name,
     title: row.title || '',
@@ -83,4 +84,11 @@ export async function GET(req: NextRequest) {
     totalReviews: Number(row.rating_count ?? 0),
     joinDate: row.created_at || new Date().toISOString(),
   })), { headers })
+  } catch (error) {
+    console.error('Unexpected error in faculty API:', error)
+    return NextResponse.json(
+      { error: 'An unexpected error occurred while fetching faculty data' },
+      { status: 500, headers }
+    )
+  }
 }

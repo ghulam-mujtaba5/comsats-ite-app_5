@@ -6,18 +6,19 @@ import { cva, VariantProps } from 'class-variance-authority'
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const inputVariants = cva(
-  'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+  'flex w-full rounded-xl border-2 border-input bg-background px-4 py-3 text-base font-medium ring-offset-background file:border-0 file:bg-transparent file:text-base file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted transition-all duration-200 ease-in-out min-h-[44px]',
   {
     variants: {
       variant: {
-        default: '',
-        glass: 'bg-white/10 backdrop-blur-xl border-white/20 text-white placeholder:text-white/70 focus:ring-2 focus:ring-white/30 focus:border-white/30 shadow-glass',
-        'glass-subtle': 'bg-white/5 backdrop-blur-lg border-white/10 text-white placeholder:text-white/60 focus:ring-1 focus:ring-white/20 focus:border-white/20 shadow-glass-sm',
+        default: 'hover:border-primary/40',
+        glass: 'bg-white/10 backdrop-blur-[15px] border-white/20 dark:bg-white/5 dark:backdrop-blur-[25px] dark:border-white/10 text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary focus:border-primary/50 shadow-sm hover:bg-white/15 dark:hover:bg-white/10',
+        'glass-subtle': 'bg-white/5 backdrop-blur-lg border-white/10 text-foreground placeholder:text-muted-foreground/60 focus:ring-1 focus:ring-primary/50 focus:border-primary/30 shadow-sm',
+        campus: 'border-[#007BFF]/20 dark:border-[#1F8FFF]/20 focus:border-[#007BFF] dark:focus:border-[#1F8FFF] focus:ring-[#007BFF]/20 dark:focus:ring-[#1F8FFF]/20',
       },
       inputSize: {
-        default: 'h-10 px-3 py-2',
-        sm: 'h-9 px-2.5 py-1.5 text-xs',
-        lg: 'h-11 px-4 py-3 text-base',
+        default: 'h-11 px-4 py-3 text-base',
+        sm: 'h-10 px-3 py-2.5 text-sm min-h-[40px]',
+        lg: 'h-12 px-5 py-4 text-lg min-h-[48px]',
       },
     },
     defaultVariants: {

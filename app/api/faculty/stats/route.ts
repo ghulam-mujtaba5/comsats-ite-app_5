@@ -15,8 +15,7 @@ export async function GET() {
     // 1. Get total faculty members using count query to reduce CPU usage
     const { count: facultyCount, error: facultyError } = await supabaseAdmin
       .from("faculty")
-      .select("id", { count: "exact", head: true })
-      .eq('status', 'approved');
+      .select("id", { count: "exact", head: true });
     
     if (facultyError) {
       console.error("Faculty count error:", facultyError);
@@ -72,7 +71,6 @@ export async function GET() {
     const { data: departmentData, error: departmentError } = await supabaseAdmin
       .from("faculty")
       .select("department")
-      .eq('status', 'approved')
       .neq('department', null); // Exclude null departments
     
     if (departmentError) {

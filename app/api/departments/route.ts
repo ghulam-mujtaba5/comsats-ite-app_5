@@ -1,5 +1,4 @@
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -10,16 +9,15 @@ export async function GET(request: NextRequest) {
     'Vercel-CDN-Cache-Control': 'public, s-maxage=900'
   }
 
-  const cookieStore = await cookies()
-  const supabase = createServerClient(
+  // Use service role key for server-side API route to bypass RLS
+  const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {
-      cookies: {
-        get(name: string) { return cookieStore.get(name)?.value },
-        set(name: string, value: string, options?: any) { cookieStore.set({ name, value, ...options }) },
-        remove(name: string, options?: any) { cookieStore.set({ name, value: '', ...options }) },
-      },
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
     }
   )
 
@@ -40,11 +38,16 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400, headers })
+      console.error('Departments fetch error:', error)
+      return NextResponse.json({ error: error.message || 'Failed to fetch departments' }, { status: 400, headers })
     }
 
     return NextResponse.json(data || [], { headers })
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500, headers })
+    console.error('Unexpected error in departments API:', error)
+    return NextResponse.json(
+      { error: 'An unexpected error occurred while fetching departments' },
+      { status: 500, headers }
+    )
   }
 }

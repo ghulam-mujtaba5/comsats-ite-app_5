@@ -6,32 +6,34 @@ import { cn } from "@/lib/utils"
 import { useRippleEffect, usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 interactive hover-lift active:scale-[.99] relative overflow-hidden animate-ease-spring animate-duration-300",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-semibold transition-all duration-200 ease-in-out disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 active:scale-[0.98] relative overflow-hidden min-h-[44px]",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:-translate-y-0.5 shadow-[0_4px_12px_rgba(37,99,235,0.3)]",
         destructive:
-          "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
+          "bg-destructive text-white shadow-sm hover:bg-destructive/90 hover:-translate-y-0.5 focus-visible:ring-destructive/40 shadow-[0_4px_12px_rgba(239,68,68,0.3)]",
         outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
-        secondary: "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
-        soft: "bg-primary/10 text-primary hover:bg-primary/15 dark:bg-primary/15 dark:hover:bg-primary/20",
+          "border-2 border-primary/20 bg-background/50 backdrop-blur-sm hover:bg-primary/5 hover:border-primary/40 dark:border-primary/30 dark:hover:bg-primary/10",
+        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 hover:-translate-y-0.5",
+        ghost: "hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20",
+        link: "text-primary underline-offset-4 hover:underline min-h-0",
+        soft: "bg-primary/10 text-primary hover:bg-primary/20 dark:bg-primary/15 dark:hover:bg-primary/25",
         subtle: "bg-muted text-foreground/90 hover:bg-muted/80 dark:text-foreground",
-        success: "bg-[--success] text-[--success-foreground] hover:bg-[color-mix(in_oklab,var(--success)_85%,black_15%)]",
-        warning: "bg-[--warning] text-[--warning-foreground] hover:bg-[color-mix(in_oklab,var(--warning)_85%,black_15%)]",
-        info: "bg-[--info] text-[--info-foreground] hover:bg-[color-mix(in_oklab,var(--info)_85%,black_15%)]",
-        glass: "glass-button glass-border-subtle glass-hover glass-interactive",
-        "glass-premium": "glass-premium glass-border-glow glass-hover-glow glass-interactive",
+        success: "bg-[#22C55E] text-white hover:bg-[#16A34A] shadow-[0_4px_12px_rgba(34,197,94,0.3)]",
+        warning: "bg-[#F59E0B] text-white hover:bg-[#D97706] shadow-[0_4px_12px_rgba(245,158,11,0.3)]",
+        info: "bg-[#3B82F6] text-white hover:bg-[#2563EB] shadow-[0_4px_12px_rgba(59,130,246,0.3)]",
+        glass: "glass-button glass-border-subtle glass-hover glass-interactive backdrop-blur-[15px] bg-white/70 dark:bg-white/5 dark:backdrop-blur-[25px] border border-white/20 dark:border-white/10",
+        "glass-premium": "glass-premium glass-border-glow glass-hover-glow glass-interactive backdrop-blur-[20px]",
+        "campus-primary": "bg-[#007BFF] dark:bg-[#1F8FFF] text-white shadow-[0_4px_12px_rgba(0,123,255,0.3)] dark:shadow-[0_0_20px_rgba(31,143,255,0.5)] hover:bg-[#0056b3] dark:hover:bg-[#1F8FFF]/90 hover:-translate-y-0.5",
+        "campus-secondary": "bg-white dark:bg-black text-[#007BFF] dark:text-[#1F8FFF] border-2 border-[#007BFF] dark:border-[#1F8FFF] hover:bg-[#007BFF]/5 dark:hover:bg-[#1F8FFF]/10 hover:border-[#0056b3] dark:hover:border-[#1F8FFF]/90",
       },
       size: {
-        default: "h-9 px-4 py-2 has-[>svg]:px-3",
-        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-        icon: "size-9",
-        xs: "h-7 rounded-md px-2.5 text-xs gap-1 has-[>svg]:px-2",
+        default: "h-11 px-6 py-3 has-[>svg]:px-5 text-base",
+        sm: "h-10 px-4 py-2.5 has-[>svg]:px-3 text-sm",
+        lg: "h-12 px-8 py-4 has-[>svg]:px-6 text-lg",
+        icon: "size-11 p-0",
+        xs: "h-9 px-3 py-2 text-xs has-[>svg]:px-2.5",
       },
     },
     defaultVariants: {
