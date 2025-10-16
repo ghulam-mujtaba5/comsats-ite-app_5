@@ -41,11 +41,12 @@ export function PageTransition({ children, className }: PageTransitionProps) {
 /**
  * Animated card with hover effects
  */
-interface AnimatedCardProps extends HTMLMotionProps<'div'> {
+interface AnimatedCardProps {
   children: React.ReactNode
   className?: string
   enableHover?: boolean
   enableGlow?: boolean
+  [key: string]: any
 }
 
 export function AnimatedCard({ 
@@ -113,10 +114,11 @@ export function AnimatedCard({
 /**
  * Animated button with press feedback
  */
-interface AnimatedButtonProps extends HTMLMotionProps<'button'> {
+interface AnimatedButtonProps {
   children: React.ReactNode
   className?: string
   variant?: 'default' | 'glow'
+  [key: string]: any
 }
 
 export function AnimatedButton({ 
@@ -276,9 +278,10 @@ export function StaggerContainer({ children, className, staggerDelay = 0.1 }: St
   )
 }
 
-interface StaggerItemProps extends HTMLMotionProps<'div'> {
+interface StaggerItemProps {
   children: React.ReactNode
   className?: string
+  [key: string]: any
 }
 
 export function StaggerItem({ children, className, ...props }: StaggerItemProps) {
@@ -491,9 +494,10 @@ export function AnimatedModal({ isOpen, onClose, children, className }: Animated
 /**
  * Floating action button
  */
-interface FloatingButtonProps extends HTMLMotionProps<'button'> {
+interface FloatingButtonProps {
   children: React.ReactNode
   className?: string
+  [key: string]: any
 }
 
 export function FloatingButton({ children, className, ...props }: FloatingButtonProps) {

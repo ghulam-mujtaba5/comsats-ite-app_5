@@ -32,9 +32,9 @@ export function GlassCard({
 }: GlassCardProps) {
   // Define glass variants using our new system
   const glassVariantMap = {
-    primary: 'glass-primary',
-    secondary: 'glass-secondary',
-    subtle: 'glass-subtle',
+    primary: 'glass-primary' as const,
+    secondary: 'glass-secondary' as const,
+    subtle: 'glass-subtle' as const,
   }
 
   // Get glassmorphism classes with accessibility support
@@ -64,7 +64,7 @@ export function GlassCard({
 
   // Get accessibility classes
   const focusClasses = glassAccessibility.getFocusClasses()
-  const textContrastClasses = glassAccessibility.getTextContrastClasses(glassVariantMap[glassVariant])
+  const textContrastClasses = glassAccessibility.getTextContrastClasses(glassVariantMap[glassVariant] as any)
 
   return (
     <Card 
