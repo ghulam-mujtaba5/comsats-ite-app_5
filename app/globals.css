@@ -233,18 +233,16 @@ html, body {
   --info: oklch(0.7 0.12 240); /* Softer blue */
   --info-foreground: oklch(1 0 0); /* White text on info */
   
-  /* Apple 2025 Glassmorphism Variables */
-  --glass-blur-sm: 6px;
-  --glass-blur-md: 10px;
+  /* Optimized Glassmorphism Variables - Professional & Accessible */
+  --glass-blur-sm: 8px;
+  --glass-blur-md: 12px;
   --glass-blur-lg: 16px;
   --glass-blur-xl: 20px;
-  --glass-blur-2xl: 28px;
-  --glass-blur-3xl: 36px;
-  --glass-saturation: 200%;
-  --glass-brightness: 120%;
-  --glass-border-opacity: 0.2;
-  --glass-bg-opacity: 0.35;
-  --glass-shadow-opacity: 0.15;
+  --glass-saturation: 150%;
+  --glass-brightness: 110%;
+  --glass-border-opacity: 0.15;
+  --glass-bg-opacity: 0.25;
+  --glass-shadow-opacity: 0.10;
 }
 
 .dark {
@@ -289,18 +287,16 @@ html, body {
   --info: oklch(0.55 0.12 240); /* Softer blue for dark mode */
   --info-foreground: oklch(1 0 0); /* White text on info */
   
-  /* Apple 2025 Glassmorphism Variables for Dark Mode */
-  --glass-blur-sm: 6px;
+  /* Optimized Glassmorphism Variables for Dark Mode */
+  --glass-blur-sm: 8px;
   --glass-blur-md: 12px;
-  --glass-blur-lg: 18px;
-  --glass-blur-xl: 24px;
-  --glass-blur-2xl: 32px;
-  --glass-blur-3xl: 40px;
-  --glass-saturation: 220%;
-  --glass-brightness: 130%;
-  --glass-border-opacity: 0.15;
-  --glass-bg-opacity: 0.2;
-  --glass-shadow-opacity: 0.25;
+  --glass-blur-lg: 16px;
+  --glass-blur-xl: 20px;
+  --glass-saturation: 140%;
+  --glass-brightness: 105%;
+  --glass-border-opacity: 0.12;
+  --glass-bg-opacity: 0.18;
+  --glass-shadow-opacity: 0.20;
 }
 
 @theme inline {
@@ -545,119 +541,72 @@ html, body {
     animation-play-state: paused;
   }
 
-  /* Base Glass Effects - Apple 2025 Style */
+  /* Simplified 4-Class Glass System - Professional & Accessible */
+  
+  /* Primary Glass - Hero sections, major CTAs (high emphasis) */
+  .glass-primary {
+    @apply bg-white/30 dark:bg-white/[0.15] backdrop-blur-[var(--glass-blur-lg)] saturate-[var(--glass-saturation)] brightness-[var(--glass-brightness)];
+    @apply border border-white/[var(--glass-border-opacity)] dark:border-white/[0.12];
+    @apply shadow-lg shadow-black/[var(--glass-shadow-opacity)] dark:shadow-black/20;
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .glass-primary:hover {
+    @apply bg-white/35 dark:bg-white/[0.2] shadow-xl shadow-black/[calc(var(--glass-shadow-opacity)*1.5)];
+  }
+
+  /* Secondary Glass - Feature cards, content sections (medium emphasis) */
+  .glass-secondary {
+    @apply bg-white/25 dark:bg-white/[0.1] backdrop-blur-[var(--glass-blur-md)] saturate-[var(--glass-saturation)];
+    @apply border border-white/[calc(var(--glass-border-opacity)*0.8)] dark:border-white/[0.08];
+    @apply shadow-md shadow-black/[calc(var(--glass-shadow-opacity)*0.8)] dark:shadow-black/15;
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .glass-secondary:hover {
+    @apply bg-white/30 dark:bg-white/[0.15] shadow-lg shadow-black/[var(--glass-shadow-opacity)];
+  }
+
+  /* Subtle Glass - Backgrounds, subtle dividers (low emphasis) */
   .glass-subtle {
-    @apply bg-white/[var(--glass-bg-opacity)] dark:bg-white/[0.05] backdrop-blur-[var(--glass-blur-sm)] saturate-[var(--glass-saturation)];
+    @apply bg-white/15 dark:bg-white/[0.05] backdrop-blur-[var(--glass-blur-sm)] saturate-[120%];
+    @apply border border-white/[calc(var(--glass-border-opacity)*0.5)] dark:border-white/[0.05];
+    @apply transition-all duration-300 ease-out;
   }
 
-  .glass-light {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.05)] dark:bg-white/[0.08] backdrop-blur-[var(--glass-blur-md)] saturate-[var(--glass-saturation)];
+  /* Interactive Glass - Buttons, links, clickable cards (hover states) */
+  .glass-interactive {
+    @apply bg-white/25 dark:bg-white/[0.1] backdrop-blur-[var(--glass-blur-md)] saturate-[var(--glass-saturation)];
+    @apply border border-white/[calc(var(--glass-border-opacity)*0.8)] dark:border-white/[0.08];
+    @apply shadow-md shadow-black/[calc(var(--glass-shadow-opacity)*0.8)] dark:shadow-black/15;
+    @apply transition-all duration-300 ease-out cursor-pointer;
   }
 
-  .glass-medium {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.1)] dark:bg-white/[0.12] backdrop-blur-[var(--glass-blur-lg)] saturate-[var(--glass-saturation)] brightness-[var(--glass-brightness)];
+  .glass-interactive:hover {
+    @apply bg-white/35 dark:bg-white/[0.18] border-white/20 dark:border-white/[0.15];
+    @apply shadow-lg shadow-black/[calc(var(--glass-shadow-opacity)*1.2)] dark:shadow-black/20;
+    transform: translateY(-2px);
   }
 
-  .glass-strong {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.15)] dark:bg-white/[0.18] backdrop-blur-[var(--glass-blur-xl)] saturate-[var(--glass-saturation)] brightness-[var(--glass-brightness)];
+  .glass-interactive:active {
+    transform: translateY(0);
+    @apply shadow-md shadow-black/10;
   }
 
-  .glass-premium {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.2)] dark:bg-white/[0.25] backdrop-blur-[var(--glass-blur-2xl)] saturate-[calc(var(--glass-saturation)+20%)] brightness-[var(--glass-brightness)];
-  }
+  /* Legacy Class Aliases - Map old classes to new system */
+  .glass-light { @apply glass-subtle; }
+  .glass-medium { @apply glass-secondary; }
+  .glass-strong { @apply glass-primary; }
+  .glass-premium { @apply glass-primary; }
+  .glass-ultra { @apply glass-primary; }
 
-  .glass-ultra {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, calc(var(--glass-bg-opacity) + 0.35)),
-      rgba(255, 255, 255, calc(var(--glass-bg-opacity) + 0.2)),
-      rgba(255, 255, 255, calc(var(--glass-bg-opacity) + 0.12))
-    );
-    @apply backdrop-blur-[var(--glass-blur-3xl)] saturate-[calc(var(--glass-saturation)+50%)] brightness-[calc(var(--glass-brightness)+20%)];
-    @apply border border-white/[calc(var(--glass-border-opacity)+0.15)] dark:border-white/[0.2];
-  }
-
-  .dark .glass-ultra {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.18),
-      rgba(255, 255, 255, 0.12),
-      rgba(255, 255, 255, 0.06)
-    );
-    @apply border border-white/[0.1] dark:border-white/[0.15];
-  }
-
-  /* Component-Specific Glass - Apple 2025 Style */
-  .glass-card {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.12)] dark:bg-slate-900/[0.2] backdrop-blur-[var(--glass-blur-xl)] saturate-[var(--glass-saturation)];
-    @apply border border-white/[var(--glass-border-opacity)] dark:border-white/[0.08] shadow-lg shadow-black/[calc(var(--glass-shadow-opacity)*0.5)] dark:shadow-black/[var(--glass-shadow-opacity)];
-  }
-
-  .glass-card-premium {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.25)] dark:bg-slate-900/[0.3] backdrop-blur-[var(--glass-blur-3xl)] saturate-[calc(var(--glass-saturation)+30%)];
-    @apply border border-white/[calc(var(--glass-border-opacity)+0.1)] dark:border-white/[0.15];
-    box-shadow: 
-      0 25px 50px -12px rgba(0, 0, 0, calc(var(--glass-shadow-opacity)*2)),
-      0 10px 15px -3px rgba(0, 0, 0, calc(var(--glass-shadow-opacity)*1.2)),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
-      0 0 0 1px rgba(255, 255, 255, 0.08);
-  }
-
-  .dark .glass-card-premium {
-    box-shadow: 
-      0 25px 50px -12px rgba(0, 0, 0, calc(var(--glass-shadow-opacity)*4)),
-      0 10px 15px -3px rgba(0, 0, 0, calc(var(--glass-shadow-opacity)*2)),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
-      0 0 0 1px rgba(255, 255, 255, 0.1);
-  }
-
-  .glass-nav {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.4)] dark:bg-slate-900/[0.5] backdrop-blur-[var(--glass-blur-2xl)] saturate-[var(--glass-saturation)] brightness-[var(--glass-brightness)];
-    @apply border-b border-white/[var(--glass-border-opacity)] dark:border-white/[0.08] shadow-lg shadow-black/[calc(var(--glass-shadow-opacity)*0.5)] dark:shadow-black/[var(--glass-shadow-opacity)];
-  }
-
-  .glass-modal {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.5)] dark:bg-slate-900/[0.6] backdrop-blur-[var(--glass-blur-3xl)] saturate-[var(--glass-saturation)];
-    @apply border border-white/[calc(var(--glass-border-opacity)+0.05)] dark:border-white/[0.12] shadow-2xl shadow-black/[calc(var(--glass-shadow-opacity)*1.5)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*4)];
-  }
-
-  .glass-hero {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, calc(var(--glass-bg-opacity) + 0.4)),
-      rgba(255, 255, 255, calc(var(--glass-bg-opacity) + 0.25)),
-      rgba(255, 255, 255, calc(var(--glass-bg-opacity) + 0.15))
-    );
-    @apply backdrop-blur-[var(--glass-blur-3xl)] saturate-[calc(var(--glass-saturation)+30%)];
-    @apply border border-white/[calc(var(--glass-border-opacity)+0.1)] dark:border-white/[0.15];
-    box-shadow: 
-      0 30px 60px -15px rgba(0, 0, 0, calc(var(--glass-shadow-opacity)*2.5)),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
-      0 0 0 1px rgba(255, 255, 255, 0.05);
-  }
-
-  .dark .glass-hero {
-    background: linear-gradient(
-      135deg,
-      rgba(15, 23, 42, 0.7),
-      rgba(15, 23, 42, 0.5),
-      rgba(15, 23, 42, 0.3)
-    );
-    box-shadow: 
-      0 30px 60px -15px rgba(0, 0, 0, calc(var(--glass-shadow-opacity)*5)),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
-      0 0 0 1px rgba(255, 255, 255, 0.08);
-  }
-
-  .glass-button {
-    @apply bg-white/[calc(var(--glass-bg-opacity)-0.1)] dark:bg-white/[0.08] backdrop-blur-[var(--glass-blur-md)] saturate-[var(--glass-saturation)];
-    @apply border border-white/[calc(var(--glass-border-opacity)-0.05)] dark:border-white/[0.08] shadow-md shadow-black/[calc(var(--glass-shadow-opacity)*0.5)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*1.2)];
-    @apply transition-all duration-300;
-  }
-
-  .glass-button:hover {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.05)] dark:bg-white/[0.15] backdrop-blur-[var(--glass-blur-lg)] shadow-lg shadow-black/[calc(var(--glass-shadow-opacity)*1.2)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*2.5)];
-  }
+  /* Component-Specific Glass Aliases - Map to simplified system */
+  .glass-card { @apply glass-secondary; }
+  .glass-card-premium { @apply glass-primary; }
+  .glass-nav { @apply glass-primary border-b; }
+  .glass-modal { @apply glass-primary; }
+  .glass-hero { @apply glass-primary; }
+  .glass-button { @apply glass-interactive; }
 
   .glass-input {
     @apply bg-white/[calc(var(--glass-bg-opacity)-0.15)] dark:bg-white/[0.03] backdrop-blur-[var(--glass-blur-sm)];
@@ -697,153 +646,18 @@ html, body {
     @apply transition-all duration-300 ease-out;
   }
 
-  .glass-hover:hover {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.15)] dark:bg-white/[0.2] backdrop-blur-[var(--glass-blur-2xl)];
-    @apply shadow-xl shadow-black/[calc(var(--glass-shadow-opacity)*1.5)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*3)];
-    @apply -translate-y-0.5 scale-[1.01];
-  }
+  /* Legacy Utility Aliases - Simplified mapping */
+  .glass-hover { @apply glass-interactive; }
+  .glass-hover-glow { @apply glass-interactive; }
+  .glass-gradient { @apply glass-primary; }
+  .glass-depth { @apply glass-primary; }
+  .glass-professional { @apply glass-primary; }
 
-  .glass-hover-glow {
-    @apply relative transition-all duration-300 ease-out;
-  }
-
-  .glass-hover-glow::after {
-    content: '';
-    @apply absolute inset-0 rounded-[inherit] pointer-events-none;
-    @apply bg-gradient-to-br from-primary/15 via-transparent to-blue-500/15;
-    @apply opacity-0 transition-opacity duration-300;
-  }
-
-  .glass-hover-glow:hover::after {
-    @apply opacity-100;
-  }
-
-  /* Glass Interactive - Apple 2025 Style */
-  .glass-interactive {
-    @apply cursor-pointer active:scale-[0.98] active:backdrop-blur-[var(--glass-blur-3xl)];
-  }
-
-  /* Glass Gradient Overlays - Apple 2025 Style */
-  .glass-gradient {
-    @apply relative;
-  }
-
-  .glass-gradient::before {
-    content: '';
-    @apply absolute inset-0 rounded-[inherit] pointer-events-none;
-    @apply bg-gradient-to-br from-white/10 via-transparent to-white/10;
-  }
-
-  /* Glass Depth Effect - Apple 2025 Style */
-  .glass-depth {
-    @apply relative;
-    transform-style: preserve-3d;
-    animation: apple-glass-depth 6s ease-in-out infinite;
-  }
-
-  .glass-depth::before {
-    content: '';
-    @apply absolute inset-0 rounded-[inherit];
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0) 50%,
-      rgba(255, 255, 255, 0.1) 100%
-    );
-    transform: translateZ(-2px);
-  }
-
-  /* Glass Professional - Enhanced Apple 2025 Style */
-  .glass-professional {
-    @apply bg-white/[calc(var(--glass-bg-opacity)+0.3)] dark:bg-slate-900/[0.35] backdrop-blur-[var(--glass-blur-3xl)] saturate-[calc(var(--glass-saturation)+40%)];
-    @apply border border-white/[calc(var(--glass-border-opacity)+0.15)] dark:border-white/[0.2];
-    box-shadow: 
-      0 30px 60px -15px rgba(0, 0, 0, calc(var(--glass-shadow-opacity)*3)),
-      0 15px 20px -5px rgba(0, 0, 0, calc(var(--glass-shadow-opacity)*1.5)),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
-      0 0 0 1px rgba(255, 255, 255, 0.1);
-  }
-
-  .dark .glass-professional {
-    box-shadow: 
-      0 30px 60px -15px rgba(0, 0, 0, calc(var(--glass-shadow-opacity)*5)),
-      0 15px 20px -5px rgba(0, 0, 0, calc(var(--glass-shadow-opacity)*2.5)),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
-      0 0 0 1px rgba(255, 255, 255, 0.12);
-  }
-
-  /* Glass Shimmer Effect - Apple 2025 Style */
-  .glass-shimmer {
-    @apply relative overflow-hidden;
-  }
-
-  .glass-shimmer::after {
-    content: '';
-    @apply absolute inset-0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    transform: translateX(-100%);
-    animation: glass-shimmer 3s ease-in-out infinite;
-  }
-
-  @keyframes glass-shimmer {
-    0%, 100% { transform: translateX(-100%); }
-    50% { transform: translateX(100%); }
-  }
-
-  /* Glass Noise Texture (adds subtle grain for realism) */
-  .glass-noise {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-  }
-
-  /* Apple 2025 Floating Glass Effect */
-  .glass-floating {
-    @apply relative;
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .glass-floating::before {
-    content: '';
-    @apply absolute -inset-4 rounded-[calc(var(--radius)+1rem)] pointer-events-none;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(59, 130, 246, 0.05) 0%,
-      rgba(59, 130, 246, 0) 70%
-    );
-    z-index: -1;
-  }
-
-  /* Apple 2025 Layered Glass Effect */
-  .glass-layered {
-    @apply relative overflow-hidden;
-  }
-
-  .glass-layered::before,
-  .glass-layered::after {
-    content: '';
-    @apply absolute inset-0 rounded-[inherit] pointer-events-none;
-  }
-
-  .glass-layered::before {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0) 50%,
-      rgba(255, 255, 255, 0.05) 100%
-    );
-  }
-
-  .glass-layered::after {
-    background: radial-gradient(
-      circle at 30% 30%,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0) 70%
-    );
-  }
+  /* Additional Legacy Aliases - Simplified */
+  .glass-noise { @apply glass-subtle; }
+  .glass-floating { @apply glass-secondary; }
+  .glass-layered { @apply glass-primary; }
+  .glass-shimmer { @apply glass-interactive; }
 
   /* Legacy glass-card for backward compatibility */
   .gradient-border {
@@ -892,30 +706,22 @@ html, body {
     z-index: 103 !important;
   }
 
-  /* Prevent backdrop blur performance issues on mobile */
+  /* Optimized Mobile Performance - Reduced blur for better FPS */
   @media (max-width: 768px) {
-    .backdrop-blur-2xl {
-      backdrop-filter: blur(8px);
+    .glass-primary {
+      backdrop-filter: blur(10px) saturate(var(--glass-saturation));
     }
     
-    .backdrop-blur-xl {
-      backdrop-filter: blur(6px);
+    .glass-secondary {
+      backdrop-filter: blur(8px) saturate(var(--glass-saturation));
     }
     
-    .backdrop-blur-3xl {
-      backdrop-filter: blur(12px);
+    .glass-subtle {
+      backdrop-filter: blur(6px) saturate(120%);
     }
     
-    /* Reduce glass effect intensity on mobile for performance */
-    .glass-premium,
-    .glass-ultra,
-    .glass-modal,
-    .glass-hero {
-      backdrop-filter: blur(12px);
-    }
-    
-    .glass-card-premium {
-      backdrop-filter: blur(10px);
+    .glass-interactive {
+      backdrop-filter: blur(8px) saturate(var(--glass-saturation));
     }
     
     .glass-nav {
