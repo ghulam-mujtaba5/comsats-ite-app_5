@@ -175,6 +175,11 @@ html, body {
   100% { transform: translateX(100%); }
 }
 
+@keyframes shimmer-bg {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 @keyframes gradient-xy {
   0%, 100% { transform: translate3d(0, 0, 0); }
   25% { transform: translate3d(-5px, -5px, 0); }
@@ -2489,12 +2494,7 @@ html, body {
     hsl(var(--muted)) 100%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  animation: shimmer-bg 1.5s infinite;
 }
 
 /* Pulse Animation */
@@ -2522,25 +2522,9 @@ html, body {
   animation: fadeIn 0.5s ease-in;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
 /* Slide Up Animation */
 .slide-up {
   animation: slideUp 0.5s ease-out;
-}
-
-@keyframes slideUp {
-  from { 
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* ============================================

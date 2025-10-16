@@ -128,7 +128,7 @@ export default function SupportPage() {
             const Icon = option.icon
             return (
               <Link key={index} href={option.href} className="block group">
-                <Card className="glass-primary rounded-2xl h-full transition-all duration-500 group-hover:scale-[1.02]">
+                <Card className="bg-white/90 dark:bg-slate-800/90 shadow-lg hover:shadow-xl rounded-2xl h-full transition-all duration-500 group-hover:scale-[1.02]">
                   <CardHeader className="p-8">
                     <div className="flex items-start justify-between mb-4">
                       <div className={`p-4 rounded-2xl bg-gradient-to-br ${option.color} border ${option.borderColor} group-hover:scale-110 transition-transform duration-300`}>
@@ -237,7 +237,7 @@ export default function SupportPage() {
         </div>
 
         {/* Enhanced Response Time Notice */}
-        <Card className="glass-primary mt-12 rounded-2xl">
+        <Card className="bg-white/90 dark:bg-slate-800/90 shadow-lg mt-12 rounded-2xl">
           <CardContent className="p-8 text-center">
             <div className="flex justify-center mb-4">
               <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30">

@@ -107,7 +107,7 @@ export default function ResourcesPage() {
 
           {/* Enhanced Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-            <Card className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300">
+            <Card className="bg-white/80 dark:bg-slate-800/80 shadow-lg hover:shadow-xl rounded-2xl group hover:scale-[1.02] transition-all duration-300">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
@@ -122,7 +122,7 @@ export default function ResourcesPage() {
               </CardContent>
             </Card>
             
-            <Card className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300">
+            <Card className="bg-white/80 dark:bg-slate-800/80 shadow-lg hover:shadow-xl rounded-2xl group hover:scale-[1.02] transition-all duration-300">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />

@@ -12,10 +12,8 @@ const isExport = process.env.NEXT_OUTPUT === 'export'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable static export when requested via env (used by CI to deploy to OCI Object Storage)
-  ...(isExport ? { output: 'export' } : {}),
-  // Enable standalone output for Docker deployments
-  output: isExport ? 'export' : 'standalone',
+  // Enable standalone output for Docker deployments (conditional on platform)
+  output: isExport ? 'export' : (process.platform === 'win32' ? undefined : 'standalone'),
   eslint: {
     // Ignore during builds for deployment
     ignoreDuringBuilds: true,

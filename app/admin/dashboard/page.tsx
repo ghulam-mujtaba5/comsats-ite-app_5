@@ -253,7 +253,7 @@ export default function AdminDashboardPage() {
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {/* Total Users */}
-            <Card className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300">
+            <Card className="bg-white/90 dark:bg-slate-800/90 shadow-lg hover:shadow-xl rounded-2xl group hover:scale-[1.02] transition-all duration-300">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Total Users</CardTitle>
                 <div className="relative">
@@ -277,7 +277,7 @@ export default function AdminDashboardPage() {
             </Card>
 
             {/* Faculty Members */}
-            <Card className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300">
+            <Card className="bg-white/90 dark:bg-slate-800/90 shadow-lg hover:shadow-xl rounded-2xl group hover:scale-[1.02] transition-all duration-300">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Faculty Members</CardTitle>
                 <div className="relative">
