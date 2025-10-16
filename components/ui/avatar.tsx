@@ -85,6 +85,14 @@ const AvatarImage = React.forwardRef<
   // Use Next.js Image component for better optimization
   // Only use Next.js Image for string URLs or StaticImageData
   if (src && (typeof src === 'string' || (typeof src === 'object' && src !== null && 'src' in src))) {
+    // Create a state to track if the image has an error
+    const [hasError, setHasError] = React.useState(false);
+    
+    // If there's an error, don't render the image
+    if (hasError) {
+      return null;
+    }
+    
     return (
       <Image
         src={src as string | StaticImageData}
@@ -94,10 +102,9 @@ const AvatarImage = React.forwardRef<
         className={cn("aspect-square size-full object-cover", className)}
         unoptimized={typeof src === 'string' && !src.startsWith('/')}
         {...props}
-        onError={(e) => {
-          // Handle image loading errors by hiding the image
-          const target = e.target as HTMLImageElement;
-          target.style.display = 'none';
+        onError={() => {
+          // Set error state to hide the image
+          setHasError(true);
         }}
       />
     )
@@ -111,11 +118,6 @@ const AvatarImage = React.forwardRef<
       src={src as string | undefined}
       className={cn("aspect-square size-full", className)}
       {...props}
-      onError={(e) => {
-        // Handle image loading errors by hiding the image
-        const target = e.target as HTMLImageElement;
-        target.style.display = 'none';
-      }}
     />
   )
 })

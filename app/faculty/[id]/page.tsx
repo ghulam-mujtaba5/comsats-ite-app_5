@@ -200,10 +200,6 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
                       width={128}
                       height={128}
                       loading="eager"
-                      onError={(e: any) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                      }}
                     />
                     <AvatarFallback className="text-2xl">{faculty.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                   </Avatar>

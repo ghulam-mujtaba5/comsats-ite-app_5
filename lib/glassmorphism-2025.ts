@@ -411,3 +411,172 @@ export const glassPresets = {
 export function getGlassPreset(preset: keyof typeof glassPresets): string {
   return getGlassClasses(glassPresets[preset])
 }
+
+/**
+ * Enhanced glassmorphism utility for 2025 design standards
+ * Provides consistent styling across light and dark modes
+ */
+export interface EnhancedGlassOptions extends GlassOptions {
+  /**
+   * Accessibility options for glassmorphism effects
+   */
+  accessibility?: {
+    /**
+     * Reduce motion for users who prefer it
+     * @default false
+     */
+    reducedMotion?: boolean
+    /**
+     * High contrast mode support
+     * @default false
+     */
+    highContrast?: boolean
+    /**
+     * Ensure proper focus visibility
+     * @default true
+     */
+    focusVisible?: boolean
+  }
+  /**
+   * Performance optimization options
+   */
+  performance?: {
+    /**
+     * Reduce blur effect on mobile devices
+     * @default true
+     */
+    mobileOptimization?: boolean
+    /**
+     * Disable animations for better performance
+     * @default false
+     */
+    disableAnimations?: boolean
+  }
+}
+
+/**
+ * Enhanced glassmorphism class generator with accessibility and performance features
+ */
+export function getEnhancedGlassClasses(options: EnhancedGlassOptions = {}): string {
+  const {
+    accessibility = {},
+    performance = {},
+    ...glassOptions
+  } = options
+  
+  const {
+    reducedMotion = false,
+    highContrast = false,
+    focusVisible = true
+  } = accessibility
+  
+  const {
+    mobileOptimization = true,
+    disableAnimations = false
+  } = performance
+  
+  // Get base glass classes
+  let classes = getGlassClasses(glassOptions)
+  
+  // Add accessibility classes
+  if (reducedMotion) {
+    classes += ' motion-reduce:transition-none motion-reduce:animate-none'
+  }
+  
+  if (highContrast) {
+    classes += ' high-contrast:outline-2 high-contrast:outline high-contrast:outline-foreground'
+  }
+  
+  // Add focus visibility classes
+  if (focusVisible) {
+    classes += ' focus-visible:outline-2 focus-visible:outline focus-visible:outline-ring focus-visible:outline-offset-2'
+  }
+  
+  // Add performance classes
+  if (disableAnimations) {
+    classes += ' transition-none animate-none'
+  }
+  
+  // Add mobile optimization classes (these would be handled via CSS media queries)
+  if (mobileOptimization) {
+    classes += ' mobile-optimized-glass'
+  }
+  
+  return classes.trim()
+}
+
+/**
+ * Type-safe preset getter with enhanced options
+ */
+export function getEnhancedGlassPreset(
+  preset: keyof typeof glassPresets, 
+  options: Partial<EnhancedGlassOptions> = {}
+): string {
+  const presetConfig = glassPresets[preset]
+  return getEnhancedGlassClasses({
+    ...presetConfig,
+    ...options
+  })
+}
+
+/**
+ * Accessibility helper functions for glassmorphism components
+ */
+export const glassAccessibility = {
+  /**
+   * Ensure sufficient contrast for text on glass backgrounds
+   * @param variant Glass variant to check contrast for
+   * @returns CSS classes for proper text contrast
+   */
+  getTextContrastClasses: (variant: GlassVariant = 'glass-secondary'): string => {
+    // Map glass variants to appropriate text colors for contrast
+    const contrastMap: Record<GlassVariant, string> = {
+      'glass-primary': 'text-foreground dark:text-foreground',
+      'glass-secondary': 'text-foreground dark:text-foreground',
+      'glass-subtle': 'text-foreground dark:text-foreground',
+      'glass-interactive': 'text-foreground dark:text-foreground',
+      'glass-light': 'text-foreground dark:text-foreground',
+      'glass-medium': 'text-foreground dark:text-foreground',
+      'glass-strong': 'text-foreground dark:text-foreground',
+      'glass-premium': 'text-foreground dark:text-foreground',
+      'glass-ultra': 'text-foreground dark:text-foreground',
+      'glass-card': 'text-foreground dark:text-foreground',
+      'glass-nav': 'text-foreground dark:text-foreground',
+      'glass-modal': 'text-foreground dark:text-foreground',
+      'glass-hero': 'text-foreground dark:text-foreground',
+      'glass-floating': 'text-foreground dark:text-foreground',
+      'glass-layered': 'text-foreground dark:text-foreground',
+      'glass-depth': 'text-foreground dark:text-foreground',
+    }
+    
+    return contrastMap[variant] || 'text-foreground dark:text-foreground'
+  },
+  
+  /**
+   * Get ARIA attributes for glass components
+   * @param role ARIA role for the component
+   * @param label Accessible label for the component
+   * @returns Object with ARIA attributes
+   */
+  getAriaAttributes: (role?: string, label?: string): Record<string, string> => {
+    const attributes: Record<string, string> = {}
+    
+    if (role) {
+      attributes['role'] = role
+    }
+    
+    if (label) {
+      attributes['aria-label'] = label
+    }
+    
+    return attributes
+  },
+  
+  /**
+   * Ensure proper focus management for interactive glass components
+   * @returns CSS classes for focus management
+   */
+  getFocusClasses: (): string => {
+    return 'focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+  }
+}

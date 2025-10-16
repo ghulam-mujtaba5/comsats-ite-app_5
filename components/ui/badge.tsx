@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "@/lib/cva"
+import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 
 import { cn } from "@/lib/utils"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
@@ -22,8 +23,21 @@ const badgeVariants = cva(
         info: "border-transparent bg-[#3B82F6] text-white shadow-sm [a&]:hover:bg-[#2563EB]",
         muted: "border-transparent bg-muted text-muted-foreground [a&]:hover:bg-muted/80",
         soft: "border-transparent bg-primary/10 text-primary [a&]:hover:bg-primary/20",
-        glass: "bg-white/10 backdrop-blur-[15px] dark:backdrop-blur-[25px] border-white/20 dark:border-white/10 text-foreground shadow-sm [a&]:hover:bg-white/20",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-foreground shadow-sm [a&]:hover:bg-white/10",
+        glass: getEnhancedGlassClasses({
+          ...glassPresets.badge,
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
+        "glass-subtle": getEnhancedGlassClasses({
+          ...glassPresets.badge,
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
         campus: "border-transparent bg-[#007BFF] dark:bg-[#1F8FFF] text-white shadow-sm [a&]:hover:bg-[#0056b3] dark:[a&]:hover:bg-[#1F8FFF]/90",
       },
     },

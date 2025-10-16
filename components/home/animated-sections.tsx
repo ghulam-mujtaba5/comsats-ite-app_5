@@ -1,11 +1,11 @@
 'use client'
 
 import { motion } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, GraduationCap, BookOpen, Users, Zap } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { GlassCard } from "@/components/shared/common"
 
 interface FeatureItem {
   icon: React.ElementType
@@ -69,15 +69,16 @@ export function AnimatedSections() {
                   whileHover={{ y: -5 }}
                   className="group"
                 >
-                  <Card className="h-full bg-card/90 backdrop-blur-3xl border border-white/30 rounded-2xl shadow-2xl transition-all duration-300 hover:shadow-2xl glass-primary glass-professional">
-                    <CardContent className="p-6 sm:p-8">
-                      <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                        <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
-                      </div>
-                      <h3 className="text-xl font-semibold mb-4 group-hover:text-primary transition-colors">{item.title}</h3>
-                      <p className="text-muted-foreground/90 leading-relaxed">{item.description}</p>
-                    </CardContent>
-                  </Card>
+                  <GlassCard 
+                    title={item.title}
+                    className="h-full transition-all duration-300 hover:shadow-2xl"
+                    glassVariant="primary"
+                  >
+                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+                      <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+                    </div>
+                    <p className="text-muted-foreground/90 leading-relaxed">{item.description}</p>
+                  </GlassCard>
                 </motion.div>
               )
             })}
@@ -90,7 +91,9 @@ export function AnimatedSections() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <Card className="inline-block p-8 sm:p-10 md:p-12 border border-white/30 bg-card/90 backdrop-blur-3xl shadow-2xl rounded-2xl sm:rounded-3xl max-w-3xl mx-auto glass-primary glass-gradient glass-professional">
+            <GlassCard 
+              className="inline-block p-8 sm:p-10 md:p-12 border border-white/30 bg-card/90 backdrop-blur-3xl shadow-2xl rounded-2xl sm:rounded-3xl max-w-3xl mx-auto glass-primary glass-gradient glass-professional"
+            >
               <div className="space-y-6 sm:space-y-8">
                 <div className="flex justify-center">
                   <div className="relative p-4 sm:p-6 bg-gradient-to-r from-primary/30 to-indigo-500/30 rounded-2xl sm:rounded-2xl glass-secondary">
@@ -134,7 +137,7 @@ export function AnimatedSections() {
                   </Button>
                 </div>
               </div>
-            </Card>
+            </GlassCard>
           </motion.div>
         </div>
       </section>

@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { cva, VariantProps } from 'class-variance-authority'
+import { getEnhancedGlassClasses, glassPresets } from '@/lib/glassmorphism-2025'
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const inputVariants = cva(
@@ -11,8 +12,21 @@ const inputVariants = cva(
     variants: {
       variant: {
         default: 'hover:border-primary/40',
-        glass: 'bg-white/10 backdrop-blur-[15px] border-white/20 dark:bg-white/5 dark:backdrop-blur-[25px] dark:border-white/10 text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary focus:border-primary/50 shadow-sm hover:bg-white/15 dark:hover:bg-white/10',
-        'glass-subtle': 'bg-white/5 backdrop-blur-lg border-white/10 text-foreground placeholder:text-muted-foreground/60 focus:ring-1 focus:ring-primary/50 focus:border-primary/30 shadow-sm',
+        glass: getEnhancedGlassClasses({
+          ...glassPresets.input,
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
+        'glass-subtle': getEnhancedGlassClasses({
+          ...glassPresets.input,
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
         campus: 'border-[#007BFF]/20 dark:border-[#1F8FFF]/20 focus:border-[#007BFF] dark:focus:border-[#1F8FFF] focus:ring-[#007BFF]/20 dark:focus:ring-[#1F8FFF]/20',
       },
       inputSize: {

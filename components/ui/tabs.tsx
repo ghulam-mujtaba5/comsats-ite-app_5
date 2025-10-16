@@ -5,6 +5,7 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
+import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const tabsListVariants = cva(
@@ -13,8 +14,22 @@ const tabsListVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg",
+        glass: getEnhancedGlassClasses({
+          ...glassPresets.card,
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
+        "glass-subtle": getEnhancedGlassClasses({
+          ...glassPresets.card,
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
       },
     },
     defaultVariants: {
@@ -29,8 +44,21 @@ const tabsTriggerVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white data-[state=active]:bg-white/20 data-[state=active]:border-white/30 focus:ring-2 focus:ring-white/30 focus:border-white/30 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white data-[state=active]:bg-white/15 data-[state=active]:border-white/20 focus:ring-1 focus:ring-white/20 focus:border-white/20 shadow-glass-sm",
+        glass: getEnhancedGlassClasses({
+          ...glassPresets.button,
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
+        "glass-subtle": getEnhancedGlassClasses({
+          ...glassPresets.button,
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
       },
     },
     defaultVariants: {

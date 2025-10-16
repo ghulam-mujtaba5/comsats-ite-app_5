@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "@/lib/cva"
+import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 
 import { cn } from "@/lib/utils"
 import { useRippleEffect, usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
@@ -23,8 +24,25 @@ const buttonVariants = cva(
         success: "bg-[#22C55E] text-white hover:bg-[#16A34A] shadow-[0_4px_12px_rgba(34,197,94,0.3)]",
         warning: "bg-[#F59E0B] text-white hover:bg-[#D97706] shadow-[0_4px_12px_rgba(245,158,11,0.3)]",
         info: "bg-[#3B82F6] text-white hover:bg-[#2563EB] shadow-[0_4px_12px_rgba(59,130,246,0.3)]",
-        glass: "glass-button glass-border-subtle glass-hover glass-interactive backdrop-blur-[15px] bg-white/70 dark:bg-white/5 dark:backdrop-blur-[25px] border border-white/20 dark:border-white/10",
-        "glass-premium": "glass-premium glass-border-glow glass-hover-glow glass-interactive backdrop-blur-[20px]",
+        glass: getEnhancedGlassClasses({
+          ...glassPresets.button,
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
+        "glass-premium": getEnhancedGlassClasses({ 
+          ...glassPresets.button,
+          variant: 'glass-premium',
+          border: 'border-glow',
+          shadow: 'shadow-medium',
+          hover: true,
+          interactive: true,
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
         "campus-primary": "bg-[#007BFF] dark:bg-[#1F8FFF] text-white shadow-[0_4px_12px_rgba(0,123,255,0.3)] dark:shadow-[0_0_20px_rgba(31,143,255,0.5)] hover:bg-[#0056b3] dark:hover:bg-[#1F8FFF]/90 hover:-translate-y-0.5",
         "campus-secondary": "bg-white dark:bg-black text-[#007BFF] dark:text-[#1F8FFF] border-2 border-[#007BFF] dark:border-[#1F8FFF] hover:bg-[#007BFF]/5 dark:hover:bg-[#1F8FFF]/10 hover:border-[#0056b3] dark:hover:border-[#1F8FFF]/90",
       },

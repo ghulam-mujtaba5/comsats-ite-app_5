@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useMicroInteraction, usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { getEnhancedGlassClasses, glassPresets, glassAccessibility } from "@/lib/glassmorphism-2025"
 
 import { cn } from "@/lib/utils"
 
@@ -9,10 +10,22 @@ type CardProps = React.ComponentProps<"div"> & {
   variant?: "default" | "elevated" | "soft" | "glass" | "glass-premium" | "glass-floating" | "glass-layered"
   enableHover?: boolean
   enablePress?: boolean
+  accessibility?: {
+    reducedMotion?: boolean
+    highContrast?: boolean
+    focusVisible?: boolean
+  }
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant = "default", enableHover = true, enablePress = true, ...props }, ref) => {
+  ({ 
+    className, 
+    variant = "default", 
+    enableHover = true, 
+    enablePress = true,
+    accessibility = {},
+    ...props 
+  }, ref) => {
     const { hoverVariants, tapVariants } = useMicroInteraction()
     const prefersReducedMotion = usePrefersReducedMotion()
     
@@ -26,6 +39,59 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       ? "cursor-pointer" 
       : ""
 
+    // Get glassmorphism classes based on variant
+    let glassClasses = ""
+    switch (variant) {
+      case "elevated":
+        glassClasses = getEnhancedGlassClasses({
+          ...glassPresets.card,
+          accessibility
+        })
+        break
+      case "soft":
+        glassClasses = getEnhancedGlassClasses({ 
+          variant: 'glass-subtle',
+          accessibility
+        })
+        break
+      case "glass":
+        glassClasses = getEnhancedGlassClasses({
+          ...glassPresets.card,
+          accessibility
+        })
+        break
+      case "glass-premium":
+        glassClasses = getEnhancedGlassClasses({
+          ...glassPresets.cardPremium,
+          accessibility
+        })
+        break
+      case "glass-floating":
+        glassClasses = getEnhancedGlassClasses({
+          ...glassPresets.floatingCard,
+          accessibility
+        })
+        break
+      case "glass-layered":
+        glassClasses = getEnhancedGlassClasses({
+          ...glassPresets.layeredCard,
+          accessibility
+        })
+        break
+      default:
+        glassClasses = ""
+    }
+
+    // Get accessibility classes
+    const focusClasses = glassAccessibility.getFocusClasses()
+    const textContrastClasses = glassAccessibility.getTextContrastClasses(
+      variant === "soft" ? 'glass-subtle' : 
+      variant === "glass" || variant === "elevated" ? 'glass-card' :
+      variant === "glass-premium" ? 'glass-premium' :
+      variant === "glass-floating" ? 'glass-floating' :
+      variant === "glass-layered" ? 'glass-layered' : 'glass-secondary'
+    )
+
     return (
       <div
         ref={ref}
@@ -37,17 +103,14 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           animationClasses,
           interactiveClasses,
           enableHover && !prefersReducedMotion && "hover:shadow-md hover:-translate-y-0.5",
-          // Accessible focus ring using theme ring color
-          "outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          // Variants with 2025 glassmorphism
-          variant === "elevated" && "shadow-md glass-card glass-border-subtle glass-hover",
-          variant === "soft" && "glass-subtle",
-          variant === "glass" && "glass-primary",
-          variant === "glass-premium" && "glass-premium glass-border-glow glass-hover-glow glass-gradient glass-noise",
-          variant === "glass-floating" && "glass-floating glass-border-light glass-hover glass-noise",
-          variant === "glass-layered" && "glass-layered glass-border-subtle glass-hover glass-gradient glass-depth glass-noise",
+          // Accessibility classes
+          focusClasses,
+          textContrastClasses,
+          // Glassmorphism classes
+          glassClasses,
           className
         )}
+        {...glassAccessibility.getAriaAttributes(props.role, props['aria-label'])}
         {...(enablePress && !prefersReducedMotion ? { 
           onMouseDown: (e) => {
             if (e.button === 0) { // Left mouse button

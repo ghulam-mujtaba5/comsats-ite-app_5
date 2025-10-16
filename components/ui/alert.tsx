@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cva, type VariantProps } from "@/lib/cva"
+import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 
 import { cn } from "@/lib/utils"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
@@ -15,8 +16,21 @@ const alertVariants = cva(
         success: "text-[#22C55E] bg-[#22C55E]/10 border-[#22C55E]/30 [&>svg]:text-[#22C55E] *:data-[slot=alert-description]:text-[#22C55E]/90 shadow-sm",
         warning: "text-[#F59E0B] bg-[#F59E0B]/10 border-[#F59E0B]/30 [&>svg]:text-[#F59E0B] *:data-[slot=alert-description]:text-[#F59E0B]/90 shadow-sm",
         info: "text-[#3B82F6] bg-[#3B82F6]/10 border-[#3B82F6]/30 [&>svg]:text-[#3B82F6] *:data-[slot=alert-description]:text-[#3B82F6]/90 shadow-sm",
-        glass: "bg-white/10 backdrop-blur-[15px] dark:backdrop-blur-[25px] border-white/20 dark:border-white/10 text-foreground shadow-sm",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-foreground shadow-sm",
+        glass: getEnhancedGlassClasses({
+          ...glassPresets.card,
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
+        "glass-subtle": getEnhancedGlassClasses({
+          ...glassPresets.card,
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
         campus: "text-[#007BFF] dark:text-[#1F8FFF] bg-[#007BFF]/10 dark:bg-[#1F8FFF]/10 border-[#007BFF]/30 dark:border-[#1F8FFF]/30 [&>svg]:text-[#007BFF] dark:[&>svg]:text-[#1F8FFF] shadow-sm",
       },
     },

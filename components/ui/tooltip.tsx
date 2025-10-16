@@ -5,6 +5,7 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
+import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const tooltipContentVariants = cva(
@@ -13,8 +14,21 @@ const tooltipContentVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground",
-        glass: "bg-white/10 backdrop-blur-xl border border-white/20 text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10 text-white shadow-glass-sm",
+        glass: getEnhancedGlassClasses({
+          ...glassPresets.dropdown,
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
+        "glass-subtle": getEnhancedGlassClasses({
+          ...glassPresets.dropdown,
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
       },
     },
     defaultVariants: {

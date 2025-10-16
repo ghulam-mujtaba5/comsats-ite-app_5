@@ -6,6 +6,7 @@ import { XIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
+import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const dialogContentVariants = cva(
@@ -14,8 +15,21 @@ const dialogContentVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 shadow-glass-sm",
+        glass: getEnhancedGlassClasses({
+          ...glassPresets.modal,
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
+        "glass-subtle": getEnhancedGlassClasses({
+          ...glassPresets.modal,
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
       },
     },
     defaultVariants: {
@@ -30,8 +44,18 @@ const dialogOverlayVariants = cva(
     variants: {
       variant: {
         default: "bg-black/50",
-        glass: "bg-black/30 backdrop-blur-sm",
-        "glass-subtle": "bg-black/20 backdrop-blur-xs",
+        glass: getEnhancedGlassClasses({
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true
+          }
+        }),
+        "glass-subtle": getEnhancedGlassClasses({
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true
+          }
+        }),
       },
     },
     defaultVariants: {

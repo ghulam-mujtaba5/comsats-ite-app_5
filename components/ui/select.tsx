@@ -6,6 +6,7 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { cva, VariantProps } from "class-variance-authority"
+import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const selectTriggerVariants = cva(
@@ -14,8 +15,21 @@ const selectTriggerVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white placeholder:text-white/70 focus:ring-2 focus:ring-white/30 focus:border-white/30 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white placeholder:text-white/60 focus:ring-1 focus:ring-white/20 focus:border-white/20 shadow-glass-sm",
+        glass: getEnhancedGlassClasses({
+          ...glassPresets.input,
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
+        "glass-subtle": getEnhancedGlassClasses({
+          ...glassPresets.input,
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
       },
       size: {
         sm: "h-8",
@@ -35,8 +49,21 @@ const selectContentVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 shadow-glass-sm",
+        glass: getEnhancedGlassClasses({
+          ...glassPresets.dropdown,
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
+        "glass-subtle": getEnhancedGlassClasses({
+          ...glassPresets.dropdown,
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
       },
     },
     defaultVariants: {

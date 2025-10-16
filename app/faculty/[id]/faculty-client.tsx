@@ -152,10 +152,6 @@ export default function FacultyProfileClient({ initialFaculty, initialReviews }:
                         src={faculty.profileImage || faculty.profile_image || "/placeholder-user.svg"} 
                         alt={faculty.name}
                         loading="eager"
-                        onError={(e: any) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                        }}
                       />
                       <AvatarFallback className="text-2xl">
                         {faculty.name

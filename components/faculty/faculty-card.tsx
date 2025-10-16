@@ -102,7 +102,7 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
 
   return (
     <Card 
-      className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden border-border cursor-pointer" 
+      className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden border-border cursor-pointer bg-card/90 backdrop-blur-3xl border border-white/30 rounded-2xl shadow-2xl glass-primary glass-professional" 
       onClick={() => {
         trackProfileView();
         window.location.href = `/faculty/${faculty.id}#reviews`;

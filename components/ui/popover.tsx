@@ -5,6 +5,7 @@ import * as PopoverPrimitive from "@radix-ui/react-popover"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
+import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const popoverContentVariants = cva(
@@ -13,8 +14,21 @@ const popoverContentVariants = cva(
     variants: {
       variant: {
         default: "bg-popover text-popover-foreground",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white shadow-glass-sm",
+        glass: getEnhancedGlassClasses({
+          ...glassPresets.dropdown,
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
+        "glass-subtle": getEnhancedGlassClasses({
+          ...glassPresets.dropdown,
+          variant: 'glass-subtle',
+          accessibility: {
+            reducedMotion: true,
+            focusVisible: true
+          }
+        }),
       },
     },
     defaultVariants: {
