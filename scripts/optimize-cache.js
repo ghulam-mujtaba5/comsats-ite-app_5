@@ -10,21 +10,23 @@ const path = require('path');
 
 const API_DIR = path.join(__dirname, '..', 'app', 'api');
 
-// Updated cache configurations optimized for free tier
+// Updated cache configurations optimized for free tier (balanced for data loading)
 const CACHE_CONFIGS = {
-  // Reduce from 5 minutes to 1 minute
-  'public, s-maxage=300, stale-while-revalidate=150': 'public, s-maxage=60, stale-while-revalidate=30',
-  "CDN-Cache-Control': 'public, s-maxage=300": "CDN-Cache-Control': 'public, s-maxage=60",
-  "Vercel-CDN-Cache-Control': 'public, s-maxage=300": "Vercel-CDN-Cache-Control': 'public, s-maxage=60",
+  // Reduce from 5 minutes to 2 minutes (balanced)
+  'public, s-maxage=300, stale-while-revalidate=150': 'public, s-maxage=120, stale-while-revalidate=60',
+  "CDN-Cache-Control': 'public, s-maxage=300": "CDN-Cache-Control': 'public, s-maxage=120",
+  "Vercel-CDN-Cache-Control': 'public, s-maxage=300": "Vercel-CDN-Cache-Control': 'public, s-maxage=120",
   
-  // Reduce from 1 hour to 10 minutes
-  'public, s-maxage=3600, stale-while-revalidate=1800': 'public, s-maxage=600, stale-while-revalidate=300',
-  "CDN-Cache-Control': 'public, s-maxage=3600": "CDN-Cache-Control': 'public, s-maxage=600",
-  "Vercel-CDN-Cache-Control': 'public, s-maxage=3600": "Vercel-CDN-Cache-Control': 'public, s-maxage=600",
+  // Reduce from 1 hour to 15 minutes (balanced)
+  'public, s-maxage=3600, stale-while-revalidate=1800': 'public, s-maxage=900, stale-while-revalidate=450',
+  "CDN-Cache-Control': 'public, s-maxage=3600": "CDN-Cache-Control': 'public, s-maxage=900",
+  "Vercel-CDN-Cache-Control': 'public, s-maxage=3600": "Vercel-CDN-Cache-Control': 'public, s-maxage=900",
   
   // Update comments to reflect new times
-  '// Cache for 5 minutes, stale for 2.5 min': '// Cache for 1 minute, stale for 30 sec (optimized for free tier)',
-  '// Cache for 1 hour, stale for 30 min': '// Cache for 10 minutes, stale for 5 min (optimized for free tier)',
+  '// Cache for 5 minutes, stale for 2.5 min': '// Cache for 2 minutes (balanced for free tier)',
+  '// Cache for 1 hour, stale for 30 min': '// Cache for 15 minutes (balanced for free tier)',
+  '// Cache for 1 minute, stale for 30 sec (optimized for free tier)': '// Cache for 2 minutes (balanced for free tier)',
+  '// Cache for 10 minutes, stale for 5 min (optimized for free tier)': '// Cache for 15 minutes (balanced for free tier)',
 };
 
 function findRouteFiles(dir, fileList = []) {
@@ -74,10 +76,10 @@ function optimizeApiCache() {
     console.log(`\n✅ Cache optimization complete!`);
     console.log(`   Modified ${modifiedCount} files`);
     console.log(`\nOptimizations applied:`);
-    console.log(`   • Reduced s-maxage from 300s (5min) to 60s (1min)`);
-    console.log(`   • Reduced stale-while-revalidate from 150s to 30s`);
-    console.log(`   • Reduced long cache from 3600s (1hr) to 600s (10min)`);
-    console.log(`\nThis will significantly reduce resource usage on Vercel free tier.`);
+    console.log(`   • Reduced s-maxage from 300s (5min) to 120s (2min)`);
+    console.log(`   • Reduced stale-while-revalidate from 150s to 60s`);
+    console.log(`   • Reduced long cache from 3600s (1hr) to 900s (15min)`);
+    console.log(`\nBalanced for Vercel free tier with reliable data loading.`);
     
   } catch (error) {
     console.error('Error optimizing cache:', error);

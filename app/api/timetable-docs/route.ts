@@ -9,9 +9,9 @@ export async function GET(request: NextRequest) {
   
   // Set cache headers to reduce function invocations
   const headers = {
-    'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=300', // Cache for 10 minutes, stale for 5 min (optimized for free tier)
-    'CDN-Cache-Control': 'public, s-maxage=600',
-    'Vercel-CDN-Cache-Control': 'public, s-maxage=600'
+    'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=450', // Cache for 15 minutes (balanced for free tier)
+    'CDN-Cache-Control': 'public, s-maxage=900',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=900'
   }
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL

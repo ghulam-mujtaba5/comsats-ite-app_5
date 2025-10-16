@@ -76,8 +76,8 @@ registerRoute(
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
-        maxEntries: 50,
-        maxAgeSeconds: 3 * 24 * 60 * 60, // 3 Days
+        maxEntries: 60,
+        maxAgeSeconds: 7 * 24 * 60 * 60, // 7 Days
       }),
     ],
   })
@@ -106,14 +106,14 @@ registerRoute(
   ({ url }) => url.pathname.startsWith('/api/'),
   new NetworkFirst({
     cacheName: 'api-responses',
-    networkTimeoutSeconds: 3,
+    networkTimeoutSeconds: 5,
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 1 * 60, // 1 Minute
+        maxEntries: 50,
+        maxAgeSeconds: 2 * 60, // 2 Minutes
       }),
     ],
   })
@@ -130,8 +130,8 @@ registerRoute(
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
-        maxEntries: 50,
-        maxAgeSeconds: 2 * 60, // 2 Minutes
+        maxEntries: 75,
+        maxAgeSeconds: 3 * 60, // 3 Minutes
       }),
     ],
   })
@@ -142,14 +142,14 @@ registerRoute(
   ({ url }) => url.pathname.startsWith('/api/community/posts'),
   new NetworkFirst({
     cacheName: 'community-posts',
-    networkTimeoutSeconds: 3,
+    networkTimeoutSeconds: 5,
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
-        maxEntries: 40,
-        maxAgeSeconds: 2 * 60, // 2 Minutes
+        maxEntries: 60,
+        maxAgeSeconds: 3 * 60, // 3 Minutes
       }),
     ],
   })
@@ -160,14 +160,14 @@ registerRoute(
   ({ url }) => url.pathname.startsWith('/api/admin/dashboard'),
   new NetworkFirst({
     cacheName: 'admin-dashboard',
-    networkTimeoutSeconds: 3,
+    networkTimeoutSeconds: 5,
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
-        maxEntries: 25,
-        maxAgeSeconds: 1 * 60, // 1 Minute
+        maxEntries: 40,
+        maxAgeSeconds: 2 * 60, // 2 Minutes
       }),
     ],
   })
@@ -183,8 +183,8 @@ registerRoute(
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 5 * 60, // 5 Minutes
+        maxEntries: 50,
+        maxAgeSeconds: 10 * 60, // 10 Minutes
       }),
     ],
   })
@@ -200,8 +200,8 @@ registerRoute(
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
-        maxEntries: 50,
-        maxAgeSeconds: 10 * 60, // 10 Minutes
+        maxEntries: 75,
+        maxAgeSeconds: 20 * 60, // 20 Minutes
       }),
     ],
   })

@@ -19,9 +19,9 @@ async function ensureBucket() {
 export async function GET(req: NextRequest) {
   // Set cache headers to reduce function invocations
   const headers = {
-    'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30', // Cache for 1 minute, stale for 30 sec (optimized for free tier)
-    'CDN-Cache-Control': 'public, s-maxage=60',
-    'Vercel-CDN-Cache-Control': 'public, s-maxage=60'
+    'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=60', // Cache for 2 minutes (balanced for free tier)
+    'CDN-Cache-Control': 'public, s-maxage=120',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=120'
   }
 
   const auth = await requireAdmin(req)

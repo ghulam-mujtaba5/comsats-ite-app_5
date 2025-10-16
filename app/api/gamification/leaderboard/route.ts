@@ -3,8 +3,8 @@ import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 
 const headers = {
-  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
-  'CDN-Cache-Control': 'public, s-maxage=60',
+  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=60',
+  'CDN-Cache-Control': 'public, s-maxage=120',
 }
 
 export async function GET(req: NextRequest) {

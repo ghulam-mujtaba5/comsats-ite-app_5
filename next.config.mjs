@@ -111,12 +111,12 @@ const nextConfig = {
         ]
       },
       {
-        // Additional headers for API routes - reduced caching for free tier
+        // Additional headers for API routes - balanced caching for free tier
         source: '/api/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=30, s-maxage=60',
+            value: 'public, max-age=60, s-maxage=120, stale-while-revalidate=60',
           },
         ],
       },
