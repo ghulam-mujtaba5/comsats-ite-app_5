@@ -126,7 +126,7 @@ export function Header() {
             className="flex items-center space-x-2 sm:space-x-3 hover:opacity-90 transition-all duration-300 interactive group px-1 sm:px-2 py-1 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/30 backdrop-blur-sm min-w-0 flex-shrink"
           >
             <div className="relative flex-shrink-0 admin-nav-logo-container admin-nav-logo-wrapper">
-              <Image src="/Campus Axis 1.svg" alt="CampusAxis Logo" width={36} height={36} className="sm:w-10 sm:h-10 rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg admin-nav-logo" />
+              <Image src="/Campus Axis 1.svg" alt="CampusAxis Logo" width={40} height={40} className="sm:w-10 sm:h-10 rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg admin-nav-logo" priority />
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
             <div className="flex flex-col min-w-0">
@@ -217,6 +217,7 @@ export function Header() {
                       width={64} 
                       height={64} 
                       className="rounded-2xl shadow-lg admin-nav-logo" 
+                      priority
                     />
                   </div>
                 </div>

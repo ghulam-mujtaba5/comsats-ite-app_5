@@ -66,8 +66,11 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
   }
 
   return (
-    <footer className="relative glass-card-premium glass-border-glow supports-[backdrop-filter]:glass-card rounded-2xl glass-depth glass-gradient">
-      <div className="app-container py-12">
+    <footer className="relative glass-card-premium glass-border-glow supports-[backdrop-filter]:glass-card rounded-2xl glass-depth glass-gradient overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 via-purple-500/5 to-fuchsia-500/5 rounded-2xl"></div>
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-pink-500/10 to-transparent rounded-r-2xl"></div>
+      <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-t from-purple-500/10 to-transparent rounded-bl-2xl"></div>
+      <div className="app-container py-12 relative z-10">
         <div className="mb-10 p-4 md:p-6 glass-card-premium glass-border-glow glass-hover-glow rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3 glass-gradient glass-depth glass-floating">
           <div className="text-center md:text-left">
             <div className="font-semibold text-foreground flex items-center justify-center md:justify-start gap-2">
@@ -98,6 +101,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
                   width={48} 
                   height={48} 
                   className="rounded-2xl shadow-lg group-hover:scale-105 transition-transform duration-300 relative z-10"
+                  priority
                 />
               </div>
               <div>
