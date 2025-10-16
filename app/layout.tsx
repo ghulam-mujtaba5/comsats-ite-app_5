@@ -293,12 +293,12 @@ html {
         )}
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <AuthProvider>
-            <AnimationProvider>
-              <CampusAxisEmotionProvider>
-                <TooltipProvider>
-                  <MotivationalProvider>
-                    <CampusProvider>
+          <CampusProvider>
+            <AuthProvider>
+              <AnimationProvider>
+                <CampusAxisEmotionProvider>
+                  <TooltipProvider>
+                    <MotivationalProvider>
                       <Header />
                       <div className="min-h-[60vh] max-w-full overflow-x-hidden">
                         {children}
@@ -321,12 +321,12 @@ html {
                           <WebVitalsReporter />
                         </Suspense>
                       )}
-                    </CampusProvider>
-                  </MotivationalProvider>
-                </TooltipProvider>
-              </CampusAxisEmotionProvider>
-            </AnimationProvider>
-          </AuthProvider>
+                    </MotivationalProvider>
+                  </TooltipProvider>
+                </CampusAxisEmotionProvider>
+              </AnimationProvider>
+            </AuthProvider>
+          </CampusProvider>
         </ThemeProvider>
       </body>
     </html>

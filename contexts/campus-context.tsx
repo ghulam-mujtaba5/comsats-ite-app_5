@@ -1,7 +1,8 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react"
-import { useAuth } from "@/contexts/auth-context"
+import type React from "react"
+import { createContext, useContext, useState, useEffect } from "react"
+import { AuthContext } from "@/contexts/auth-context"
 
 interface Campus {
   id: string
@@ -53,7 +54,7 @@ const STORAGE_KEY = "campus-selection"
 const apiCache = new Map<string, { data: any; timestamp: number }>()
 const CACHE_DURATION = 30 * 60 * 1000 // 30 minutes
 
-export function CampusProvider({ children }: { children: ReactNode }) {
+export function CampusProvider({ children }: { children: React.ReactNode }) {
   const [selectedCampus, setSelectedCampusState] = useState<Campus | null>(null)
   const [selectedDepartment, setSelectedDepartmentState] = useState<Department | null>(null)
   const [selectedProgram, setSelectedProgramState] = useState<Program | null>(null)
@@ -61,7 +62,9 @@ export function CampusProvider({ children }: { children: ReactNode }) {
   const [departments, setDepartments] = useState<Department[]>([])
   const [programs, setPrograms] = useState<Program[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const { user } = useAuth()
+  // Use optional chaining to avoid throwing an error if AuthProvider is not available yet
+  const authContext = useContext(AuthContext)
+  const user = authContext?.user
 
   // Load campuses on mount
   useEffect(() => {
