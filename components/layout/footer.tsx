@@ -66,12 +66,12 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
   }
 
   return (
-    <footer className="relative glass-card-premium glass-border-glow supports-[backdrop-filter]:glass-card rounded-2xl glass-depth glass-gradient overflow-hidden dark:bg-slate-900/80 dark:border-slate-700/50">
-      <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 via-purple-500/5 to-fuchsia-500/5 rounded-2xl dark:from-slate-700/30 dark:via-slate-800/30 dark:to-slate-900/30"></div>
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-pink-500/10 to-transparent rounded-r-2xl dark:from-slate-700/20 dark:to-slate-900/10"></div>
-      <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-t from-purple-500/10 to-transparent rounded-bl-2xl dark:from-slate-800/20 dark:to-slate-900/10"></div>
-      <div className="app-container py-12 relative z-10">
-        <div className="mb-10 p-4 md:p-6 glass-card-premium glass-border-glow glass-hover-glow rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3 glass-gradient glass-depth glass-floating">
+    <footer className="relative glass-card-premium glass-border-glow supports-[backdrop-filter]:glass-card rounded-2xl glass-depth glass-gradient overflow-hidden dark:bg-slate-900/70 dark:border-slate-700/40">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/3 via-indigo-500/3 to-purple-500/3 rounded-2xl dark:from-slate-800/20 dark:via-slate-800/15 dark:to-slate-900/20"></div>
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-500/5 to-transparent rounded-r-2xl dark:from-slate-700/15 dark:to-slate-900/5"></div>
+      <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-t from-indigo-500/5 to-transparent rounded-bl-2xl dark:from-slate-800/15 dark:to-slate-900/5"></div>
+      <div className="app-container py-10 relative z-10">
+        <div className="mb-8 p-4 md:p-5 glass-card-premium glass-border-glow glass-hover-glow rounded-xl flex flex-col md:flex-row items-center justify-between gap-3 glass-gradient glass-depth glass-floating">
           <div className="text-center md:text-left">
             <div className="font-semibold text-foreground flex items-center justify-center md:justify-start gap-2">
               <Users className="h-5 w-5 text-primary" />
@@ -90,7 +90,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             </a>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <div className="relative group">
@@ -193,7 +193,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           </div>
         </div>
 
-        <div className="border-t border-border mt-8 pt-8 text-center">
+        <div className="border-t border-border mt-6 pt-6 text-center">
           <p className="text-sm text-muted-foreground">
             © {year} CampusAxis{hidePortalSubtitle ? '' : ' Academic Portal'}. All rights reserved.
           </p>
