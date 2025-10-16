@@ -12,11 +12,11 @@ export async function GET(
       return NextResponse.json({ error: 'Missing faculty id in route params' }, { status: 400 })
     }
     
-    // Set cache headers to reduce function invocations
+    // Set cache headers to prevent caching issues
     const headers = {
-      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800', // Cache for 1 hour, stale for 30 min
-      'CDN-Cache-Control': 'public, s-maxage=3600',
-      'Vercel-CDN-Cache-Control': 'public, s-maxage=3600'
+      'Cache-Control': 'no-store',
+      'CDN-Cache-Control': 'no-store',
+      'Vercel-CDN-Cache-Control': 'no-store'
     }
     
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL

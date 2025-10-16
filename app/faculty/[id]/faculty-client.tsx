@@ -35,7 +35,7 @@ export default function FacultyProfileClient({ initialFaculty, initialReviews }:
           // Fetch with timeout and retry
           const fetchWithTimeout = (url: string, timeout = 8000) => {
             return Promise.race([
-              fetch(url, { cache: 'no-store' }),
+              fetch(url, { cache: 'no-store', next: { revalidate: 0 } }),
               new Promise<Response>((_, reject) =>
                 setTimeout(() => reject(new Error('Request timeout')), timeout)
               )
@@ -149,7 +149,7 @@ export default function FacultyProfileClient({ initialFaculty, initialReviews }:
                   <div className="flex-shrink-0">
                     <Avatar className="h-32 w-32">
                       <AvatarImage 
-                        src={faculty.profileImage || "/placeholder-user.svg"} 
+                        src={faculty.profileImage || faculty.profile_image || "/placeholder-user.svg"} 
                         alt={faculty.name}
                         loading="eager"
                         onError={(e: any) => {

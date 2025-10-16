@@ -93,6 +93,11 @@ const AvatarImage = React.forwardRef<
         height={height}
         className={cn("aspect-square size-full object-cover", className)}
         {...props}
+        onError={(e) => {
+          // Handle image loading errors by hiding the image
+          const target = e.target as HTMLImageElement;
+          target.style.display = 'none';
+        }}
       />
     )
   }
@@ -105,6 +110,11 @@ const AvatarImage = React.forwardRef<
       src={src as string | undefined}
       className={cn("aspect-square size-full", className)}
       {...props}
+      onError={(e) => {
+        // Handle image loading errors by hiding the image
+        const target = e.target as HTMLImageElement;
+        target.style.display = 'none';
+      }}
     />
   )
 })

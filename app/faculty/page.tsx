@@ -128,7 +128,7 @@ export default function FacultyPage() {
         if (campusDepartment?.id) params.set('department_id', campusDepartment.id)
         
         const url = `/api/faculty${params.toString() ? `?${params.toString()}` : ''}`
-        const res = await fetch(url, { cache: 'force-cache' }) // Use force-cache to reduce function invocations
+        const res = await fetch(url, { cache: 'no-store' }) // Use no-store to prevent caching issues
         if (!res.ok) {
           const body = await res.json().catch(() => ({}))
           console.error("Failed to fetch faculty:", res.status, res.statusText, body)

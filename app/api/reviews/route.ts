@@ -19,11 +19,11 @@ function rateLimit(key: string, limit: number, windowMs: number) {
 }
 
 export async function POST(req: NextRequest) {
-  // Set cache headers to reduce function invocations
+  // Set cache headers to prevent caching issues
   const headers = {
-    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
-    'CDN-Cache-Control': 'public, s-maxage=300',
-    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+    'Cache-Control': 'no-store',
+    'CDN-Cache-Control': 'no-store',
+    'Vercel-CDN-Cache-Control': 'no-store'
   }
 
   try {
@@ -191,11 +191,11 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  // Set cache headers to reduce function invocations
+  // Set cache headers to prevent caching issues
   const headers = {
-    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
-    'CDN-Cache-Control': 'public, s-maxage=300',
-    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+    'Cache-Control': 'no-store',
+    'CDN-Cache-Control': 'no-store',
+    'Vercel-CDN-Cache-Control': 'no-store'
   }
 
   try {

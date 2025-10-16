@@ -33,6 +33,8 @@ export async function updateUserAvatar(user: any, supabase: any) {
         console.log('User avatar updated successfully')
         return true
       }
+      // Even if URLs are the same, we should return true to indicate success
+      return true
     }
     
     return false
