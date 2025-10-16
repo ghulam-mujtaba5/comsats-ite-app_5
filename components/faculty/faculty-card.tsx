@@ -58,11 +58,13 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
     const newCount = viewCount + 1
     setViewCount(newCount)
     
-    // Update emotion state
-    updateEmotionState({
-      motivationLevel: emotionState.motivationLevel === 'low' ? 'medium' : emotionState.motivationLevel,
-      focusLevel: emotionState.focusLevel === 'low' ? 'medium' : emotionState.focusLevel
-    })
+    // Update emotion state only when there's an actual change
+    if (emotionState.motivationLevel === 'low' || emotionState.focusLevel === 'low') {
+      updateEmotionState({
+        motivationLevel: emotionState.motivationLevel === 'low' ? 'medium' : emotionState.motivationLevel,
+        focusLevel: emotionState.focusLevel === 'low' ? 'medium' : emotionState.focusLevel
+      })
+    }
     
     // Trigger achievements based on view count
     if (newCount === 1) {
@@ -99,24 +101,20 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
   }
 
   return (
-    <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden border-border">
+    <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden border-border cursor-pointer" onClick={() => {
+      trackProfileView();
+      window.location.href = `/faculty/${faculty.id}`;
+    }}>
       {/* Decorative accent */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-blue-500"></div>
       
-      <Link 
-        href={`/faculty/${faculty.id}`} 
-        className="absolute inset-0 z-0" 
-        aria-label={`View profile for ${faculty.name}`}
-        onClick={trackProfileView}
-      >
-        <span className="sr-only">View profile for {faculty.name}</span>
-      </Link>
+      {/* Removed invisible overlay link for better accessibility */}
       
       <CardHeader className="pb-3 relative z-10">
         <div className="flex items-start gap-4">
           <Avatar className="h-16 w-16 ring-2 ring-primary/20">
             <AvatarImage 
-              src={faculty.profileImage || faculty.profile_image || "/placeholder-user.svg"} 
+              src={faculty.profileImage || "/placeholder-user.svg"} 
               alt={faculty.name} 
               className="object-cover"
               loading="lazy"
@@ -194,7 +192,7 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
           <div className="flex flex-wrap gap-1">
             {faculty.specialization.slice(0, 3).map((spec, index) => (
               <Badge key={index} variant="outline" className="text-xs">
-                {highlight(spec) as any}
+                {highlight(spec)}
               </Badge>
             ))}
             {faculty.specialization.length > 3 && (
@@ -221,11 +219,13 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
 
         {/* Action Button */}
         <div className="pt-2">
-          <Button asChild className="w-full group/btn">
-            <Link href={`/faculty/${faculty.id}`} onClick={(e) => e.stopPropagation()}>
-              View Profile & Reviews
-              <span className="ml-2 opacity-0 group-hover/btn:opacity-100 transition-opacity">→</span>
-            </Link>
+          <Button className="w-full group/btn" onClick={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            trackProfileView();
+            window.location.href = `/faculty/${faculty.id}`;
+          }}>
+            View Profile & Reviews
+            <span className="ml-2 opacity-0 group-hover/btn:opacity-100 transition-opacity">→</span>
           </Button>
         </div>
       </CardContent>
