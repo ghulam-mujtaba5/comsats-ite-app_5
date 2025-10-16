@@ -31,7 +31,7 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0,
 
   // Filter sensitive data
-  beforeSend(event, hint) {
+  beforeSend(event: Sentry.Event, hint: Sentry.EventHint) {
     // Don't send events in development
     if (process.env.NODE_ENV !== 'production') {
       return null
@@ -39,7 +39,7 @@ Sentry.init({
 
     // Filter out sensitive information from breadcrumbs
     if (event.breadcrumbs) {
-      event.breadcrumbs = event.breadcrumbs.filter((breadcrumb) => {
+      event.breadcrumbs = event.breadcrumbs.filter((breadcrumb: Sentry.Breadcrumb) => {
         // Remove breadcrumbs containing sensitive data
         if (breadcrumb.category === 'console' && breadcrumb.message) {
           return !breadcrumb.message.includes('password')

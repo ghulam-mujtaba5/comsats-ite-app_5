@@ -29,7 +29,7 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0,
 
   // Filter sensitive data
-  beforeSend(event, hint) {
+  beforeSend(event: Sentry.Event, hint: Sentry.EventHint) {
     // Don't send events in development
     if (process.env.NODE_ENV !== 'production') {
       return null
@@ -46,9 +46,9 @@ Sentry.init({
 
     // Filter sensitive data from exception
     if (event.exception) {
-      event.exception.values?.forEach((exception) => {
+      event.exception.values?.forEach((exception: any) => {
         if (exception.stacktrace?.frames) {
-          exception.stacktrace.frames.forEach((frame) => {
+          exception.stacktrace.frames.forEach((frame: any) => {
             // Remove local file paths for privacy
             if (frame.abs_path) {
               frame.abs_path = frame.abs_path.replace(/^.*node_modules/, 'node_modules')
