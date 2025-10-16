@@ -5,9 +5,9 @@ import { NextResponse } from 'next/server'
 export async function GET() {
   // Set cache headers to reduce function invocations
   const headers = {
-    'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800', // Cache for 1 hour, stale for 30 min
-    'CDN-Cache-Control': 'public, s-maxage=3600',
-    'Vercel-CDN-Cache-Control': 'public, s-maxage=3600'
+    'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=300', // Cache for 10 minutes, stale for 5 min (optimized for free tier)
+    'CDN-Cache-Control': 'public, s-maxage=600',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=600'
   }
 
   const cookieStore = await cookies()

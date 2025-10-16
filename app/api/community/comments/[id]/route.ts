@@ -8,9 +8,9 @@ export async function PATCH(
 ) {
   // Set cache headers to reduce function invocations
   const headers = {
-    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
-    'CDN-Cache-Control': 'public, s-maxage=300',
-    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+    'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30', // Cache for 1 minute, stale for 30 sec (optimized for free tier)
+    'CDN-Cache-Control': 'public, s-maxage=60',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=60'
   }
 
   const { id } = await context.params
@@ -77,9 +77,9 @@ export async function DELETE(
 ) {
   // Set cache headers to reduce function invocations
   const headers = {
-    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
-    'CDN-Cache-Control': 'public, s-maxage=300',
-    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+    'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30', // Cache for 1 minute, stale for 30 sec (optimized for free tier)
+    'CDN-Cache-Control': 'public, s-maxage=60',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=60'
   }
 
   const { id } = await context.params

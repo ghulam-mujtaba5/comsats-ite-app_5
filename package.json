@@ -13,6 +13,7 @@
     "start": "next start",
     "fix-faculty": "node scripts/fix-faculty-auto.js",
     "seo-setup": "pwsh scripts/apply-seo.ps1",
+    "cache:optimize": "node scripts/optimize-cache.js",
     "db:apply-admin-fix": "tsx scripts/apply-sql.ts supabase/migrations/20251009_fix_admin_system_production.sql",
     "db:seed": "tsx scripts/seed.ts",
     "db:seed-complete": "tsx scripts/seed-complete.ts",

@@ -37,8 +37,8 @@ const nextConfig = {
     // Optimize image quality and format to reduce data transfer
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 60,
+    formats: ['image/webp'],
+    minimumCacheTTL: 30,
     // Limit maximum image size to reduce data transfer
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "script-src 'none'; frame-src 'none'; sandbox;",
@@ -111,22 +111,22 @@ const nextConfig = {
         ]
       },
       {
-        // Additional headers for API routes
+        // Additional headers for API routes - reduced caching for free tier
         source: '/api/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-store, max-age=0',
+            value: 'public, max-age=30, s-maxage=60',
           },
         ],
       },
       {
-        // Performance headers for static assets
+        // Performance headers for static assets - optimized for free tier
         source: '/_next/static/(.*)',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            value: 'public, max-age=86400, immutable',
           },
           {
             key: 'Timing-Allow-Origin',
@@ -158,7 +158,7 @@ const nextConfig = {
           },
           {
             key: 'Cache-Control',
-            value: 'public, max-age=43200', // 12 hours
+            value: 'public, max-age=3600', // 1 hour
           },
         ],
       },

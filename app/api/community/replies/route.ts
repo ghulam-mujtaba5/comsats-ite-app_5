@@ -7,9 +7,9 @@ import { cookies } from 'next/headers'
 export async function GET(req: NextRequest) {
   // Set cache headers to reduce function invocations
   const headers = {
-    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
-    'CDN-Cache-Control': 'public, s-maxage=300',
-    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+    'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30', // Cache for 1 minute, stale for 30 sec (optimized for free tier)
+    'CDN-Cache-Control': 'public, s-maxage=60',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=60'
   }
 
   const { searchParams } = new URL(req.url)
@@ -66,9 +66,9 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   // Set cache headers to reduce function invocations
   const headers = {
-    'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=150', // Cache for 5 minutes, stale for 2.5 min
-    'CDN-Cache-Control': 'public, s-maxage=300',
-    'Vercel-CDN-Cache-Control': 'public, s-maxage=300'
+    'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30', // Cache for 1 minute, stale for 30 sec (optimized for free tier)
+    'CDN-Cache-Control': 'public, s-maxage=60',
+    'Vercel-CDN-Cache-Control': 'public, s-maxage=60'
   }
 
   const cookieStore = await (cookies() as any)
