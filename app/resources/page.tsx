@@ -85,7 +85,7 @@ export default function ResourcesPage() {
           
           {/* Enhanced Header Section */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-card-premium glass-border-light text-sm font-medium text-emerald-700 dark:text-emerald-300 mb-8">
+            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-secondary text-sm font-medium text-emerald-700 dark:text-emerald-300 mb-8">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full blur opacity-30 animate-pulse" />
                 <div className="relative bg-gradient-to-r from-emerald-500 to-teal-500 p-2 rounded-full">
@@ -107,7 +107,7 @@ export default function ResourcesPage() {
 
           {/* Enhanced Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-            <Card className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl group hover:scale-[1.02] transition-all duration-300">
+            <Card className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
@@ -122,7 +122,7 @@ export default function ResourcesPage() {
               </CardContent>
             </Card>
             
-            <Card className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl group hover:scale-[1.02] transition-all duration-300">
+            <Card className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
@@ -137,7 +137,7 @@ export default function ResourcesPage() {
               </CardContent>
             </Card>
             
-            <Card className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl group hover:scale-[1.02] transition-all duration-300">
+            <Card className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
@@ -152,7 +152,7 @@ export default function ResourcesPage() {
               </CardContent>
             </Card>
             
-            <Card className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl group hover:scale-[1.02] transition-all duration-300">
+            <Card className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
@@ -317,7 +317,7 @@ export default function ResourcesPage() {
                   .filter((r) => (resourceType === "All" ? true : r.type === resourceType))
                   .filter((r) => (!showVerifiedOnly ? true : r.is_verified === true))
               }, [items, search, dept, term, difficulty, resourceType, showVerifiedOnly]).map((r, index) => (
-                <Card key={r.id} className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl group hover:scale-[1.02] transition-all duration-300 overflow-hidden" style={{ animationDelay: `${index * 100}ms` }}>
+                <Card key={r.id} className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300 overflow-hidden" style={{ animationDelay: `${index * 100}ms` }}>
                   {/* Resource Header */}
                   <div className="relative p-6 pb-4">
                     <div className="flex items-start justify-between gap-3">

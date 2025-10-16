@@ -156,11 +156,11 @@ export function EnhancedFeatures() {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-background/80 to-muted/30 glass-depth glass-professional" aria-labelledby="features-heading">
+    <section className="py-20 px-4 bg-gradient-to-b from-background/80 to-muted/30 glass-primary" aria-labelledby="features-heading">
       <div className="app-container">
         {/* Enhanced Header with proper spacing and visual hierarchy */}
         <div className={`text-center mb-16 md:mb-24 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <Badge variant="soft" className="mb-6 md:mb-8 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-blue-500/30 to-indigo-500/30 text-primary border border-primary/40 glass-card glass-border-light glass-depth">
+          <Badge variant="soft" className="mb-6 md:mb-8 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-blue-500/30 to-indigo-500/30 text-primary border border-primary/40 glass-secondary">
             <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" aria-hidden="true" />
             Academic Tools & Resources
           </Badge>
@@ -196,7 +196,7 @@ export function EnhancedFeatures() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group relative h-full overflow-hidden border border-white/30 bg-card/90 backdrop-blur-3xl rounded-2xl shadow-2xl transition-all duration-300 hover:shadow-2xl glass-card-premium glass-border-glow glass-hover glass-depth glass-professional"
+                    className="group relative h-full overflow-hidden border border-white/30 bg-card/90 backdrop-blur-3xl rounded-2xl shadow-2xl transition-all duration-300 hover:shadow-2xl glass-primary glass-professional"
                   >
                     {/* Enhanced badge */}
                     <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10">
@@ -275,7 +275,7 @@ export function EnhancedFeatures() {
             role="region"
             aria-labelledby="cta-heading"
           >
-            <AnimatedCard enableHover={true} className="inline-block p-8 sm:p-10 md:p-12 border border-white/20 bg-card/80 backdrop-blur-2xl shadow-2xl rounded-2xl sm:rounded-3xl max-w-3xl mx-auto glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient">
+            <AnimatedCard enableHover={true} className="inline-block p-8 sm:p-10 md:p-12 border border-white/20 bg-card/80 backdrop-blur-2xl shadow-2xl rounded-2xl sm:rounded-3xl max-w-3xl mx-auto glass-primary glass-gradient">
               <div className="space-y-6 sm:space-y-8">
                 <div className="flex justify-center">
                   <div className="relative p-4 sm:p-6 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl sm:rounded-2xl glass-layered">

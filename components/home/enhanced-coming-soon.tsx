@@ -90,11 +90,11 @@ export function EnhancedComingSoon() {
   ]
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-muted/30 to-background/80 glass-depth glass-professional">
+    <section className="py-20 px-4 bg-gradient-to-b from-muted/30 to-background/80 glass-primary">
       <div className="app-container max-w-6xl mx-auto">
         {/* Enhanced Header with proper spacing */}
         <div className="text-center mb-16 md:mb-20">
-          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-violet-600/30 to-fuchsia-600/30 text-violet-700 dark:text-violet-300 border border-violet-600/40 glass-card glass-border-light glass-depth">
+          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-violet-600/30 to-fuchsia-600/30 text-violet-700 dark:text-violet-300 border border-violet-600/40 glass-secondary">
             <Zap className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
             Beta Testing Area
           </Badge>
@@ -128,7 +128,7 @@ export function EnhancedComingSoon() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-5 rounded-2xl bg-card/90 backdrop-blur-xl border border-white/30 text-center transition-all duration-300 hover:shadow-xl glass-card-premium glass-hover glass-border-glow glass-depth glass-professional"
+                className="p-5 rounded-2xl bg-card/90 backdrop-blur-xl border border-white/30 text-center transition-all duration-300 hover:shadow-xl glass-primary"
               >
                 <div className="flex justify-center mb-3">
                   <div className="p-3 rounded-xl bg-violet-500/10">
@@ -155,7 +155,7 @@ export function EnhancedComingSoon() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group h-full bg-card/90 border border-white/30 rounded-2xl shadow-2xl backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl glass-card-premium glass-border-glow glass-hover glass-depth glass-professional"
+                    className="group h-full bg-card/90 border border-white/30 rounded-2xl shadow-2xl backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl glass-primary glass-professional"
                   >
                     <CardHeader>
                       <div className="flex items-center gap-3 sm:gap-4">
@@ -206,7 +206,7 @@ export function EnhancedComingSoon() {
         {/* Feedback CTA with proper spacing */}
         <StaggerContainer className="text-center" staggerDelay={0.1}>
           <StaggerItem>
-            <Card className="inline-block p-6 sm:p-8 border border-white/20 bg-card/80 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl max-w-3xl mx-auto glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient">
+            <Card className="inline-block p-6 sm:p-8 border border-white/20 bg-card/80 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl max-w-3xl mx-auto glass-primary glass-gradient">
               <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-6">
                 <div className="flex-shrink-0">
                   <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 flex items-center justify-center glass-layered">

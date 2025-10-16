@@ -10,19 +10,24 @@
  */
 
 export type GlassVariant = 
-  | 'glass-subtle'      // Ultra-light, minimal blur
-  | 'glass-light'       // Light glass effect
-  | 'glass-medium'      // Standard glass effect
-  | 'glass-strong'      // Strong glass effect
-  | 'glass-premium'     // Premium frosted glass
-  | 'glass-ultra'       // Ultra premium with depth
-  | 'glass-card'        // Optimized for cards
-  | 'glass-nav'         // Optimized for navigation
-  | 'glass-modal'       // Optimized for modals/dialogs
-  | 'glass-hero'        // Optimized for hero sections
-  | 'glass-floating'    // Apple 2025 floating effect
-  | 'glass-layered'     // Apple 2025 layered effect
-  | 'glass-depth'       // Apple 2025 depth effect
+  // New simplified 4-class system
+  | 'glass-primary'      // High emphasis - heroes, major CTAs
+  | 'glass-secondary'    // Medium emphasis - feature cards, content
+  | 'glass-subtle'       // Low emphasis - backgrounds, dividers
+  | 'glass-interactive'  // Hover states - buttons, clickable cards
+  // Legacy aliases (auto-mapped via CSS)
+  | 'glass-light'        // → glass-subtle
+  | 'glass-medium'       // → glass-secondary
+  | 'glass-strong'       // → glass-primary
+  | 'glass-premium'      // → glass-primary
+  | 'glass-ultra'        // → glass-primary
+  | 'glass-card'         // → glass-secondary
+  | 'glass-nav'          // → glass-primary
+  | 'glass-modal'        // → glass-primary
+  | 'glass-hero'         // → glass-primary
+  | 'glass-floating'     // → glass-secondary
+  | 'glass-layered'      // → glass-primary
+  | 'glass-depth'        // → glass-primary
 
 export type GlassBorder = 
   | 'border-none'
@@ -54,9 +59,10 @@ export interface GlassOptions {
 
 /**
  * Get glassmorphism classes based on variant and options
+ * Updated to use simplified 4-class system (glass-primary/secondary/subtle/interactive)
  */
 export function getGlassClasses({
-  variant = 'glass-medium',
+  variant = 'glass-secondary',
   border = 'border-subtle',
   shadow = 'shadow-soft',
   hover = false,

@@ -41,8 +41,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           "outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           // Variants with 2025 glassmorphism
           variant === "elevated" && "shadow-md glass-card glass-border-subtle glass-hover",
-          variant === "soft" && "glass-light glass-border-subtle",
-          variant === "glass" && "glass-card-premium glass-border-glow glass-hover-glow glass-noise",
+          variant === "soft" && "glass-subtle",
+          variant === "glass" && "glass-primary",
           variant === "glass-premium" && "glass-premium glass-border-glow glass-hover-glow glass-gradient glass-noise",
           variant === "glass-floating" && "glass-floating glass-border-light glass-hover glass-noise",
           variant === "glass-layered" && "glass-layered glass-border-subtle glass-hover glass-gradient glass-depth glass-noise",

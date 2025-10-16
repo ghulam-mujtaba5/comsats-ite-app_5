@@ -101,10 +101,13 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
   }
 
   return (
-    <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden border-border cursor-pointer" onClick={() => {
-      trackProfileView();
-      window.location.href = `/faculty/${faculty.id}#reviews`;
-    }})>
+    <Card 
+      className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden border-border cursor-pointer" 
+      onClick={() => {
+        trackProfileView();
+        window.location.href = `/faculty/${faculty.id}#reviews`;
+      }}
+    >
       {/* Decorative accent */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-blue-500"></div>
       

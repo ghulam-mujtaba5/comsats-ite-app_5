@@ -170,7 +170,7 @@ export function HeroSection() {
                   const Icon = stat.icon
                   return (
                     <div key={index} className="flex items-center gap-3 group">
-                      <div className="p-2.5 rounded-xl glass-light glass-border-subtle group-hover:scale-110 transition-all duration-300 shadow-md glass-hover glass-depth">
+                      <div className="p-2.5 rounded-xl glass-subtle group-hover:scale-110 transition-all duration-300 shadow-md glass-hover glass-depth">
                         <Icon className={`h-4 w-4 ${stat.color}`} />
                       </div>
                       <div>
@@ -192,13 +192,13 @@ export function HeroSection() {
             {/* Enhanced CTA buttons */}
             <div className={`transition-all duration-700 delay-800 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Button size="lg" className="text-base px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 glass-button glass-border-light glass-hover glass-depth">
+                <Button size="lg" className="text-base px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-700 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 glass-interactive">
                   <Link href="/auth" className="flex items-center">
                     Get Started
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="text-base px-8 py-3 rounded-xl border-2 hover:shadow-md transition-all duration-300 glass-button glass-border-light glass-hover glass-depth" asChild>
+                <Button variant="outline" size="lg" className="text-base px-8 py-3 rounded-xl border-2 hover:shadow-md transition-all duration-300 glass-interactive" asChild>
                   <Link href="/about">
                     <GraduationCap className="mr-2 h-4 w-4" />
                     About CampusAxis
@@ -214,7 +214,7 @@ export function HeroSection() {
                   const Icon = action.icon
                   return (
                     <Link key={index} href={action.href}>
-                      <Card className="p-4 hover:shadow-md transition-all duration-300 border cursor-pointer group bg-card/80 backdrop-blur-sm glass-card glass-border-subtle glass-hover glass-depth">
+                      <Card className="p-4 hover:shadow-md transition-all duration-300 border cursor-pointer group bg-card/80 backdrop-blur-sm glass-interactive">
                         <div className="flex items-center gap-3">
                           <Icon className={`h-4 w-4 ${action.color} group-hover:scale-110 transition-transform`} />
                           <div>
@@ -252,7 +252,7 @@ export function HeroSection() {
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 gap-4">
                     {/* Community Engagement Card */}
-                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-interactive">
                       <div className="flex items-center justify-between mb-1.5">
                         <TrendingUp className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
@@ -264,7 +264,7 @@ export function HeroSection() {
                     </AnimatedCard>
 
                     {/* Faculty Rating Card */}
-                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-interactive">
                       <div className="flex items-center justify-between mb-1.5">
                         <div className="flex items-center">
                           <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
@@ -283,7 +283,7 @@ export function HeroSection() {
                     </AnimatedCard>
 
                     {/* Active Events Card */}
-                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-interactive">
                       <div className="flex items-center justify-between mb-1.5">
                         <Calendar className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
@@ -295,7 +295,7 @@ export function HeroSection() {
                     </AnimatedCard>
 
                     {/* Faculty Count Card */}
-                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-card glass-border-subtle glass-hover glass-depth">
+                    <AnimatedCard enableHover={true} className="p-3 rounded-xl bg-muted/50 border glass-interactive">
                       <div className="flex items-center justify-between mb-1.5">
                         <GraduationCap className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">{stats?.departmentCount || 2} Depts</span>
@@ -312,7 +312,7 @@ export function HeroSection() {
                     <div className="text-sm font-semibold text-foreground text-center mb-3">Quick Actions</div>
                     <div className="grid grid-cols-2 gap-3">
                       <Link href="/past-papers" className="group/action">
-                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300 glass-card glass-border-subtle glass-hover glass-depth">
+                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300 glass-interactive">
                           <div className="flex items-center gap-2">
                             <FileText className="h-4 w-4 text-primary group-hover/action:scale-110 transition-transform" />
                             <div>
@@ -323,7 +323,7 @@ export function HeroSection() {
                         </div>
                       </Link>
                       <Link href="/gpa-calculator" className="group/action">
-                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300 glass-card glass-border-subtle glass-hover glass-depth">
+                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300 glass-interactive">
                           <div className="flex items-center gap-2">
                             <Calculator className="h-4 w-4 text-primary group-hover/action:scale-110 transition-transform" />
                             <div>
@@ -337,7 +337,7 @@ export function HeroSection() {
                   </div>
 
                   {/* Trust Indicator */}
-                  <div className="text-center p-3 rounded-lg bg-muted/50 border glass-card glass-border-subtle glass-depth">
+                  <div className="text-center p-3 rounded-lg bg-muted/50 border glass-subtle">
                     <div className="flex items-center justify-center gap-2 mb-1.5">
                       <div className="flex items-center gap-1">
                         <Pulse active={true}>
@@ -355,7 +355,7 @@ export function HeroSection() {
               
               {/* Achievement Badge */}
               <div className="absolute -top-3 -right-3">
-                <Badge className="px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg glass-button glass-border-light glass-hover glass-depth">
+                <Badge className="px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg glass-interactive">
                   <Award className="h-4 w-4 mr-1" />
                   Student Approved
                 </Badge>

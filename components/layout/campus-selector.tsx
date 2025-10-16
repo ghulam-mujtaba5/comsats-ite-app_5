@@ -49,7 +49,7 @@ export function CampusSelector() {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="h-9 gap-2 glass-button glass-border-light glass-hover glass-depth">
+        <Button variant="outline" size="sm" className="h-9 gap-2 glass-interactive">
           <MapPin className="h-4 w-4" />
           <span className="hidden sm:inline">{selectedCampus.name}</span>
           <span className="sm:hidden">{selectedCampus.code}</span>
@@ -83,7 +83,7 @@ export function CampusSelector() {
                 <Card
                   key={campus.id}
                   className={cn(
-                    "cursor-pointer transition-all hover:shadow-md glass-card glass-border-subtle glass-hover glass-depth",
+                    "cursor-pointer transition-all hover:shadow-md glass-interactive",
                     selectedCampus?.id === campus.id
                       ? "border-primary bg-primary/5 glass-card-premium glass-border-glow"
                       : "hover:border-primary/50"
@@ -127,7 +127,7 @@ export function CampusSelector() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 <Card
                   className={cn(
-                    "cursor-pointer transition-all hover:shadow-md glass-card glass-border-subtle glass-hover glass-depth",
+                    "cursor-pointer transition-all hover:shadow-md glass-interactive",
                     !selectedDepartment
                       ? "border-primary bg-primary/5 glass-card-premium glass-border-glow"
                       : "hover:border-primary/50"
@@ -153,7 +153,7 @@ export function CampusSelector() {
                   <Card
                     key={dept.id}
                     className={cn(
-                      "cursor-pointer transition-all hover:shadow-md glass-card glass-border-subtle glass-hover glass-depth",
+                      "cursor-pointer transition-all hover:shadow-md glass-interactive",
                       selectedDepartment?.id === dept.id
                         ? "border-primary bg-primary/5 glass-card-premium glass-border-glow"
                         : "hover:border-primary/50"
@@ -184,7 +184,7 @@ export function CampusSelector() {
             <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="glass-button glass-border-light glass-hover">
               Cancel
             </Button>
-            <Button onClick={() => setIsDialogOpen(false)} className="glass-button glass-border-light glass-hover glass-depth">
+            <Button onClick={() => setIsDialogOpen(false)} className="glass-interactive">
               Apply Selection
             </Button>
           </div>
@@ -214,7 +214,7 @@ export function CampusSelectorCompact() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 glass-card glass-border-light glass-depth">
+      <DropdownMenuContent align="end" className="w-56 glass-secondary">
         <DropdownMenuLabel>Quick Campus Switch</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {campuses.map((campus) => (

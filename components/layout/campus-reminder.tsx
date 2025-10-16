@@ -175,7 +175,7 @@ export function CampusIndicator() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="glass-button glass-border-light glass-hover glass-depth glass-floating"
+        className="glass-interactive glass-floating"
       >
         <CampusSelectorCompact />
       </motion.div>

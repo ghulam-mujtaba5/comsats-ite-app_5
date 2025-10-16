@@ -320,7 +320,7 @@ export function SearchClient() {
         </div>
 
         {/* Enhanced Search Interface */}
-        <Card className="mb-8 glass-card-premium glass-border-glow glass-hover-glow glass-noise transition-all duration-500">
+        <Card className="mb-8 glass-primary transition-all duration-500">
           <CardContent className="p-8">
             <form onSubmit={onSubmit} className="relative">
               <div className="relative">

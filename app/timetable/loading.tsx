@@ -23,7 +23,7 @@ export default function Loading() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Calendar Skeleton */}
             <div className="lg:col-span-2">
-              <Card className="glass-card-premium glass-border-glow glass-hover glass-shimmer rounded-3xl transition-all duration-500">
+              <Card className="glass-secondary rounded-3xl transition-all duration-500">
                 <CardContent className="p-8">
                   <div className="space-y-6">
                     <div className="flex justify-between items-center">
@@ -45,7 +45,7 @@ export default function Loading() {
 
             {/* Events List Skeleton */}
             <div>
-              <Card className="glass-card-premium glass-border-glow glass-hover glass-shimmer rounded-3xl transition-all duration-500">
+              <Card className="glass-secondary rounded-3xl transition-all duration-500">
                 <CardContent className="p-8">
                   <div className="space-y-6">
                     <Skeleton className="h-6 w-32 rounded-xl" />

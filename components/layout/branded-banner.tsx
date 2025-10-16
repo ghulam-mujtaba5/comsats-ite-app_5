@@ -28,9 +28,9 @@ export function BrandedBanner({
   className = "",
 }: BrandedBannerProps) {
   const variantClasses = {
-    default: "glass-card glass-border-subtle glass-hover glass-depth",
+    default: "glass-interactive",
     gradient: "glass-hero glass-border-glow glass-hover-glow glass-depth glass-gradient",
-    glass: "glass-card-premium glass-border-light glass-hover glass-depth glass-layered",
+    glass: "glass-secondary glass-hover glass-depth glass-layered",
   }
 
   return (

@@ -23,7 +23,7 @@ export default function Loading() {
           {/* Stats Cards Skeleton */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             {Array.from({ length: 4 }).map((_, i) => (
-              <Card key={i} className="glass-card-premium glass-border-glow glass-hover glass-shimmer rounded-3xl transition-all duration-500">
+              <Card key={i} className="glass-secondary rounded-3xl transition-all duration-500">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3">
                     <Skeleton className="h-8 w-8 rounded-xl" />
@@ -40,7 +40,7 @@ export default function Loading() {
           {/* Course Cards Skeleton */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, i) => (
-              <Card key={i} className="glass-card-premium glass-border-glow glass-hover glass-shimmer rounded-3xl transition-all duration-500">
+              <Card key={i} className="glass-secondary rounded-3xl transition-all duration-500">
                 <CardContent className="p-8">
                   <div className="space-y-6">
                     <div className="space-y-3">

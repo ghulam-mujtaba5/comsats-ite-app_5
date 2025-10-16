@@ -80,11 +80,11 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             <p className="text-sm text-muted-foreground font-serif">Help other students and shape CampusAxis with your contributions.</p>
           </div>
           <div className="flex items-center gap-3">
-            <Button asChild className="glass-button glass-border-light glass-hover glass-depth">
+            <Button asChild className="glass-interactive">
               <Link href="/contribute">Contribute</Link>
             </Button>
             <a href="mailto:campusaxis0@gmail.com?subject=Contribute%20to%20CampusAxis" rel="noreferrer">
-              <Button variant="outline" className="glass-button glass-border-light glass-hover glass-depth">
+              <Button variant="outline" className="glass-interactive">
                 <Mail className="h-4 w-4 mr-2" /> Email Us
               </Button>
             </a>

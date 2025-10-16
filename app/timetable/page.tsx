@@ -359,7 +359,7 @@ export default function TimetablePage() {
               </CardContent>
             </Card>
           ) : isAdmin ? (
-            <Card className="mb-8 glass-card-premium glass-border-glow glass-hover glass-gradient rounded-3xl transition-all duration-300">
+            <Card className="mb-8 glass-primary rounded-3xl transition-all duration-300">
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
               <CardHeader className="p-8 pb-6 relative z-10">
                 <CardTitle className="flex items-center gap-3 text-2xl font-bold text-slate-900 dark:text-white">
@@ -590,7 +590,7 @@ export default function TimetablePage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredDocs.map((doc) => (
-                <Card key={doc.id} className="glass-card-premium glass-border-glow glass-hover-glow glass-noise rounded-2xl transition-all duration-300 hover:-translate-y-1 group">
+                <Card key={doc.id} className="glass-primary rounded-2xl transition-all duration-300 hover:-translate-y-1 group">
                   <CardHeader className="p-6 pb-4">
                     <div className="flex items-start gap-4">
                       <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30 group-hover:scale-110 transition-transform duration-300">

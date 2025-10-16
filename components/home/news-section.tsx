@@ -67,12 +67,12 @@ export function NewsSection() {
   }, [])
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-hero glass-depth">
+    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-primary">
       <div className="container mx-auto max-w-6xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center glass-button glass-border-light glass-depth">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center glass-interactive">
                 <Tag className="h-5 w-5 text-primary" />
               </div>
               <h2 className="text-2xl lg:text-3xl font-bold text-foreground">Latest News & Updates</h2>
@@ -87,7 +87,7 @@ export function NewsSection() {
               </div>
             )}
           </div>
-          <Button variant="outline" size="lg" className="hidden sm:flex px-6 py-3 text-base rounded-xl border-2 glass-button glass-border-light glass-hover glass-depth" asChild>
+          <Button variant="outline" size="lg" className="hidden sm:flex px-6 py-3 text-base rounded-xl border-2 glass-interactive" asChild>
             <Link href="/news-events">
               View All News
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -117,14 +117,14 @@ export function NewsSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {items.slice(0, maxCount).map((item) => (
               <Link key={item.id} href={`/news/${item.id}`} className="block group">
-              <Card className="group hover:shadow-xl transition-all duration-500 overflow-hidden border bg-card/80 backdrop-blur-sm hover:-translate-y-1 glass-card glass-border-subtle glass-hover glass-depth">
+              <Card className="group hover:shadow-xl transition-all duration-500 overflow-hidden border bg-card/80 backdrop-blur-sm hover:-translate-y-1 glass-interactive">
                 <div className="aspect-video relative overflow-hidden">
                   <img
                     src={item.image_url || "/placeholder.svg"}
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground text-sm px-3 py-1 rounded-full shadow-md glass-button glass-border-light glass-depth">Published</Badge>
+                  <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground text-sm px-3 py-1 rounded-full shadow-md glass-interactive">Published</Badge>
                 </div>
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
@@ -144,7 +144,7 @@ export function NewsSection() {
               </Link>
             ))}
             {items.length === 0 && (
-              <Card className="col-span-full glass-card glass-border-subtle glass-depth">
+              <Card className="col-span-full glass-subtle">
                 <CardContent className="p-8 text-center">
                   <div className="flex flex-col items-center justify-center py-8">
                     <Tag className="h-12 w-12 text-muted-foreground mb-4" />
@@ -158,7 +158,7 @@ export function NewsSection() {
         )}
 
         <div className="text-center mt-8 sm:hidden">
-          <Button variant="outline" size="lg" className="px-6 py-3 text-base rounded-xl border-2 glass-button glass-border-light glass-hover glass-depth" asChild>
+          <Button variant="outline" size="lg" className="px-6 py-3 text-base rounded-xl border-2 glass-interactive" asChild>
             <Link href="/news-events">
               View All News
               <ArrowRight className="ml-2 h-4 w-4" />
