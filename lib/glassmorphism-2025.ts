@@ -60,6 +60,7 @@ export interface GlassOptions {
 /**
  * Get glassmorphism classes based on variant and options
  * Updated to use simplified 4-class system (glass-primary/secondary/subtle/interactive)
+ * Uses professional blue/indigo color palette for consistency
  */
 export function getGlassClasses({
   variant = 'glass-secondary',
@@ -234,7 +235,7 @@ export function getGlassClasses({
       break
     case 'shadow-glow':
       classes.push(
-        'shadow-2xl shadow-primary/10 dark:shadow-primary/20'
+        'shadow-2xl shadow-blue-500/10 dark:shadow-blue-500/20'
       )
       break
     case 'shadow-apple':
@@ -248,7 +249,7 @@ export function getGlassClasses({
   if (glow) {
     classes.push(
       'after:absolute after:inset-0 after:rounded-[inherit]',
-      'after:bg-gradient-to-br after:from-primary/15 after:via-transparent after:to-blue-500/15',
+      'after:bg-gradient-to-br after:from-blue-500/15 after:via-transparent after:to-indigo-500/15',
       'after:opacity-0 after:transition-opacity after:duration-300',
       'after:pointer-events-none'
     )

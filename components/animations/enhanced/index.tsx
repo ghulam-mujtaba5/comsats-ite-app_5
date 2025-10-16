@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { motion, HTMLMotionProps } from 'framer-motion'
+import { motion, HTMLMotionProps, useReducedMotion } from 'framer-motion'
 import { usePageTransition, useScrollAnimation, useMicroInteraction } from '@/hooks/use-enhanced-animations'
 import { cn } from '@/lib/utils'
 import { useAnimation } from '@/contexts/animation-context'
@@ -16,6 +16,13 @@ interface PageTransitionProps {
 
 export function PageTransition({ children, className }: PageTransitionProps) {
   const { variants, transition } = usePageTransition()
+  const { isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    return <div className={cn('w-full', className)}>{children}</div>
+  }
 
   return (
     <motion.div
@@ -48,8 +55,24 @@ export function AnimatedCard({
   enableGlow = false,
   ...props 
 }: AnimatedCardProps) {
-  const { hoverVariants, glowVariants, prefersReducedMotion } = useMicroInteraction()
-  const { animationIntensity } = useAnimation()
+  const { hoverVariants, glowVariants } = useMicroInteraction()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    return (
+      <div
+        className={cn(
+          'rounded-lg border bg-card text-card-foreground shadow-sm',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
 
   // Adjust animation intensity
   const getIntensityScale = () => {
@@ -65,7 +88,7 @@ export function AnimatedCard({
 
   const adjustedHoverVariants = {
     rest: { scale: 1 },
-    hover: { scale: prefersReducedMotion ? 1 : intensityScale }
+    hover: { scale: intensityScale }
   }
 
   return (
@@ -77,7 +100,7 @@ export function AnimatedCard({
       className={cn(
         'rounded-lg border bg-card text-card-foreground shadow-sm',
         'transition-shadow duration-300',
-        enableHover && !prefersReducedMotion && 'cursor-pointer',
+        enableHover && 'cursor-pointer',
         className
       )}
       {...props}
@@ -102,8 +125,26 @@ export function AnimatedButton({
   variant = 'default',
   ...props 
 }: AnimatedButtonProps) {
-  const { tapVariants, glowVariants, prefersReducedMotion } = useMicroInteraction()
-  const { animationIntensity } = useAnimation()
+  const { tapVariants, glowVariants } = useMicroInteraction()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    return (
+      <button
+        className={cn(
+          'inline-flex items-center justify-center rounded-md font-medium',
+          'transition-colors focus-visible:outline-none focus-visible:ring-2',
+          'disabled:pointer-events-none disabled:opacity-50',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </button>
+    )
+  }
 
   // Adjust animation intensity
   const getIntensityScale = () => {
@@ -119,7 +160,7 @@ export function AnimatedButton({
 
   const adjustedTapVariants = {
     rest: { scale: 1 },
-    tap: { scale: prefersReducedMotion ? 1 : intensityScale }
+    tap: { scale: intensityScale }
   }
 
   return (
@@ -152,7 +193,13 @@ interface FadeInScrollProps {
 
 export function FadeInScroll({ children, className, delay = 0 }: FadeInScrollProps) {
   const { elementRef, isVisible } = useScrollAnimation()
-  const { animationIntensity } = useAnimation()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    return <div className={className}>{children}</div>
+  }
 
   // Adjust animation intensity
   const getDuration = () => {
@@ -189,7 +236,13 @@ interface StaggerContainerProps {
 }
 
 export function StaggerContainer({ children, className, staggerDelay = 0.1 }: StaggerContainerProps) {
-  const { animationIntensity } = useAnimation()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    return <div className={className}>{children}</div>
+  }
 
   // Adjust animation intensity
   const getStaggerDelay = () => {
@@ -229,7 +282,13 @@ interface StaggerItemProps extends HTMLMotionProps<'div'> {
 }
 
 export function StaggerItem({ children, className, ...props }: StaggerItemProps) {
-  const { animationIntensity } = useAnimation()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    return <div className={className}>{children}</div>
+  }
 
   // Adjust animation intensity
   const getDuration = () => {
@@ -276,7 +335,38 @@ export function AnimatedProgress({
   variant = 'default'
 }: AnimatedProgressProps) {
   const percentage = Math.min((value / max) * 100, 100)
-  const { animationIntensity } = useAnimation()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    const getVariantClass = () => {
+      switch (variant) {
+        case 'gradient':
+          return 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500'
+        case 'glow':
+          return 'bg-blue-500'
+        default:
+          return 'bg-primary'
+      }
+    }
+
+    return (
+      <div className={cn('relative w-full', className)}>
+        <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
+          <div
+            className={cn('h-full rounded-full', getVariantClass())}
+            style={{ width: `${percentage}%` }}
+          />
+        </div>
+        {showLabel && (
+          <span className="absolute right-0 -top-6 text-sm font-medium text-muted-foreground">
+            {Math.round(percentage)}%
+          </span>
+        )}
+      </div>
+    )
+  }
 
   // Adjust animation intensity
   const getDuration = () => {
@@ -336,9 +426,30 @@ interface AnimatedModalProps {
 }
 
 export function AnimatedModal({ isOpen, onClose, children, className }: AnimatedModalProps) {
-  const { animationIntensity } = useAnimation()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
 
   if (!isOpen) return null
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    return (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+        onClick={onClose}
+      >
+        <div
+          className={cn(
+            'relative bg-background rounded-lg shadow-xl max-w-lg w-full p-6',
+            className
+          )}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {children}
+        </div>
+      </div>
+    )
+  }
 
   // Adjust animation intensity
   const getDuration = () => {
@@ -386,7 +497,24 @@ interface FloatingButtonProps extends HTMLMotionProps<'button'> {
 }
 
 export function FloatingButton({ children, className, ...props }: FloatingButtonProps) {
-  const { animationIntensity } = useAnimation()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    return (
+      <button
+        className={cn(
+          'fixed bottom-8 right-8 p-4 rounded-full shadow-lg',
+          'bg-primary text-primary-foreground z-50',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </button>
+    )
+  }
 
   // Adjust animation intensity
   const getYMovement = () => {
@@ -437,7 +565,13 @@ interface PulseProps {
 }
 
 export function Pulse({ children, className, active = true }: PulseProps) {
-  const { animationIntensity } = useAnimation()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled || !active) {
+    return <div className={className}>{children}</div>
+  }
 
   // Adjust animation intensity
   const getDuration = () => {
@@ -453,10 +587,10 @@ export function Pulse({ children, className, active = true }: PulseProps) {
 
   return (
     <motion.div
-      animate={active ? {
+      animate={{
         scale: [1, 1.05, 1],
         opacity: [1, 0.8, 1]
-      } : {}}
+      }}
       transition={{
         duration,
         repeat: Infinity,
@@ -479,7 +613,13 @@ interface BounceProps {
 }
 
 export function Bounce({ children, className, active = true }: BounceProps) {
-  const { animationIntensity } = useAnimation()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled || !active) {
+    return <div className={className}>{children}</div>
+  }
 
   // Adjust animation intensity
   const getDuration = () => {
@@ -496,9 +636,9 @@ export function Bounce({ children, className, active = true }: BounceProps) {
 
   return (
     <motion.div
-      animate={active ? {
+      animate={{
         y: [0, -10, 0]
-      } : {}}
+      }}
       transition={{
         duration,
         repeat: Infinity,
@@ -521,7 +661,17 @@ interface ShimmerProps {
 }
 
 export function Shimmer({ className, width = 'w-full', height = 'h-4' }: ShimmerProps) {
-  const { animationIntensity } = useAnimation()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    return (
+      <div className={cn('relative overflow-hidden rounded', width, height, className)}>
+        <div className="absolute inset-0 bg-muted" />
+      </div>
+    )
+  }
 
   // Adjust animation intensity
   const getDuration = () => {
@@ -562,7 +712,29 @@ interface CheckmarkProps {
 }
 
 export function CheckmarkDraw({ className, size = 24 }: CheckmarkProps) {
-  const { animationIntensity } = useAnimation()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    return (
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        className={className}
+      >
+        <path
+          d="M5 13l4 4L19 7"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    )
+  }
 
   // Adjust animation intensity
   const getDuration = () => {
@@ -611,7 +783,17 @@ interface CountUpProps {
 
 export function CountUp({ end, duration = 2000, className, prefix = '', suffix = '' }: CountUpProps) {
   const [count, setCount] = React.useState(0)
-  const { animationIntensity } = useAnimation()
+  const { animationIntensity, isAnimationEnabled } = useAnimation()
+  const prefersReducedMotion = useReducedMotion()
+
+  // Disable animations if user prefers reduced motion or animations are disabled
+  if (prefersReducedMotion || !isAnimationEnabled) {
+    return (
+      <span className={className}>
+        {prefix}{end.toLocaleString()}{suffix}
+      </span>
+    )
+  }
 
   // Adjust animation intensity
   const getAdjustedDuration = () => {

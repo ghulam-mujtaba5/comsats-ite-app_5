@@ -248,6 +248,18 @@ html, body {
   --info: oklch(0.7 0.12 240); /* Softer blue */
   --info-foreground: oklch(1 0 0); /* White text on info */
   
+  /* Enhanced color system for consistent design language */
+  --brand-primary: oklch(0.567 0.227 240); /* #2563eb - Brand blue */
+  --brand-secondary: oklch(0.744 0.155 70.67); /* #f59e0b - Brand amber */
+  --brand-tertiary: oklch(0.65 0.18 300); /* #8b5cf6 - Brand purple */
+  
+  /* Glassmorphism color system */
+  --glass-primary: oklch(1 0 0 / 0.3); /* White glass with 30% opacity */
+  --glass-secondary: oklch(1 0 0 / 0.25); /* White glass with 25% opacity */
+  --glass-subtle: oklch(1 0 0 / 0.15); /* White glass with 15% opacity */
+  --glass-interactive: oklch(1 0 0 / 0.25); /* Interactive glass elements */
+  --glass-border: oklch(1 0 0 / 0.15); /* Glass border color */
+  
   /* Optimized Glassmorphism Variables - Professional & Accessible */
   --glass-blur-sm: 8px;
   --glass-blur-md: 12px;
@@ -324,7 +336,22 @@ html, body {
     color: hsl(var(--foreground));
     overflow-x: hidden;
   }
-}
+  
+  /* Enhanced theme transition smoothness */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in-out;
+  }
+  
+  /* Smooth theme transitions */
+  .theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .theme-transition-fast {
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
 
 @layer components {
   /* Hide skip links */
@@ -530,7 +557,13 @@ html, body {
     animation-play-state: paused;
   }
 
-  /* Simplified 4-Class Glass System - Professional & Accessible */
+  /* ========================================
+     2025 ADVANCED GLASSMORPHISM SYSTEM
+     Modern frosted glass effects with depth
+     
+     Simplified 4-Class System - Professional & Accessible
+     Professional blue/indigo color palette for academic platform
+     ======================================== */
   
   /* Primary Glass - Hero sections, major CTAs (high emphasis) */
   .glass-primary {
@@ -705,6 +738,87 @@ html, body {
   .slide-up {
     animation: slideUp 700ms;
   }
+  
+  /* Enhanced Interactive Elements (2025 Standard) */
+  .interactive-elevated {
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, box-shadow;
+  }
+  
+  .interactive-elevated:hover {
+    transform: translateY(-0.125rem);
+    box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.15), 0 5px 10px -5px rgb(0 0 0 / 0.1);
+  }
+  
+  .interactive-elevated:active {
+    transform: translateY(0);
+    box-shadow: 0 5px 15px -5px rgb(0 0 0 / 0.1), 0 2px 5px -2px rgb(0 0 0 / 0.05);
+  }
+  
+  .interactive-scale {
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  
+  .interactive-scale:hover {
+    transform: scale(1.025);
+  }
+  
+  .interactive-scale:active {
+    transform: scale(0.975);
+  }
+  
+  .interactive-glow {
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: box-shadow;
+  }
+  
+  .interactive-glow:hover {
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.1), 0 0 20px hsl(var(--primary) / 0.15);
+  }
+  
+  .interactive-glow:active {
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.05), 0 0 10px hsl(var(--primary) / 0.1);
+  }
+  
+  /* Focus States for Accessibility */
+  .focus-ring {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+  
+  .focus-ring:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: var(--radius);
+  }
+  
+  .focus-ring-inner {
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+  }
+  
+  .focus-ring-inner:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: -2px;
+    border-radius: calc(var(--radius) - 2px);
+  }
+  
+  .focus-glow:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 4px hsl(var(--ring) / 0.2);
+  }
+  
+  /* Pressed States */
+  .pressed {
+    transform: translateY(1px);
+  }
+  
+  .pressed-scale {
+    transform: scale(0.95);
+  }
 
   /* Mobile Navigation Enhancements */
   .mobile-menu-open {
@@ -732,23 +846,29 @@ html, body {
   @media (max-width: 768px) {
     .glass-primary {
       backdrop-filter: blur(10px) saturate(var(--glass-saturation));
+      /* Reduce blur effect on mobile for better performance */
+      backdrop-filter: blur(calc(var(--glass-blur-md) * 0.75)) saturate(var(--glass-saturation)) brightness(var(--glass-brightness));
     }
     
     .glass-secondary {
       backdrop-filter: blur(8px) saturate(var(--glass-saturation));
+      /* Reduce blur effect on mobile for better performance */
+      backdrop-filter: blur(calc(var(--glass-blur-sm) * 0.75)) saturate(var(--glass-saturation));
     }
     
     .glass-subtle {
       backdrop-filter: blur(6px) saturate(120%);
+      /* Reduce blur effect on mobile for better performance */
+      backdrop-filter: blur(calc(var(--glass-blur-xs) * 0.75)) saturate(120%);
     }
     
     .glass-interactive {
       backdrop-filter: blur(8px) saturate(var(--glass-saturation));
+      /* Reduce blur effect on mobile for better performance */
+      backdrop-filter: blur(calc(var(--glass-blur-sm) * 0.75)) saturate(var(--glass-saturation));
     }
     
-    .glass-nav {
-      backdrop-filter: blur(8px);
-    }
+    /* Mobile optimized glass effects */
     
     /* Ensure proper width constraints on mobile */
     .container {
@@ -774,6 +894,24 @@ html, body {
     
     .max-w-2xl {
       max-width: 100% !important;
+    }
+    
+    /* Reduce animation intensity on mobile */
+    .interactive-elevated,
+    .interactive-scale,
+    .interactive-glow {
+      transition-duration: 200ms !important;
+    }
+    
+    /* Reduce complex animations on mobile */
+    .float,
+    .pulse-glow,
+    .gradient-animation,
+    .magnetic,
+    .neon-text,
+    .apple-glass,
+    .firework {
+      animation-duration: 3s !important;
     }
   }
 
@@ -1020,50 +1158,27 @@ html, body {
     }
     
     /* Reduce glass effects when reduced motion is preferred */
-    .glass-floating,
-    .glass-depth,
-    .glass-layered,
-    .glass-gradient,
-    .glass-hover-glow,
-    .glass-shimmer {
+    .glass-primary,
+    .glass-secondary,
+    .glass-subtle,
+    .glass-interactive {
       animation: none !important;
       transform: none !important;
-    }
-    
-    .glass-floating::before,
-    .glass-depth::before,
-    .glass-layered::before,
-    .glass-layered::after {
-      display: none !important;
+      backdrop-filter: none !important;
+      background-color: hsl(var(--card)) !important;
+      border: 1px solid hsl(var(--border)) !important;
+      box-shadow: none !important;
     }
   }
   
   /* High contrast mode support */
   @media (prefers-contrast: high) {
     .glass-subtle,
-    .glass-light,
-    .glass-medium,
-    .glass-strong,
-    .glass-premium,
-    .glass-ultra {
+    .glass-secondary,
+    .glass-primary,
+    .glass-interactive {
       background: hsl(var(--background)) !important;
       border: 2px solid hsl(var(--foreground)) !important;
-      backdrop-filter: none !important;
-    }
-    
-    .glass-card,
-    .glass-card-premium,
-    .glass-nav,
-    .glass-modal,
-    .glass-hero {
-      background: hsl(var(--card)) !important;
-      border: 2px solid hsl(var(--border)) !important;
-      backdrop-filter: none !important;
-    }
-    
-    .glass-button {
-      background: hsl(var(--background)) !important;
-      border: 2px solid hsl(var(--border)) !important;
       backdrop-filter: none !important;
     }
   }
@@ -1138,13 +1253,66 @@ html, body {
   }
   
   /* 4. Spacing Grid System (8px base) */
-  .space-xs { margin: 8px; padding: 8px; }
+  .space-3xs { margin: 4px; padding: 4px; }
+  .space-2xs { margin: 8px; padding: 8px; }
+  .space-xs { margin: 12px; padding: 12px; }
   .space-sm { margin: 16px; padding: 16px; }
   .space-md { margin: 24px; padding: 24px; }
   .space-lg { margin: 32px; padding: 32px; }
   .space-xl { margin: 40px; padding: 40px; }
   .space-2xl { margin: 48px; padding: 48px; }
   .space-3xl { margin: 64px; padding: 64px; }
+  .space-4xl { margin: 80px; padding: 80px; }
+  .space-5xl { margin: 96px; padding: 96px; }
+  
+  /* Directional spacing classes */
+  .mt-3xs { margin-top: 4px; }
+  .mt-2xs { margin-top: 8px; }
+  .mt-xs { margin-top: 12px; }
+  .mt-sm { margin-top: 16px; }
+  .mt-md { margin-top: 24px; }
+  .mt-lg { margin-top: 32px; }
+  .mt-xl { margin-top: 40px; }
+  .mt-2xl { margin-top: 48px; }
+  .mt-3xl { margin-top: 64px; }
+  .mt-4xl { margin-top: 80px; }
+  .mt-5xl { margin-top: 96px; }
+  
+  .mb-3xs { margin-bottom: 4px; }
+  .mb-2xs { margin-bottom: 8px; }
+  .mb-xs { margin-bottom: 12px; }
+  .mb-sm { margin-bottom: 16px; }
+  .mb-md { margin-bottom: 24px; }
+  .mb-lg { margin-bottom: 32px; }
+  .mb-xl { margin-bottom: 40px; }
+  .mb-2xl { margin-bottom: 48px; }
+  .mb-3xl { margin-bottom: 64px; }
+  .mb-4xl { margin-bottom: 80px; }
+  .mb-5xl { margin-bottom: 96px; }
+  
+  .pt-3xs { padding-top: 4px; }
+  .pt-2xs { padding-top: 8px; }
+  .pt-xs { padding-top: 12px; }
+  .pt-sm { padding-top: 16px; }
+  .pt-md { padding-top: 24px; }
+  .pt-lg { padding-top: 32px; }
+  .pt-xl { padding-top: 40px; }
+  .pt-2xl { padding-top: 48px; }
+  .pt-3xl { padding-top: 64px; }
+  .pt-4xl { padding-top: 80px; }
+  .pt-5xl { padding-top: 96px; }
+  
+  .pb-3xs { padding-bottom: 4px; }
+  .pb-2xs { padding-bottom: 8px; }
+  .pb-xs { padding-bottom: 12px; }
+  .pb-sm { padding-bottom: 16px; }
+  .pb-md { padding-bottom: 24px; }
+  .pb-lg { padding-bottom: 32px; }
+  .pb-xl { padding-bottom: 40px; }
+  .pb-2xl { padding-bottom: 48px; }
+  .pb-3xl { padding-bottom: 64px; }
+  .pb-4xl { padding-bottom: 80px; }
+  .pb-5xl { padding-bottom: 96px; }
   
   /* 5. Content Width Standards (60-80 char) */
   .prose-optimal {
@@ -1205,7 +1373,155 @@ html, body {
     will-change: transform, opacity;
   }
   
-  /* 9. Responsive Typography (Mobile-First) */
+  /* 9. Responsive Typography System (2025 Standard) */
+  /* Headings */
+  .text-display-1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  
+  .text-display-2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+  
+  .text-display-3 {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  
+  .text-heading-1 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+  }
+  
+  .text-heading-2 {
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  
+  .text-heading-3 {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  
+  .text-heading-4 {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  
+  /* Body Text */
+  .text-body-xl {
+    font-size: clamp(1.125rem, 1.5vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  
+  .text-body-lg {
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    font-weight: 400;
+    line-height: 1.55;
+  }
+  
+  .text-body-md {
+    font-size: clamp(0.875rem, 1vw, 1rem);
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  
+  .text-body-sm {
+    font-size: clamp(0.75rem, 0.75vw, 0.875rem);
+    font-weight: 400;
+    line-height: 1.65;
+  }
+  
+  .text-body-xs {
+    font-size: clamp(0.625rem, 0.5vw, 0.75rem);
+    font-weight: 400;
+    line-height: 1.7;
+  }
+  
+  /* Labels and Captions */
+  .text-label-lg {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+  }
+  
+  .text-label-md {
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: 0.015em;
+  }
+  
+  .text-label-sm {
+    font-size: 0.625rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+  
+  .text-caption {
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+  }
+  
+  /* Specialized Text */
+  .text-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  
+  .text-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  
+  .text-overline {
+    font-size: 0.625rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  
+  /* Font weights */
+  .font-thin { font-weight: 100; }
+  .font-extralight { font-weight: 200; }
+  .font-light { font-weight: 300; }
+  .font-normal { font-weight: 400; }
+  .font-medium { font-weight: 500; }
+  .font-semibold { font-weight: 600; }
+  .font-bold { font-weight: 700; }
+  .font-extrabold { font-weight: 800; }
+  .font-black { font-weight: 900; }
+  
+  /* Text utilities */
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+  .text-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  
+  /* Legacy campus typography (maintained for backward compatibility) */
   .text-campus-h1 {
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 700;
@@ -1259,5 +1575,138 @@ html, body {
     html {
       scroll-behavior: auto;
     }
+    
+    /* Disable all animations and transitions for users who prefer reduced motion */
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    
+    /* Simplify glass effects when reduced motion is preferred */
+    .glass-primary,
+    .glass-secondary,
+    .glass-subtle,
+    .glass-interactive {
+      backdrop-filter: none !important;
+      background-color: hsl(var(--card)) !important;
+      border: 1px solid hsl(var(--border)) !important;
+      box-shadow: none !important;
+    }
+    
+    .dark .glass-primary,
+    .dark .glass-secondary,
+    .dark .glass-subtle,
+    .dark .glass-interactive {
+      background-color: hsl(var(--card)) !important;
+      border: 1px solid hsl(var(--border)) !important;
+    }
+  }
+  
+  /* High Contrast Mode Support */
+  @media (prefers-contrast: high) {
+    .glass-primary,
+    .glass-secondary,
+    .glass-subtle,
+    .glass-interactive {
+      background: hsl(var(--background)) !important;
+      border: 2px solid hsl(var(--foreground)) !important;
+      backdrop-filter: none !important;
+      box-shadow: none !important;
+    }
+    
+    .dark .glass-primary,
+    .dark .glass-secondary,
+    .dark .glass-subtle,
+    .dark .glass-interactive {
+      background: hsl(var(--background)) !important;
+      border: 2px solid hsl(var(--foreground)) !important;
+    }
+  }
+  
+  /* Performance Optimizations */
+  @media (max-width: 768px) {
+    .glass-primary,
+    .glass-secondary,
+    .glass-subtle,
+    .glass-interactive {
+      /* Reduce blur effect on mobile for better performance */
+      backdrop-filter: blur(calc(var(--glass-blur-sm) * 0.75)) saturate(var(--glass-saturation)) !important;
+    }
+    
+    .glass-primary {
+      backdrop-filter: blur(calc(var(--glass-blur-md) * 0.75)) saturate(var(--glass-saturation)) brightness(var(--glass-brightness)) !important;
+    }
+    
+    .glass-secondary {
+      backdrop-filter: blur(calc(var(--glass-blur-sm) * 0.75)) saturate(var(--glass-saturation)) !important;
+    }
+    
+    /* Reduce animation intensity on mobile */
+    .interactive-elevated,
+    .interactive-scale,
+    .interactive-glow {
+      transition-duration: 200ms !important;
+    }
+    
+    /* Reduce complex animations on mobile */
+    .float,
+    .pulse-glow,
+    .gradient-animation,
+    .magnetic,
+    .neon-text,
+    .apple-glass,
+    .firework {
+      animation-duration: 3s !important;
+    }
+  }
+  
+  /* Hardware Acceleration for Animations */
+  .will-change-transform {
+    will-change: transform;
+  }
+  
+  .will-change-opacity {
+    will-change: opacity;
+  }
+  
+  .gpu-accelerate {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  /* Scroll performance optimization */
+  .scroll-container {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* Optimize repaints */
+  .optimize-repaint {
+    contain: layout style paint;
+  }
+  
+  /* Will change optimization */
+  .will-change-scroll {
+    will-change: scroll-position;
   }
 }
+
+/* Enhanced theme transition smoothness */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
+}
+
+/* Smooth theme transitions */
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-transition-fast {
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+

@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { GlassCard } from "@/components/shared/glass-card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -101,19 +101,26 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
   }
 
   return (
-    <Card 
-      className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden border-border cursor-pointer bg-card/90 backdrop-blur-3xl border border-white/30 rounded-2xl shadow-2xl glass-primary glass-professional" 
+    <GlassCard 
+      className="group interactive-elevated cursor-pointer glass-primary focus-ring"
+      performanceOptimized={true}
       onClick={() => {
         trackProfileView();
         window.location.href = `/faculty/${faculty.id}#reviews`;
       }}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          trackProfileView();
+          window.location.href = `/faculty/${faculty.id}#reviews`;
+        }
+      }}
     >
       {/* Decorative accent */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-blue-500"></div>
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-blue-500 rounded-t-2xl"></div>
       
-      {/* Removed invisible overlay link for better accessibility */}
-      
-      <CardHeader className="pb-3 relative z-10">
+      <div className="pb-3">
         <div className="flex items-start gap-4">
           <Avatar className="h-16 w-16 ring-2 ring-primary/20">
             <AvatarImage 
@@ -132,26 +139,26 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <CardTitle className="text-xl group-hover:text-primary transition-colors truncate">
+            <h3 className="text-heading-3 font-semibold group-hover:text-primary transition-colors truncate">
               {highlight(faculty.name)}
-            </CardTitle>
-            <CardDescription className="text-base truncate">{faculty.title}</CardDescription>
+            </h3>
+            <p className="text-body-md text-muted-foreground truncate">{faculty.title}</p>
             <Badge variant="secondary" className="mt-1">
               {faculty.department}
             </Badge>
           </div>
         </div>
-      </CardHeader>
+      </div>
 
-      <CardContent className="space-y-4 relative z-10">
+      <div className="space-y-4">
         {/* Rating Section */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
             {renderStars(faculty.averageRating)}
           </div>
           <div className="text-right">
-            <div className="font-bold text-lg">{faculty.averageRating.toFixed(1)}</div>
-            <div className="text-xs text-muted-foreground">({faculty.totalReviews} reviews)</div>
+            <div className="font-bold text-body-lg">{faculty.averageRating.toFixed(1)}</div>
+            <div className="text-caption text-muted-foreground">({faculty.totalReviews} reviews)</div>
           </div>
         </div>
 
@@ -159,19 +166,19 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
         {faculty.averageRating >= 4.5 && (
           <div className="flex items-center justify-center gap-1 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-lg p-2">
             <Trophy className="h-4 w-4 text-yellow-500" />
-            <span className="text-xs font-medium text-yellow-700 dark:text-yellow-300">Top Rated</span>
+            <span className="text-caption font-medium text-yellow-700 dark:text-yellow-300">Top Rated</span>
           </div>
         )}
         
         {faculty.totalReviews >= 50 && (
           <div className="flex items-center justify-center gap-1 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-lg p-2">
             <Award className="h-4 w-4 text-blue-500" />
-            <span className="text-xs font-medium text-blue-700 dark:text-blue-300">Popular Choice</span>
+            <span className="text-caption font-medium text-blue-700 dark:text-blue-300">Popular Choice</span>
           </div>
         )}
 
         {/* Contact Info */}
-        <div className="space-y-2 text-sm">
+        <div className="space-y-2 text-body-sm">
           <div className="flex items-center gap-2 text-muted-foreground">
             <MapPin className="h-4 w-4 flex-shrink-0" />
             <span className="truncate">Office: {faculty.office}</span>
@@ -184,18 +191,18 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
 
         {/* Specialization */}
         <div>
-          <div className="flex items-center gap-2 text-sm font-medium mb-2">
+          <div className="flex items-center gap-2 text-body-sm font-medium mb-2">
             <BookOpen className="h-4 w-4" />
             Specialization
           </div>
           <div className="flex flex-wrap gap-1">
             {faculty.specialization.slice(0, 3).map((spec, index) => (
-              <Badge key={index} variant="outline" className="text-xs">
+              <Badge key={index} variant="outline" className="text-caption">
                 {highlight(spec)}
               </Badge>
             ))}
             {faculty.specialization.length > 3 && (
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="outline" className="text-caption">
                 +{faculty.specialization.length - 3} more
               </Badge>
             )}
@@ -204,11 +211,11 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
 
         {/* Courses */}
         <div>
-          <div className="flex items-center gap-2 text-sm font-medium mb-2">
+          <div className="flex items-center gap-2 text-body-sm font-medium mb-2">
             <Users className="h-4 w-4" />
             Courses ({faculty.courses.length})
           </div>
-          <div className="text-sm text-muted-foreground space-y-1">
+          <div className="text-body-sm text-muted-foreground space-y-1">
             {faculty.courses.slice(0, 2).map((course, index) => (
               <div key={index} className="truncate">{course}</div>
             ))}
@@ -218,7 +225,7 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
 
         {/* Action Button */}
         <div className="pt-2">
-          <Button className="w-full group/btn" onClick={(e: React.MouseEvent) => {
+          <Button className="w-full group/btn interactive-scale focus-glow" onClick={(e: React.MouseEvent) => {
             e.stopPropagation();
             trackProfileView();
             window.location.href = `/faculty/${faculty.id}#reviews`;
@@ -227,7 +234,7 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
             <span className="ml-2 opacity-0 group-hover/btn:opacity-100 transition-opacity">→</span>
           </Button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </GlassCard>
   )
 }

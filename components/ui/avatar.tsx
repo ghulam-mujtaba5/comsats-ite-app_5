@@ -42,12 +42,14 @@ const avatarFallbackVariants = cva(
 
 interface AvatarProps
   extends React.ComponentProps<typeof AvatarPrimitive.Root>,
-    VariantProps<typeof avatarVariants> {}
+    VariantProps<typeof avatarVariants> {
+  'aria-label'?: string
+}
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   AvatarProps
->(({ className, variant, ...props }, ref) => {
+>(({ className, variant, 'aria-label': ariaLabel, ...props }, ref) => {
   const prefersReducedMotion = usePrefersReducedMotion()
   
   // Apply animation classes conditionally based on user preferences
@@ -65,6 +67,7 @@ const Avatar = React.forwardRef<
         className,
         variant?.startsWith("glass") && "dark"
       )}
+      aria-label={ariaLabel}
       {...props}
     />
   )
@@ -76,12 +79,13 @@ interface AvatarImageProps
     VariantProps<typeof avatarVariants> {
   width?: number
   height?: number
+  'aria-label'?: string
 }
 
 const AvatarImage = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Image>,
   AvatarImageProps
->(({ className, variant, width = 40, height = 40, src, ...props }, ref) => {
+>(({ className, variant, width = 40, height = 40, src, 'aria-label': ariaLabel, ...props }, ref) => {
   // Use Next.js Image component for better optimization
   // Only use Next.js Image for string URLs or StaticImageData
   if (src && (typeof src === 'string' || (typeof src === 'object' && src !== null && 'src' in src))) {
@@ -117,6 +121,7 @@ const AvatarImage = React.forwardRef<
       data-slot="avatar-image"
       src={src as string | undefined}
       className={cn("aspect-square size-full", className)}
+      aria-label={ariaLabel}
       {...props}
     />
   )
@@ -125,12 +130,14 @@ AvatarImage.displayName = AvatarPrimitive.Image.displayName
 
 interface AvatarFallbackProps
   extends React.ComponentProps<typeof AvatarPrimitive.Fallback>,
-    VariantProps<typeof avatarFallbackVariants> {}
+    VariantProps<typeof avatarFallbackVariants> {
+  'aria-label'?: string
+}
 
 const AvatarFallback = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Fallback>,
   AvatarFallbackProps
->(({ className, variant, ...props }, ref) => {
+>(({ className, variant, 'aria-label': ariaLabel, ...props }, ref) => {
   const prefersReducedMotion = usePrefersReducedMotion()
   
   // Apply animation classes conditionally based on user preferences
@@ -148,6 +155,7 @@ const AvatarFallback = React.forwardRef<
         className,
         variant?.startsWith("glass") && "dark"
       )}
+      aria-label={ariaLabel}
       {...props}
     />
   )

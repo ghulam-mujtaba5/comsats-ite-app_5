@@ -58,16 +58,17 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  },
+  }
 )
 
 interface ButtonProps extends React.ComponentProps<"button">,
   VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  'aria-label'?: string
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, onClick, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, onClick, 'aria-label': ariaLabel, ...props }, ref) => {
     const { ripples, createRipple } = useRippleEffect()
     const prefersReducedMotion = usePrefersReducedMotion()
     
@@ -88,6 +89,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           prefersReducedMotion ? "transition-none" : ""
         )}
         onClick={handleClick}
+        aria-label={ariaLabel}
         {...props}
       >
         {ripples.map(ripple => (

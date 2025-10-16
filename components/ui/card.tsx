@@ -15,6 +15,8 @@ type CardProps = React.ComponentProps<"div"> & {
     highContrast?: boolean
     focusVisible?: boolean
   }
+  role?: string
+  'aria-label'?: string
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
@@ -24,6 +26,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     enableHover = true, 
     enablePress = true,
     accessibility = {},
+    role,
+    'aria-label': ariaLabel,
     ...props 
   }, ref) => {
     const { hoverVariants, tapVariants } = useMicroInteraction()
@@ -110,7 +114,9 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           glassClasses,
           className
         )}
-        {...glassAccessibility.getAriaAttributes(props.role, props['aria-label'])}
+        role={role}
+        aria-label={ariaLabel}
+        {...glassAccessibility.getAriaAttributes(role, ariaLabel)}
         {...(enablePress && !prefersReducedMotion ? { 
           onMouseDown: (e) => {
             if (e.button === 0) { // Left mouse button

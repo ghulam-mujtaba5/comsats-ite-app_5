@@ -16,10 +16,10 @@ import {
   GraduationCap
 } from "lucide-react"
 import { BrandedBanner } from "@/components/layout/branded-banner"
+import { GlassCard } from "@/components/shared/glass-card"
 
 export default function DocumentationPage() {
   const docs = [
-    // Admissions System documentation removed as per user request to delete admissions module
     {
       title: "User Management",
       description: "Managing user accounts and permissions",
@@ -82,10 +82,10 @@ export default function DocumentationPage() {
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-2xl font-bold text-muted-foreground mb-4">
+            <h2 className="text-display-3 font-bold text-muted-foreground mb-4">
               Select a documentation topic to get started
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-body-lg text-muted-foreground max-w-2xl mx-auto">
               Comprehensive guides and resources to help you effectively manage the CampusAxis platform
             </p>
           </div>
@@ -94,22 +94,23 @@ export default function DocumentationPage() {
             {docs.map((doc) => {
               const Icon = doc.icon
               return (
-                <Card 
-                  key={doc.title} 
-                  className="glass-card hover:glass-hover-glow transition-all duration-300 hover:-translate-y-1"
+                <GlassCard
+                  key={doc.title}
+                  className="interactive-elevated glass-interactive transition-all duration-300 hover:-translate-y-1 focus-glow"
+                  performanceOptimized
                 >
                   <CardHeader>
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${doc.color} flex items-center justify-center mb-4`}>
                       <Icon className="h-6 w-6 text-white" />
                     </div>
-                    <CardTitle className="text-lg">{doc.title}</CardTitle>
-                    <CardDescription>{doc.description}</CardDescription>
+                    <CardTitle className="text-heading-3">{doc.title}</CardTitle>
+                    <CardDescription className="text-body-md">{doc.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Button 
                       asChild 
                       variant="outline" 
-                      className="w-full glass-button"
+                      className="w-full glass-interactive focus-glow"
                       disabled={doc.href === "#"}
                     >
                       <Link href={doc.href}>
@@ -117,31 +118,31 @@ export default function DocumentationPage() {
                       </Link>
                     </Button>
                   </CardContent>
-                </Card>
+                </GlassCard>
               )
             })}
           </div>
           
           <div className="mt-12 text-center">
-            <Card className="glass-card max-w-2xl mx-auto">
+            <GlassCard className="max-w-2xl mx-auto glass-secondary">
               <CardHeader>
-                <CardTitle>Need Help?</CardTitle>
+                <CardTitle className="text-heading-2">Need Help?</CardTitle>
                 <CardDescription>
                   Contact the development team for additional support
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground mb-4">
+                <p className="text-body-md text-muted-foreground mb-4">
                   If you need assistance with any administrative functions not covered in these documents, 
                   please reach out to the technical support team.
                 </p>
-                <Button asChild>
+                <Button asChild className="glass-interactive focus-glow">
                   <Link href="/admin/support">
                     Contact Support
                   </Link>
                 </Button>
               </CardContent>
-            </Card>
+            </GlassCard>
           </div>
         </div>
       </main>

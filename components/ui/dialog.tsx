@@ -72,12 +72,14 @@ const DialogClose = DialogPrimitive.Close
 
 interface DialogOverlayProps
   extends React.ComponentProps<typeof DialogPrimitive.Overlay>,
-    VariantProps<typeof dialogOverlayVariants> {}
+    VariantProps<typeof dialogOverlayVariants> {
+  'aria-label'?: string
+}
 
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   DialogOverlayProps
->(({ className, variant, ...props }, ref) => {
+>(({ className, variant, 'aria-label': ariaLabel, ...props }, ref) => {
   const prefersReducedMotion = usePrefersReducedMotion()
   
   // Apply animation classes conditionally based on user preferences
@@ -94,6 +96,7 @@ const DialogOverlay = React.forwardRef<
         animationClasses,
         className
       )}
+      aria-label={ariaLabel}
       {...props}
     />
   )
@@ -104,12 +107,14 @@ interface DialogContentProps
   extends React.ComponentProps<typeof DialogPrimitive.Content>,
     VariantProps<typeof dialogContentVariants> {
   showCloseButton?: boolean
+  'aria-label'?: string
+  'aria-describedby'?: string
 }
 
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
->(({ className, variant, children, showCloseButton = true, ...props }, ref) => {
+>(({ className, variant, children, showCloseButton = true, 'aria-label': ariaLabel, 'aria-describedby': ariaDescribedBy, ...props }, ref) => {
   const prefersReducedMotion = usePrefersReducedMotion()
   
   // Apply animation classes conditionally based on user preferences
@@ -119,7 +124,7 @@ const DialogContent = React.forwardRef<
 
   return (
     <DialogPortal>
-      <DialogOverlay variant={variant} />
+      <DialogOverlay variant={variant} aria-label="Dialog overlay" />
       <DialogPrimitive.Content
         ref={ref}
         data-slot="dialog-content"
@@ -129,6 +134,8 @@ const DialogContent = React.forwardRef<
           className,
           variant?.startsWith("glass") && "dark"
         )}
+        aria-label={ariaLabel}
+        aria-describedby={ariaDescribedBy}
         {...props}
       >
         {children}
@@ -139,8 +146,9 @@ const DialogContent = React.forwardRef<
               "ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 min-h-[44px] min-w-[44px] flex items-center justify-center",
               prefersReducedMotion ? "transition-none" : "transition-opacity animate-duration-200"
             )}
+            aria-label="Close dialog"
           >
-            <XIcon />
+            <XIcon aria-hidden="true" />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         )}
@@ -186,17 +194,20 @@ const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
 DialogFooter.displayName = "DialogFooter"
 
 interface DialogTitleProps
-  extends React.ComponentProps<typeof DialogPrimitive.Title> {}
+  extends React.ComponentProps<typeof DialogPrimitive.Title> {
+  'aria-label'?: string
+}
 
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   DialogTitleProps
->(({ className, ...props }, ref) => {
+>(({ className, 'aria-label': ariaLabel, ...props }, ref) => {
   return (
     <DialogPrimitive.Title
       ref={ref}
       data-slot="dialog-title"
       className={cn("text-lg leading-none font-semibold", className)}
+      aria-label={ariaLabel}
       {...props}
     />
   )
@@ -204,17 +215,20 @@ const DialogTitle = React.forwardRef<
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
 interface DialogDescriptionProps
-  extends React.ComponentProps<typeof DialogPrimitive.Description> {}
+  extends React.ComponentProps<typeof DialogPrimitive.Description> {
+  'aria-label'?: string
+}
 
 const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
   DialogDescriptionProps
->(({ className, ...props }, ref) => {
+>(({ className, 'aria-label': ariaLabel, ...props }, ref) => {
   return (
     <DialogPrimitive.Description
       ref={ref}
       data-slot="dialog-description"
       className={cn("text-muted-foreground text-sm", className)}
+      aria-label={ariaLabel}
       {...props}
     />
   )

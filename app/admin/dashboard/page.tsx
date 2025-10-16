@@ -301,7 +301,7 @@ export default function AdminDashboardPage() {
             </Card>
 
             {/* Reviews & Feedback */}
-            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+            <Card className="glass-secondary border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Reviews & Feedback</CardTitle>
                 <div className="relative">
@@ -325,7 +325,7 @@ export default function AdminDashboardPage() {
             </Card>
 
             {/* Learning Resources */}
-            <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+            <Card className="glass-secondary border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Learning Resources</CardTitle>
                 <div className="relative">
@@ -371,7 +371,7 @@ export default function AdminDashboardPage() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5" aria-live="polite">
           {loading ? (
             Array.from({ length: 5 }).map((_, i) => (
-              <div key={`sk-${i}`} className="glass-card-premium glass-border-glow glass-shimmer rounded-2xl p-6 animate-pulse">
+              <div key={`sk-${i}`} className="glass-primary glass-border-glow glass-shimmer rounded-2xl p-6 animate-pulse">
                 <div className="flex items-center justify-between mb-4">
                   <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded-full w-24" />
                   <div className="h-6 w-6 bg-slate-200 dark:bg-slate-700 rounded-full" />
@@ -464,7 +464,7 @@ export default function AdminDashboardPage() {
                         </CardDescription>
                       </div>
                     </div>
-                    <Button size="sm" variant="outline" className="glass-button">
+                    <Button size="sm" variant="outline" className="glass-interactive">
                       View All
                     </Button>
                   </div>

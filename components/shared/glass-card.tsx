@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
+import { getEnhancedGlassClasses, glassAccessibility } from "@/lib/glassmorphism-2025"
 
 interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
@@ -11,6 +12,9 @@ interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   glassVariant?: 'primary' | 'secondary' | 'subtle'
   hoverEffect?: boolean
   border?: boolean
+  performanceOptimized?: boolean
+  role?: string
+  'aria-label'?: string
 }
 
 export function GlassCard({
@@ -18,43 +22,72 @@ export function GlassCard({
   description,
   children,
   className,
-  glassVariant = 'primary',
+  glassVariant = 'secondary',
   hoverEffect = true,
   border = true,
+  performanceOptimized = false,
+  role,
+  'aria-label': ariaLabel,
   ...props
 }: GlassCardProps) {
-  // Define glass variants
-  const glassClasses = {
-    primary: "bg-card/90 backdrop-blur-3xl",
-    secondary: "bg-card/80 backdrop-blur-2xl",
-    subtle: "bg-card/70 backdrop-blur-xl",
+  // Define glass variants using our new system
+  const glassVariantMap = {
+    primary: 'glass-primary',
+    secondary: 'glass-secondary',
+    subtle: 'glass-subtle',
   }
+
+  // Get glassmorphism classes with accessibility support
+  const glassClasses = getEnhancedGlassClasses({
+    variant: glassVariantMap[glassVariant],
+    accessibility: {
+      reducedMotion: true,
+      focusVisible: true,
+      highContrast: false
+    }
+  })
 
   // Define border classes
   const borderClasses = border 
-    ? "border border-white/30" 
+    ? "glass-border-subtle" 
     : ""
 
   // Define hover effect classes
   const hoverClasses = hoverEffect
-    ? "transition-all duration-300 hover:shadow-2xl"
+    ? "interactive-elevated"
     : ""
+
+  // Performance optimization classes
+  const performanceClasses = performanceOptimized
+    ? "will-change-transform gpu-accelerate"
+    : ""
+
+  // Get accessibility classes
+  const focusClasses = glassAccessibility.getFocusClasses()
+  const textContrastClasses = glassAccessibility.getTextContrastClasses(glassVariantMap[glassVariant])
 
   return (
     <Card 
       className={cn(
-        glassClasses[glassVariant],
+        glassClasses,
         borderClasses,
         hoverClasses,
-        "rounded-2xl shadow-xl glass-primary glass-professional",
+        performanceClasses,
+        focusClasses,
+        textContrastClasses,
+        "rounded-2xl shadow-lg transition-all duration-300",
         className
       )}
+      role={role}
+      aria-label={ariaLabel}
+      {...glassAccessibility.getAriaAttributes(role, ariaLabel)}
       {...props}
     >
       {(title || description) && (
         <CardHeader>
-          {title && <CardTitle className="text-lg sm:text-xl">{title}</CardTitle>}
-          {description && <CardDescription>{description}</CardDescription>}
+          {title && <CardTitle className="text-heading-3">{title}</CardTitle>}
+          {description && <CardDescription className="text-body-md">{description}</CardDescription>
+}
         </CardHeader>
       )}
       <CardContent className={title || description ? "" : "p-6"}>

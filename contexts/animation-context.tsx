@@ -51,6 +51,13 @@ interface AnimationContextType {
   setIsAnimationEnabled: (enabled: boolean) => void
   animationIntensity: 'low' | 'medium' | 'high'
   setAnimationIntensity: (intensity: 'low' | 'medium' | 'high') => void
+  // Performance monitoring
+  performanceMetrics: {
+    frameRate: number
+    cpuUsage: number
+    memoryUsage: number
+  }
+  setPerformanceMetrics: (metrics: { frameRate: number; cpuUsage: number; memoryUsage: number }) => void
 }
 
 const AnimationContext = createContext<AnimationContextType | undefined>(undefined)
@@ -60,6 +67,11 @@ export function AnimationProvider({ children }: { children: React.ReactNode }) {
   const [animations, setAnimations] = useState<AnimationTrigger[]>([])
   const [isAnimationEnabled, setIsAnimationEnabled] = useState(true)
   const [animationIntensity, setAnimationIntensity] = useState<'low' | 'medium' | 'high'>('medium')
+  const [performanceMetrics, setPerformanceMetrics] = useState({
+    frameRate: 60,
+    cpuUsage: 0,
+    memoryUsage: 0
+  })
 
   // Load user preferences when user is available
   useEffect(() => {
@@ -89,6 +101,56 @@ export function AnimationProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('animationSettings', JSON.stringify(settings))
     }
   }, [isAnimationEnabled, animationIntensity, user])
+
+  // Performance monitoring effect
+  useEffect(() => {
+    if (!isAnimationEnabled) return
+
+    let frameCount = 0
+    let lastTime = performance.now()
+    let frameRate = 60
+    let cpuUsage = 0
+    let memoryUsage = 0
+
+    const measurePerformance = () => {
+      frameCount++
+      const now = performance.now()
+      
+      if (now >= lastTime + 1000) {
+        frameRate = Math.min(60, Math.round((frameCount * 1000) / (now - lastTime)))
+        frameCount = 0
+        lastTime = now
+        
+        // Simulate CPU and memory usage monitoring
+        // In a real implementation, you would use Performance API or other monitoring tools
+        cpuUsage = Math.min(100, Math.max(0, 100 - (frameRate / 60) * 100))
+        memoryUsage = 0 // Simplified for now since memory API is not universally available
+        
+        setPerformanceMetrics({
+          frameRate,
+          cpuUsage,
+          memoryUsage
+        })
+      }
+      
+      // Auto-adjust animation intensity based on performance
+      if (frameRate < 30 && animationIntensity !== 'low') {
+        setAnimationIntensity('low')
+        console.warn('Performance dropping, reducing animation intensity to low')
+      } else if (frameRate >= 30 && frameRate < 50 && animationIntensity === 'high') {
+        setAnimationIntensity('medium')
+        console.warn('Performance moderate, reducing animation intensity to medium')
+      } else if (frameRate >= 50 && animationIntensity !== 'high') {
+        setAnimationIntensity('high')
+        console.info('Performance good, setting animation intensity to high')
+      }
+      
+      requestAnimationFrame(measurePerformance)
+    }
+
+    const perfId = requestAnimationFrame(measurePerformance)
+    return () => cancelAnimationFrame(perfId)
+  }, [isAnimationEnabled, animationIntensity])
 
   const triggerAnimation = useMemo(() => (animation: Omit<AnimationTrigger, 'id'>) => {
     if (!isAnimationEnabled) return
@@ -121,7 +183,9 @@ export function AnimationProvider({ children }: { children: React.ReactNode }) {
     isAnimationEnabled,
     setIsAnimationEnabled,
     animationIntensity,
-    setAnimationIntensity
+    setAnimationIntensity,
+    performanceMetrics,
+    setPerformanceMetrics
   }
 
   return <AnimationContext.Provider value={contextValue}>{children}</AnimationContext.Provider>

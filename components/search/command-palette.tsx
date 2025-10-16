@@ -120,68 +120,127 @@ export function CommandPalette() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="p-0 overflow-hidden">
-        <Command label="Global Command Menu" shouldFilter={true} className="rounded-md">
+      <DialogContent 
+        className="p-0 overflow-hidden"
+        aria-label="Command palette"
+        aria-describedby="command-palette-description"
+      >
+        <Command 
+          label="Global Command Menu" 
+          shouldFilter={true} 
+          className="rounded-md"
+          aria-label="Command input"
+        >
           <div className="flex items-center gap-2 px-3 py-2 border-b">
-            <Search className="h-4 w-4 text-muted-foreground" />
+            <Search className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             <Command.Input
               placeholder="Type a command or search…"
               value={inputValue}
               onValueChange={setInputValue}
               className="interactive"
               autoFocus
+              aria-label="Search input"
             />
           </div>
-          <Command.List className="max-h-[60vh] overflow-y-auto fade-in">
-            <Command.Empty className="px-3 py-2 text-sm text-muted-foreground">
+          <Command.List 
+            className="max-h-[60vh] overflow-y-auto fade-in"
+            aria-label="Command results"
+          >
+            <Command.Empty 
+              className="px-3 py-2 text-sm text-muted-foreground"
+              aria-live="polite"
+            >
               No results found.
             </Command.Empty>
 
-            <Command.Group heading="Go to">
-              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/")}>
+            <Command.Group 
+              heading="Go to"
+              aria-label="Navigation commands"
+            >
+              <Command.Item 
+                className="interactive hover-lift" 
+                onSelect={() => onSelect("go:/")}
+                aria-label="Go to Home"
+              >
                 Home
               </Command.Item>
-              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/past-papers")}>
+              <Command.Item 
+                className="interactive hover-lift" 
+                onSelect={() => onSelect("go:/past-papers")}
+                aria-label="Go to Past Papers"
+              >
                 Past Papers
               </Command.Item>
-              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/resources")}>
+              <Command.Item 
+                className="interactive hover-lift" 
+                onSelect={() => onSelect("go:/resources")}
+                aria-label="Go to Resources"
+              >
                 Resources
               </Command.Item>
-              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/faculty")}>
+              <Command.Item 
+                className="interactive hover-lift" 
+                onSelect={() => onSelect("go:/faculty")}
+                aria-label="Go to Faculty Reviews"
+              >
                 Faculty Reviews
               </Command.Item>
-              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/gpa-calculator")}>
+              <Command.Item 
+                className="interactive hover-lift" 
+                onSelect={() => onSelect("go:/gpa-calculator")}
+                aria-label="Go to GPA Calculator"
+              >
                 GPA Calculator
               </Command.Item>
-              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/timetable")}>
+              <Command.Item 
+                className="interactive hover-lift" 
+                onSelect={() => onSelect("go:/timetable")}
+                aria-label="Go to Timetable"
+              >
                 Timetable
               </Command.Item>
-              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/community")}>
+              <Command.Item 
+                className="interactive hover-lift" 
+                onSelect={() => onSelect("go:/community")}
+                aria-label="Go to Community"
+              >
                 Community
               </Command.Item>
-              <Command.Item className="interactive hover-lift" onSelect={() => onSelect("go:/search")}>
+              <Command.Item 
+                className="interactive hover-lift" 
+                onSelect={() => onSelect("go:/search")}
+                aria-label="Go to Search Page"
+              >
                 Search Page
               </Command.Item>
             </Command.Group>
 
-            <Command.Group heading="Actions">
+            <Command.Group 
+              heading="Actions"
+              aria-label="Action commands"
+            >
               <Command.Item
                 className="interactive hover-lift"
                 onSelect={() => onSelect("search:")}
                 // Disable when there's nothing to search for
                 disabled={!inputValue.trim()}
+                aria-label={inputValue.trim() ? `Search site for “${inputValue.trim()}”` : "Search site"}
               >
                 {inputValue.trim() ? `Search site for “${inputValue.trim()}”` : "Search site"}
               </Command.Item>
             </Command.Group>
 
             {isAdmin && (
-              <Command.Group heading="Admin">
+              <Command.Group 
+                heading="Admin"
+                aria-label="Admin commands"
+              >
                 {adminCommands.filter((c) => canSeeAdminCommand(c.allowedRoles)).map((cmd) => (
                   <Command.Item
                     key={cmd.value}
                     className="interactive hover-lift"
                     onSelect={() => onSelect(cmd.value)}
+                    aria-label={cmd.label}
                   >
                     {cmd.label}
                   </Command.Item>
