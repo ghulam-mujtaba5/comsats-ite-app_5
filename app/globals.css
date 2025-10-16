@@ -1143,32 +1143,31 @@ html, body {
   }
   
   /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    .glass-subtle,
-    .glass-light,
-    .glass-medium,
-    .glass-strong,
-    .glass-premium,
-    .glass-ultra {
-      background: hsl(var(--background)) !important;
-      border: 2px solid hsl(var(--foreground)) !important;
-      backdrop-filter: none !important;
-    }
-    
-    .glass-card,
-    .glass-card-premium,
-    .glass-nav,
-    .glass-modal,
-    .glass-hero {
-      background: hsl(var(--card)) !important;
-      border: 2px solid hsl(var(--border)) !important;
-      backdrop-filter: none !important;
-    }
-    
-    .glass-button {
-      background: hsl(var(--background)) !important;
-      border: 2px solid hsl(var(--border)) !important;
-      backdrop-filter: none !important;
-    }
+@media (prefers-contrast: high) {
+  .glass-subtle,
+  .glass-light,
+  .glass-medium,
+  .glass-strong,
+  .glass-premium,
+  .glass-ultra {
+    background: hsl(var(--background)) !important;
+    border: 2px solid hsl(var(--foreground)) !important;
+    backdrop-filter: none !important;
+  }
+  
+  .glass-card,
+  .glass-card-premium,
+  .glass-nav,
+  .glass-modal,
+  .glass-hero {
+    background: hsl(var(--card)) !important;
+    border: 2px solid hsl(var(--border)) !important;
+    backdrop-filter: none !important;
+  }
+  
+  .glass-button {
+    background: hsl(var(--background)) !important;
+    border: 2px solid hsl(var(--border)) !important;
+    backdrop-filter: none !important;
   }
 }
