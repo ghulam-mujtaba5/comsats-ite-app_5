@@ -98,11 +98,11 @@ export function EnhancedNews() {
   ]
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-depth">
+    <section className="py-20 px-4 bg-gradient-to-b from-muted/30 to-background/80 glass-depth glass-professional">
       <div className="app-container max-w-6xl mx-auto">
         {/* Enhanced Header with proper spacing */}
         <div className="text-center mb-16 md:mb-20">
-          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-amber-600/20 to-orange-600/20 text-amber-700 dark:text-amber-300 border border-amber-600/30">
+          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-amber-600/30 to-orange-600/30 text-amber-700 dark:text-amber-300 border border-amber-600/40 glass-card glass-border-light glass-depth">
             <Zap className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
             Campus Updates
           </Badge>
@@ -131,7 +131,7 @@ export function EnhancedNews() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-4 sm:p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light"
+                className="p-4 sm:p-5 rounded-2xl bg-card/90 backdrop-blur-xl border border-white/30 text-center transition-all duration-300 hover:shadow-xl glass-card-premium glass-hover glass-border-glow glass-depth glass-professional"
               >
                 <div className="flex justify-center mb-2 sm:mb-3">
                   <div className="p-2 sm:p-3 rounded-xl bg-amber-500/10">
@@ -187,7 +187,7 @@ export function EnhancedNews() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group h-full overflow-hidden border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl transition-all duration-300 hover:shadow-xl glass-card-premium glass-border-glow glass-hover glass-depth"
+                    className="group h-full overflow-hidden border border-white/30 rounded-2xl bg-card/90 backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl glass-card-premium glass-border-glow glass-hover glass-depth glass-professional"
                   >
                     <div className="aspect-video relative overflow-hidden rounded-t-2xl">
                       <img

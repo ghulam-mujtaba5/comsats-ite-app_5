@@ -167,12 +167,12 @@ export function EnhancedHero() {
   }
 
   return (
-    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-purple-50/10 dark:from-slate-900/50 dark:via-slate-800/30 dark:to-slate-900/20 glass-hero glass-depth glass-gradient" aria-labelledby="hero-heading">
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50/70 via-indigo-50/50 to-purple-50/30 dark:from-slate-900/70 dark:via-slate-800/50 dark:to-slate-900/40 glass-hero glass-depth glass-gradient" aria-labelledby="hero-heading">
       {/* Enhanced background elements with proper spacing and reduced visual noise */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/10 to-blue-500/10 rounded-full blur-3xl animate-pulse glass-floating" aria-hidden="true" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-secondary/10 to-amber-500/10 rounded-full blur-3xl animate-pulse glass-floating" style={{ animationDelay: '2s' }} aria-hidden="true" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20 rounded-full blur-3xl glass-layered" aria-hidden="true" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/15 rounded-full blur-3xl animate-pulse glass-floating glass-depth" aria-hidden="true" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-secondary/20 to-amber-500/15 rounded-full blur-3xl animate-pulse glass-floating glass-depth" style={{ animationDelay: '2s' }} aria-hidden="true" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-500/30 via-purple-500/30 to-pink-500/30 rounded-full blur-3xl glass-layered glass-depth" aria-hidden="true" />
       </div>
 
       <div className="app-container relative z-10 py-16 md:py-20 lg:py-28">
@@ -257,7 +257,7 @@ export function EnhancedHero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + index * 0.1 }}
                     whileHover={{ y: -5 }}
-                    className="p-3 sm:p-4 md:p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light"
+                    className="p-3 sm:p-4 md:p-5 rounded-2xl bg-card/90 backdrop-blur-xl border border-white/30 text-center transition-all duration-300 hover:shadow-xl glass-card-premium glass-hover glass-border-glow glass-depth"
                   >
                     <Icon className={`h-5 w-5 sm:h-6 sm:w-6 mx-auto mb-2 sm:mb-3 ${stat.color}`} aria-hidden="true" />
                     <div className="text-lg sm:text-xl font-bold text-foreground mb-1">{stat.value}</div>
@@ -308,7 +308,7 @@ export function EnhancedHero() {
           <div className={`transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="relative">
               {/* Main Stats Card with enhanced glass effect */}
-              <Card className="relative p-6 bg-card/80 border border-white/20 rounded-3xl shadow-2xl backdrop-blur-2xl glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient" role="region" aria-labelledby="platform-stats-heading">
+              <Card className="relative p-6 bg-card/90 border border-white/30 rounded-3xl shadow-2xl backdrop-blur-3xl glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient glass-ultra" role="region" aria-labelledby="platform-stats-heading">
                 <div className="space-y-6">
                   {/* Header Section with animated icon */}
                   <div className="text-center space-y-3">
@@ -319,7 +319,7 @@ export function EnhancedHero() {
                       role="img"
                       aria-label="Graduation cap icon"
                     >
-                      <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl glass-layered">
+                      <div className="relative p-4 bg-gradient-to-r from-primary/30 to-indigo-500/30 rounded-2xl glass-layered glass-professional glass-depth">
                         <GraduationCap className="h-10 w-10 text-primary" aria-hidden="true" />
                       </div>
                     </motion.div>
@@ -334,7 +334,7 @@ export function EnhancedHero() {
                     {/* Community Engagement Card */}
                     <AnimatedCard 
                       enableHover={true} 
-                      className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
+                      className="p-4 rounded-2xl bg-muted/70 border border-white/30 transition-all duration-300 hover:shadow-xl glass-card glass-hover glass-border-light glass-depth"
                       role="region"
                       aria-label="Community Engagement"
                     >
@@ -351,7 +351,7 @@ export function EnhancedHero() {
                     {/* Faculty Rating Card */}
                     <AnimatedCard 
                       enableHover={true} 
-                      className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
+                      className="p-4 rounded-2xl bg-muted/70 border border-white/30 transition-all duration-300 hover:shadow-xl glass-card glass-hover glass-border-light glass-depth"
                       role="region"
                       aria-label="Faculty Rating"
                     >
@@ -375,7 +375,7 @@ export function EnhancedHero() {
                     {/* Active Events Card */}
                     <AnimatedCard 
                       enableHover={true} 
-                      className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
+                      className="p-4 rounded-2xl bg-muted/70 border border-white/30 transition-all duration-300 hover:shadow-xl glass-card glass-hover glass-border-light glass-depth"
                       role="region"
                       aria-label="Active Events"
                     >
@@ -392,7 +392,7 @@ export function EnhancedHero() {
                     {/* Faculty Count Card */}
                     <AnimatedCard 
                       enableHover={true} 
-                      className="p-4 rounded-2xl bg-muted/50 border border-white/20 transition-all duration-300 hover:shadow-lg"
+                      className="p-4 rounded-2xl bg-muted/70 border border-white/30 transition-all duration-300 hover:shadow-xl glass-card glass-hover glass-border-light glass-depth"
                       role="region"
                       aria-label="Faculty Information"
                     >
@@ -412,7 +412,7 @@ export function EnhancedHero() {
                     <div className="text-sm font-semibold text-foreground text-center mb-3">Quick Actions</div>
                     <div className="grid grid-cols-2 gap-3">
                       <Link href="/past-papers" className="group/action">
-                        <div className="p-3 rounded-xl bg-muted/50 hover:bg-muted/70 border border-white/20 transition-all duration-300 hover:shadow-md">
+                        <div className="p-3 rounded-xl bg-muted/70 hover:bg-muted/80 border border-white/30 transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light glass-depth">
                           <div className="flex items-center gap-2">
                             <FileText className="h-5 w-5 text-primary group-hover/action:scale-110 transition-transform" aria-hidden="true" />
                             <div>
@@ -423,7 +423,7 @@ export function EnhancedHero() {
                         </div>
                       </Link>
                       <Link href="/gpa-calculator" className="group/action">
-                        <div className="p-3 rounded-xl bg-muted/50 hover:bg-muted/70 border border-white/20 transition-all duration-300 hover:shadow-md">
+                        <div className="p-3 rounded-xl bg-muted/70 hover:bg-muted/80 border border-white/30 transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light glass-depth">
                           <div className="flex items-center gap-2">
                             <Calculator className="h-5 w-5 text-primary group-hover/action:scale-110 transition-transform" aria-hidden="true" />
                             <div>
@@ -437,7 +437,7 @@ export function EnhancedHero() {
                   </div>
 
                   {/* Trust Indicator with live pulse */}
-                  <div className="text-center p-4 rounded-xl bg-muted/50 border border-white/20">
+                  <div className="text-center p-4 rounded-xl bg-muted/70 border border-white/30 glass-card glass-border-light glass-depth">
                     <div className="flex items-center justify-center gap-2 mb-2">
                       <div className="flex items-center gap-1">
                         <Pulse active={true}>

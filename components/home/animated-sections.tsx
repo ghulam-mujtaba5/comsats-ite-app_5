@@ -35,7 +35,7 @@ export function AnimatedSections() {
   return (
     <>
       {/* Enhanced About CampusAxis section with improved glassmorphism and visual hierarchy */}
-      <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20 glass-depth" aria-labelledby="about-campusaxis-heading">
+      <section className="py-20 px-4 bg-gradient-to-b from-background/80 to-muted/30 glass-depth glass-professional" aria-labelledby="about-campusaxis-heading">
         <div className="app-container max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -69,7 +69,7 @@ export function AnimatedSections() {
                   whileHover={{ y: -5 }}
                   className="group"
                 >
-                  <Card className="h-full bg-card/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl glass-card-premium glass-border-glow glass-hover glass-depth">
+                  <Card className="h-full bg-card/90 backdrop-blur-3xl border border-white/30 rounded-2xl shadow-2xl transition-all duration-300 hover:shadow-2xl glass-card-premium glass-border-glow glass-hover glass-depth glass-professional">
                     <CardContent className="p-6 sm:p-8">
                       <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
                         <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
@@ -90,10 +90,10 @@ export function AnimatedSections() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <Card className="inline-block p-8 sm:p-10 md:p-12 border border-white/20 bg-card/80 backdrop-blur-2xl shadow-2xl rounded-2xl sm:rounded-3xl max-w-3xl mx-auto glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient">
+            <Card className="inline-block p-8 sm:p-10 md:p-12 border border-white/30 bg-card/90 backdrop-blur-3xl shadow-2xl rounded-2xl sm:rounded-3xl max-w-3xl mx-auto glass-card-premium glass-border-glow glass-hover glass-depth glass-gradient glass-professional">
               <div className="space-y-6 sm:space-y-8">
                 <div className="flex justify-center">
-                  <div className="relative p-4 sm:p-6 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl sm:rounded-2xl glass-layered">
+                  <div className="relative p-4 sm:p-6 bg-gradient-to-r from-primary/30 to-indigo-500/30 rounded-2xl sm:rounded-2xl glass-layered glass-professional glass-depth">
                     <GraduationCap className="h-12 w-12 sm:h-16 sm:w-16 text-primary" aria-hidden="true" />
                   </div>
                 </div>

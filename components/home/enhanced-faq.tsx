@@ -142,11 +142,11 @@ export function EnhancedFAQ() {
   ]
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20 glass-depth">
+    <section className="py-20 px-4 bg-gradient-to-b from-background/80 to-muted/30 glass-depth glass-professional">
       <div className="app-container max-w-6xl mx-auto">
         {/* Enhanced Header with proper spacing */}
         <div className="text-center mb-16 md:mb-20">
-          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-indigo-600/20 to-purple-600/20 text-indigo-700 dark:text-indigo-300 border border-indigo-600/30">
+          <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-indigo-600/30 to-purple-600/30 text-indigo-700 dark:text-indigo-300 border border-indigo-600/40 glass-card glass-border-light glass-depth">
             <HelpCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
             Student Support
           </Badge>
@@ -175,7 +175,7 @@ export function EnhancedFAQ() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-5 rounded-2xl bg-card/80 backdrop-blur-lg border border-white/20 text-center transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light"
+                className="p-5 rounded-2xl bg-card/90 backdrop-blur-xl border border-white/30 text-center transition-all duration-300 hover:shadow-xl glass-card-premium glass-hover glass-border-glow glass-depth glass-professional"
               >
                 <div className="flex justify-center mb-3">
                   <div className="p-3 rounded-xl bg-indigo-500/10">
@@ -196,7 +196,7 @@ export function EnhancedFAQ() {
             <input
               type="text"
               placeholder="Search for questions..."
-              className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 rounded-2xl sm:rounded-2xl border border-white/20 bg-card/80 backdrop-blur-lg text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300 text-sm sm:text-base"
+              className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 rounded-2xl sm:rounded-2xl border border-white/30 bg-card/90 backdrop-blur-xl text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300 text-sm sm:text-base glass-card glass-border-light glass-depth glass-professional"
               value={searchTerm}
               onChange={handleSearch}
             />
@@ -222,7 +222,7 @@ export function EnhancedFAQ() {
         )}
 
         {/* FAQ Accordion with proper spacing */}
-        <Card className="bg-card/80 backdrop-blur-2xl border border-white/20 shadow-2xl rounded-2xl sm:rounded-3xl mb-12 sm:mb-16 glass-card-premium glass-border-glow glass-depth">
+        <Card className="bg-card/90 backdrop-blur-3xl border border-white/30 shadow-2xl rounded-2xl sm:rounded-3xl mb-12 sm:mb-16 glass-card-premium glass-border-glow glass-depth glass-professional">
           {loading ? (
             <div role="status" aria-live="polite" className="space-y-4 p-4 sm:p-6">
               {Array.from({ length: 4 }).map((_, i) => (
@@ -247,7 +247,7 @@ export function EnhancedFAQ() {
                 <AccordionItem 
                   key={faq.id} 
                   value={`item-${index}`} 
-                  className="bg-muted/30 border border-white/20 rounded-xl sm:rounded-2xl px-4 sm:px-5 transition-all duration-300 hover:bg-muted/50"
+                  className="bg-muted/50 border border-white/30 rounded-xl sm:rounded-2xl px-4 sm:px-5 transition-all duration-300 hover:bg-muted/70 glass-card glass-border-light glass-hover glass-depth"
                 >
                   <AccordionTrigger className="text-left hover:text-indigo-700 transition-colors pr-6 sm:pr-8 py-3 sm:py-4 text-sm sm:text-base group">
                     <div className="flex items-center">
@@ -284,7 +284,7 @@ export function EnhancedFAQ() {
         {/* Additional Help CTA with proper spacing */}
         <StaggerContainer className="text-center" staggerDelay={0.1}>
           <StaggerItem>
-            <Card className="inline-block p-6 border border-white/20 bg-card/80 backdrop-blur-lg rounded-2xl max-w-2xl mx-auto">
+            <Card className="inline-block p-6 border border-white/30 bg-card/90 backdrop-blur-xl rounded-2xl max-w-2xl mx-auto glass-card glass-border-light glass-depth glass-professional">
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 <div className="flex-shrink-0">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center">

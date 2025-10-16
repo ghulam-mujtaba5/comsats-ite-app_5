@@ -156,11 +156,11 @@ export function EnhancedFeatures() {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20 glass-depth" aria-labelledby="features-heading">
+    <section className="py-20 px-4 bg-gradient-to-b from-background/80 to-muted/30 glass-depth glass-professional" aria-labelledby="features-heading">
       <div className="app-container">
         {/* Enhanced Header with proper spacing and visual hierarchy */}
         <div className={`text-center mb-16 md:mb-24 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <Badge variant="soft" className="mb-6 md:mb-8 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-primary border border-primary/30">
+          <Badge variant="soft" className="mb-6 md:mb-8 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-blue-500/30 to-indigo-500/30 text-primary border border-primary/40 glass-card glass-border-light glass-depth">
             <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" aria-hidden="true" />
             Academic Tools & Resources
           </Badge>
@@ -196,7 +196,7 @@ export function EnhancedFeatures() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group relative h-full overflow-hidden border border-white/20 bg-card/80 backdrop-blur-xl rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl glass-card-premium glass-border-glow glass-hover glass-depth"
+                    className="group relative h-full overflow-hidden border border-white/30 bg-card/90 backdrop-blur-3xl rounded-2xl shadow-2xl transition-all duration-300 hover:shadow-2xl glass-card-premium glass-border-glow glass-hover glass-depth glass-professional"
                   >
                     {/* Enhanced badge */}
                     <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10">
