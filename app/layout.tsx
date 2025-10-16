@@ -310,7 +310,7 @@ html {
                   <TooltipProvider>
                     <MotivationalProvider>
                       <Header />
-                      <div className="min-h-[60vh] max-w-full overflow-x-hidden px-4 sm:px-6"
+                      <div className="min-h-[60vh] max-w-full overflow-x-hidden px-4 sm:px-6">
                         <main id="main-content" className="focus:outline-none">
                           {children}
                         </main>

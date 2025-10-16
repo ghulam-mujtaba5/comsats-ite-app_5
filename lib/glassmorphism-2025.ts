@@ -79,21 +79,21 @@ export function getGlassClasses({
   switch (variant) {
     case 'glass-subtle':
       classes.push(
-        'bg-white/[var(--glass-bg-opacity)] dark:bg-white/[0.05]',
+        'bg-white/[var(--glass-bg-opacity)] dark:bg-slate-900/[0.15]',
         'backdrop-blur-[var(--glass-blur-sm)]',
         'saturate-[var(--glass-saturation)]'
       )
       break
     case 'glass-light':
       classes.push(
-        'bg-white/[calc(var(--glass-bg-opacity)+0.05)] dark:bg-white/[0.08]',
+        'bg-white/[calc(var(--glass-bg-opacity)+0.05)] dark:bg-slate-900/[0.18]',
         'backdrop-blur-[var(--glass-blur-md)]',
         'saturate-[var(--glass-saturation)]'
       )
       break
     case 'glass-medium':
       classes.push(
-        'bg-white/[calc(var(--glass-bg-opacity)+0.1)] dark:bg-white/[0.12]',
+        'bg-white/[calc(var(--glass-bg-opacity)+0.1)] dark:bg-slate-900/[0.22]',
         'backdrop-blur-[var(--glass-blur-lg)]',
         'saturate-[var(--glass-saturation)]',
         'brightness-[var(--glass-brightness)]'
@@ -101,7 +101,7 @@ export function getGlassClasses({
       break
     case 'glass-strong':
       classes.push(
-        'bg-white/[calc(var(--glass-bg-opacity)+0.15)] dark:bg-white/[0.18]',
+        'bg-white/[calc(var(--glass-bg-opacity)+0.15)] dark:bg-slate-900/[0.28]',
         'backdrop-blur-[var(--glass-blur-xl)]',
         'saturate-[var(--glass-saturation)]',
         'brightness-[var(--glass-brightness)]'
@@ -109,7 +109,7 @@ export function getGlassClasses({
       break
     case 'glass-premium':
       classes.push(
-        'bg-white/[calc(var(--glass-bg-opacity)+0.2)] dark:bg-white/[0.25]',
+        'bg-white/[calc(var(--glass-bg-opacity)+0.2)] dark:bg-slate-900/[0.35]',
         'backdrop-blur-[var(--glass-blur-2xl)]',
         'saturate-[calc(var(--glass-saturation)+20%)]',
         'brightness-[var(--glass-brightness)]'
@@ -187,22 +187,22 @@ export function getGlassClasses({
   switch (border) {
     case 'border-subtle':
       classes.push(
-        'border border-white/[var(--glass-border-opacity)] dark:border-white/[0.08]'
+        'border border-white/[var(--glass-border-opacity)] dark:border-white/[0.18]'
       )
       break
     case 'border-light':
       classes.push(
-        'border border-white/[calc(var(--glass-border-opacity)+0.05)] dark:border-white/[0.12]'
+        'border border-white/[calc(var(--glass-border-opacity)+0.05)] dark:border-white/[0.25]'
       )
       break
     case 'border-medium':
       classes.push(
-        'border-2 border-white/[calc(var(--glass-border-opacity)+0.1)] dark:border-white/[0.18]'
+        'border-2 border-white/[calc(var(--glass-border-opacity)+0.1)] dark:border-white/[0.32]'
       )
       break
     case 'border-glow':
       classes.push(
-        'border border-white/[calc(var(--glass-border-opacity)+0.05)] dark:border-white/[0.12]',
+        'border border-white/[calc(var(--glass-border-opacity)+0.05)] dark:border-white/[0.18]',
         'shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_0_8px_rgba(59,130,246,0.1)]',
         'dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),0_0_8px_rgba(59,130,246,0.2)]'
       )
@@ -211,7 +211,7 @@ export function getGlassClasses({
       classes.push(
         'border-2 border-transparent',
         'bg-gradient-to-r from-white/[calc(var(--glass-border-opacity)+0.1)] via-white/[calc(var(--glass-border-opacity)+0.05)] to-white/[calc(var(--glass-border-opacity)+0.1)] bg-origin-border',
-        'dark:from-white/[0.12] dark:via-white/[0.08] dark:to-white/[0.12]'
+        'dark:from-white/[0.18] dark:via-white/[0.12] dark:to-white/[0.18]'
       )
       break
   }
@@ -220,17 +220,17 @@ export function getGlassClasses({
   switch (shadow) {
     case 'shadow-soft':
       classes.push(
-        'shadow-lg shadow-black/[calc(var(--glass-shadow-opacity)*0.5)] dark:shadow-black/[var(--glass-shadow-opacity)]'
+        'shadow-lg shadow-black/[calc(var(--glass-shadow-opacity)*0.5)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*1.5)]'
       )
       break
     case 'shadow-medium':
       classes.push(
-        'shadow-xl shadow-black/[calc(var(--glass-shadow-opacity)*1.5)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*3)]'
+        'shadow-xl shadow-black/[calc(var(--glass-shadow-opacity)*1.5)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*4.5)]'
       )
       break
     case 'shadow-strong':
       classes.push(
-        'shadow-2xl shadow-black/[calc(var(--glass-shadow-opacity)*3)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*6)]'
+        'shadow-2xl shadow-black/[calc(var(--glass-shadow-opacity)*3)] dark:shadow-black/[calc(var(--glass-shadow-opacity)*9)]'
       )
       break
     case 'shadow-glow':
@@ -290,7 +290,7 @@ export function getGlassClasses({
       'transition-all duration-300 ease-out',
       'hover:bg-white/[calc(var(--glass-bg-opacity)+0.15)] dark:hover:bg-white/[0.2]',
       'hover:backdrop-blur-[var(--glass-blur-2xl)]',
-      'hover:shadow-xl hover:shadow-black/[calc(var(--glass-shadow-opacity)*1.5)] dark:hover:shadow-black/[calc(var(--glass-shadow-opacity)*3)]',
+      'hover:shadow-xl hover:shadow-black/[calc(var(--glass-shadow-opacity)*1.5)] dark:hover:shadow-black/[calc(var(--glass-shadow-opacity)*4.5)]',
       'hover:-translate-y-0.5 hover:scale-[1.01]'
     )
     if (glow) {
