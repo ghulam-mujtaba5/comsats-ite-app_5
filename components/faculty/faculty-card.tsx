@@ -103,8 +103,8 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
   return (
     <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden border-border cursor-pointer" onClick={() => {
       trackProfileView();
-      window.location.href = `/faculty/${faculty.id}`;
-    }}>
+      window.location.href = `/faculty/${faculty.id}#reviews`;
+    }})>
       {/* Decorative accent */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-blue-500"></div>
       
@@ -114,14 +114,10 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
         <div className="flex items-start gap-4">
           <Avatar className="h-16 w-16 ring-2 ring-primary/20">
             <AvatarImage 
-              src={faculty.profileImage || "/placeholder-user.svg"} 
+              src={faculty.profileImage || undefined} 
               alt={faculty.name} 
               className="object-cover"
               loading="lazy"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-              }}
             />
             <AvatarFallback className="text-lg font-medium bg-gradient-to-br from-primary/20 to-blue-500/20">
               {faculty.name
@@ -222,9 +218,9 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
           <Button className="w-full group/btn" onClick={(e: React.MouseEvent) => {
             e.stopPropagation();
             trackProfileView();
-            window.location.href = `/faculty/${faculty.id}`;
+            window.location.href = `/faculty/${faculty.id}#reviews`;
           }}>
-            View Profile & Reviews
+            View Profile & Write Review
             <span className="ml-2 opacity-0 group-hover/btn:opacity-100 transition-opacity">→</span>
           </Button>
         </div>

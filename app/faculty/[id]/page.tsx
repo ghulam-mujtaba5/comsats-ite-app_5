@@ -340,7 +340,7 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
                 </CardContent>
               </Card>
             </div>
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2" id="reviews">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-semibold">Reviews ({reviews.length})</h2>
               </div>

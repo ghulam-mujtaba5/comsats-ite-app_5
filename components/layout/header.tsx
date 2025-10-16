@@ -25,11 +25,6 @@ import { NotificationBell } from "@/components/community/notification-bell"
 
 const navigationItems = [
   {
-    name: "Admissions",
-    href: "/admissions",
-    description: "Get admission guidance, connect with mentors, and prepare for entrance exams",
-  },
-  {
     name: "Community",
     href: "/community",
     description: "Connect with fellow students and join discussions",
@@ -40,40 +35,20 @@ const navigationItems = [
     description: "Browse and download past exam papers",
   },
   {
-    name: "Resources",
-    href: "/resources",
-    description: "Study material and documents shared by departments",
-  },
-  {
-    name: "News & Events",
-    href: "/news-events",
-    description: "Latest announcements and upcoming events",
-  },
-  {
-    name: "Faculty Reviews",
+    name: "Faculty",
     href: "/faculty",
     description: "Read and write faculty reviews",
   },
   {
+    name: "Resources",
+    href: "/resources",
+    description: "Study material and documents",
+  },
+  {
     name: "GPA Calculator",
     href: "/gpa-calculator",
-    description: "Calculate GPA/CGPA with the latest scale",
+    description: "Calculate GPA/CGPA",
     icon: Calculator,
-  },
-  {
-    name: "Student Support",
-    href: "/student-support",
-    description: "Access counseling, tutoring, and other support services",
-  },
-  {
-    name: "Guidance",
-    href: "/guidance",
-    description: "Official university policies and guidance documents",
-  },
-  {
-    name: "Timetable",
-    href: "/timetable",
-    description: "Upload, preview, and download timetables (PDF)",
   },
 ]
 
@@ -229,7 +204,7 @@ export function Header() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`relative p-4 min-h-[72px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift group backdrop-blur-sm border w-full max-w-full box-border flex items-center ${
+                      className={`relative p-3 min-h-[60px] rounded-2xl transition-all duration-300 hover:bg-white/60 dark:hover:bg-slate-800/60 interactive hover-lift group backdrop-blur-sm border w-full max-w-full box-border flex items-center ${
                         isActivePath(item.href) ? "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border-blue-200/30 dark:border-blue-400/30 shadow-lg" : "border-transparent hover:border-white/40 dark:hover:border-slate-600/40 hover:shadow-md"
                       }`}
                       aria-current={isActivePath(item.href) ? "page" : undefined}
@@ -237,13 +212,13 @@ export function Header() {
                       {isActivePath(item.href) && (
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-2xl blur-sm" />
                       )}
-                      <div className="relative z-10 flex items-start space-x-3 w-full max-w-full min-w-0 box-border overflow-hidden">
-                        {Icon && <Icon className="h-5 w-5 mt-0.5 flex-shrink-0" />}
+                      <div className="relative z-10 flex items-center space-x-3 w-full max-w-full min-w-0 box-border overflow-hidden">
+                        {Icon && <Icon className="h-5 w-5 flex-shrink-0" />}
                         <div className="flex flex-col min-w-0 flex-1 overflow-hidden max-w-full">
                           <span className={`font-semibold text-base break-words ${
                             isActivePath(item.href) ? "text-blue-600 dark:text-blue-400" : "text-slate-900 dark:text-white"
                           }`}>{item.name}</span>
-                          <span className={`text-sm break-words ${
+                          <span className={`text-xs break-words ${
                             isActivePath(item.href) ? "text-blue-500/80 dark:text-blue-300/80" : "text-slate-600 dark:text-slate-400"
                           }`}>{item.description}</span>
                         </div>
