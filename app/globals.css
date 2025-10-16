@@ -643,10 +643,27 @@ html, body {
   .glass-button:active {
     @apply translate-y-0 shadow-md shadow-black/10;
   }
-}
+  
+  /* Additional effect aliases */
+  .glass-noise,
+  .glass-floating {
+    @apply bg-white/25 dark:bg-white/[0.12];
+    backdrop-filter: blur(var(--glass-blur-md)) saturate(var(--glass-saturation));
+    @apply border border-white/20 dark:border-white/10;
+    @apply shadow-md shadow-black/10 dark:shadow-white/5;
+  }
+  
+  .glass-layered,
+  .glass-shimmer {
+    @apply bg-white/35 dark:bg-white/20;
+    backdrop-filter: blur(var(--glass-blur-md)) saturate(var(--glass-saturation));
+    @apply border border-white/40 dark:border-white/30;
+    @apply shadow-md shadow-black/10 dark:shadow-white/10;
+    @apply transition-all duration-200;
+  }
 }
 
-  .glass-input {
+.glass-input {
     @apply bg-white/[calc(var(--glass-bg-opacity)-0.15)] dark:bg-white/[0.03] backdrop-blur-[var(--glass-blur-sm)];
     @apply border border-white/[calc(var(--glass-border-opacity)+0.05)] dark:border-white/[0.12];
     @apply transition-all duration-200;
@@ -685,17 +702,6 @@ html, body {
   }
 
   /* Legacy Utility Aliases - Simplified mapping */
-  .glass-hover { @apply glass-interactive; }
-  .glass-hover-glow { @apply glass-interactive; }
-  .glass-gradient { @apply glass-primary; }
-  .glass-depth { @apply glass-primary; }
-  .glass-professional { @apply glass-primary; }
-
-  /* Additional Legacy Aliases - Simplified */
-  .glass-noise { @apply glass-subtle; }
-  .glass-floating { @apply glass-secondary; }
-  .glass-layered { @apply glass-primary; }
-  .glass-shimmer { @apply glass-interactive; }
 
   /* Legacy glass-card for backward compatibility */
   .gradient-border {
