@@ -137,7 +137,7 @@ export default function ResourcesPage() {
               </CardContent>
             </Card>
             
-            <Card className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-2xl group hover:scale-[1.02] transition-all duration-300 shadow-lg">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
@@ -152,7 +152,7 @@ export default function ResourcesPage() {
               </CardContent>
             </Card>
             
-            <Card className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-2xl group hover:scale-[1.02] transition-all duration-300 shadow-lg">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
@@ -317,7 +317,7 @@ export default function ResourcesPage() {
                   .filter((r) => (resourceType === "All" ? true : r.type === resourceType))
                   .filter((r) => (!showVerifiedOnly ? true : r.is_verified === true))
               }, [items, search, dept, term, difficulty, resourceType, showVerifiedOnly]).map((r, index) => (
-                <Card key={r.id} className="glass-primary rounded-2xl group hover:scale-[1.02] transition-all duration-300 overflow-hidden" style={{ animationDelay: `${index * 100}ms` }}>
+                <Card key={r.id} className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-white/40 dark:border-slate-700/40 rounded-2xl group hover:scale-[1.02] transition-all duration-300 overflow-hidden shadow-lg hover:shadow-xl" style={{ animationDelay: `${index * 100}ms` }}>
                   {/* Resource Header */}
                   <div className="relative p-6 pb-4">
                     <div className="flex items-start justify-between gap-3">

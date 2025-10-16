@@ -104,7 +104,7 @@ export function MoodTrackerWidget() {
             {[1, 2, 3, 4, 5, 6, 7].map((day) => (
               <div 
                 key={day} 
-                className="flex-1 h-8 rounded bg-gray-100 flex items-center justify-center"
+                className="flex-1 h-8 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center"
               >
                 <Smile className="w-3 h-3 text-gray-400" />
               </div>

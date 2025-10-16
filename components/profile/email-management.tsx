@@ -53,11 +53,21 @@ export function EmailManagement() {
         setEmails(data)
       } else {
         const error = await response.json()
-        toast({
-          title: "Error",
-          description: error.error || "Failed to fetch email addresses",
-          variant: "destructive"
-        })
+        
+        // Show more helpful message for service unavailable
+        if (response.status === 503) {
+          toast({
+            title: "Feature Unavailable",
+            description: error.error || "Email management feature is being set up. Please try again later.",
+            variant: "destructive"
+          })
+        } else {
+          toast({
+            title: "Error",
+            description: error.error || "Failed to fetch email addresses",
+            variant: "destructive"
+          })
+        }
       }
     } catch (error) {
       toast({
@@ -114,11 +124,21 @@ export function EmailManagement() {
         })
       } else {
         const error = await response.json()
-        toast({
-          title: "Error",
-          description: error.error || "Failed to add email address",
-          variant: "destructive"
-        })
+        
+        // Show more helpful message for service unavailable
+        if (response.status === 503) {
+          toast({
+            title: "Feature Unavailable",
+            description: error.error || "Email management feature is being set up. Please try again later.",
+            variant: "destructive"
+          })
+        } else {
+          toast({
+            title: "Error",
+            description: error.error || "Failed to add email address",
+            variant: "destructive"
+          })
+        }
       }
     } catch (error) {
       toast({

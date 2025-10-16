@@ -116,7 +116,7 @@ export function SupportButton() {
                       {resource.icon}
                     </div>
                     <div>
-                      <h4 className="font-medium text-sm text-gray-800">{resource.title}</h4>
+                      <h4 className="font-medium text-sm text-gray-800 dark:text-gray-200">{resource.title}</h4>
                       <p className="text-xs text-gray-600 mt-1">{resource.description}</p>
                     </div>
                   </div>

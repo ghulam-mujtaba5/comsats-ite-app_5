@@ -38,7 +38,27 @@ export async function GET(request: NextRequest) {
       .eq('user_id', user.id)
       .order('created_at', { ascending: true })
 
+    // Handle case where table doesn't exist yet (migration not applied)
     if (error) {
+      console.error('Error fetching user emails:', error)
+      
+      // If table doesn't exist, just return primary email
+      if (error.message.includes('relation "public.user_emails" does not exist') || 
+          error.message.includes('Could not find the table')) {
+        const userEmails = [
+          {
+            id: 'primary',
+            user_id: user.id,
+            email: user.email,
+            email_type: 'primary',
+            is_verified: true,
+            created_at: user.created_at,
+            updated_at: user.updated_at || user.created_at,
+          }
+        ]
+        return NextResponse.json(userEmails, { headers })
+      }
+      
       return NextResponse.json({ error: error.message }, { status: 400, headers })
     }
 
@@ -53,7 +73,7 @@ export async function GET(request: NextRequest) {
         created_at: user.created_at,
         updated_at: user.updated_at || user.created_at,
       },
-      ...data
+      ...(data || [])
     ]
 
     return NextResponse.json(userEmails, { headers })
@@ -107,6 +127,14 @@ export async function POST(request: NextRequest) {
       .eq('user_id', user.id)
       .eq('email', email)
       .maybeSingle()
+
+    // Handle case where table doesn't exist
+    if (existingError && (existingError.message.includes('relation "public.user_emails" does not exist') || 
+        existingError.message.includes('Could not find the table'))) {
+      return NextResponse.json({ 
+        error: 'Email management feature is not available yet. Please contact administrator to enable this feature.' 
+      }, { status: 503 })
+    }
 
     if (existingError) {
       return NextResponse.json({ error: existingError.message }, { status: 400 })

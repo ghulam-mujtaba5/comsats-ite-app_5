@@ -263,7 +263,7 @@ export function MoodWall() {
                           {post.timestamp.toLocaleDateString()}
                         </span>
                         {!post.isPublic && (
-                          <span className="text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">
+                          <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-1.5 py-0.5 rounded">
                             Private
                           </span>
                         )}

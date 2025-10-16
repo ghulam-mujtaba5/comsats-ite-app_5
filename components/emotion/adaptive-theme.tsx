@@ -186,7 +186,7 @@ export function AdaptiveTheme() {
                 >
                   <CardContent className="p-3">
                     <div className="flex items-center gap-2">
-                      <div className="p-1.5 bg-gray-100 rounded-lg">
+                      <div className="p-1.5 bg-gray-100 dark:bg-gray-800 rounded-lg">
                         {theme.icon}
                       </div>
                       <div>

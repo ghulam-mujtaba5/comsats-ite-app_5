@@ -60,8 +60,8 @@ export default function EmotionalWellnessPage() {
       <Tabs defaultValue="dashboard" className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Emotional Wellness Center</h1>
-            <p className="text-gray-600">
+            <h1 className="text-3xl font-bold text-foreground">Emotional Wellness Center</h1>
+            <p className="text-muted-foreground">
               Your supportive companion for academic and emotional success
             </p>
           </div>
@@ -117,7 +117,7 @@ export default function EmotionalWellnessPage() {
                       <Bell className="w-4 h-4" />
                       Wellness Notifications
                     </Label>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       Receive gentle reminders and wellness tips
                     </p>
                   </div>
@@ -133,7 +133,7 @@ export default function EmotionalWellnessPage() {
                       <Sparkles className="w-4 h-4" />
                       Emotional Animations
                     </Label>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       Show supportive animations based on your emotional state
                     </p>
                   </div>
@@ -149,7 +149,7 @@ export default function EmotionalWellnessPage() {
                       <Zap className="w-4 h-4" />
                       Calm Mode
                     </Label>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       Enable stress-reduction features during intense study sessions
                     </p>
                   </div>
@@ -175,7 +175,7 @@ export default function EmotionalWellnessPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
                     <Label>Current Emotional State</Label>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       Mood: {emotionState.mood} | Stress: {emotionState.stressLevel} | 
                       Focus: {emotionState.focusLevel} | Motivation: {emotionState.motivationLevel}
                     </p>

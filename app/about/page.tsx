@@ -1,18 +1,11 @@
-import type { Metadata } from "next"
-import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { GraduationCap, Target, Sparkles, ArrowRight, Heart, CheckCircle, Clock, Flag, Rocket, Mail, Download, Github, Linkedin, Globe } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-
-export const metadata: Metadata = createMetadata({
-  title: "About — CampusAxis",
-  description: "Learn about CampusAxis: our mission, what we offer, and our commitment to COMSATS University Lahore students.",
-  path: "/about",
-  keywords: ["About CampusAxis", "COMSATS Lahore", "student portal", "mission", "features"],
-})
 
 export default function AboutUsPage() {
   // features removed from About page to avoid duplication with Home
@@ -425,11 +418,6 @@ export default function AboutUsPage() {
           </div>
         </section>
       </main>
-      
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb([{ name: "Home", path: "/" }, { name: "About", path: "/about" }])) }}
-      />
     </div>
   );
 }

@@ -193,7 +193,7 @@ export function HealingSpace() {
                         {activity.icon}
                       </div>
                       <div>
-                        <h3 className="font-medium text-gray-800">{activity.title}</h3>
+                        <h3 className="font-medium text-gray-800 dark:text-gray-200">{activity.title}</h3>
                         <p className="text-xs text-gray-600 mt-1">{activity.description}</p>
                         <div className="flex items-center justify-between mt-2">
                           <span className="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded">

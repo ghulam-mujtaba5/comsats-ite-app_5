@@ -51,17 +51,10 @@ export async function GET(request: NextRequest) {
   const supabase = createClient(url, anon)
   let query = supabase
     .from('timetable_docs')
-    .select('id,title,department,term,size_bytes,mime_type,public_url,uploaded_at,campus_id,department_id')
+    .select('id,title,department,term,size_bytes,mime_type,public_url,uploaded_at')
   
-  // Apply campus filter if provided
-  if (campusId && campusId !== 'all') {
-    query = query.eq('campus_id', campusId)
-  }
-  
-  // Apply department filter if provided
-  if (departmentId && departmentId !== 'all') {
-    query = query.eq('department_id', departmentId)
-  }
+  // Note: campus_id and department_id columns removed as they don't exist in table
+  // Filtering is done by department string field instead
   
   query = query.order('uploaded_at', { ascending: false })
   

@@ -51,6 +51,7 @@ import { EnhancedBadgeShowcase } from "@/components/gamification/enhanced-badge-
 import { getLevelForPoints } from "@/lib/gamification"
 import { Info } from "lucide-react"
 import { EmailManagement } from "@/components/profile/email-management"
+import { SettingsManagement } from "@/components/profile/settings-management"
 
 export default function ProfilePage() {
   const { user, logout, isAuthenticated, isLoading } = useAuth()
@@ -1048,44 +1049,8 @@ export default function ProfilePage() {
                 {/* Email Management */}
                 <EmailManagement />
 
-                  {/* Email Management */}
-                  <EmailManagement />
-
-                  {/* Preferences */}
-                  <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
-                    <CardHeader className="p-6">
-                      <CardTitle className="flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
-                        <div className="p-2 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30">
-                          <Settings className="h-5 w-5 text-green-600 dark:text-green-400" />
-                        </div>
-                        Preferences
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6 pt-0">
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-xl">
-                          <div>
-                            <div className="font-medium text-slate-900 dark:text-white">Email Notifications</div>
-                            <div className="text-sm text-slate-600 dark:text-slate-400">Receive updates about new content</div>
-                          </div>
-                          <Button variant="outline" size="sm" className="rounded-xl">
-                            <Bell className="h-4 w-4 mr-2" />
-                            Configure
-                          </Button>
-                        </div>
-                        <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-xl">
-                          <div>
-                            <div className="font-medium text-slate-900 dark:text-white">Privacy Settings</div>
-                            <div className="text-sm text-slate-600 dark:text-slate-400">Control who can see your activity</div>
-                          </div>
-                          <Button variant="outline" size="sm" className="rounded-xl">
-                            <Shield className="h-4 w-4 mr-2" />
-                            Manage
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                {/* Settings Management (Notifications, Privacy, Preferences) */}
+                <SettingsManagement />
                 </TabsContent>
               </Tabs>
             </CardContent>

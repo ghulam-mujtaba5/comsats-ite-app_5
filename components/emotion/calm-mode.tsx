@@ -134,7 +134,7 @@ export function CalmMode() {
             
             {/* Activities */}
             <div>
-              <h3 className="font-medium text-gray-800 mb-3">Choose an Activity</h3>
+              <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-3">Choose an Activity</h3>
               <div className="grid grid-cols-2 gap-3">
                 {CALM_ACTIVITIES.map((activity) => (
                   <motion.div
@@ -156,7 +156,7 @@ export function CalmMode() {
                             {activity.icon}
                           </div>
                           <div>
-                            <h4 className="font-medium text-gray-800">{activity.title}</h4>
+                            <h4 className="font-medium text-gray-800 dark:text-gray-200">{activity.title}</h4>
                             <p className="text-xs text-gray-600 mt-1">{activity.description}</p>
                             <p className="text-xs text-indigo-600 mt-1">{activity.duration}</p>
                           </div>

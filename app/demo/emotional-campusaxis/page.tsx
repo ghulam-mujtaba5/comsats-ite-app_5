@@ -149,8 +149,8 @@ export default function EmotionalCampusAxisDemo() {
   return (
     <div className="container mx-auto py-8">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Emotional CampusAxis Demo</h1>
-        <p className="text-gray-600">
+        <h1 className="text-3xl font-bold text-foreground">Emotional CampusAxis Demo</h1>
+        <p className="text-muted-foreground">
           Experience how CampusAxis becomes an emotionally intelligent companion
         </p>
       </div>
@@ -326,11 +326,11 @@ export default function EmotionalCampusAxisDemo() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-medium">Study Streak</h3>
-                <p className="text-sm text-gray-600">Complete papers to build your streak</p>
+                <p className="text-sm text-muted-foreground">Complete papers to build your streak</p>
               </div>
               <div className="text-right">
                 <div className="text-2xl font-bold text-indigo-600">{studyStreak}</div>
-                <div className="text-sm text-gray-500">days</div>
+                <div className="text-sm text-muted-foreground">days</div>
               </div>
             </div>
           </CardContent>
@@ -341,11 +341,11 @@ export default function EmotionalCampusAxisDemo() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-medium">Motivation Level</h3>
-                <p className="text-sm text-gray-600">Boost your motivation</p>
+                <p className="text-sm text-muted-foreground">Boost your motivation</p>
               </div>
               <div className="text-right">
                 <div className="text-2xl font-bold text-green-600 capitalize">{emotionState.motivationLevel}</div>
-                <div className="text-sm text-gray-500">current</div>
+                <div className="text-sm text-muted-foreground">current</div>
               </div>
             </div>
           </CardContent>
@@ -356,11 +356,11 @@ export default function EmotionalCampusAxisDemo() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-medium">Focus Level</h3>
-                <p className="text-sm text-gray-600">Maintain concentration</p>
+                <p className="text-sm text-muted-foreground">Maintain concentration</p>
               </div>
               <div className="text-right">
                 <div className="text-2xl font-bold text-blue-600 capitalize">{emotionState.focusLevel}</div>
-                <div className="text-sm text-gray-500">current</div>
+                <div className="text-sm text-muted-foreground">current</div>
               </div>
             </div>
           </CardContent>
