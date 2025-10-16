@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Bell, X, Check, Clock, AlertCircle, User, MessageSquare, Star, Calendar, BookOpen, Users, Trophy, Wrench, Heart, AtSign, BarChart, Share, Reply, Smile, UserPlus, Key, Lock, FileText, Edit, Trash, Upload, CheckCircle, XCircle, Rocket } from "lucide-react"
+import { useState, useEffect, useMemo } from "react"
+import { Bell, X, Check, Clock, AlertCircle, User, MessageSquare, Star, Calendar, BookOpen, Users, Trophy, Wrench, Heart, AtSign, BarChart, Share, Reply, Smile, UserPlus, Key, Lock, FileText, Edit, Trash, Upload, CheckCircle, XCircle, Rocket, Search, ChevronDown, ChevronUp } from "lucide-react"
+import { format, isToday, isYesterday, parseISO } from "date-fns"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useNotifications } from "@/hooks/use-notifications"
@@ -14,15 +15,55 @@ interface NotificationCenterProps {
 }
 
 export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
-  const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification, loading } = useNotifications()
+  const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification, loading, loadingMore, hasMore, loadMore } = useNotifications()
   const { toast } = useToast()
   const [filter, setFilter] = useState<'all' | 'unread' | 'read'>('all')
+  const [searchQuery, setSearchQuery] = useState('')
 
   const filteredNotifications = notifications.filter(notification => {
-    if (filter === 'unread') return !notification.is_read
-    if (filter === 'read') return notification.is_read
-    return true
+    // Apply filter
+    let matchesFilter = true
+    if (filter === 'unread') matchesFilter = !notification.is_read
+    if (filter === 'read') matchesFilter = notification.is_read
+    
+    // Apply search query
+    let matchesSearch = true
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase()
+      matchesSearch = 
+        notification.title.toLowerCase().includes(query) ||
+        notification.message.toLowerCase().includes(query) ||
+        notification.type.toLowerCase().includes(query)
+    }
+    
+    return matchesFilter && matchesSearch
   })
+
+  // Group notifications by date
+  const groupedNotifications = useMemo(() => {
+    const groups: Record<string, typeof filteredNotifications> = {}
+    
+    filteredNotifications.forEach(notification => {
+      const date = parseISO(notification.created_at)
+      let groupKey: string
+      
+      if (isToday(date)) {
+        groupKey = 'Today'
+      } else if (isYesterday(date)) {
+        groupKey = 'Yesterday'
+      } else {
+        // Format as "Month Day, Year" (e.g., "October 15, 2025")
+        groupKey = format(date, 'MMMM d, yyyy')
+      }
+      
+      if (!groups[groupKey]) {
+        groups[groupKey] = []
+      }
+      groups[groupKey].push(notification)
+    })
+    
+    return groups
+  }, [filteredNotifications])
 
   const getIcon = (type: string) => {
     switch (type) {
@@ -122,12 +163,12 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
     <div className="fixed inset-0 z-50">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/50"
+        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
         onClick={onClose}
       />
       
       {/* Notification Center */}
-      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white dark:bg-slate-900 shadow-xl">
+      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white/80 dark:bg-slate-900/80 shadow-xl glass-card border-l border-white/20 dark:border-white/10 backdrop-blur-xl">
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700">
@@ -159,108 +200,141 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
             </div>
           </div>
 
-          {/* Filter */}
-          <div className="flex border-b border-slate-200 dark:border-slate-700">
-            <button
-              className={`flex-1 py-3 text-sm font-medium ${
-                filter === 'all' 
-                  ? 'text-primary border-b-2 border-primary' 
-                  : 'text-slate-500 dark:text-slate-400'
-              }`}
-              onClick={() => setFilter('all')}
-            >
-              All
-            </button>
-            <button
-              className={`flex-1 py-3 text-sm font-medium ${
-                filter === 'unread' 
-                  ? 'text-primary border-b-2 border-primary' 
-                  : 'text-slate-500 dark:text-slate-400'
-              }`}
-              onClick={() => setFilter('unread')}
-            >
-              Unread
-            </button>
-            <button
-              className={`flex-1 py-3 text-sm font-medium ${
-                filter === 'read' 
-                  ? 'text-primary border-b-2 border-primary' 
-                  : 'text-slate-500 dark:text-slate-400'
-              }`}
-              onClick={() => setFilter('read')}
-            >
-              Read
-            </button>
+          {/* Search and Filter Bar */}
+          <div className="p-4 border-b border-slate-200 dark:border-slate-700">
+            <div className="relative mb-3">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 dark:text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search notifications..."
+                className="w-full pl-10 pr-4 py-2 text-sm rounded-lg border border-white/20 dark:border-white/10 bg-white/80 dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent glass-input backdrop-blur-sm"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            
+            <div className="flex gap-1">
+              <button
+                className={`flex-1 py-2 text-xs font-medium rounded-lg ${filter === 'all' ? 'bg-primary text-white glass-card' : 'glass-subtle hover:glass-secondary'}`}
+                onClick={() => setFilter('all')}
+              >
+                All
+              </button>
+              <button
+                className={`flex-1 py-2 text-xs font-medium rounded-lg ${filter === 'unread' ? 'bg-primary text-white glass-card' : 'glass-subtle hover:glass-secondary'}`}
+                onClick={() => setFilter('unread')}
+              >
+                Unread
+              </button>
+              <button
+                className={`flex-1 py-2 text-xs font-medium rounded-lg ${filter === 'read' ? 'bg-primary text-white glass-card' : 'glass-subtle hover:glass-secondary'}`}
+                onClick={() => setFilter('read')}
+              >
+                Read
+              </button>
+            </div>
           </div>
 
           {/* Notifications List */}
-          <ScrollArea className="flex-1">
+          <ScrollArea className="flex-1" onScrollCapture={(e) => {
+            const target = e.target as HTMLDivElement;
+            const { scrollTop, scrollHeight, clientHeight } = target;
+            
+            // Load more when scrolled to bottom
+            if (scrollTop + clientHeight >= scrollHeight - 100 && hasMore && !loadingMore) {
+              loadMore();
+            }
+          }}>
             {loading ? (
-              <div className="flex items-center justify-center h-32">
+              <div className="flex items-center justify-center h-32 glass-subtle rounded-xl m-4 border border-white/20 dark:border-white/10 backdrop-blur-sm">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
               </div>
-            ) : filteredNotifications.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-64 text-slate-500 dark:text-slate-400">
+            ) : Object.keys(groupedNotifications).length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-64 text-slate-500 dark:text-slate-400 glass-subtle rounded-xl m-4 border border-white/20 dark:border-white/10 backdrop-blur-sm">
                 <Bell className="h-12 w-12 mb-4" />
                 <p className="text-lg">No notifications</p>
                 <p className="text-sm">You're all caught up!</p>
               </div>
             ) : (
-              <div className="divide-y divide-slate-200 dark:divide-slate-700">
-                {filteredNotifications.map((notification) => (
-                  <div 
-                    key={notification.id} 
-                    className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors ${
-                      !notification.is_read ? 'bg-blue-50/50 dark:bg-blue-900/20' : ''
-                    }`}
-                  >
-                    <div className="flex gap-3">
-                      <div className={`mt-1 ${getIconColor(notification.type)}`}>
-                        {getIcon(notification.type)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between">
-                          <h3 className="text-sm font-medium text-slate-900 dark:text-white">
-                            {notification.title}
-                          </h3>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-6 w-6 p-0"
-                            onClick={() => deleteNotification(notification.id)}
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
-                        </div>
-                        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                          {notification.message}
-                        </p>
-                        <div className="flex items-center gap-2 mt-2">
-                          <span className="text-xs text-slate-500 dark:text-slate-400">
-                            {formatDistanceToNow(new Date(notification.created_at), { addSuffix: true })}
-                          </span>
+              <div>
+                {Object.entries(groupedNotifications).map(([date, notifications]) => (
+                  <div key={date}>
+                    <div className="px-4 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-50/80 dark:bg-slate-800/50 sticky top-0 z-10 glass-subtle border-b border-white/20 dark:border-white/10 backdrop-blur-sm">
+                      {date}
+                    </div>
+                    <div className="divide-y divide-slate-200 dark:divide-slate-700">
+                      {notifications.map((notification) => (
+                        <div 
+                          key={notification.id} 
+                          className={`p-4 transition-all duration-200 ${
+                            !notification.is_read 
+                              ? 'bg-blue-50/50 dark:bg-blue-900/20 glass-card' 
+                              : 'glass-subtle hover:glass-secondary'
+                          } rounded-xl border border-white/20 dark:border-white/10 backdrop-blur-sm`}
+                        >
+                          <div className="flex gap-3">
+                            <div className={`mt-1 ${getIconColor(notification.type)}`}>
+                              {getIcon(notification.type)}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-start justify-between">
+                                <h3 className="text-sm font-medium text-slate-900 dark:text-white">
+                                  {notification.title}
+                                </h3>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-6 w-6 p-0"
+                                  onClick={() => deleteNotification(notification.id)}
+                                >
+                                  <X className="h-3 w-3" />
+                                </Button>
+                              </div>
+                              <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                                {notification.message}
+                              </p>
+                              <div className="flex items-center gap-2 mt-2">
+                                <span className="text-xs text-slate-500 dark:text-slate-400">
+                                  {formatDistanceToNow(new Date(notification.created_at), { addSuffix: true })}
+                                </span>
+                                {!notification.is_read && (
+                                  <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
+                                    <Clock className="h-3 w-3 mr-1" />
+                                    New
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                           {!notification.is_read && (
-                            <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
-                              <Clock className="h-3 w-3 mr-1" />
-                              New
-                            </span>
+                            <div className="mt-3 flex justify-end">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => markAsRead(notification.id)}
+                                className="glass-button"
+                              >
+                                Mark as read
+                              </Button>
+                            </div>
                           )}
                         </div>
-                      </div>
+                      ))}
                     </div>
-                    {!notification.is_read && (
-                      <div className="mt-3 flex justify-end">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => markAsRead(notification.id)}
-                        >
-                          Mark as read
-                        </Button>
-                      </div>
-                    )}
                   </div>
                 ))}
+                
+                {loadingMore && (
+                  <div className="flex items-center justify-center py-4 glass-subtle rounded-xl mx-4 border border-white/20 dark:border-white/10 backdrop-blur-sm">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+                  </div>
+                )}
+                
+                {!hasMore && filteredNotifications.length > 0 && (
+                  <div className="py-4 text-center text-xs text-slate-500 dark:text-slate-400 glass-subtle rounded-xl mx-4 border border-white/20 dark:border-white/10 backdrop-blur-sm">
+                    You've reached the end of your notification history
+                  </div>
+                )}
               </div>
             )}
           </ScrollArea>

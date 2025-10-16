@@ -61,15 +61,27 @@ export function useNotifications() {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [unreadCount, setUnreadCount] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [hasMore, setHasMore] = useState(true)
+  const [offset, setOffset] = useState(0)
 
-  const fetchNotifications = useCallback(async () => {
+  const fetchNotifications = useCallback(async (limit: number = 50, newOffset: number = 0, append: boolean = false) => {
     try {
-      setLoading(true)
+      if (append) {
+        setLoadingMore(true)
+      } else {
+        setLoading(true)
+      }
+      
       const { data: { user } } = await supabase.auth.getUser()
       
       if (!user) {
-        setLoading(false)
+        if (append) {
+          setLoadingMore(false)
+        } else {
+          setLoading(false)
+        }
         setNotifications([])
         setUnreadCount(0)
         return
@@ -81,7 +93,7 @@ export function useNotifications() {
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
-        .limit(50)
+        .range(newOffset, newOffset + limit - 1)
 
       if (error) throw error
 
@@ -95,13 +107,27 @@ export function useNotifications() {
         relatedType: n.related_type
       })) as any[]
 
-      setNotifications(mappedData as Notification[])
-      setUnreadCount(mappedData.filter(n => !n.is_read).length)
+      if (append) {
+        // Append new notifications to existing ones
+        setNotifications(prev => [...prev, ...mappedData as Notification[]])
+        setHasMore(mappedData.length === limit)
+        setOffset(newOffset + mappedData.length)
+      } else {
+        // Replace existing notifications
+        setNotifications(mappedData as Notification[])
+        setUnreadCount(mappedData.filter(n => !n.is_read).length)
+        setHasMore(mappedData.length === limit)
+        setOffset(mappedData.length)
+      }
     } catch (err) {
       console.error('Error fetching notifications:', err)
       setError(err instanceof Error ? err.message : 'Failed to fetch notifications')
     } finally {
-      setLoading(false)
+      if (append) {
+        setLoadingMore(false)
+      } else {
+        setLoading(false)
+      }
     }
   }, [])
 
@@ -270,17 +296,24 @@ export function useNotifications() {
     }
   }
 
+  const loadMore = useCallback(async (limit: number = 50) => {
+    await fetchNotifications(limit, offset, true)
+  }, [fetchNotifications, offset])
+
   const refresh = fetchNotifications
 
   return {
     notifications,
     unreadCount,
     loading,
+    loadingMore,
     error,
+    hasMore,
     markAsRead,
     markAllAsRead,
     deleteNotification,
     sendNotification,
     refresh,
+    loadMore,
   }
 }
