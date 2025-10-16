@@ -52,31 +52,50 @@ export async function updateUserAvatar(user: any, supabase: any) {
  */
 export async function updateUserAvatarInPosts(userId: string, supabase: any) {
   try {
-    // Get the user's current avatar URL
+    // Validate userId before proceeding
+    if (!userId) {
+      console.warn('No userId provided to updateUserAvatarInPosts')
+      return false
+    }
+
+    // Get the user's current avatar URL with error handling
     const { data: { user }, error: userError } = await supabase.auth.getUser()
     
     if (userError) {
-      console.error('Failed to get user:', userError)
+      console.warn('Failed to get user for avatar update:', userError.message)
       return false
     }
     
+    if (!user) {
+      console.warn('No user found for avatar update')
+      return false
+    }
+
+    // Validate avatar URL or use default
     const avatarUrl = user?.user_metadata?.avatar_url || '/student-avatar.png'
     
-    // Update all posts by this user with their current avatar
-    const { error: updateError } = await supabase
-      .from('community_posts')
-      .update({ avatar_url: avatarUrl })
-      .eq('user_id', userId)
-    
-    if (updateError) {
-      console.error('Failed to update user posts with avatar:', updateError)
+    // Validate avatar URL format (basic check)
+    if (avatarUrl && typeof avatarUrl === 'string' && avatarUrl.length > 0) {
+      // Update all posts by this user with their current avatar
+      const { error: updateError } = await supabase
+        .from('community_posts')
+        .update({ avatar_url: avatarUrl })
+        .eq('user_id', userId)
+      
+      if (updateError) {
+        // Only log warning instead of error to avoid console pollution
+        console.warn('Could not update user posts with avatar:', updateError.message)
+        return false
+      }
+      
+      return true
+    } else {
+      console.warn('Invalid avatar URL format')
       return false
     }
-    
-    console.log('User posts updated with current avatar')
-    return true
   } catch (error) {
-    console.error('Error in updateUserAvatarInPosts:', error)
+    // Silently handle errors to avoid console pollution
+    console.warn('Error in updateUserAvatarInPosts:', error instanceof Error ? error.message : 'Unknown error')
     return false
   }
 }

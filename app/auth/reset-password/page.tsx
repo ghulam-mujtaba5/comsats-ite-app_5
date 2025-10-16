@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { createBrowserClient } from "@supabase/ssr"
+import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -23,10 +23,6 @@ export default function ResetPasswordPage() {
   
   const router = useRouter()
   const searchParams = useSearchParams()
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
-  )
 
   useEffect(() => {
     // Handle the auth callback from the URL hash

@@ -96,16 +96,18 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://vercel.live",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
-              "connect-src 'self' https://*.supabase.co https://www.google-analytics.com",
-              "frame-src 'self'",
+              "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://vercel.live wss://*.supabase.co",
+              "frame-src 'self' https://vercel.live",
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",
               "frame-ancestors 'self'",
+              "worker-src 'self' blob:",
+              "manifest-src 'self'",
             ].join('; ')
           }
         ]

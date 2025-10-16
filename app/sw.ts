@@ -265,21 +265,36 @@ async function syncContent() {
 // Handle push notifications with better cross-browser support
 self.addEventListener('push', (event: PushEvent) => {
   if (event.data) {
-    const data = event.data.json()
-    const title = data.title || 'CampusAxis Notification'
-    // Fix TypeScript error by properly typing the options object
-    const options: NotificationOptions = {
-      body: data.body || 'You have a new notification',
-      icon: '/icon-192x192.png',
-      badge: '/icon-192x192.png',
-      data: {
-        url: data.url || '/',
-      },
+    try {
+      const data = event.data.json()
+      const title = data.title || 'CampusAxis Notification'
+      // Fix TypeScript error by properly typing the options object
+      const options: NotificationOptions = {
+        body: data.body || 'You have a new notification',
+        icon: '/icon-192x192.png',
+        badge: '/icon-192x192.png',
+        tag: 'campusaxis-notification',
+        renotify: true,
+        vibrate: [200, 100, 200],
+        data: {
+          url: data.url || '/',
+          timestamp: Date.now(),
+        },
+      }
+      
+      event.waitUntil(
+        self.registration.showNotification(title, options)
+      )
+    } catch (error) {
+      console.error('Error showing notification:', error)
+      // Fallback notification
+      event.waitUntil(
+        self.registration.showNotification('CampusAxis', {
+          body: 'You have a new notification',
+          icon: '/icon-192x192.png',
+        })
+      )
     }
-    
-    event.waitUntil(
-      self.registration.showNotification(title, options)
-    )
   }
 })
 
