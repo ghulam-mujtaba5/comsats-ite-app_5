@@ -22,7 +22,7 @@ const nextConfig = {
   },
   typescript: {
     // Ignore TypeScript errors during builds for deployment
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true,ry
   },
   images: {
     // Enable optimization for better performance
