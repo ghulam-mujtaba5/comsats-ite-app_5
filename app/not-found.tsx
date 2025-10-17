@@ -1,11 +1,16 @@
 "use client"
 
+import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { FileQuestion, Home, ArrowLeft, Search, ExternalLink, Compass, Star } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import layout from "@/app/styles/common.module.css"
+
+// Note: metadata export doesn't work in client components
+// Add metadata in a parent layout or use a server component wrapper
+// For now, we'll use the useEffect to set document title
 
 export default function NotFound() {
   return (

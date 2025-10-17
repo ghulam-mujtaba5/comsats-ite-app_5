@@ -168,6 +168,30 @@ const nextConfig = {
       },
     ]
   },
+  // URL Redirects for SEO
+  async redirects() {
+    if (isExport) return []
+    
+    return [
+      // Redirect old URLs to new structure
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/index',
+        destination: '/',
+        permanent: true,
+      },
+      // Redirect trailing slashes (except root)
+      {
+        source: '/:path+/',
+        destination: '/:path+',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 export default nextPWA(nextConfig)

@@ -155,7 +155,7 @@ export default function FacultyPage() {
     }
     load()
   }, [selectedCampus, campusDepartment])
-  
+
   const filteredFaculty = useMemo(() => {
     let faculty = [...facultyList]
     

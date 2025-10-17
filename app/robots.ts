@@ -20,8 +20,39 @@ export default function robots(): MetadataRoute.Robots {
           "/admin/",
           "/api/",
           "/auth/reset-password/",
+          "/auth/callback/",
           "/profile/",
           "/dashboard/",
+          "/settings/",
+          "/search/",
+          "/*?*", // Disallow all URLs with query parameters
+        ],
+        // Crawl delay to be respectful to the server (in seconds)
+        crawlDelay: 1,
+      },
+      // Specific rules for common bots
+      {
+        userAgent: "Googlebot",
+        allow: ["/"],
+        disallow: [
+          "/admin/",
+          "/api/",
+          "/auth/",
+          "/profile/",
+          "/dashboard/",
+          "/settings/",
+        ],
+      },
+      {
+        userAgent: "Bingbot",
+        allow: ["/"],
+        disallow: [
+          "/admin/",
+          "/api/",
+          "/auth/",
+          "/profile/",
+          "/dashboard/",
+          "/settings/",
         ],
       },
     ],
