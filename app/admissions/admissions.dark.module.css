@@ -1,3 +1,5 @@
-.darkTheme { /* Theme marker */ --theme-mode: dark; }
-
-:global(html.dark) :root { --admissions-theme: dark; }
+.admissionsDark {
+	/* Theme marker */
+	--theme-mode: dark;
+	--admissions-theme: dark;
+}

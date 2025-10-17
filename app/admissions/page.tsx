@@ -30,8 +30,10 @@ import { QueryAnswering } from "@/components/admissions/query-answering"
 import { ResourceSharing } from "@/components/admissions/resource-sharing"
 import { AdmissionsStructuredData } from "@/components/admissions/structured-data"
 import layout from "@/app/styles/common.module.css"
-import "./admissions.light.module.css"
-import "./admissions.dark.module.css"
+import clsx from "clsx"
+import { useThemeMode } from "@/lib/theme/useThemeMode"
+import stylesLight from "./admissions.light.module.css"
+import stylesDark from "./admissions.dark.module.css"
 
 export const metadata: Metadata = {
   title: "Admissions - CampusAxis | COMSATS Admission Guidance",
@@ -61,6 +63,8 @@ export const metadata: Metadata = {
 }
 
 export default function AdmissionsPage() {
+  const mode = useThemeMode()
+  const themeClass = mode === 'dark' ? stylesDark.admissionsDark : stylesLight.admissionsLight
   // Mock data for mentors
   const mockMentors = [
     {
@@ -219,7 +223,7 @@ export default function AdmissionsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+      <div className={clsx("min-h-screen bg-gradient-to-b from-background to-muted/20", themeClass)} data-theme-scope="admissions">
         <div className={`${layout.section} px-4 py-8 sm:py-12`}>
           {/* Hero Section */}
           <div className="text-center mb-12 sm:mb-16">
