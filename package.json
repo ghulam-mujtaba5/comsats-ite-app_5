@@ -29,7 +29,8 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "build-pwa": "next build && next-pwa-build",
-    "remind-graduates": "tsx scripts/send-graduation-reminders.ts"
+    "remind-graduates": "tsx scripts/send-graduation-reminders.ts",
+    "postbuild": "next-sitemap"
   },
   "og-scripts": {
     "generate-og-png": "node scripts/generate-og-png.js"
