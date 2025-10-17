@@ -385,17 +385,19 @@ export default function AdminTestPreparationPage() {
           {loading ? (
             <AdminLoading message="Loading test resources..." />
           ) : filteredResources.length === 0 ? (
-            <AdminEmptyState
-              title="No Test Resources Found"
-              description="Create your first test preparation resource to help students"
-              emoji="📚"
-              action={
+            <div className="space-y-6">
+              <AdminEmptyState
+                title="No Test Resources Found"
+                description="Create your first test preparation resource to help students"
+                emoji="📚"
+              />
+              <div className="flex justify-center">
                 <Button onClick={handleCreateNew}>
                   <Plus className="h-4 w-4 mr-2" />
                   Create Resource
                 </Button>
-              }
-            />
+              </div>
+            </div>
           ) : (
             <div className="space-y-4">
               {filteredResources.map((resource) => (
@@ -404,10 +406,7 @@ export default function AdminTestPreparationPage() {
                   title={resource.title}
                   description={resource.description}
                   icon={BookOpen}
-                  badges={[
-                    getCategoryBadge(resource.category),
-                    getDifficultyBadge(resource.difficulty)
-                  ]}
+                  badges={[]}
                   actions={[
                     {
                       label: "Edit",
@@ -423,20 +422,26 @@ export default function AdminTestPreparationPage() {
                       className: "border-red-200 dark:border-red-800"
                     }
                   ]}
-                  metadata={
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <FileText className="h-4 w-4" />
-                        <span>{resource.subject}</span>
+                  children={
+                    <div className="mt-4 space-y-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        {getCategoryBadge(resource.category)}
+                        {getDifficultyBadge(resource.difficulty)}
                       </div>
-                      {resource.file_url && (
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
-                          <Users className="h-4 w-4" />
-                          <a href={resource.file_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
-                            View File
-                          </a>
+                          <FileText className="h-4 w-4" />
+                          <span>{resource.subject}</span>
                         </div>
-                      )}
+                        {resource.file_url && (
+                          <div className="flex items-center gap-1">
+                            <Users className="h-4 w-4" />
+                            <a href={resource.file_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                              View File
+                            </a>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   }
                 />

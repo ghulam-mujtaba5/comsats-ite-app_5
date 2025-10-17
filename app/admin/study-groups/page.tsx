@@ -374,17 +374,19 @@ export default function AdminStudyGroupsPage() {
           {loading ? (
             <AdminLoading message="Loading study groups..." />
           ) : filteredGroups.length === 0 ? (
-            <AdminEmptyState
-              title="No Study Groups Found"
-              description="Create your first study group to help students collaborate"
-              emoji="👥"
-              action={
+            <div className="space-y-6">
+              <AdminEmptyState
+                title="No Study Groups Found"
+                description="Create your first study group to help students collaborate"
+                emoji="👥"
+              />
+              <div className="flex justify-center">
                 <Button onClick={handleCreateNew}>
                   <Plus className="h-4 w-4 mr-2" />
                   Create Group
                 </Button>
-              }
-            />
+              </div>
+            </div>
           ) : (
             <div className="space-y-4">
               {filteredGroups.map((group) => (
@@ -393,10 +395,7 @@ export default function AdminStudyGroupsPage() {
                   title={group.name}
                   description={group.description}
                   icon={Users}
-                  badges={[
-                    <Badge key="program" variant="outline" className="border-purple-200 dark:border-purple-800">{group.program}</Badge>,
-                    getStatusBadge(group.status)
-                  ]}
+                  badges={[]}
                   actions={[
                     {
                       label: "Edit",
@@ -412,15 +411,21 @@ export default function AdminStudyGroupsPage() {
                       className: "border-red-200 dark:border-red-800"
                     }
                   ]}
-                  metadata={
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Hash className="h-4 w-4" />
-                        <span>{group.subject}</span>
+                  children={
+                    <div className="mt-4 space-y-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Badge key="program" variant="outline" className="border-purple-200 dark:border-purple-800">{group.program}</Badge>
+                        {getStatusBadge(group.status)}
                       </div>
-                      <div className="flex items-center gap-1">
-                        <User className="h-4 w-4" />
-                        <span>{group.member_count} members</span>
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Hash className="h-4 w-4" />
+                          <span>{group.subject}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <User className="h-4 w-4" />
+                          <span>{group.member_count} members</span>
+                        </div>
                       </div>
                     </div>
                   }

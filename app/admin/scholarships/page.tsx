@@ -482,17 +482,19 @@ export default function AdminScholarshipsPage() {
           {loading ? (
             <AdminLoading message="Loading scholarships..." />
           ) : filteredScholarships.length === 0 ? (
-            <AdminEmptyState
-              title="No Scholarships Found"
-              description="Create your first scholarship opportunity to help students"
-              emoji="🎓"
-              action={
+            <div className="space-y-6">
+              <AdminEmptyState
+                title="No Scholarships Found"
+                description="Create your first scholarship opportunity to help students"
+                emoji="🎓"
+              />
+              <div className="flex justify-center">
                 <Button onClick={handleCreateNew}>
                   <Plus className="h-4 w-4 mr-2" />
                   Create Scholarship
                 </Button>
-              }
-            />
+              </div>
+            </div>
           ) : (
             <div className="space-y-4">
               {filteredScholarships.map((scholarship) => (
@@ -501,10 +503,7 @@ export default function AdminScholarshipsPage() {
                   title={scholarship.title}
                   description={scholarship.description}
                   icon={Award}
-                  badges={[
-                    getStatusBadge(scholarship.status),
-                    getCategoryBadge(scholarship.category)
-                  ]}
+                  badges={[]}
                   actions={[
                     {
                       label: "Edit",
@@ -520,24 +519,30 @@ export default function AdminScholarshipsPage() {
                       className: "border-red-200 dark:border-red-800"
                     }
                   ]}
-                  metadata={
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <DollarSign className="h-4 w-4" />
-                        <span>{scholarship.amount}</span>
+                  children={
+                    <div className="mt-4 space-y-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        {getStatusBadge(scholarship.status)}
+                        {getCategoryBadge(scholarship.category)}
                       </div>
-                      {scholarship.deadline && (
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
-                          <Calendar className="h-4 w-4" />
-                          <span>Deadline: {new Date(scholarship.deadline).toLocaleDateString()}</span>
+                          <DollarSign className="h-4 w-4" />
+                          <span>{scholarship.amount}</span>
                         </div>
-                      )}
-                      {scholarship.department && (
-                        <div className="flex items-center gap-1">
-                          <Users className="h-4 w-4" />
-                          <span>{scholarship.department}</span>
-                        </div>
-                      )}
+                        {scholarship.deadline && (
+                          <div className="flex items-center gap-1">
+                            <Calendar className="h-4 w-4" />
+                            <span>Deadline: {new Date(scholarship.deadline).toLocaleDateString()}</span>
+                          </div>
+                        )}
+                        {scholarship.department && (
+                          <div className="flex items-center gap-1">
+                            <Users className="h-4 w-4" />
+                            <span>{scholarship.department}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   }
                 />
