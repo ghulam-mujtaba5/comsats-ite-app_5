@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
+import layout from "@/app/styles/common.module.css"
 import { EnhancedHero } from "@/components/home/enhanced-hero"
 import { EnhancedFeatures } from "@/components/home/enhanced-features"
 import { EnhancedNews } from "@/components/home/enhanced-news"
@@ -12,7 +13,7 @@ import { AnimatedSections } from "@/components/home/animated-sections"
 function ContentSkeleton() {
   return (
     <div className="py-16 md:py-20 px-4 sm:px-6 lg:px-8 animate-pulse">
-      <div className="app-container max-w-7xl mx-auto">
+      <div className={layout.section}>
         <div className="h-8 bg-gradient-to-r from-primary/20 to-blue-500/20 dark:from-primary/30 dark:to-blue-500/30 rounded-lg w-1/3 mx-auto mb-12"></div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(3)].map((_, i) => (

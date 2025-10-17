@@ -35,6 +35,8 @@ interface ModerationItem {
   program?: string
 }
 
+import styles from "../../admin-shared.module.css"
+
 export default function AdminAdmissionsModerationPage() {
   const [items, setItems] = useState<ModerationItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -160,7 +162,7 @@ export default function AdminAdmissionsModerationPage() {
         ]}
       />
 
-      <div className="app-container space-y-8 pb-12">
+      <div className={`${styles.section} ${styles.spaceY8} pb-12`}>
         <GlassCard 
           title="Moderation Queue" 
           description="Review pending content submissions"

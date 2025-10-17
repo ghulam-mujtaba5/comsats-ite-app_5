@@ -34,6 +34,7 @@ import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
+import styles from "./news-events.module.css"
 
 interface NewsItem {
   id: string
@@ -300,8 +301,8 @@ export function NewsEventsClient() {
   }
 
   return (
-    <div className="min-h-screen bg-mesh overflow-hidden relative">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className={cn(styles.page, "bg-mesh overflow-hidden relative") }>
+      <div className={styles.bgDecor}>
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-green-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '4s' }} />
@@ -312,15 +313,15 @@ export function NewsEventsClient() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
 
-      <div className="container mx-auto max-w-7xl px-4 py-24 relative z-10">
+      <div className={styles.container}>
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "News & Events" }]} />
         
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6 hover:from-primary/20 hover:to-blue-500/20 transition-all duration-300 hover-lift">
+          <div className={cn(styles.pill, "bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm text-primary mb-6 hover:from-primary/20 hover:to-blue-500/20 hover-lift") }>
             <BookOpen className="h-4 w-4" />
             Campus Hub
           </div>
-          <h1 className="text-5xl lg:text-8xl font-bold leading-[0.9] text-balance mb-6">
+          <h1 className={cn(styles.pageTitle, "text-5xl lg:text-8xl font-bold leading-[0.9] mb-6") }>
             News &{" "}
             <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
               Events
@@ -364,7 +365,7 @@ export function NewsEventsClient() {
               </div>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className={styles.statGrid}>
               <Card className="card-modern border-0 backdrop-blur-sm hover-lift transition-all duration-300 group">
                 <CardContent className="p-6 text-center">
                   <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-blue-500/20 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">

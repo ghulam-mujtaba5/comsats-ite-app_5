@@ -32,6 +32,8 @@ type IssueResponse = {
   }
 }
 
+import styles from "../admin-shared.module.css"
+
 export default function AdminIssuesPage() {
   const [issues, setIssues] = useState<Issue[]>([])
   const [loading, setLoading] = useState(true)
@@ -121,7 +123,7 @@ export default function AdminIssuesPage() {
         <div className="relative overflow-hidden bg-gradient-to-r from-red-600 to-orange-600 dark:from-red-800 dark:to-orange-800">
           <div className="absolute inset-0 bg-grid-white/[0.05] bg-[length:20px_20px]"></div>
           <div className="relative">
-            <div className="app-container py-8">
+            <div className={`${styles.section} py-8`}>
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div className="flex items-center gap-4">
                   <Link href="/admin">
@@ -162,7 +164,7 @@ export default function AdminIssuesPage() {
         </div>
 
         {/* Issues Content */}
-        <div className="app-container space-y-6">
+        <div className={`${styles.section} ${styles.spaceY6}`}>
           {loading ? (
             <div className="flex items-center justify-center py-12">
               <div className="glass-card border border-white/20 dark:border-white/10 rounded-2xl p-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">

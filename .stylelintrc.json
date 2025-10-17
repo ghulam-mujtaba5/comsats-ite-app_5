@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-css-modules"
+  ],
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    "order/properties-alphabetical-order": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "declaration-block-single-line-max-declarations": null,
+    "alpha-value-notation": null,
+    "color-function-notation": null,
+    "media-feature-range-notation": null,
+    "no-empty-source": null,
+    "selector-class-pattern": null
+  }
+}

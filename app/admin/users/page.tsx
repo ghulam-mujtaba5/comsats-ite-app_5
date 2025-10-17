@@ -19,6 +19,7 @@ import { AdminEmptyState } from "@/components/admin/admin-empty-state"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Checkbox } from "@/components/ui/checkbox"
+import adminStyles from '../admin-shared.module.css'
 
 // Permission options available for admin role customization
 const PERMISSION_OPTIONS = [
@@ -467,7 +468,7 @@ export default function AdminUsersPage() {
       />
         
         {/* Enhanced User Management Interface */}
-        <div className="app-container space-y-8 pb-12">
+        <div className={`${adminStyles.section} ${adminStyles.spaceY6} pb-12`}>
           <Tabs defaultValue="users" className="space-y-6">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               <TabsList className="glass-card bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40 grid w-full lg:w-auto grid-cols-3">

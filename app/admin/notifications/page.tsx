@@ -62,6 +62,8 @@ interface BatchNotification {
   updated_at: string
 }
 
+import styles from "../admin-shared.module.css"
+
 export default function AdminNotificationsPage() {
   const { toast } = useToast()
   const [loading, setLoading] = useState(true)
@@ -224,7 +226,7 @@ export default function AdminNotificationsPage() {
   return (
     <AdminGuard>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
-        <div className="container mx-auto max-w-7xl px-4 py-8">
+        <div className={`${styles.section} px-4 py-8`}>
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center justify-between">

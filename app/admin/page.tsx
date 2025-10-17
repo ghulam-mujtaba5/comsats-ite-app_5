@@ -17,6 +17,8 @@ interface DashboardStats {
   totalResources: number;
 }
 
+import styles from "./admin-shared.module.css"
+
 export default function AdminDashboardPage() {
   const router = useRouter()
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -78,7 +80,7 @@ export default function AdminDashboardPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 backdrop-blur-3xl" />
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C92AC%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30" />
           
-          <div className="relative app-container px-6 lg:px-10 pt-12 pb-8">
+          <div className={`relative ${styles.section} px-6 lg:px-10 pt-12 pb-8`}>
             <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                 <div className="space-y-4">
@@ -196,7 +198,7 @@ export default function AdminDashboardPage() {
           const sorted = filtered.sort((a: LinkItem, b: LinkItem) => priorityOrder[a.priority] - priorityOrder[b.priority])
 
           return (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 app-container px-6 lg:px-10" aria-live="polite">
+            <div className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${styles.section} px-6 lg:px-10`} aria-live="polite">
               {sorted.map((l: LinkItem, idx: number) => {
                 const isHighPriority = l.priority === 'high'
                 return (

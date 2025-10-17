@@ -13,6 +13,7 @@ import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 import { useAuth } from "@/contexts/auth-context"
 import { getDepartmentFromEmail } from '@/lib/student-department-utils'
+import styles from './resources.module.css'
 
 type Resource = {
   id: string
@@ -78,13 +79,13 @@ export default function ResourcesPage() {
   }, [])
 
   return (
-    <div className="min-h-screen relative">
-      <main className="relative flex-1 py-12 px-4">
-        <div className="container mx-auto max-w-7xl">
+    <div className={styles.page}>
+      <main className={styles.main}>
+        <div className={styles.container}>
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Resources" }]} className="mb-6" />
           
           {/* Enhanced Header Section */}
-          <div className="text-center mb-12">
+          <div className={styles.header}>
             <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-secondary text-sm font-medium text-emerald-700 dark:text-emerald-300 mb-8">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full blur opacity-30 animate-pulse" />
@@ -106,7 +107,7 @@ export default function ResourcesPage() {
           </div>
 
           {/* Enhanced Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          <div className={styles.statGrid}>
             <Card className="bg-white/80 dark:bg-slate-800/80 shadow-lg hover:shadow-xl rounded-2xl group hover:scale-[1.02] transition-all duration-300">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="relative">
@@ -302,7 +303,7 @@ export default function ResourcesPage() {
               <p className="text-muted-foreground">Check back later.</p>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" aria-live="polite">
+            <div className={styles.cardsGrid} aria-live="polite">
               {useMemo(() => {
                 const s = search.toLowerCase().trim()
                 return items

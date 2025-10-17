@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils"
 import { standardFilters } from "@/lib/filter-data"
 import { useCampus } from "@/contexts/campus-context"
 import { CampusBanner } from "@/components/layout/campus-reminder"
+import layout from "@/app/styles/common.module.css"
 
 type TimetableDoc = {
   id: string
@@ -280,7 +281,7 @@ export default function TimetablePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
       <main className="flex-1 py-12 px-4">
-        <div className="container mx-auto max-w-7xl">
+        <div className={layout.section}>
           {/* Campus Selection Banner */}
           <CampusBanner 
             title="Select Your Campus & Department"

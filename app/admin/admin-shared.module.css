@@ -1,0 +1,57 @@
+.section {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80rem; /* ~max-w-7xl */
+}
+
+.spaceY6 > * + * {
+  margin-top: 1.5rem; /* space-y-6 */
+}
+
+.spaceY8 > * + * {
+  margin-top: 2rem; /* space-y-8 */
+}
+
+.kpiGrid {
+  display: grid;
+  gap: 1.5rem; /* gap-6 */
+}
+
+@media (min-width: 768px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .kpiGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .kpiGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.threeCol {
+  display: grid;
+  gap: 1.5rem; /* gap-6 */
+}
+
+@media (min-width: 1024px) {
+  .threeCol {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.colSpan2 {
+  grid-column: span 1 / span 1;
+}
+
+@media (min-width: 1024px) {
+  .colSpan2 {
+    grid-column: span 2 / span 2; /* lg:col-span-2 */
+  }
+}

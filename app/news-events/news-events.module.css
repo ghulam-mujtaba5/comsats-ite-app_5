@@ -1,0 +1,56 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+}
+
+.bgDecor {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  z-index: 10;
+  max-width: 80rem; /* ~max-w-7xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 6rem; /* py-24 */
+  padding-bottom: 6rem;
+}
+
+.pageTitle {
+  text-wrap: balance;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: transform 300ms ease, box-shadow 300ms ease, background-color 300ms ease;
+}
+
+.pill:hover {
+  transform: translateY(-1px);
+}
+
+.searchShell {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .statGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}

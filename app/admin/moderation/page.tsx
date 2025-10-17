@@ -14,6 +14,7 @@ import { Search, AlertTriangle, CheckCircle, X, Eye, MessageSquare, Users, Flag,
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { useToast } from "@/hooks/use-toast"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
+import styles from "@/app/admin/admin-shared.module.css"
 
 interface CommunityPost {
   id: string
@@ -232,7 +233,7 @@ export default function AdminModerationPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 backdrop-blur-3xl" />
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM5QzkyQUMiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
           
-          <div className="relative app-container pt-12 pb-8">
+          <div className={`relative ${styles.section} pt-12 pb-8`}>
             <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div className="space-y-3">
@@ -285,7 +286,7 @@ export default function AdminModerationPage() {
         </div>
 
         {/* Enhanced Search and Filters */}
-        <div className="app-container space-y-6">
+        <div className={`${styles.section} ${styles.spaceY6}`}>
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Moderation Queue</h2>
@@ -348,7 +349,7 @@ export default function AdminModerationPage() {
                 const isProblematic = post.status === 'flagged' || hasReports
                 
                 return (
-                  <Card key={post.id} className={`glass-card border-0 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl group ${
+                  <Card key={post.id} className={`glass-card rounded-2xl backdrop-blur-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl group ${
                     isProblematic 
                       ? 'bg-gradient-to-br from-red-50/80 to-orange-50/80 dark:from-red-950/40 dark:to-orange-950/40 border border-red-200/50 dark:border-red-800/50 hover:shadow-red-500/20'
                       : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 border border-white/20 dark:border-white/10 hover:shadow-blue-500/10'
@@ -459,7 +460,7 @@ export default function AdminModerationPage() {
                 const isProblematic = comment.status === 'flagged' || hasReports
                 
                 return (
-                  <Card key={comment.id} className={`glass-card border-0 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl group ${
+                  <Card key={comment.id} className={`glass-card rounded-2xl backdrop-blur-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl group ${
                     isProblematic 
                       ? 'bg-gradient-to-br from-yellow-50/80 to-orange-50/80 dark:from-yellow-950/40 dark:to-orange-950/40 border border-yellow-200/50 dark:border-yellow-800/50 hover:shadow-yellow-500/20'
                       : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 border border-white/20 dark:border-white/10 hover:shadow-blue-500/10'
@@ -561,7 +562,7 @@ export default function AdminModerationPage() {
                 const isPending = report.status === 'pending'
                 
                 return (
-                  <Card key={report.id} className={`glass-card border-0 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl group ${
+                  <Card key={report.id} className={`glass-card rounded-2xl backdrop-blur-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl group ${
                     isPending 
                       ? 'bg-gradient-to-br from-red-50/80 to-pink-50/80 dark:from-red-950/40 dark:to-pink-950/40 border border-red-200/50 dark:border-red-800/50 hover:shadow-red-500/20'
                       : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 border border-white/20 dark:border-white/10 hover:shadow-blue-500/10'

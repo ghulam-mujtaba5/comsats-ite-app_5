@@ -17,6 +17,7 @@ import {
 import Link from "next/link"
 import Head from "next/head"
 import { GlassCard } from "@/components/admin/glass-card"
+import layout from "@/app/styles/common.module.css"
 
 export default function MentorProfilePage({ params }: { params: { id: string } }) {
   // In a real implementation, this data would come from an API
@@ -80,7 +81,7 @@ export default function MentorProfilePage({ params }: { params: { id: string } }
         <link rel="canonical" href={`https://campusaxis.site/admissions/mentor/${params.id}`} />
       </Head>
       <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
-        <div className="app-container max-w-7xl mx-auto px-4 py-8">
+        <div className={`${layout.section} px-4 py-8`}>
           <Button variant="ghost" className="mb-6" asChild>
             <Link href="/admissions">
               <ArrowLeft className="h-4 w-4 mr-2" />

@@ -5,6 +5,7 @@ import { pageTemplates, GPA_CALCULATOR_FAQS, GPA_CALCULATOR_HOWTO } from "@/lib/
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calculator, TrendingUp, Target, Info, Calendar, BookOpen, Lightbulb, HelpCircle } from "lucide-react"
+import styles from './gpa-calculator.module.css'
 
 export const metadata: Metadata = createMetadata({
   title: "COMSATS GPA Calculator - Free Online CGPA Calculator 2025 | CampusAxis",
@@ -59,13 +60,13 @@ export default function GPACalculatorPage() {
   )
 
   return (
-    <div className="min-h-screen flex flex-col bg-mesh">
+    <div className={`${styles.page} bg-mesh`}>
       {/* Structured Data */}
       <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbJsonLd, faqJsonLd, howToJsonLd, webAppJsonLd]) }} />
       
-      <main className="flex-1 py-8 md:py-12 px-4">
-        <div className="container mx-auto max-w-7xl">
-          <div className="text-center mb-8 md:mb-12">
+      <main className={styles.main}>
+        <div className={styles.container}>
+          <div className={styles.header}>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-xs md:text-sm font-medium text-primary mb-4 md:mb-6">
               <Calculator className="h-3 w-3 md:h-4 md:w-4" />
               Academic Tools

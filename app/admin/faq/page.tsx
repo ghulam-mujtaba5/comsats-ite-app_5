@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label"
 import { Plus, Edit, Trash2, Save, X, HelpCircle, Sparkles, Filter } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { Skeleton } from "@/components/ui/skeleton"
+import styles from "@/app/admin/admin-shared.module.css"
 
 interface FAQ {
   id: string
@@ -113,7 +114,7 @@ export default function AdminFaqPage() {
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 dark:from-slate-950 dark:via-blue-950/30 dark:to-indigo-950/20">
         <div className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 backdrop-blur-3xl" />
-          <div className="relative app-container pt-12 pb-8">
+          <div className={`relative ${styles.section} pt-12 pb-8`}>
             <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 max-w-6xl mx-auto">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div className="space-y-3">
@@ -154,7 +155,7 @@ export default function AdminFaqPage() {
             </div>
           </div>
         </div>
-        <div className="app-container space-y-6 pb-12 max-w-6xl mx-auto">
+        <div className={`${styles.section} ${styles.spaceY6} pb-12 max-w-6xl mx-auto`}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">FAQ Items</h2>
             <Dialog open={showFaqDialog} onOpenChange={(open) => {

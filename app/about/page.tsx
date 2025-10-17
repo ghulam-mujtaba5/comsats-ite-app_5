@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { GraduationCap, Target, Sparkles, ArrowRight, Heart, CheckCircle, Clock, Flag, Rocket, Mail, Download, Github, Linkedin, Globe } from "lucide-react"
 import Link from "next/link"
+import layout from "@/app/styles/common.module.css"
 import Image from "next/image"
 
 export default function AboutUsPage() {
@@ -24,7 +25,7 @@ export default function AboutUsPage() {
       <main className="flex-1 relative">
         {/* Hero Section */}
         <section className="py-20 px-4 relative">
-          <div className="app-container">
+          <div className={layout.section}>
             <div className="text-center max-w-4xl mx-auto">
               {/* Logo Display */}
               <div className="flex justify-center mb-8 animate-fade-in">
@@ -66,7 +67,7 @@ export default function AboutUsPage() {
 
         {/* Mission Section */}
         <section className="py-16 px-4 bg-gradient-to-r from-primary/5 via-transparent to-blue-500/5">
-          <div className="app-container">
+          <div className={layout.section}>
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
                 <div className="flex items-center gap-3 mb-4">
@@ -111,7 +112,7 @@ export default function AboutUsPage() {
 
           {/* Leadership section moved below Mission for better visual hierarchy */}
           <section className="py-12 px-4">
-            <div className="app-container">
+            <div className={layout.section}>
               <div className="text-center mb-8">
                 <Badge variant="soft" className="uppercase tracking-wide text-xs">Leadership</Badge>
                 <h3 className="text-2xl lg:text-3xl font-semibold mt-2">CampusAxis Leadership</h3>
@@ -229,7 +230,7 @@ export default function AboutUsPage() {
           />
         {/* Our Values & Principles */}
         <section className="py-12 px-4">
-          <div className="app-container">
+          <div className={layout.section}>
             <div className="max-w-4xl mx-auto text-center">
               <h3 className="text-2xl lg:text-3xl font-semibold mt-2">Our Values & Principles</h3>
               <p className="text-lg text-muted-foreground leading-relaxed font-serif mt-4">
@@ -263,7 +264,7 @@ export default function AboutUsPage() {
 
         {/* New User Privacy Section */}
         <section className="py-12 px-4 bg-muted/5">
-          <div className="app-container">
+          <div className={layout.section}>
             <div className="max-w-3xl mx-auto text-center">
               <h3 className="text-2xl lg:text-3xl font-semibold mt-2">User Privacy</h3>
               <p className="text-lg text-muted-foreground leading-relaxed font-serif mt-4">
@@ -276,7 +277,7 @@ export default function AboutUsPage() {
         {/* How We Help Students */}
         <div className="my-12 border-t border-muted-foreground/10" />
         <section className="py-12 px-4 bg-muted/5">
-          <div className="app-container">
+          <div className={layout.section}>
             <div className="max-w-3xl mx-auto text-center">
               <div className="mb-4">
                 <Badge variant="soft" className="uppercase tracking-wide text-xs">Students</Badge>
@@ -301,7 +302,7 @@ export default function AboutUsPage() {
 
         {/* Partners & FAQ */}
         <section className="py-12 px-4 bg-muted/5">
-          <div className="app-container">
+          <div className={layout.section}>
             <div className="grid lg:grid-cols-2 gap-8 items-start">
               <div>
                 <div className="mb-4">
@@ -344,7 +345,7 @@ export default function AboutUsPage() {
       {/* Megicode / Powered By Section (moved down) */}
     <div className="my-12 border-t border-muted-foreground/10" />
     <section className="py-12 px-4 bg-muted/5">
-          <div className="app-container">
+          <div className={layout.section}>
             <div className="text-center mb-8">
               <div className="flex items-center justify-center gap-3">
                 <div className="w-12 h-12 relative">
@@ -385,7 +386,7 @@ export default function AboutUsPage() {
         
         {/* Commitment Section */}
         <section className="py-16 px-4 bg-gradient-to-br from-accent/10 via-background to-primary/5">
-          <div className="app-container">
+          <div className={layout.section}>
             <Card variant="glass" className="max-w-4xl mx-auto p-8 lg:p-12">
               <div className="text-center space-y-6">
                 <div className="flex items-center justify-center gap-3 mb-6">

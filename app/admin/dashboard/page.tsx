@@ -9,6 +9,7 @@ import { AdminGuard } from "@/components/admin/admin-guard"
 import { AdminPageHeader } from "@/components/admin/admin-page-header"
 import { Users, MessageSquare, Search, HelpCircle, Newspaper, Heart, FileText, AlertTriangle, Server, TrendingUp, Activity, Zap, BarChart3, Globe, Settings, Bell, GraduationCap, Library, RefreshCw } from "lucide-react"
 import { useOffline } from "@/hooks/use-offline"
+import adminStyles from '../admin-shared.module.css'
 
 interface DashboardStats {
   lostFoundItems: number
@@ -230,7 +231,7 @@ export default function AdminDashboardPage() {
         ]}
       />
         {statsError && (
-          <div className="app-container">
+          <div className={adminStyles.section}>
             <div role="alert" className="glass-card border border-red-200/50 dark:border-red-800/50 rounded-2xl p-4 bg-red-50/80 dark:bg-red-950/80 backdrop-blur-sm">
               <div className="flex items-center gap-2 text-red-800 dark:text-red-200">
                 <AlertTriangle className="h-4 w-4" />
@@ -239,7 +240,7 @@ export default function AdminDashboardPage() {
               </div>
 
         {/* Platform Overview moved from /admin landing */}
-        <div className="app-container space-y-6">
+        <div className={`${adminStyles.section} ${adminStyles.spaceY6}`}>
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Platform Overview</h2>
@@ -368,7 +369,7 @@ export default function AdminDashboardPage() {
             </div>
           </div>
           
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5" aria-live="polite">
+          <div className={adminStyles.kpiGrid} aria-live="polite">
           {loading ? (
             Array.from({ length: 5 }).map((_, i) => (
               <div key={`sk-${i}`} className="glass-primary glass-border-glow glass-shimmer rounded-2xl p-6 animate-pulse">
@@ -443,10 +444,10 @@ export default function AdminDashboardPage() {
         </div>
         
         {/* Enhanced Action Panels */}
-        <div className="app-container space-y-6">
-          <div className="grid gap-6 lg:grid-cols-3">
+        <div className={`${adminStyles.section} ${adminStyles.spaceY6}`}>
+          <div className={`${adminStyles.threeCol}`}>
             {/* Recent Activity */}
-            <div className="lg:col-span-2">
+            <div className={adminStyles.colSpan2}>
               <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 h-full">
                 <CardHeader className="pb-4">
                   <div className="flex items-center justify-between">
@@ -523,7 +524,7 @@ export default function AdminDashboardPage() {
         </div>
         
         {/* Enhanced System Health */}
-        <div className="app-container pb-12">
+        <div className={`${adminStyles.section} pb-12`}>
           <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 overflow-hidden">
             <div className="relative">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-full blur-3xl" />

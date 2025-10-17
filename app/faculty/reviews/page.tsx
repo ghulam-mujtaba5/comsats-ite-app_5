@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select"
 import Link from "next/link"
 import { ReviewCard } from "@/components/faculty/review-card"
+import layout from "@/app/styles/common.module.css"
 import { FacultyCard } from "@/components/faculty/faculty-card"
 import { type Faculty, type Review } from "@/lib/faculty-data"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
@@ -184,7 +185,7 @@ export default async function FacultyReviewsPage() {
       />
       
       <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
-        <div className="app-container max-w-7xl mx-auto px-4 py-8 sm:py-12">
+        <div className={`${layout.section} px-4 py-8 sm:py-12`}>
           {/* Hero Section with Enhanced SEO Elements */}
           <div className="text-center mb-12 sm:mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6">

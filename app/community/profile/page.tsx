@@ -47,6 +47,7 @@ import { useUserProfile } from "@/hooks/use-user-profile"
 import { UserAchievements } from "@/components/community/user-achievements"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
+import layout from "@/app/styles/common.module.css"
 
 export default function CommunityProfilePage() {
   const { user: currentUser } = useAuth()
@@ -120,7 +121,7 @@ export default function CommunityProfilePage() {
   if (error || !profile) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
-        <div className="app-container section py-6">
+        <div className={`${layout.section} py-6`}>
           <Card className="p-8 text-center">
             <div className="flex flex-col items-center gap-2">
               <User className="h-12 w-12 text-gray-400" />
@@ -145,7 +146,7 @@ export default function CommunityProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
-      <div className="app-container section py-6">
+      <div className={`${layout.section} py-6`}>
         {/* Profile Header */}
         <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl mb-8 overflow-hidden">
           <div className="relative h-48 bg-gradient-to-r from-blue-500 to-purple-600">

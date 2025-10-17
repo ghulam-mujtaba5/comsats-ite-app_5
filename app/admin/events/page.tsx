@@ -41,6 +41,8 @@ interface EventRegistration {
   registered_at: string
 }
 
+import styles from "../admin-shared.module.css"
+
 export default function AdminEventsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [categoryFilter, setCategoryFilter] = useState<string>("all")
@@ -227,7 +229,7 @@ export default function AdminEventsPage() {
   }
 
   return (
-    <div className="app-container section" role="main" aria-labelledby="events-heading">
+    <div className={`${styles.section}`} role="main" aria-labelledby="events-heading">
       <div className="mb-8">
         <h1 id="events-heading" className="text-3xl font-bold">Events Management</h1>
         <p className="text-muted-foreground mt-2">

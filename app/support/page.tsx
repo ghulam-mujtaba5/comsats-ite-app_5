@@ -20,6 +20,7 @@ import {
   Star
 } from "lucide-react"
 import Link from "next/link"
+import layout from "@/app/styles/common.module.css"
 
 export default function SupportPage() {
   const supportOptions = [
@@ -98,7 +99,7 @@ export default function SupportPage() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
 
-      <main className="container mx-auto max-w-6xl px-4 py-24 relative z-10">
+      <main className={`${layout.section} px-4 py-24 relative z-10`}>
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Support" }]} />
         
         {/* Enhanced Header */}

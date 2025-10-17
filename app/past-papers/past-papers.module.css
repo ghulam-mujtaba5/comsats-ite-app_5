@@ -1,0 +1,76 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1 1 auto;
+  padding: 3rem 1rem; /* py-12 px-4 */
+}
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80rem; /* ~max-w-7xl */
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem; /* mb-12 */
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem; /* gap-4 */
+}
+
+@media (min-width: 640px) {
+  .actions {
+    flex-direction: row; /* sm:flex-row */
+  }
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 */
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  border-radius: 9999px; /* rounded-full */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* grid-cols-1 */
+  gap: 1.5rem; /* gap-6 */
+  margin-bottom: 3rem; /* mb-12 */
+}
+
+@media (min-width: 768px) {
+  .statGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)); /* md:grid-cols-4 */
+  }
+}
+
+.courseGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* grid-cols-1 */
+  gap: 2rem; /* gap-8 */
+}
+
+@media (min-width: 768px) {
+  .courseGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* md:grid-cols-2 */
+  }
+}
+
+@media (min-width: 1024px) {
+  .courseGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* lg:grid-cols-3 */
+  }
+}

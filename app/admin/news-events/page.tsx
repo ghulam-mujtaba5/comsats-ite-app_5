@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { Plus, Calendar, Newspaper, Edit, Trash2, Sparkles, Activity, TrendingUp, Zap, Clock, MapPin, Users, Crown, Save, Eye, Filter } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import adminStyles from '../admin-shared.module.css'
 
 interface NewsItem {
   id: string
@@ -279,7 +280,7 @@ export default function AdminNewsEventsPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 backdrop-blur-3xl" />
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM5QzkyQUMiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
           
-          <div className="relative app-container pt-12 pb-8">
+          <div className={`relative ${adminStyles.section} pt-12 pb-8`}>
             <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div className="space-y-3">
@@ -517,7 +518,7 @@ export default function AdminNewsEventsPage() {
         </div>
 
         {/* Enhanced Content Management Interface */}
-        <div className="app-container space-y-6 pb-12">
+        <div className={`${adminStyles.section} ${adminStyles.spaceY6} pb-12`}>
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Content Management</h2>

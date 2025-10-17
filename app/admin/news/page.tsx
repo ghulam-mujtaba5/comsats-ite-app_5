@@ -20,6 +20,8 @@ type News = {
   updated_at: string
 }
 
+import styles from "../admin-shared.module.css"
+
 export default function AdminNewsPage() {
   const [items, setItems] = useState<News[]>([])
   const [loading, setLoading] = useState(true)
@@ -64,7 +66,7 @@ export default function AdminNewsPage() {
 
   return (
     <AdminGuard>
-      <div className="app-container section space-y-6">
+      <div className={`${styles.section} ${styles.spaceY6}`}>
         <h1 className="text-2xl font-bold">Manage News</h1>
 
         <Card variant="elevated">

@@ -10,6 +10,7 @@ import { ArrowLeft, Upload, FileText, BookOpen, Calendar, Download } from "lucid
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import Loading from "../loading"
+import layout from "@/app/styles/common.module.css"
 
 export default function CourseClient({ params }: any) {
   const [course, setCourse] = useState<CourseWithPapers | null>(null)
@@ -115,7 +116,7 @@ export default function CourseClient({ params }: any) {
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 py-8 px-4">
-        <div className="container mx-auto max-w-7xl">
+        <div className={layout.section}>
           <Link href="/past-papers">
             <Button variant="outline" className="mb-6 bg-transparent">
               <ArrowLeft className="h-4 w-4 mr-2" />

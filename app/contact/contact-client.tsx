@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+import layout from "@/app/styles/common.module.css";
 
 export function ContactPageClient() {
   const [isVisible, setIsVisible] = useState(false);
@@ -142,7 +143,7 @@ export function ContactPageClient() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
 
-      <div className="app-container relative z-10 py-24">
+      <div className={`${layout.section} relative z-10 py-24`}>
         {/* Enhanced Header Section */}
         <div className="text-center mb-16">
           <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>

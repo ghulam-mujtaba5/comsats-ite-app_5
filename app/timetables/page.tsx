@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
+import layout from "@/app/styles/common.module.css"
 
 type Doc = {
   id: string
@@ -35,7 +36,7 @@ export default function TimetablesPage() {
   }, [])
 
   return (
-    <div className="container mx-auto p-6">
+    <div className={`${layout.section} p-6`}>
       <h1 className="text-3xl font-bold mb-4">Department Timetables</h1>
       {loading && <p>Loading…</p>}
       {error && <p className="text-blue-600">{error}</p>}

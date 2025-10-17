@@ -48,6 +48,8 @@ function csvToJson(headers: string[], rows: string[][]) {
   })
 }
 
+import styles from "../admin-shared.module.css"
+
 export default function BulkImportPage() {
   const { toast } = useToast()
   const [entity, setEntity] = useState<'faculty' | 'reviews'>('faculty')
@@ -156,7 +158,7 @@ export default function BulkImportPage() {
   }
 
   return (
-    <div className="app-container section space-y-6">
+    <div className={`${styles.section} ${styles.spaceY6}`}>
       <h1 className="text-2xl font-semibold">Bulk Import</h1>
 
       <Card variant="elevated">

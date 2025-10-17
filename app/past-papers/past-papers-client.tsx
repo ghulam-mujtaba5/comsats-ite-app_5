@@ -11,6 +11,7 @@ import { standardFilters, sortOptions } from '@/lib/filter-data'
 import { Upload, FileText, Download, Users, TrendingUp, RefreshCw, Filter, Tag, MapPin } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { AdvancedFilterBar } from '@/components/search/advanced-filter-bar'
+import styles from './past-papers.module.css'
 
 export default function PastPapersClient() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -159,21 +160,21 @@ export default function PastPapersClient() {
   const totalPapers = coursesWithPapers.reduce((s,c)=>s+c.totalPapers,0)
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
-      <main className="flex-1 py-12 px-4">
-        <div className="container mx-auto max-w-7xl">
-          <div className="text-center mb-12">
+    <div className={`${styles.page} bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950`}>
+      <main className={styles.main}>
+        <div className={styles.container}>
+          <div className={styles.header}>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-200 dark:border-blue-700/30 text-sm font-medium text-blue-700 dark:text-blue-300 mb-6"><FileText className="h-4 w-4" /> Academic Resources</div>
             <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">Past <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Papers</span></h1>
             <p className="text-xl lg:text-2xl text-slate-600 dark:text-slate-300 max-w-4xl mx-auto mb-8 font-medium leading-relaxed">Browse courses and access organized past papers including assignments, quizzes, midterms, and finals.</p>
-            <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className={styles.actions}>
               <UploadPaperDialog>
                 <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl text-lg px-8 py-4 rounded-2xl transition-all duration-300 hover:-translate-y-1"><Upload className="h-5 w-5 mr-2" /> Upload Paper</Button>
               </UploadPaperDialog>
               <Button variant="outline" size="lg" onClick={loadPapers} disabled={loading} className="px-6 py-4 rounded-2xl border-blue-200 dark:border-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300"><RefreshCw className={`h-5 w-5 mr-2 ${loading ? 'animate-spin' : ''}`} /> Refresh</Button>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          <div className={styles.statGrid}>
             <Card className="glass-card glass-border-light glass-hover rounded-2xl transition-all duration-300 hover:-translate-y-1"><CardContent className="flex items-center gap-4 p-6"><div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30"><FileText className="h-8 w-8 text-blue-600 dark:text-blue-400" /></div><div><div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{totalPapers}</div><div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Total Papers</div></div></CardContent></Card>
             <Card className="glass-card glass-border-light glass-hover rounded-2xl transition-all duration-300 hover:-translate-y-1"><CardContent className="flex items-center gap-4 p-6"><div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30 dark:border-green-700/30"><Download className="h-8 w-8 text-green-600 dark:text-green-400" /></div><div><div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{filteredCourses.length}</div><div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Filtered Courses</div></div></CardContent></Card>
             <Card className="glass-card glass-border-light glass-hover rounded-2xl transition-all duration-300 hover:-translate-y-1"><CardContent className="flex items-center gap-4 p-6"><div className="p-3 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-200/30 dark:border-purple-700/30"><Users className="h-8 w-8 text-purple-600 dark:text-purple-400" /></div><div><div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{availableTags.length}</div><div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Available Tags</div></div></CardContent></Card>
@@ -214,7 +215,7 @@ export default function PastPapersClient() {
           ) : filteredCourses.length === 0 ? (
             <Card className="p-16 text-center glass-card glass-border-light glass-hover rounded-2xl"><FileText className="h-20 w-20 text-slate-400 dark:text-slate-500 mx-auto mb-6" /><h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">No Courses Found</h3><p className="text-slate-600 dark:text-slate-300 mb-6 font-serif text-lg max-w-md mx-auto">Try adjusting your search terms or department filter to find more courses.</p><Button onClick={()=>{setSearchTerm('');setSelectedDepartment('All');setSelectedExamType('All');setSelectedSemester('All');setSelectedYear('All')}} className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl px-6 py-3" size="lg">Clear Filters</Button></Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">{filteredCourses.map(course => <CourseCard key={course.code} course={course} />)}</div>
+            <div className={styles.courseGrid}>{filteredCourses.map(course => <CourseCard key={course.code} course={course} />)}</div>
           )}
         </div>
       </main>

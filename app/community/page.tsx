@@ -107,6 +107,8 @@ import { EnhancedSharingDialog } from "@/components/community/enhanced-sharing-d
 import { PostFilters } from "@/components/community/post-filters"
 import { supabase } from "@/lib/supabase"
 import { CommentSection } from "@/components/community/comment-section"
+import styles from './community.module.css'
+import commonStyles from '@/app/styles/common.module.css'
 
 export default function CommunityPage() {
   const [newPost, setNewPost] = useState("")
@@ -478,10 +480,10 @@ export default function CommunityPage() {
   }
 
   return (
-    <div className="min-h-screen bg-muted/20">
-      <div className="app-container section py-6 max-w-7xl mx-auto">
+    <div className={`${styles.page} bg-muted/20`}>
+      <div className={`${commonStyles.section} ${styles.container}`}>
         {/* Modern Hero Section */}
-        <div className="text-center mb-8">
+        <div className={styles.hero}>
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-muted text-sm font-medium text-foreground mb-4">
             <Users className="h-4 w-4" />
             <span>Student Community Hub</span>
@@ -496,7 +498,7 @@ export default function CommunityPage() {
           </p>
           
           {/* Enhanced Quick Stats - Responsive Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl mx-auto mb-6">
+          <div className={styles.quickStats}>
             <Card className="border">
               <CardContent className="flex items-center gap-3 p-4">
                 <div className="p-2 rounded-xl bg-primary/10">
@@ -547,7 +549,7 @@ export default function CommunityPage() {
           </div>
           
           {/* Enhanced Call to Action - Responsive Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+          <div className={styles.heroActions}>
             <Button 
               size="lg" 
               className="px-6 py-4 text-base rounded-xl"
@@ -568,9 +570,9 @@ export default function CommunityPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className={styles.contentGrid}>
           {/* Main Content */}
-          <div className="md:col-span-2 space-y-6">
+          <div className={`${styles.mainCol} ${commonStyles.spaceY6}`}>
             {/* View Mode Tabs */}
             <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as any)} className="w-full">
               <TabsList className="grid w-full grid-cols-3 bg-muted p-1 rounded-2xl">
@@ -597,7 +599,7 @@ export default function CommunityPage() {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="feed" className="space-y-6 mt-6">
+              <TabsContent value="feed" className={`mt-6 ${commonStyles.spaceY6}`}>
                 <Card>
                   <CardHeader>
                     <div className="flex items-center justify-between">
@@ -650,7 +652,7 @@ export default function CommunityPage() {
                 />
 
                 {/* Posts List */}
-                <div className="space-y-6">
+                <div className={commonStyles.spaceY6}>
                   {isLoading ? (
                     <CenteredLoader message="Loading posts..." />
                   ) : displayError ? (
@@ -714,7 +716,7 @@ export default function CommunityPage() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="trending" className="space-y-6 mt-6">
+              <TabsContent value="trending" className={`mt-6 ${commonStyles.spaceY6}`}>
                 <div className="text-center py-12">
                   <TrendingUp className="h-16 w-16 mx-auto text-gray-400 mb-4" />
                   <h3 className="text-xl font-medium text-foreground mb-2">Trending Posts</h3>
@@ -727,7 +729,7 @@ export default function CommunityPage() {
                 </div>
               </TabsContent>
 
-              <TabsContent value="following" className="space-y-6 mt-6">
+              <TabsContent value="following" className={`mt-6 ${commonStyles.spaceY6}`}>
                 <div className="text-center py-12">
                   <Users className="h-16 w-16 mx-auto text-gray-400 mb-4" />
                   <h3 className="text-xl font-medium text-foreground mb-2">Following</h3>

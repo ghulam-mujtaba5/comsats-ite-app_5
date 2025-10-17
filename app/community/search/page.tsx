@@ -36,6 +36,7 @@ import {
 import { useAdvancedSearch } from "@/hooks/use-advanced-search"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
+import layout from "@/app/styles/common.module.css"
 
 export default function CommunitySearchPage() {
   const { filters, results, loading, error, updateFilters, clearFilters } = useAdvancedSearch()
@@ -114,7 +115,7 @@ export default function CommunitySearchPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
-      <div className="app-container section py-6">
+      <div className={`${layout.section} py-6`}>
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-primary/15 to-blue-500/15 border border-primary/30 text-sm font-medium text-primary mb-4 backdrop-blur-sm">

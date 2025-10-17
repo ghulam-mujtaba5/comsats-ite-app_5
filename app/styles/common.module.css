@@ -1,0 +1,72 @@
+/* Shared structural layout utilities for app router pages/components.
+   Keep plain CSS only; no Tailwind @apply here. */
+
+.section {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 80rem; /* ~max-w-7xl */
+}
+
+.spaceY6 > * + * {
+  margin-top: 1.5rem; /* space-y-6 */
+}
+
+.spaceY8 > * + * {
+  margin-top: 2rem; /* space-y-8 */
+}
+
+.twoCol {
+  display: grid;
+  gap: 1.5rem; /* gap-6 */
+}
+
+@media (min-width: 1024px) {
+  .twoCol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.threeCol {
+  display: grid;
+  gap: 1.5rem; /* gap-6 */
+}
+
+@media (min-width: 1024px) {
+  .threeCol {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.cardsGrid {
+  display: grid;
+  gap: 1rem; /* gap-4 */
+}
+
+@media (min-width: 640px) {
+  .cardsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardsGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.statGrid {
+  display: grid;
+  gap: 1rem; /* gap-4 */
+}
+
+@media (min-width: 640px) {
+  .statGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .statGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

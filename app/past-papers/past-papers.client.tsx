@@ -10,6 +10,7 @@ import { standardFilters, sortOptions } from '@/lib/filter-data'
 import { Upload, FileText, Download, Users, TrendingUp, RefreshCw, Filter, Tag } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { AdvancedFilterBar } from '@/components/search/advanced-filter-bar'
+import layout from "@/app/styles/common.module.css"
 
 export default function PastPapersClient() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -149,7 +150,7 @@ export default function PastPapersClient() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
       <main className="flex-1 py-12 px-4">
-        <div className="container mx-auto max-w-7xl">
+        <div className={layout.section}>
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 border border-blue-200 dark:border-blue-700/30 text-sm font-medium text-blue-700 dark:text-blue-300 mb-6">
               <FileText className="h-4 w-4" />

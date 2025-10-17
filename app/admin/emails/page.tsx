@@ -32,6 +32,8 @@ interface UserEmail {
   }
 }
 
+import styles from "../admin-shared.module.css"
+
 export default function AdminEmailsPage() {
   const [emails, setEmails] = useState<UserEmail[]>([])
   const [loading, setLoading] = useState(true)
@@ -181,7 +183,7 @@ export default function AdminEmailsPage() {
         ]}
       />
         
-      <div className="app-container space-y-8 pb-12">
+      <div className={`${styles.section} ${styles.spaceY8} pb-12`}>
         <Tabs defaultValue="emails" className="space-y-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <TabsList className="glass-card bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40 grid w-full lg:w-auto grid-cols-1">

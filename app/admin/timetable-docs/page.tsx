@@ -25,6 +25,8 @@ type Row = {
   uploaded_at: string
 }
 
+import styles from "../admin-shared.module.css"
+
 export default function AdminTimetableDocsPage() {
   const [rows, setRows] = useState<Row[]>([])
   const [loading, setLoading] = useState(false)
@@ -151,7 +153,7 @@ export default function AdminTimetableDocsPage() {
         ]}
       />
       
-      <div className="app-container space-y-8 pb-12">
+      <div className={`${styles.section} ${styles.spaceY8} pb-12`}>
         <GlassCard 
           title="Upload New Document"
           description="Add a new timetable PDF"
