@@ -22,6 +22,18 @@ export default function FacultyProfileClient({ initialFaculty, initialReviews }:
   const [error, setError] = useState<string | null>(null)
   const [refreshKey, setRefreshKey] = useState(0)
 
+  // Scroll to reviews section if hash is present
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash === '#reviews') {
+      setTimeout(() => {
+        const reviewsSection = document.getElementById('reviews')
+        if (reviewsSection) {
+          reviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 100)
+    }
+  }, [])
+
   useEffect(() => {
     // If no initial data was provided, attempt client-side fetch as a fallback
     if (!initialFaculty) {
@@ -106,6 +118,16 @@ export default function FacultyProfileClient({ initialFaculty, initialReviews }:
       load()
     }
   }, [initialFaculty, refreshKey])
+
+  // Update state when initial props change (e.g., navigation)
+  useEffect(() => {
+    if (initialFaculty) {
+      setFaculty(initialFaculty)
+    }
+    if (initialReviews) {
+      setReviews(initialReviews)
+    }
+  }, [initialFaculty, initialReviews])
 
   const stats = useMemo(() => calculateReviewStats(reviews), [reviews])
 
