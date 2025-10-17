@@ -6,7 +6,7 @@ import { ArrowRight, GraduationCap, BookOpen, Users, Zap } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { GlassCard } from "@/components/shared/common"
-import styles from "@/app/styles/common.module.css"
+import styles from "../../app/styles/common.module.css"
 
 interface FeatureItem {
   icon: React.ElementType
