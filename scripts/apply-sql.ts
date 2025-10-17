@@ -38,7 +38,12 @@ async function main() {
   if (!/sslmode=/.test(conn)) {
     conn += (conn.includes('?') ? '&' : '?') + 'sslmode=require'
   }
-  const client = new Client({ connectionString: conn, ssl: { rejectUnauthorized: false } as any })
+  
+  // For Supabase, we need to accept their certificate
+  const client = new Client({ 
+    connectionString: conn, 
+    ssl: { rejectUnauthorized: false }
+  })
 
   console.log(`\n📦 Connecting to Supabase Postgres...`)
   await client.connect()

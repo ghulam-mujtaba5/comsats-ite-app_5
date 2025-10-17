@@ -46,21 +46,23 @@ export default function FacultyPage() {
   const [error, setError] = useState<string | null>(null)
   const [debouncedSearch, setDebouncedSearch] = useState("")
   const [userDepartment, setUserDepartment] = useState<string | null>(null)
-  const { selectedCampus, selectedDepartment: campusDepartment } = useCampus()
+  const [autoFilterApplied, setAutoFilterApplied] = useState(false)
+  const { selectedCampus, selectedDepartment: campusDepartment, setSelectedCampus } = useCampus()
   const { user } = useAuth()
   
-  // Get user's department from their email
+  // Get user's department from their email and auto-apply it
   useEffect(() => {
-    if (user?.email) {
+    if (user?.email && !autoFilterApplied) {
       const department = getDepartmentFromEmail(user.email)
       setUserDepartment(department)
       
-      // Auto-select user's department if no department is already selected
+      // Auto-select user's department if valid and no manual selection made yet
       if (department && selectedDepartment === "All") {
         setSelectedDepartment(department)
+        setAutoFilterApplied(true)
       }
     }
-  }, [user, selectedDepartment])
+  }, [user, selectedDepartment, autoFilterApplied])
   
   // Preserve and restore scroll position when navigating to profile and back
   useEffect(() => {
@@ -129,6 +131,7 @@ export default function FacultyPage() {
         // Build URL with campus and department filters
         const params = new URLSearchParams()
         if (selectedCampus?.id) params.set('campus_id', selectedCampus.id)
+        // Include department from context if available (auto-filtering)
         if (campusDepartment?.id) params.set('department_id', campusDepartment.id)
         
         const url = `/api/faculty${params.toString() ? `?${params.toString()}` : ''}`
@@ -151,9 +154,7 @@ export default function FacultyPage() {
       }
     }
     load()
-  }, [selectedCampus, campusDepartment])
-
-  const filteredFaculty = useMemo(() => {
+  }, [selectedCampus, campusDepartment])  const filteredFaculty = useMemo(() => {
     let faculty = [...facultyList]
     
     // Apply department filter - ONLY if explicitly selected, not auto-filtered
@@ -376,19 +377,61 @@ export default function FacultyPage() {
             </Card>
           </div>
 
-          {/* User Department Info */}
-          {userDepartment && selectedDepartment === "All" && (
+          {/* Auto-filter notification banner */}
+          {autoFilterApplied && filteredFaculty.length > 0 && selectedDepartment !== "All" && (
             <div className="glass-card border border-blue-200/50 dark:border-blue-800/50 rounded-2xl p-4 bg-blue-50/80 dark:bg-blue-950/80 backdrop-blur-sm mb-6">
-              <div className="flex items-center gap-2 text-blue-800 dark:text-blue-200">
-                <GraduationCap className="h-4 w-4" />
-                <span className="font-medium">Your Department:</span> 
-                <span>{userDepartment}</span>
-                <Badge variant="secondary" className="ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-                  Auto-filtered
-                </Badge>
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-2 text-blue-800 dark:text-blue-200">
+                  <GraduationCap className="h-4 w-4" />
+                  <span className="font-medium">Auto-filtered by your department:</span>
+                  <span>{selectedDepartment}</span>
+                  <Badge variant="secondary" className="ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                    {filteredFaculty.length} found
+                  </Badge>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={() => {
+                    setSelectedDepartment("All")
+                    setAutoFilterApplied(false)
+                  }}
+                  className="shrink-0"
+                >
+                  Show all departments
+                </Button>
               </div>
-              <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                Showing faculty from your department. Select "All Departments" to view all faculty.
+              <p className="text-sm text-blue-700 dark:text-blue-300 mt-2">
+                Results filtered to show faculty from your department. Click above to view all faculty.
+              </p>
+            </div>
+          )}
+
+          {/* Suggested department banner (when auto-filter was not applied or returned zero results) */}
+          {userDepartment && !autoFilterApplied && selectedDepartment === "All" && (
+            <div className="glass-card border border-blue-200/50 dark:border-blue-800/50 rounded-2xl p-4 bg-blue-50/80 dark:bg-blue-950/80 backdrop-blur-sm mb-6">
+              <div className="flex items-center justify-between gap-4 text-blue-800 dark:text-blue-200">
+                <div className="flex items-center gap-2">
+                  <GraduationCap className="h-4 w-4" />
+                  <span className="font-medium">Your Department:</span>
+                  <span>{userDepartment}</span>
+                  <Badge variant="secondary" className="ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                    Quick filter
+                  </Badge>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={() => {
+                    setSelectedDepartment(userDepartment!)
+                    setAutoFilterApplied(true)
+                  }}
+                >
+                  Filter to {userDepartment}
+                </Button>
+              </div>
+              <p className="text-sm text-blue-700 dark:text-blue-300 mt-2">
+                Click to quickly filter faculty from your department.
               </p>
             </div>
           )}
@@ -546,24 +589,63 @@ export default function FacultyPage() {
                   <Users className="h-10 w-10 text-muted-foreground" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-4">No Faculty Found</h3>
-                <p className="text-muted-foreground mb-8">
-                  Try adjusting your search terms or department filter to find more faculty members.
-                </p>
+                <div className="text-muted-foreground mb-8 space-y-2">
+                  <p>No faculty members match your current filters.</p>
+                  {selectedCampus && (
+                    <p className="text-sm">
+                      Campus filter: <span className="font-medium">{selectedCampus.full_name || selectedCampus.name}</span>
+                    </p>
+                  )}
+                  {selectedDepartment !== "All" && (
+                    <p className="text-sm">
+                      Department filter: <span className="font-medium">{selectedDepartment}</span>
+                    </p>
+                  )}
+                  {autoFilterApplied && (
+                    <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg">
+                      <p className="text-amber-800 dark:text-amber-200 text-sm font-medium">
+                        💡 Auto-filters are active. Try broadening your search below.
+                      </p>
+                    </div>
+                  )}
+                </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-                  <Button
-                    onClick={() => {
-                      setSearchQuery("")
-                      setSelectedDepartment("All")
-                      setSelectedSpecialization("All")
-                      setMinRating("All")
-                      setExperienceLevel("All")
-                      setCoursesTaught("All")
-                    }}
-                    className="px-6 py-2 rounded-xl bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all duration-300"
-                  >
-                    <RotateCcw className="h-4 w-4 mr-2" />
-                    Clear Filters
-                  </Button>
+                  {(selectedDepartment !== "All" || autoFilterApplied) && (
+                    <Button
+                      onClick={() => {
+                        setSelectedDepartment("All")
+                        setAutoFilterApplied(false)
+                      }}
+                      className="px-6 py-2 rounded-xl bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all duration-300"
+                    >
+                      <RotateCcw className="h-4 w-4 mr-2" />
+                      Show all departments
+                    </Button>
+                  )}
+                  {selectedCampus && (
+                    <Button
+                      variant="outline"
+                      onClick={() => setSelectedCampus(null)}
+                      className="px-6 py-2 rounded-xl"
+                    >
+                      Show all campuses
+                    </Button>
+                  )}
+                  {selectedDepartment === "All" && !selectedCampus && (
+                    <Button
+                      onClick={() => {
+                        setSearchQuery("")
+                        setSelectedSpecialization("All")
+                        setMinRating("All")
+                        setExperienceLevel("All")
+                        setCoursesTaught("All")
+                      }}
+                      className="px-6 py-2 rounded-xl bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 shadow-lg hover:shadow-xl transition-all duration-300"
+                    >
+                      <RotateCcw className="h-4 w-4 mr-2" />
+                      Clear all filters
+                    </Button>
+                  )}
                 </div>
                 <div className="border-t border-border pt-6">
                   <p className="text-muted-foreground mb-4">Don't see a faculty member?</p>

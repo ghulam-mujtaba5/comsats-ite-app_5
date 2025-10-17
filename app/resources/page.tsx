@@ -49,20 +49,22 @@ export default function ResourcesPage() {
   const [currentSort, setCurrentSort] = useState("date-desc")
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
   const [userDepartment, setUserDepartment] = useState<string | null>(null)
+  const [autoFilterApplied, setAutoFilterApplied] = useState(false)
   const { user } = useAuth()
   
-  // Get user's department from their email
+  // Get user's department from their email and auto-apply it
   useEffect(() => {
-    if (user?.email) {
+    if (user?.email && !autoFilterApplied) {
       const department = getDepartmentFromEmail(user.email)
       setUserDepartment(department)
       
-      // Auto-select user's department if no department is already selected
+      // Auto-select user's department if valid and no manual selection made yet
       if (department && dept === "All") {
         setDept(department)
+        setAutoFilterApplied(true)
       }
     }
-  }, [user, dept])
+  }, [user, dept, autoFilterApplied])
   
   useEffect(() => {
     (async () => {
@@ -171,19 +173,61 @@ export default function ResourcesPage() {
             </Card>
           </div>
 
-          {/* User Department Info */}
-          {userDepartment && dept === "All" && (
+          {/* Auto-filter notification banner */}
+          {autoFilterApplied && items.filter((r) => (dept === "All" ? true : (r.department || "General") === dept)).length > 0 && dept !== "All" && (
             <div className="glass-card border border-blue-200/50 dark:border-blue-800/50 rounded-2xl p-4 bg-blue-50/80 dark:bg-blue-950/80 backdrop-blur-sm mb-6">
-              <div className="flex items-center gap-2 text-blue-800 dark:text-blue-200">
-                <GraduationCap className="h-4 w-4" />
-                <span className="font-medium">Your Department:</span> 
-                <span>{userDepartment}</span>
-                <Badge variant="secondary" className="ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-                  Auto-filtered
-                </Badge>
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-2 text-blue-800 dark:text-blue-200">
+                  <GraduationCap className="h-4 w-4" />
+                  <span className="font-medium">Auto-filtered by your department:</span>
+                  <span>{dept}</span>
+                  <Badge variant="secondary" className="ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                    {items.filter((r) => (r.department || "General") === dept).length} found
+                  </Badge>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={() => {
+                    setDept("All")
+                    setAutoFilterApplied(false)
+                  }}
+                  className="shrink-0"
+                >
+                  Show all departments
+                </Button>
               </div>
-              <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                Showing resources from your department. Select "All Departments" to view all resources.
+              <p className="text-sm text-blue-700 dark:text-blue-300 mt-2">
+                Results filtered to show resources from your department. Click above to view all resources.
+              </p>
+            </div>
+          )}
+
+          {/* Suggested department banner (when auto-filter was not applied or returned zero results) */}
+          {userDepartment && !autoFilterApplied && dept === "All" && (
+            <div className="glass-card border border-blue-200/50 dark:border-blue-800/50 rounded-2xl p-4 bg-blue-50/80 dark:bg-blue-950/80 backdrop-blur-sm mb-6">
+              <div className="flex items-center justify-between gap-4 text-blue-800 dark:text-blue-200">
+                <div className="flex items-center gap-2">
+                  <GraduationCap className="h-4 w-4" />
+                  <span className="font-medium">Your Department:</span>
+                  <span>{userDepartment}</span>
+                  <Badge variant="secondary" className="ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                    Quick filter
+                  </Badge>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={() => {
+                    setDept(userDepartment!)
+                    setAutoFilterApplied(true)
+                  }}
+                >
+                  Filter to {userDepartment}
+                </Button>
+              </div>
+              <p className="text-sm text-blue-700 dark:text-blue-300 mt-2">
+                Click to quickly filter resources from your department.
               </p>
             </div>
           )}
@@ -281,6 +325,7 @@ export default function ResourcesPage() {
                     setDifficulty("All")
                     setResourceType("All")
                     setShowVerifiedOnly(false)
+                    setAutoFilterApplied(false)
                   }}
                   className="flex items-center gap-2 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20"
                 >
@@ -305,7 +350,50 @@ export default function ResourcesPage() {
               <p className="text-muted-foreground">Check back later.</p>
             </Card>
           ) : (
-            <div className={styles.cardsGrid} aria-live="polite">
+            <>
+              {/* Show message when filters return zero results */}
+              {useMemo(() => {
+                const s = search.toLowerCase().trim()
+                return items
+                  .filter((r) => s ? (r.title?.toLowerCase().includes(s) || (r.description || "").toLowerCase().includes(s)) : true)
+                  .filter((r) => (dept === "All" ? true : (r.department || "General") === dept))
+                  .filter((r) => (term === "All" ? true : (r.term || "Unspecified") === term))
+                  .filter((r) => (difficulty === "All" ? true : r.difficulty === difficulty))
+                  .filter((r) => (resourceType === "All" ? true : r.type === resourceType))
+                  .filter((r) => (!showVerifiedOnly ? true : r.is_verified === true))
+              }, [items, search, dept, term, difficulty, resourceType, showVerifiedOnly]).length === 0 && (
+                <Card className="p-12 text-center mb-6" aria-live="polite">
+                  <BookOpen className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold mb-2">No Resources Found</h3>
+                  <div className="text-muted-foreground mb-6 space-y-2">
+                    <p>No resources match your current filters.</p>
+                    {dept !== "All" && (
+                      <p className="text-sm">Department filter: <span className="font-medium">{dept}</span></p>
+                    )}
+                    {autoFilterApplied && (
+                      <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg">
+                        <p className="text-amber-800 dark:text-amber-200 text-sm font-medium">
+                          💡 Auto-filters are active. Try broadening your search below.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  {(dept !== "All" || autoFilterApplied) && (
+                    <Button
+                      onClick={() => {
+                        setDept("All")
+                        setAutoFilterApplied(false)
+                      }}
+                      className="px-6 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700"
+                    >
+                      <RotateCcw className="h-4 w-4 mr-2" />
+                      Show all departments
+                    </Button>
+                  )}
+                </Card>
+              )}
+              
+              <div className={styles.cardsGrid} aria-live="polite">
               {useMemo(() => {
                 const s = search.toLowerCase().trim()
                 return items
@@ -445,6 +533,7 @@ export default function ResourcesPage() {
                 </Card>
               ))}
             </div>
+            </>
           )}
         </div>
       </main>
