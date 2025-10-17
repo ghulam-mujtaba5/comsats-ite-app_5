@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useCampus } from "@/contexts/campus-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import layout from "@/app/styles/common.module.css"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
@@ -119,7 +120,7 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
+      <div className={`${layout.section} ${layout.max6xl} px-4 py-8`}>
         {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Campus Blog</h1>

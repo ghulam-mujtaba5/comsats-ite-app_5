@@ -108,6 +108,8 @@ import { PostFilters } from "@/components/community/post-filters"
 import { supabase } from "@/lib/supabase"
 import { CommentSection } from "@/components/community/comment-section"
 import styles from './community.module.css'
+import './community.light.module.css'
+import './community.dark.module.css'
 import commonStyles from '@/app/styles/common.module.css'
 
 export default function CommunityPage() {

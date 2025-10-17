@@ -37,7 +37,7 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="container mx-auto px-4 py-8">
+        <div className={`${require("@/app/styles/common.module.css").default.section} px-4 py-8`}>
           <Card className="max-w-2xl mx-auto glass-card">
             <CardHeader>
               <div className="flex items-center gap-2">

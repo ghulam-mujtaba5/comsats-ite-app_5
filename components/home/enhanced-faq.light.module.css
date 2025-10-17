@@ -1,0 +1,27 @@
+/* Enhanced FAQ - Light theme overrides
+ * These selectors are applied only when html does NOT have the .dark class.
+ * We scope with :global(html:not(.dark)) to avoid needing runtime theme checks.
+ */
+
+:global(html:not(.dark)) .section {
+  /* Slightly brighter gradient for light theme */
+  background-image: linear-gradient(
+    to bottom,
+    hsl(var(--background) / 0.85),
+    hsl(var(--muted) / 0.25)
+  );
+}
+
+:global(html:not(.dark)) .statsCard {
+  background-color: hsl(var(--card) / 0.6);
+  border-color: hsl(var(--border) / 0.6);
+}
+
+:global(html:not(.dark)) .accordionItem {
+  background-color: hsl(var(--background));
+  border-color: hsl(var(--border) / 0.7);
+}
+
+:global(html:not(.dark)) .ctaCard {
+  background-color: hsl(var(--card) / 0.5);
+}

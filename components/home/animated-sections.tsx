@@ -36,7 +36,7 @@ export function AnimatedSections() {
     <>
       {/* Enhanced About CampusAxis section with improved glassmorphism and visual hierarchy */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background/80 to-muted/30 glass-primary" aria-labelledby="about-campusaxis-heading">
-        <div className="app-container max-w-6xl mx-auto">
+        <div className={`${require("@/app/styles/common.module.css").default.section} ${require("@/app/styles/common.module.css").default.max6xl}`}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

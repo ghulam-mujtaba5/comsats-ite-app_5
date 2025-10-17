@@ -6,6 +6,7 @@ import Link from "next/link"
 import { Users, PackageSearch, Newspaper, HelpCircle, LifeBuoy, Sparkles, Clock, Zap, Rocket, Flame, TrendingUp } from "lucide-react"
 import { motion } from "framer-motion"
 import { StaggerContainer, StaggerItem, AnimatedCard } from "@/components/animations/enhanced"
+import layout from "@/app/styles/common.module.css"
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
 import { useMotivationalFeedback } from "@/components/motivational"
@@ -91,7 +92,7 @@ export function EnhancedComingSoon() {
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-muted/30 to-background/80 glass-primary">
-      <div className="app-container max-w-6xl mx-auto">
+      <div className={`${layout.section} ${layout.max6xl}`}>
         {/* Enhanced Header with proper spacing */}
         <div className="text-center mb-16 md:mb-20">
           <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-violet-600/30 to-fuchsia-600/30 text-violet-700 dark:text-violet-300 border border-violet-600/40 glass-secondary">

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import layout from "@/app/styles/common.module.css"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
@@ -35,6 +36,8 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 import styles from "./news-events.module.css"
+import "./news-events.light.module.css"
+import "./news-events.dark.module.css"
 
 interface NewsItem {
   id: string
@@ -279,7 +282,7 @@ export function NewsEventsClient() {
           <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
         </div>
         
-        <div className="container mx-auto max-w-2xl px-4 relative z-10">
+        <div className={`${layout.section} ${layout.max2xl} px-4 relative z-10`}>
           <Card className="card-modern border-0 backdrop-blur-sm text-center">
             <CardContent className="p-12">
               <div className="p-6 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 w-20 h-20 mx-auto mb-8 flex items-center justify-center">

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import layout from "@/app/styles/common.module.css"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -206,7 +207,7 @@ export function PostClient() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className={`${layout.section} ${layout.max6xl} px-4 py-6`}>
       <div className="mb-4">
         <Button variant="outline" onClick={() => router.push("/community")}> 
           <ArrowLeft className="h-4 w-4 mr-2" /> Back to Community

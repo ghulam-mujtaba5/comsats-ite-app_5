@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import layout from '@/app/styles/common.module.css'
 
 export default function AccessibilityTestPage() {
   const prefersReducedMotion = usePrefersReducedMotion()
@@ -12,7 +13,7 @@ export default function AccessibilityTestPage() {
   const [isActive, setIsActive] = useState(false)
 
   return (
-    <div className="container mx-auto py-8 space-y-8">
+    <div className={`${layout.section} ${layout.max6xl} py-8 space-y-8`}>
       <div className="text-center">
         <h1 className="text-3xl font-bold mb-2">Accessibility Test</h1>
         <p className="text-muted-foreground">

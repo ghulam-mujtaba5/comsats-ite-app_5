@@ -52,6 +52,7 @@ import { getLevelForPoints } from "@/lib/gamification"
 import { Info } from "lucide-react"
 import { EmailManagement } from "@/components/profile/email-management"
 import { SettingsManagement } from "@/components/profile/settings-management"
+import layout from "@/app/styles/common.module.css"
 
 export default function ProfilePage() {
   const { user, logout, isAuthenticated, isLoading } = useAuth()
@@ -278,7 +279,7 @@ export default function ProfilePage() {
       }
     >
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
-        <div className="container mx-auto max-w-7xl px-4 py-12">
+        <div className={`${layout.section} px-4 py-12`}>
           {/* Enhanced Header */}
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6">

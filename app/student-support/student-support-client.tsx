@@ -15,6 +15,7 @@ import { AdvancedFilterBar } from '@/components/search/advanced-filter-bar'
 import { standardFilters } from '@/lib/filter-data'
 import { Heart, Phone, MessageCircle, BookOpen, Users, Shield, Clock, Mail, RotateCcw, AlertTriangle } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
+import layout from "@/app/styles/common.module.css"
 
 interface SupportResource {
   id: string
@@ -141,7 +142,7 @@ export default function StudentSupportClient() {
 
   return (
     <div className="min-h-screen flex flex-col bg-muted/20">
-      <div className="container mx-auto px-4 py-10 max-w-7xl">
+      <div className={`${layout.section} px-4 py-10`}>
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted text-sm font-medium text-foreground mb-5">
             <Heart className="h-3.5 w-3.5" /> Student Wellbeing

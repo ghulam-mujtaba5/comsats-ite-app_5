@@ -11,6 +11,7 @@ import { StaggerContainer, StaggerItem, AnimatedCard, FadeInScroll } from "@/com
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
 import { useMotivationalFeedback } from "@/components/motivational"
+import layout from "@/app/styles/common.module.css"
 
 type CommunityCard = {
   id: string
@@ -69,7 +70,7 @@ export function EnhancedCommunity() {
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background/80 to-muted/30 glass-primary">
-      <div className="app-container max-w-6xl mx-auto">
+      <div className={`${layout.section} ${layout.max6xl}`}>
         {/* Header with enhanced styling and proper spacing */}
         <div className="text-center mb-16 md:mb-20">
           <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-blue-600/30 to-indigo-600/30 text-blue-700 dark:text-blue-300 border border-blue-600/40 glass-secondary">

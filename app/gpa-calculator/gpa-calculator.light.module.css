@@ -1,0 +1,5 @@
+/* GPA Calculator - Light theme overrides */
+
+:global(html:not(.dark)) .page {
+  background-color: hsl(var(--background));
+}

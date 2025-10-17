@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { FileQuestion, Home, ArrowLeft, Search, ExternalLink, Compass, Star } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import layout from "@/app/styles/common.module.css"
 
 export default function NotFound() {
   return (
@@ -26,7 +27,7 @@ export default function NotFound() {
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
 
       <main className="flex-1 flex items-center justify-center py-24 px-4 relative z-10">
-        <div className="container mx-auto max-w-3xl text-center">
+        <div className={`${layout.section} ${layout.max3xl} text-center`}>
           <Card className="card-modern border-0 backdrop-blur-sm shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-3xl">
             <CardContent className="p-12 lg:p-16 space-y-8">
               {/* Logo + 404 Icon */}

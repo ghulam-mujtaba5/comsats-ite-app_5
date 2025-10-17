@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import layout from '@/app/styles/common.module.css'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   Heart, 
@@ -56,7 +57,7 @@ export default function EmotionalWellnessPage() {
   }
 
   return (
-    <div className="container mx-auto py-8">
+    <div className={`${layout.section} ${layout.max6xl} py-8`}>
       <Tabs defaultValue="dashboard" className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>

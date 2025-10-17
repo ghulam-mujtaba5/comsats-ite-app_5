@@ -12,6 +12,7 @@ import { notFound } from "next/navigation"
 import { marked } from 'marked'
 import { ShareButton } from "@/components/share/share-button"
 import { SEOMeta } from "@/components/seo/seo-meta"
+import layout from "@/app/styles/common.module.css"
 
 interface BlogArticle {
   id: string
@@ -129,7 +130,7 @@ export default function BlogArticlePage({ params }: { params: Promise<{ slug: st
         section={article.category}
         tags={article.tags}
       />
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className={`${layout.section} ${layout.max4xl} px-4 py-8`}>
         {/* Back Button */}
         <div className="mb-6">
           <Button asChild variant="outline" size="sm">

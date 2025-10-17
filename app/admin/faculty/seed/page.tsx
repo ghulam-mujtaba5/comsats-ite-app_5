@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { Button } from "@/components/ui/button"
+import adminStyles from "@/app/admin/admin-shared.module.css"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 
@@ -40,7 +41,7 @@ export default function SeedFacultyPage() {
 
   return (
     <AdminGuard fallback={<div className="p-6 text-center">Admin access required.</div>}>
-      <div className="container mx-auto p-6 space-y-6">
+      <div className={`${adminStyles.section} p-6 space-y-6`}>
         <div>
           <h1 className="text-2xl font-bold">Seed Faculty</h1>
           <p className="text-muted-foreground">Paste UUIDs or JSON to quickly upsert faculty rows (by id).</p>

@@ -6,6 +6,8 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calculator, TrendingUp, Target, Info, Calendar, BookOpen, Lightbulb, HelpCircle } from "lucide-react"
 import styles from './gpa-calculator.module.css'
+import './gpa-calculator.light.module.css'
+import './gpa-calculator.dark.module.css'
 
 export const metadata: Metadata = createMetadata({
   title: "COMSATS GPA Calculator - Free Online CGPA Calculator 2025 | CampusAxis",

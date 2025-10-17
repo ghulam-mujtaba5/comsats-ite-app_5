@@ -1,6 +1,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
+import layout from "@/app/styles/common.module.css"
 
 export default function Loading() {
   return (
@@ -12,7 +13,7 @@ export default function Loading() {
       </div>
       
       <main className="flex-1 py-8 px-4 relative z-10">
-        <div className="container mx-auto max-w-7xl">
+        <div className={`${layout.section} ${layout.max6xl}`}>
           {/* Header Skeleton */}
           <div className="text-center mb-8">
             <Skeleton className="h-10 w-48 mx-auto mb-4 rounded-xl" />

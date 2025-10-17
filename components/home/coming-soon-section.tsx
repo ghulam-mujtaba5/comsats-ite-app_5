@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { Users, PackageSearch, Newspaper, HelpCircle, LifeBuoy, Sparkles, Clock, Zap } from "lucide-react"
+import layout from "@/app/styles/common.module.css"
 
 const betaFeatures = [
   {
@@ -41,7 +42,7 @@ const betaFeatures = [
 export function ComingSoonSection() {
   return (
     <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-primary">
-      <div className="container mx-auto max-w-6xl">
+      <div className={`${layout.section} ${layout.max6xl}`}>
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
             <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl glass-interactive">
@@ -57,7 +58,7 @@ export function ComingSoonSection() {
             Your feedback helps us build better features
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {betaFeatures.map((feature, index) => {
             const Icon = feature.icon
             return (

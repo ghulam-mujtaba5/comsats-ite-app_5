@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { jsonLdBreadcrumb } from '@/lib/seo'
+import layout from "@/app/styles/common.module.css"
 
 export const dynamic = 'force-dynamic'
 
@@ -59,7 +60,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
 	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
 	const evt = await fetchEvent(id)
 	if (!evt) {
-		return <div className="container mx-auto py-24"><h1 className="text-2xl font-bold">Event not found</h1></div>
+		return <div className={`${layout.section} py-24`}><h1 className="text-2xl font-bold">Event not found</h1></div>
 	}
 
 	const startISO = evt.event_date ? new Date(`${evt.event_date}T${(evt.event_time||'09:00').replace(/\s+/g,'')}:00`).toISOString() : undefined
@@ -112,7 +113,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
 	])
 
 	return (
-		<div className="container mx-auto max-w-3xl py-16 px-4">
+		<div className={`${layout.section} ${layout.max3xl} py-16 px-4`}>
 			<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([eventLd, breadcrumb]) }} />
 			<p className="text-sm text-muted-foreground mb-4">Campus Event</p>
 			<h1 className="text-4xl font-bold tracking-tight mb-6">{evt.title}</h1>

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { requireUser } from '@/lib/auth-server'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import layout from '@/app/styles/common.module.css'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
@@ -34,7 +35,7 @@ export default async function DashboardPage() {
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
-      <div className="container mx-auto max-w-7xl px-4 py-12 relative z-10">
+      <div className={`${layout.section} ${layout.max6xl} px-4 py-12 relative z-10`}>
         {/* Hero Section */}
         <div className="mb-12">
           <Card className="glass-card glass-border-light rounded-3xl overflow-hidden">

@@ -1,5 +1,6 @@
 import React from 'react'
 import { jsonLdBreadcrumb, jsonLdFAQ } from '@/lib/seo'
+import layout from '@/app/styles/common.module.css'
 
 export const metadata = {
   title: 'COMSATS Fee Challan Guide (Download, Reissue, Payment Options)',
@@ -35,7 +36,7 @@ export default function FeeChallanGuidePage() {
   ])
 
   return (
-    <div className='container mx-auto max-w-4xl px-4 py-10 space-y-10'>
+    <div className={`${layout.section} ${layout.max4xl} px-4 py-10 space-y-10`}>
       <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify([faqJson, breadcrumb]) }} />
       <article className='prose prose-neutral dark:prose-invert max-w-none'>
         <h1>COMSATS Fee Challan Guide</h1>

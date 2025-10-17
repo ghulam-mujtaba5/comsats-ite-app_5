@@ -14,6 +14,8 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 import { useAuth } from "@/contexts/auth-context"
 import { getDepartmentFromEmail } from '@/lib/student-department-utils'
 import styles from './resources.module.css'
+import './resources.light.module.css'
+import './resources.dark.module.css'
 
 type Resource = {
   id: string

@@ -5,6 +5,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { HelpCircle, Clock, Users, FileText, Calendar } from "lucide-react"
+import layout from "@/app/styles/common.module.css"
 
 type FAQ = {
   id: string
@@ -79,7 +80,7 @@ export function FAQSection() {
   }, [])
   return (
     <section className="py-20 px-4 bg-gradient-to-b from-background to-muted/20 glass-primary">
-      <div className="container mx-auto max-w-4xl">
+      <div className={`${layout.section} ${layout.max4xl}`}>
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
             <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl glass-interactive">

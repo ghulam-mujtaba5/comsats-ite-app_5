@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import layout from "@/app/styles/common.module.css"
 
 type CommunityCard = {
   id: string
@@ -36,7 +37,7 @@ export function CommunitySection() {
 
   return (
     <section className="py-16 px-4 bg-muted/20">
-      <div className="container mx-auto max-w-6xl">
+      <div className={`${layout.section} ${layout.max6xl}`}>
         <div className="flex items-center justify-between mb-10">
           <div>
             <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-3">Growing Community</h2>

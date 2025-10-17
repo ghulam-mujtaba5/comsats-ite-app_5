@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import layout from "@/app/styles/common.module.css"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   Trophy, 
@@ -30,7 +31,7 @@ import { motion } from "framer-motion"
 export default function GamificationInfoPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-      <div className="container max-w-7xl mx-auto px-4 py-8">
+      <div className={`${layout.section} ${layout.max6xl} px-4 py-8`}>
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { CheckCircle, XCircle, Clock, Loader2, UserCheck, UserX } from 'lucide-react'
+import adminStyles from '@/app/admin/admin-shared.module.css'
 
 interface PendingFaculty {
   id: string
@@ -96,7 +97,7 @@ export default function PendingFacultyReviewPage() {
 
   if (!hasAccess) {
     return (
-      <div className="container max-w-4xl mx-auto px-4 py-12">
+      <div className={adminStyles.section}>
         <Card className="border-red-200 dark:border-red-800">
           <CardContent className="p-8 text-center">
             <XCircle className="h-12 w-12 text-red-600 mx-auto mb-4" />
@@ -114,7 +115,7 @@ export default function PendingFacultyReviewPage() {
 
   if (isLoading) {
     return (
-      <div className="container max-w-6xl mx-auto px-4 py-12">
+      <div className={adminStyles.section}>
         <div className="flex items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
@@ -123,7 +124,7 @@ export default function PendingFacultyReviewPage() {
   }
 
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-8">
+    <div className={adminStyles.section}>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
           Pending Faculty Submissions

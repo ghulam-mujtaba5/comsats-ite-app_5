@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import adminStyles from "@/app/admin/admin-shared.module.css"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -177,7 +178,7 @@ export default function AdminActivityPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className={`${adminStyles.section} p-6 space-y-6`}>
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Activity Logs</h1>

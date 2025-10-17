@@ -1,3 +1,5 @@
+import layout from '@/app/styles/common.module.css'
+
 export default function GlassmorphismTestLayout({
   children,
 }: {
@@ -5,7 +7,7 @@ export default function GlassmorphismTestLayout({
 }) {
   return (
     <div className="min-h-screen bg-background">
-      <main className="container mx-auto py-8">
+      <main className={`${layout.section} ${layout.max6xl} py-8`}>
         {children}
       </main>
     </div>

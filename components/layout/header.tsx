@@ -18,6 +18,7 @@ import { LogOut, User, Menu, Shield, Search, Calculator } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import layout from "@/app/styles/common.module.css"
 import { useEffect, useState } from "react"
 import { CommandPalette } from "@/components/search/command-palette"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
@@ -93,7 +94,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full glass-nav border-b glass-border-subtle" role="banner">
-      <div className="container mx-auto px-2 sm:px-4 lg:px-6 h-16 flex items-center justify-between gap-1 sm:gap-2">
+      <div className={`${layout.section} px-2 sm:px-4 lg:px-6 h-16 flex items-center justify-between gap-1 sm:gap-2`}>
         <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-shrink">
           <Link
             href={isAdmin ? "/admin" : "/"}

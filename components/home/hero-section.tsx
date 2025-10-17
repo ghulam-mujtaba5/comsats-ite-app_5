@@ -10,6 +10,7 @@ import Image from "next/image"
 import { notifyFetch } from "@/lib/notify"
 import { FadeInScroll, AnimatedCard, CountUp, Pulse, AnimatedButton } from "@/components/animations/enhanced"
 import { motion } from "framer-motion"
+import layout from "@/app/styles/common.module.css"
 
 export function HeroSection() {
   const [stats, setStats] = useState<{
@@ -115,7 +116,7 @@ export function HeroSection() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-pink-500/5 rounded-full blur-3xl glass-depth" />
       </div>
 
-      <div className="app-container relative z-10 py-16 md:py-24">
+      <div className={`${layout.section} relative z-10 py-16 md:py-24`}>
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Content */}
           <div className="space-y-8">

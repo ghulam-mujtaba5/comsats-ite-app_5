@@ -12,6 +12,7 @@ import { StaggerContainer, StaggerItem, AnimatedCard, AnimatedButton, FadeInScro
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation as useAnimationContext } from "@/contexts/animation-context"
 import { useMotivationalFeedback } from "@/components/motivational"
+import layout from "@/app/styles/common.module.css"
 
 export function EnhancedFeatures() {
   const [stats, setStats] = useState({ pastPapersCount: 1000, reviewsCount: 500, facultyCount: 156, resourcesCount: 324 })
@@ -169,7 +170,7 @@ export function EnhancedFeatures() {
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background/80 to-muted/30 glass-primary" aria-labelledby="features-heading" ref={ref}>
-      <div className="app-container">
+      <div className={layout.section}>
         {/* Enhanced Header with proper spacing and visual hierarchy */}
         <div className={`text-center mb-xl md:mb-2xl transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <Badge variant="soft" className="mb-md md:mb-lg px-3 py-1.5 sm:px-4 sm:py-2 text-label-md sm:text-label-lg font-medium bg-gradient-to-r from-blue-500/30 to-indigo-500/30 text-primary border border-primary/40 glass-secondary">

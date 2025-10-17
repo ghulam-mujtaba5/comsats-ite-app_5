@@ -2,6 +2,7 @@ import React from "react"
 import { CumulativeGPACalculator } from "@/components/gpa/cumulative-gpa-calculator"
 import { GPAPlanningCalculator } from "@/components/gpa/gpa-planning-calculator"
 import { jsonLdBlogPosting, jsonLdBreadcrumb } from "@/lib/seo"
+import layout from "@/app/styles/common.module.css"
 
 export const metadata = {
   title: "COMSATS Grading System & GPA Calculators",
@@ -23,7 +24,7 @@ export default function Page() {
     { name: 'COMSATS Grading System', path: '/blog/comsats-grading-system' },
   ])
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-8 space-y-10">
+    <div className={`${layout.section} ${layout.max4xl} px-4 py-8 space-y-10`}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumb]) }} />
       <article className="prose prose-neutral dark:prose-invert max-w-none">
         <h1>COMSATS Grading System</h1>

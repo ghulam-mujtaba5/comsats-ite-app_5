@@ -12,6 +12,7 @@ import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Search, BookOpen, GraduationCap, FileText, DollarSign, MapPin, Newspaper, Eye, Heart, Briefcase, Settings, Globe, Mail, Monitor, Library } from "lucide-react"
 import Link from "next/link"
 import { marked } from 'marked'
+import layout from "@/app/styles/common.module.css"
 
 interface GuideSection {
   id: string
@@ -413,7 +414,7 @@ export default function GuidancePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/30">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className={`${layout.section} px-4 py-8`}>
         {/* Header with Reduced Visual Intensity */}
         <div className="mb-8 bg-card rounded-2xl p-6 border">
           <h1 className="text-3xl font-bold text-foreground mb-2">Student Guidance Portal</h1>

@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/dialog"
 import Link from "next/link"
 import styles from './faculty.module.css'
+import './faculty.light.module.css'
+import './faculty.dark.module.css'
 import commonStyles from '@/app/styles/common.module.css'
 
 export default function FacultyPage() {

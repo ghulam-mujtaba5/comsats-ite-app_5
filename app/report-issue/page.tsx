@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { notify, notifyFetch } from "@/lib/notify"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import layout from "@/app/styles/common.module.css"
  
 
 const categories = [
@@ -52,7 +53,8 @@ export default function ReportIssuePage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <main className="container mx-auto max-w-3xl px-4 py-10 flex-1">
+      <main className={`px-4 py-10 flex-1`}>
+        <div className={`${layout.section} ${layout.max3xl}`}>
         <h1 className="text-3xl font-bold mb-6">Report an Issue or Suggestion</h1>
         <Card>
           <CardHeader>
@@ -108,6 +110,7 @@ export default function ReportIssuePage() {
             </form>
           </CardContent>
         </Card>
+        </div>
       </main>
       <script
         type="application/ld+json"

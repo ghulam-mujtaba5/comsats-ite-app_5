@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import layout from "@/app/styles/common.module.css"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
@@ -122,7 +123,7 @@ export default function FacultyProfileClient({ initialFaculty, initialReviews }:
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 py-8 px-4">
-        <div className="container mx-auto max-w-6xl">
+        <div className={`${layout.section} ${layout.max6xl}`}>
           {loading && (
             <Card className="mb-8">
               <CardContent className="p-8">Loading...</CardContent>

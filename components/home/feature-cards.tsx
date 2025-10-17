@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { FileText, Calculator, Users, BookOpen, Calendar, ArrowRight, Bug, TrendingUp, Sparkles, GraduationCap, MessageSquare, Clock } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import layout from "@/app/styles/common.module.css"
 import { notifyFetch } from "@/lib/notify"
 import { StaggerContainer, StaggerItem, AnimatedCard, AnimatedButton, FadeInScroll } from "@/components/animations/enhanced"
 
@@ -120,7 +121,7 @@ export function FeatureCards() {
 
   return (
     <section className="py-16 px-4 bg-gradient-to-b from-background to-muted/20 glass-primary">
-      <div className="app-container">
+      <div className={layout.section}>
         {/* Enhanced Header */}
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <Badge variant="soft" className="mb-6 px-4 py-2 text-base font-medium bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-primary border border-primary/30 glass-interactive">

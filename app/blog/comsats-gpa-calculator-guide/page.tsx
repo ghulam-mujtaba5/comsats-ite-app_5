@@ -3,6 +3,7 @@ import { SemesterGPACalculator } from "@/components/gpa/semester-gpa-calculator"
 import { CumulativeGPACalculator } from "@/components/gpa/cumulative-gpa-calculator"
 import { jsonLdBlogPosting, jsonLdBreadcrumb } from "@/lib/seo"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import layout from "@/app/styles/common.module.css"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, Calculator, BookOpen, TrendingUp, Target, Lightbulb } from "lucide-react"
@@ -27,7 +28,7 @@ export default function Page() {
     { name: 'COMSATS GPA Calculator Guide', path: '/blog/comsats-gpa-calculator-guide' },
   ])
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-8 space-y-10">
+    <div className={`${layout.section} ${layout.max4xl} px-4 py-8 space-y-10`}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumb]) }} />
       <article className="prose prose-neutral dark:prose-invert max-w-none">
         <h1>Complete Guide to COMSATS GPA Calculator: How to Calculate Your GPA Accurately</h1>

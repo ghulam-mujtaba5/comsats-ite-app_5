@@ -1,0 +1,26 @@
+/* Enhanced FAQ - Dark theme overrides
+ * These selectors are applied only when html has the .dark class.
+ */
+
+:global(html.dark) .section {
+  /* Darker gradient for dark theme */
+  background-image: linear-gradient(
+    to bottom,
+    hsl(var(--background) / 0.7),
+    hsl(var(--muted) / 0.4)
+  );
+}
+
+:global(html.dark) .statsCard {
+  background-color: hsl(var(--card) / 0.3);
+  border-color: hsl(var(--border) / 0.5);
+}
+
+:global(html.dark) .accordionItem {
+  background-color: hsl(var(--background) / 0.6);
+  border-color: hsl(var(--border) / 0.6);
+}
+
+:global(html.dark) .ctaCard {
+  background-color: hsl(var(--card) / 0.25);
+}

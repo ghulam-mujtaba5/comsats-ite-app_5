@@ -12,6 +12,7 @@ import { Calendar, ArrowLeft, Search, Newspaper, TrendingUp, Clock, User, Eye, C
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 import { cn } from "@/lib/utils"
+import layout from "@/app/styles/common.module.css"
 
 type News = {
   id: string
@@ -102,7 +103,7 @@ export default function NewsListPage() {
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
 
       <main className="flex-1 py-24 px-4 relative z-10">
-        <div className="container mx-auto max-w-6xl space-y-10">
+        <div className={`${layout.section} ${layout.max6xl} space-y-10`}>
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "News" }]} />
           
           {/* Enhanced Header Section */}

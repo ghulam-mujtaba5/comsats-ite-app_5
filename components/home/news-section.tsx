@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Calendar, ArrowRight, Clock, Tag } from "lucide-react"
 import Link from "next/link"
+import layout from "@/app/styles/common.module.css"
 import { useEffect, useState } from "react"
 
 type News = {
@@ -68,7 +69,7 @@ export function NewsSection() {
 
   return (
     <section className="py-20 px-4 bg-gradient-to-b from-muted/20 to-background glass-primary">
-      <div className="container mx-auto max-w-6xl">
+      <div className={`${layout.section} ${layout.max6xl}`}>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-4">

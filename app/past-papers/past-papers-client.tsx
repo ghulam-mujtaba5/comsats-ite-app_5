@@ -12,6 +12,8 @@ import { Upload, FileText, Download, Users, TrendingUp, RefreshCw, Filter, Tag, 
 import { Card, CardContent } from '@/components/ui/card'
 import { AdvancedFilterBar } from '@/components/search/advanced-filter-bar'
 import styles from './past-papers.module.css'
+import './past-papers.light.module.css'
+import './past-papers.dark.module.css'
 
 export default function PastPapersClient() {
   const [searchTerm, setSearchTerm] = useState('')

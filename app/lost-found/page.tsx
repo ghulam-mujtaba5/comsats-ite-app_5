@@ -14,6 +14,7 @@ import { Search, Plus, MapPin, Calendar, User, Loader2, Image as ImageIcon } fro
 import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
+import layout from "@/app/styles/common.module.css"
 
 interface LostFoundItem {
   id: string
@@ -175,7 +176,7 @@ export default function LostFoundPage() {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
-      <div className="relative container mx-auto px-4 py-12">
+      <div className={`relative px-4 py-12 ${layout.section} ${layout.max6xl}`}>
         {/* Enhanced Header Section */}
         <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-12 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">

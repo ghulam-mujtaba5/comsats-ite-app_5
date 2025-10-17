@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import layout from "@/app/styles/common.module.css"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { 
@@ -118,7 +119,7 @@ export default function ContributePage() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
 
-      <main className="container mx-auto max-w-7xl px-4 py-24 relative z-10">
+      <main className={`${layout.section} ${layout.max6xl} px-4 py-24 relative z-10`}>
         {/* Enhanced Header Section */}
         <section className="text-center mb-16">
           <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>

@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { SITE_LINKS, type PageStatus } from "@/lib/site-map"
+import layout from "@/app/styles/common.module.css"
 import { usePathname } from "next/navigation"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
@@ -70,7 +71,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-purple-500/5 dark:from-slate-800/20 dark:via-slate-800/15 dark:to-slate-900/20 rounded-2xl"></div>
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-500/8 to-transparent dark:from-slate-700/15 dark:to-slate-900/5 rounded-r-2xl"></div>
       <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-t from-indigo-500/8 to-transparent dark:from-slate-800/15 dark:to-slate-900/5 rounded-bl-2xl"></div>
-      <div className="app-container py-10 px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className={`${layout.section} py-10 px-4 sm:px-6 lg:px-8 relative z-10`}>
         <div className="mb-8 p-4 md:p-5 glass-card-premium glass-border-glow glass-hover-glow rounded-xl flex flex-col md:flex-row items-center justify-between gap-3 glass-gradient glass-depth glass-floating">
           <div className="text-center md:text-left">
             <div className="font-semibold text-foreground flex items-center justify-center md:justify-start gap-2">

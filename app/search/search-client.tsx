@@ -73,6 +73,7 @@ interface Faculty {
   }
 }
 import { cn } from "@/lib/utils"
+import layout from "@/app/styles/common.module.css"
 
 export function SearchClient() {
   const router = useRouter()
@@ -297,7 +298,7 @@ export function SearchClient() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
 
-      <main className="container mx-auto max-w-6xl px-4 py-24 relative z-10">
+      <main className={`${layout.section} ${layout.max6xl} px-4 py-24 relative z-10`}>
         {/* Enhanced Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-blue-500/10 border border-primary/20 text-sm font-medium text-primary mb-6 hover:from-primary/20 hover:to-blue-500/20 transition-all duration-300 hover-lift">

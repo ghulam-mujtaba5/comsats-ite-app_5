@@ -13,6 +13,7 @@ import { FadeInScroll, AnimatedCard, CountUp, Pulse, AnimatedButton, FloatingBut
 import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation as useAnimationContext } from "@/contexts/animation-context"
 import { useMotivationalFeedback } from "@/components/motivational"
+import layout from "@/app/styles/common.module.css"
 
 export function EnhancedHero() {
   const [stats, setStats] = useState<{
@@ -193,7 +194,7 @@ export function EnhancedHero() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-blue-400/6 to-indigo-400/6 dark:from-blue-400/5 dark:to-indigo-400/5 rounded-full blur-3xl" aria-hidden="true" />
       </div>
 
-      <div className="app-container relative z-10 py-12 md:py-16 lg:py-20">
+      <div className={`${layout.section} relative z-10 py-12 md:py-16 lg:py-20`}>
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left Content */}
           <div className="space-y-6 md:space-y-8 flex flex-col justify-center h-full">

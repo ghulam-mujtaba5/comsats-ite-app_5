@@ -1,5 +1,6 @@
  
 import type { Metadata } from 'next'
+import layout from "@/app/styles/common.module.css"
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'Privacy practices for CampusAxis including data collection, use, and security.',
@@ -11,7 +12,7 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 py-12 px-4 md:px-6">
-        <div className="container mx-auto max-w-3xl space-y-8">
+        <div className={`${layout.section} ${layout.max3xl} space-y-8`}>
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight">Privacy Policy</h1>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({

@@ -1,0 +1,6 @@
+/* News & Events - Light theme overrides */
+
+:global(html:not(.dark)) .container {
+  /* Ensure light borders and subtle background */
+  border-color: hsl(var(--border) / 0.5);
+}

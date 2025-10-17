@@ -73,7 +73,7 @@ export default function ArticleClient() {
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
 
       <main className="flex-1 py-24 px-4 relative z-10">
-        <div className="container mx-auto max-w-4xl space-y-10">
+        <div className={`${layout.section} ${layout.max4xl} space-y-10`}>
           {/* Enhanced Navigation */}
           <div className="flex items-center justify-between">
             <Button variant="outline" className="bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 rounded-xl transition-all duration-300 hover-lift" asChild>

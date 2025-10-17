@@ -4,6 +4,7 @@ import { AuthGuard } from "@/components/auth/auth-guard"
 import { useAuth } from "@/contexts/auth-context"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import layout from "@/app/styles/common.module.css"
 import { Button } from "@/components/ui/button"
 import { 
   Shield, 
@@ -64,7 +65,7 @@ export default function CoreTeamPage() {
   return (
     <AuthGuard>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-        <div className="container max-w-7xl mx-auto px-4 py-8">
+        <div className={`${layout.section} ${layout.max6xl} px-4 py-8`}>
           {/* Hero Section */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}

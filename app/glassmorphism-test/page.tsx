@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import layout from '@/app/styles/common.module.css'
 import { 
   Select, 
   SelectContent, 
@@ -46,7 +47,7 @@ export default function GlassmorphismTestPage() {
   const [tabValue, setTabValue] = useState('tab1')
 
   return (
-    <div className="container mx-auto py-8 space-y-8">
+    <div className={`${layout.section} ${layout.max6xl} py-8 space-y-8`}>
       <div className="text-center">
         <h1 className="text-3xl font-bold mb-2">Glassmorphism Components Test</h1>
         <p className="text-muted-foreground">

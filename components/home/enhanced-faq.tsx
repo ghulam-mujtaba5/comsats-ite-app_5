@@ -13,6 +13,9 @@ import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useAnimation } from "@/contexts/animation-context"
 import { useMotivationalFeedback } from "@/components/motivational/unified-feedback-system"
 import styles from "./enhanced-faq.module.css"
+import "./enhanced-faq.light.module.css"
+import "./enhanced-faq.dark.module.css"
+import layout from "@/app/styles/common.module.css"
 
 type FAQ = {
   id: string
@@ -144,7 +147,7 @@ export function EnhancedFAQ() {
 
   return (
     <section className={styles.section}>
-      <div className="app-container max-w-6xl mx-auto">
+      <div className={`${layout.section} ${layout.max6xl}`}>
         {/* Enhanced Header with proper spacing */}
         <div className="text-center mb-16 md:mb-20">
           <Badge variant="soft" className={styles.headerBadge}>

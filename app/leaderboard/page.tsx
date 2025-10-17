@@ -107,7 +107,7 @@ export default function LeaderboardPage() {
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
         {/* Header */}
         <div className="bg-gradient-to-r from-primary/10 via-blue-500/10 to-purple-500/10 border-b">
-          <div className="container mx-auto px-4 py-12">
+          <div className={`${layout.section} ${layout.max6xl} px-4 py-12`}>
             <div className="flex items-center gap-4 mb-4">
               <div className="p-4 bg-gradient-to-br from-yellow-500/20 to-amber-500/20 rounded-2xl">
                 <Trophy className="h-10 w-10 text-yellow-600" />
@@ -163,7 +163,7 @@ export default function LeaderboardPage() {
         </div>
 
         {/* Leaderboard Content */}
-        <div className="container mx-auto px-4 py-8">
+        <div className={`${layout.section} ${layout.max6xl} px-4 py-8`}>
           <Card className="border-2 border-purple-200/50 dark:border-purple-800/50 bg-gradient-to-br from-purple-50/50 to-pink-50/50 dark:from-purple-950/20 dark:to-pink-950/20">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">

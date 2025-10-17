@@ -1,5 +1,9 @@
 import { Metadata } from "next"
-import { MotivationalDashboard } from "@/components/motivational/motivational-dashboard"
+"use client"
+
+import { MotivationalQuote } from "@/components/features/motivational-quote"
+import { Card } from "@/components/ui/card"
+import layout from "@/app/styles/common.module.css"
 
 export const metadata: Metadata = {
   title: "Motivational System Demo",
@@ -8,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function MotivationalSystemDemo() {
   return (
-    <div className="container mx-auto py-8">
+    <div className={`${layout.section} ${layout.max6xl} py-8`}>
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Motivational Feedback System</h1>

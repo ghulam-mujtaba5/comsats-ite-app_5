@@ -1,0 +1,5 @@
+/* News & Events - Dark theme overrides */
+
+:global(html.dark) .container {
+  border-color: hsl(var(--border) / 0.4);
+}

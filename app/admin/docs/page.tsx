@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import adminStyles from "@/app/admin/admin-shared.module.css"
 import { 
   BookOpen, 
   FileText, 
@@ -79,7 +80,7 @@ export default function DocumentationPage() {
         variant="gradient"
       />
       
-      <main className="container mx-auto px-4 py-8">
+      <main className={`${adminStyles.section} px-4 py-8`}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-display-3 font-bold text-muted-foreground mb-4">

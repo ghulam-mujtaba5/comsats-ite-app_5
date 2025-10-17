@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import adminStyles from "@/app/admin/admin-shared.module.css"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   Users, 
@@ -111,7 +112,7 @@ export default function CommunityAdminPage() {
   
   if (loadingAuth) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className={`${adminStyles.section} px-4 py-8`}>
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
         </div>
@@ -121,7 +122,7 @@ export default function CommunityAdminPage() {
   
   if (!authenticated) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className={`${adminStyles.section} px-4 py-8`}>
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-2">Access Denied</h2>
@@ -348,7 +349,7 @@ function CommunityAdminPageContent() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className={`${adminStyles.section} px-4 py-8`}>
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
         </div>
@@ -357,7 +358,7 @@ function CommunityAdminPageContent() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className={`${adminStyles.section} px-4 py-8`}>
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Community Management</h1>
         <p className="text-muted-foreground">

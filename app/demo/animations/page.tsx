@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import layout from '@/app/styles/common.module.css'
 import { 
   useConfettiEffect, 
   useThankYouEffect, 
@@ -65,7 +66,7 @@ export default function AnimationsDemoPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 py-12">
-      <div className="container mx-auto max-w-6xl px-4">
+      <div className={`${layout.section} ${layout.max6xl}`}>
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">
             CampusAxis Animation Showcase

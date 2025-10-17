@@ -29,6 +29,7 @@ import { PeerMentoring } from "@/components/admissions/peer-mentoring"
 import { QueryAnswering } from "@/components/admissions/query-answering"
 import { ResourceSharing } from "@/components/admissions/resource-sharing"
 import { AdmissionsStructuredData } from "@/components/admissions/structured-data"
+import layout from "@/app/styles/common.module.css"
 
 export const metadata: Metadata = {
   title: "Admissions - CampusAxis | COMSATS Admission Guidance",
@@ -217,7 +218,7 @@ export default function AdmissionsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
-        <div className="app-container max-w-7xl mx-auto px-4 py-8 sm:py-12">
+        <div className={`${layout.section} px-4 py-8 sm:py-12`}>
           {/* Hero Section */}
           <div className="text-center mb-12 sm:mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
