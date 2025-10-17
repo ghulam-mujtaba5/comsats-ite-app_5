@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { useEmotion } from "@/contexts/emotion-context"
-import { useCalmMode } from "@/hooks/use-emotion-detection"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { 

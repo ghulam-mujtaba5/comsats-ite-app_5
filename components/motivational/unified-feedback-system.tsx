@@ -7,7 +7,6 @@ import { useCelebrationAnimations } from "@/hooks/use-celebration-animations"
 import { useToast } from "@/components/ui/use-toast"
 import { 
   useMotivationBooster, 
-  useCalmMode, 
   useStudyCompanionFeedback 
 } from "@/hooks/use-emotion-detection"
 import { 

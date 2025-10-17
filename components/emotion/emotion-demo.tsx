@@ -17,7 +17,7 @@ import {
 } from "lucide-react"
 import { AdvancedEmotionDashboard } from "./advanced-emotion-dashboard"
 
-export function EmotionDemoNew() {
+export function EmotionDemo() {
   const { emotionState, updateEmotionState } = useEmotion()
   const { boostMotivation } = useMotivationBooster()
   const { detectEmotionState } = useAdvancedEmotionDetection()

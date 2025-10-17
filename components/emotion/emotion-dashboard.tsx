@@ -1,7 +1,7 @@
 "use client"
 
 import { useEmotion } from "@/contexts/emotion-context"
-import { useEmotionDetection } from "@/hooks/use-emotion-detection"
+import { useAdvancedEmotionDetection } from "@/hooks/use-emotion-detection"
 import { DailyTracker } from "./daily-tracker"
 import { GoalTracker } from "./goal-tracker"
 import { MotivationalPopup } from "./motivational-popup"
@@ -27,7 +27,7 @@ import {
 
 export function EmotionDashboard() {
   const { emotionState } = useEmotion()
-  const { trackActivity } = useEmotionDetection()
+  const { trackActivity } = useAdvancedEmotionDetection()
 
   // Track activity when dashboard is viewed
   trackActivity("dashboard_view")
