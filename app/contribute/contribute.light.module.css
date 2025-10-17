@@ -1,3 +1,1 @@
-.lightTheme { /* Theme marker */ --theme-mode: light; }
-
-:global(html:not(.dark)) :root { --contribute-theme: light; }
+.lightTheme :global(html:not(.dark)) :root { --contribute-theme: light; }

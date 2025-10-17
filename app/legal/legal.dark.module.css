@@ -1,7 +1,5 @@
 /* Legal pages - dark mode theming */
-.darkTheme { /* Minimal theme marker */ --theme-mode: dark; }
-
-:global(html.dark) {
+.darkTheme :global(html.dark) {
   --legal-bg-primary: var(--background);
   --legal-text-primary: var(--foreground);
 }

@@ -1,3 +1,1 @@
-.lightTheme { /* Theme marker */ --theme-mode: light; }
-
-:global(html:not(.dark)) :root { --guidance-theme: light; }
+.lightTheme :global(html:not(.dark)) :root { --guidance-theme: light; }

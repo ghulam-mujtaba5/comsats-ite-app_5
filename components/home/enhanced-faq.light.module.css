@@ -3,7 +3,7 @@
  * We scope with :global(html:not(.dark)) to avoid needing runtime theme checks.
  */
 
-:global(html:not(.dark)) .section {
+.lightTheme :global(html:not(.dark)) .section {
   /* Slightly brighter gradient for light theme */
   background-image: linear-gradient(
     to bottom,
@@ -12,16 +12,16 @@
   );
 }
 
-:global(html:not(.dark)) .statsCard {
+.lightTheme :global(html:not(.dark)) .statsCard {
   background-color: hsl(var(--card) / 0.6);
   border-color: hsl(var(--border) / 0.6);
 }
 
-:global(html:not(.dark)) .accordionItem {
+.lightTheme :global(html:not(.dark)) .accordionItem {
   background-color: hsl(var(--background));
   border-color: hsl(var(--border) / 0.7);
 }
 
-:global(html:not(.dark)) .ctaCard {
+.lightTheme :global(html:not(.dark)) .ctaCard {
   background-color: hsl(var(--card) / 0.5);
 }

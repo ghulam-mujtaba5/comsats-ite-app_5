@@ -1,3 +1,1 @@
-.lightTheme { --theme-mode: light; }
-
-:global(html:not(.dark)) .privacy-page { --theme-ready: 1; }
+.lightTheme :global(html:not(.dark)) .privacy-page { --theme-ready: 1; }

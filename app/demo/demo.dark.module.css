@@ -1,6 +1,4 @@
-.darkTheme { /* Theme marker */ --theme-mode: dark; }
-
-:global(html.dark) :root {
+.darkTheme :global(html.dark) :root {
   /* Demo section dark theme marker */
   --demo-theme: dark;
 }

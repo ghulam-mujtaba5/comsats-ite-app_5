@@ -1,3 +1,1 @@
-.darkTheme { --theme-mode: dark; }
-
-:global(html.dark) .timetables-page { --theme-ready: 1; }
+.darkTheme :global(html.dark) .timetables-page { --theme-ready: 1; }

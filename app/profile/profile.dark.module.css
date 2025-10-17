@@ -1,3 +1,1 @@
-.darkTheme { /* Theme marker */ --theme-mode: dark; }
-
-:global(html.dark) :root { --profile-theme: dark; }
+.darkTheme :global(html.dark) :root { --profile-theme: dark; }

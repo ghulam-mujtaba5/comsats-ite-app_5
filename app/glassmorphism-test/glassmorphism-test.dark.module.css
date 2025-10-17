@@ -1,6 +1,4 @@
-.darkTheme { /* Theme marker */ --theme-mode: dark; }
-
-:global(html.dark) :root {
+.darkTheme :global(html.dark) :root {
   /* Glassmorphism test dark theme marker */
   --glass-test-theme: dark;
 }

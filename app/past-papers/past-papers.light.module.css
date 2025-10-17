@@ -1,9 +1,9 @@
 /* Past Papers - Light theme overrides */
 
-:global(html:not(.dark)) .page {
+.lightTheme :global(html:not(.dark)) .page {
   background-color: hsl(var(--background));
 }
 
-:global(html:not(.dark)) .statGrid > * {
+.lightTheme :global(html:not(.dark)) .statGrid > * {
   border-color: hsl(var(--border) / 0.5);
 }

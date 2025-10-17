@@ -1,7 +1,5 @@
 /* Legal pages - light mode theming */
-.lightTheme { /* Minimal theme marker */ --theme-mode: light; }
-
-:global(html:not(.dark)) {
+.lightTheme :global(html:not(.dark)) {
   --legal-bg-primary: var(--background);
   --legal-text-primary: var(--foreground);
 }

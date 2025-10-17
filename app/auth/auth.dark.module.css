@@ -1,7 +1,5 @@
 /* Auth page - dark mode theming */
-.darkTheme { /* Minimal theme marker */ --theme-mode: dark; }
-
-:global(html.dark) {
+.darkTheme :global(html.dark) {
   --auth-bg-primary: var(--background);
   --auth-text-primary: var(--foreground);
 }

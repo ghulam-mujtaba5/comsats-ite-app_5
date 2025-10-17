@@ -1,7 +1,5 @@
 /* Emotional wellness page - dark mode theming */
-.darkTheme { /* Minimal theme marker */ --theme-mode: dark; }
-
-:global(html.dark) {
+.darkTheme :global(html.dark) {
   --wellness-bg-primary: var(--background);
   --wellness-text-primary: var(--foreground);
 }

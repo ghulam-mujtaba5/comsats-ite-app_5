@@ -1,8 +1,8 @@
+"use client"
+
 import layout from "@/app/styles/common.module.css"
 import "../community.light.module.css"
 import "../community.dark.module.css"
-"use client"
-
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useCampus } from "@/contexts/campus-context"

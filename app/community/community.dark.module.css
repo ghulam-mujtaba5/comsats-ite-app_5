@@ -1,5 +1,5 @@
 /* Community - Dark theme overrides */
 
-:global(html.dark) .page {
+.darkTheme :global(html.dark) .page {
   background-color: hsl(var(--background));
 }
