@@ -1,7 +1,7 @@
 "use client"
 
 import { useEmotion } from "@/contexts/emotion-context"
-import { useMotivationBooster } from "@/hooks/use-emotion-detection"
+import { useMotivationBooster, useAdvancedEmotionDetection } from "@/hooks/use-emotion-detection"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { 
@@ -12,12 +12,15 @@ import {
   Smile,
   Trophy,
   Target,
-  Sparkles
+  Sparkles,
+  Activity
 } from "lucide-react"
+import { AdvancedEmotionDashboard } from "./advanced-emotion-dashboard"
 
-export function EmotionDemo() {
-  const { emotionState, updateEmotionState, activateCalmMode } = useEmotion()
+export function EmotionDemoNew() {
+  const { emotionState, updateEmotionState } = useEmotion()
   const { boostMotivation } = useMotivationBooster()
+  const { detectEmotionState } = useAdvancedEmotionDetection()
 
   const simulateStress = () => {
     updateEmotionState({
@@ -143,6 +146,20 @@ export function EmotionDemo() {
                     Relaxation
                   </span>
                 </Button>
+                
+                <Button 
+                  onClick={detectEmotionState}
+                  variant="outline" 
+                  className="w-full justify-between"
+                >
+                  <div className="flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-purple-500" />
+                    <span>Detect Emotion</span>
+                  </div>
+                  <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                    Auto-Detect
+                  </span>
+                </Button>
               </div>
               
               <div className="pt-4 border-t">
@@ -165,6 +182,19 @@ export function EmotionDemo() {
         </CardContent>
       </Card>
       
+      {/* Advanced Emotion Dashboard */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Activity className="w-5 h-5 text-blue-500" />
+            Advanced Emotion Detection
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <AdvancedEmotionDashboard />
+        </CardContent>
+      </Card>
+      
       {/* Integration Example */}
       <Card>
         <CardHeader>
@@ -178,17 +208,21 @@ export function EmotionDemo() {
             <h3 className="font-medium mb-2">How to use in your components:</h3>
             <pre className="text-sm bg-gray-800 text-gray-100 p-4 rounded overflow-x-auto">
 {`import { useEmotion } from "@/contexts/emotion-context"
-import { useMotivationBooster } from "@/hooks/use-emotion-detection"
+import { useMotivationBooster, useAdvancedEmotionDetection } from "@/hooks/use-emotion-detection"
 
 export function MyComponent() {
   const { emotionState, updateEmotionState } = useEmotion()
   const { boostMotivation } = useMotivationBooster()
+  const { detectEmotionState } = useAdvancedEmotionDetection()
   
   return (
     <div>
       <p>Current mood: {emotionState.mood}</p>
       <button onClick={() => boostMotivation("Great work!")}>
         Boost Motivation
+      </button>
+      <button onClick={detectEmotionState}>
+        Detect Emotion
       </button>
     </div>
   )

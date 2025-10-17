@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { useEmotion } from "@/contexts/emotion-context"
 import { useAnimation } from "@/contexts/animation-context"
-import { useEmotionDetection } from "@/hooks/use-emotion-detection"
+import { useAdvancedEmotionDetection } from "@/hooks/use-emotion-detection"
 import { EmotionAnimationController } from "./emotion-animation-controller"
 import { 
   FocusBackgroundAnimations, 
@@ -14,32 +14,66 @@ import {
 export function EmotionIntegration() {
   const { emotionState } = useEmotion()
   const { isAnimationEnabled } = useAnimation()
-  const { trackActivity, detectEmotionState } = useEmotionDetection()
+  const { 
+    trackActivity, 
+    trackMouseMovement, 
+    trackKeystroke, 
+    trackScroll, 
+    trackClick,
+    detectEmotionState 
+  } = useAdvancedEmotionDetection()
 
-  // Track user activity across the application
+  // Track user activity across the application with maximum accuracy
   useEffect(() => {
     // Set up activity tracking for key user interactions
     const trackUserActivity = () => {
       trackActivity("user_interaction")
     }
 
-    // Add event listeners for user activity
+    // Enhanced tracking for more accurate emotion detection
+    const trackMouseMove = (e: MouseEvent) => {
+      trackMouseMovement(e.clientX, e.clientY)
+    }
+
+    const trackKeyPress = (e: KeyboardEvent) => {
+      trackKeystroke(e.key)
+    }
+
+    const trackScrollEvent = () => {
+      trackScroll(window.scrollY)
+    }
+
+    const trackClickEvent = (e: MouseEvent) => {
+      trackClick(e.clientX, e.clientY)
+    }
+
+    // Add event listeners for comprehensive user activity tracking
     window.addEventListener("click", trackUserActivity)
     window.addEventListener("keypress", trackUserActivity)
     window.addEventListener("scroll", trackUserActivity)
+    
+    // Enhanced tracking listeners
+    window.addEventListener("mousemove", trackMouseMove)
+    window.addEventListener("keydown", trackKeyPress)
+    window.addEventListener("scroll", trackScrollEvent)
+    window.addEventListener("click", trackClickEvent)
 
-    // Periodically detect emotion state
+    // Periodically detect emotion state with high frequency for maximum accuracy
     const emotionDetectionInterval = setInterval(() => {
       detectEmotionState()
-    }, 60000) // Check every minute
+    }, 30000) // Check every 30 seconds for maximum accuracy
 
     return () => {
       window.removeEventListener("click", trackUserActivity)
       window.removeEventListener("keypress", trackUserActivity)
       window.removeEventListener("scroll", trackUserActivity)
+      window.removeEventListener("mousemove", trackMouseMove)
+      window.removeEventListener("keydown", trackKeyPress)
+      window.removeEventListener("scroll", trackScrollEvent)
+      window.removeEventListener("click", trackClickEvent)
       clearInterval(emotionDetectionInterval)
     }
-  }, [trackActivity, detectEmotionState])
+  }, [trackActivity, trackMouseMovement, trackKeystroke, trackScroll, trackClick, detectEmotionState])
 
   // Apply emotion-based styling to the entire application
   useEffect(() => {
@@ -77,7 +111,7 @@ export function withEmotionTracking<P extends object>(
   activityType: string
 ) {
   return function WithEmotionTracking(props: P) {
-    const { trackActivity } = useEmotionDetection()
+    const { trackActivity } = useAdvancedEmotionDetection()
     
     useEffect(() => {
       trackActivity(activityType)
