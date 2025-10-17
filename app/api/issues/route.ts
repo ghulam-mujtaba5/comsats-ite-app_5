@@ -19,7 +19,8 @@ export async function POST(req: NextRequest) {
     const title = String(body?.title || "").trim()
     const description = String(body?.description || "").trim()
     const category = String(body?.category || "General").trim()
-    const email = body?.email ? String(body.email).trim() : null
+    // Ensure email is either a valid email string or null
+    const email = body?.email && String(body.email).trim() !== "" ? String(body.email).trim() : null
 
     if (!title) return NextResponse.json({ error: "Missing field: title" }, { status: 400, headers })
     if (!description) return NextResponse.json({ error: "Missing field: description" }, { status: 400, headers })

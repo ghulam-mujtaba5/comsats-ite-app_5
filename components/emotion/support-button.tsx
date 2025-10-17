@@ -7,24 +7,14 @@ import { useCalmMode } from "@/hooks/use-emotion-detection"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { 
-  Heart, 
   Frown, 
+  Heart, 
+  Music, 
   Phone, 
-  MessageCircle,
-  BookOpen,
-  Music,
-  Pause,
   Play
 } from "lucide-react"
 
 const SUPPORT_RESOURCES = [
-  {
-    id: "1",
-    title: "Take a Break",
-    description: "5-minute breathing exercise",
-    icon: <Pause className="w-4 h-4" />,
-    action: "breathing"
-  },
   {
     id: "2",
     title: "Campus Counseling",
@@ -50,7 +40,6 @@ const SUPPORT_RESOURCES = [
 
 export function SupportButton() {
   const { emotionState, updateEmotionState } = useEmotion()
-  const { activateCalmMode } = useCalmMode()
   const [showResources, setShowResources] = useState(false)
   const [selectedResource, setSelectedResource] = useState<string | null>(null)
 
@@ -67,9 +56,7 @@ export function SupportButton() {
     
     const resource = SUPPORT_RESOURCES.find(r => r.id === resourceId)
     if (resource) {
-      if (resource.action === "breathing") {
-        activateCalmMode()
-      } else if (resource.action === "call") {
+      if (resource.action === "call") {
         // In a real app, this would open a contact dialog
         alert("Connecting you to campus counseling services...")
       }

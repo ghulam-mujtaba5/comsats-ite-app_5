@@ -45,7 +45,6 @@ export function EmotionDemo() {
       focusLevel: "medium",
       motivationLevel: "medium"
     })
-    activateCalmMode(5 * 60 * 1000) // 5 minutes
   }
 
   return (
@@ -138,7 +137,7 @@ export function EmotionDemo() {
                 >
                   <div className="flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-blue-500" />
-                    <span>Activate Calm Mode</span>
+                    <span>Simulate Calm</span>
                   </div>
                   <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
                     Relaxation

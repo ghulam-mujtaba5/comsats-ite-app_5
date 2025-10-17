@@ -62,7 +62,7 @@ export default function GPACalculatorPage() {
   )
 
   return (
-    <div className={`${styles.page} bg-mesh`}>
+    <div className={`${styles.page} bg-gradient-to-br from-slate-50 via-white to-blue-50/60 dark:from-slate-900 dark:via-slate-900 dark:to-blue-900/20`}>
       {/* Structured Data */}
       <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbJsonLd, faqJsonLd, howToJsonLd, webAppJsonLd]) }} />
       

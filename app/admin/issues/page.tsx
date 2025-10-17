@@ -214,7 +214,7 @@ export default function AdminIssuesPage() {
                     </p>
                   </div>
                   
-                  {selectedIssue.email && (
+                  {(selectedIssue.email && selectedIssue.email.trim() !== "") && (
                     <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                       <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                       <span className="font-medium">Reporter:</span>
@@ -361,7 +361,7 @@ export default function AdminIssuesPage() {
                         </p>
                       </div>
                       
-                      {it.email && (
+                      {(it.email && it.email.trim() !== "") && (
                         <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                           <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                           <span className="font-medium">Reporter:</span>

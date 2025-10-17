@@ -93,7 +93,7 @@ export function EmotionAwarePanel({ children, title, className = "" }: EmotionAw
       case 'sad':
         return "It's okay to feel down. You're doing better than you think."
       case 'stressed':
-        return "Take a deep breath. You've got this, one step at a time."
+        return "You've got this, one step at a time."
       case 'focused':
         return "Your concentration is impressive. Keep going!"
       case 'excited':

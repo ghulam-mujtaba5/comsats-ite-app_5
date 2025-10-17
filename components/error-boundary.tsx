@@ -89,9 +89,14 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   logErrorToService(error: Error, errorInfo: ErrorInfo) {
-    // TODO: Send to error tracking service (Sentry, LogRocket, etc.)
-    // Example:
-    // Sentry.captureException(error, { extra: errorInfo })
+    // Send to error tracking service (Sentry)
+    if (typeof window !== 'undefined' && (window as any).Sentry) {
+      (window as any).Sentry.captureException(error, { 
+        extra: { 
+          componentStack: errorInfo.componentStack 
+        } 
+      })
+    }
     
     // For now, log to console in production
     if (process.env.NODE_ENV === "production") {

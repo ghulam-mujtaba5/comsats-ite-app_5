@@ -35,9 +35,6 @@ interface EmotionContextType {
   resetEmotionState: () => void
   getRecommendedTheme: () => string
   getRecommendedAnimation: () => string
-  isCalmModeActive: boolean
-  activateCalmMode: (duration?: number) => void
-  deactivateCalmMode: () => void
 }
 
 const EmotionContext = createContext<EmotionContextType | undefined>(undefined)
@@ -53,8 +50,6 @@ const DEFAULT_EMOTION_STATE: EmotionState = {
 export function EmotionProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth()
   const [emotionState, setEmotionState] = useState<EmotionState>(DEFAULT_EMOTION_STATE)
-  const [isCalmModeActive, setIsCalmModeActive] = useState(false)
-  const [calmModeTimer, setCalmModeTimer] = useState<NodeJS.Timeout | null>(null)
 
   // Load user emotion preferences when user is available
   useEffect(() => {
@@ -132,41 +127,12 @@ export function EmotionProvider({ children }: { children: React.ReactNode }) {
     return 'subtle'
   }, [emotionState])
 
-  const activateCalmMode = useMemo(() => (duration: number = 10 * 60 * 1000) => { // 10 minutes default
-    setIsCalmModeActive(true)
-    
-    // Clear any existing timer
-    if (calmModeTimer) {
-      clearTimeout(calmModeTimer)
-    }
-    
-    // Set new timer to deactivate
-    const timer = setTimeout(() => {
-      setIsCalmModeActive(false)
-      setCalmModeTimer(null)
-    }, duration)
-    
-    setCalmModeTimer(timer)
-  }, [calmModeTimer])
-
-  const deactivateCalmMode = useMemo(() => () => {
-    setIsCalmModeActive(false)
-    
-    if (calmModeTimer) {
-      clearTimeout(calmModeTimer)
-      setCalmModeTimer(null)
-    }
-  }, [calmModeTimer])
-
   const contextValue: EmotionContextType = {
     emotionState,
     updateEmotionState,
     resetEmotionState,
     getRecommendedTheme,
     getRecommendedAnimation,
-    isCalmModeActive,
-    activateCalmMode,
-    deactivateCalmMode,
   }
 
   return <EmotionContext.Provider value={contextValue}>{children}</EmotionContext.Provider>

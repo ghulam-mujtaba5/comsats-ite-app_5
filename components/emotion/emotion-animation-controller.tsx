@@ -4,11 +4,6 @@ import { useEffect } from "react"
 import { useEmotion } from "@/contexts/emotion-context"
 import { useAnimation } from "@/contexts/animation-context"
 import { 
-  BreathingCircle, 
-  FloatingParticles, 
-  GradientWave 
-} from "./calm-animations"
-import { 
   FocusPulse, 
   ConcentricCircles, 
   FocusBeam 
@@ -36,15 +31,6 @@ export function EmotionAnimationController() {
       })
     }
 
-    // Calming animations for stress or sadness
-    if (emotionState.stressLevel === 'high' || emotionState.mood === 'sad') {
-      triggerAnimation({
-        type: 'successGlow',
-        message: 'Take a deep breath',
-        duration: 2000
-      })
-    }
-
     // Focus animations for high focus levels
     if (emotionState.focusLevel === 'high') {
       triggerAnimation({
@@ -54,24 +40,6 @@ export function EmotionAnimationController() {
     }
   }, [emotionState, triggerAnimation, isAnimationEnabled])
 
-  return null
-}
-
-// Background calm animations
-export function CalmBackgroundAnimations() {
-  const { emotionState } = useEmotion()
-  
-  if (emotionState.stressLevel === 'high' || emotionState.mood === 'sad' || emotionState.mood === 'calm') {
-    return (
-      <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
-        <FloatingParticles />
-        <div className="absolute bottom-0 left-0 right-0">
-          <GradientWave />
-        </div>
-      </div>
-    )
-  }
-  
   return null
 }
 

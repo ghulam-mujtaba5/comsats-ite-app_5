@@ -5,7 +5,6 @@ import { useEmotionDetection } from "@/hooks/use-emotion-detection"
 import { DailyTracker } from "./daily-tracker"
 import { GoalTracker } from "./goal-tracker"
 import { MotivationalPopup } from "./motivational-popup"
-import { CalmMode } from "./calm-mode"
 import { AdaptiveFeedback } from "./adaptive-feedback"
 import { ProgressReflection } from "./progress-reflection"
 import { ThankYouCard } from "./thank-you-card"
@@ -27,16 +26,11 @@ import {
 } from "lucide-react"
 
 export function EmotionDashboard() {
-  const { isCalmModeActive, emotionState } = useEmotion()
+  const { emotionState } = useEmotion()
   const { trackActivity } = useEmotionDetection()
 
   // Track activity when dashboard is viewed
   trackActivity("dashboard_view")
-
-  // If calm mode is active, show the calm mode interface
-  if (isCalmModeActive) {
-    return <CalmMode />
-  }
 
   return (
     <div className="space-y-6">

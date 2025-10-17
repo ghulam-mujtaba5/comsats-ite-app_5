@@ -272,7 +272,7 @@ export default function FacultyPage() {
   }
 
   return (
-    <div className={`${styles.page} bg-mesh`}>
+    <div className={`${styles.page} bg-gradient-to-br from-slate-50 via-white to-blue-50/60 dark:from-slate-900 dark:via-slate-900 dark:to-blue-900/20`}>
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -301,8 +301,8 @@ export default function FacultyPage() {
       </div>
 
       {/* Modern gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
-      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-blue-500/15" />
+      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/30" />
 
       <main className={styles.main}>
         <div className={`${commonStyles.section} ${styles.container}`}>

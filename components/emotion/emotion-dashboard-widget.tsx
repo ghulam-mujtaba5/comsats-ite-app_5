@@ -5,22 +5,23 @@ import { useAnimation } from "@/contexts/animation-context"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { 
-  Smile, 
-  Frown, 
-  Meh, 
   Brain, 
-  Zap, 
-  Flame, 
-  Moon, 
-  Heart,
   Coffee,
+  Flame,
+  Frown,
+  Heart,
+  Meh,
+  Moon,
+  Smile,
+  Sparkles,
   Target,
-  Trophy
+  Trophy,
+  Zap
 } from "lucide-react"
 import { motion } from "framer-motion"
 
 export function EmotionDashboardWidget() {
-  const { emotionState, updateEmotionState, activateCalmMode } = useEmotion()
+  const { emotionState, updateEmotionState } = useEmotion()
   const { triggerAnimation } = useAnimation()
 
   // Get emotion icon and color
@@ -70,16 +71,6 @@ export function EmotionDashboardWidget() {
   const EmotionIcon = emotionDisplay.icon
   const FocusIcon = focusDisplay.icon
   const MotivationIcon = motivationDisplay.icon
-
-  const handleCalmMode = () => {
-    activateCalmMode(10 * 60 * 1000) // 10 minutes
-    
-    triggerAnimation({
-      type: 'successGlow',
-      message: "Calm mode activated. Take a deep breath. 🌿",
-      duration: 4000
-    })
-  }
 
   const improveMood = () => {
     updateEmotionState({
@@ -201,15 +192,6 @@ export function EmotionDashboardWidget() {
 
           {/* Actions */}
           <div className="flex gap-2 pt-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={handleCalmMode}
-              className="flex-1 text-xs"
-            >
-              <Moon className="h-3 w-3 mr-1" />
-              Calm Mode
-            </Button>
             <Button 
               variant="outline" 
               size="sm" 

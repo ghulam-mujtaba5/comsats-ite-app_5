@@ -81,7 +81,7 @@ export default function ResourcesPage() {
   }, [])
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} bg-gradient-to-br from-slate-50 via-white to-blue-50/60 dark:from-slate-900 dark:via-slate-900 dark:to-blue-900/20`}>
       <main className={styles.main}>
         <div className={styles.container}>
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Resources" }]} className="mb-6" />

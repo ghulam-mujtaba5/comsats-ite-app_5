@@ -6,30 +6,19 @@ import { useEmotion } from "@/contexts/emotion-context"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { 
-  Heart, 
+  BookOpen, 
+  Clock, 
   Frown, 
+  Heart, 
+  Music, 
+  Pause, 
   Phone, 
-  MessageCircle,
-  BookOpen,
-  Music,
-  Pause,
-  Play,
+  Sparkles,
   Volume2,
-  VolumeX,
-  Clock,
-  Calendar,
-  Sparkles
+  VolumeX
 } from "lucide-react"
 
 const HEALING_ACTIVITIES = [
-  {
-    id: "breathing",
-    title: "Breathing Exercise",
-    description: "4-7-8 technique for relaxation",
-    icon: <Pause className="w-4 h-4" />,
-    duration: "5 min",
-    category: "mindfulness"
-  },
   {
     id: "journaling",
     title: "Gratitude Journal",
@@ -93,7 +82,7 @@ export function HealingSpace() {
     setSelectedActivity(activityId)
     
     // Update emotion state based on activity
-    if (activityId === "breathing" || activityId === "music") {
+    if (activityId === "music") {
       updateEmotionState({
         stressLevel: "low",
         mood: "calm"

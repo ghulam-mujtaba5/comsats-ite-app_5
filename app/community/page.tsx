@@ -482,7 +482,7 @@ export default function CommunityPage() {
   }
 
   return (
-    <div className={`${styles.page} bg-muted/20`}>
+    <div className={`${styles.page} bg-gradient-to-br from-slate-50 via-white to-blue-50/60 dark:from-slate-900 dark:via-slate-900 dark:to-blue-900/20`}>
       <div className={`${commonStyles.section} ${styles.container}`}>
         {/* Modern Hero Section */}
         <div className={styles.hero}>

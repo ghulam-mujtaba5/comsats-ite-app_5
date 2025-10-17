@@ -1,7 +1,7 @@
 "use client"
 
 import { useEmotion } from "@/contexts/emotion-context"
-import { useStudyCompanionFeedback, useMotivationBooster, useCalmMode } from "@/hooks/use-emotion-detection"
+import { useStudyCompanionFeedback, useMotivationBooster } from "@/hooks/use-emotion-detection"
 import { useAnimation } from "@/contexts/animation-context"
 import { useEffect, useState } from "react"
 

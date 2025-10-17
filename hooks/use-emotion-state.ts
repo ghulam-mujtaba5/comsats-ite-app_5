@@ -167,7 +167,7 @@ export function useEmotionState() {
         'Inner peace brings clarity 🌿',
       ],
       stressed: [
-        'Take a deep breath. You\'ve got this 💙',
+        'You\'ve got this 💙',
         'One step at a time. You\'re stronger than you think 💪',
         'It\'s okay to take a break. Self-care matters 🌸',
       ],

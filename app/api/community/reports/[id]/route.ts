@@ -13,9 +13,14 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // TODO: Replace with real admin permission check
-    const isAdmin = true
-    if (!isAdmin) {
+    // Check if user is admin
+    const { data: adminData, error: adminError } = await supabase
+      .from('admin_users')
+      .select('id')
+      .eq('user_id', user.id)
+      .single()
+
+    if (adminError || !adminData) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 

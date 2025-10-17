@@ -6,14 +6,13 @@ import { useAnimation } from "@/contexts/animation-context"
 import { useEmotionDetection } from "@/hooks/use-emotion-detection"
 import { EmotionAnimationController } from "./emotion-animation-controller"
 import { 
-  CalmBackgroundAnimations, 
   FocusBackgroundAnimations, 
   CelebrationBackgroundAnimations 
 } from "./emotion-animation-controller"
 
 // This component integrates the emotion system with existing CampusAxis components
 export function EmotionIntegration() {
-  const { emotionState, isCalmModeActive } = useEmotion()
+  const { emotionState } = useEmotion()
   const { isAnimationEnabled } = useAnimation()
   const { trackActivity, detectEmotionState } = useEmotionDetection()
 
@@ -44,24 +43,17 @@ export function EmotionIntegration() {
 
   // Apply emotion-based styling to the entire application
   useEffect(() => {
-    if (isCalmModeActive) {
-      document.body.classList.add("calm-mode")
-      document.body.classList.remove("focus-mode", "celebration-mode")
+    // Apply mode-based classes
+    if (emotionState.focusLevel === "high") {
+      document.body.classList.add("focus-mode")
+      document.body.classList.remove("celebration-mode")
+    } else if (emotionState.mood === "happy" || emotionState.mood === "excited") {
+      document.body.classList.add("celebration-mode")
+      document.body.classList.remove("focus-mode")
     } else {
-      document.body.classList.remove("calm-mode")
-      
-      // Apply mode-based classes
-      if (emotionState.focusLevel === "high") {
-        document.body.classList.add("focus-mode")
-        document.body.classList.remove("celebration-mode")
-      } else if (emotionState.mood === "happy" || emotionState.mood === "excited") {
-        document.body.classList.add("celebration-mode")
-        document.body.classList.remove("focus-mode")
-      } else {
-        document.body.classList.remove("focus-mode", "celebration-mode")
-      }
+      document.body.classList.remove("focus-mode", "celebration-mode")
     }
-  }, [emotionState, isCalmModeActive])
+  }, [emotionState])
 
   return (
     <>
@@ -69,9 +61,8 @@ export function EmotionIntegration() {
       <EmotionAnimationController />
       
       {/* Background animations based on emotion state */}
-      {isAnimationEnabled && !isCalmModeActive && (
+      {isAnimationEnabled && (
         <>
-          <CalmBackgroundAnimations />
           <FocusBackgroundAnimations />
           <CelebrationBackgroundAnimations />
         </>

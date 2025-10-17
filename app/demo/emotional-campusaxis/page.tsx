@@ -3,7 +3,7 @@
 import { useState } from "react"
 import layout from "@/app/styles/common.module.css"
 import { useEmotion } from "@/contexts/emotion-context"
-import { useMotivationBooster, useCalmMode, useStudyCompanionFeedback } from "@/hooks/use-emotion-detection"
+import { useMotivationBooster, useStudyCompanionFeedback } from "@/hooks/use-emotion-detection"
 import { useAnimation } from "@/contexts/animation-context"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -27,7 +27,6 @@ import {
 export default function EmotionalCampusAxisDemo() {
   const { emotionState, updateEmotionState } = useEmotion()
   const { boostMotivation } = useMotivationBooster()
-  const { activateCalmMode } = useCalmMode()
   const { onStudyAction } = useStudyCompanionFeedback()
   const { triggerAnimation } = useAnimation()
   const [studyStreak, setStudyStreak] = useState(0)
@@ -107,7 +106,6 @@ export default function EmotionalCampusAxisDemo() {
     
     if (newHours > 3) {
       updateEmotionState({ stressLevel: 'high', mood: 'tired' })
-      activateCalmMode(5 * 60 * 1000) // 5 minutes
       
       triggerAnimation({
         type: 'motivationalText',
@@ -383,9 +381,6 @@ export default function EmotionalCampusAxisDemo() {
             </Button>
             <Button variant="outline" onClick={() => boostMotivation("Don't give up — your progress matters 💪")}>
               Perseverance Boost
-            </Button>
-            <Button onClick={() => activateCalmMode()}>
-              Activate Calm Mode
             </Button>
           </div>
         </CardContent>

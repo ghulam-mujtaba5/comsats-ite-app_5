@@ -23,7 +23,7 @@ const EMOTION_CONFIG = {
  * Hook for detecting user emotion state based on activity patterns
  */
 export function useEmotionDetection() {
-  const { emotionState, updateEmotionState, activateCalmMode } = useEmotion()
+  const { emotionState, updateEmotionState } = useEmotion()
   const { triggerAnimation } = useAnimation()
   const activityRef = useRef<UserActivity>({
     lastActive: new Date(),
@@ -175,34 +175,6 @@ export function useMotivationBooster() {
 
   return {
     boostMotivation,
-  }
-}
-
-/**
- * Hook for activating calm mode during stressful periods
- */
-export function useCalmMode() {
-  const { activateCalmMode, updateEmotionState } = useEmotion()
-  const { triggerAnimation } = useAnimation()
-
-  const activateCalmModeWithFeedback = useCallback((duration?: number) => {
-    activateCalmMode(duration)
-    
-    updateEmotionState({
-      mood: 'calm',
-      stressLevel: 'low',
-    })
-    
-    // Trigger calming animation
-    triggerAnimation({
-      type: 'successGlow',
-      message: 'Take a deep breath. You\'ve got this!',
-      duration: 3000,
-    })
-  }, [activateCalmMode, updateEmotionState, triggerAnimation])
-
-  return {
-    activateCalmMode: activateCalmModeWithFeedback,
   }
 }
 

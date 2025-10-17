@@ -76,7 +76,6 @@ export function UnifiedFeedbackSystem() {
   } = useCelebrationAnimations()
   const { toast } = useToast()
   const { boostMotivation } = useMotivationBooster()
-  const { activateCalmMode } = useCalmMode()
   const { onStudyAction } = useStudyCompanionFeedback()
 
   // Map psychological states to appropriate responses
@@ -278,8 +277,6 @@ export function UnifiedFeedbackSystem() {
   }, [triggerAchievement, updateEmotionState])
 
   const handleStressDetection = useCallback(() => {
-    activateCalmMode(600000) // 10 minutes
-    
     // Reduced duration and made less intrusive
     toast({
       title: "💙 Wellness Check",
@@ -292,7 +289,7 @@ export function UnifiedFeedbackSystem() {
       mood: 'calm',
       stressLevel: 'low'
     })
-  }, [activateCalmMode, toast, updateEmotionState])
+  }, [toast, updateEmotionState])
 
   const handleLowMotivation = useCallback(() => {
     boostMotivation("Remember, every small step counts!")
@@ -344,7 +341,6 @@ export function useMotivationalFeedback() {
   } = useCelebrationAnimations()
   const { toast } = useToast()
   const { boostMotivation } = useMotivationBooster()
-  const { activateCalmMode } = useCalmMode()
   const { onStudyAction } = useStudyCompanionFeedback()
 
   // Determine student psychological state based on emotion state
@@ -378,7 +374,6 @@ export function useMotivationalFeedback() {
     triggerAnimation,
     toast,
     boostMotivation,
-    activateCalmMode,
     onStudyAction
   }
 }

@@ -1,17 +1,14 @@
-# 🧠 Emotional Intelligence Components
+# Emotion System
 
-This directory contains all components for the CampusAxis Emotional Intelligence & Motivation System.
+CampusAxis Emotional Intelligence Framework
 
-## 📁 Component Structure
+## 📁 Structure
 
 ```
 emotion/
 ├── adaptive-feedback.tsx          # Emotional learning companion
 ├── adaptive-theme.tsx             # Personalization layer
 ├── ai-listener.tsx                # Empathetic AI conversation
-├── breathing-animation.tsx        # Calm breathing exercises
-├── calm-animations.tsx            # Soothing background animations
-├── calm-mode.tsx                  # Comprehensive relaxation mode
 ├── celebration-animations.tsx     # Reward and achievement animations
 ├── daily-tracker.tsx              # Mood and XP tracking
 ├── emotion-animation-controller.tsx # Animation orchestration
@@ -72,7 +69,6 @@ export function MyComponent() {
 Central state management for user emotional states:
 - Mood tracking (happy, sad, stressed, calm, etc.)
 - Stress, focus, and motivation levels
-- Calm mode activation
 - Theme and animation recommendations
 
 ### 🎨 Adaptive UI
@@ -89,8 +85,7 @@ Motivational elements to encourage engagement:
 
 ### 🧘‍♀️ Wellness Support
 Mental health resources and tools:
-- Breathing exercises
-- Calm mode for stress relief
+- Mood tracking and reflection
 - Community support features
 
 ## 📊 Privacy
@@ -111,8 +106,7 @@ To test the emotional intelligence features:
 1. Visit `/emotional-wellness` in your browser
 2. Try different mood settings
 3. Simulate stress and focus states
-4. Test calm mode and breathing exercises
-5. Explore personalization features
+4. Explore personalization features
 
 ## 📚 Documentation
 

@@ -103,11 +103,6 @@ export function EmotionalResponseSystem() {
       ],
       activities: [
         {
-          title: 'Breathe',
-          icon: Wind,
-          description: 'Deep breathing'
-        },
-        {
           title: 'Listen',
           icon: Music,
           description: 'Uplifting songs'
