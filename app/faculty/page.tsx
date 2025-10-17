@@ -156,11 +156,12 @@ export default function FacultyPage() {
   const filteredFaculty = useMemo(() => {
     let faculty = [...facultyList]
     
-    // Apply department filter
-    const departmentToFilter = selectedDepartment !== "All" ? selectedDepartment : userDepartment
-    if (departmentToFilter) {
-      faculty = faculty.filter((f) => f.department === departmentToFilter)
+    // Apply department filter - ONLY if explicitly selected, not auto-filtered
+    if (selectedDepartment !== "All") {
+      faculty = faculty.filter((f) => f.department === selectedDepartment)
     }
+    // Note: We're removing the automatic userDepartment filtering to show all departments by default
+    // Users can still manually select their department if they want to filter
     
     // Apply other filters
     if (selectedSpecialization !== "All") {

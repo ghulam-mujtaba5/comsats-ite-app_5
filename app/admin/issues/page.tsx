@@ -1,13 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { notifyFetch } from "@/lib/notify"
-import { Bug, AlertTriangle, CheckCircle, Clock, ArrowLeft, Filter, Sparkles, Send, MessageCircle } from "lucide-react"
+import { Bug, AlertTriangle, CheckCircle, Clock, ArrowLeft, Filter, Sparkles, Send, MessageCircle, Copy } from "lucide-react"
 import Link from "next/link"
 import { Textarea } from "@/components/ui/textarea"
 
@@ -115,6 +115,40 @@ export default function AdminIssuesPage() {
       default: return 'bg-red-50 dark:bg-red-950/50 border-red-200 dark:border-red-800 text-red-700 dark:text-red-300'
     }
   }
+
+  const copyIssueDetails = (issue: Issue) => {
+    const issueDetails = `
+Issue ID: ${issue.id}
+Title: ${issue.title}
+Description: ${issue.description}
+Category: ${issue.category}
+Status: ${issue.status}
+Reporter: ${issue.email || 'Anonymous'}
+Created At: ${new Date(issue.created_at).toLocaleString()}
+    `.trim();
+    
+    navigator.clipboard.writeText(issueDetails).then(() => {
+      // Show success message
+      notifyFetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          message: 'Issue details copied to clipboard',
+          type: 'success'
+        })
+      }, { showOnSuccess: false });
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+      notifyFetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          message: 'Failed to copy issue details',
+          type: 'error'
+        })
+      }, { showOnSuccess: false });
+    });
+  };
 
   return (
     <AdminGuard>
@@ -359,6 +393,17 @@ export default function AdminIssuesPage() {
                             </div>
                           )}
                         </div>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={(e: React.MouseEvent) => {
+                            e.stopPropagation();
+                            copyIssueDetails(it);
+                          }}
+                          className="glass-button bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/40 dark:border-slate-600/40 h-8 px-2"
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-4">

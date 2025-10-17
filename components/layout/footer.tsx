@@ -162,10 +162,10 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
               <Link href="https://github.com/" aria-label="GitHub" className="hover:text-primary transition-colors" target="_blank" rel="noreferrer">
                 <Github className="h-5 w-5" />
               </Link>
-              <Link href="https://twitter.com/" aria-label="Twitter" className="hover:text-primary transition-colors" target="_blank" rel="noreferrer">
-                <Twitter className="h-5 w-5" />
+              <Link href="https://www.facebook.com/share/1CJykmBEZ3/" aria-label="Facebook" className="hover:text-primary transition-colors" target="_blank" rel="noreferrer">
+                <Users className="h-5 w-5" />
               </Link>
-              <Link href="https://instagram.com/" aria-label="Instagram" className="hover:text-primary transition-colors" target="_blank" rel="noreferrer">
+              <Link href="https://www.instagram.com/campusaxis?igsh=MXgzenJtamd2cHRydQ==" aria-label="Instagram" className="hover:text-primary transition-colors" target="_blank" rel="noreferrer">
                 <Instagram className="h-5 w-5" />
               </Link>
               <span className="mx-1 h-4 w-px bg-border" />

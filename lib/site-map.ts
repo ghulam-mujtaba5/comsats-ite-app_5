@@ -25,6 +25,8 @@ export const SITE_LINKS: SiteLink[] = [
   { label: 'Resources', href: '/resources', status: 'beta', group: 'student' },
   { label: 'Guidance', href: '/guidance', status: 'live', group: 'student' }, // Changed from coming_soon to live
   { label: 'Student Support', href: '/student-support', status: 'live', group: 'student' }, // Added Student Support
+  { label: 'Test Preparation', href: '/test-preparation', status: 'beta', group: 'student' }, // Added Test Preparation
+  { label: 'Study Groups', href: '/study-groups', status: 'beta', group: 'student' }, // Added Study Groups
 
   // Community
   { label: 'Faculty Reviews', href: '/faculty', status: 'working', group: 'community' },
@@ -33,10 +35,11 @@ export const SITE_LINKS: SiteLink[] = [
   { label: 'Events', href: '/community/events', status: 'live', group: 'community' }, // Added Events subpage
 
   // Support & Legal
+  { label: 'Alumni', href: '/alumni', status: 'live', group: 'support' }, // Added Alumni
   { label: 'Contribute', href: '/contribute', status: 'live', group: 'support' },
   { label: 'Report an Issue', href: '/report-issue', status: 'live', group: 'support' },
   { label: 'Contact', href: '/contact', status: 'beta', group: 'support' },
-  { label: 'Help Center', href: '/help', status: 'coming_soon', group: 'support' },
+  { label: 'Help Center', href: '/help', status: 'live', group: 'support' }, // Updated from coming_soon to live
   { label: 'Privacy Policy', href: '/legal/privacy-policy', status: 'live', group: 'support' },
   { label: 'Terms of Service', href: '/legal/terms-of-service', status: 'live', group: 'support' },
 ]

@@ -813,3 +813,56 @@ export async function sendNewFeatureEmail(
     `,
   })
 }
+
+/**
+ * Send email verification link to user
+ */
+export async function sendEmailVerification(
+  userEmail: string,
+  userName: string,
+  verificationUrl: string
+) {
+  return sendEmail({
+    to: userEmail,
+    subject: '📧 Verify your email address',
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 28px;">📧 Verify Your Email</h1>
+          </div>
+          
+          <div style="background: #f9fafb; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
+            <p style="font-size: 16px;">Hi ${userName},</p>
+            
+            <p>Thank you for adding your email address to CampusAxis. To complete the process, please verify your email by clicking the button below:</p>
+            
+            <div style="text-align: center; margin: 30px 0;">
+              <a href="${verificationUrl}" style="background: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: bold;">Verify Email Address</a>
+            </div>
+            
+            <p style="color: #6b7280;">If you're unable to click the button, copy and paste the following link into your browser:</p>
+            <div style="background: #f3f4f6; padding: 15px; border-radius: 6px; word-break: break-all; font-size: 14px; color: #6b7280;">
+              ${verificationUrl}
+            </div>
+            
+            <div style="background: #fef3c7; padding: 15px; border-radius: 6px; margin: 20px 0;">
+              <p style="margin: 0; color: #92400e;">🔒 For security reasons, this link will expire in 24 hours.</p>
+            </div>
+            
+            <p style="color: #6b7280; margin-top: 20px;">If you didn't add this email address to your CampusAxis account, you can safely ignore this email.</p>
+          </div>
+          
+          <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
+            <p>CampusAxis - COMSATS University Lahore</p>
+          </div>
+        </body>
+      </html>
+    `,
+  })
+}

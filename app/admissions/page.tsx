@@ -36,25 +36,24 @@ import stylesLight from "./admissions.light.module.css"
 import stylesDark from "./admissions.dark.module.css"
 
 export const metadata: Metadata = {
-  title: "Admissions - CampusAxis | COMSATS Admission Guidance",
-  description: "Get admission guidance for COMSATS University. Connect with senior students, access NTS preparation materials, calculate merit scores, and find study resources for entrance exams.",
+  title: "Admissions - CampusAxis | University Admission Preparation",
+  description: "Get admission preparation guidance for universities. Connect with senior students, access NTS/GAT preparation materials, calculate merit scores, and find study resources for entrance exams.",
   keywords: [
-    "COMSATS admission",
-    "COMSATS NTS preparation",
-    "COMSATS merit calculator",
+    "university admission",
+    "NTS preparation",
+    "GAT preparation",
+    "merit calculator",
     "admission guidance",
     "peer mentoring",
     "study resources",
-    "entrance exam preparation",
-    "COMSATS Islamabad",
-    "university admission help"
+    "entrance exam preparation"
   ],
   alternates: {
     canonical: "https://campusaxis.site/admissions"
   },
   openGraph: {
-    title: "Admissions - CampusAxis | COMSATS Admission Guidance",
-    description: "Get admission guidance for COMSATS University. Connect with senior students, access NTS preparation materials, calculate merit scores, and find study resources for entrance exams.",
+    title: "Admissions - CampusAxis | University Admission Preparation",
+    description: "Get admission preparation guidance for universities. Connect with senior students, access NTS/GAT preparation materials, calculate merit scores, and find study resources for entrance exams.",
     url: "https://campusaxis.site/admissions",
     siteName: "CampusAxis",
     locale: "en_PK",
@@ -76,7 +75,7 @@ export default function AdmissionsPage() {
       reviewCount: 32,
       specialization: ["NTS Preparation", "Merit Calculation", "Interview Guidance"],
       availability: "Mon, Wed, Fri - 6PM to 9PM",
-      bio: "Successfully guided 15+ students through the admission process. Specialized in NTS preparation."
+      bio: "Successfully guided 15+ students through the admission process. Specialized in entrance exam preparation."
     },
     {
       id: 2,
@@ -85,9 +84,9 @@ export default function AdmissionsPage() {
       program: "BSE",
       rating: 4.8,
       reviewCount: 28,
-      specialization: ["Subject Guides", "Merit Calculation", "Department Insights"],
+      specialization: ["Subject Guides", "Merit Calculation", "Program Insights"],
       availability: "Tue, Thu - 5PM to 8PM",
-      bio: "Expert in helping students understand different departments and their requirements."
+      bio: "Expert in helping students understand different programs and their requirements."
     },
     {
       id: 3,
@@ -120,7 +119,7 @@ export default function AdmissionsPage() {
       reviewCount: 29,
       specialization: ["NTS English", "Interview Prep", "Study Planning"],
       availability: "Mon, Fri - 5PM to 8PM",
-      bio: "Helps students improve their English skills for NTS and develop effective study plans."
+      bio: "Helps students improve their English skills for entrance exams and develop effective study plans."
     },
     {
       id: 6,
@@ -129,7 +128,7 @@ export default function AdmissionsPage() {
       program: "BBA",
       rating: 4.8,
       reviewCount: 31,
-      specialization: ["GAT Preparation", "Merit Calculation", "Department Selection"],
+      specialization: ["GAT Preparation", "Merit Calculation", "Program Selection"],
       availability: "Wed, Fri - 4PM to 7PM",
       bio: "Guides students in business program admissions with focus on analytical and verbal skills."
     }
@@ -139,8 +138,8 @@ export default function AdmissionsPage() {
   const mockResources = [
     {
       id: 1,
-      title: "NTS Preparation Guide",
-      description: "Comprehensive guide for National Testing Service preparation with practice questions and tips",
+      title: "Entrance Exam Preparation Guide",
+      description: "Comprehensive guide for entrance exam preparation with practice questions and tips",
       type: "PDF",
       size: "2.4 MB",
       url: "#",
@@ -166,8 +165,8 @@ export default function AdmissionsPage() {
     },
     {
       id: 4,
-      title: "Department Guides",
-      description: "Detailed information about different departments and their admission requirements",
+      title: "Program Guides",
+      description: "Detailed information about different programs and their admission requirements",
       type: "Documents",
       size: "8 files",
       url: "#",
@@ -197,8 +196,8 @@ export default function AdmissionsPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "EducationalOccupationalProgram",
-    "name": "COMSATS University Admission Guidance",
-    "description": "Peer-to-peer admission guidance for COMSATS University students including mentoring, NTS preparation, merit calculation, and study resources",
+    "name": "University Admission Preparation Guidance",
+    "description": "Peer-to-peer admission preparation guidance including mentoring, entrance exam preparation, merit calculation, and study resources",
     "provider": {
       "@type": "Organization",
       "name": "CampusAxis",
@@ -212,7 +211,7 @@ export default function AdmissionsPage() {
       "priceCurrency": "PKR"
     },
     "programPrerequisites": "Intermediate education or equivalent",
-    "educationalCredentialAwarded": "University Admission",
+    "educationalCredentialAwarded": "University Admission Preparation",
     "occupationalCredentialAwarded": "Educational Support Services"
   }
 
@@ -229,13 +228,13 @@ export default function AdmissionsPage() {
           <div className="text-center mb-12 sm:mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
               <GraduationCap className="h-5 w-5 text-primary" />
-              <span className="text-sm font-medium text-primary">Admissions Guidance</span>
+              <span className="text-sm font-medium text-primary">Admission Preparation</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent mb-6">
-              Your Path to COMSATS
+              Your Path to University Success
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              Connect with senior students, get admission guidance, access study resources, and prepare for entrance exams with our peer-to-peer support system.
+              Connect with senior students, get admission preparation guidance, access study resources, and prepare for entrance exams with our peer-to-peer support system.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="px-8 py-6 text-base rounded-xl" asChild>
@@ -282,7 +281,7 @@ export default function AdmissionsPage() {
             <TabsContent value="overview" className="space-y-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Mentoring Section */}
-                <GlassCard title="Peer-to-Peer Mentoring" description="Connect with senior students who've successfully navigated the COMSATS admission process" icon={Users}>
+                <GlassCard title="Peer-to-Peer Mentoring" description="Connect with senior students who've successfully navigated university admission processes" icon={Users}>
                   <CardContent className="p-0">
                     <ul className="space-y-3 mb-6">
                       <li className="flex items-start">
@@ -318,7 +317,7 @@ export default function AdmissionsPage() {
                         <div className="flex-shrink-0 h-5 w-5 text-primary mt-0.5">
                           <Star className="h-4 w-4" />
                         </div>
-                        <span className="ml-2 text-muted-foreground">NTS preparation materials</span>
+                        <span className="ml-2 text-muted-foreground">Entrance exam preparation materials</span>
                       </li>
                       <li className="flex items-start">
                         <div className="flex-shrink-0 h-5 w-5 text-primary mt-0.5">
@@ -341,13 +340,13 @@ export default function AdmissionsPage() {
               </div>
 
               {/* Exam Preparation Section */}
-              <GlassCard title="Entrance Exam Preparation" description="Comprehensive preparation tools for NTS and other entrance exams" icon={Trophy}>
+              <GlassCard title="Entrance Exam Preparation" description="Comprehensive preparation tools for NTS, GAT, and other entrance exams" icon={Trophy}>
                 <CardContent className="p-0">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {[
                       { 
-                        title: "NTS Preparation", 
-                        description: "Practice tests and study materials for National Testing Service exams",
+                        title: "Entrance Exam Prep", 
+                        description: "Practice tests and study materials for National Testing Service and other exams",
                         icon: Calculator
                       },
                       { 
@@ -357,7 +356,7 @@ export default function AdmissionsPage() {
                       },
                       { 
                         title: "Success Tips", 
-                        description: "Learn from students who secured admission in top programs",
+                        description: "Learn from students who secured admission in competitive programs",
                         icon: Clock
                       }
                     ].map((item, index) => {

@@ -28,79 +28,117 @@ export const EMAIL_DOMAIN_TO_CAMPUS_CODE: Record<string, string> = {
 // Department code mapping from email prefixes
 export const EMAIL_PREFIX_TO_DEPARTMENT_CODE: Record<string, string> = {
   // Computer Science
-  'bse': 'CS',
+  'bcs': 'CS',
   'bscs': 'CS',
   'mscs': 'CS',
   'phdcs': 'CS',
   
   // Software Engineering
+  'bse': 'SE',
   'bsse': 'SE',
+  'msse': 'SE',
+  'phdse': 'SE',
   
   // Electrical Engineering
+  'bee': 'EE',
   'bsee': 'EE',
   'msee': 'EE',
+  'phdee': 'EE',
   
   // Electronics Engineering
+  'bele': 'ELE',
   'bsele': 'ELE',
+  'msele': 'ELE',
+  'phdele': 'ELE',
   
   // Telecom Engineering
+  'bte': 'TE',
   'bste': 'TE',
+  'mste': 'TE',
+  'phdte': 'TE',
   
   // Business Administration
   'bba': 'BBA',
   'mba': 'BBA',
+  'phdba': 'BBA',
   
   // Mathematics
+  'bmath': 'MATH',
   'bsmath': 'MATH',
   'msmath': 'MATH',
+  'phdmath': 'MATH',
   
   // Physics
+  'bphy': 'PHY',
   'bsphy': 'PHY',
   'msphy': 'PHY',
+  'phdphy': 'PHY',
   
   // Chemistry
+  'bchem': 'CHEM',
   'bschem': 'CHEM',
   'mschem': 'CHEM',
+  'phdchem': 'CHEM',
   
   // Computer Engineering
+  'bcpe': 'CPE',
   'bscpe': 'CPE',
   'mscpe': 'CPE',
+  'phdcpe': 'CPE',
   
   // Mechanical Engineering
+  'bme': 'ME',
   'bsme': 'ME',
   'msme': 'ME',
+  'phdme': 'ME',
   
   // Civil Engineering
+  'bce': 'CE',
   'bsce': 'CE',
   'msce': 'CE',
+  'phdce': 'CE',
   
   // Biotechnology
+  'bbt': 'BT',
   'bsbt': 'BT',
   'msbt': 'BT',
+  'phdbt': 'BT',
   
   // Environmental Sciences
+  'benv': 'ENV',
   'bsenv': 'ENV',
   'msenv': 'ENV',
+  'phdenv': 'ENV',
   
   // Architecture
+  'barch': 'ARCH',
   'bsarch': 'ARCH',
   'msarch': 'ARCH',
+  'phdarch': 'ARCH',
   
   // Economics
+  'becon': 'ECON',
   'bsecon': 'ECON',
   'msecon': 'ECON',
+  'phdecon': 'ECON',
   
   // Pharmacy
+  'bpharm': 'PHARM',
   'pharmd': 'PHARM',
   'mspharm': 'PHARM',
+  'phdpharm': 'PHARM',
   
   // Management Sciences
+  'bmgt': 'MGT',
   'bsmgt': 'MGT',
   'msmgt': 'MGT',
+  'phdmgt': 'MGT',
   
   // Humanities
+  'bhum': 'HUM',
   'bshum': 'HUM',
-  'mshum': 'HUM'
+  'mshum': 'HUM',
+  'phdhum': 'HUM'
 };
 
 // Reverse mapping for campus codes to names

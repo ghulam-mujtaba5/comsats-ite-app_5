@@ -306,7 +306,8 @@ export default function AlumniPortal() {
                       </Button>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      Add a personal email to maintain access after your institutional email becomes inactive
+                      Add a personal email to maintain access after your institutional email becomes inactive.
+                      A verification link will be sent to your email address.
                     </p>
                   </div>
 
@@ -344,14 +345,20 @@ export default function AlumniPortal() {
                                       Primary
                                     </Badge>
                                   )}
-                                  {email.is_verified && (
+                                  {email.is_verified ? (
                                     <Badge variant="secondary" className="text-xs bg-green-500/20 text-green-700 dark:text-green-300">
                                       Verified
+                                    </Badge>
+                                  ) : (
+                                    <Badge variant="secondary" className="text-xs bg-yellow-500/20 text-yellow-700 dark:text-yellow-300">
+                                      Pending Verification
                                     </Badge>
                                   )}
                                 </div>
                                 {!email.is_verified && (
-                                  <p className="text-sm text-muted-foreground">Pending verification</p>
+                                  <p className="text-sm text-muted-foreground">
+                                    Check your email for verification link
+                                  </p>
                                 )}
                               </div>
                             </div>

@@ -26,11 +26,6 @@ import { NotificationBell } from "@/components/community/notification-bell"
 
 const navigationItems = [
   {
-    name: "Community",
-    href: "/community",
-    description: "Connect with fellow students and join discussions",
-  },
-  {
     name: "Past Papers",
     href: "/past-papers",
     description: "Browse and download past exam papers",
@@ -102,13 +97,13 @@ export function Header() {
             className="flex items-center space-x-2 sm:space-x-3 hover:opacity-90 transition-all duration-300 interactive group px-1 sm:px-2 py-1 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/30 backdrop-blur-sm min-w-0 flex-shrink"
             aria-label={isAdmin ? "Go to Admin Panel" : "Go to Home"}
           >
-            <div className="relative flex-shrink-0 admin-nav-logo-container admin-nav-logo-wrapper">
+            <div className="relative flex-shrink-0 navbar-logo-container navbar-logo-wrapper">
               <Image 
                 src="/Campus Axis 1.svg" 
                 alt="CampusAxis Logo" 
                 width={40} 
                 height={40} 
-                className="sm:w-10 sm:h-10 rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg admin-nav-logo" 
+                className="sm:w-10 sm:h-10 rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-lg navbar-logo" 
                 priority 
               />
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -226,7 +221,7 @@ export function Header() {
                       alt="CampusAxis Logo" 
                       width={64} 
                       height={64} 
-                      className="rounded-2xl shadow-lg admin-nav-logo" 
+                      className="rounded-2xl shadow-lg navbar-logo" 
                       priority
                     />
                   </div>

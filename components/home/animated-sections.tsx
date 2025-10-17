@@ -6,6 +6,7 @@ import { ArrowRight, GraduationCap, BookOpen, Users, Zap } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { GlassCard } from "@/components/shared/common"
+import styles from "@/app/styles/common.module.css"
 
 interface FeatureItem {
   icon: React.ElementType
@@ -36,7 +37,7 @@ export function AnimatedSections() {
     <>
       {/* Enhanced About CampusAxis section with improved glassmorphism and visual hierarchy */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background/80 to-muted/30 glass-primary" aria-labelledby="about-campusaxis-heading">
-        <div className={`${require("@/app/styles/common.module.css").default.section} ${require("@/app/styles/common.module.css").default.max6xl}`}>
+        <div className={`${styles.section} ${styles.max6xl}`}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

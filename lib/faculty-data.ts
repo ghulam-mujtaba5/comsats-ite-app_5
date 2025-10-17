@@ -99,12 +99,12 @@ export const mockFaculty: Faculty[] = [
     id: "4",
     name: "Dr. Fatima Sheikh",
     title: "Professor",
-    department: "Electrical Engineering",
+    department: "Software Engineering",
     email: "fatima.sheikh@cuilahore.edu.pk",
-    office: "EE-201",
-    specialization: ["Circuit Analysis", "Power Systems", "Control Systems"],
-    courses: ["EE-101 Circuit Analysis", "EE-301 Power Systems", "EE-401 Control Systems"],
-    education: ["PhD Electrical Engineering - UET", "MS Electrical Engineering - NUST"],
+    office: "SE-201",
+    specialization: ["Software Design", "Project Management", "Agile Methodologies"],
+    courses: ["SE-201 Software Design", "SE-301 Project Management", "SE-401 Software Testing"],
+    education: ["PhD Software Engineering - NUT", "MS Software Engineering - LUMS"],
     experience: "18 years",
     averageRating: 4.4,
     totalReviews: 52,
@@ -124,6 +124,21 @@ export const mockFaculty: Faculty[] = [
     averageRating: 4.1,
     totalReviews: 67,
     joinDate: "2005-07-15",
+  },
+  {
+    id: "6",
+    name: "Dr. Bilal Raza",
+    title: "Associate Professor",
+    department: "Software Engineering",
+    email: "bilal.raza@cuilahore.edu.pk",
+    office: "SE-105",
+    specialization: ["Software Architecture", "Mobile Development", "DevOps"],
+    courses: ["SE-101 Introduction to SE", "SE-301 Mobile Apps", "SE-501 DevOps"],
+    education: ["PhD Software Engineering - FAST", "MS Software Engineering - NUST"],
+    experience: "10 years",
+    averageRating: 4.3,
+    totalReviews: 35,
+    joinDate: "2014-05-20",
   },
 ]
 
@@ -251,4 +266,4 @@ export function searchFaculty(faculty: Faculty[], query: string): Faculty[] {
   )
 }
 
-export const departments = ["All", "Computer Science", "Electrical Engineering", "Business Administration"]
+export const departments = ["All", "Computer Science", "Software Engineering", "Electrical Engineering", "Business Administration", "Mathematics", "Physics"]

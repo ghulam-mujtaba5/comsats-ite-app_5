@@ -175,7 +175,6 @@ export default function AdminDashboardPage() {
           { href: "/admin/moderation", title: "🛡️ Content Moderation", desc: "Review posts, comments and handle user reports.", priority: "high" },
           { href: "/admin/faculty-pending", title: "✅ Pending Faculty", desc: "Review and approve student-submitted faculty members.", priority: "high" },
           { href: "/admin/blog", title: "📝 Blog Management", desc: "Create, edit, and manage blog articles and posts.", priority: "high" },
-          { href: "/admin/admissions/moderation", title: "🎓 Admissions Moderation", desc: "Review and moderate admissions-related content.", priority: "medium" },
           { href: "/admin/news-events", title: "📰 News & Events", desc: "Create and manage campus announcements and events.", priority: "medium" },
           { href: "/admin/faq", title: "❓ FAQ Management", desc: "Create, edit, and manage frequently asked questions.", priority: "medium" },
           { href: "/admin/faculty", title: "👨‍🏫 Faculty Directory", desc: "Add, edit and manage faculty member profiles.", priority: "medium" },
@@ -189,6 +188,8 @@ export default function AdminDashboardPage() {
           { href: "/admin/timetable-docs", title: "📅 Timetable Management", desc: "Upload and organize official timetable documents.", priority: "low" },
           { href: "/admin/issues", title: "🐞 Issue Tracking", desc: "Review public reports and track resolution status.", priority: "low" },
           { href: "/admin/settings", title: "⚙️ System Settings", desc: "Configure platform settings and preferences.", priority: "low" },
+          { href: "/admin/test-preparation", title: "📝 Test Preparation", desc: "Manage test preparation resources and materials.", priority: "medium" },
+          { href: "/admin/study-groups", title: "👥 Study Groups", desc: "Manage student study groups and collaboration tools.", priority: "medium" },
           ]
 
           const q = linkQuery.trim().toLowerCase()

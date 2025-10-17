@@ -2,9 +2,21 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
+import { sendEmailVerification } from '@/lib/resend-email'
 
-// GET - Fetch user's email addresses
+// GET - Verify email address
 export async function GET(request: NextRequest) {
+  // Check if this is a verification request
+  const { searchParams } = new URL(request.url);
+  const token = searchParams.get('token');
+  const email = searchParams.get('email');
+
+  // If verification parameters are present, handle verification
+  if (token && email) {
+    return handleEmailVerification(token, email);
+  }
+
+  // Otherwise, handle regular GET request for user emails
   // Set cache headers to reduce function invocations
   const headers = {
     'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=60', // Cache for 2 minutes (balanced for free tier)
@@ -83,6 +95,103 @@ export async function GET(request: NextRequest) {
   }
 }
 
+// Handle email verification
+async function handleEmailVerification(token: string, email: string) {
+  const cookieStore = await (cookies() as any)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) { return cookieStore.get(name)?.value },
+        set(name: string, value: string, options?: any) { cookieStore.set({ name, value, ...options }) },
+        remove(name: string, options?: any) { cookieStore.set({ name, value: '', ...options }) },
+      },
+    }
+  )
+
+  try {
+    // Find the email record with the matching token
+    const { data, error } = await supabase
+      .from('user_emails')
+      .select('*')
+      .eq('email', email)
+      .eq('verification_token', token)
+      .maybeSingle()
+
+    if (error) {
+      console.error('Error finding email for verification:', error)
+      return new Response('Invalid verification request', { status: 400 })
+    }
+
+    if (!data) {
+      return new Response('Invalid verification token or email', { status: 400 })
+    }
+
+    // Update the email record to mark it as verified
+    const { error: updateError } = await supabase
+      .from('user_emails')
+      .update({ 
+        is_verified: true,
+        verification_token: null
+      })
+      .eq('id', data.id)
+
+    if (updateError) {
+      console.error('Error updating email verification status:', updateError)
+      return new Response('Failed to verify email', { status: 500 })
+    }
+
+    // Return a success page
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Email Verified</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              text-align: center;
+              padding: 50px;
+              background-color: #f0f9ff;
+            }
+            .container {
+              max-width: 500px;
+              margin: 0 auto;
+              background: white;
+              padding: 30px;
+              border-radius: 10px;
+              box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .success {
+              color: #10b981;
+              font-size: 48px;
+              margin-bottom: 20px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="success">✓</div>
+            <h1>Email Verified Successfully!</h1>
+            <p>Your email address <strong>${email}</strong> has been verified.</p>
+            <p>You can now close this window and return to the application.</p>
+          </div>
+        </body>
+      </html>
+    `;
+
+    return new Response(html, {
+      headers: {
+        'Content-Type': 'text/html',
+      },
+    })
+  } catch (error) {
+    console.error('Error during email verification:', error)
+    return new Response('Internal server error', { status: 500 })
+  }
+}
+
 // POST - Add a new email address
 export async function POST(request: NextRequest) {
   const cookieStore = await (cookies() as any)
@@ -149,6 +258,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'This is already your primary email' }, { status: 400 })
     }
 
+    // Generate verification token
+    const verificationToken = crypto.randomUUID();
+
     // Insert new email
     const { data, error } = await supabase
       .from('user_emails')
@@ -157,7 +269,7 @@ export async function POST(request: NextRequest) {
         email,
         email_type,
         is_verified: false, // Will need verification
-        verification_token: crypto.randomUUID(),
+        verification_token: verificationToken,
       })
       .select()
       .single()
@@ -166,7 +278,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
-    // TODO: Send verification email (would require email service setup)
+    // Send verification email
+    try {
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site';
+      const verificationUrl = `${siteUrl}/api/user-emails/verify?token=${verificationToken}&email=${encodeURIComponent(email)}`;
+      
+      // Send verification email using Resend
+      const emailResult = await sendEmailVerification(
+        email,
+        user.user_metadata?.full_name || 'User',
+        verificationUrl
+      );
+      
+      if (!emailResult.success) {
+        console.error('Failed to send verification email:', emailResult.error);
+        // Don't fail the request if email sending fails, just log it
+      }
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      // Don't fail the request if email sending fails, just log it
+    }
     
     return NextResponse.json(data, { status: 201 })
   } catch (error) {

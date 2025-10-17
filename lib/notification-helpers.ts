@@ -608,6 +608,71 @@ export async function notifyIssueResolved(issueId: string, issueTitle: string, r
 }
 
 /**
+ * Send notification when an issue status changes
+ */
+export async function notifyIssueStatusChange(issueId: string, issueTitle: string, newStatus: string, reporterEmail?: string) {
+  // Get all admin and super admin users
+  const { data: adminUsers, error } = await supabase
+    .from('user_roles')
+    .select('user_id, roles:role_id(name)')
+    .in('roles.name', ['super_admin', 'admin'])
+
+  if (error) {
+    console.error('Error fetching admin users:', error)
+    return
+  }
+
+  // Create status change message
+  const statusMessages: Record<string, string> = {
+    'open': 'opened',
+    'in_progress': 'is being worked on',
+    'resolved': 'resolved'
+  }
+  
+  const statusMessage = statusMessages[newStatus] || newStatus
+
+  // Create notifications for all admins
+  const notifications: NotificationPayload[] = adminUsers.map((admin: any) => ({
+    user_id: admin.user_id,
+    type: 'admin_message',
+    title: 'Issue Status Updated',
+    message: `Issue "${issueTitle}" has been ${statusMessage}`,
+    related_id: issueId,
+    related_type: 'support_ticket',
+  }))
+
+  if (notifications.length > 0) {
+    await sendBulkNotifications(notifications)
+  }
+}
+
+/**
+ * Send notification to user when their issue status changes
+ */
+export async function notifyUserIssueStatusChange(issueId: string, issueTitle: string, newStatus: string, reporterUserId?: string) {
+  // Only notify if we have a user ID
+  if (!reporterUserId) return
+
+  // Create status change message
+  const statusMessages: Record<string, string> = {
+    'open': 'has been reopened',
+    'in_progress': 'is now being worked on',
+    'resolved': 'has been resolved'
+  }
+  
+  const statusMessage = statusMessages[newStatus] || `status changed to ${newStatus}`
+
+  await sendNotification({
+    user_id: reporterUserId,
+    type: 'support_ticket_response',
+    title: 'Issue Status Updated',
+    message: `Your issue "${issueTitle}" ${statusMessage}`,
+    related_id: issueId,
+    related_type: 'support_ticket',
+  })
+}
+
+/**
  * Send notification to admins when a query receives a response
  */
 export async function notifyQueryResponse(issueId: string, issueTitle: string, responderName: string) {
