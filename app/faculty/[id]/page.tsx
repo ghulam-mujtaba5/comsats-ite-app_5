@@ -1,7 +1,7 @@
 import { jsonLdBreadcrumb, createMetadata, jsonLdReviewList } from '@/lib/seo'
 import "../faculty.light.module.css"
 import "../faculty.dark.module.css"
-import { generateFacultyMetadata, generateFacultySchema } from '@/lib/faculty-seo'
+import { generateFacultyMetadata, generateFacultySchema, generateFacultyFAQSchema } from '@/lib/faculty-seo-advanced'
 import { type Faculty, type Review } from '@/lib/faculty-data'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
@@ -120,8 +120,16 @@ export async function generateMetadata(
     return createMetadata({ title: 'Faculty Profile', description: 'Faculty profile not found.' })
   }
   
-  // Use the enhanced SEO function
-  return generateFacultyMetadata(faculty)
+  // Extract campus from email for better SEO
+  const campus = faculty.email?.includes('lahore') ? 'Lahore' : 
+                faculty.email?.includes('attock') ? 'Attock' :
+                faculty.email?.includes('wah') ? 'Wah' :
+                faculty.email?.includes('abbottabad') ? 'Abbottabad' :
+                faculty.email?.includes('sahiwal') ? 'Sahiwal' :
+                faculty.email?.includes('vehari') ? 'Vehari' : 'Islamabad'
+  
+  // Use the ADVANCED SEO function with campus
+  return generateFacultyMetadata(faculty, campus)
 }
 
 // Optional: pre-generate static params for faster TTFB & guaranteed discoverability
@@ -144,9 +152,20 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
   if (!faculty) return notFound()
   
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
+  
+  // Extract campus for SEO
+  const campus = faculty.email?.includes('lahore') ? 'Lahore' : 
+                faculty.email?.includes('attock') ? 'Attock' :
+                faculty.email?.includes('wah') ? 'Wah' :
+                faculty.email?.includes('abbottabad') ? 'Abbottabad' :
+                faculty.email?.includes('sahiwal') ? 'Sahiwal' :
+                faculty.email?.includes('vehari') ? 'Vehari' : 'Islamabad'
 
-  // Use the enhanced schema function
-  const personJsonLd = generateFacultySchema(faculty, reviews)
+  // Use the ADVANCED schema function with campus
+  const personJsonLd = generateFacultySchema(faculty, reviews, campus)
+  
+  // Generate FAQ schema for better SEO (rich snippets)
+  const faqJsonLd = generateFacultyFAQSchema(faculty)
 
   // Breadcrumb separate object
   const breadcrumbJsonLd = jsonLdBreadcrumb([
@@ -166,7 +185,8 @@ export default async function FacultyProfilePage({ params }: { params: Promise<{
     }))
   })
 
-  const jsonLd = [personJsonLd, breadcrumbJsonLd, reviewListJson]
+  // Combine all schemas for maximum SEO impact
+  const jsonLd = [personJsonLd, faqJsonLd, breadcrumbJsonLd, reviewListJson]
 
   return (
     <>

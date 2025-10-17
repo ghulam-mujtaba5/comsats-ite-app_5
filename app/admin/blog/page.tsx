@@ -530,6 +530,8 @@ export default function AdminBlogPage() {
                           <button 
                             onClick={() => removeTag(tag)}
                             className="ml-1 hover:text-red-500"
+                            aria-label={`Remove ${tag} tag`}
+                            title={`Remove ${tag}`}
                           >
                             <X className="h-3 w-3" />
                           </button>

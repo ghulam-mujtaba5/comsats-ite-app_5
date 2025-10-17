@@ -1,6 +1,12 @@
 import type { Metadata } from "next"
 import { jsonLdBreadcrumb, jsonLdFAQ, createMetadata } from "@/lib/seo"
 import { STRUCTURED_DATA } from "@/lib/seo"
+import { 
+  createGPACalculatorSchema, 
+  createGPACalculationHowTo, 
+  createGPACalculatorFAQs,
+  createBreadcrumbSchema
+} from "@/lib/advanced-schema"
 import { pageTemplates, GPA_CALCULATOR_FAQS, GPA_CALCULATOR_HOWTO } from "@/lib/seo-config"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -32,39 +38,32 @@ export const metadata: Metadata = createMetadata({
 export default function GPACalculatorPage() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
   
-  // Structured data for better SEO
-  const breadcrumbJsonLd = jsonLdBreadcrumb([
-    { name: 'Home', path: '/' },
-    { name: 'GPA Calculator', path: '/gpa-calculator' }
+  // Advanced Structured data for better SEO
+  const breadcrumbJsonLd = createBreadcrumbSchema([
+    { name: 'Home', url: siteUrl },
+    { name: 'GPA Calculator', url: `${siteUrl}/gpa-calculator` }
   ])
   
-  const faqJsonLd = jsonLdFAQ(GPA_CALCULATOR_FAQS.map(faq => ({ question: faq.question, answer: faq.answer })))
+  const gpaCalculatorSchema = createGPACalculatorSchema()
+  const howToSchema = createGPACalculationHowTo()
+  const faqSchema = createGPACalculatorFAQs()
   
-  const howToJsonLd = STRUCTURED_DATA.howTo(
-    GPA_CALCULATOR_HOWTO.name,
-    GPA_CALCULATOR_HOWTO.description,
-    [...GPA_CALCULATOR_HOWTO.steps]
-  )
-  
-  const webAppJsonLd = STRUCTURED_DATA.webApplication(
-    'COMSATS GPA Calculator Suite',
-    'Free online GPA calculator for COMSATS University students. Calculate semester GPA, cumulative CGPA, admission aggregate, and plan your academic future.',
-    `${siteUrl}/gpa-calculator`,
-    [
-      'Semester GPA calculator',
-      'Cumulative CGPA calculator',
-      'Admission aggregate calculator',
-      'Future GPA planning',
-      'What-if scenario modeling',
-      'Credit hours calculation',
-      'Grade point conversion'
-    ]
-  )
+  // Combine all schemas
+  const allSchemas = [
+    breadcrumbJsonLd,
+    gpaCalculatorSchema,
+    howToSchema,
+    faqSchema
+  ]
 
   return (
     <div className={`${styles.page} bg-gradient-to-br from-slate-50 via-white to-blue-50/60 dark:from-slate-900 dark:via-slate-900 dark:to-blue-900/20`}>
-      {/* Structured Data */}
-      <script type="application/ld+json" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbJsonLd, faqJsonLd, howToJsonLd, webAppJsonLd]) }} />
+      {/* Advanced Structured Data */}
+      <script 
+        type="application/ld+json" 
+        suppressHydrationWarning 
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(allSchemas) }} 
+      />
       
       <main className={styles.main}>
         <div className={styles.container}>

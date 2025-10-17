@@ -8,6 +8,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticPaths: Array<{ path: string; changeFrequency?: MetadataRoute.Sitemap[0]["changeFrequency"]; priority?: number }> = [
     { path: "/", changeFrequency: "daily", priority: 1 },
+    
+    // Primary SEO Landing Pages (Critical Keywords)
+    { path: "/comsats-gpa-calculator", changeFrequency: "weekly", priority: 0.95 },
+    { path: "/comsats-past-papers", changeFrequency: "weekly", priority: 0.95 },
+    
+    // Core Features
+    { path: "/gpa-calculator", changeFrequency: "yearly", priority: 0.9 },
+    { path: "/gpa-calculator/semester", changeFrequency: "yearly", priority: 0.8 },
+    { path: "/gpa-calculator/cumulative", changeFrequency: "yearly", priority: 0.8 },
+    { path: "/gpa-calculator/aggregate", changeFrequency: "yearly", priority: 0.7 },
+    { path: "/gpa-calculator/planning", changeFrequency: "yearly", priority: 0.7 },
+    { path: "/past-papers", changeFrequency: "monthly", priority: 0.9 },
+    { path: "/faculty", changeFrequency: "weekly", priority: 0.85 },
+    { path: "/faculty/reviews", changeFrequency: "weekly", priority: 0.8 },
+    { path: "/timetable", changeFrequency: "weekly", priority: 0.85 },
+    { path: "/timetables", changeFrequency: "weekly", priority: 0.7 },
+    
+    // Campus Pages (Local SEO)
+    { path: "/campus/islamabad", changeFrequency: "monthly", priority: 0.8 },
+    { path: "/campus/lahore", changeFrequency: "monthly", priority: 0.8 },
+    { path: "/campus/attock", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/campus/wah", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/campus/abbottabad", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/campus/sahiwal", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/campus/vehari", changeFrequency: "monthly", priority: 0.7 },
+    
+    // Other Important Pages
     { path: "/about", changeFrequency: "yearly", priority: 0.5 },
     { path: "/contact", changeFrequency: "yearly", priority: 0.5 },
     { path: "/support", changeFrequency: "monthly", priority: 0.6 },
@@ -16,25 +43,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/help", changeFrequency: "yearly", priority: 0.4 },
     { path: "/blog", changeFrequency: "weekly", priority: 0.7 },
     // Known static blog article(s)
-    { path: "/blog/comsats-grading-system", changeFrequency: "yearly", priority: 0.6 },
-    { path: "/blog/comsats-gpa-calculator-guide", changeFrequency: "yearly", priority: 0.7 },
+    { path: "/blog/comsats-grading-system", changeFrequency: "yearly", priority: 0.7 },
+    { path: "/blog/comsats-gpa-calculator-guide", changeFrequency: "yearly", priority: 0.8 },
     { path: "/news", changeFrequency: "weekly", priority: 0.6 },
     { path: "/news-events", changeFrequency: "weekly", priority: 0.6 },
-    { path: "/past-papers", changeFrequency: "monthly", priority: 0.7 },
     { path: "/fee-challan-reissuance", changeFrequency: "monthly", priority: 0.7 },
-    { path: "/gpa-calculator", changeFrequency: "yearly", priority: 0.8 },
-    { path: "/gpa-calculator/semester", changeFrequency: "yearly", priority: 0.7 },
-    { path: "/gpa-calculator/cumulative", changeFrequency: "yearly", priority: 0.7 },
-    { path: "/gpa-calculator/aggregate", changeFrequency: "yearly", priority: 0.7 },
-    { path: "/gpa-calculator/planning", changeFrequency: "yearly", priority: 0.7 },
     { path: "/resources", changeFrequency: "monthly", priority: 0.6 },
     { path: "/student-support", changeFrequency: "monthly", priority: 0.5 },
     { path: "/help-desk", changeFrequency: "monthly", priority: 0.5 },
-    { path: "/timetable", changeFrequency: "weekly", priority: 0.7 },
-    { path: "/timetables", changeFrequency: "weekly", priority: 0.7 },
     { path: "/community", changeFrequency: "weekly", priority: 0.6 },
-    { path: "/faculty", changeFrequency: "weekly", priority: 0.7 },
-    { path: "/faculty/reviews", changeFrequency: "weekly", priority: 0.7 }, // Added faculty reviews page
     { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
     { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
     { path: "/legal", changeFrequency: "yearly", priority: 0.3 },
