@@ -4,7 +4,7 @@ export type SiteLink = {
   label: string
   href: string
   status?: PageStatus
-  group: 'core' | 'student' | 'community' | 'support'
+  group: 'core' | 'student' | 'community' | 'support' | 'admissions'
 }
 
 // Central source of truth for footer and other navs
@@ -27,6 +27,12 @@ export const SITE_LINKS: SiteLink[] = [
   { label: 'Student Support', href: '/student-support', status: 'live', group: 'student' }, // Added Student Support
   { label: 'Test Preparation', href: '/test-preparation', status: 'beta', group: 'student' }, // Added Test Preparation
   { label: 'Study Groups', href: '/study-groups', status: 'beta', group: 'student' }, // Added Study Groups
+
+  // Admissions (new consolidated group)
+  { label: 'Admissions', href: '/admissions', status: 'live', group: 'admissions' },
+  { label: 'Merit List 2025', href: '/merit-list-2025', status: 'live', group: 'admissions' },
+  { label: 'Fee Challan Reissuance', href: '/fee-challan-reissuance', status: 'live', group: 'admissions' },
+  { label: 'Scholarships', href: '/scholarships', status: 'live', group: 'admissions' },
 
   // Community
   { label: 'Faculty Reviews', href: '/faculty', status: 'working', group: 'community' },

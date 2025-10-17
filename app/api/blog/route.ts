@@ -109,12 +109,13 @@ export async function GET(request: NextRequest) {
 
     const { data, error } = await query
 
+    // If table missing or schema not ready, fall back to static posts only
     if (error) {
-      throw error
+      console.warn('Supabase blog_articles error, serving static posts only:', error.message)
     }
 
     // Combine database articles with static articles
-    let allArticles = [...STATIC_BLOG_POSTS, ...(data || [])]
+  let allArticles = [...STATIC_BLOG_POSTS, ...((data && Array.isArray(data)) ? data : [])]
 
     // Apply filters to static articles as well
     if (category) {
@@ -141,12 +142,16 @@ export async function GET(request: NextRequest) {
     const paginatedArticles = allArticles.slice(offset, offset + limit)
 
     // Get total count for pagination
-    const { count } = await supabase
-      .from('blog_articles')
-      .select('*', { count: 'exact', head: true })
-      .eq('is_published', true)
-
-    const totalCount = (count || 0) + STATIC_BLOG_POSTS.length
+    let totalCount = STATIC_BLOG_POSTS.length
+    try {
+      const { count } = await supabase
+        .from('blog_articles')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_published', true)
+      totalCount += (count || 0)
+    } catch (e) {
+      console.warn('Count fallback for blog_articles:', (e as any)?.message)
+    }
 
     return NextResponse.json({
       data: paginatedArticles,

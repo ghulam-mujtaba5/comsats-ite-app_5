@@ -31,6 +31,11 @@ const navigationItems = [
     description: "Browse and download past exam papers",
   },
   {
+    name: "Admissions",
+    href: "/admissions",
+    description: "Applications, merit lists, fees, scholarships",
+  },
+  {
     name: "Faculty",
     href: "/faculty",
     description: "Read and write faculty reviews",

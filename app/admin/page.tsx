@@ -168,28 +168,40 @@ export default function AdminDashboardPage() {
             priority: 'high' | 'medium' | 'low';
           }
 
+          // Grouped admin links for better IA/UX
           const links: LinkItem[] = [
-          { href: "/admin/dashboard", title: "📊 Analytics Dashboard", desc: "Comprehensive stats, insights and system health monitoring.", priority: "high" },
-          { href: "/admin/users", title: "👥 User Management", desc: "Manage accounts, permissions and user authentication.", priority: "high" },
-          { href: "/admin/emails", title: "📧 Email Management", desc: "Manage user email addresses and verification.", priority: "high" },
-          { href: "/admin/moderation", title: "🛡️ Content Moderation", desc: "Review posts, comments and handle user reports.", priority: "high" },
-          { href: "/admin/faculty-pending", title: "✅ Pending Faculty", desc: "Review and approve student-submitted faculty members.", priority: "high" },
-          { href: "/admin/blog", title: "📝 Blog Management", desc: "Create, edit, and manage blog articles and posts.", priority: "high" },
-          { href: "/admin/news-events", title: "📰 News & Events", desc: "Create and manage campus announcements and events.", priority: "medium" },
-          { href: "/admin/faq", title: "❓ FAQ Management", desc: "Create, edit, and manage frequently asked questions.", priority: "medium" },
-          { href: "/admin/faculty", title: "👨‍🏫 Faculty Directory", desc: "Add, edit and manage faculty member profiles.", priority: "medium" },
-          { href: "/admin/past-papers", title: "📄 Academic Resources", desc: "Approve and manage submitted past papers.", priority: "medium" },
-          { href: "/admin/community", title: "💬 Community Hub", desc: "Oversee student discussions and forum activity.", priority: "medium" },
-          { href: "/admin/support", title: "❤️ Student Support", desc: "Manage support resources and assistance requests.", priority: "medium" },
-          { href: "/admin/guidance", title: "📚 Guidance Portal", desc: "Maintain guides, policies and student resources.", priority: "low" },
-          { href: "/admin/lost-found", title: "🔍 Lost & Found", desc: "Manage campus lost and found item reports.", priority: "low" },
-          { href: "/admin/reviews", title: "📝 Faculty Reviews", desc: "Moderate and approve faculty review submissions.", priority: "low" },
-          { href: "/admin/resources", title: "📁 File Resources", desc: "Manage downloadable files and study materials.", priority: "low" },
-          { href: "/admin/timetable-docs", title: "📅 Timetable Management", desc: "Upload and organize official timetable documents.", priority: "low" },
-          { href: "/admin/issues", title: "🐞 Issue Tracking", desc: "Review public reports and track resolution status.", priority: "low" },
-          { href: "/admin/settings", title: "⚙️ System Settings", desc: "Configure platform settings and preferences.", priority: "low" },
-          { href: "/admin/test-preparation", title: "📝 Test Preparation", desc: "Manage test preparation resources and materials.", priority: "medium" },
-          { href: "/admin/study-groups", title: "👥 Study Groups", desc: "Manage student study groups and collaboration tools.", priority: "medium" },
+            // Admissions
+            { href: "/admin/admissions/moderation", title: "🎓 Admissions Moderation", desc: "Review admissions-related submissions and updates.", priority: "high" },
+            { href: "/admin/scholarships", title: "� Scholarships", desc: "Manage scholarships data and visibility.", priority: "medium" },
+            { href: "/admin/timetable-docs", title: "📅 Timetables (Docs)", desc: "Upload and publish official timetables.", priority: "medium" },
+
+            // Content & Blog
+            { href: "/admin/blog", title: "� Blog Management", desc: "Create and manage blog articles.", priority: "high" },
+            { href: "/admin/news-events", title: "� News & Events", desc: "Announcements and events.", priority: "medium" },
+            { href: "/admin/resources", title: "📁 File Resources", desc: "Manage downloadable resources.", priority: "low" },
+            { href: "/admin/faq", title: "❓ FAQ Management", desc: "Frequently asked questions.", priority: "low" },
+
+            // Community & Moderation
+            { href: "/admin/moderation", title: "🛡️ Content Moderation", desc: "Review posts, comments and reports.", priority: "high" },
+            { href: "/admin/community", title: "� Community Hub", desc: "Manage groups and events.", priority: "medium" },
+            { href: "/admin/reviews", title: "📝 Faculty Reviews", desc: "Moderate faculty reviews.", priority: "low" },
+            { href: "/admin/lost-found", title: "� Lost & Found", desc: "Manage lost & found items.", priority: "low" },
+
+            // Student Success
+            { href: "/admin/past-papers", title: "📄 Past Papers", desc: "Approve and manage past papers.", priority: "medium" },
+            { href: "/admin/guidance", title: "� Guidance Portal", desc: "Guides and policies.", priority: "low" },
+            { href: "/admin/test-preparation", title: "📝 Test Preparation", desc: "Prep materials.", priority: "medium" },
+            { href: "/admin/study-groups", title: "� Study Groups", desc: "Collaboration tools.", priority: "medium" },
+
+            // System & Users
+            { href: "/admin/dashboard", title: "� Analytics Dashboard", desc: "Stats and system health.", priority: "high" },
+            { href: "/admin/users", title: "� User Management", desc: "Accounts and permissions.", priority: "high" },
+            { href: "/admin/emails", title: "� Email Management", desc: "Emails and verification.", priority: "high" },
+            { href: "/admin/faculty-pending", title: "✅ Pending Faculty", desc: "Approve student-submitted faculty.", priority: "high" },
+            { href: "/admin/faculty", title: "�‍🏫 Faculty Directory", desc: "Manage faculty profiles.", priority: "medium" },
+            { href: "/admin/support", title: "❤️ Student Support", desc: "Assistance resources.", priority: "medium" },
+            { href: "/admin/issues", title: "� Issue Tracking", desc: "Track and resolve reported issues.", priority: "low" },
+            { href: "/admin/settings", title: "⚙️ System Settings", desc: "Platform configuration.", priority: "low" },
           ]
 
           const q = linkQuery.trim().toLowerCase()

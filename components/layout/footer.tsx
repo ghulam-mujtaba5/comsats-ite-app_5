@@ -18,6 +18,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
     core: SITE_LINKS.filter(l => l.group === 'core'),
     student: SITE_LINKS.filter(l => l.group === 'student'),
     community: SITE_LINKS.filter(l => l.group === 'community'),
+    admissions: SITE_LINKS.filter(l => l.group === 'admissions'),
     support: SITE_LINKS.filter(l => l.group === 'support'),
   }
 
@@ -91,7 +92,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             </a>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <div className="relative group">
@@ -135,6 +136,20 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             <h3 className="font-semibold text-foreground mb-3">Quick Links</h3>
             <ul className="space-y-1 text-[13px]">
               {groups.core.filter(link => link.href !== '/admin').concat(groups.student).map(link => (
+                <li key={link.href} className="flex items-center justify-between gap-2 py-0.5 leading-tight">
+                  <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
+                    {link.label}
+                  </Link>
+                  <StatusBadge status={link.status} />
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-foreground mb-3">Admissions</h3>
+            <ul className="space-y-1 text-[13px]">
+              {groups.admissions.map(link => (
                 <li key={link.href} className="flex items-center justify-between gap-2 py-0.5 leading-tight">
                   <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
                     {link.label}
