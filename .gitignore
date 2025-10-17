@@ -33,3 +33,6 @@ credentails.txt
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local trash folder used by cleanup scripts
+/.trash/

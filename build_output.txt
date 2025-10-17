@@ -1,8 +1,0 @@
-
-> my-v0-project@0.1.0 build
-> next build
-
-   Ôû▓ Next.js 15.2.4
-   - Environments: .env.local
-   - Experiments (use with caution):
-Removed: This file was a generated build output log and is now ignored via .gitignore.
