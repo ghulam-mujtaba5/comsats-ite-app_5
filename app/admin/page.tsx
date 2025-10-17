@@ -74,11 +74,11 @@ export default function AdminDashboardPage() {
         </div>
       }
     >
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 dark:from-slate-950 dark:via-blue-950/30 dark:to-indigo-950/20">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/10 dark:from-slate-950 dark:via-slate-900/20 dark:to-slate-900/10">
         {/* Enhanced Hero Section */}
         <div className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-indigo-600/10 backdrop-blur-3xl" />
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C92AC%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-purple-600/5 to-indigo-600/5 backdrop-blur-2xl" />
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C92AC%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20" />
           
           <div className={`relative ${styles.section} px-6 lg:px-10 pt-12 pb-8`}>
             <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
@@ -174,6 +174,8 @@ export default function AdminDashboardPage() {
           { href: "/admin/emails", title: "📧 Email Management", desc: "Manage user email addresses and verification.", priority: "high" },
           { href: "/admin/moderation", title: "🛡️ Content Moderation", desc: "Review posts, comments and handle user reports.", priority: "high" },
           { href: "/admin/faculty-pending", title: "✅ Pending Faculty", desc: "Review and approve student-submitted faculty members.", priority: "high" },
+          { href: "/admin/blog", title: "📝 Blog Management", desc: "Create, edit, and manage blog articles and posts.", priority: "high" },
+          { href: "/admin/admissions/moderation", title: "🎓 Admissions Moderation", desc: "Review and moderate admissions-related content.", priority: "medium" },
           { href: "/admin/news-events", title: "📰 News & Events", desc: "Create and manage campus announcements and events.", priority: "medium" },
           { href: "/admin/faq", title: "❓ FAQ Management", desc: "Create, edit, and manage frequently asked questions.", priority: "medium" },
           { href: "/admin/faculty", title: "👨‍🏫 Faculty Directory", desc: "Add, edit and manage faculty member profiles.", priority: "medium" },

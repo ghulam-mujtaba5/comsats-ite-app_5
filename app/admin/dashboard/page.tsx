@@ -306,8 +306,8 @@ export default function AdminDashboardPage() {
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Reviews & Feedback</CardTitle>
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
-                  <div className="relative bg-gradient-to-r from-purple-600 to-pink-600 p-2 rounded-xl">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
+                  <div className="relative bg-gradient-to-r from-blue-600 to-indigo-600 p-2 rounded-xl">
                     <MessageSquare className="h-4 w-4 text-white" />
                   </div>
                 </div>
