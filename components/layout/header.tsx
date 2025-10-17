@@ -298,15 +298,15 @@ export function Header() {
               <DropdownMenuTrigger asChild>
                 <Button 
                   variant="ghost" 
-                  className="relative h-8 w-8 sm:h-9 sm:w-9 rounded-full interactive hover-lift flex-shrink-0 admin-nav-logo-wrapper min-h-[44px] min-w-[44px]"
+                  className="relative h-8 w-8 sm:h-9 sm:w-9 rounded-full interactive hover-lift flex-shrink-0 min-h-[44px] min-w-[44px]"
                   aria-label="User menu"
                 >
-                  <Avatar className="h-8 w-8 sm:h-9 sm:w-9 admin-nav-logo">
+                  <Avatar className="h-8 w-8 sm:h-9 sm:w-9">
                     <AvatarImage 
                       src={(user as any).user_metadata?.avatar_url || undefined} 
                       alt={user.email || "Profile"} 
                     />
-                    <AvatarFallback className="bg-primary text-primary-foreground admin-nav-logo">
+                    <AvatarFallback className="bg-primary text-primary-foreground">
                       {(() => {
                         const email = user.email ?? ""
                         const handle = email.split("@")[0] ?? ""

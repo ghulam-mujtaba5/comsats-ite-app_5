@@ -1,5 +1,5 @@
 "use client"
-import { GraduationCap, Mail, MapPin, Users, Github, Twitter, Instagram, Sparkles, BookOpen, Users2, ShieldCheck } from "lucide-react"
+import { GraduationCap, Mail, MapPin, Users, Github, Twitter, Instagram, Sparkles, BookOpen, Users2, ShieldCheck, Facebook } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -163,7 +163,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
                 <Github className="h-5 w-5" />
               </Link>
               <Link href="https://www.facebook.com/share/1CJykmBEZ3/" aria-label="Facebook" className="hover:text-primary transition-colors" target="_blank" rel="noreferrer">
-                <Users className="h-5 w-5" />
+                <Facebook className="h-5 w-5" />
               </Link>
               <Link href="https://www.instagram.com/campusaxis?igsh=MXgzenJtamd2cHRydQ==" aria-label="Instagram" className="hover:text-primary transition-colors" target="_blank" rel="noreferrer">
                 <Instagram className="h-5 w-5" />
