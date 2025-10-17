@@ -7,16 +7,20 @@ import { GraduationCap, Target, Sparkles, ArrowRight, Heart, CheckCircle, Clock,
 import Link from "next/link"
 import layout from "@/app/styles/common.module.css"
 import Image from "next/image"
-import './about.light.module.css'
-import './about.dark.module.css'
+import clsx from "clsx"
+import { useThemeMode } from "@/lib/theme/useThemeMode"
+import stylesLight from './about.light.module.css'
+import stylesDark from './about.dark.module.css'
 
 export default function AboutUsPage() {
+  const mode = useThemeMode()
+  const themeClass = mode === 'dark' ? stylesDark.aboutDark : stylesLight.aboutLight
   // features removed from About page to avoid duplication with Home
 
   // Top-of-page numeric stats removed to avoid duplication with other site sections
 
   return (
-  <div className="min-h-screen flex flex-col relative overflow-hidden">
+  <div className={clsx("min-h-screen flex flex-col relative overflow-hidden", themeClass)} data-theme-scope="about">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-pulse" />

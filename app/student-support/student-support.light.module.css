@@ -1,8 +1,9 @@
-.lightTheme { /* Theme marker */ --theme-mode: light; }
+.supportLight {
+  /* Theme marker */
+  --theme-mode: light;
+}
 
-:global(html:not(.dark)) {
+.supportLight .border {
   /* Light theme: gentle borders and backgrounds */
-  .border {
-    --tw-border-opacity: 1;
-  }
+  --tw-border-opacity: 1;
 }

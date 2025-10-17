@@ -16,8 +16,10 @@ import { standardFilters } from '@/lib/filter-data'
 import { Heart, Phone, MessageCircle, BookOpen, Users, Shield, Clock, Mail, RotateCcw, AlertTriangle } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import layout from "@/app/styles/common.module.css"
-import './student-support.light.module.css'
-import './student-support.dark.module.css'
+import clsx from 'clsx'
+import { useThemeMode } from '@/lib/theme/useThemeMode'
+import stylesLight from './student-support.light.module.css'
+import stylesDark from './student-support.dark.module.css'
 
 interface SupportResource {
   id: string
@@ -34,6 +36,8 @@ interface SupportResource {
 }
 
 export default function StudentSupportClient() {
+  const mode = useThemeMode()
+  const themeClass = mode === 'dark' ? stylesDark.supportDark : stylesLight.supportLight
   const { selectedCampus } = useCampus()
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [searchQuery, setSearchQuery] = useState('')
@@ -143,7 +147,7 @@ export default function StudentSupportClient() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-muted/20">
+    <div className={clsx("min-h-screen flex flex-col bg-muted/20", themeClass)} data-theme-scope="student-support">
       <div className={`${layout.section} px-4 py-10`}>
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted text-sm font-medium text-foreground mb-5">

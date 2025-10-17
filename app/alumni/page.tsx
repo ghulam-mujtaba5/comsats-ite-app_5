@@ -26,8 +26,14 @@ import {
 import { motion } from "framer-motion"
 import { notifyFetch } from "@/lib/notify"
 import { AnimatedCard, FadeInScroll } from "@/components/animations/enhanced"
+import clsx from "clsx"
+import { useThemeMode } from "@/lib/theme/useThemeMode"
+import stylesLight from "./alumni.light.module.css"
+import stylesDark from "./alumni.dark.module.css"
 
 export default function AlumniPortal() {
+  const mode = useThemeMode()
+  const themeClass = mode === 'dark' ? stylesDark.alumniDark : stylesLight.alumniLight
   const { user, isAuthenticated } = useAuth()
   const [emails, setEmails] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -211,7 +217,7 @@ export default function AlumniPortal() {
   }
 
   return (
-    <div className="min-h-screen bg-mesh overflow-hidden relative">
+    <div className={clsx("min-h-screen bg-mesh overflow-hidden relative", themeClass)} data-theme-scope="alumni">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />

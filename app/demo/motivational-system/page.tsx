@@ -1,14 +1,8 @@
-import { Metadata } from "next"
 "use client"
 
 import layout from "@/app/styles/common.module.css"
 import { MotivationalDashboard } from "@/components/motivational/motivational-dashboard"
 import { Card } from "@/components/ui/card"
-
-export const metadata: Metadata = {
-  title: "Motivational System Demo",
-  description: "Demonstration of the integrated motivational feedback system",
-}
 
 export default function MotivationalSystemDemo() {
   return (

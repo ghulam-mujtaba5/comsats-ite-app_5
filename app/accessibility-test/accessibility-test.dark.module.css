@@ -1,6 +1,6 @@
-.darkTheme { /* Minimal theme marker */ --theme-mode: dark; }
-
-:global(html.dark) {
+.a11yDark {
+  /* Minimal theme marker */
+  --theme-mode: dark;
   /* Accessibility test dark theme marker */
   --a11y-test-theme: dark;
 }

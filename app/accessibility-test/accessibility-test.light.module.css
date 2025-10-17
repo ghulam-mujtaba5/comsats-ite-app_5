@@ -1,6 +1,6 @@
-.lightTheme { /* Minimal theme marker */ --theme-mode: light; }
-
-:global(html:not(.dark)) {
+.a11yLight {
+  /* Minimal theme marker */
+  --theme-mode: light;
   /* Accessibility test light theme marker */
   --a11y-test-theme: light;
 }

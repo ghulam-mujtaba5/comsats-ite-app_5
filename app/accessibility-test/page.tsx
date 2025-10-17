@@ -6,14 +6,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 import layout from '@/app/styles/common.module.css'
+import clsx from 'clsx'
+import { useThemeMode } from '@/lib/theme/useThemeMode'
+import stylesLight from './accessibility-test.light.module.css'
+import stylesDark from './accessibility-test.dark.module.css'
 
 export default function AccessibilityTestPage() {
+  const mode = useThemeMode()
+  const themeClass = mode === 'dark' ? stylesDark.a11yDark : stylesLight.a11yLight
   const prefersReducedMotion = usePrefersReducedMotion()
   const [isHovered, setIsHovered] = useState(false)
   const [isActive, setIsActive] = useState(false)
 
   return (
-    <div className={`${layout.section} ${layout.max6xl} py-8 space-y-8`}>
+    <div className={clsx(layout.section, layout.max6xl, "py-8 space-y-8", themeClass)} data-theme-scope="a11y-test">
       <div className="text-center">
         <h1 className="text-3xl font-bold mb-2">Accessibility Test</h1>
         <p className="text-muted-foreground">

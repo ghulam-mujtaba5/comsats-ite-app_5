@@ -1,8 +1,9 @@
-.darkTheme { /* Theme marker */ --theme-mode: dark; }
+.supportDark {
+  /* Theme marker */
+  --theme-mode: dark;
+}
 
-:global(html.dark) {
+.supportDark .border {
   /* Dark theme: refined card contrast */
-  .border {
-    --tw-border-opacity: 0.25;
-  }
+  --tw-border-opacity: 0.25;
 }
