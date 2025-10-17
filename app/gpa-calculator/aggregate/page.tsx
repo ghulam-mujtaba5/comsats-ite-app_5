@@ -1,4 +1,6 @@
 import { AggregateCalculator } from "@/components/gpa/aggregate-calculator"
+import "./aggregate.light.module.css"
+import "./aggregate.dark.module.css"
 import type { Metadata } from "next"
 import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 

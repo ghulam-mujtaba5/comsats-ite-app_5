@@ -10,6 +10,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import layout from "@/app/styles/common.module.css"
+import "./student-portal.light.module.css"
+import "./student-portal.dark.module.css"
 
 interface PortalResource {
   id: string

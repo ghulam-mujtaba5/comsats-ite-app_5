@@ -3,6 +3,9 @@ import { createMetadata } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
+// Section-level theming: apply light/dark CSS for all admin routes
+import { AdminThemeWrapper } from './AdminThemeWrapper'
+
 // Apply noindex to all admin routes by default to keep them out of search results.
 export const metadata: Metadata = createMetadata({
   title: 'Admin Dashboard',
@@ -12,5 +15,5 @@ export const metadata: Metadata = createMetadata({
 })
 
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
-  return children
+  return <AdminThemeWrapper>{children}</AdminThemeWrapper>
 }

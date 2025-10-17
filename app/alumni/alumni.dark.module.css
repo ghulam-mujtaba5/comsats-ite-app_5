@@ -1,0 +1,6 @@
+.darkTheme { /* Theme marker */ --theme-mode: dark; }
+
+:global(html.dark) :root {
+  /* Alumni section dark theme marker */
+  --alumni-theme: dark;
+}

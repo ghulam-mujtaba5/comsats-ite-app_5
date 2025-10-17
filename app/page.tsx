@@ -1,4 +1,6 @@
 import type { Metadata } from "next"
+import "./home.light.module.css"
+import "./home.dark.module.css"
 import { Suspense } from "react"
 import layout from "@/app/styles/common.module.css"
 import { EnhancedHero } from "@/components/home/enhanced-hero"

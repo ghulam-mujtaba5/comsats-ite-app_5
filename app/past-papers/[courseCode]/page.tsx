@@ -1,4 +1,6 @@
 import CourseClient from './course-client'
+import "../past-papers.light.module.css"
+import "../past-papers.dark.module.css"
 import { Metadata } from 'next'
 import { jsonLdBreadcrumb, jsonLdCourseWithPapers } from '@/lib/seo'
 

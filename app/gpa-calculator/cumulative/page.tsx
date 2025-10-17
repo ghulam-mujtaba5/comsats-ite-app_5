@@ -1,4 +1,6 @@
 import { CumulativeGPACalculator } from "@/components/gpa/cumulative-gpa-calculator"
+import "./cumulative.light.module.css"
+import "./cumulative.dark.module.css"
 import type { Metadata } from "next"
 import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 

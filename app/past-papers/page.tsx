@@ -1,4 +1,6 @@
 import { Metadata } from 'next'
+import "./past-papers.light.module.css"
+import "./past-papers.dark.module.css"
 import PastPapersClient from './past-papers-client'
 import { jsonLdBreadcrumb, jsonLdCollectionPage } from '@/lib/seo'
 

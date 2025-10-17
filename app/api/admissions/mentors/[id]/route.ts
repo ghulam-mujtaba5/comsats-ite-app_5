@@ -4,10 +4,10 @@ import { supabase } from '@/lib/supabase'
 // Get mentor details
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const mentorId = params.id
+    const { id: mentorId } = await params
 
     // For now, we'll return mock data
     // In a real implementation, this would query the mentors table
@@ -106,7 +106,7 @@ export async function GET(
 // Update mentor profile (requires authentication)
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // In a real implementation, this would require authentication and check if the user owns this mentor profile
@@ -115,7 +115,7 @@ export async function PUT(
     // For now, just return success
     return NextResponse.json({ 
       message: 'Mentor profile updated successfully',
-      mentor: { id: params.id, ...body }
+      mentor: { id: (await params).id, ...body }
     })
   } catch (error) {
     console.error('Error updating mentor:', error)

@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { notify, notifyFetch } from "@/lib/notify"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import layout from "@/app/styles/common.module.css"
+import "./report-issue.light.module.css"
+import "./report-issue.dark.module.css"
  
 
 const categories = [

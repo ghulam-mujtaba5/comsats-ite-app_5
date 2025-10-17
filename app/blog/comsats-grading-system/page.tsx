@@ -3,6 +3,8 @@ import { CumulativeGPACalculator } from "@/components/gpa/cumulative-gpa-calcula
 import { GPAPlanningCalculator } from "@/components/gpa/gpa-planning-calculator"
 import { jsonLdBlogPosting, jsonLdBreadcrumb } from "@/lib/seo"
 import layout from "@/app/styles/common.module.css"
+import "../blog.light.module.css"
+import "../blog.dark.module.css"
 
 export const metadata = {
   title: "COMSATS Grading System & GPA Calculators",

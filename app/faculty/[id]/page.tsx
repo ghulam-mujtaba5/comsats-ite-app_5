@@ -1,4 +1,6 @@
 import { jsonLdBreadcrumb, createMetadata, jsonLdReviewList } from '@/lib/seo'
+import "../faculty.light.module.css"
+import "../faculty.dark.module.css"
 import { generateFacultyMetadata, generateFacultySchema } from '@/lib/faculty-seo'
 import { type Faculty, type Review, calculateReviewStats } from '@/lib/faculty-data'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

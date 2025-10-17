@@ -1,0 +1,17 @@
+.adminRootDark { /* local scope for admin dark */
+  /* Marker ensures CSS Modules purity */
+  --theme-mode: dark;
+
+  /* Apply dark-only tokens when html has .dark */
+  :global(html.dark) & {
+    --admin-theme: dark;
+  }
+}
+
+/* Backward compatible alias used by layout */
+.adminDark {
+  --theme-mode: dark;
+  :global(html.dark) & {
+    --admin-theme: dark;
+  }
+}

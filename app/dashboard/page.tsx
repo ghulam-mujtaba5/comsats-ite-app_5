@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation'
 import { requireUser } from '@/lib/auth-server'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import layout from '@/app/styles/common.module.css'
+import "./dashboard.light.module.css"
+import "./dashboard.dark.module.css"
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'

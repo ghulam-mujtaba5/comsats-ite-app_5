@@ -1,0 +1,7 @@
+/* Dashboard page - dark mode theming */
+.darkTheme { /* Minimal theme marker */ --theme-mode: dark; }
+
+:global(html.dark) {
+  --dashboard-bg-primary: var(--background);
+  --dashboard-text-primary: var(--foreground);
+}

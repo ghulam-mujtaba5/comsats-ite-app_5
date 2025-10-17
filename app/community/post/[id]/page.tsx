@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 import PostClient from './post-client'
+import "../../community.light.module.css"
+import "../../community.dark.module.css"
 
 export const dynamic = 'force-dynamic'
 

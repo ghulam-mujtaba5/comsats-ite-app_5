@@ -1,0 +1,6 @@
+.lightTheme { /* Theme marker */ --theme-mode: light; }
+
+:global(html:not(.dark)) :root {
+  /* Glassmorphism test light theme marker */
+  --glass-test-theme: light;
+}

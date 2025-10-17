@@ -1,4 +1,6 @@
 "use client"
+import "./settings.light.module.css"
+import "./settings.dark.module.css"
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'

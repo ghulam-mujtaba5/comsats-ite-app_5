@@ -1,0 +1,5 @@
+.darkTheme { --theme-mode: dark; }
+
+:global(html.dark) .semester-page {
+  --theme-ready: 1;
+}

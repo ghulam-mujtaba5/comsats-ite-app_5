@@ -15,6 +15,8 @@ import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import layout from "@/app/styles/common.module.css"
+import "./lost-found.light.module.css"
+import "./lost-found.dark.module.css"
 
 interface LostFoundItem {
   id: string

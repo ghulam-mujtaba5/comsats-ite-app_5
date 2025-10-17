@@ -30,6 +30,8 @@ import { QueryAnswering } from "@/components/admissions/query-answering"
 import { ResourceSharing } from "@/components/admissions/resource-sharing"
 import { AdmissionsStructuredData } from "@/components/admissions/structured-data"
 import layout from "@/app/styles/common.module.css"
+import "./admissions.light.module.css"
+import "./admissions.dark.module.css"
 
 export const metadata: Metadata = {
   title: "Admissions - CampusAxis | COMSATS Admission Guidance",

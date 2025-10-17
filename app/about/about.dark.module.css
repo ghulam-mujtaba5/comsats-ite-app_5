@@ -1,0 +1,5 @@
+.darkTheme { /* Minimal theme marker */ --theme-mode: dark; }
+
+:global(html.dark) .aboutHeroAccent {
+  --about-hero-glow: 0 0 120px rgba(147,197,253,0.10);
+}

@@ -1,0 +1,3 @@
+.lightTheme { --theme-mode: light; }
+
+:global(html:not(.dark)) .timetables-page { --theme-ready: 1; }

@@ -1,9 +1,9 @@
 import { Metadata } from "next"
 "use client"
 
-import { MotivationalQuote } from "@/components/features/motivational-quote"
-import { Card } from "@/components/ui/card"
 import layout from "@/app/styles/common.module.css"
+import { MotivationalDashboard } from "@/components/motivational/motivational-dashboard"
+import { Card } from "@/components/ui/card"
 
 export const metadata: Metadata = {
   title: "Motivational System Demo",

@@ -1,0 +1,6 @@
+.lightTheme { /* Theme marker */ --theme-mode: light; }
+
+:global(html:not(.dark)) :root {
+  /* Demo section light theme marker */
+  --demo-theme: light;
+}

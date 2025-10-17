@@ -1,4 +1,6 @@
 import { SemesterGPACalculator } from "@/components/gpa/semester-gpa-calculator"
+import "./semester.light.module.css"
+import "./semester.dark.module.css"
 import type { Metadata } from "next"
 import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 

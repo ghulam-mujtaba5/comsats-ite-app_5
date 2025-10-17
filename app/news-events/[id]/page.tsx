@@ -1,4 +1,6 @@
 import { Metadata } from 'next'
+import "../news-events.light.module.css"
+import "../news-events.dark.module.css"
 import { jsonLdBreadcrumb } from '@/lib/seo'
 import layout from "@/app/styles/common.module.css"
 

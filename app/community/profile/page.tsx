@@ -48,6 +48,8 @@ import { UserAchievements } from "@/components/community/user-achievements"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
 import layout from "@/app/styles/common.module.css"
+import "../community.light.module.css"
+import "../community.dark.module.css"
 
 export default function CommunityProfilePage() {
   const { user: currentUser } = useAuth()

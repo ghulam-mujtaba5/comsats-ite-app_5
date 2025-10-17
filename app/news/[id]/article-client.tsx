@@ -12,6 +12,7 @@ import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
 import { ShareButton } from "@/components/share/share-button"
 import { SEOMeta } from "@/components/seo/seo-meta"
+import layout from "@/app/styles/common.module.css"
 
 type News = {
   id: string

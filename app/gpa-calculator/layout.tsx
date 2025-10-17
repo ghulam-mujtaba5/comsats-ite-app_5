@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { createMetadata } from '@/lib/seo'
+import './gpa-calculator.light.module.css'
+import './gpa-calculator.dark.module.css'
 
 export async function generateMetadata(): Promise<Metadata> {
   return createMetadata({

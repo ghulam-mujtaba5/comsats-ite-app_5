@@ -1,0 +1,3 @@
+.darkTheme { --theme-mode: dark; }
+
+:global(html.dark) .help-desk-page { --theme-ready: 1; }

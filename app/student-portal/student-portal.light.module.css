@@ -1,0 +1,9 @@
+.lightTheme { --theme-mode: light; }
+
+/* Student portal section - light mode theming */
+.lightTheme { /* Minimal theme marker */ --theme-mode: light; }
+
+:global(html:not(.dark)) {
+  --student-portal-bg-primary: var(--background);
+  --student-portal-text-primary: var(--foreground);
+}

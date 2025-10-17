@@ -26,6 +26,8 @@ import {
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import layout from "@/app/styles/common.module.css";
+import './contact.light.module.css'
+import './contact.dark.module.css'
 
 export function ContactPageClient() {
   const [isVisible, setIsVisible] = useState(false);

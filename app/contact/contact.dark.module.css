@@ -1,0 +1,10 @@
+/* Contact page - dark mode theming */
+.darkTheme { /* Minimal theme marker */ --theme-mode: dark; }
+
+:global(html.dark) {
+  /* Dark theme tweaks for Contact page */
+  .card-modern {
+    --card-bg: rgba(2,6,23,0.5);
+    --card-border: rgba(148,163,184,0.15);
+  }
+}

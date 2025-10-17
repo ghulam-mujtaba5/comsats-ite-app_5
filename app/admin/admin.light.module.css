@@ -1,0 +1,9 @@
+.adminRootLight {
+  /* Admin section - light mode variables */
+  --admin-theme: light;
+}
+
+/* Backward compatible alias used by layout */
+.adminLight {
+  --admin-theme: light;
+}

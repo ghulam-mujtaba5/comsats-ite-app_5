@@ -1,0 +1,7 @@
+/* Auth page - light mode theming */
+.lightTheme { /* Minimal theme marker */ --theme-mode: light; }
+
+:global(html:not(.dark)) {
+  --auth-bg-primary: var(--background);
+  --auth-text-primary: var(--foreground);
+}

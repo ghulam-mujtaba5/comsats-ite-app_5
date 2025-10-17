@@ -1,0 +1,9 @@
+.lightTheme { /* Minimal theme marker */ --theme-mode: light; }
+
+:global(html:not(.dark)) {
+  /* Light theme overrides for About page */
+  /* Example: soften backgrounds subtly */
+  .aboutHeroAccent {
+    --about-hero-glow: 0 0 120px rgba(59,130,246,0.18);
+  }
+}

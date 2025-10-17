@@ -1,5 +1,7 @@
 // Server component wrapper for auth page to allow metadata export.
 import AuthClient from "./auth-client"
+import "./auth.light.module.css"
+import "./auth.dark.module.css"
 
 export const metadata = {
   title: 'Student Login & Sign Up – COMSATS Portal Access',

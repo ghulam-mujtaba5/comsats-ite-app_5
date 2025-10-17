@@ -1,0 +1,3 @@
+.lightTheme { /* Theme marker */ --theme-mode: light; }
+
+:global(html:not(.dark)) :root { --profile-theme: light; }

@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import { createMetadata, jsonLdFAQ } from "@/lib/seo"
 import { HelpClient } from "./help-client"
+import "./help.light.module.css"
+import "./help.dark.module.css"
 
 // Static FAQ data for both UI and FAQPage JSON-LD
 const faqs = [

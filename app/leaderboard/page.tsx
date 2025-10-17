@@ -23,6 +23,9 @@ import {
   Sparkles
 } from "lucide-react"
 import { EnhancedLeaderboard } from "@/components/gamification/enhanced-leaderboard"
+import layout from "@/app/styles/common.module.css"
+import "./leaderboard.light.module.css"
+import "./leaderboard.dark.module.css"
 
 interface LeaderboardEntry {
   userId: string

@@ -1,4 +1,6 @@
 "use client"
+import "../help-desk.light.module.css"
+import "../help-desk.dark.module.css"
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"

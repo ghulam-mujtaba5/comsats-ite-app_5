@@ -1,0 +1,9 @@
+.darkTheme { /* Theme marker */ --theme-mode: dark; }
+
+:global(html.dark) {
+  /* Dark theme Support page tweaks */
+  .glass-card {
+    --glass-bg: rgba(2,6,23,0.55);
+    --glass-border: rgba(148,163,184,0.18);
+  }
+}

@@ -1,5 +1,7 @@
 "use client"
 
+import "./emotional-wellness.light.module.css"
+import "./emotional-wellness.dark.module.css"
 import { useState, useEffect } from "react"
 import { useEmotion } from "@/contexts/emotion-context"
 import { EmotionDashboard } from "@/components/emotion/emotion-dashboard"

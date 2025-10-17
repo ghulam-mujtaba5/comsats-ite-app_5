@@ -1,0 +1,7 @@
+/* Dashboard page - light mode theming */
+.lightTheme { /* Minimal theme marker */ --theme-mode: light; }
+
+:global(html:not(.dark)) {
+  --dashboard-bg-primary: var(--background);
+  --dashboard-text-primary: var(--foreground);
+}

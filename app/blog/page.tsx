@@ -11,6 +11,8 @@ import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Search, Calendar, Eye, User, Tag } from "lucide-react"
 import Link from "next/link"
 import { marked } from 'marked'
+import "./blog.light.module.css"
+import "./blog.dark.module.css"
 
 interface BlogArticle {
   id: string

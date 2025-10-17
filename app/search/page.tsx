@@ -1,4 +1,6 @@
 import type { Metadata } from "next"
+import "./search.light.module.css"
+import "./search.dark.module.css"
 import { createMetadata } from "@/lib/seo"
 import { SearchClient } from "./search-client"
 

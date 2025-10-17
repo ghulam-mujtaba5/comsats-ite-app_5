@@ -21,6 +21,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import layout from "@/app/styles/common.module.css"
+import './support.light.module.css'
+import './support.dark.module.css'
 
 export default function SupportPage() {
   const supportOptions = [

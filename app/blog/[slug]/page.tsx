@@ -13,6 +13,8 @@ import { marked } from 'marked'
 import { ShareButton } from "@/components/share/share-button"
 import { SEOMeta } from "@/components/seo/seo-meta"
 import layout from "@/app/styles/common.module.css"
+import "../blog.light.module.css"
+import "../blog.dark.module.css"
 
 interface BlogArticle {
   id: string

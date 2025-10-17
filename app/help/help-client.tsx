@@ -26,6 +26,8 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import './help.light.module.css'
+import './help.dark.module.css'
 
 interface FAQItem {
   id: string

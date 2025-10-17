@@ -1,0 +1,9 @@
+.darkTheme { --theme-mode: dark; }
+
+/* Student portal section - dark mode theming */
+.darkTheme { /* Minimal theme marker */ --theme-mode: dark; }
+
+:global(html.dark) {
+  --student-portal-bg-primary: var(--background);
+  --student-portal-text-primary: var(--foreground);
+}

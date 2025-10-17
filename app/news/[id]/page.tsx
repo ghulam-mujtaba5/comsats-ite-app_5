@@ -1,4 +1,6 @@
 import ArticleClient from './article-client'
+import "../news.light.module.css"
+import "../news.dark.module.css"
 import { Metadata } from 'next'
 import { jsonLdBreadcrumb } from '@/lib/seo'
 import { jsonLdSpeakable } from '@/lib/seo'

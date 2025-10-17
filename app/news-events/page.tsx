@@ -1,4 +1,6 @@
 import { Metadata } from 'next'
+import "./news-events.light.module.css"
+import "./news-events.dark.module.css"
 import { NewsEventsClient } from './news-events-client'
 
 export const dynamic = 'force-dynamic'

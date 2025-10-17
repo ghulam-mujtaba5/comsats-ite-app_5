@@ -7,6 +7,8 @@ import { GraduationCap, Target, Sparkles, ArrowRight, Heart, CheckCircle, Clock,
 import Link from "next/link"
 import layout from "@/app/styles/common.module.css"
 import Image from "next/image"
+import './about.light.module.css'
+import './about.dark.module.css'
 
 export default function AboutUsPage() {
   // features removed from About page to avoid duplication with Home

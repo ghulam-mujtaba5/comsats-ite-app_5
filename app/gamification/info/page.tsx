@@ -27,6 +27,8 @@ import { LEVELS, BADGES, TEAM_ROLES } from "@/lib/gamification"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import "./info.light.module.css"
+import "./info.dark.module.css"
 
 export default function GamificationInfoPage() {
   return (

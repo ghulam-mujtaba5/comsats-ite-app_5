@@ -16,6 +16,8 @@ import { standardFilters } from '@/lib/filter-data'
 import { Heart, Phone, MessageCircle, BookOpen, Users, Shield, Clock, Mail, RotateCcw, AlertTriangle } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import layout from "@/app/styles/common.module.css"
+import './student-support.light.module.css'
+import './student-support.dark.module.css'
 
 interface SupportResource {
   id: string

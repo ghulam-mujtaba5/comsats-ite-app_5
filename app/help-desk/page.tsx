@@ -1,4 +1,6 @@
 "use client"
+import "./help-desk.light.module.css"
+import "./help-desk.dark.module.css"
 
 import { useEffect, useMemo, useState } from "react"
 import { useCampus } from "@/contexts/campus-context"

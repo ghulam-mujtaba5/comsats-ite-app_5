@@ -19,10 +19,11 @@ import Head from "next/head"
 import { GlassCard } from "@/components/admin/glass-card"
 import layout from "@/app/styles/common.module.css"
 
-export default function MentorProfilePage({ params }: { params: { id: string } }) {
+export default async function MentorProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   // In a real implementation, this data would come from an API
   const mentor = {
-    id: params.id,
+    id,
     name: "Ahmed Raza",
     department: "Computer Science",
     program: "BSCS",
@@ -78,7 +79,7 @@ export default function MentorProfilePage({ params }: { params: { id: string } }
         <title>{mentor.name} - Mentor Profile | CampusAxis Admissions</title>
         <meta name="description" content={`Get admission guidance from ${mentor.name}, a ${mentor.program} graduate from COMSATS. Specialized in ${mentor.specialization.join(", ")}.`} />
         <meta name="keywords" content={`COMSATS mentor, ${mentor.department} mentor, ${mentor.name}, admission guidance, NTS preparation`} />
-        <link rel="canonical" href={`https://campusaxis.site/admissions/mentor/${params.id}`} />
+        <link rel="canonical" href={`https://campusaxis.site/admissions/mentor/${id}`} />
       </Head>
       <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
         <div className={`${layout.section} px-4 py-8`}>

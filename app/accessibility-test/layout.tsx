@@ -1,4 +1,6 @@
 import layout from '@/app/styles/common.module.css'
+import './accessibility-test.light.module.css'
+import './accessibility-test.dark.module.css'
 
 export default function AccessibilityTestLayout({
   children,

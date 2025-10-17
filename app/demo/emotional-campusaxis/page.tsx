@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import layout from "@/app/styles/common.module.css"
 import { useEmotion } from "@/contexts/emotion-context"
 import { useMotivationBooster, useCalmMode, useStudyCompanionFeedback } from "@/hooks/use-emotion-detection"
 import { useAnimation } from "@/contexts/animation-context"

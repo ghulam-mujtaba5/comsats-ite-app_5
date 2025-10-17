@@ -1,4 +1,6 @@
 "use client"
+import "./timetables.light.module.css"
+import "./timetables.dark.module.css"
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"

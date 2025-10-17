@@ -12,14 +12,9 @@ Sentry.init({
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
 
-  // Automatically instrument your application
-  integrations: [
-    // Add profiling integration
-    Sentry.profilingIntegration(),
-  ],
-
-  // Set profilesSampleRate to 0.1 to profile 10% of transactions
-  profilesSampleRate: 0.1,
+  // Automatically instrument your application (server-side)
+  // Note: profilingIntegration is not available in @sentry/nextjs v10; rely on default instrumentation
+  integrations: [],
 
   // Set the environment
   environment: process.env.NODE_ENV || 'development',
@@ -29,7 +24,7 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0,
 
   // Filter sensitive data
-  beforeSend(event: Sentry.Event, hint: Sentry.EventHint) {
+  beforeSend(event: Sentry.ErrorEvent, hint: Sentry.EventHint) {
     // Don't send events in development
     if (process.env.NODE_ENV !== 'production') {
       return null

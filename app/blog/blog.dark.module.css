@@ -1,0 +1,3 @@
+.darkTheme { /* Theme marker */ --theme-mode: dark; }
+
+:global(html.dark) :root { --blog-theme: dark; }

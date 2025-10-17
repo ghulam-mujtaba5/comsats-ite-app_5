@@ -13,6 +13,8 @@ import { Search, BookOpen, GraduationCap, FileText, DollarSign, MapPin, Newspape
 import Link from "next/link"
 import { marked } from 'marked'
 import layout from "@/app/styles/common.module.css"
+import "./guidance.light.module.css"
+import "./guidance.dark.module.css"
 
 interface GuideSection {
   id: string

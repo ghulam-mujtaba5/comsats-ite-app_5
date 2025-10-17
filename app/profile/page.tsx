@@ -53,6 +53,8 @@ import { Info } from "lucide-react"
 import { EmailManagement } from "@/components/profile/email-management"
 import { SettingsManagement } from "@/components/profile/settings-management"
 import layout from "@/app/styles/common.module.css"
+import "./profile.light.module.css"
+import "./profile.dark.module.css"
 
 export default function ProfilePage() {
   const { user, logout, isAuthenticated, isLoading } = useAuth()

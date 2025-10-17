@@ -13,6 +13,8 @@ import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 import { cn } from "@/lib/utils"
 import layout from "@/app/styles/common.module.css"
+import './news.light.module.css'
+import './news.dark.module.css'
 
 type News = {
   id: string

@@ -24,6 +24,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import "./contribute.light.module.css"
+import "./contribute.dark.module.css"
 
 export default function ContributePage() {
   const [isVisible, setIsVisible] = useState(false)

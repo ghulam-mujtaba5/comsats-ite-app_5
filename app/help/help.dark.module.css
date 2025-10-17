@@ -1,0 +1,9 @@
+.darkTheme { /* Theme marker */ --theme-mode: dark; }
+
+:global(html.dark) {
+  /* Dark theme Help page refinements */
+  .card-modern {
+    --card-bg: rgba(2,6,23,0.55);
+    --card-border: rgba(148,163,184,0.18);
+  }
+}

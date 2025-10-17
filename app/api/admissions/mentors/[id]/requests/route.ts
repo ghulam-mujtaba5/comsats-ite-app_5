@@ -5,7 +5,7 @@ import { requireAuth } from '@/lib/auth-server'
 // Create a mentoring request
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth()
@@ -16,7 +16,7 @@ export async function POST(
       )
     }
 
-    const mentorId = params.id
+    const { id: mentorId } = await params
     const body = await request.json()
     
     // Validate required fields
@@ -57,7 +57,7 @@ export async function POST(
 // Get mentoring requests for a mentor (requires authentication)
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth()
@@ -68,7 +68,7 @@ export async function GET(
       )
     }
 
-    const mentorId = params.id
+    const { id: mentorId } = await params
     
     // In a real implementation, this would check if the authenticated user is the mentor
     // and then fetch their requests from the database

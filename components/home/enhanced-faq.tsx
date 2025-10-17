@@ -16,6 +16,7 @@ import styles from "./enhanced-faq.module.css"
 import "./enhanced-faq.light.module.css"
 import "./enhanced-faq.dark.module.css"
 import layout from "@/app/styles/common.module.css"
+import { usePreferredTheme } from "@/hooks/use-preferred-theme"
 
 type FAQ = {
   id: string
@@ -24,6 +25,7 @@ type FAQ = {
 }
 
 export function EnhancedFAQ() {
+  const { isDark } = usePreferredTheme()
   const [faqs, setFaqs] = useState<FAQ[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -149,7 +151,7 @@ export function EnhancedFAQ() {
     <section className={styles.section}>
       <div className={`${layout.section} ${layout.max6xl}`}>
         {/* Enhanced Header with proper spacing */}
-        <div className="text-center mb-16 md:mb-20">
+        <div className={`text-center mb-16 md:mb-20 ${isDark ? 'opacity-100' : 'opacity-100'}`}>
           <Badge variant="soft" className={styles.headerBadge}>
             <HelpCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
             Student Support

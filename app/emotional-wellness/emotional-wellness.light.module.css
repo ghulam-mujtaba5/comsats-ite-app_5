@@ -1,0 +1,7 @@
+/* Emotional wellness page - light mode theming */
+.lightTheme { /* Minimal theme marker */ --theme-mode: light; }
+
+:global(html:not(.dark)) {
+  --wellness-bg-primary: var(--background);
+  --wellness-text-primary: var(--foreground);
+}

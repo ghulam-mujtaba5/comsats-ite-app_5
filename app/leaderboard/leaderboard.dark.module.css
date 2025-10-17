@@ -1,0 +1,5 @@
+.darkTheme { /* Theme marker */ --theme-mode: dark; }
+
+:global(html.dark) :root {
+  --leaderboard-theme: dark;
+}

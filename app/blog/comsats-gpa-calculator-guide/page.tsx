@@ -4,6 +4,8 @@ import { CumulativeGPACalculator } from "@/components/gpa/cumulative-gpa-calcula
 import { jsonLdBlogPosting, jsonLdBreadcrumb } from "@/lib/seo"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import layout from "@/app/styles/common.module.css"
+import "../blog.light.module.css"
+import "../blog.dark.module.css"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowRight, Calculator, BookOpen, TrendingUp, Target, Lightbulb } from "lucide-react"

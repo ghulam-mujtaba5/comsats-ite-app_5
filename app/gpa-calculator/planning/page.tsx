@@ -1,4 +1,6 @@
 import { GPAPlanningCalculator } from "@/components/gpa/gpa-planning-calculator"
+import "./planning.light.module.css"
+import "./planning.dark.module.css"
 import type { Metadata } from "next"
 import { createMetadata, jsonLdBreadcrumb } from "@/lib/seo"
 

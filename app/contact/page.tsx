@@ -1,5 +1,7 @@
 import { createMetadata } from "@/lib/seo";
 import { ContactPageClient } from "./contact-client";
+import "./contact.light.module.css"
+import "./contact.dark.module.css"
 
 export const metadata = createMetadata({
   title: "Contact Us",

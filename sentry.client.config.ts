@@ -31,7 +31,7 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0,
 
   // Filter sensitive data
-  beforeSend(event: Sentry.Event, hint: Sentry.EventHint) {
+  beforeSend(event: Sentry.ErrorEvent, hint: Sentry.EventHint) {
     // Don't send events in development
     if (process.env.NODE_ENV !== 'production') {
       return null

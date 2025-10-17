@@ -1,0 +1,9 @@
+.lightTheme { /* Theme marker */ --theme-mode: light; }
+
+:global(html:not(.dark)) {
+  /* Light theme Help page refinements */
+  .card-modern {
+    --card-bg: rgba(255,255,255,0.75);
+    --card-border: rgba(17,24,39,0.08);
+  }
+}

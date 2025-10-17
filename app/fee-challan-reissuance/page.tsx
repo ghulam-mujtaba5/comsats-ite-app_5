@@ -1,6 +1,8 @@
 import React from 'react'
 import { jsonLdBreadcrumb, jsonLdFAQ } from '@/lib/seo'
 import layout from '@/app/styles/common.module.css'
+import "./fee-challan-reissuance.light.module.css"
+import "./fee-challan-reissuance.dark.module.css"
 
 export const metadata = {
   title: 'COMSATS Fee Challan Guide (Download, Reissue, Payment Options)',

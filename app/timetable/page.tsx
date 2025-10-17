@@ -1,4 +1,6 @@
 "use client"
+import "./timetable.light.module.css"
+import "./timetable.dark.module.css"
 
 import { useEffect, useState, useCallback, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"

@@ -37,6 +37,8 @@ import { useAdvancedSearch } from "@/hooks/use-advanced-search"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { cn } from "@/lib/utils"
 import layout from "@/app/styles/common.module.css"
+import "../community.light.module.css"
+import "../community.dark.module.css"
 
 export default function CommunitySearchPage() {
   const { filters, results, loading, error, updateFilters, clearFilters } = useAdvancedSearch()
