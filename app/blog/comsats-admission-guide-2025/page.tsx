@@ -7,7 +7,15 @@ import Link from 'next/link'
 export const metadata = createMetadata({
   title: "COMSATS Admission Process 2025: Complete Step-by-Step Guide",
   description: "Everything you need to know about COMSATS University admission 2025. Entry test preparation, merit calculation, campus selection, fee structure, and expert tips from admitted students.",
-  keywords: "COMSATS admission 2025, COMSATS entry test, COMSATS merit list, university admission Pakistan, COMSATS fee structure, admission requirements, COMSATS eligibility"
+  keywords: [
+    "COMSATS admission 2025",
+    "COMSATS entry test",
+    "COMSATS merit list",
+    "university admission Pakistan",
+    "COMSATS fee structure",
+    "admission requirements",
+    "COMSATS eligibility"
+  ]
 })
 
 export default function ComsatsAdmissionGuide2025() {

@@ -48,14 +48,14 @@ export default function HomePage() {
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {/* Primary brand gradient orbs - Megicode Blue (#4573df) */}
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-[#4573df]/25 via-[#667eea]/20 to-[#2d4fa2]/15 dark:from-[#4573df]/30 dark:via-[#667eea]/25 dark:to-[#2d4fa2]/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-[#ff9800]/20 via-[#ff9800]/15 to-[#764ba2]/12 dark:from-[#ff9800]/25 dark:via-[#ff9800]/20 dark:to-[#764ba2]/18 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+  <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-[#ff9800]/20 via-[#ff9800]/15 to-[#764ba2]/12 dark:from-[#ff9800]/25 dark:via-[#ff9800]/20 dark:to-[#764ba2]/18 rounded-full blur-3xl animate-pulse animate-delay-2000" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-br from-[#4573df]/15 via-[#667eea]/12 to-[#2d4fa2]/10 dark:from-[#4573df]/22 dark:via-[#667eea]/18 dark:to-[#2d4fa2]/15 rounded-full blur-3xl" />
         
         {/* Premium dot pattern with brand colors */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%234573df%22%20fill-opacity%3D%220.08%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%221.5%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60 dark:opacity-30" />
         
         {/* Maximum glassmorphism overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/60 to-white/90 dark:from-[#0f1115]/40 dark:via-[#181c22]/60 dark:to-[#0f1115]/90 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-white/90 dark:bg-gradient-to-b dark:from-[#0f1115]/40 dark:via-[#181c22]/60 dark:to-[#0f1115]/90 backdrop-blur-[1px]" />
       </div>
 
       <main className="relative z-10 flex-1">

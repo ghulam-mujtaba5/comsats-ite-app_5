@@ -186,11 +186,11 @@ export function EnhancedHero() {
   }
 
   return (
-    <section className="relative min-h-[85vh] flex items-center overflow-hidden px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-blue-50/60 to-indigo-50/50 dark:from-slate-900/30 dark:via-slate-800/20 dark:to-slate-900/10" aria-labelledby="hero-heading" ref={ref} role="region">
+    <section className="relative min-h-[85vh] flex items-center overflow-hidden px-4 sm:px-6 lg:px-8 bg-white dark:bg-gradient-to-br dark:from-slate-900/30 dark:via-slate-800/20 dark:to-slate-900/10" aria-labelledby="hero-heading" ref={ref} role="region">
       {/* Enhanced background elements with proper spacing and reduced visual noise */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-500/8 to-indigo-500/8 dark:from-blue-500/10 dark:to-indigo-500/10 rounded-full blur-3xl" aria-hidden="true" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-blue-600/8 to-indigo-600/8 dark:from-blue-600/10 dark:to-indigo-600/10 rounded-full blur-3xl" style={{ animationDelay: '2s' }} aria-hidden="true" />
+  <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-blue-600/8 to-indigo-600/8 dark:from-blue-600/10 dark:to-indigo-600/10 rounded-full blur-3xl animate-delay-2000" aria-hidden="true" />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-blue-400/6 to-indigo-400/6 dark:from-blue-400/5 dark:to-indigo-400/5 rounded-full blur-3xl" aria-hidden="true" />
       </div>
 

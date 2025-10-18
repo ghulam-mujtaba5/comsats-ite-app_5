@@ -24,8 +24,8 @@ export default function AboutUsPage() {
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/3 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }} />
+  <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl animate-pulse animate-delay-2000" />
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/3 rounded-full blur-3xl animate-pulse animate-delay-4000" />
       </div>
 
       <main className="flex-1 relative">
@@ -53,14 +53,14 @@ export default function AboutUsPage() {
                 About CampusAxis
               </Badge>
               
-              <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6 text-balance animate-slide-up" style={{ animationDelay: '200ms' }}>
+              <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6 text-balance animate-slide-up animate-delay-200">
                 Empowering Your 
                 <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
                   Academic Journey
                 </span>
               </h1>
               
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-serif leading-relaxed animate-slide-up" style={{ animationDelay: '400ms' }}>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-serif leading-relaxed animate-slide-up animate-delay-400">
                 CampusAxis is designed to help COMSATS University Lahore students access academic resources and make informed decisions through faculty reviews, enhancing their learning experience with best faculty.
               </p>
 

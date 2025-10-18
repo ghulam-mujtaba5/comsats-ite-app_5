@@ -4,6 +4,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
 import { Card, CardContent } from "@/components/ui/card"
 import { BookOpen, Upload, ExternalLink, Download, Shield, Star, Filter, RotateCcw, FileText, GraduationCap } from "lucide-react"
 import { AdvancedFilterBar, type Option } from "@/components/search/advanced-filter-bar"
@@ -51,6 +52,19 @@ export default function ResourcesPage() {
   const [userDepartment, setUserDepartment] = useState<string | null>(null)
   const [autoFilterApplied, setAutoFilterApplied] = useState(false)
   const { user } = useAuth()
+
+  const cardDelayClasses = [
+    "",
+    "animate-delay-100",
+    "animate-delay-200",
+    "animate-delay-300",
+    "animate-delay-400",
+    "animate-delay-500",
+    "animate-delay-700",
+    "animate-delay-1000",
+    "animate-delay-1500",
+  ]
+  const getCardDelayClass = (idx: number) => cardDelayClasses[Math.min(idx, cardDelayClasses.length - 1)]
   
   // Get user's department from their email and auto-apply it
   useEffect(() => {
@@ -408,7 +422,13 @@ export default function ResourcesPage() {
                   .filter((r) => (resourceType === "All" ? true : r.type === resourceType))
                   .filter((r) => (!showVerifiedOnly ? true : r.is_verified === true))
               }, [items, search, dept, term, difficulty, resourceType, showVerifiedOnly]).map((r, index) => (
-                <Card key={r.id} className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-white/40 dark:border-slate-700/40 rounded-2xl group hover:scale-[1.02] transition-all duration-300 overflow-hidden shadow-lg hover:shadow-xl" style={{ animationDelay: `${index * 100}ms` }}>
+                <Card
+                  key={r.id}
+                  className={cn(
+                    "bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-white/40 dark:border-slate-700/40 rounded-2xl group hover:scale-[1.02] transition-all duration-300 overflow-hidden shadow-lg hover:shadow-xl",
+                    getCardDelayClass(index)
+                  )}
+                >
                   {/* Resource Header */}
                   <div className="relative p-6 pb-4">
                     <div className="flex items-start justify-between gap-3">

@@ -7,7 +7,14 @@ import Link from 'next/link'
 export const metadata = createMetadata({
   title: "How to Succeed in Your First Semester at COMSATS University",
   description: "Complete guide to excelling in your first semester at COMSATS. Learn study strategies, time management tips, resource utilization, and insider advice from successful COMSATS students.",
-  keywords: "COMSATS first semester, COMSATS study tips, university success guide, COMSATS student advice, first year COMSATS, academic success strategies"
+  keywords: [
+    "COMSATS first semester",
+    "COMSATS study tips",
+    "university success guide",
+    "COMSATS student advice",
+    "first year COMSATS",
+    "academic success strategies"
+  ]
 })
 
 export default function FirstSemesterSuccessGuide() {

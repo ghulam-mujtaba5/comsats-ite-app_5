@@ -65,6 +65,39 @@ interface Event {
   imageUrl?: string
 }
 
+const PROGRESS_WIDTH_CLASSES = [
+  "progress-width-0",
+  "progress-width-5",
+  "progress-width-10",
+  "progress-width-15",
+  "progress-width-20",
+  "progress-width-25",
+  "progress-width-30",
+  "progress-width-35",
+  "progress-width-40",
+  "progress-width-45",
+  "progress-width-50",
+  "progress-width-55",
+  "progress-width-60",
+  "progress-width-65",
+  "progress-width-70",
+  "progress-width-75",
+  "progress-width-80",
+  "progress-width-85",
+  "progress-width-90",
+  "progress-width-95",
+  "progress-width-100",
+]
+
+const getProgressWidthClass = (value: number) => {
+  if (!Number.isFinite(value)) {
+    return PROGRESS_WIDTH_CLASSES[0]
+  }
+  const clamped = Math.max(0, Math.min(100, Math.round(value / 5) * 5))
+  const index = Math.round(clamped / 5)
+  return PROGRESS_WIDTH_CLASSES[index] ?? PROGRESS_WIDTH_CLASSES[PROGRESS_WIDTH_CLASSES.length - 1]
+}
+
 export function NewsEventsClient() {
   const { toast } = useToast()
   const [searchQuery, setSearchQuery] = useState("")
@@ -265,7 +298,7 @@ export function NewsEventsClient() {
       <div className="min-h-screen bg-mesh overflow-hidden relative flex items-center justify-center">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float animate-delay-2000" />
         </div>
         <div className="relative z-10">
           <CenteredLoader message="Loading news and events..." />
@@ -279,7 +312,7 @@ export function NewsEventsClient() {
       <div className="min-h-screen bg-mesh overflow-hidden relative flex items-center justify-center">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float animate-delay-2000" />
         </div>
         
         <div className={`${layout.section} ${layout.max2xl} px-4 relative z-10`}>
@@ -307,11 +340,11 @@ export function NewsEventsClient() {
     <div className={cn(styles.page, "bg-mesh overflow-hidden relative") }>
       <div className={styles.bgDecor}>
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse float" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-green-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse float" style={{ animationDelay: '4s' }} />
-        <div className="absolute top-20 right-20 w-4 h-4 bg-primary/30 rotate-45 animate-bounce" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-32 left-20 w-6 h-6 bg-blue-500/30 rounded-full animate-bounce" style={{ animationDelay: '3s' }} />
-        <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-500/30 rotate-45 animate-bounce" style={{ animationDelay: '5s' }} />
+  <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse float animate-delay-2000" />
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-green-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse float animate-delay-4000" />
+  <div className="absolute top-20 right-20 w-4 h-4 bg-primary/30 rotate-45 animate-bounce animate-delay-1000" />
+  <div className="absolute bottom-32 left-20 w-6 h-6 bg-blue-500/30 rounded-full animate-bounce animate-delay-3000" />
+  <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-500/30 rotate-45 animate-bounce animate-delay-5000" />
       </div>
       <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-blue-500/8" />
       <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/20" />
@@ -598,9 +631,15 @@ export function NewsEventsClient() {
                 </div>
 
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {filteredEvents.map((event) => (
-                    <Card key={event.id} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl group">
-                      <CardHeader className="p-6">
+                  {filteredEvents.map((event) => {
+                    const progressPercentage = event.capacity
+                      ? ((event.registered || 0) / (event.capacity || 1)) * 100
+                      : 0
+                    const registrationWidthClass = getProgressWidthClass(progressPercentage)
+
+                    return (
+                      <Card key={event.id} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl group">
+                        <CardHeader className="p-6">
                         <div className="flex justify-between items-start mb-3">
                           <CardTitle className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
                             {event.title}
@@ -616,7 +655,7 @@ export function NewsEventsClient() {
                           Organized by {event.organizer}
                         </CardDescription>
                       </CardHeader>
-                      <CardContent className="p-6 pt-0">
+                        <CardContent className="p-6 pt-0">
                         <p className="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">{event.description}</p>
                         
                         <div className="space-y-3 mb-6">
@@ -646,8 +685,10 @@ export function NewsEventsClient() {
                               <span className="font-medium">{event.registered || 0}/{event.capacity} registered</span>
                               <div className="flex-1 bg-slate-200 dark:bg-slate-700 rounded-full h-2 ml-2">
                                 <div 
-                                  className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-300"
-                                  style={{ width: `${Math.min(100, ((event.registered || 0) / event.capacity) * 100)}%` }}
+                                  className={cn(
+                                    "bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-300",
+                                    registrationWidthClass
+                                  )}
                                 />
                               </div>
                             </div>
@@ -686,9 +727,10 @@ export function NewsEventsClient() {
                             )}
                           </Button>
                         )}
-                      </CardContent>
-                    </Card>
-                  ))}
+                        </CardContent>
+                      </Card>
+                    )
+                  })}
                 </div>
 
                 {filteredEvents.length === 0 && (

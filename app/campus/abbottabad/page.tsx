@@ -5,20 +5,34 @@ import { Button } from "@/components/ui/button"
 import { MapPin, Phone, Mail, Users, BookOpen, Award, Building } from 'lucide-react'
 import Link from 'next/link'
 
+const ABBOTTABAD_DESCRIPTION = "Complete guide to COMSATS Abbottabad campus. Explore degree programs, admission requirements, campus facilities, faculty, and student life in the scenic Abbottabad location."
+
 export const metadata = createMetadata({
   title: "COMSATS University Abbottabad Campus - Programs, Admission & Contact",
-  description: "Complete guide to COMSATS Abbottabad campus. Explore degree programs, admission requirements, campus facilities, faculty, and student life in the scenic Abbottabad location.",
-  keywords: "COMSATS Abbottabad, COMSATS Abbottabad admission, COMSATS Abbottabad programs, university Abbottabad, engineering Abbottabad, COMSATS KPK campus"
+  description: ABBOTTABAD_DESCRIPTION,
+  keywords: [
+    "COMSATS Abbottabad",
+    "COMSATS Abbottabad admission",
+    "COMSATS Abbottabad programs",
+    "university Abbottabad",
+    "engineering Abbottabad",
+    "COMSATS KPK campus"
+  ]
 })
 
 const campusJsonLd = createCampusSchema({
   name: "COMSATS University Abbottabad Campus",
-  city: "Abbottabad",
-  province: "Khyber Pakhtunkhwa",
-  address: "University Road, Abbottabad, Khyber Pakhtunkhwa, Pakistan",
-  phone: "+92-992-383591-6",
+  description: ABBOTTABAD_DESCRIPTION,
+  address: {
+    streetAddress: "University Road",
+    addressLocality: "Abbottabad",
+    addressRegion: "Khyber Pakhtunkhwa",
+    addressCountry: "PK"
+  },
+  telephone: "+92-992-383591-6",
   email: "info@abbottabad.comsats.edu.pk",
-  established: "2003"
+  areaServed: "Abbottabad District",
+  url: "https://abbottabad.comsats.edu.pk"
 })
 
 export default function ComsatsAbbottabad() {

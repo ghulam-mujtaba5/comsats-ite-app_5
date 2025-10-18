@@ -5,25 +5,34 @@ import { Button } from "@/components/ui/button"
 import { MapPin, Phone, Mail, Users, BookOpen, Award, Building } from 'lucide-react'
 import Link from 'next/link'
 
+const SAHIWAL_DESCRIPTION = "Complete guide to COMSATS Sahiwal campus. Explore degree programs, admission requirements, campus facilities, faculty, and student life in South Punjab's premier university."
+
 export const metadata = createMetadata({
   title: "COMSATS University Sahiwal Campus - Programs, Admission & Contact",
-  description: "Complete guide to COMSATS Sahiwal campus. Explore degree programs, admission requirements, campus facilities, faculty, and student life in South Punjab's premier university.",
-  keywords: "COMSATS Sahiwal, COMSATS Sahiwal admission, COMSATS Sahiwal programs, university Sahiwal, engineering Sahiwal, COMSATS South Punjab campus"
+  description: SAHIWAL_DESCRIPTION,
+  keywords: [
+    "COMSATS Sahiwal",
+    "COMSATS Sahiwal admission",
+    "COMSATS Sahiwal programs",
+    "university Sahiwal",
+    "engineering Sahiwal",
+    "COMSATS South Punjab campus"
+  ]
 })
 
 const campusJsonLd = createCampusSchema({
   name: "COMSATS University Sahiwal Campus",
-  city: "Sahiwal",
-  province: "Punjab",
+  description: SAHIWAL_DESCRIPTION,
   address: {
     streetAddress: "Off GT Road",
     addressLocality: "Sahiwal",
     addressRegion: "Punjab",
-    addressCountry: "Pakistan"
+    addressCountry: "PK"
   },
-  phone: "+92-40-4300086-7",
+  telephone: "+92-40-4300086-7",
   email: "info@sahiwal.comsats.edu.pk",
-  established: "2009"
+  areaServed: "Sahiwal District",
+  url: "https://sahiwal.comsats.edu.pk"
 })
 
 export default function ComsatsAbbottabad() {

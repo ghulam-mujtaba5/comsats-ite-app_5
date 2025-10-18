@@ -212,18 +212,30 @@ export default function AdminDashboardPage() {
           const priorityOrder: Record<'high' | 'medium' | 'low', number> = { high: 0, medium: 1, low: 2 }
           const sorted = filtered.sort((a: LinkItem, b: LinkItem) => priorityOrder[a.priority] - priorityOrder[b.priority])
 
+          const linkDelayClasses = [
+            "",
+            "animate-delay-100",
+            "animate-delay-200",
+            "animate-delay-300",
+            "animate-delay-400",
+            "animate-delay-500",
+            "animate-delay-700",
+            "animate-delay-1000",
+            "animate-delay-1500",
+          ]
+
           return (
             <div className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${styles.section} px-6 lg:px-10`} aria-live="polite">
               {sorted.map((l: LinkItem, idx: number) => {
                 const isHighPriority = l.priority === 'high'
+                const delayClass = linkDelayClasses[Math.min(idx, linkDelayClasses.length - 1)]
                 return (
                   <Link
                     key={l.href}
                     href={l.href}
                     className={`group block outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 ${
                       isHighPriority ? 'order-first' : ''
-                    }`}
-                    style={{ animationDelay: `${Math.min(idx, 8) * 50}ms` as any }}
+                    } ${delayClass}`}
                     aria-label={`${l.title} — ${l.desc}`}
                   >
                     <Card className={`relative overflow-hidden border-0 h-full transition-all duration-300 group-hover:shadow-2xl ${

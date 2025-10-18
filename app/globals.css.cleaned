@@ -13,22 +13,22 @@ html, body {
   box-sizing: border-box;
 }
 
-*:not(svg):not(path) {
-  max-width: 100%;
-}
-
-/* Mobile navbar specific fixes */
-@media (max-width: 768px) {
-  [role="dialog"],
-  [data-radix-dialog-content],
-  .mobile-sheet-content {
-    max-width: calc(100vw - 32px) !important;
-    width: min(calc(100vw - 32px), 380px) !important;
-    box-sizing: border-box !important;
+  .animate-delay-200 {
+    animation-delay: 200ms;
   }
-  
-  /* Ensure navbar elements maintain proper sizing */
-  .navbar-logo-container {
+
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+
     flex-shrink: 0;
   }
   
@@ -36,11 +36,19 @@ html, body {
     object-fit: contain;
     width: auto;
     height: auto;
+
+  .animate-delay-1500 {
+    animation-delay: 1500ms;
+  }
     max-width: 100%;
     max-height: 100%;
   }
   
   /* Prevent navbar logo collapse on small screens */
+  .animate-delay-2500 {
+    animation-delay: 2500ms;
+  }
+
   .navbar-logo-wrapper {
     min-width: 32px;
     min-height: 32px;
@@ -51,6 +59,10 @@ html, body {
   .navbar-logo-wrapper {
     min-width: 40px;
     min-height: 40px;
+  }
+
+  .animate-delay-7000 {
+    animation-delay: 7000ms;
   }
 }
 

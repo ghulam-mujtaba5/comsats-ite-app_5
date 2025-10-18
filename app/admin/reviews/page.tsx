@@ -15,6 +15,17 @@ import { AdminGuard } from "@/components/admin/admin-guard"
 import { supabase } from "@/lib/supabase"
 import { getDepartmentFromEmail } from '@/lib/student-department-utils'
 
+const rowDelayClasses = [
+  "",
+  "animate-delay-75",
+  "animate-delay-150",
+  "animate-delay-200",
+  "animate-delay-300",
+  "animate-delay-400",
+  "animate-delay-500",
+  "animate-delay-700",
+]
+
 interface ReviewRow {
   id: string
   faculty_id: string
@@ -372,7 +383,10 @@ export default function AdminReviewsPage() {
                         }
                         
                         return (
-                          <tr key={r.id} className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors" style={{ animationDelay: `${index * 50}ms` }}>
+                          <tr
+                            key={r.id}
+                            className={`border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors ${rowDelayClasses[index % rowDelayClasses.length]}`}
+                          >
                             <td className="py-4 px-4">
                               <div className="flex items-center gap-2">
                                 <Star className={`h-4 w-4 ${getRatingColor(r.rating)}`} fill="currentColor" />

@@ -15,6 +15,7 @@ import { useAuth } from "@/contexts/auth-context"
 import { toast } from "@/hooks/use-toast"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import layout from "@/app/styles/common.module.css"
+import { cn } from "@/lib/utils"
 import "./lost-found.light.module.css"
 import "./lost-found.dark.module.css"
 
@@ -169,13 +170,27 @@ export default function LostFoundPage() {
     }
   }
 
+  const cardDelayClasses = [
+    "",
+    "animate-delay-100",
+    "animate-delay-200",
+    "animate-delay-300",
+    "animate-delay-400",
+    "animate-delay-500",
+    "animate-delay-700",
+    "animate-delay-1000",
+    "animate-delay-1500",
+  ]
+
+  const getCardDelayClass = (idx: number) => cardDelayClasses[Math.min(idx, cardDelayClasses.length - 1)]
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 dark:from-slate-950 dark:via-blue-950/30 dark:to-indigo-950/20">
       {/* Enhanced Background Effects */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C92AC%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-orange-500/10 to-amber-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+  <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-orange-500/10 to-amber-500/10 rounded-full blur-3xl animate-pulse" />
+  <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-full blur-3xl animate-pulse animate-delay-2000" />
       </div>
 
       <div className={`relative px-4 py-12 ${layout.section} ${layout.max6xl}`}>
@@ -414,7 +429,13 @@ export default function LostFoundPage() {
         ) : (
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredItems.map((item, index) => (
-              <Card key={item.id} className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl overflow-hidden" style={{ animationDelay: `${index * 100}ms` }}>
+              <Card
+                key={item.id}
+                className={cn(
+                  "glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl overflow-hidden",
+                  getCardDelayClass(index)
+                )}
+              >
                 {item.image_url && (
                   <div className="relative w-full h-48 overflow-hidden">
                     <img 

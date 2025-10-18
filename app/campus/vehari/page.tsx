@@ -5,25 +5,27 @@ import { Button } from "@/components/ui/button"
 import { MapPin, Phone, Mail, Users, BookOpen, Award, Building } from 'lucide-react'
 import Link from 'next/link'
 
+const VEHARI_DESCRIPTION = "Complete guide to COMSATS Vehari campus. Explore degree programs, admission requirements, campus facilities, faculty, and student life in agricultural heartland of Pakistan."
+
 export const metadata = createMetadata({
   title: "COMSATS University Vehari Campus - Programs, Admission & Contact",
-  description: "Complete guide to COMSATS Vehari campus. Explore degree programs, admission requirements, campus facilities, faculty, and student life in agricultural heartland of Pakistan.",
+  description: VEHARI_DESCRIPTION,
   keywords: ["COMSATS Vehari", "COMSATS Vehari admission", "COMSATS Vehari programs", "university Vehari", "COMSATS South Punjab", "agricultural sciences Vehari"]
 })
 
 const campusJsonLd = createCampusSchema({
   name: "COMSATS University Vehari Campus",
-  city: "Vehari",
-  province: "Punjab",
+  description: VEHARI_DESCRIPTION,
   address: {
     streetAddress: "Vehari-Burewala Road",
     addressLocality: "Vehari",
     addressRegion: "Punjab",
-    addressCountry: "Pakistan"
+    addressCountry: "PK"
   },
-  phone: "+92-67-3801000",
+  telephone: "+92-67-3801000",
   email: "info@vehari.comsats.edu.pk",
-  established: "2010"
+  areaServed: "Vehari District",
+  url: "https://vehari.comsats.edu.pk"
 })
 
 export default function ComsatsAbbottabad() {
