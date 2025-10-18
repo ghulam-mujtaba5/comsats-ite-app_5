@@ -190,6 +190,10 @@ styles/                 # Global styles (Tailwind)
 - [Codebase Refactoring Plan](docs/CODEBASE_REFACTORING_PLAN.md)
 - [Contributing Guide](docs/guides/CONTRIBUTING.md)
 
+Quick references:
+- Project structure overview: `docs/STRUCTURE.md`
+- Maintenance utilities (safe to run locally): `scripts/maintenance/`
+
 ## Roadmap
 
 - [ ] Improve admin analytics with custom charts

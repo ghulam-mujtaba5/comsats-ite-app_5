@@ -54,4 +54,12 @@ foreach ($f in $maintFiles) {
 $altConfig = Join-Path $root 'next.config.mjs.simple'
 if (Test-Path $altConfig) { Move-Item -LiteralPath $altConfig -Destination $archive -Force }
 
+# Move top-level docs markdown files (except STRUCTURE.md) to docs/archive
+$docsTop = Join-Path $root 'docs'
+if (Test-Path $docsTop) {
+  Get-ChildItem -Path $docsTop -File -Filter '*.md' -ErrorAction SilentlyContinue |
+    Where-Object { $_.Name -ne 'STRUCTURE.md' } |
+    ForEach-Object { Move-Item -LiteralPath $_.FullName -Destination $archive -Force }
+}
+
 Write-Host 'Cleanup complete.'
