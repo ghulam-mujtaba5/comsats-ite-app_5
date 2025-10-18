@@ -133,12 +133,13 @@ export function AdvancedFilterBar({
             onChange={(e) => onSearchChange(e.target.value)}
             className={cn(
               "pl-12 pr-12 h-12 text-base",
-              "glass-input",
-              "border-slate-200/60 dark:border-slate-700/50",
-              "focus:border-primary/60 focus:ring-2 focus:ring-primary/30",
-              "hover:border-primary/40",
+              "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
+              "border-slate-200 dark:border-slate-700/30",
+              "focus:bg-white/80 dark:focus:bg-slate-800/80",
+              "focus:border-primary/50 focus:ring-2 focus:ring-primary/20",
+              "hover:border-primary/30 hover:bg-white/60 dark:hover:bg-slate-800/60",
               "rounded-2xl transition-all duration-200",
-              "text-foreground placeholder:text-muted-foreground"
+              "placeholder:text-slate-700 dark:text-slate-300/70"
             )}
           />
           {search && (
@@ -177,8 +178,10 @@ export function AdvancedFilterBar({
                 size="sm"
                 onClick={resetFilters}
                 className={cn(
-                  "h-9 px-4 text-sm glass-interactive",
-                  "hover:bg-destructive/15 hover:text-destructive hover:border-destructive/40",
+                  "h-9 px-4 text-sm",
+                  "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
+                  "border-slate-200 dark:border-slate-700/30",
+                  "hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30",
                   "rounded-xl transition-all duration-200"
                 )}
               >
@@ -203,17 +206,19 @@ export function AdvancedFilterBar({
                 )}
                 <Select value={select.value} onValueChange={select.onChange}>
                   <SelectTrigger className={cn(
-                    "h-11 px-4 text-sm glass-input",
-                    "hover:border-primary/50",
-                    "focus:border-primary/60 focus:ring-2 focus:ring-primary/30",
+                    "h-11 px-4 text-sm",
+                    "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
+                    "border-slate-200 dark:border-slate-700/30",
+                    "hover:border-primary/40 hover:bg-white/60 dark:hover:bg-slate-800/60",
+                    "focus:border-primary/50 focus:ring-2 focus:ring-primary/20",
                     "rounded-xl transition-all duration-200",
                     select.value && select.value !== 'All' && select.value !== '' && 
-                      "border-primary/60 bg-primary/10 dark:bg-primary/15 ring-2 ring-primary/20",
+                      "border-primary/50 bg-primary/5 dark:bg-primary/10",
                     select.className
                   )}>
                     <SelectValue placeholder={select.placeholder || "Select"} />
                   </SelectTrigger>
-                  <SelectContent className="rounded-xl glass-modal border-slate-200/60 dark:border-slate-700/50">
+                  <SelectContent className="rounded-xl border-slate-200 dark:border-slate-700/30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl">
                     {select.options.map((opt) => (
                       <SelectItem 
                         key={opt.value} 
@@ -243,7 +248,7 @@ export function AdvancedFilterBar({
       {(sortOptions.length > 0 || savedPresets.length > 0) && (
         <div className={cn(
           "flex flex-col sm:flex-row gap-6 pt-6 mt-6",
-          "border-t border-slate-200 dark:border-slate-700 dark:border-slate-700/30"
+          "border-t border-slate-200 dark:border-slate-700/30"
         )}>
           {/* Sort Options */}
           {sortOptions.length > 0 && (
@@ -251,13 +256,15 @@ export function AdvancedFilterBar({
               <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Sort by:</span>
               <Select value={currentSort} onValueChange={onSortChange}>
                 <SelectTrigger className={cn(
-                  "w-40 h-10 px-4 text-sm glass-input",
-                  "hover:border-primary/50",
+                  "w-40 h-10 px-4 text-sm",
+                  "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
+                  "border-slate-200 dark:border-slate-700/30",
+                  "hover:border-primary/40 hover:bg-white/60 dark:hover:bg-slate-800/60",
                   "rounded-xl transition-all duration-200"
                 )}>
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl glass-modal border-slate-200/60 dark:border-slate-700/50">
+                <SelectContent className="rounded-xl border-slate-200 dark:border-slate-700/30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl">
                   {sortOptions.map((option) => (
                     <SelectItem key={option.value} value={option.value} className="rounded-lg hover:bg-primary/10">
                       {option.label}
@@ -271,8 +278,10 @@ export function AdvancedFilterBar({
                   size="sm"
                   onClick={() => onSortDirectionChange(sortDirection === 'asc' ? 'desc' : 'asc')}
                   className={cn(
-                    "h-10 px-4 flex items-center gap-2 glass-interactive",
-                    "hover:border-primary/50",
+                    "h-10 px-4 flex items-center gap-2",
+                    "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
+                    "border-slate-200 dark:border-slate-700/30",
+                    "hover:border-primary/40 hover:bg-white/60 dark:hover:bg-slate-800/60",
                     "rounded-xl transition-all duration-200"
                   )}
                 >
@@ -299,8 +308,10 @@ export function AdvancedFilterBar({
                     size="sm"
                     onClick={() => onLoadPreset?.(preset)}
                     className={cn(
-                      "h-10 px-4 flex items-center gap-2 text-sm glass-interactive",
-                      "hover:border-primary/50 hover:bg-primary/15",
+                      "h-10 px-4 flex items-center gap-2 text-sm",
+                      "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
+                      "border-slate-200 dark:border-slate-700/30",
+                      "hover:border-primary/40 hover:bg-primary/10",
                       "rounded-xl transition-all duration-200"
                     )}
                   >
@@ -319,8 +330,10 @@ export function AdvancedFilterBar({
               size="sm"
               onClick={saveCurrentAsPreset}
               className={cn(
-                "h-10 px-4 flex items-center gap-2 text-sm glass-interactive",
-                "hover:border-primary/50 hover:bg-primary/15",
+                "h-10 px-4 flex items-center gap-2 text-sm",
+                "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
+                "border-slate-200 dark:border-slate-700/30",
+                "hover:border-primary/40 hover:bg-primary/10",
                 "rounded-xl transition-all duration-200"
               )}
             >
@@ -336,11 +349,15 @@ export function AdvancedFilterBar({
   if (!collapsible) {
     return (
       <div className={cn(
-        "relative glass-card rounded-3xl shadow-lg hover:shadow-xl p-6 lg:p-8",
+        "relative",
+        "bg-white/70 dark:bg-slate-900/70",
+        "backdrop-blur-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
+        "rounded-3xl shadow-lg hover:shadow-xl",
         "transition-all duration-300",
+        "p-6 lg:p-8",
         className
       )}>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-3xl pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
         <div className="relative z-10">
           {renderFilterContent()}
         </div>
@@ -351,19 +368,24 @@ export function AdvancedFilterBar({
   return (
     <Collapsible open={!isCollapsed} onOpenChange={(open) => setIsCollapsed(!open)}>
       <div className={cn(
-        "relative glass-card rounded-3xl shadow-lg hover:shadow-xl overflow-hidden",
+        "relative",
+        "bg-white/70 dark:bg-slate-900/70",
+        "backdrop-blur-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
+        "rounded-3xl shadow-lg hover:shadow-xl",
         "transition-all duration-300",
+        "overflow-hidden",
         className
       )}>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
         
         <CollapsibleTrigger asChild>
           <Button
             variant="ghost"
             className={cn(
-              "w-full justify-between p-6 lg:p-8 h-auto relative z-10",
-              "hover:bg-primary/5 dark:hover:bg-primary/10",
-              "border-0 rounded-none text-left font-medium"
+              "w-full justify-between p-6 lg:p-8 h-auto",
+              "hover:bg-white/10 dark:hover:bg-slate-800/20",
+              "border-0 rounded-none",
+              "text-left font-medium"
             )}
           >
             <div className="flex items-center gap-3">
@@ -387,7 +409,7 @@ export function AdvancedFilterBar({
         </CollapsibleTrigger>
         
         <CollapsibleContent className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1">
-          <div className="px-6 lg:px-8 pb-6 lg:pb-8 border-t border-slate-200/60 dark:border-slate-700/40 relative z-10">
+          <div className="px-6 lg:px-8 pb-6 lg:pb-8 border-t border-slate-200 dark:border-slate-700 dark:border-slate-700/20">
             <div className="pt-6">
               {renderFilterContent()}
             </div>
