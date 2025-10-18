@@ -4,12 +4,12 @@ import "./home.dark.module.css"
 import { Suspense } from "react"
 import layout from "@/app/styles/common.module.css"
 import { EnhancedHero } from "@/components/home/enhanced-hero"
-import { EnhancedFeatures } from "@/components/home/enhanced-features"
+import { ModernFeaturesGrid } from "@/components/home/modern-features-grid"
+import { InteractiveCTA } from "@/components/home/interactive-cta"
 import { EnhancedNews } from "@/components/home/enhanced-news"
 import { EnhancedCommunity } from "@/components/home/enhanced-community"
 import { EnhancedFAQ } from "@/components/home/enhanced-faq"
 import { EnhancedComingSoon } from "@/components/home/enhanced-coming-soon"
-import { AnimatedSections } from "@/components/home/animated-sections"
 import styles from './page.module.css';
 
 // Simplified unified loading skeleton
@@ -44,34 +44,41 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 dark:bg-gradient-to-br dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 -mt-8 sm:-mt-12">
-      {/* Enhanced Background - Subtle gradients without overlay */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-        {/* Subtle brand gradient orbs */}
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-blue-400/10 via-indigo-400/8 to-purple-400/5 dark:from-blue-500/8 dark:via-indigo-500/6 dark:to-purple-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-indigo-400/10 via-purple-400/8 to-pink-400/5 dark:from-indigo-500/8 dark:via-purple-500/6 dark:to-pink-500/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-br from-blue-300/8 via-indigo-300/6 to-purple-300/4 dark:from-blue-600/6 dark:via-indigo-600/5 dark:to-purple-600/4 rounded-full blur-3xl" />
+    <div className="min-h-screen relative overflow-hidden -mt-8 sm:-mt-12">
+      {/* Modern Mesh Gradient Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/40 to-indigo-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
+        
+        {/* Animated gradient mesh */}
+        <div className="absolute inset-0 opacity-30 dark:opacity-20">
+          <div className="absolute top-0 -left-4 w-[500px] h-[500px] bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+          <div className="absolute top-0 -right-4 w-[500px] h-[500px] bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
+          <div className="absolute -bottom-8 left-20 w-[500px] h-[500px] bg-gradient-to-br from-indigo-500 to-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
+        </div>
+        
+        {/* Grid overlay for modern tech feel */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:64px_64px]" />
       </div>
 
-      <main className="relative z-10 flex-1">
+      <main className="relative z-10">
         <EnhancedHero />
         
-        {/* Sections with proper spacing */}
-        <div className="space-y-8 md:space-y-12">
-          <EnhancedFeatures />
-          
-          {/* Combine multiple sections in one Suspense boundary for better performance */}
-          <Suspense fallback={<ContentSkeleton />}>
-            <AnimatedSections />
-            <EnhancedComingSoon />
-          </Suspense>
-          
-          <Suspense fallback={<ContentSkeleton />}>
-            <EnhancedCommunity />
-            <EnhancedNews />
-            <EnhancedFAQ />
-          </Suspense>
-        </div>
+        {/* Modern Redesigned Sections */}
+        <ModernFeaturesGrid />
+        
+        <Suspense fallback={<ContentSkeleton />}>
+          <InteractiveCTA />
+        </Suspense>
+        
+        <Suspense fallback={<ContentSkeleton />}>
+          <EnhancedCommunity />
+          <EnhancedNews />
+        </Suspense>
+        
+        <Suspense fallback={<ContentSkeleton />}>
+          <EnhancedComingSoon />
+          <EnhancedFAQ />
+        </Suspense>
       </main>
     </div>
   )

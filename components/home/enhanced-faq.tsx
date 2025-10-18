@@ -148,8 +148,8 @@ export function EnhancedFAQ() {
   ]
 
   return (
-    <section className={styles.section}>
-      <div className={`${layout.section} ${layout.max6xl}`}>
+    <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background/80 to-muted/30 glass-primary">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Enhanced Header with proper spacing */}
         <div className={`text-center mb-16 md:mb-20 ${isDark ? 'opacity-100' : 'opacity-100'}`}>
           <Badge variant="soft" className={styles.headerBadge}>

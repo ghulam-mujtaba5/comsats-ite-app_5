@@ -199,7 +199,9 @@ export function Header() {
               <span className="sr-only">{isAdmin ? "Admin Panel" : "Admin Portal"}</span>
             </Button>
           </Link>
-          <ThemeToggle />
+          <div className="hidden lg:block">
+            <ThemeToggle />
+          </div>
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button 

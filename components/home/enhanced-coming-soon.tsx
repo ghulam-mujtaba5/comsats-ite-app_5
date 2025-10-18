@@ -91,8 +91,8 @@ export function EnhancedComingSoon() {
   ]
 
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-muted/30 to-background/80 glass-primary">
-      <div className={`${layout.section} ${layout.max6xl}`}>
+    <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-muted/30 to-background/80 glass-primary">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Enhanced Header with proper spacing */}
         <div className="text-center mb-10">
           <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-violet-600/30 to-fuchsia-600/30 text-violet-700 dark:text-violet-300 border border-violet-600/40 glass-secondary">
