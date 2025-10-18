@@ -1,1 +1,63 @@
 .root { background: rgba(255,255,255,0.9); }
+
+/* Light mode styles for Button component */
+
+.outline {
+  border-color: rgba(var(--primary-rgb), 0.2);
+  background-color: rgba(var(--background-rgb), 0.5);
+}
+.outline:hover {
+  background-color: rgba(var(--primary-rgb), 0.05);
+  border-color: rgba(var(--primary-rgb), 0.4);
+}
+
+.ghost:hover {
+  background-color: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary-color);
+}
+
+.soft {
+  background-color: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary-color);
+}
+.soft:hover {
+  background-color: rgba(var(--primary-rgb), 0.2);
+}
+
+.subtle {
+  background-color: var(--slate-100);
+  color: var(--slate-900);
+}
+.subtle:hover {
+  background-color: rgba(var(--slate-100-rgb), 0.8);
+}
+
+.campus-secondary {
+  background-color: white;
+  color: #007BFF;
+  border: 2px solid #007BFF;
+}
+.campus-secondary:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+  border-color: #0056b3;
+}
+
+/* Glassmorphism Light Theme */
+.glass, .glass-premium {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.7);
+  color: var(--slate-800);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+.glass:hover, .glass-premium:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+.glass-premium {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8) inset, 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.glass-premium:hover {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9) inset, 0 6px 16px rgba(0, 0, 0, 0.1);
+}

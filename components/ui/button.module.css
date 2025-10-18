@@ -1,1 +1,193 @@
 /* Glass UI */.root, .base { backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); box-shadow: 0 4px 16px rgba(31,38,135,0.37); border-radius: 12px; transition: all 0.3s ease; }
+
+/* Base button styles */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* Corresponds to gap-2 */
+  white-space: nowrap;
+  border-radius: 1rem; /* Corresponds to rounded-2xl */
+  font-size: 1rem; /* Base size, can be overridden by size variants */
+  font-weight: 600; /* Corresponds to font-semibold */
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  min-height: 44px;
+  -webkit-user-select: none;
+  user-select: none;
+  outline: none;
+  border: none; /* Reset border */
+  cursor: pointer;
+  padding: 0.75rem 1.5rem; /* Default padding */
+}
+
+.button:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button svg {
+  pointer-events: none;
+  width: 1rem; /* Corresponds to size-4 */
+  height: 1rem; /* Corresponds to size-4 */
+  flex-shrink: 0;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+/* Variant styles */
+.default {
+  background-color: var(--primary-color);
+  color: var(--primary-foreground-color);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+.default:hover {
+  background-color: var(--primary-hover-color);
+  transform: translateY(-2px);
+}
+
+.destructive {
+  background-color: var(--destructive-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+.destructive:hover {
+  background-color: var(--destructive-hover-color);
+  transform: translateY(-2px);
+}
+
+.outline {
+  border: 2px solid;
+  background-color: transparent;
+}
+
+.secondary {
+  background-color: var(--secondary-color);
+  color: var(--secondary-foreground-color);
+}
+.secondary:hover {
+  background-color: var(--secondary-hover-color);
+  transform: translateY(-2px);
+}
+
+.ghost:hover {
+  background-color: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary-color);
+}
+
+.link {
+  color: var(--primary-color);
+  text-decoration: underline;
+  min-height: 0;
+}
+
+.soft {
+  color: var(--primary-color);
+}
+
+.subtle {
+  color: var(--slate-900);
+}
+
+.success {
+  background-color: #22C55E;
+  color: white;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+.success:hover {
+  background-color: #16A34A;
+}
+
+.warning {
+  background-color: #F59E0B;
+  color: white;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+.warning:hover {
+  background-color: #D97706;
+}
+
+.info {
+  background-color: #3B82F6;
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+.info:hover {
+  background-color: #2563EB;
+}
+
+/* Size variants */
+.sm {
+  height: 2.5rem; /* 40px */
+  min-height: 40px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.lg {
+  height: 3rem; /* 48px */
+  min-height: 48px;
+  padding: 0.75rem 2rem;
+  font-size: 1.125rem;
+}
+
+.icon {
+  width: 2.75rem; /* 44px */
+  height: 2.75rem; /* 44px */
+  min-height: 44px;
+  padding: 0;
+}
+
+.xs {
+  height: 2.25rem; /* 36px */
+  min-height: 36px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0.3;
+  animation: ripple 0.6s linear;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes ripple {
+  from {
+    width: 0;
+    height: 0;
+    opacity: 0.3;
+  }
+  to {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+  }
+}
+
+/* Glassmorphism variants */
+.glass, .glass-premium {
+  background-color: transparent;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-premium {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset, 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.glass-premium:hover {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3) inset, 0 6px 16px rgba(0, 0, 0, 0.15);
+}

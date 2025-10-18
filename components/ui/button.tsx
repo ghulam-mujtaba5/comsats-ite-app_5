@@ -2,78 +2,55 @@
 
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "@/lib/cva"
-import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
+import { type VariantProps } from "cva"
+import { useTheme } from "next-themes"
 
 import { cn } from "@/lib/utils"
 import { useRippleEffect, usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import styles from './button.module.css'
+import lightStyles from './button.light.module.css'
+import darkStyles from './button.dark.module.css'
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-semibold transition-all duration-200 ease-in-out disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 active:scale-[0.98] relative overflow-hidden min-h-[44px] select-none",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:-translate-y-0.5 shadow-[0_4px_12px_rgba(37,99,235,0.3)]",
-        destructive:
-          "bg-destructive text-white shadow-sm hover:bg-destructive/90 hover:-translate-y-0.5 focus-visible:ring-destructive/40 shadow-[0_4px_12px_rgba(239,68,68,0.3)]",
-        outline:
-          "border-2 border-primary/20 bg-background/50 backdrop-blur-sm hover:bg-primary/5 hover:border-primary/40 dark:border-primary/30 dark:hover:bg-primary/10",
-        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 hover:-translate-y-0.5",
-        ghost: "hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20",
-        link: "text-primary underline-offset-4 hover:underline min-h-0",
-        soft: "bg-primary/10 text-primary hover:bg-primary/20 dark:bg-primary/15 dark:hover:bg-primary/25",
-        subtle: "bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white/90 hover:bg-slate-100/80 dark:bg-slate-900/80 dark:text-foreground",
-        success: "bg-[#22C55E] text-white hover:bg-[#16A34A] shadow-[0_4px_12px_rgba(34,197,94,0.3)]",
-        warning: "bg-[#F59E0B] text-white hover:bg-[#D97706] shadow-[0_4px_12px_rgba(245,158,11,0.3)]",
-        info: "bg-[#3B82F6] text-white hover:bg-[#2563EB] shadow-[0_4px_12px_rgba(59,130,246,0.3)]",
-        glass: getEnhancedGlassClasses({
-          ...glassPresets.button,
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
-        "glass-premium": getEnhancedGlassClasses({ 
-          ...glassPresets.button,
-          variant: 'glass-premium',
-          border: 'border-glow',
-          shadow: 'shadow-medium',
-          hover: true,
-          interactive: true,
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
-        "campus-primary": "bg-[#007BFF] dark:bg-[#1F8FFF] text-white shadow-[0_4px_12px_rgba(0,123,255,0.3)] dark:shadow-[0_0_20px_rgba(31,143,255,0.5)] hover:bg-[#0056b3] dark:hover:bg-[#1F8FFF]/90 hover:-translate-y-0.5",
-        "campus-secondary": "bg-white dark:bg-black text-[#007BFF] dark:text-[#1F8FFF] border-2 border-[#007BFF] dark:border-[#1F8FFF] hover:bg-[#007BFF]/5 dark:hover:bg-[#1F8FFF]/10 hover:border-[#0056b3] dark:hover:border-[#1F8FFF]/90",
-      },
-      size: {
-        default: "h-11 min-h-[48px] px-6 py-3 has-[>svg]:px-5 text-base",
-        sm: "h-10 min-h-[44px] px-4 py-2.5 has-[>svg]:px-3 text-sm",
-        lg: "h-12 min-h-[52px] px-8 py-4 has-[>svg]:px-6 text-lg",
-        icon: "size-11 min-h-[48px] min-w-[48px] p-0",
-        xs: "h-9 min-h-[40px] px-3 py-2 text-xs has-[>svg]:px-2.5",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-)
+const buttonVariants = {
+  variant: {
+    default: styles.default,
+    destructive: styles.destructive,
+    outline: styles.outline,
+    secondary: styles.secondary,
+    ghost: styles.ghost,
+    link: styles.link,
+    soft: styles.soft,
+    subtle: styles.subtle,
+    success: styles.success,
+    warning: styles.warning,
+    info: styles.info,
+    glass: "glass", // These are special and handled by getEnhancedGlassClasses
+    "glass-premium": "glass-premium",
+    "campus-primary": styles['campus-primary'],
+    "campus-secondary": styles['campus-secondary'],
+  },
+  size: {
+    default: styles.default,
+    sm: styles.sm,
+    lg: styles.lg,
+    icon: styles.icon,
+    xs: styles.xs,
+  },
+};
 
-interface ButtonProps extends React.ComponentProps<"button">,
-  VariantProps<typeof buttonVariants> {
+interface ButtonProps extends React.ComponentProps<"button"> {
   asChild?: boolean
   'aria-label'?: string
+  variant?: keyof typeof buttonVariants.variant
+  size?: keyof typeof buttonVariants.size
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, onClick, 'aria-label': ariaLabel, ...props }, ref) => {
+  ({ className, variant = "default", size = "default", asChild = false, onClick, 'aria-label': ariaLabel, ...props }, ref) => {
     const { ripples, createRipple } = useRippleEffect()
     const prefersReducedMotion = usePrefersReducedMotion()
-    
+    const { theme } = useTheme();
+
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       createRipple(e)
       onClick?.(e)
@@ -81,12 +58,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const Comp = asChild ? Slot : "button"
 
+    const themeStyles = theme === 'dark' ? darkStyles : lightStyles;
+
     return (
       <Comp
         ref={ref}
         data-slot="button"
         className={cn(
-          buttonVariants({ variant, size }), 
+          styles.button,
+          variant && buttonVariants.variant[variant],
+          size && buttonVariants.size[size],
+          variant && themeStyles[variant],
           className,
           prefersReducedMotion ? "transition-none" : ""
         )}
@@ -98,7 +80,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           <span
             key={ripple.id}
             className={cn(
-              "absolute rounded-full bg-current opacity-30",
+              styles.ripple,
               prefersReducedMotion ? "" : "animate-ripple"
             )}
             style={{
@@ -118,4 +100,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = "Button"
 
-export { Button, buttonVariants }
+export { Button }
