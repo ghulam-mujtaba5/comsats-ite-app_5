@@ -1,4 +1,1 @@
-/* button.light.module.css (light theme) */
-:root {}
-
-.root {}
+.root { background: rgba(255,255,255,0.9); }
