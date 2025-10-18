@@ -7,6 +7,7 @@ import { FileQuestion, Home, ArrowLeft, Search, ExternalLink, Compass, Star } fr
 import Link from "next/link"
 import Image from "next/image"
 import layout from "@/app/styles/common.module.css"
+import styles from './not-found.module.css';
 
 // Note: metadata export doesn't work in client components
 // Add metadata in a parent layout or use a server component wrapper

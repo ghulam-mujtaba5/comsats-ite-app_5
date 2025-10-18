@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { 
+import styles from './page.module.css';
   Search, 
   Plus, 
   Edit, 

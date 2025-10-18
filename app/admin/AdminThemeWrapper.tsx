@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { useThemeMode } from '@/lib/theme/useThemeMode'
 import stylesLight from './admin.light.module.css'
 import stylesDark from './admin.dark.module.css'
+import styles from './AdminThemeWrapper.module.css';
 
 type ThemeMode = 'light' | 'dark'
 

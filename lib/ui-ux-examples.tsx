@@ -9,6 +9,7 @@
  */
 
 import { uiUxFramework, designSystem } from '@/lib'
+import styles from './ui-ux-examples.module.css';
 
 // ============================================
 // EXAMPLE 1: ACCESSIBLE BUTTON COMPONENT

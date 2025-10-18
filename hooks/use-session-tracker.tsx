@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from 'react'
+import styles from './use-session-tracker.module.css';
 
 interface SessionTrackerOptions {
   /** Minimum active session time (in ms) before wellness notifications are allowed */

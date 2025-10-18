@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import styles from './error.module.css';
 // Footer is provided by the root layout; avoid importing locally to prevent duplicates
 import { Button } from "@/components/ui/button"
 import layout from "@/app/styles/common.module.css"

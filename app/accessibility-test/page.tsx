@@ -10,6 +10,7 @@ import clsx from 'clsx'
 import { useThemeMode } from '@/lib/theme/useThemeMode'
 import stylesLight from './accessibility-test.light.module.css'
 import stylesDark from './accessibility-test.dark.module.css'
+import styles from './page.module.css';
 
 export default function AccessibilityTestPage() {
   const mode = useThemeMode()

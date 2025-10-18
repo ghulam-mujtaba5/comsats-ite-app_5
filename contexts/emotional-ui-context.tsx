@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react'
 import { useEmotionState, EmotionType } from '@/hooks/use-emotion-state'
+import styles from './emotional-ui-context.module.css';
 
 export interface EmotionalUIContextType {
   emotion: EmotionType

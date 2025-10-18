@@ -3,6 +3,7 @@ import { ComponentType } from "react"
 import { CenteredLoader } from "@/components/ui/loading-spinner"
 import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
+import styles from './performance.module.css';
 
 /**
  * Performance optimization utilities for lazy loading and code splitting

@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import styles from './apple-icon.module.css';
  
 export const runtime = 'edge'
  

@@ -6,6 +6,7 @@ import { EnhancedCommunity } from '@/components/home/enhanced-community'
 import { EnhancedFAQ } from '@/components/home/enhanced-faq'
 import { EnhancedComingSoon } from '@/components/home/enhanced-coming-soon'
 import React from 'react'
+import styles from './enhanced-components.test.module.css';
 
 // Mock Next.js router
 jest.mock('next/navigation', () => ({

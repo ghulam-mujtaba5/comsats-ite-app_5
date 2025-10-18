@@ -1,0 +1,53 @@
+/* Dark Theme Overrides - Enhanced Glassmorphism */
+.container {
+  background: rgba(30, 30, 46, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.container:hover {
+  background: rgba(30, 30, 46, 0.9);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 16px 48px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.header {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.title {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card {
+  background: rgba(45, 45, 65, 0.7);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.card:hover {
+  background: rgba(45, 45, 65, 0.85);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.button {
+  background: rgba(55, 55, 75, 0.8);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.button:hover {
+  background: rgba(65, 65, 85, 0.9);
+  border-color: rgba(255, 255, 255, 0.2);
+}

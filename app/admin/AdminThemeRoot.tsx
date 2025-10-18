@@ -4,6 +4,7 @@ import React from "react"
 import { useThemeMode } from "@/lib/theme/useThemeMode"
 import darkStyles from "./admin.dark.module.css"
 import lightStyles from "./admin.light.module.css"
+import styles from './AdminThemeRoot.module.css';
 
 type Props = { children: React.ReactNode }
 

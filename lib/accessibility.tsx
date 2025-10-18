@@ -340,3 +340,4 @@ export function Landmark({ children, as: Component = 'section', label, className
 
 // Re-export React
 import React from 'react'
+import styles from './accessibility.module.css';

@@ -3,6 +3,7 @@
 import type React from "react"
 import { createContext, useContext, useState, useEffect } from "react"
 import { AuthContext } from "@/contexts/auth-context"
+import styles from './campus-context.module.css';
 
 interface Campus {
   id: string

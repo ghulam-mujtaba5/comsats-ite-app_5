@@ -1,0 +1,5236 @@
+[
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\apple-icon.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\apple-icon.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\error.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\error.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\icon.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\icon.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\loading.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\loading.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\not-found.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\not-found.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\opengraph-image.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\opengraph-image.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\about\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\about\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\accessibility-test\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\accessibility-test\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\accessibility-test\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\accessibility-test\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\AdminThemeRoot.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\AdminThemeRoot.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\AdminThemeWrapper.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\AdminThemeWrapper.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\activity\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\activity\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\admissions\\moderation\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\admissions\\moderation\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\auth\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\auth\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\auth\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\auth\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\blog\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\blog\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\community\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\community\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\community\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\community\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\dashboard\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\dashboard\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\diagnostic\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\diagnostic\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\diagnostic\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\diagnostic\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\docs\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\docs\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\emails\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\emails\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\events\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\events\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\faculty\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\faculty\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\faculty\\seed\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\faculty\\seed\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\faculty-pending\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\faculty-pending\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\faq\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\faq\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\guidance\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\guidance\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\import\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\import\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\issues\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\issues\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\login\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\login\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\lost-found\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\lost-found\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\moderation\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\moderation\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\news\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\news\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\news-events\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\news-events\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\notifications\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\notifications\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\past-papers\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\past-papers\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\resources\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\resources\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\reviews\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\reviews\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\scholarships\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\scholarships\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\settings\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\settings\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\study-groups\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\study-groups\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\support\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\support\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\test-preparation\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\test-preparation\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\timetable\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\timetable\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\timetable-docs\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\timetable-docs\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admin\\users\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admin\\users\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admissions\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\admissions\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\admissions\\mentor\\[id]\\page.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\admissions\\mentor\\[id]\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\alumni\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\alumni\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\alumni\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\alumni\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\alumni\\directory\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\alumni\\directory\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\alumni\\profile\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\alumni\\profile\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\alumni\\settings\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\alumni\\settings\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\api\\og\\route.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\api\\og\\route.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\auth\\auth-client.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\auth\\auth-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\auth\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\auth\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\auth\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\auth\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\auth\\reset-password\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\auth\\reset-password\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\auth\\reset-password\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\auth\\reset-password\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\blog\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\blog\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\blog\\comsats-admission-guide-2025\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\blog\\comsats-admission-guide-2025\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\blog\\comsats-gpa-calculator-guide\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\blog\\comsats-gpa-calculator-guide\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\blog\\comsats-grading-system\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\blog\\comsats-grading-system\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\blog\\first-semester-success-guide\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\blog\\first-semester-success-guide\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\blog\\[slug]\\page.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\blog\\[slug]\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\campus\\abbottabad\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\campus\\abbottabad\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\campus\\sahiwal\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\campus\\sahiwal\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\campus\\vehari\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\campus\\vehari\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\loading.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\loading.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\page-advanced.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\page-advanced.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\events\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\events\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\gamification\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\gamification\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\groups\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\groups\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\notifications\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\notifications\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\polls\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\polls\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\post\\[id]\\page.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\post\\[id]\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\post\\[id]\\post-client.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\post\\[id]\\post-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\profile\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\profile\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\search\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\search\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\community\\sharing-hub\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\community\\sharing-hub\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\comsats-gpa-calculator\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\comsats-gpa-calculator\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\comsats-past-papers\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\comsats-past-papers\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\contact\\contact-client.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\contact\\contact-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\contact\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\contact\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\contribute\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\contribute\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\contribute\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\contribute\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\contribute\\team\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\contribute\\team\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\dashboard\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\dashboard\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\dashboard\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\dashboard\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\demo\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\demo\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\demo\\advanced-emotion-detection\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\demo\\advanced-emotion-detection\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\demo\\animations\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\demo\\animations\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\demo\\celebration-demo\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\demo\\celebration-demo\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\demo\\celebration-demo\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\demo\\celebration-demo\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\demo\\emotional-campusaxis\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\demo\\emotional-campusaxis\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\demo\\motivational-system\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\demo\\motivational-system\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\emotional-wellness\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\emotional-wellness\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\faculty\\loading.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\faculty\\loading.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\faculty\\opengraph-image.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\faculty\\opengraph-image.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\faculty\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\faculty\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\faculty\\reviews\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\faculty\\reviews\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\faculty\\[id]\\faculty-client.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\faculty\\[id]\\faculty-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\faculty\\[id]\\page.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\faculty\\[id]\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\fee-challan-reissuance\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\fee-challan-reissuance\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\gamification\\info\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\gamification\\info\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\glassmorphism-test\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\glassmorphism-test\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\glassmorphism-test\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\glassmorphism-test\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\opengraph-image.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\opengraph-image.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\aggregate\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\aggregate\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\cumulative\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\cumulative\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\planning\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\planning\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\semester\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\gpa-calculator\\semester\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\guidance\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\guidance\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\guidance\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\guidance\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\help\\help-client.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\help\\help-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\help\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\help\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\help-desk\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\help-desk\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\help-desk\\[id]\\page.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\help-desk\\[id]\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\leaderboard\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\leaderboard\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\leaderboard\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\leaderboard\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\legal\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\legal\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\legal\\privacy-policy\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\legal\\privacy-policy\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\legal\\terms-of-service\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\legal\\terms-of-service\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\lms-troubleshooting\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\lms-troubleshooting\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\lost-found\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\lost-found\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\lost-found\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\lost-found\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\merit-list-2025\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\merit-list-2025\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\news\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\news\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\news\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\news\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\news\\[id]\\article-client.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\news\\[id]\\article-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\news\\[id]\\page.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\news\\[id]\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\news-events\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\news-events\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\news-events\\news-events-client.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\news-events\\news-events-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\news-events\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\news-events\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\news-events\\[id]\\page.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\news-events\\[id]\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\past-papers\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\past-papers\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\past-papers\\loading.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\past-papers\\loading.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\past-papers\\opengraph-image.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\past-papers\\opengraph-image.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\past-papers\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\past-papers\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\past-papers\\past-papers-client.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\past-papers\\past-papers-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\past-papers\\past-papers.client.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\past-papers\\past-papers.client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\past-papers\\[courseCode]\\course-client.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\past-papers\\[courseCode]\\course-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\past-papers\\[courseCode]\\page.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\app\\past-papers\\[courseCode]\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\privacy\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\privacy\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\profile\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\profile\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\profile\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\profile\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\report-issue\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\report-issue\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\report-issue\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\report-issue\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\resources\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\resources\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\resources\\loading.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\resources\\loading.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\resources\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\resources\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\resources\\resources-client.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\resources\\resources-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\scholarships\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\scholarships\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\search\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\search\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\search\\search-client.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\search\\search-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\settings\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\settings\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\settings\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\settings\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\student-portal\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\student-portal\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\student-portal\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\student-portal\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\student-support\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\student-support\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\student-support\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\student-support\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\student-support\\student-support-client.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\student-support\\student-support-client.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\study-groups\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\study-groups\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\support\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\support\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\terms\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\terms\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\test-env\\layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\test-env\\layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\test-env\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\test-env\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\test-preparation\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\test-preparation\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\timetable\\loading.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\timetable\\loading.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\timetable\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\timetable\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\app\\timetables\\page.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\app\\timetables\\page.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\error-boundary.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\error-boundary.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\theme-provider.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\theme-provider.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admin\\admin-action-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admin\\admin-action-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admin\\admin-empty-state.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admin\\admin-empty-state.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admin\\admin-guard.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admin\\admin-guard.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admin\\admin-loading.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admin\\admin-loading.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admin\\admin-page-header.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admin\\admin-page-header.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admin\\glass-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admin\\glass-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admin\\responsive-nav.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admin\\responsive-nav.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admissions\\disclaimer.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admissions\\disclaimer.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admissions\\mentor-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admissions\\mentor-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admissions\\merit-calculator.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admissions\\merit-calculator.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admissions\\nts-preparation.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admissions\\nts-preparation.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admissions\\peer-mentoring.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admissions\\peer-mentoring.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admissions\\query-answering.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admissions\\query-answering.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admissions\\resource-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admissions\\resource-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admissions\\resource-sharing.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admissions\\resource-sharing.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\admissions\\structured-data.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\admissions\\structured-data.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\alumni\\navbar.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\alumni\\navbar.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\analytics\\analytics-tracker.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\analytics\\analytics-tracker.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\analytics\\web-vitals-reporter.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\analytics\\web-vitals-reporter.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\achievement-badge.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\achievement-badge.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\celebration-animation.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\celebration-animation.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\celebration-demo.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\celebration-demo.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\emotion-animation.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\emotion-animation.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\fireworks-animation.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\fireworks-animation.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\form-celebration-example.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\form-celebration-example.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\global-animation-controller.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\global-animation-controller.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\level-up-effect.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\level-up-effect.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\sparkle-trail.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\sparkle-trail.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\thank-you-animation.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\thank-you-animation.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\ui-feedback-animations.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\ui-feedback-animations.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\wrapping-ribbons.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\wrapping-ribbons.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\animations\\enhanced\\index.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\animations\\enhanced\\index.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\auth\\auth-guard.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\auth\\auth-guard.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\auth\\delete-account-button.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\auth\\delete-account-button.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\auth\\login-form.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\auth\\login-form.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\auth\\register-form.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\auth\\register-form.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\admin-panel.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\admin-panel.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\comment-section.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\comment-section.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\desktop-navigation.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\desktop-navigation.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\emoji-picker.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\emoji-picker.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\enhanced-sharing-dialog.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\enhanced-sharing-dialog.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\lostfound-sharing-dialog.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\lostfound-sharing-dialog.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\media-uploader.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\media-uploader.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\mobile-community-view.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\mobile-community-view.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\moderation-tools.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\moderation-tools.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\notification-bell.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\notification-bell.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\post-actions.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\post-actions.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\post-creation-dialog.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\post-creation-dialog.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\post-filters.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\post-filters.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\post-media.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\post-media.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\report-content.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\report-content.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\responsive-layout.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\responsive-layout.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\responsive-test.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\responsive-test.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\rich-text-editor-enhanced.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\rich-text-editor-enhanced.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\rich-text-editor.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\rich-text-editor.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\sharing-button.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\sharing-button.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\thread-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\thread-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\user-achievements.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\user-achievements.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\community\\user-profile.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\community\\user-profile.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\compatibility\\fallback-warning.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\compatibility\\fallback-warning.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\compatibility\\pwa-fallback.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\compatibility\\pwa-fallback.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\adaptive-feedback.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\adaptive-feedback.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\adaptive-theme.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\adaptive-theme.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\advanced-emotion-dashboard.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\advanced-emotion-dashboard.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\ai-listener.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\ai-listener.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\calm-animations.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\calm-animations.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\campusaxis-emotional-integration.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\campusaxis-emotional-integration.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\celebration-animations.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\celebration-animations.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\daily-tracker.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\daily-tracker.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-animation-controller.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-animation-controller.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-aware-panel.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-aware-panel.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-dashboard-widget.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-dashboard-widget.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-dashboard.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-dashboard.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-demo.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-demo.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-integration.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-integration.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-provider.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\emotion-provider.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\focus-animations.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\focus-animations.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\goal-tracker.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\goal-tracker.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\healing-space.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\healing-space.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\mood-tracker-widget.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\mood-tracker-widget.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\mood-wall.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\mood-wall.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\motivational-popup.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\motivational-popup.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\personalization-engine.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\personalization-engine.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\progress-reflection.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\progress-reflection.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\study-session-tracker.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\study-session-tracker.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\support-button.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\support-button.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotion\\thank-you-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotion\\thank-you-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotions\\mood-widget.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotions\\mood-widget.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\emotions\\motivation-message.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\emotions\\motivation-message.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\faculty\\add-faculty-dialog.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\faculty\\add-faculty-dialog.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\faculty\\faculty-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\faculty\\faculty-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\faculty\\review-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\faculty\\review-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\faculty\\review-opinion-buttons.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\faculty\\review-opinion-buttons.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\faculty\\write-review-dialog.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\faculty\\write-review-dialog.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\gamification\\animated-leaderboard.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\gamification\\animated-leaderboard.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\gamification\\enhanced-badge-showcase.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\gamification\\enhanced-badge-showcase.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\gamification\\enhanced-leaderboard.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\gamification\\enhanced-leaderboard.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\gamification\\enhanced-level-progression.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\gamification\\enhanced-level-progression.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\gamification\\gamification-dashboard.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\gamification\\gamification-dashboard.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\gamification\\xp-progress-glow.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\gamification\\xp-progress-glow.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\gpa\\aggregate-calculator.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\gpa\\aggregate-calculator.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\gpa\\cumulative-gpa-calculator.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\gpa\\cumulative-gpa-calculator.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\gpa\\gpa-planning-calculator.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\gpa\\gpa-planning-calculator.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\gpa\\semester-gpa-calculator.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\gpa\\semester-gpa-calculator.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\animated-sections.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\animated-sections.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\coming-soon-section.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\coming-soon-section.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\community-section.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\community-section.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\enhanced-coming-soon.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\enhanced-coming-soon.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\enhanced-community.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\enhanced-community.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\enhanced-faq.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\enhanced-faq.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\enhanced-features.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\enhanced-features.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\enhanced-hero.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\enhanced-hero.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\enhanced-news.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\enhanced-news.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\faq-section.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\faq-section.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\feature-cards.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\feature-cards.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\hero-section.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\hero-section.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\home\\news-section.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\home\\news-section.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\layout\\branded-banner.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\layout\\branded-banner.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\layout\\campus-reminder.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\layout\\campus-reminder.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\layout\\campus-selector.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\layout\\campus-selector.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\layout\\footer-conditional.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\layout\\footer-conditional.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\layout\\footer.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\layout\\footer.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\layout\\header.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\layout\\header.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\motivational\\achievement-celebrations.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\motivational\\achievement-celebrations.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\motivational\\appreciation-animations.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\motivational\\appreciation-animations.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\motivational\\emotional-responses.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\motivational\\emotional-responses.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\motivational\\motivational-dashboard.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\motivational\\motivational-dashboard.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\motivational\\motivational-provider.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\motivational\\motivational-provider.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\motivational\\unified-feedback-system.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\motivational\\unified-feedback-system.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\notifications\\notification-badge.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\notifications\\notification-badge.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\notifications\\notification-center.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\notifications\\notification-center.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\past-papers\\course-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\past-papers\\course-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\past-papers\\paper-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\past-papers\\paper-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\past-papers\\paper-filters.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\past-papers\\paper-filters.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\past-papers\\upload-paper-dialog.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\past-papers\\upload-paper-dialog.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\profile\\edit-profile-dialog.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\profile\\edit-profile-dialog.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\profile\\email-management.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\profile\\email-management.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\profile\\level-progress-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\profile\\level-progress-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\profile\\rewards-showcase.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\profile\\rewards-showcase.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\profile\\settings-management.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\profile\\settings-management.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\providers\\error-boundary-provider.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\providers\\error-boundary-provider.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\resources\\resource-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\resources\\resource-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\resources\\upload-resource-dialog.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\resources\\upload-resource-dialog.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\search\\advanced-filter-bar.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\search\\advanced-filter-bar.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\search\\command-palette.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\search\\command-palette.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\seo\\schema-markup.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\seo\\schema-markup.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\seo\\seo-head.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\seo\\seo-head.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\seo\\seo-meta.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\seo\\seo-meta.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\seo\\seo.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\seo\\seo.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\share\\share-button.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\share\\share-button.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\shared\\glass-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\shared\\glass-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\theme\\enhanced-theme-provider.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\theme\\enhanced-theme-provider.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\theme\\megicode-logo.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\theme\\megicode-logo.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\timetable\\calendar-view.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\timetable\\calendar-view.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\timetable\\event-list.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\timetable\\event-list.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\accordion.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\accordion.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\alert-dialog.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\alert-dialog.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\alert.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\alert.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\aspect-ratio.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\aspect-ratio.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\avatar.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\avatar.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\badge.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\badge.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\breadcrumb.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\breadcrumb.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\breadcrumbs.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\breadcrumbs.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\button.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\button.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\calendar.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\calendar.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\carousel.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\carousel.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\chart.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\chart.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\checkbox.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\checkbox.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\collapsible.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\collapsible.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\command.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\command.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\context-menu.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\context-menu.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\dialog.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\dialog.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\drawer.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\drawer.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\dropdown-menu.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\dropdown-menu.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\empty-state.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\empty-state.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\error-boundary.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\error-boundary.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\error-state.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\error-state.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\feedback.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\feedback.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\form.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\form.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\hover-card.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\hover-card.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\input-otp.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\input-otp.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\input.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\input.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\label.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\label.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\loading-skeletons.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\loading-skeletons.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\loading-spinner.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\loading-spinner.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\menubar.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\menubar.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\navigation-menu.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\navigation-menu.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\optimized-image.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\optimized-image.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\pagination.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\pagination.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\popover.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\popover.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\progress.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\progress.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\radio-group.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\radio-group.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\resizable.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\resizable.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\scroll-area.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\scroll-area.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\select.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\select.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\separator.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\separator.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\sheet.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\sheet.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\sidebar.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\sidebar.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\skeleton.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\skeleton.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\slider.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\slider.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\sonner.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\sonner.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\switch.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\switch.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\table.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\table.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\tabs.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\tabs.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\textarea.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\textarea.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\theme-toggle.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\theme-toggle.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\toast.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\toast.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\toaster.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\toaster.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\toggle-group.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\toggle-group.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\toggle.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\toggle.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\tooltip.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\tooltip.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\components\\ui\\use-mobile.tsx",
+    "Status": [
+      "✅ Complete",
+      "complete",
+      "⚠️ Partial (3/3)",
+      "partial"
+    ],
+    "HasBase": true,
+    "HasDark": true,
+    "HasLight": true,
+    "Path": "E:\\comsats-ite-app_5\\components\\ui\\use-mobile.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\contexts\\animation-context.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\contexts\\animation-context.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\contexts\\auth-context.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\contexts\\auth-context.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\contexts\\campus-context.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\contexts\\campus-context.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\contexts\\emotion-context.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\contexts\\emotion-context.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\contexts\\emotional-ui-context.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\contexts\\emotional-ui-context.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\hooks\\use-session-tracker.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\hooks\\use-session-tracker.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\lib\\accessibility.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\lib\\accessibility.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\lib\\performance.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\lib\\performance.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\lib\\ui-ux-examples.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\lib\\ui-ux-examples.tsx"
+  },
+  {
+    "File": "E:\\comsats-ite-app_5\\__tests__\\components\\enhanced-components.test.tsx",
+    "Status": [
+      "❌ Missing",
+      "missing"
+    ],
+    "HasBase": false,
+    "HasDark": false,
+    "HasLight": false,
+    "Path": "E:\\comsats-ite-app_5\\__tests__\\components\\enhanced-components.test.tsx"
+  }
+]

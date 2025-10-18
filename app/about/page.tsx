@@ -11,6 +11,7 @@ import clsx from "clsx"
 import { useThemeMode } from "@/lib/theme/useThemeMode"
 import stylesLight from './about.light.module.css'
 import stylesDark from './about.dark.module.css'
+import styles from './page.module.css';
 
 export default function AboutUsPage() {
   const mode = useThemeMode()

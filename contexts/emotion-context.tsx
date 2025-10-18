@@ -3,6 +3,7 @@
 import type React from "react"
 import { createContext, useContext, useState, useEffect, useMemo } from "react"
 import { useAuth } from "@/contexts/auth-context"
+import styles from './emotion-context.module.css';
 
 // Define types for emotion states
 export type MoodType = 

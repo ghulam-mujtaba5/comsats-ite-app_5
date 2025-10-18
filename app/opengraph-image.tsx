@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import styles from './opengraph-image.module.css';
  
 export const runtime = 'edge'
 export const alt = 'CampusAxis - COMSATS University Islamabad'

@@ -1,0 +1,127 @@
+/* Base Module - Modern Glassmorphism Design */
+.container {
+  position: relative;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  background: var(--glass-bg-medium);
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  border: 1px solid var(--glass-border-light);
+  box-shadow: var(--glass-shadow-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  will-change: transform, backdrop-filter;
+}
+
+.container:hover {
+  background: var(--glass-bg-medium-hover);
+  backdrop-filter: var(--glass-blur-md);
+  -webkit-backdrop-filter: var(--glass-blur-md);
+  box-shadow: var(--glass-shadow-lg);
+  transform: translateY(-2px) translateZ(0);
+}
+
+.header {
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--glass-border-subtle);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.card {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border-subtle);
+  box-shadow: var(--glass-shadow-sm);
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.card:hover {
+  background: var(--glass-bg-light-hover);
+  box-shadow: var(--glass-shadow-md);
+  transform: translateY(-1px);
+}
+
+.button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  background: var(--glass-bg-medium);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border-light);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--glass-shadow-sm);
+}
+
+.button:hover {
+  background: var(--glass-bg-heavy);
+  box-shadow: var(--glass-shadow-md);
+  transform: translateY(-2px);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: var(--glass-shadow-sm);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .card,
+  .button {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Focus States */
+.button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}

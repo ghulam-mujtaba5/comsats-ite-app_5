@@ -10,6 +10,7 @@ import { EnhancedCommunity } from "@/components/home/enhanced-community"
 import { EnhancedFAQ } from "@/components/home/enhanced-faq"
 import { EnhancedComingSoon } from "@/components/home/enhanced-coming-soon"
 import { AnimatedSections } from "@/components/home/animated-sections"
+import styles from './page.module.css';
 
 // Simplified unified loading skeleton
 function ContentSkeleton() {

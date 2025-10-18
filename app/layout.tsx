@@ -14,6 +14,7 @@ import { jsonLdOrganization, jsonLdWebSite, jsonLdSiteNavigation, jsonLdEducatio
 import Script from "next/script"
 import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
 import { WebVitalsReporter } from "@/components/analytics/web-vitals-reporter"
+import styles from './layout.module.css';
 // Import polyfills for better browser compatibility
 import "@/lib/polyfills"
 // Import compatibility components

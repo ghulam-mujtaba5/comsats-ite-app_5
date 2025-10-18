@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og'
 import type { MetadataRoute } from 'next'
+import styles from './icon.module.css';
  
 export const runtime = 'edge'
  

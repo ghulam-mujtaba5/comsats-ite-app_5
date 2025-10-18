@@ -6,6 +6,7 @@ import { createBrowserClient } from "@supabase/ssr"
 import { autoSetUserPreferencesFromEmail } from "@/lib/user-campus-detector"
 import { updateUserAvatar, updateUserAvatarInPosts } from "@/lib/avatar-updater"
 import { useCampus } from "@/contexts/campus-context"
+import styles from './auth-context.module.css';
 
 // Using a simplified user type for the context
 export interface User {

@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import adminStyles from "@/app/admin/admin-shared.module.css"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
+import styles from './page.module.css';
   Users, 
   MessageSquare, 
   Flag, 
