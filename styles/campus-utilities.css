@@ -1,0 +1,324 @@
+/* ============================================
+ * CAMPUSAXIS UTILITY CLASSES
+ * Reusable component patterns
+ * ============================================ */
+
+/* Modern Glass Components */
+@layer components {
+  /* Glass Card - Primary elevation */
+  .campus-card-primary {
+    @apply glass-primary rounded-xl p-6 hover-lift transition-all duration-300;
+    @apply border border-glass-light shadow-glass-md;
+  }
+  
+  /* Glass Card - Secondary elevation */
+  .campus-card-secondary {
+    @apply glass-secondary rounded-lg p-4 hover-lift transition-all duration-300;
+    @apply border border-glass-subtle shadow-glass-sm;
+  }
+  
+  /* Modern Button - Primary */
+  .campus-btn-primary {
+    @apply bg-gradient-to-r from-primary to-secondary text-primary-foreground;
+    @apply px-6 py-3 rounded-lg font-semibold;
+    @apply hover:scale-105 active:scale-95 transition-all duration-300;
+    @apply shadow-lg hover:shadow-xl;
+  }
+  
+  /* Modern Button - Secondary */
+  .campus-btn-secondary {
+    @apply glass-interactive border border-glass-medium;
+    @apply px-6 py-3 rounded-lg font-semibold;
+    @apply hover:scale-105 active:scale-95 transition-all duration-300;
+  }
+  
+  /* Modern Button - Ghost */
+  .campus-btn-ghost {
+    @apply glass-subtle hover:glass-interactive;
+    @apply px-4 py-2 rounded-lg font-medium;
+    @apply transition-all duration-300;
+  }
+  
+  /* Hero Section Background */
+  .campus-hero-bg {
+    @apply relative overflow-hidden;
+    background: var(--surface-hero);
+  }
+  
+  .campus-hero-bg::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background: radial-gradient(circle at 20% 30%, rgba(66, 153, 225, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
+  }
+  
+  /* Page Section Background */
+  .campus-section-bg {
+    @apply relative overflow-hidden;
+    background: var(--surface-page);
+  }
+  
+  /* Modern Input */
+  .campus-input {
+    @apply glass-input border border-glass-subtle rounded-lg px-4 py-3;
+    @apply focus:border-primary focus:ring-2 focus:ring-primary/20;
+    @apply transition-all duration-300;
+    @apply placeholder:text-muted-foreground;
+  }
+  
+  /* Badge - Primary */
+  .campus-badge-primary {
+    @apply inline-flex items-center px-3 py-1 rounded-full;
+    @apply bg-primary/10 text-primary border border-primary/20;
+    @apply text-sm font-medium;
+  }
+  
+  /* Badge - Secondary */
+  .campus-badge-secondary {
+    @apply inline-flex items-center px-3 py-1 rounded-full;
+    @apply bg-secondary/10 text-secondary border border-secondary/20;
+    @apply text-sm font-medium;
+  }
+  
+  /* Badge - Success */
+  .campus-badge-success {
+    @apply inline-flex items-center px-3 py-1 rounded-full;
+    @apply bg-success/10 text-success border border-success/20;
+    @apply text-sm font-medium;
+  }
+  
+  /* Modern Heading */
+  .campus-heading {
+    @apply font-serif font-bold tracking-tight;
+    background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--foreground) / 0.7) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Feature Grid */
+  .campus-feature-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+  
+  /* Stats Grid */
+  .campus-stats-grid {
+    @apply grid grid-cols-2 md:grid-cols-4 gap-4;
+  }
+  
+  /* Container - Full width with padding */
+  .campus-container {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Container - Narrow for reading */
+  .campus-container-narrow {
+    @apply w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Section Spacing */
+  .campus-section {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+  
+  /* Gradient Text - Primary */
+  .campus-gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Icon Container */
+  .campus-icon-wrapper {
+    @apply flex items-center justify-center;
+    @apply w-12 h-12 rounded-full;
+    @apply bg-primary/10 text-primary;
+  }
+  
+  /* Hover Glow Effect */
+  .campus-glow {
+    @apply transition-all duration-300;
+  }
+  
+  .campus-glow:hover {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  
+  /* Loading Skeleton */
+  .campus-skeleton {
+    @apply animate-pulse bg-muted rounded;
+  }
+  
+  /* Divider */
+  .campus-divider {
+    @apply h-px bg-gradient-to-r from-transparent via-border to-transparent;
+  }
+  
+  /* Floating Action */
+  .campus-float-action {
+    @apply fixed bottom-6 right-6 z-40;
+    @apply glass-primary rounded-full p-4 shadow-glass-xl;
+    @apply hover:scale-110 active:scale-95 transition-all duration-300;
+  }
+  
+  /* Navigation Link */
+  .campus-nav-link {
+    @apply relative px-3 py-2 rounded-lg;
+    @apply text-foreground/80 hover:text-foreground;
+    @apply hover:glass-subtle transition-all duration-300;
+  }
+  
+  .campus-nav-link-active {
+    @apply campus-nav-link glass-interactive;
+    @apply text-primary font-medium;
+  }
+  
+  /* Scrollbar Styling */
+  .campus-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.3) transparent;
+  }
+  
+  .campus-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .campus-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .campus-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.3);
+    border-radius: 4px;
+  }
+  
+  .campus-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
+  }
+}
+
+/* ============================================
+ * RESPONSIVE UTILITIES
+ * Mobile-first responsive patterns
+ * ============================================ */
+
+@layer utilities {
+  /* Hide on mobile */
+  .hide-mobile {
+    @apply hidden md:block;
+  }
+  
+  /* Show only on mobile */
+  .show-mobile {
+    @apply block md:hidden;
+  }
+  
+  /* Stack on mobile, grid on desktop */
+  .responsive-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6;
+  }
+  
+  /* Text sizes that scale */
+  .text-responsive-hero {
+    @apply text-3xl md:text-4xl lg:text-5xl xl:text-6xl;
+  }
+  
+  .text-responsive-title {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+  
+  .text-responsive-heading {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+  
+  .text-responsive-body {
+    @apply text-base md:text-lg;
+  }
+}
+
+/* ============================================
+ * ANIMATION UTILITIES
+ * Pre-built animation patterns
+ * ============================================ */
+
+@layer utilities {
+  /* Entrance animations */
+  .animate-entrance-fade {
+    animation: fade-in 0.6s ease-out;
+  }
+  
+  .animate-entrance-slide-up {
+    animation: fade-in-up 0.8s ease-out;
+  }
+  
+  .animate-entrance-slide-down {
+    animation: fade-in-down 0.8s ease-out;
+  }
+  
+  .animate-entrance-scale {
+    animation: scale-in 0.5s ease-out;
+  }
+  
+  /* Continuous animations */
+  .animate-float-gentle {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-breathe-slow {
+    animation: breathe 4s ease-in-out infinite;
+  }
+  
+  .animate-pulse-gentle {
+    animation: pulse 3s ease-in-out infinite;
+  }
+  
+  /* Loading states */
+  .animate-shimmer-loading {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .animate-shimmer-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: shimmer 2s infinite;
+  }
+}
+
+/* ============================================
+ * ACCESSIBILITY UTILITIES
+ * Enhanced focus states and screen reader support
+ * ============================================ */
+
+@layer utilities {
+  /* Enhanced focus ring */
+  .focus-ring-campus {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+    @apply focus:ring-offset-background transition-all;
+  }
+  
+  /* Skip to main content */
+  .skip-to-main {
+    @apply sr-only focus:not-sr-only;
+    @apply focus:fixed focus:top-4 focus:left-4 focus:z-50;
+    @apply focus:px-4 focus:py-2 focus:rounded-lg;
+    @apply focus:glass-primary focus:ring-2 focus:ring-primary;
+  }
+  
+  /* Screen reader only - but visible on focus */
+  .sr-focus-visible {
+    @apply sr-only focus:not-sr-only;
+  }
+}

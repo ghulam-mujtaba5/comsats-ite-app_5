@@ -2,17 +2,21 @@
 @import "tw-animate-css";
 
 /* ============================================
- * GLASSMORPHISM DESIGN SYSTEM
- * Modern glass UI with light/dark mode support
+ * CAMPUSAXIS DESIGN SYSTEM 2025
+ * Modern Academic Platform Design
+ * Fully customized for educational excellence
+ * Perfect light/dark mode support
  * ============================================ */
 @import "../styles/index.css";
+@import "../styles/campus-utilities.css";
 
 /* ============================================
- * MOBILE-FIRST TOUCH OPTIMIZATIONS
+ * PERFORMANCE & ACCESSIBILITY FIRST
  * ============================================ */
 
 /* Touch-action optimization for all interactive elements */
 @layer base {
+  /* Touch-friendly interactive elements */
   button,
   a,
   [role="button"],
@@ -22,6 +26,16 @@
   select {
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  /* Allow text selection in inputs and text areas */
+  input,
+  textarea,
+  [contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
   }
 }
 
@@ -516,122 +530,125 @@ iframe {
 
 :root {
   /* ============================================
-   * CORPORATE GLASSMORPHIC COLOR SYSTEM
-   * Professional, Accessible, Premium
-   * Inspired by: Vercel, Notion, Apple Design
+   * CAMPUSAXIS ACADEMIC COLOR SYSTEM 2025
+   * Modern, Professional, Accessible
+   * Optimized for educational platform
+   * WCAG AAA Compliant
    * ============================================ */
   
-  /* Base Colors - Clean & Professional */
-  --background: 0 0% 98%; /* Off-white base for better contrast */
-  --foreground: 222 47% 15%; /* Deeper slate for higher contrast text */
+  /* Base Colors - Crisp & Clear */
+  --background: 0 0% 100%; /* Pure white for maximum clarity */
+  --foreground: 222 84% 5%; /* Deep navy for excellent readability */
   
-  /* Surface Colors - Glassmorphic Layers */
-  --card: 0 0% 99%; /* Near-white for elevated surfaces */
-  --card-foreground: 222 47% 15%;
+  /* Surface Colors - Layered Elevation */
+  --card: 0 0% 100%; /* Pure white elevated surfaces */
+  --card-foreground: 222 84% 5%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
+  --popover-foreground: 222 84% 5%;
   
-  /* Brand Colors - Corporate Blue Gradient */
-  --primary: 217 91% 60%; /* Electric Blue #4A90E2 - Trust, Innovation */
+  /* Brand Colors - Academic Excellence */
+  --primary: 217 91% 60%; /* Academic Blue - Trust & Knowledge */
   --primary-foreground: 0 0% 100%;
-  --primary-hover: 217 91% 55%; /* Slightly darker on hover */
+  --primary-hover: 217 91% 55%;
   --primary-active: 217 91% 50%;
   
-  /* Secondary Colors - Complementary Teal */
-  --secondary: 187 64% 67%; /* Mint Teal #7ED6DF - Fresh, Modern */
-  --secondary-foreground: 222 47% 11%;
-  --secondary-hover: 187 64% 62%;
-  --secondary-active: 187 64% 57%;
+  /* Secondary Colors - Vibrant Support */
+  --secondary: 262 83% 58%; /* Purple - Creativity & Innovation */
+  --secondary-foreground: 0 0% 100%;
+  --secondary-hover: 262 83% 53%;
+  --secondary-active: 262 83% 48%;
   
-  /* Accent Colors - Premium Violet */
-  --accent: 258 90% 66%; /* Violet Glow #8B5CF6 - Premium, AI */
+  /* Accent Colors - Energy & Action */
+  --accent: 199 89% 48%; /* Bright Cyan - Fresh & Modern */
   --accent-foreground: 0 0% 100%;
-  --accent-hover: 258 90% 61%;
+  --accent-hover: 199 89% 43%;
   
-  /* Muted Colors - Soft Neutrals */
-  --muted: 220 13% 94%; /* Medium gray background */
-  --muted-foreground: 220 9% 40%; /* Darker gray text for better contrast */
+  /* Muted Colors - Subtle Backgrounds */
+  --muted: 220 13% 96%; /* Light gray background */
+  --muted-foreground: 220 9% 46%; /* Medium gray text */
   
-  /* Semantic Colors - Clear Feedback */
-  --success: 142 76% 36%; /* Professional green */
+  /* Semantic Colors - Clear Communication */
+  --success: 142 76% 36%; /* Green - Achievement */
   --success-foreground: 0 0% 100%;
-  --warning: 38 92% 50%; /* Attention-grabbing amber */
+  --warning: 38 92% 50%; /* Amber - Attention */
   --warning-foreground: 0 0% 100%;
-  --info: 199 89% 48%; /* Informative cyan */
+  --info: 199 89% 48%; /* Cyan - Information */
   --info-foreground: 0 0% 100%;
-  --destructive: 0 84% 60%; /* Clear error red */
+  --destructive: 0 84% 60%; /* Red - Error */
   --destructive-foreground: 0 0% 100%;
   
   /* UI Elements */
-  --border: 220 13% 85%; /* More visible borders */
-  --input: 0 0% 99%; /* Near-white input backgrounds */
+  --border: 220 13% 91%; /* Subtle borders */
+  --input: 0 0% 100%; /* White input backgrounds */
   --ring: 217 91% 60%; /* Focus ring matches primary */
   
   /* Sidebar - Professional Navigation */
-  --sidebar: 220 17% 98%; /* Slightly tinted white */
-  --sidebar-foreground: 222 47% 11%;
+  --sidebar: 220 17% 99%; /* Near-white sidebar */
+  --sidebar-foreground: 222 84% 5%;
   --sidebar-primary: 217 91% 60%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 187 64% 67%;
-  --sidebar-accent-foreground: 222 47% 11%;
-  --sidebar-border: 220 13% 91%;
+  --sidebar-accent: 262 83% 58%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 220 13% 93%;
   --sidebar-ring: 217 91% 60%;
   
   /* Chart Colors - Data Visualization */
-  --chart-1: 217 91% 60%; /* Primary blue */
-  --chart-2: 187 64% 67%; /* Teal */
-  --chart-3: 258 90% 66%; /* Violet */
-  --chart-4: 142 76% 36%; /* Green */
-  --chart-5: 38 92% 50%; /* Amber */
+  --chart-1: 217 91% 60%; /* Academic blue */
+  --chart-2: 262 83% 58%; /* Creative purple */
+  --chart-3: 199 89% 48%; /* Fresh cyan */
+  --chart-4: 142 76% 36%; /* Success green */
+  --chart-5: 38 92% 50%; /* Attention amber */
   
   /* ============================================
-   * GLASSMORPHISM DESIGN TOKENS
-   * Apple-inspired Frosted Glass Effect
+   * MODERN GLASSMORPHISM SYSTEM 2025
+   * Apple-inspired with Academic Enhancement
+   * Perfect for both light and dark modes
    * ============================================ */
   
-  /* Glass Background Layers */
-  --glass-bg-light: rgba(255, 255, 255, 0.88); /* Light frosted glass */
-  --glass-bg-medium: rgba(255, 255, 255, 0.93); /* Medium glass */
-  --glass-bg-heavy: rgba(255, 255, 255, 0.97); /* Heavy glass overlay */
-  --glass-bg-subtle: rgba(255, 255, 255, 0.82); /* Subtle glass hint */
-  --glass-bg-light-hover: rgba(255, 255, 255, 0.93);
-  --glass-bg-medium-hover: rgba(255, 255, 255, 0.97);
-  --glass-bg-heavy-hover: rgba(255, 255, 255, 0.99);
-  --glass-bg-subtle-hover: rgba(255, 255, 255, 0.88);
+  /* Glass Background Layers - Light Mode */
+  --glass-bg-light: rgba(255, 255, 255, 0.85); /* Light frosted glass */
+  --glass-bg-medium: rgba(255, 255, 255, 0.92); /* Medium glass */
+  --glass-bg-heavy: rgba(255, 255, 255, 0.96); /* Heavy glass overlay */
+  --glass-bg-subtle: rgba(255, 255, 255, 0.78); /* Subtle glass hint */
+  --glass-bg-light-hover: rgba(255, 255, 255, 0.92);
+  --glass-bg-medium-hover: rgba(255, 255, 255, 0.96);
+  --glass-bg-heavy-hover: rgba(255, 255, 255, 0.98);
+  --glass-bg-subtle-hover: rgba(255, 255, 255, 0.85);
   
-  /* Glass Borders - Soft Definition */
-  --glass-border-light: rgba(148, 163, 184, 0.28);
-  --glass-border-medium: rgba(148, 163, 184, 0.34);
-  --glass-border-subtle: rgba(148, 163, 184, 0.2);
+  /* Glass Borders - Elegant Definition */
+  --glass-border-light: rgba(148, 163, 184, 0.2);
+  --glass-border-medium: rgba(148, 163, 184, 0.3);
+  --glass-border-subtle: rgba(148, 163, 184, 0.15);
   
-  /* Glass Shadows - Depth & Elevation */
-  --glass-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.1);
-  --glass-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.15);
-  --glass-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.2);
-  --glass-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.25);
-  --glass-shadow-opacity: 0.2;
+  /* Glass Shadows - Natural Depth */
+  --glass-shadow-sm: 0 2px 16px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.04);
+  --glass-shadow-md: 0 4px 24px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.05);
+  --glass-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.06);
+  --glass-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.08);
+  --glass-shadow-opacity: 0.15;
   
   /* Blur Intensity - Performance Optimized */
-  --glass-blur-sm: blur(8px) saturate(150%);
-  --glass-blur-md: blur(12px) saturate(160%);
-  --glass-blur-lg: blur(16px) saturate(170%);
-  --glass-blur-xl: blur(20px) saturate(180%);
-  --glass-blur-xs: blur(4px) saturate(130%);
+  --glass-blur-sm: blur(10px) saturate(140%);
+  --glass-blur-md: blur(14px) saturate(150%);
+  --glass-blur-lg: blur(18px) saturate(160%);
+  --glass-blur-xl: blur(24px) saturate(170%);
+  --glass-blur-xs: blur(6px) saturate(130%);
   
   /* Glass Effects - Additional Variables */
   --glass-saturation: 150%;
   --glass-brightness: 100%;
-  --glass-border-opacity: 0.3;
-  --glass-bg-opacity: 0.8;
+  --glass-border-opacity: 0.2;
+  --glass-bg-opacity: 0.85;
   
-  /* Gradient Overlays - Premium Feel */
-  --gradient-primary: linear-gradient(135deg, #4A90E2 0%, #7ED6DF 100%);
-  --gradient-secondary: linear-gradient(135deg, #7ED6DF 0%, #8B5CF6 100%);
-  --gradient-accent: linear-gradient(135deg, #8B5CF6 0%, #4A90E2 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
+  /* Gradient Overlays - Modern Academic */
+  --gradient-primary: linear-gradient(135deg, #4299E1 0%, #7C3AED 100%);
+  --gradient-secondary: linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%);
+  --gradient-accent: linear-gradient(135deg, #06B6D4 0%, #4299E1 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+  
   /* Surface Gradients - Light Theme */
-  --surface-page: linear-gradient(135deg, #ffffff 0%, #f5f8ff 100%);
-  --surface-hero: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(244,247,255,0.98) 55%, rgba(235,248,255,0.96) 100%);
+  --surface-page: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+  --surface-hero: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(247,250,252,0.96) 100%);
   
   /* Spacing System - 8px Base Grid */
   --spacing-xs: 0.25rem; /* 4px */
@@ -673,113 +690,117 @@ iframe {
 
 .dark {
   /* ============================================
-   * DARK MODE - CORPORATE GLASSMORPHIC
-   * Premium Dark Theme with Neon Accents
+   * CAMPUSAXIS DARK MODE 2025
+   * Premium Dark Theme for Night Study
+   * Reduced eye strain, enhanced focus
+   * Perfect for late-night learning sessions
    * ============================================ */
   
   /* Base Colors - Deep & Rich */
-  --background: 222 47% 8%; /* Deep charcoal */
+  --background: 222 47% 11%; /* Deep slate background */
   --foreground: 210 40% 98%; /* Soft white for text */
   
-  /* Surface Colors - Elevated Glass Layers */
-  --card: 222 47% 11%; /* Slightly elevated surface */
+  /* Surface Colors - Elevated Layers */
+  --card: 222 47% 15%; /* Elevated surface */
   --card-foreground: 210 40% 98%;
-  --popover: 222 47% 11%;
+  --popover: 222 47% 15%;
   --popover-foreground: 210 40% 98%;
   
-  /* Brand Colors - Enhanced for Dark Mode */
+  /* Brand Colors - Vibrant for Dark Mode */
   --primary: 217 91% 65%; /* Brighter blue for visibility */
   --primary-foreground: 222 47% 11%;
   --primary-hover: 217 91% 70%;
   --primary-active: 217 91% 75%;
   
-  /* Secondary Colors - Neon Teal Glow */
-  --secondary: 187 80% 72%; /* Brighter teal */
+  /* Secondary Colors - Vivid Purple */
+  --secondary: 262 83% 65%; /* Brighter purple */
   --secondary-foreground: 222 47% 11%;
-  --secondary-hover: 187 80% 77%;
-  --secondary-active: 187 80% 82%;
+  --secondary-hover: 262 83% 70%;
+  --secondary-active: 262 83% 75%;
   
-  /* Accent Colors - Vibrant Violet */
-  --accent: 258 90% 70%; /* Brighter violet */
+  /* Accent Colors - Neon Cyan */
+  --accent: 199 89% 58%; /* Brighter cyan */
   --accent-foreground: 222 47% 11%;
-  --accent-hover: 258 90% 75%;
+  --accent-hover: 199 89% 63%;
   
   /* Muted Colors - Subtle Dark Grays */
   --muted: 217 33% 17%; /* Dark gray background */
-  --muted-foreground: 215 20% 65%; /* Medium light gray */
+  --muted-foreground: 215 20% 65%; /* Light gray text */
   
-  /* Semantic Colors - Dark Mode Optimized */
-  --success: 142 76% 45%; /* Brighter green */
+  /* Semantic Colors - Enhanced Visibility */
+  --success: 142 76% 45%; /* Bright green */
   --success-foreground: 222 47% 11%;
-  --warning: 38 92% 55%; /* Brighter amber */
+  --warning: 38 92% 55%; /* Bright amber */
   --warning-foreground: 222 47% 11%;
-  --info: 199 89% 58%; /* Brighter cyan */
+  --info: 199 89% 58%; /* Bright cyan */
   --info-foreground: 222 47% 11%;
-  --destructive: 0 84% 65%; /* Brighter red */
+  --destructive: 0 84% 65%; /* Bright red */
   --destructive-foreground: 210 40% 98%;
   
   /* UI Elements */
-  --border: 217 33% 17%; /* Subtle dark borders */
+  --border: 217 33% 24%; /* Visible dark borders */
   --input: 217 33% 17%; /* Dark input backgrounds */
   --ring: 217 91% 65%; /* Bright focus ring */
   
-  /* Sidebar - Professional Dark Navigation */
-  --sidebar: 222 47% 10%; /* Slightly lighter than background */
+  /* Sidebar - Dark Navigation */
+  --sidebar: 222 47% 13%; /* Slightly lighter than background */
   --sidebar-foreground: 210 40% 98%;
   --sidebar-primary: 217 91% 65%;
   --sidebar-primary-foreground: 222 47% 11%;
-  --sidebar-accent: 187 80% 72%;
+  --sidebar-accent: 262 83% 65%;
   --sidebar-accent-foreground: 222 47% 11%;
-  --sidebar-border: 217 33% 17%;
+  --sidebar-border: 217 33% 24%;
   --sidebar-ring: 217 91% 65%;
   
-  /* Chart Colors - Vibrant Data Visualization */
+  /* Chart Colors - Vibrant Data */
   --chart-1: 217 91% 65%; /* Bright blue */
-  --chart-2: 187 80% 72%; /* Neon teal */
-  --chart-3: 258 90% 70%; /* Vibrant violet */
+  --chart-2: 262 83% 65%; /* Vivid purple */
+  --chart-3: 199 89% 58%; /* Neon cyan */
   --chart-4: 142 76% 45%; /* Bright green */
   --chart-5: 38 92% 55%; /* Bright amber */
   
   /* ============================================
-   * DARK MODE GLASSMORPHISM
-   * Frosted Glass with Neon Glow
+   * DARK MODE GLASSMORPHISM 2025
+   * Premium Dark Glass with Subtle Glow
+   * Optimized for night study sessions
    * ============================================ */
   
   /* Glass Background Layers - Dark Tinted */
-  --glass-bg-light: rgba(15, 17, 29, 0.74); /* Dark frosted glass */
-  --glass-bg-medium: rgba(15, 17, 29, 0.8); /* Medium dark glass */
-  --glass-bg-heavy: rgba(15, 17, 29, 0.86); /* Heavy dark glass */
-  --glass-bg-subtle: rgba(15, 17, 29, 0.66); /* Subtle dark glass */
-  --glass-bg-light-hover: rgba(15, 17, 29, 0.8);
-  --glass-bg-medium-hover: rgba(15, 17, 29, 0.86);
-  --glass-bg-heavy-hover: rgba(15, 17, 29, 0.92);
-  --glass-bg-subtle-hover: rgba(15, 17, 29, 0.72);
+  --glass-bg-light: rgba(17, 24, 39, 0.70); /* Dark frosted glass */
+  --glass-bg-medium: rgba(17, 24, 39, 0.80); /* Medium dark glass */
+  --glass-bg-heavy: rgba(17, 24, 39, 0.88); /* Heavy dark glass */
+  --glass-bg-subtle: rgba(17, 24, 39, 0.60); /* Subtle dark glass */
+  --glass-bg-light-hover: rgba(17, 24, 39, 0.78);
+  --glass-bg-medium-hover: rgba(17, 24, 39, 0.86);
+  --glass-bg-heavy-hover: rgba(17, 24, 39, 0.92);
+  --glass-bg-subtle-hover: rgba(17, 24, 39, 0.68);
   
-  /* Glass Borders - Soft Neon Glow */
-  --glass-border-light: rgba(148, 163, 184, 0.32);
-  --glass-border-medium: rgba(148, 163, 184, 0.38);
-  --glass-border-subtle: rgba(148, 163, 184, 0.22);
+  /* Glass Borders - Soft Glow */
+  --glass-border-light: rgba(148, 163, 184, 0.15);
+  --glass-border-medium: rgba(148, 163, 184, 0.22);
+  --glass-border-subtle: rgba(148, 163, 184, 0.10);
   
   /* Glass Shadows - Enhanced Depth */
-  --glass-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
-  --glass-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.5);
-  --glass-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.6);
+  --glass-shadow-sm: 0 2px 16px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.4);
+  --glass-shadow-md: 0 4px 24px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.5);
+  --glass-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.6);
   --glass-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.7);
   
   /* Blur Intensity - Same as light mode */
-  --glass-blur-sm: blur(8px) saturate(140%);
-  --glass-blur-md: blur(12px) saturate(150%);
-  --glass-blur-lg: blur(16px) saturate(160%);
-  --glass-blur-xl: blur(20px) saturate(170%);
+  --glass-blur-sm: blur(10px) saturate(130%);
+  --glass-blur-md: blur(14px) saturate(140%);
+  --glass-blur-lg: blur(18px) saturate(150%);
+  --glass-blur-xl: blur(24px) saturate(160%);
   
-  /* Gradient Overlays - Neon Glow */
-  --gradient-primary: linear-gradient(135deg, #5BA3F5 0%, #90E6EF 100%);
-  --gradient-secondary: linear-gradient(135deg, #90E6EF 0%, #A78BFA 100%);
-  --gradient-accent: linear-gradient(135deg, #A78BFA 0%, #5BA3F5 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(30,41,59,0.6) 0%, rgba(30,41,59,0.2) 100%);
+  /* Gradient Overlays - Neon Accents */
+  --gradient-primary: linear-gradient(135deg, #60A5FA 0%, #8B5CF6 100%);
+  --gradient-secondary: linear-gradient(135deg, #8B5CF6 0%, #22D3EE 100%);
+  --gradient-accent: linear-gradient(135deg, #22D3EE 0%, #60A5FA 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(30,41,59,0.5) 0%, rgba(30,41,59,0.2) 100%);
+  
   /* Surface Gradients - Dark Theme */
-  --surface-page: linear-gradient(135deg, #0f1115 0%, #181c22 60%, #1a1f27 100%);
-  --surface-hero: linear-gradient(135deg, #0f1115 0%, #181c22 55%, #1a1f27 100%);
+  --surface-page: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --surface-hero: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
 }
 
 @layer base {

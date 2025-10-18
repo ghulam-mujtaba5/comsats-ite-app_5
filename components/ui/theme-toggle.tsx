@@ -5,47 +5,81 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Moon, Sun } from "lucide-react"
 
+"use client"
+
+import * as React from "react"
+import { Moon, Sun, Monitor } from "lucide-react"
+import { useTheme } from "next-themes"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 export function ThemeToggle() {
-  const { theme, setTheme, systemTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
+  const { setTheme, theme } = useTheme()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   if (!mounted) {
     return (
       <Button 
         variant="ghost" 
-        size="sm" 
-        aria-label="Toggle theme" 
-        className="px-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        size="icon" 
+        className="glass-subtle hover:glass-interactive h-9 w-9 rounded-full transition-all duration-300"
+        aria-label="Toggle theme"
       >
-        <Sun className="h-5 w-5" />
+        <Sun className="h-4 w-4" />
+        <span className="sr-only">Toggle theme</span>
       </Button>
     )
   }
 
-  const current = theme === "system" ? systemTheme : theme
-  const next = current === "dark" ? "light" : "dark"
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault()
-      setTheme(next)
-    }
-  }
-
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      aria-label={`Switch to ${next} mode`}
-      className="px-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-      onClick={() => setTheme(next)}
-      onKeyDown={handleKeyDown}
-      title={`Switch to ${next} mode`}
-      role="switch"
-      aria-checked={current === "dark"}
-    >
-      {current === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-    </Button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="glass-subtle hover:glass-interactive h-9 w-9 rounded-full transition-all duration-300 hover:scale-110 active:scale-95"
+          aria-label="Toggle theme"
+        >
+          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all duration-500 dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent 
+        align="end" 
+        className="glass-secondary border-glass-light min-w-[140px]"
+      >
+        <DropdownMenuItem 
+          onClick={() => setTheme("light")}
+          className="cursor-pointer flex items-center gap-2 hover:glass-interactive transition-all"
+        >
+          <Sun className="h-4 w-4" />
+          <span>Light</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem 
+          onClick={() => setTheme("dark")}
+          className="cursor-pointer flex items-center gap-2 hover:glass-interactive transition-all"
+        >
+          <Moon className="h-4 w-4" />
+          <span>Dark</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem 
+          onClick={() => setTheme("system")}
+          className="cursor-pointer flex items-center gap-2 hover:glass-interactive transition-all"
+        >
+          <Monitor className="h-4 w-4" />
+          <span>System</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
