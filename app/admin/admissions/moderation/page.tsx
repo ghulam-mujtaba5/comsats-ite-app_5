@@ -9,8 +9,9 @@ import { AdminEmptyState } from "@/components/admin/admin-empty-state"
 import { GlassCard } from "@/components/admin/glass-card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import styles from './page.module.css'
+import adminStyles from "../../admin-shared.module.css"
 import { 
-import styles from './page.module.css';
   Shield, 
   Users, 
   FileText, 
@@ -35,8 +36,6 @@ interface ModerationItem {
   department?: string
   program?: string
 }
-
-import styles from "../../admin-shared.module.css"
 
 export default function AdminAdmissionsModerationPage() {
   const [items, setItems] = useState<ModerationItem[]>([])

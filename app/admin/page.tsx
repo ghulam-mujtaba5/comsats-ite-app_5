@@ -9,7 +9,8 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Users, Library, MessageSquare, GraduationCap, Search, Sparkles, Crown, Zap, Activity, BarChart3, Settings, LogOut } from "lucide-react"
-import styles from './page.module.css';
+import styles from './page.module.css'
+import adminStyles from "./admin-shared.module.css"
 
 interface DashboardStats {
   totalUsers: number;
@@ -17,8 +18,6 @@ interface DashboardStats {
   totalReviews: number;
   totalResources: number;
 }
-
-import styles from "./admin-shared.module.css"
 
 export default function AdminDashboardPage() {
   const router = useRouter()

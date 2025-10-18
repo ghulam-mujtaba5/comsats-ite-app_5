@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import adminStyles from "@/app/admin/admin-shared.module.css"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import styles from './page.module.css'
 import { 
-import styles from './page.module.css';
   Users, 
   MessageSquare, 
   Flag, 
@@ -812,7 +812,10 @@ function CommunityAdminPageContent() {
                       Number of reports before auto-hiding content
                     </p>
                   </div>
-                  <select className="border rounded-md px-3 py-1">
+                  <select 
+                    className="border rounded-md px-3 py-1"
+                    aria-label="Report threshold before auto-hiding content"
+                  >
                     <option>3 reports</option>
                     <option>5 reports</option>
                     <option>10 reports</option>
@@ -849,7 +852,10 @@ function CommunityAdminPageContent() {
                       className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-muted"
                     >
                       {word}
-                      <button className="text-muted-foreground hover:text-foreground">
+                      <button 
+                        className="text-muted-foreground hover:text-foreground"
+                        aria-label={`Remove ${word} from blocked words`}
+                      >
                         <X className="h-3 w-3" />
                       </button>
                     </span>
