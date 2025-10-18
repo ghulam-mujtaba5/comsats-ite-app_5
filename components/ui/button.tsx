@@ -83,12 +83,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               styles.ripple,
               prefersReducedMotion ? "" : "animate-ripple"
             )}
-            style={{
-              top: ripple.y,
-              left: ripple.x,
-              width: '100px',
-              height: '100px',
-              transform: 'translate(-50%, -50%)',
+            ref={(el) => {
+              if (!el) return
+              // Set CSS variables for positioning and size without using inline styles prop
+              el.style.setProperty('--ripple-x', `${ripple.x}px`)
+              el.style.setProperty('--ripple-y', `${ripple.y}px`)
+              el.style.setProperty('--ripple-size', '100px')
             }}
           />
         ))}
