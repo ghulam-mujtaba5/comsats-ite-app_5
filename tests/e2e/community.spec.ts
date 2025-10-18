@@ -1,8 +1,5 @@
 import { test, expect } from '@playwright/test'
 
-// Set base URL for tests
-test.use({ baseURL: 'http://localhost:3001' })
-
 // Basic API contract tests for community endpoints and simple UI smoke
 
 test.describe('Community API', () => {

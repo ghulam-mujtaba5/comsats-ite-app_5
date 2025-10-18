@@ -1,8 +1,5 @@
 import { test, expect } from '@playwright/test'
 
-// Set base URL for tests
-test.use({ baseURL: 'http://localhost:3001' })
-
 test.describe('Enhanced Homepage', () => {
   test('Homepage loads with enhanced components', async ({ page }) => {
     await page.goto('/')

@@ -35,7 +35,9 @@
     "build-pwa": "next build && next-pwa-build",
     "remind-graduates": "tsx scripts/send-graduation-reminders.ts",
     "postbuild": "node scripts/generate-sitemap.js",
-    "generate-sitemap": "node scripts/generate-sitemap.js"
+    "generate-sitemap": "node scripts/generate-sitemap.js",
+    "audit:css-triads": "tsx scripts/audit-css-triads.ts",
+    "fix:css-triads": "tsx scripts/audit-css-triads.ts --write"
   },
   "og-scripts": {
     "generate-og-png": "node scripts/generate-og-png.js"

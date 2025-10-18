@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test'
 
+const baseURL = process.env.BASE_URL || 'http://localhost:3000'
+const isLocalhost = /localhost|127\.0\.0\.1/.test(baseURL)
+
 export default defineConfig({
   testDir: 'tests/e2e',
   timeout: 30 * 1000,
@@ -10,17 +13,19 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'list',
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    baseURL,
     trace: 'on-first-retry',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
-  webServer: {
-    command: 'npm run dev',
-    timeout: 120 * 1000,
-    port: 3000,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: isLocalhost
+    ? {
+        command: 'pnpm dev',
+        timeout: 120 * 1000,
+        port: 3000,
+        reuseExistingServer: !process.env.CI,
+      }
+    : undefined,
   projects: [
     {
       name: 'chromium',
