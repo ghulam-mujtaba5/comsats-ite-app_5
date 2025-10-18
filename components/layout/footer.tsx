@@ -189,7 +189,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
                 <ShieldCheck className="h-5 w-5" />
               </Link>
             </div>
-          </div>
+            </div>
 
           <div>
             <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Support</h3>

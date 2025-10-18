@@ -1,4 +1,50 @@
-﻿/* Dark Mode Styles */
+﻿/* Dark mode styles for Admissions Page - Glassmorphism Enhanced */
+
+/* Hero Section - Deep Tinted Glass with Glow */
+.heroSection {
+  background: linear-gradient(135deg,
+    var(--glass-dark-medium) 0%,
+    var(--glass-dark-base) 100%
+  );
+  backdrop-filter: var(--glass-dark-blur-xl);
+  -webkit-backdrop-filter: var(--glass-dark-blur-xl);
+  border: 1px solid var(--glass-dark-border-base);
+  box-shadow: 
+    var(--glass-dark-shadow-lg),
+    0 0 60px rgba(99, 102, 241, 0.08);
+}
+
+/* Card Containers - Tinted Glass with Subtle Glow */
+.card {
+  background: var(--glass-dark-base);
+  backdrop-filter: var(--glass-dark-blur-md);
+  -webkit-backdrop-filter: var(--glass-dark-blur-md);
+  border: 1px solid var(--glass-dark-border-subtle);
+  box-shadow: var(--glass-dark-shadow-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  background: var(--glass-dark-medium);
+  border-color: var(--glass-dark-border-medium);
+  box-shadow: 
+    var(--glass-dark-shadow-lg),
+    0 0 40px rgba(99, 102, 241, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .heroSection,
+  .card {
+    backdrop-filter: blur(10px) saturate(130%);
+    -webkit-backdrop-filter: blur(10px) saturate(130%);
+  }
+
+  .card:hover {
+    box-shadow: var(--glass-dark-shadow-md);
+  }
+}
 
 .dark .container {
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.90) 100%);

@@ -8,6 +8,7 @@
 @import './design-system/theme-light.css';
 @import './design-system/theme-dark.css';
 @import './design-system/glassmorphism.css';
+@import './design-system/glassmorphism-enhanced.css';
 
 /* Base Styles */
 @import './base/reset.css';

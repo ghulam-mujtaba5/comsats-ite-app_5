@@ -1,0 +1,181 @@
+/**
+ * ============================================
+ * UNIVERSAL PAGE TEMPLATE - LIGHT MODE
+ * Layered Frosted Glass Glassmorphism
+ * ============================================
+ */
+
+/* Page Container - Primary Glass Effect */
+.pageContainer {
+  background: linear-gradient(135deg,
+    var(--glass-light-medium) 0%,
+    var(--glass-light-base) 100%
+  );
+  backdrop-filter: var(--glass-light-blur-xl);
+  -webkit-backdrop-filter: var(--glass-light-blur-xl);
+  border: 1px solid var(--glass-light-border-base);
+  box-shadow: var(--glass-light-shadow-lg);
+}
+
+/* Hero Section - Enhanced Glass */
+.heroSection {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.75) 100%
+  );
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  border: 1px solid rgba(148, 163, 184, 0.20);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(148, 163, 184, 0.10);
+}
+
+/* Card Components - Frosted Glass */
+.card,
+.contentCard {
+  background: var(--glass-light-base);
+  backdrop-filter: var(--glass-light-blur-md);
+  -webkit-backdrop-filter: var(--glass-light-blur-md);
+  border: 1px solid var(--glass-light-border-subtle);
+  box-shadow: var(--glass-light-shadow-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover,
+.contentCard:hover {
+  background: var(--glass-light-hover-bg);
+  border-color: var(--glass-light-hover-border);
+  box-shadow: var(--glass-light-hover-shadow);
+  transform: translateY(-2px);
+}
+
+/* Section Headers - Subtle Glass */
+.sectionHeader {
+  background: var(--glass-light-subtle);
+  backdrop-filter: var(--glass-light-blur-sm);
+  -webkit-backdrop-filter: var(--glass-light-blur-sm);
+  border-bottom: 1px solid var(--glass-light-border-subtle);
+  box-shadow: var(--glass-light-shadow-sm);
+}
+
+/* Input Fields - Light Glass */
+.input,
+.textarea,
+.select {
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(99, 102, 241, 0.30);
+  box-shadow: 
+    0 4px 16px rgba(99, 102, 241, 0.10),
+    0 0 0 3px rgba(99, 102, 241, 0.05);
+}
+
+/* Buttons - Gradient Glass */
+.button,
+.primaryButton {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.80),
+    rgba(255, 255, 255, 0.70)
+  );
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(148, 163, 184, 0.20);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.button:hover,
+.primaryButton:hover {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.90),
+    rgba(255, 255, 255, 0.80)
+  );
+  border-color: rgba(99, 102, 241, 0.30);
+  box-shadow: 
+    0 6px 20px rgba(99, 102, 241, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+}
+
+/* Modal/Dialog - Strong Glass */
+.modal,
+.dialog {
+  background: var(--glass-light-strong);
+  backdrop-filter: var(--glass-light-blur-2xl);
+  -webkit-backdrop-filter: var(--glass-light-blur-2xl);
+  border: 1px solid var(--glass-light-border-medium);
+  box-shadow: var(--glass-light-shadow-xl);
+}
+
+/* Sidebar/Navigation - Persistent Glass */
+.sidebar,
+.navigation {
+  background: var(--glass-light-medium);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-right: 1px solid var(--glass-light-border-base);
+  box-shadow: 
+    4px 0 16px rgba(0, 0, 0, 0.06),
+    inset -1px 0 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .pageContainer,
+  .heroSection,
+  .card,
+  .contentCard,
+  .modal,
+  .dialog,
+  .sidebar,
+  .navigation {
+    backdrop-filter: blur(8px) saturate(140%);
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+  }
+  
+  .button,
+  .primaryButton,
+  .input,
+  .textarea,
+  .select {
+    backdrop-filter: blur(6px) saturate(130%);
+    -webkit-backdrop-filter: blur(6px) saturate(130%);
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .card:hover,
+  .contentCard:hover,
+  .button:hover,
+  .primaryButton:hover {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .pageContainer,
+  .heroSection,
+  .card,
+  .contentCard {
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+}
