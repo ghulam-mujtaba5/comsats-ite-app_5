@@ -1,9 +1,9 @@
 import type { NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import { supabaseAdmin } from './supabase-admin'
-import { logAudit, AuditAction } from './audit'
-import { getClientIP } from './rate-limit'
+import { supabaseAdmin } from '@infrastructure/database/supabase-admin'
+import { logAudit, AuditAction } from '@lib/audit'
+import { getClientIP } from '@lib/rate-limit'
 
 export interface AdminAccess {
   allow: boolean

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@lib/supabase'
 
 interface PollOption {
   id: string
@@ -114,7 +114,7 @@ export function useRealtimePolls(campusId?: string, departmentId?: string) {
           schema: 'public',
           table: 'community_polls',
         },
-        (payload) => {
+        (payload: { new: any }) => {
           const newPoll = payload.new
           // Transform new poll to match frontend interface
           const transformedPoll = {
@@ -163,7 +163,7 @@ export function useRealtimePolls(campusId?: string, departmentId?: string) {
           schema: 'public',
           table: 'community_polls',
         },
-        (payload) => {
+        (payload: { new: any }) => {
           const updatedPoll = payload.new
           // Transform updated poll to match frontend interface
           const transformedPoll = {
@@ -205,7 +205,7 @@ export function useRealtimePolls(campusId?: string, departmentId?: string) {
           schema: 'public',
           table: 'community_polls',
         },
-        (payload) => {
+        (payload: { old: any }) => {
           const deletedPollId = payload.old.id.toString()
           setPolls((prevPolls) =>
             prevPolls.filter((poll) => poll.id !== deletedPollId)

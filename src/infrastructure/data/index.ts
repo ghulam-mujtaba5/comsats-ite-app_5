@@ -1,6 +1,6 @@
 // Data Access Layer Export
-export * from '@/lib/supabase'
-export * from '@/lib/supabase-utils'
-export * from '@/lib/supabase-admin'
-export * from '@/lib/mongo'
-export * from '@/lib/mongodb'
+export * from '@infrastructure/database/supabase'
+export * from '@infrastructure/database/supabase-utils'
+export * from '@infrastructure/database/supabase-admin'
+export * from '@infrastructure/database/mongo'
+export * from '@infrastructure/database/mongodb'

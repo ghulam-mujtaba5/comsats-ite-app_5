@@ -1,4 +1,4 @@
-import { createSupabaseClient } from '@/lib/supabase-utils'
+import { createSupabaseClient } from '@lib/supabase-utils'
 
 /**
  * Uploads a file to Supabase Storage

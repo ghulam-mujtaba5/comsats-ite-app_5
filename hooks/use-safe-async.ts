@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { logError, parseError, handleApiError } from '@/lib/error-handler'
+import { logError, parseError, handleApiError } from '@lib/error-handler'
 
 /**
  * Hook for safe async operations with automatic error handling

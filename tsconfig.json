@@ -23,6 +23,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
+      "@/lib": ["src/lib/index.ts"],
+      "@/lib/*": ["src/lib/*"],
       "@app/*": ["app/*"],
       "@components/*": ["components/*"],
       "@lib/*": ["src/lib/*"],

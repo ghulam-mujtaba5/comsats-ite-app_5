@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@lib/supabase'
 import type { Reply } from '@/lib/community-data'
 
 export function useRealtimeComments(postId: string) {

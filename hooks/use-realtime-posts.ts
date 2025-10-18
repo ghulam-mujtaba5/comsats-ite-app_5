@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
-import { Post } from '@/lib/community-data'
+import { supabase } from '@lib/supabase'
+import { Post } from '@lib/community-data'
 
 export function useRealtimePosts(campusId?: string | null, departmentId?: string | null, batch?: string | null) {
   const [posts, setPosts] = useState<Post[]>([])
@@ -95,7 +95,7 @@ export function useRealtimePosts(campusId?: string | null, departmentId?: string
           schema: 'public',
           table: 'community_posts_enhanced',
         },
-        (payload) => {
+        (payload: { new: any }) => {
           const newPost = payload.new
           // Transform new post to match Post interface
           const transformedPost = {
@@ -139,7 +139,7 @@ export function useRealtimePosts(campusId?: string | null, departmentId?: string
           schema: 'public',
           table: 'community_posts_enhanced',
         },
-        (payload) => {
+        (payload: { new: any }) => {
           const updatedPost = payload.new
           // Transform updated post to match Post interface
           const transformedPost = {
@@ -187,7 +187,7 @@ export function useRealtimePosts(campusId?: string | null, departmentId?: string
           schema: 'public',
           table: 'community_posts_enhanced',
         },
-        (payload) => {
+        (payload: { old: any }) => {
           const deletedPostId = payload.old.id
           setPosts((prev) => prev.filter((post) => post.id !== deletedPostId))
         }

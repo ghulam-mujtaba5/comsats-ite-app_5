@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@lib/supabase'
 
 export function useRealtimeLikes(postId: string) {
   const [likes, setLikes] = useState(0)

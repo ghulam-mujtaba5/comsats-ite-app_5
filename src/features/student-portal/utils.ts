@@ -1,4 +1,4 @@
-import { EMAIL_PREFIX_TO_DEPARTMENT_CODE } from './campus-email-mapping';
+import { EMAIL_PREFIX_TO_DEPARTMENT_CODE } from '@lib/campus-email-mapping';
 
 // Department code to full name mapping
 export const DEPARTMENT_CODE_TO_NAME: Record<string, string> = {

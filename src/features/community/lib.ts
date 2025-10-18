@@ -1,5 +1,5 @@
-import { supabase } from "@/lib/supabase"
-import type { Post, Reply } from "@/lib/community-data"
+import { supabase } from "@lib/supabase"
+import type { Post, Reply } from "@lib/community-data"
 
 export async function fetchPosts(limit = 100): Promise<Post[]> {
   const { data, error } = await supabase

@@ -4,11 +4,11 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from './supabase-admin'
-import { logAudit, AuditAction } from './audit'
-import { getClientIP } from './rate-limit'
-import { createError } from './error-handler'
-import { authenticateRequest } from './api-middleware'
+import { supabaseAdmin } from '@infrastructure/database/supabase-admin'
+import { logAudit, AuditAction } from '@lib/audit'
+import { getClientIP } from '@lib/rate-limit'
+import { createError } from '@lib/error-handler'
+import { authenticateRequest } from '@lib/api-middleware'
 
 export interface AdminContext {
   userId: string
@@ -241,7 +241,7 @@ export async function checkBatchAdminStatus(
       .in('user_id', userIds)
 
     if (adminUsers) {
-      adminUsers.forEach((admin) => {
+      adminUsers.forEach((admin: any) => {
         result.set(admin.user_id, true)
       })
     }

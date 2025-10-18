@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { Search, Filter, X, ChevronDown, SortAsc, SortDesc, RotateCcw, BookmarkPlus, Bookmark } from "lucide-react"
 import { ReactNode, useState, useEffect } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "@lib/utils"
 
 export type Option = { label: string; value: string; description?: string }
 
@@ -167,7 +167,7 @@ export function AdvancedFilterBar({
               </div>
               <span className="text-sm font-semibold text-foreground">Filters</span>
               {showActiveFilterCount && activeFilterCount > 0 && (
-                <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border-primary/20">
+                <Badge className="text-xs bg-primary/10 text-primary border border-primary/20">
                   {activeFilterCount} active
                 </Badge>
               )}
@@ -351,7 +351,7 @@ export function AdvancedFilterBar({
       <div className={cn(
         "relative",
         "bg-white/70 dark:bg-slate-900/70",
-        "backdrop-blur-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
+        "backdrop-blur-xl border border-slate-200 dark:border-slate-700/30",
         "rounded-3xl shadow-lg hover:shadow-xl",
         "transition-all duration-300",
         "p-6 lg:p-8",
@@ -370,7 +370,7 @@ export function AdvancedFilterBar({
       <div className={cn(
         "relative",
         "bg-white/70 dark:bg-slate-900/70",
-        "backdrop-blur-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
+        "backdrop-blur-xl border border-slate-200 dark:border-slate-700/30",
         "rounded-3xl shadow-lg hover:shadow-xl",
         "transition-all duration-300",
         "overflow-hidden",
@@ -395,7 +395,7 @@ export function AdvancedFilterBar({
               <div>
                 <span className="text-lg font-semibold text-foreground">Filters & Search</span>
                 {showActiveFilterCount && activeFilterCount > 0 && (
-                  <Badge variant="secondary" className="ml-3 bg-primary/10 text-primary border-primary/20">
+                  <Badge className="ml-3 bg-primary/10 text-primary border border-primary/20">
                     {activeFilterCount} active
                   </Badge>
                 )}
@@ -409,7 +409,7 @@ export function AdvancedFilterBar({
         </CollapsibleTrigger>
         
         <CollapsibleContent className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1">
-          <div className="px-6 lg:px-8 pb-6 lg:pb-8 border-t border-slate-200 dark:border-slate-700 dark:border-slate-700/20">
+          <div className="px-6 lg:px-8 pb-6 lg:pb-8 border-t border-slate-200 dark:border-slate-700/20">
             <div className="pt-6">
               {renderFilterContent()}
             </div>

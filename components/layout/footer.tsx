@@ -3,7 +3,7 @@ import { GraduationCap, Mail, MapPin, Users, Github, Twitter, Instagram, Sparkle
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { SITE_LINKS, type PageStatus } from "@/lib/site-map"
+import { SITE_LINKS, type PageStatus, type SiteLink } from "@lib/site-map"
 import layout from "@/app/styles/common.module.css"
 import { usePathname } from "next/navigation"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -14,7 +14,7 @@ type FooterProps = {
 
 export function Footer({ hidePortalSubtitle = false }: FooterProps) {
   const pathname = usePathname()
-  const groups = {
+  const groups: Record<'core' | 'student' | 'community' | 'admissions' | 'support', SiteLink[]> = {
     core: SITE_LINKS.filter(l => l.group === 'core'),
     student: SITE_LINKS.filter(l => l.group === 'student'),
     community: SITE_LINKS.filter(l => l.group === 'community'),

@@ -10,7 +10,7 @@
  */
 
 import type { Metadata } from 'next'
-import type { Faculty, Review } from '@/lib/faculty-data'
+import type { Faculty, Review } from '@lib/faculty-data'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://campusaxis.site'
 
@@ -60,7 +60,7 @@ export function generateFacultyMetadata(faculty: Faculty, campus?: string): Meta
     `Professor ${name} reviews`,
     
     // Courses
-    ...(faculty.courses?.slice(0, 3).map(course => `${name} ${course}`) || []),
+    ...(faculty.courses?.slice(0, 3).map((course: string) => `${name} ${course}`) || []),
     
     // Campus-specific
     `COMSATS ${campusName} ${department} faculty`,
@@ -161,7 +161,7 @@ export function generateFacultySchema(faculty: Faculty, reviews: Review[] = [], 
     },
     
     // Education
-    alumniOf: faculty.education?.map(edu => ({
+    alumniOf: faculty.education?.map((edu: string) => ({
       '@type': 'EducationalOrganization',
       name: edu.split(',')[0] || edu
     })) || [],
