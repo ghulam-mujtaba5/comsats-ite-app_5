@@ -55,7 +55,7 @@ export function InteractiveCTA() {
 
             <div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-                <span className="bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-slate-900 to-slate-800 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
                   Ready to Excel in
                 </span>
                 <br />
@@ -63,7 +63,7 @@ export function InteractiveCTA() {
                   Your Academics?
                 </span>
               </h2>
-              <p className="text-lg text-slate-600 dark:text-slate-300">
+              <p className="text-lg text-slate-800 dark:text-slate-200 font-medium">
                 Join thousands of COMSATS students who are already using CampusAxis to transform their academic journey.
               </p>
             </div>
@@ -82,7 +82,7 @@ export function InteractiveCTA() {
                   <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center flex-shrink-0">
                     <CheckCircle2 className="h-4 w-4 text-white" />
                   </div>
-                  <span className="text-slate-700 dark:text-slate-300 font-medium">
+                  <span className="text-slate-800 dark:text-slate-200 font-medium">
                     {benefit}
                   </span>
                 </motion.div>
@@ -152,7 +152,7 @@ export function InteractiveCTA() {
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <Card className="p-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 transition-all">
+                <Card className="p-6 bg-white dark:bg-slate-900/90 backdrop-blur-xl border-2 border-slate-300 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-600 shadow-lg hover:shadow-xl transition-all">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold flex-shrink-0">
                       {testimonial.avatar}

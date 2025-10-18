@@ -259,11 +259,11 @@ export function EnhancedHero() {
 
             {/* Enhanced description with better readability */}
             <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <p className="text-body-lg md:text-body-xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl mb-md md:mb-lg text-center md:text-left">
+              <p className="text-body-lg md:text-body-xl text-slate-800 dark:text-slate-200 leading-relaxed max-w-2xl mb-md md:mb-lg text-center md:text-left font-medium">
                 Access past papers, calculate your GPA, explore learning resources, and read faculty reviews - 
                 all in one comprehensive academic portal designed specifically for COMSATS students.
               </p>
-              <p className="text-body-md text-slate-600 dark:text-slate-400 max-w-xl text-center md:text-left">
+              <p className="text-body-md text-slate-700 dark:text-slate-300 max-w-xl text-center md:text-left">
                 A growing platform for COMSATS students to share resources and read faculty reviews.
               </p>
             </div>
@@ -279,7 +279,7 @@ export function EnhancedHero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + index * 0.1 }}
                     whileHover={isAnimationEnabled ? { y: -5 } : {}}
-                    className="p-3 sm:p-4 md:p-5 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-600 interactive-elevated focus-ring"
+                    className="p-3 sm:p-4 md:p-5 rounded-2xl bg-white dark:bg-slate-800/90 backdrop-blur-xl border-2 border-slate-300 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl hover:border-blue-400 dark:hover:border-blue-600 shadow-md interactive-elevated focus-ring"
                     tabIndex={0}
                     role="region"
                     aria-label={`${stat.value} ${stat.label}`}
@@ -337,7 +337,7 @@ export function EnhancedHero() {
           <div className={`transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="relative">
               {/* Main Stats Card with enhanced styling */}
-              <Card className="relative p-6 bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-3xl shadow-2xl backdrop-blur-3xl" role="region" aria-labelledby="platform-stats-heading">
+              <Card className="relative p-6 bg-white dark:bg-slate-800/95 border-2 border-slate-300 dark:border-slate-700 rounded-3xl shadow-2xl backdrop-blur-3xl" role="region" aria-labelledby="platform-stats-heading">
                 <div className="space-y-6">
                   {/* Header Section with animated icon */}
                   <div className="text-center space-y-3">

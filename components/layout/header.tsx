@@ -179,7 +179,6 @@ export function Header() {
             </TooltipTrigger>
             <TooltipContent sideOffset={6}>Search (Ctrl/⌘ K)</TooltipContent>
           </Tooltip>
-          {/* Ctrl/⌘+K keyboard hint removed per design request */}
           <div className="hidden sm:block">
             <NotificationBell />
           </div>
@@ -199,9 +198,7 @@ export function Header() {
               <span className="sr-only">{isAdmin ? "Admin Panel" : "Admin Portal"}</span>
             </Button>
           </Link>
-          <div className="hidden lg:block">
-            <ThemeToggle />
-          </div>
+          <ThemeToggle />
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button 

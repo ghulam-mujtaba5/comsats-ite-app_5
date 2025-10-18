@@ -80,12 +80,12 @@ export function EnhancedCommunity() {
           
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-balance mb-4 sm:mb-6">
             Connect with Your{" "}
-            <span className="bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-700 to-indigo-700 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
               Academic Community
             </span>
           </h2>
           
-          <p className="text-base sm:text-lg md:text-xl text-slate-700 dark:text-slate-300/90 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-slate-800 dark:text-slate-200 max-w-3xl mx-auto leading-relaxed font-medium">
             Join thousands of COMSATS students sharing knowledge, opportunities, and academic journeys. 
             Engage in discussions, share resources, and build meaningful connections.
           </p>
@@ -102,7 +102,7 @@ export function EnhancedCommunity() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-4 sm:p-5 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl glass-primary"
+                  className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-800/95 backdrop-blur-xl border-2 border-slate-300 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl shadow-md"
               >
                 <div className="flex justify-center mb-2 sm:mb-3">
                   <div className="p-2 sm:p-3 rounded-xl bg-blue-500/10">
@@ -162,7 +162,7 @@ export function EnhancedCommunity() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group h-full border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl glass-primary glass-professional"
+                    className="group h-full border-2 border-slate-300 dark:border-slate-700 rounded-2xl bg-white dark:bg-slate-800/95 backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl shadow-lg hover:border-blue-400 dark:hover:border-blue-600"
                   >
                     <CardHeader>
                       <div className="flex items-start justify-between">

@@ -212,7 +212,7 @@ html {
 (() => {
   try {
     if (typeof localStorage !== 'undefined' && typeof window !== 'undefined' && typeof document !== 'undefined') {
-      const stored = localStorage.getItem('theme');
+      const stored = localStorage.getItem('campusaxis-theme');
       const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const theme = stored === 'light' || stored === 'dark' ? stored : (systemDark ? 'dark' : 'light');
       const root = document.documentElement;
@@ -333,7 +333,7 @@ html {
           </>
         )}
 
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="campusaxis-theme">
           <CampusProvider>
             <AuthProvider>
               <AnimationProvider>

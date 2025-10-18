@@ -91,14 +91,14 @@ export function ModernFeaturesGrid() {
             <Sparkles className="h-4 w-4 mr-2" />
             Everything You Need
           </Badge>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-white dark:via-blue-200 dark:to-white bg-clip-text text-transparent">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-white dark:via-blue-100 dark:to-white bg-clip-text text-transparent">
             Academic Excellence
             <br />
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               Made Simple
             </span>
           </h2>
-          <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-slate-800 dark:text-slate-200 max-w-2xl mx-auto font-medium">
             Comprehensive tools and resources designed specifically for COMSATS students
           </p>
         </motion.div>
@@ -124,7 +124,7 @@ export function ModernFeaturesGrid() {
                 `}
               >
                 <Link href={feature.href} className="block h-full">
-                  <Card className="relative h-full min-h-[280px] overflow-hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-500 group-hover:scale-[1.02]">
+                  <Card className="relative h-full min-h-[280px] overflow-hidden bg-white dark:bg-slate-900/90 backdrop-blur-xl border-2 border-slate-300 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-600 shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02]">
                     {/* Gradient Background */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
                     
@@ -144,7 +144,7 @@ export function ModernFeaturesGrid() {
                         <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 text-slate-900 dark:text-white">
                           {feature.title}
                         </h3>
-                        <p className="text-sm sm:text-base lg:text-base text-slate-600 dark:text-slate-400 line-clamp-3">
+                        <p className="text-sm sm:text-base lg:text-base text-slate-700 dark:text-slate-300 line-clamp-3">
                           {feature.description}
                         </p>
                       </div>
@@ -155,7 +155,7 @@ export function ModernFeaturesGrid() {
                           <div className={`text-2xl font-bold bg-gradient-to-r ${feature.gradient} bg-clip-text text-transparent`}>
                             {feature.stats}
                           </div>
-                          <div className="text-xs text-slate-500 dark:text-slate-400">
+                          <div className="text-xs font-medium text-slate-600 dark:text-slate-400">
                             {feature.label}
                           </div>
                         </div>
@@ -189,7 +189,7 @@ export function ModernFeaturesGrid() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="text-center p-6 rounded-2xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200 dark:border-slate-800"
+                className="text-center p-6 rounded-2xl bg-white dark:bg-slate-900/80 backdrop-blur-xl border-2 border-slate-300 dark:border-slate-700 shadow-lg hover:shadow-xl transition-all\"
               >
                 <Icon className={`h-8 w-8 ${stat.color} mx-auto mb-3`} />
                 <div className="text-2xl font-bold text-slate-900 dark:text-white mb-1">

@@ -47,17 +47,17 @@ export default function HomePage() {
     <div className="min-h-screen relative overflow-hidden -mt-8 sm:-mt-12">
       {/* Modern Mesh Gradient Background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/40 to-indigo-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
         
-        {/* Animated gradient mesh */}
-        <div className="absolute inset-0 opacity-30 dark:opacity-20">
-          <div className="absolute top-0 -left-4 w-[500px] h-[500px] bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
-          <div className="absolute top-0 -right-4 w-[500px] h-[500px] bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
-          <div className="absolute -bottom-8 left-20 w-[500px] h-[500px] bg-gradient-to-br from-indigo-500 to-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
+        {/* Animated gradient mesh - reduced opacity for light mode */}
+        <div className="absolute inset-0 opacity-20 dark:opacity-20">
+          <div className="absolute top-0 -left-4 w-[500px] h-[500px] bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+          <div className="absolute top-0 -right-4 w-[500px] h-[500px] bg-gradient-to-br from-purple-400 to-pink-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
+          <div className="absolute -bottom-8 left-20 w-[500px] h-[500px] bg-gradient-to-br from-indigo-400 to-blue-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
         </div>
         
-        {/* Grid overlay for modern tech feel */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:64px_64px]" />
+        {/* Grid overlay for modern tech feel - more visible in light mode */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:64px_64px] dark:bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)]" />
       </div>
 
       <main className="relative z-10">
