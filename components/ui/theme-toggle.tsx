@@ -1,9 +1,3 @@
-"use client"
-
-import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Moon, Sun } from "lucide-react"
 
 "use client"
 
@@ -31,7 +25,7 @@ export function ThemeToggle() {
       <Button 
         variant="ghost" 
         size="icon" 
-        className="glass-subtle hover:glass-interactive h-9 w-9 rounded-full transition-all duration-300"
+        className="h-9 w-9 rounded-full transition-all duration-300 bg-background/50 hover:bg-background/80"
         aria-label="Toggle theme"
       >
         <Sun className="h-4 w-4" />
@@ -46,7 +40,7 @@ export function ThemeToggle() {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="glass-subtle hover:glass-interactive h-9 w-9 rounded-full transition-all duration-300 hover:scale-110 active:scale-95"
+          className="h-9 w-9 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 bg-background/50 hover:bg-background/80"
           aria-label="Toggle theme"
         >
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0" />
@@ -56,25 +50,25 @@ export function ThemeToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent 
         align="end" 
-        className="glass-secondary border-glass-light min-w-[140px]"
+        className="min-w-[140px] bg-background/95 backdrop-blur-md border-border/50"
       >
         <DropdownMenuItem 
           onClick={() => setTheme("light")}
-          className="cursor-pointer flex items-center gap-2 hover:glass-interactive transition-all"
+          className="cursor-pointer flex items-center gap-2 transition-all"
         >
           <Sun className="h-4 w-4" />
           <span>Light</span>
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => setTheme("dark")}
-          className="cursor-pointer flex items-center gap-2 hover:glass-interactive transition-all"
+          className="cursor-pointer flex items-center gap-2 transition-all"
         >
           <Moon className="h-4 w-4" />
           <span>Dark</span>
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => setTheme("system")}
-          className="cursor-pointer flex items-center gap-2 hover:glass-interactive transition-all"
+          className="cursor-pointer flex items-center gap-2 transition-all"
         >
           <Monitor className="h-4 w-4" />
           <span>System</span>

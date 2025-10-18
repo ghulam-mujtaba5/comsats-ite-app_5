@@ -93,7 +93,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             </a>
           </div>
         </div>
-  <div className={styles.footerGrid}>
+        <div className={styles.footerGrid}>
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <div className="relative group">

@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
 /* ============================================
  * CAMPUSAXIS DESIGN SYSTEM 2025
@@ -8,7 +7,6 @@
  * Perfect light/dark mode support
  * ============================================ */
 @import "../styles/index.css";
-@import "../styles/campus-utilities.css";
 
 /* ============================================
  * PERFORMANCE & ACCESSIBILITY FIRST
