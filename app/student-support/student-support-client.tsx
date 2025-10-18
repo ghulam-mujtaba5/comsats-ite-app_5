@@ -37,7 +37,7 @@ interface SupportResource {
 
 export default function StudentSupportClient() {
   const mode = useThemeMode()
-  const themeClass = mode === 'dark' ? stylesDark.supportDark : stylesLight.supportLight
+  const themeClass = mode.theme === 'dark' ? stylesDark.supportDark : stylesLight.supportLight
   const { selectedCampus } = useCampus()
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [searchQuery, setSearchQuery] = useState('')

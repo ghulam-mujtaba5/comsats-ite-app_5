@@ -33,7 +33,7 @@ import stylesDark from "./alumni.dark.module.css"
 
 export default function AlumniPortal() {
   const mode = useThemeMode()
-  const themeClass = mode === 'dark' ? stylesDark.alumniDark : stylesLight.alumniLight
+  const themeClass = mode.theme === 'dark' ? stylesDark.alumniDark : stylesLight.alumniLight
   const { user, isAuthenticated } = useAuth()
   const [emails, setEmails] = useState<any[]>([])
   const [loading, setLoading] = useState(true)

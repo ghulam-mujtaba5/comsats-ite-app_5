@@ -1,5 +1,6 @@
 export {
   validateCUIEmail,
+  validateEmailDomainForCampus,
   validateCUIRegistration,
   getCampusFromEmail,
   CAMPUS_DOMAINS,

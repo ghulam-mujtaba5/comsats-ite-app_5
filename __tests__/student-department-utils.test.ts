@@ -75,7 +75,7 @@ describe('Student Department Utilities', () => {
     it('should filter reviews by department name', () => {
       const filtered = filterReviewsByDepartment(mockReviews, 'Computer Science');
       expect(filtered).toHaveLength(2);
-      expect(filtered.every(review => review.faculty.department === 'Computer Science')).toBe(true);
+      expect(filtered.every((review: any) => review.faculty.department === 'Computer Science')).toBe(true);
     });
 
     it('should return all reviews when no department specified', () => {
@@ -96,7 +96,7 @@ describe('Student Department Utilities', () => {
     it('should filter faculty by department name', () => {
       const filtered = filterFacultyByDepartment(mockFaculty, 'Computer Science');
       expect(filtered).toHaveLength(2);
-      expect(filtered.every(member => member.department === 'Computer Science')).toBe(true);
+      expect(filtered.every((member: any) => member.department === 'Computer Science')).toBe(true);
     });
 
     it('should return all faculty when no department specified', () => {
@@ -117,7 +117,7 @@ describe('Student Department Utilities', () => {
     it('should filter resources by department name', () => {
       const filtered = filterResourcesByDepartment(mockResources, 'Computer Science');
       expect(filtered).toHaveLength(2);
-      expect(filtered.every(resource => resource.department === 'Computer Science')).toBe(true);
+      expect(filtered.every((resource: any) => resource.department === 'Computer Science')).toBe(true);
     });
 
     it('should return all resources when no department specified', () => {

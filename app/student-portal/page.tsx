@@ -139,19 +139,20 @@ export default function StudentPortalPage() {
                     <CardDescription>{resource.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Button 
-                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-                        asChild={resource.is_external}
-                      href={resource.is_external ? resource.url : undefined}
-                      target={resource.is_external ? "_blank" : undefined}
-                      rel={resource.is_external ? "noopener noreferrer" : undefined}
-                    >
-                        {resource.is_external ? (
-                          <a href={resource.url} target="_blank" rel="noopener noreferrer">Open Service<ExternalLink className="ml-2 h-4 w-4" /></a>
-                        ) : (
-                          <>Visit</>
-                        )}
-                    </Button>
+                    {resource.is_external ? (
+                      <Button 
+                        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                        asChild
+                      >
+                        <a href={resource.url} target="_blank" rel="noopener noreferrer">
+                          Open Service<ExternalLink className="ml-2 h-4 w-4" />
+                        </a>
+                      </Button>
+                    ) : (
+                      <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                        Visit
+                      </Button>
+                    )}
                   </CardContent>
                 </Card>
               )

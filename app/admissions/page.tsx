@@ -63,7 +63,7 @@ export const metadata: Metadata = {
 
 export default function AdmissionsPage() {
   const mode = useThemeMode()
-  const themeClass = mode === 'dark' ? stylesDark.admissionsDark : stylesLight.admissionsLight
+  const themeClass = mode.theme === 'dark' ? stylesDark.admissionsDark : stylesLight.admissionsLight
   // Mock data for mentors
   const mockMentors = [
     {
