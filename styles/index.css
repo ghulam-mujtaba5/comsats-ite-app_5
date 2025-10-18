@@ -1,0 +1,19 @@
+/**
+ * Main Design System Entry Point
+ * Import this file in your globals.css
+ */
+
+/* Design Tokens & Theme Variables */
+@import './design-system/tokens.css';
+@import './design-system/theme-light.css';
+@import './design-system/theme-dark.css';
+@import './design-system/glassmorphism.css';
+
+/* Base Styles */
+@import './base/reset.css';
+@import './base/layout.css';
+
+/* Enhanced Glassmorphism Utilities */
+@import './utilities/glass-utilities.css';
+
+/* Export all design system utilities */

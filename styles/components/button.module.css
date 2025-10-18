@@ -1,0 +1,132 @@
+/**
+ * Button Component Styles
+ * Glassmorphism button variants for light/dark themes
+ */
+
+@import '../design-system/tokens.css';
+
+.button {
+  composes: glass-button from '../design-system/glassmorphism.css';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Size Variants */
+.buttonSm {
+  composes: button;
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.8125rem;
+  border-radius: var(--radius-md);
+}
+
+.buttonMd {
+  composes: button;
+  padding: var(--space-3) var(--space-6);
+  font-size: 0.875rem;
+}
+
+.buttonLg {
+  composes: button;
+  padding: var(--space-4) var(--space-8);
+  font-size: 1rem;
+  border-radius: var(--radius-xl);
+}
+
+/* Style Variants */
+.buttonPrimary {
+  composes: glass-button-primary from '../design-system/glassmorphism.css';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-on-glass);
+}
+
+.buttonSecondary {
+  composes: button;
+  background: var(--glass-bg-secondary-tint);
+  border-color: rgba(var(--color-brand-secondary), 0.20);
+}
+
+.buttonSecondary:hover {
+  background: rgba(var(--color-brand-secondary), 0.15);
+  box-shadow: 
+    0 8px 32px rgba(99, 102, 241, 0.25),
+    var(--glass-hover-shadow);
+}
+
+.buttonGhost {
+  composes: button;
+  background: transparent;
+  border-color: var(--glass-border-base);
+}
+
+.buttonGhost:hover {
+  background: var(--glass-bg-subtle);
+}
+
+.buttonOutline {
+  composes: button;
+  background: transparent;
+  border: 2px solid var(--glass-border-accent);
+}
+
+.buttonOutline:hover {
+  background: var(--glass-bg-primary-tint);
+}
+
+/* Icon Button */
+.buttonIcon {
+  composes: button;
+  padding: var(--space-2);
+  aspect-ratio: 1;
+  border-radius: var(--radius-lg);
+}
+
+/* Full Width */
+.buttonFull {
+  width: 100%;
+}
+
+/* Loading State */
+.buttonLoading {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
+}
+
+.buttonLoading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid var(--text-on-glass);
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: buttonSpin 0.6s linear infinite;
+}
+
+@keyframes buttonSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}

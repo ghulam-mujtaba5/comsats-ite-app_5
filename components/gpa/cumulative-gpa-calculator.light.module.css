@@ -1,4 +1,38 @@
-/* cumulative-gpa-calculator.light.module.css (light theme) */
-:root {}
+﻿/* Light Mode Styles */
 
-.root {}
+.container {
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(241, 245, 249, 0.90) 100%);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.70);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.50);
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(69, 115, 223, 0.25);
+  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.15), 0 6px 20px rgba(31, 38, 135, 0.10);
+}
+
+.title {
+  color: rgba(15, 23, 42, 0.95);
+}
+
+.description {
+  color: rgba(51, 65, 85, 0.85);
+}
+
+.button {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: rgba(15, 23, 42, 0.90);
+  box-shadow: 0 4px 16px rgba(31, 38, 135, 0.08);
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.80);
+  border-color: rgba(69, 115, 223, 0.30);
+  box-shadow: 0 8px 24px rgba(31, 38, 135, 0.12);
+}

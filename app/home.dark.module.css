@@ -1,1 +1,85 @@
-.darkTheme :global(html.dark) .home-page { --theme-ready: 1; }
+/**
+ * Home Page - Dark Mode Styles
+ * Optimized glassmorphism for dark theme
+ */
+
+.dark .heroSection {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.95) 0%,
+    rgba(30, 41, 59, 0.90) 50%,
+    rgba(51, 65, 85, 0.85) 100%
+  );
+}
+
+.dark .heroCard {
+  background: rgba(30, 41, 59, 0.60);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.50),
+    0 4px 16px rgba(0, 0, 0, 0.40),
+    0 0 24px rgba(69, 115, 223, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.dark .featureCard {
+  background: rgba(30, 41, 59, 0.55);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 20px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .featureCard:hover {
+  background: rgba(51, 65, 85, 0.65);
+  border-color: rgba(69, 115, 223, 0.40);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.55),
+    0 6px 20px rgba(0, 0, 0, 0.40),
+    0 0 32px rgba(69, 115, 223, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  transform: translateY(-4px);
+}
+
+.dark .statsCard {
+  background: rgba(30, 41, 59, 0.50);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.40),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.dark .ctaButton {
+  background: linear-gradient(
+    135deg,
+    rgba(69, 115, 223, 0.85),
+    rgba(99, 102, 241, 0.85)
+  );
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 8px 32px rgba(69, 115, 223, 0.35),
+    0 4px 16px rgba(69, 115, 223, 0.25),
+    0 0 24px rgba(69, 115, 223, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20);
+}
+
+.dark .ctaButton:hover {
+  box-shadow: 
+    0 12px 40px rgba(69, 115, 223, 0.45),
+    0 6px 20px rgba(69, 115, 223, 0.30),
+    0 0 32px rgba(69, 115, 223, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.30);
+  transform: translateY(-2px);
+}

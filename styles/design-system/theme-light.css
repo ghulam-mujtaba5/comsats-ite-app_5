@@ -1,0 +1,140 @@
+/**
+ * Light Theme - Glassmorphism Variables
+ * Optimized for daylight viewing with proper contrast
+ */
+
+@layer theme-light {
+  :root,
+  [data-theme="light"] {
+    color-scheme: light;
+    
+    /* ========================================
+     * GLASS BACKGROUNDS - LIGHT MODE
+     * High opacity for better visibility on light backgrounds
+     * ======================================== */
+    
+    /* Primary glass surfaces */
+    --glass-bg-base: rgba(255, 255, 255, 0.70);
+    --glass-bg-subtle: rgba(255, 255, 255, 0.50);
+    --glass-bg-card: rgba(255, 255, 255, 0.65);
+    --glass-bg-elevated: rgba(255, 255, 255, 0.75);
+    --glass-bg-overlay: rgba(255, 255, 255, 0.85);
+    
+    /* Tinted glass (with brand colors) */
+    --glass-bg-primary-tint: rgba(69, 115, 223, 0.08);
+    --glass-bg-secondary-tint: rgba(99, 102, 241, 0.08);
+    --glass-bg-accent-tint: rgba(139, 92, 246, 0.08);
+    
+    /* Colored glass overlays */
+    --glass-bg-blue: rgba(59, 130, 246, 0.10);
+    --glass-bg-indigo: rgba(99, 102, 241, 0.10);
+    --glass-bg-purple: rgba(139, 92, 246, 0.10);
+    --glass-bg-pink: rgba(236, 72, 153, 0.10);
+    
+    /* ========================================
+     * GLASS BORDERS - LIGHT MODE
+     * Subtle borders for depth
+     * ======================================== */
+    
+    --glass-border-base: rgba(255, 255, 255, 0.30);
+    --glass-border-strong: rgba(255, 255, 255, 0.40);
+    --glass-border-accent: rgba(69, 115, 223, 0.20);
+    
+    /* Gradient borders */
+    --glass-border-gradient: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.40),
+      rgba(255, 255, 255, 0.10)
+    );
+    
+    /* ========================================
+     * GLASS SHADOWS - LIGHT MODE
+     * Softer shadows for light backgrounds
+     * ======================================== */
+    
+    --glass-shadow-sm: 
+      0 4px 16px rgba(31, 38, 135, 0.08),
+      0 2px 8px rgba(31, 38, 135, 0.05);
+    
+    --glass-shadow-md: 
+      0 8px 32px rgba(31, 38, 135, 0.12),
+      0 4px 16px rgba(31, 38, 135, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.50);
+    
+    --glass-shadow-lg: 
+      0 16px 48px rgba(31, 38, 135, 0.16),
+      0 8px 24px rgba(31, 38, 135, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.60);
+    
+    --glass-shadow-xl: 
+      0 24px 64px rgba(31, 38, 135, 0.20),
+      0 12px 32px rgba(31, 38, 135, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.70);
+    
+    /* Colored shadows for hover states */
+    --glass-shadow-primary: 
+      0 8px 32px rgba(69, 115, 223, 0.20),
+      0 4px 16px rgba(69, 115, 223, 0.12);
+    
+    --glass-shadow-secondary: 
+      0 8px 32px rgba(99, 102, 241, 0.20),
+      0 4px 16px rgba(99, 102, 241, 0.12);
+    
+    /* ========================================
+     * TEXT COLORS - LIGHT MODE
+     * High contrast for accessibility
+     * ======================================== */
+    
+    --text-primary: rgba(15, 23, 42, 0.95);
+    --text-secondary: rgba(51, 65, 85, 0.85);
+    --text-tertiary: rgba(100, 116, 139, 0.75);
+    --text-disabled: rgba(148, 163, 184, 0.60);
+    
+    --text-on-glass: rgba(15, 23, 42, 0.90);
+    --text-on-glass-secondary: rgba(51, 65, 85, 0.80);
+    
+    /* ========================================
+     * BACKGROUND GRADIENTS - LIGHT MODE
+     * ======================================== */
+    
+    --bg-gradient-primary: linear-gradient(
+      135deg,
+      rgba(248, 250, 252, 1) 0%,
+      rgba(241, 245, 249, 1) 50%,
+      rgba(226, 232, 240, 1) 100%
+    );
+    
+    --bg-gradient-secondary: linear-gradient(
+      135deg,
+      rgba(239, 246, 255, 1) 0%,
+      rgba(219, 234, 254, 1) 100%
+    );
+    
+    --bg-gradient-glass-overlay: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.00) 0%,
+      rgba(255, 255, 255, 0.50) 100%
+    );
+    
+    /* ========================================
+     * INTERACTIVE STATES - LIGHT MODE
+     * ======================================== */
+    
+    /* Hover states */
+    --glass-hover-bg: rgba(255, 255, 255, 0.85);
+    --glass-hover-border: rgba(69, 115, 223, 0.30);
+    --glass-hover-shadow: 
+      0 12px 40px rgba(31, 38, 135, 0.15),
+      0 6px 20px rgba(31, 38, 135, 0.10);
+    
+    /* Active/pressed states */
+    --glass-active-bg: rgba(255, 255, 255, 0.90);
+    --glass-active-shadow: 
+      0 4px 16px rgba(31, 38, 135, 0.10),
+      inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    
+    /* Focus states */
+    --glass-focus-ring: 0 0 0 3px rgba(69, 115, 223, 0.20);
+    --glass-focus-border: rgba(69, 115, 223, 0.50);
+  }
+}

@@ -9,8 +9,8 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Users, Library, MessageSquare, GraduationCap, Search, Sparkles, Crown, Zap, Activity, BarChart3, Settings, LogOut } from "lucide-react"
-import styles from './page.module.css'
 import adminStyles from "./admin-shared.module.css"
+import layout from "@/app/styles/common.module.css"
 
 interface DashboardStats {
   totalUsers: number;
@@ -80,7 +80,7 @@ export default function AdminDashboardPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-purple-600/5 to-indigo-600/5 backdrop-blur-2xl" />
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C92AC%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20" />
           
-          <div className={`relative ${styles.section} px-6 lg:px-10 pt-12 pb-8`}>
+          <div className={`relative ${layout.section} px-6 lg:px-10 pt-12 pb-8`}>
             <div className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                 <div className="space-y-4">
@@ -225,7 +225,7 @@ export default function AdminDashboardPage() {
           ]
 
           return (
-            <div className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${styles.section} px-6 lg:px-10`} aria-live="polite">
+            <div className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${layout.section} px-6 lg:px-10`} aria-live="polite">
               {sorted.map((l: LinkItem, idx: number) => {
                 const isHighPriority = l.priority === 'high'
                 const delayClass = linkDelayClasses[Math.min(idx, linkDelayClasses.length - 1)]

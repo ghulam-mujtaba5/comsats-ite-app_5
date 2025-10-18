@@ -1,0 +1,155 @@
+/**
+ * Base Styles
+ * Foundation styles for the entire application
+ */
+
+@layer base {
+  /* ========================================
+   * RESET & NORMALIZATION
+   * ======================================== */
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  
+  /* ========================================
+   * ACCESSIBILITY
+   * ======================================== */
+  
+  /* Focus styles */
+  *:focus-visible {
+    outline: 2px solid var(--glass-focus-border);
+    outline-offset: 2px;
+  }
+  
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  
+  /* ========================================
+   * TOUCH OPTIMIZATIONS
+   * ======================================== */
+  
+  button,
+  a,
+  [role="button"],
+  [role="link"],
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  /* ========================================
+   * TYPOGRAPHY SCALE
+   * ======================================== */
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+  
+  h1 { font-size: clamp(2rem, 5vw, 3rem); }
+  h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+  h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+  h4 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+  h5 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+  h6 { font-size: clamp(1rem, 1.5vw, 1.25rem); }
+  
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+  
+  a {
+    color: rgb(var(--color-brand-primary));
+    text-decoration: none;
+    transition: color var(--transition-fast) var(--ease-in-out);
+  }
+  
+  a:hover {
+    color: rgb(var(--color-brand-secondary));
+  }
+  
+  /* ========================================
+   * SELECTION
+   * ======================================== */
+  
+  ::selection {
+    background: rgba(var(--color-brand-primary), 0.2);
+    color: var(--text-primary);
+  }
+  
+  ::-moz-selection {
+    background: rgba(var(--color-brand-primary), 0.2);
+    color: var(--text-primary);
+  }
+  
+  /* ========================================
+   * SCROLLBAR STYLING
+   * ======================================== */
+  
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--color-slate-400), 0.5) transparent;
+  }
+  
+  /* Webkit browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgba(var(--color-slate-400), 0.5);
+    border-radius: var(--radius-full);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--color-slate-400), 0.7);
+  }
+  
+  .dark ::-webkit-scrollbar-thumb {
+    background: rgba(var(--color-slate-600), 0.5);
+  }
+  
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--color-slate-600), 0.7);
+  }
+}
