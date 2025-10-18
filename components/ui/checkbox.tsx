@@ -14,8 +14,8 @@ const checkboxVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 data-[state=checked]:bg-white/20 data-[state=checked]:border-white/30 focus:ring-2 focus:ring-white/30 focus:border-white/30 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 data-[state=checked]:bg-white/15 data-[state=checked]:border-white/20 focus:ring-1 focus:ring-white/20 focus:border-white/20 shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700 data-[state=checked]:bg-white/20 data-[state=checked]:border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-white/30 focus:border-slate-200 dark:border-slate-700 shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700 data-[state=checked]:bg-white/15 data-[state=checked]:border-slate-200 dark:border-slate-700 focus:ring-1 focus:ring-white/20 focus:border-slate-200 dark:border-slate-700 shadow-glass-sm",
       },
     },
     defaultVariants: {

@@ -64,20 +64,20 @@ export default function NotFound() {
                   <h1 className="text-6xl lg:text-8xl font-bold leading-tight text-foreground">
                     4<span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">0</span>4
                   </h1>
-                  <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-4">
+                  <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-4">
                     Page{" "}
                     <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent">
                       Not Found
                     </span>
                   </h2>
                 </div>
-                <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-2xl mx-auto">
+                <p className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif max-w-2xl mx-auto">
                   Sorry, we couldn't find the page you're looking for.
                 </p>
               </div>
 
               <div className="space-y-6">
-                <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto leading-relaxed">
+                <p className="text-lg text-slate-700 dark:text-slate-300/80 font-light max-w-xl mx-auto leading-relaxed">
                   The page might have been moved, deleted, or you entered the wrong URL. Let's get you back on track!
                 </p>
 

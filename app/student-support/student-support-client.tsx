@@ -150,11 +150,11 @@ export default function StudentSupportClient() {
     <div className={clsx("min-h-screen flex flex-col bg-muted/20", themeClass)} data-theme-scope="student-support">
       <div className={`${layout.section} px-4 py-10`}>
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted text-sm font-medium text-foreground mb-5">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-900 text-sm font-medium text-slate-900 dark:text-white mb-5">
             <Heart className="h-3.5 w-3.5" /> Student Wellbeing
           </div>
-          <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">Student <span className="text-primary">Support</span></h1>
-          <p className="text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
+          <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">Student <span className="text-primary">Support</span></h1>
+          <p className="text-base lg:text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mb-6">
             Get the help and support you need for your academic and personal well-being. We're here to help you succeed.
           </p>
         </div>
@@ -206,21 +206,21 @@ export default function StudentSupportClient() {
         </div>
         {emergencyResources.length>0 && (
           <div className="mb-8 max-w-6xl mx-auto" aria-live="polite" {...(loading ? ({ 'aria-busy': 'true' } as any) : {})}>
-            <h2 className="text-lg font-semibold text-foreground mb-3 flex items-center">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-3 flex items-center">
               <Shield className="h-4 w-4 mr-2" /> Emergency Support
             </h2>
             <div className="grid gap-4 md:grid-cols-2 max-w-4xl mx-auto">
               {emergencyResources.map(r => (
                 <Card key={r.id} className="border border-destructive/30 bg-destructive/5">
                   <CardHeader>
-                    <CardTitle className="text-foreground flex items-center text-base">
+                    <CardTitle className="text-slate-900 dark:text-white flex items-center text-base">
                       <Phone className="h-3.5 w-3.5 mr-2" />{r.title}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-foreground mb-2 text-sm">{r.description}</p>
-                    <p className="text-sm text-foreground font-medium">{r.contactInfo}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{r.availability}</p>
+                    <p className="text-slate-900 dark:text-white mb-2 text-sm">{r.description}</p>
+                    <p className="text-sm text-slate-900 dark:text-white font-medium">{r.contactInfo}</p>
+                    <p className="text-xs text-slate-700 dark:text-slate-300 mt-1">{r.availability}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -331,7 +331,7 @@ export default function StudentSupportClient() {
           ) : error ? (
             <div className="text-center py-6 text-destructive max-w-4xl mx-auto">{error}</div>
           ) : regularResources.length === 0 ? (
-            <div className="text-center py-6 text-muted-foreground max-w-4xl mx-auto">No support resources found matching your criteria</div>
+            <div className="text-center py-6 text-slate-700 dark:text-slate-300 max-w-4xl mx-auto">No support resources found matching your criteria</div>
           ) : (
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
               {regularResources.map(r=> (
@@ -343,7 +343,7 @@ export default function StudentSupportClient() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground mb-3 text-sm">{r.description}</p>
+                    <p className="text-slate-700 dark:text-slate-300 mb-3 text-sm">{r.description}</p>
                     <div className="space-y-2">
                       <div className="flex items-center text-sm">
                         <Mail className="h-3.5 w-3.5 mr-2 text-primary" />

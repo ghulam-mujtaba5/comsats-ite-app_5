@@ -10,7 +10,7 @@ const alertVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-card text-card-foreground border-border shadow-sm",
+        default: "bg-white dark:bg-slate-800 text-card-foreground border-border shadow-sm",
         destructive:
           "text-destructive bg-destructive/10 border-destructive/30 [&>svg]:text-destructive *:data-[slot=alert-description]:text-destructive/90 shadow-sm",
         success: "text-[#22C55E] bg-[#22C55E]/10 border-[#22C55E]/30 [&>svg]:text-[#22C55E] *:data-[slot=alert-description]:text-[#22C55E]/90 shadow-sm",
@@ -96,7 +96,7 @@ const AlertDescription = React.forwardRef<HTMLDivElement, AlertDescriptionProps>
         ref={ref}
         data-slot="alert-description"
         className={cn(
-          "text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
+          "text-slate-700 dark:text-slate-300 col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed",
           className,
         )}
         {...props}

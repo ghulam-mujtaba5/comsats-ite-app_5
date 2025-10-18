@@ -25,7 +25,7 @@ const breadcrumbsVariants = cva(
 )
 
 const breadcrumbLinkVariants = cva(
-  "hover:text-foreground transition-colors",
+  "hover:text-slate-900 dark:text-white transition-colors",
   {
     variants: {
       variant: {

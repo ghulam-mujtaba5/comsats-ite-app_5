@@ -13,8 +13,8 @@ const navigationMenuTriggerStyle = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20 focus:bg-white/20 data-[state=open]:bg-white/20 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10 text-white hover:bg-white/15 focus:bg-white/15 data-[state=open]:bg-white/15 shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-white hover:bg-white/20 focus:bg-white/20 data-[state=open]:bg-white/20 shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700 text-white hover:bg-white/15 focus:bg-white/15 data-[state=open]:bg-white/15 shadow-glass-sm",
       },
     },
     defaultVariants: {
@@ -29,8 +29,8 @@ const navigationMenuContentVariants = cva(
     variants: {
       variant: {
         default: "group-data-[viewport=false]/navigation-menu:bg-popover group-data-[viewport=false]/navigation-menu:text-popover-foreground",
-        glass: "group-data-[viewport=false]/navigation-menu:bg-white/10 group-data-[viewport=false]/navigation-menu:text-white group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:border-white/20 group-data-[viewport=false]/navigation-menu:backdrop-blur-xl group-data-[viewport=false]/navigation-menu:shadow-glass",
-        "glass-subtle": "group-data-[viewport=false]/navigation-menu:bg-white/5 group-data-[viewport=false]/navigation-menu:text-white group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:border-white/10 group-data-[viewport=false]/navigation-menu:backdrop-blur-lg group-data-[viewport=false]/navigation-menu:shadow-glass-sm",
+        glass: "group-data-[viewport=false]/navigation-menu:bg-white/10 group-data-[viewport=false]/navigation-menu:text-white group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:border-slate-200 dark:border-slate-700 group-data-[viewport=false]/navigation-menu:backdrop-blur-xl group-data-[viewport=false]/navigation-menu:shadow-glass",
+        "glass-subtle": "group-data-[viewport=false]/navigation-menu:bg-white/5 group-data-[viewport=false]/navigation-menu:text-white group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:border-slate-200 dark:border-slate-700 group-data-[viewport=false]/navigation-menu:backdrop-blur-lg group-data-[viewport=false]/navigation-menu:shadow-glass-sm",
       },
     },
     defaultVariants: {
@@ -45,8 +45,8 @@ const navigationMenuViewportVariants = cva(
     variants: {
       variant: {
         default: "bg-popover text-popover-foreground",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700 text-white shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700 text-white shadow-glass-sm",
       },
     },
     defaultVariants: {
@@ -56,7 +56,7 @@ const navigationMenuViewportVariants = cva(
 )
 
 const navigationMenuLinkVariants = cva(
-  "data-[active=true]:focus:bg-accent data-[active=true]:hover:bg-accent data-[active=true]:bg-accent/50 data-[active=true]:text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-ring/50 [&_svg:not([class*='text-'])]:text-muted-foreground flex flex-col gap-1 rounded-sm p-2 text-sm transition-all outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4",
+  "data-[active=true]:focus:bg-accent data-[active=true]:hover:bg-accent data-[active=true]:bg-accent/50 data-[active=true]:text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-ring/50 [&_svg:not([class*='text-'])]:text-slate-700 dark:text-slate-300 flex flex-col gap-1 rounded-sm p-2 text-sm transition-all outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {

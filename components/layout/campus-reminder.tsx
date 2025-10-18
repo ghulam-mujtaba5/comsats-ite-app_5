@@ -66,7 +66,7 @@ export function CampusReminder() {
                           ? "Select Your Campus"
                           : "Select Your Department"}
                       </h3>
-                      <p className="text-[10px] text-muted-foreground mt-0.5">
+                      <p className="text-[10px] text-slate-700 dark:text-slate-300 mt-0.5">
                         {!selectedCampus
                           ? "Get personalized content"
                           : "Filter by department"}

@@ -150,7 +150,7 @@ export default function CommunityProfilePage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
       <div className={`${layout.section} py-6`}>
         {/* Profile Header */}
-        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl mb-8 overflow-hidden">
+        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl mb-8 overflow-hidden">
           <div className="relative h-48 bg-gradient-to-r from-blue-500 to-purple-600">
             <div className="absolute -bottom-16 left-6">
               <div className="relative">
@@ -289,7 +289,7 @@ export default function CommunityProfilePage() {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 mb-8">
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
             <CardContent className="flex flex-col items-center gap-1 p-4">
               <div className="text-2xl font-bold text-slate-900 dark:text-white">
                 {profile.posts}
@@ -298,7 +298,7 @@ export default function CommunityProfilePage() {
             </CardContent>
           </Card>
           
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
             <CardContent className="flex flex-col items-center gap-1 p-4">
               <div className="text-2xl font-bold text-slate-900 dark:text-white">
                 {profile.followers}
@@ -307,7 +307,7 @@ export default function CommunityProfilePage() {
             </CardContent>
           </Card>
           
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
             <CardContent className="flex flex-col items-center gap-1 p-4">
               <div className="text-2xl font-bold text-slate-900 dark:text-white">
                 {profile.following}
@@ -316,7 +316,7 @@ export default function CommunityProfilePage() {
             </CardContent>
           </Card>
           
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
             <CardContent className="flex flex-col items-center gap-1 p-4">
               <div className="text-2xl font-bold text-slate-900 dark:text-white">
                 {profile.likes}
@@ -325,7 +325,7 @@ export default function CommunityProfilePage() {
             </CardContent>
           </Card>
           
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
             <CardContent className="flex flex-col items-center gap-1 p-4">
               <div className="text-2xl font-bold text-slate-900 dark:text-white">
                 {profile.comments}

@@ -167,7 +167,7 @@ export function PeerMentoring() {
                       </div>
                     </div>
                     
-                    <div className="flex items-center text-sm text-muted-foreground mb-3">
+                    <div className="flex items-center text-sm text-slate-700 dark:text-slate-300 mb-3">
                       <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 mr-1" />
                       <span>{mentor.rating} ({mentor.review_count} reviews)</span>
                     </div>
@@ -183,18 +183,18 @@ export function PeerMentoring() {
                           </span>
                         ))}
                         {mentor.specialization.length > 2 && (
-                          <span className="text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
+                          <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 rounded-full text-muted-foreground">
                             +{mentor.specialization.length - 2}
                           </span>
                         )}
                       </div>
                     </div>
                     
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                    <p className="text-sm text-slate-700 dark:text-slate-300 mb-4 line-clamp-2">
                       {mentor.bio}
                     </p>
                     
-                    <div className="flex items-center text-xs text-muted-foreground mb-4">
+                    <div className="flex items-center text-xs text-slate-700 dark:text-slate-300 mb-4">
                       <Clock className="h-3 w-3 mr-1" />
                       <span>{mentor.availability}</span>
                     </div>
@@ -208,7 +208,7 @@ export function PeerMentoring() {
             </div>
           ) : (
             <Card className="p-8 text-center">
-              <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <Users className="h-12 w-12 text-slate-700 dark:text-slate-300 mx-auto mb-4" />
               <h3 className="text-lg font-semibold mb-2">No Mentors Found</h3>
               <p className="text-muted-foreground">
                 We couldn't find any mentors matching your criteria. Try adjusting your search.

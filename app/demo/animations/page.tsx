@@ -77,7 +77,7 @@ export default function AnimationsDemoPage() {
         </div>
 
         {/* New Celebration Animations Section */}
-        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
+        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5" />
@@ -101,7 +101,7 @@ export default function AnimationsDemoPage() {
         </Card>
 
         {/* Celebration Animations */}
-        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
+        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5" />
@@ -126,7 +126,7 @@ export default function AnimationsDemoPage() {
         </Card>
 
         {/* Gratitude Animations */}
-        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
+        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Heart className="h-5 w-5" />
@@ -151,7 +151,7 @@ export default function AnimationsDemoPage() {
         </Card>
 
         {/* Motivation Animations */}
-        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
+        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Flame className="h-5 w-5" />
@@ -179,7 +179,7 @@ export default function AnimationsDemoPage() {
         </Card>
 
         {/* Community Animations */}
-        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
+        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Users className="h-5 w-5" />
@@ -207,7 +207,7 @@ export default function AnimationsDemoPage() {
         </Card>
 
         {/* UI Feedback Animations */}
-        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
+        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CheckCircle className="h-5 w-5" />
@@ -256,7 +256,7 @@ export default function AnimationsDemoPage() {
         </Card>
 
         {/* Integration Examples */}
-        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/20 dark:border-slate-700/30 rounded-2xl">
+        <Card className="mb-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Star className="h-5 w-5" />

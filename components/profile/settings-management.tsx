@@ -167,7 +167,7 @@ export function SettingsManagement() {
 
   if (loading) {
     return (
-      <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+      <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl">
         <CardContent className="p-8 flex items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
         </CardContent>
@@ -194,7 +194,7 @@ export function SettingsManagement() {
 
       {/* Notifications Tab */}
       <TabsContent value="notifications">
-        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
               <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30">
@@ -314,7 +314,7 @@ export function SettingsManagement() {
 
       {/* Privacy Tab */}
       <TabsContent value="privacy">
-        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
               <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-200/30">
@@ -416,7 +416,7 @@ export function SettingsManagement() {
 
       {/* Preferences Tab */}
       <TabsContent value="preferences">
-        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
               <div className="p-2 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30">

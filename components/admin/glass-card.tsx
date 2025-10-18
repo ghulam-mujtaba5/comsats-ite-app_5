@@ -26,7 +26,7 @@ export function GlassCard({
   headerContent
 }: GlassCardProps) {
   return (
-    <Card className={`glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 ${hover ? 'hover:shadow-xl transition-all duration-300' : ''} ${className}`}>
+    <Card className={`glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 ${hover ? 'hover:shadow-xl transition-all duration-300' : ''} ${className}`}>
       <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-2xl" />
       
       {(title || Icon || headerContent) && (

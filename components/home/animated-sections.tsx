@@ -52,7 +52,7 @@ export function AnimatedSections() {
             <h2 id="about-campusaxis-heading" className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-balance mb-6">
               Empowering <span className="bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent">COMSATS Students</span>
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
               CampusAxis is more than just an academic portal - it's your comprehensive companion for academic excellence at COMSATS University.
             </p>
           </motion.div>
@@ -78,7 +78,7 @@ export function AnimatedSections() {
                     <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
                       <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
                     </div>
-                    <p className="text-muted-foreground/90 leading-relaxed">{item.description}</p>
+                    <p className="text-slate-700 dark:text-slate-300/90 leading-relaxed">{item.description}</p>
                   </GlassCard>
                 </motion.div>
               )
@@ -93,7 +93,7 @@ export function AnimatedSections() {
             className="text-center"
           >
             <GlassCard 
-              className="inline-block p-8 sm:p-10 md:p-12 border border-white/30 bg-card/90 backdrop-blur-3xl shadow-2xl rounded-2xl sm:rounded-3xl max-w-3xl mx-auto glass-primary glass-gradient glass-professional"
+              className="inline-block p-8 sm:p-10 md:p-12 border border-slate-200 dark:border-slate-700 bg-white/90 dark:bg-slate-800/90 backdrop-blur-3xl shadow-2xl rounded-2xl sm:rounded-3xl max-w-3xl mx-auto glass-primary glass-gradient glass-professional"
             >
               <div className="space-y-6 sm:space-y-8">
                 <div className="flex justify-center">
@@ -103,7 +103,7 @@ export function AnimatedSections() {
                 </div>
                 <div>
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4">Ready to Transform Your Academic Experience?</h3>
-                  <p className="text-base sm:text-lg text-muted-foreground/90 max-w-2xl mx-auto mb-6">
+                  <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300/90 max-w-2xl mx-auto mb-6">
                     Join thousands of COMSATS students who are already using CampusAxis to excel in their studies and connect with their academic community.
                   </p>
                 </div>

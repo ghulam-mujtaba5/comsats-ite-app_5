@@ -313,7 +313,7 @@ export default function AdminDashboardPage() {
             </Card>
 
             {/* Reviews & Feedback */}
-            <Card className="glass-secondary border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+            <Card className="glass-secondary border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Reviews & Feedback</CardTitle>
                 <div className="relative">
@@ -337,7 +337,7 @@ export default function AdminDashboardPage() {
             </Card>
 
             {/* Learning Resources */}
-            <Card className="glass-secondary border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
+            <Card className="glass-secondary border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-200">Learning Resources</CardTitle>
                 <div className="relative">
@@ -461,7 +461,7 @@ export default function AdminDashboardPage() {
           <div className={`${adminStyles.threeCol}`}>
             {/* Recent Activity */}
             <div className={adminStyles.colSpan2}>
-              <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 h-full">
+              <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 h-full">
                 <CardHeader className="pb-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -495,7 +495,7 @@ export default function AdminDashboardPage() {
             
             {/* Quick Actions */}
             <div>
-              <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 h-full">
+              <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 h-full">
                 <CardHeader className="pb-4">
                   <div className="flex items-center gap-3">
                     <div className="relative">
@@ -538,7 +538,7 @@ export default function AdminDashboardPage() {
         
         {/* Enhanced System Health */}
         <div className={`${adminStyles.section} pb-12`}>
-          <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 overflow-hidden">
+          <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 overflow-hidden">
             <div className="relative">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-full blur-3xl" />
               <CardHeader className="relative pb-4">
@@ -565,7 +565,7 @@ export default function AdminDashboardPage() {
               <CardContent className="relative">
                 <div className="grid gap-6 md:grid-cols-2" aria-live="polite">
                   {/* Timetable Database */}
-                  <div className="group p-4 rounded-xl border border-white/30 dark:border-slate-700/30 bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300">
+                  <div className="group p-4 rounded-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <div className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 animate-pulse" />
@@ -597,7 +597,7 @@ export default function AdminDashboardPage() {
                   </div>
                   
                   {/* MongoDB */}
-                  <div className="group p-4 rounded-xl border border-white/30 dark:border-slate-700/30 bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300">
+                  <div className="group p-4 rounded-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 animate-pulse" />

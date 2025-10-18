@@ -311,11 +311,11 @@ export function SearchClient() {
               Anything
             </span>
           </h1>
-          <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-4xl mx-auto mb-4">
+          <p className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif max-w-4xl mx-auto mb-4">
             Search across past papers, learning resources, faculty profiles, and community discussions 
             with our intelligent search engine.
           </p>
-          <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto">
+          <p className="text-lg text-slate-700 dark:text-slate-300/80 font-light max-w-xl mx-auto">
             Powered by advanced AI for instant, relevant results
           </p>
         </div>
@@ -325,8 +325,8 @@ export function SearchClient() {
           <CardContent className="p-8">
             <form onSubmit={onSubmit} className="relative">
               <div className="relative">
-                <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 h-6 w-6 text-muted-foreground/70" />
-                <Command className="absolute right-6 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground/50" />
+                <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 h-6 w-6 text-slate-700 dark:text-slate-300/70" />
+                <Command className="absolute right-6 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-700 dark:text-slate-300/50" />
                 <Input
                   ref={inputRef}
                   value={q}
@@ -354,8 +354,8 @@ export function SearchClient() {
                         <div className="p-2 rounded-xl bg-gradient-to-br from-muted/80 to-muted/40 group-hover:scale-110 transition-transform duration-200">
                           <Search className="h-4 w-4 text-primary" />
                         </div>
-                        <span className="font-medium text-foreground flex-1">{suggestion}</span>
-                        <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-200" />
+                        <span className="font-medium text-slate-900 dark:text-white flex-1">{suggestion}</span>
+                        <ArrowRight className="h-4 w-4 text-slate-700 dark:text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all duration-200" />
                       </button>
                     ))}
                   </div>
@@ -372,7 +372,7 @@ export function SearchClient() {
                   >
                     {isSearching ? (
                       <div className="flex items-center gap-3">
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <div className="w-5 h-5 border-2 border-slate-200 dark:border-slate-700 border-t-white rounded-full animate-spin" />
                         Searching...
                       </div>
                     ) : (
@@ -385,7 +385,7 @@ export function SearchClient() {
                   
                   {/* Enhanced Sort Options */}
                   <div className="flex items-center gap-3">
-                    <span className="text-sm text-muted-foreground font-medium">Sort by:</span>
+                    <span className="text-sm text-slate-700 dark:text-slate-300 font-medium">Sort by:</span>
                     <div className="flex items-center gap-1 p-1 bg-muted/50 backdrop-blur-sm rounded-xl border border-border/30">
                       {[
                         { value: 'relevance', label: 'Relevance', icon: Target },
@@ -452,7 +452,7 @@ export function SearchClient() {
                       localStorage.removeItem("recentSearches")
                     } catch {}
                   }}
-                  className="text-muted-foreground hover:text-foreground rounded-xl hover:bg-muted/50 transition-all duration-200"
+                  className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white rounded-xl hover:bg-muted/50 transition-all duration-200"
                 >
                   Clear All
                 </Button>
@@ -471,7 +471,7 @@ export function SearchClient() {
                     }}
                     className="glass-input glass-interactive glass-border-subtle rounded-xl transition-all duration-200 group hover-lift"
                   >
-                    <Clock className="h-4 w-4 mr-2 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <Clock className="h-4 w-4 mr-2 text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors" />
                     {item}
                   </Button>
                 ))}
@@ -490,7 +490,7 @@ export function SearchClient() {
                 </div>
                 Popular Searches
               </CardTitle>
-              <CardDescription className="text-muted-foreground font-serif text-base mt-2">
+              <CardDescription className="text-slate-700 dark:text-slate-300 font-serif text-base mt-2">
                 Discover what other students are searching for
               </CardDescription>
             </CardHeader>
@@ -615,9 +615,9 @@ function SearchResults({
   return (
     <section className="mt-8 fade-in" aria-live="polite">
       <h2 className="text-lg font-semibold">Results for "{q}"</h2>
-      <p className="text-xs text-muted-foreground mt-1">{total} total result{total === 1 ? "" : "s"}</p>
+      <p className="text-xs text-slate-700 dark:text-slate-300 mt-1">{total} total result{total === 1 ? "" : "s"}</p>
       {total === 0 ? (
-        <div className="text-muted-foreground mt-2">
+        <div className="text-slate-700 dark:text-slate-300 mt-2">
           <p>No results. Try a different term, e.g.:</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {[
@@ -631,7 +631,7 @@ function SearchResults({
               <Link
                 key={ex}
                 href={`/search?q=${encodeURIComponent(ex)}`}
-                className="text-xs rounded border px-2 py-1 hover:bg-muted"
+                className="text-xs rounded border px-2 py-1 hover:bg-slate-100 dark:bg-slate-900"
                 aria-label={`Search for ${ex}`}
               >
                 {ex}
@@ -659,7 +659,7 @@ function SearchResults({
                       </div>
                       <span className="text-xs text-muted-foreground">{r.type}</span>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2">{highlight(r.description, q)}</p>
+                    <p className="text-sm text-slate-700 dark:text-slate-300 line-clamp-2">{highlight(r.description, q)}</p>
                     <div className="mt-1 text-xs text-muted-foreground">
                       {r.department} • {r.metadata?.term || 'N/A'}
                     </div>

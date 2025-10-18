@@ -17,11 +17,11 @@ const badgeVariants = cva(
         secondary: "border-transparent bg-secondary text-secondary-foreground shadow-sm [a&]:hover:bg-secondary/90 [a&]:hover:shadow-md",
         destructive:
           "border-transparent bg-destructive text-white shadow-sm [a&]:hover:bg-destructive/90 [a&]:hover:shadow-md focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        outline: "border-2 border-primary/30 text-foreground bg-background/50 backdrop-blur-sm [a&]:hover:bg-primary/10 [a&]:hover:border-primary/50 [a&]:hover:text-primary",
+        outline: "border-2 border-primary/30 text-slate-900 dark:text-white bg-background/50 backdrop-blur-sm [a&]:hover:bg-primary/10 [a&]:hover:border-primary/50 [a&]:hover:text-primary",
         success: "border-transparent bg-[#22C55E] text-white shadow-sm [a&]:hover:bg-[#16A34A]",
         warning: "border-transparent bg-[#F59E0B] text-white shadow-sm [a&]:hover:bg-[#D97706]",
         info: "border-transparent bg-[#3B82F6] text-white shadow-sm [a&]:hover:bg-[#2563EB]",
-        muted: "border-transparent bg-muted text-muted-foreground [a&]:hover:bg-muted/80",
+        muted: "border-transparent bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 [a&]:hover:bg-slate-100/80 dark:bg-slate-900/80",
         soft: "border-transparent bg-primary/10 text-primary [a&]:hover:bg-primary/20",
         glass: getEnhancedGlassClasses({
           ...glassPresets.badge,

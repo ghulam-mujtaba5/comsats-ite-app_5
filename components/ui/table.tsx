@@ -44,8 +44,8 @@ const tableHeaderVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "[&_tr]:border-white/20",
-        "glass-subtle": "[&_tr]:border-white/10",
+        glass: "[&_tr]:border-slate-200 dark:border-slate-700",
+        "glass-subtle": "[&_tr]:border-slate-200 dark:border-slate-700",
       },
     },
     defaultVariants: {
@@ -76,8 +76,8 @@ const tableFooterVariants = cva(
     variants: {
       variant: {
         default: "bg-muted/50",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10",
+        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700",
       },
     },
     defaultVariants: {
@@ -91,9 +91,9 @@ const tableRowVariants = cva(
   {
     variants: {
       variant: {
-        default: "hover:bg-muted/50 data-[state=selected]:bg-muted",
-        glass: "hover:bg-white/10 data-[state=selected]:bg-white/10 border-white/20",
-        "glass-subtle": "hover:bg-white/5 data-[state=selected]:bg-white/5 border-white/10",
+        default: "hover:bg-muted/50 data-[state=selected]:bg-slate-100 dark:bg-slate-900",
+        glass: "hover:bg-white/10 data-[state=selected]:bg-white/10 border-slate-200 dark:border-slate-700",
+        "glass-subtle": "hover:bg-white/5 data-[state=selected]:bg-white/5 border-slate-200 dark:border-slate-700",
       },
     },
     defaultVariants: {
@@ -103,7 +103,7 @@ const tableRowVariants = cva(
 )
 
 const tableHeadVariants = cva(
-  "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+  "text-slate-900 dark:text-white h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
   {
     variants: {
       variant: {

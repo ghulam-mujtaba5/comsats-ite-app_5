@@ -200,7 +200,7 @@ export function UserProfile({ userId }: { userId?: string }) {
     return (
       <Card>
         <CardContent className="p-6 text-center">
-          <User className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <User className="h-12 w-12 mx-auto text-slate-700 dark:text-slate-300 mb-4" />
           <h3 className="font-medium">Profile not found</h3>
           <p className="text-sm text-muted-foreground">This user profile doesn't exist or is private</p>
         </CardContent>
@@ -344,7 +344,7 @@ export function UserProfile({ userId }: { userId?: string }) {
                 {profile.achievements.slice(0, 8).map((achievement: any) => (
                   <div 
                     key={achievement.id} 
-                    className="flex flex-col items-center p-3 bg-muted rounded-lg border"
+                    className="flex flex-col items-center p-3 bg-slate-100 dark:bg-slate-900 rounded-lg border"
                   >
                     <div className="bg-primary/10 p-2 rounded-full mb-2">
                       {achievement.type === 'top_contributor' && <Crown className="h-5 w-5 text-yellow-500" />}
@@ -353,14 +353,14 @@ export function UserProfile({ userId }: { userId?: string }) {
                       {achievement.type === 'engagement_master' && <Flame className="h-5 w-5 text-red-500" />}
                     </div>
                     <h4 className="text-xs font-medium text-center">{achievement.name}</h4>
-                    <p className="text-xs text-muted-foreground text-center mt-1">
+                    <p className="text-xs text-slate-700 dark:text-slate-300 text-center mt-1">
                       {new Date(achievement.earned_at).toLocaleDateString()}
                     </p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground text-center py-4">
+              <p className="text-sm text-slate-700 dark:text-slate-300 text-center py-4">
                 No achievements yet. Participate in the community to earn badges!
               </p>
             )}
@@ -375,7 +375,7 @@ export function UserProfile({ userId }: { userId?: string }) {
           <CardDescription>Latest posts and comments</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="text-sm text-muted-foreground text-center py-8">
+          <div className="text-sm text-slate-700 dark:text-slate-300 text-center py-8">
             Activity feed would be displayed here
           </div>
         </CardContent>

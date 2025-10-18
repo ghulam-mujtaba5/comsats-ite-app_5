@@ -169,7 +169,7 @@ export function FireworksAnimation({
             exit={{ scale: 0 }}
           >
             <div className="relative w-48 h-48 rounded-full bg-gradient-to-r from-blue-600 to-purple-700 flex items-center justify-center shadow-2xl">
-              <div className="absolute inset-4 rounded-full border-4 border-white/20 flex items-center justify-center">
+              <div className="absolute inset-4 rounded-full border-4 border-slate-200 dark:border-slate-700 flex items-center justify-center">
                 <span className="text-4xl font-bold text-white">EVENT</span>
               </div>
               

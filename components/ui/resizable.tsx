@@ -87,8 +87,8 @@ const ResizableHandle = React.forwardRef<
       {withHandle && (
         <div className={cn(
           "z-10 flex h-4 w-3 items-center justify-center rounded-xs border",
-          variant === "glass" ? "bg-white/20 border-white/20" : 
-          variant === "glass-subtle" ? "bg-white/10 border-white/10" : 
+          variant === "glass" ? "bg-white/20 border-slate-200 dark:border-slate-700" : 
+          variant === "glass-subtle" ? "bg-white/10 border-slate-200 dark:border-slate-700" : 
           "bg-border border-border"
         )}>
           <GripVerticalIcon className="size-2.5" />

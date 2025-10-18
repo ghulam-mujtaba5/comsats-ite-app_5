@@ -170,7 +170,7 @@ export function ResourceSharing() {
                   required
                 />
                 {file && (
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-sm text-slate-700 dark:text-slate-300 mt-1">
                     Selected: {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
                   </p>
                 )}
@@ -224,7 +224,7 @@ export function ResourceSharing() {
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <h4 className="font-semibold">{resource.title}</h4>
-                    <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                    <p className="text-sm text-slate-700 dark:text-slate-300 mt-1 line-clamp-2">
                       {resource.description}
                     </p>
                   </div>
@@ -238,16 +238,16 @@ export function ResourceSharing() {
                     {resource.type}
                   </span>
                   {resource.department !== "All Departments" && (
-                    <span className="text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
+                    <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 rounded-full text-muted-foreground">
                       {resource.department}
                     </span>
                   )}
                   {resource.program !== "All Programs" && (
-                    <span className="text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
+                    <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 rounded-full text-muted-foreground">
                       {resource.program}
                     </span>
                   )}
-                  <span className="text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
+                  <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 rounded-full text-muted-foreground">
                     {resource.fileSize}
                   </span>
                 </div>

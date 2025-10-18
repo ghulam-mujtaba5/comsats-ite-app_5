@@ -186,12 +186,12 @@ export function EnhancedHero() {
   }
 
   return (
-    <section className="relative min-h-[85vh] flex items-center overflow-hidden px-4 sm:px-6 lg:px-8 bg-white dark:bg-gradient-to-br dark:from-slate-900/30 dark:via-slate-800/20 dark:to-slate-900/10" aria-labelledby="hero-heading" ref={ref} role="region">
-      {/* Enhanced background elements with proper spacing and reduced visual noise */}
+    <section className="relative min-h-[85vh] flex items-center overflow-hidden px-4 sm:px-6 lg:px-8 bg-transparent" aria-labelledby="hero-heading" ref={ref} role="region">
+      {/* Enhanced background elements with better theme support */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-500/8 to-indigo-500/8 dark:from-blue-500/10 dark:to-indigo-500/10 rounded-full blur-3xl" aria-hidden="true" />
-  <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-blue-600/8 to-indigo-600/8 dark:from-blue-600/10 dark:to-indigo-600/10 rounded-full blur-3xl animate-delay-2000" aria-hidden="true" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-blue-400/6 to-indigo-400/6 dark:from-blue-400/5 dark:to-indigo-400/5 rounded-full blur-3xl" aria-hidden="true" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-400/12 to-indigo-400/8 dark:from-blue-500/8 dark:to-indigo-500/6 rounded-full blur-3xl" aria-hidden="true" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-br from-indigo-400/12 to-purple-400/8 dark:from-indigo-500/8 dark:to-purple-500/6 rounded-full blur-3xl animate-delay-2000" aria-hidden="true" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-blue-300/10 to-indigo-300/6 dark:from-blue-600/6 dark:to-indigo-600/4 rounded-full blur-3xl" aria-hidden="true" />
       </div>
 
       <div className={`${layout.section} relative z-10 py-12 md:py-16 lg:py-20`}>
@@ -236,12 +236,12 @@ export function EnhancedHero() {
               </div>
             </div>
 
-            {/* Enhanced main heading with gradient text */}
+            {/* Enhanced main heading with gradient text and better contrast */}
             <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <h1 id="hero-heading" className="text-display-2 md:text-display-1 font-extrabold text-balance mb-md md:mb-lg text-center md:text-left">
+              <h1 id="hero-heading" className="text-display-2 md:text-display-1 font-extrabold text-balance mb-md md:mb-lg text-center md:text-left text-slate-900 dark:text-white">
                 Empowering Your{" "}
                 <motion.span 
-                  className="text-primary inline-block"
+                  className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 bg-clip-text text-transparent inline-block"
                   animate={isAnimationEnabled ? { 
                     scale: [1, 1.02, 1],
                   } : {}}
@@ -257,18 +257,18 @@ export function EnhancedHero() {
               </h1>
             </div>
 
-            {/* Enhanced description with proper spacing and readability */}
+            {/* Enhanced description with better readability */}
             <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <p className="text-body-lg md:text-body-xl text-muted-foreground leading-relaxed max-w-2xl mb-md md:mb-lg text-center md:text-left">
+              <p className="text-body-lg md:text-body-xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl mb-md md:mb-lg text-center md:text-left">
                 Access past papers, calculate your GPA, explore learning resources, and read faculty reviews - 
                 all in one comprehensive academic portal designed specifically for COMSATS students.
               </p>
-              <p className="text-body-md text-muted-foreground/90 max-w-xl text-center md:text-left">
+              <p className="text-body-md text-slate-600 dark:text-slate-400 max-w-xl text-center md:text-left">
                 A growing platform for COMSATS students to share resources and read faculty reviews.
               </p>
             </div>
 
-            {/* Quick Stats with improved visual hierarchy */}
+            {/* Quick Stats with better theme support */}
             <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-5 max-w-2xl mx-auto md:mx-0">
               {quickStats.map((stat, index) => {
                 const Icon = stat.icon
@@ -279,14 +279,14 @@ export function EnhancedHero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + index * 0.1 }}
                     whileHover={isAnimationEnabled ? { y: -5 } : {}}
-                    className="p-3 sm:p-4 md:p-5 rounded-2xl bg-card/90 backdrop-blur-xl border border-white/30 text-center transition-all duration-300 hover:shadow-xl glass-interactive interactive-elevated focus-ring"
+                    className="p-3 sm:p-4 md:p-5 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-600 interactive-elevated focus-ring"
                     tabIndex={0}
                     role="region"
                     aria-label={`${stat.value} ${stat.label}`}
                   >
-                    <Icon className={`h-5 w-5 sm:h-6 sm:w-6 mx-auto mb-2 sm:mb-3 ${stat.color}`} aria-hidden="true" />
-                    <div className="text-lg sm:text-xl font-bold text-foreground mb-1">{stat.value}</div>
-                    <div className="text-xs text-muted-foreground">{stat.label}</div>
+                    <Icon className={`h-5 w-5 sm:h-6 sm:w-6 mx-auto mb-2 sm:mb-3 text-blue-600 dark:text-blue-400`} aria-hidden="true" />
+                    <div className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-1">{stat.value}</div>
+                    <div className="text-xs text-slate-600 dark:text-slate-400">{stat.label}</div>
                   </motion.div>
                 )
               })}
@@ -333,11 +333,11 @@ export function EnhancedHero() {
             </div>
           </div>
 
-          {/* Enhanced Right Content - Stats Card */}
+          {/* Enhanced Right Content - Stats Card with Better Theme Support */}
           <div className={`transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="relative">
-              {/* Main Stats Card with enhanced glass effect */}
-              <Card className="relative p-6 bg-card/90 border border-white/30 rounded-3xl shadow-2xl backdrop-blur-3xl glass-primary" role="region" aria-labelledby="platform-stats-heading">
+              {/* Main Stats Card with enhanced styling */}
+              <Card className="relative p-6 bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-3xl shadow-2xl backdrop-blur-3xl" role="region" aria-labelledby="platform-stats-heading">
                 <div className="space-y-6">
                   {/* Header Section with animated icon */}
                   <div className="text-center space-y-3">
@@ -348,40 +348,40 @@ export function EnhancedHero() {
                       role="img"
                       aria-label="Graduation cap icon"
                     >
-                      <div className="relative p-4 bg-gradient-to-r from-primary/30 to-indigo-500/30 rounded-2xl glass-secondary">
-                        <GraduationCap className="h-10 w-10 text-primary" aria-hidden="true" />
+                      <div className="relative p-4 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 dark:from-blue-500/30 dark:to-indigo-500/30 rounded-2xl">
+                        <GraduationCap className="h-10 w-10 text-blue-600 dark:text-blue-400" aria-hidden="true" />
                       </div>
                     </motion.div>
                     <div>
-                      <h3 id="platform-stats-heading" className="text-xl font-bold text-foreground mb-1">CampusAxis Platform</h3>
-                      <p className="text-muted-foreground">Real-time Academic Analytics</p>
+                      <h3 id="platform-stats-heading" className="text-xl font-bold text-slate-900 dark:text-white mb-1">CampusAxis Platform</h3>
+                      <p className="text-slate-600 dark:text-slate-400">Real-time Academic Analytics</p>
                     </div>
                   </div>
 
-                  {/* Stats Grid with interactive cards */}
+                  {/* Stats Grid with better theme support */}
                   <div className="grid grid-cols-2 gap-4">
                     {/* Community Engagement Card */}
                     <AnimatedCard 
                       enableHover={isAnimationEnabled}
-                      className="p-4 rounded-2xl bg-muted/70 border border-white/30 transition-all duration-300 hover:shadow-xl glass-card interactive-elevated focus-ring"
+                      className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-600 interactive-elevated focus-ring"
                       role="region"
                       aria-label="Community Engagement"
                       tabIndex={0}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <TrendingUp className="h-5 w-5 text-primary" aria-hidden="true" />
-                        <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">Active</span>
+                        <TrendingUp className="h-5 w-5 text-blue-600 dark:text-blue-400" aria-hidden="true" />
+                        <span className="text-xs font-medium text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/50 px-2 py-1 rounded-full">Active</span>
                       </div>
-                      <div className="text-xl font-bold text-foreground mb-1">
+                      <div className="text-xl font-bold text-slate-900 dark:text-white mb-1">
                         {isLoading ? '...' : <CountUp end={stats?.communityPosts || 2} duration={1500} />}
                       </div>
-                      <div className="text-xs text-muted-foreground">Community Posts</div>
+                      <div className="text-xs text-slate-600 dark:text-slate-400">Community Posts</div>
                     </AnimatedCard>
 
                     {/* Faculty Rating Card */}
                     <AnimatedCard 
                       enableHover={isAnimationEnabled}
-                      className="p-4 rounded-2xl bg-muted/70 border border-white/30 transition-all duration-300 hover:shadow-xl glass-card interactive-elevated focus-ring"
+                      className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-600 interactive-elevated focus-ring"
                       role="region"
                       aria-label="Faculty Rating"
                       tabIndex={0}
@@ -389,79 +389,79 @@ export function EnhancedHero() {
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center">
                           <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" aria-hidden="true" />
-                          <span className="ml-1 text-xs font-medium text-foreground">{isLoading ? '...' : `${stats?.avgRating || 4.3}`}</span>
+                          <span className="ml-1 text-xs font-medium text-slate-900 dark:text-white">{isLoading ? '...' : `${stats?.avgRating || 4.3}`}</span>
                         </div>
                         <div className="flex text-yellow-500" role="img" aria-label={`${stats?.avgRating || 4.3} out of 5 stars`}>
                           {[1,2,3,4,5].map((star) => (
-                            <span key={star} className={`text-xs ${star <= Math.floor(stats?.avgRating || 4.3) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} aria-hidden="true">★</span>
+                            <span key={star} className={`text-xs ${star <= Math.floor(stats?.avgRating || 4.3) ? 'text-yellow-500 fill-yellow-500' : 'text-slate-300 dark:text-slate-600'}`} aria-hidden="true">★</span>
                           ))}
                         </div>
                       </div>
-                      <div className="text-xl font-bold text-foreground mb-1">
+                      <div className="text-xl font-bold text-slate-900 dark:text-white mb-1">
                         {isLoading ? '...' : `${stats?.avgRating || 4.3}`}
                       </div>
-                      <div className="text-xs text-muted-foreground">Avg Rating</div>
+                      <div className="text-xs text-slate-600 dark:text-slate-400">Avg Rating</div>
                     </AnimatedCard>
 
                     {/* Active Events Card */}
                     <AnimatedCard 
                       enableHover={isAnimationEnabled}
-                      className="p-4 rounded-2xl bg-muted/70 border border-white/30 transition-all duration-300 hover:shadow-xl glass-card interactive-elevated focus-ring"
+                      className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-600 interactive-elevated focus-ring"
                       role="region"
                       aria-label="Active Events"
                       tabIndex={0}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <Calendar className="h-5 w-5 text-primary" aria-hidden="true" />
-                        <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">Active</span>
+                        <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400" aria-hidden="true" />
+                        <span className="text-xs font-medium text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/50 px-2 py-1 rounded-full">Active</span>
                       </div>
-                      <div className="text-xl font-bold text-foreground mb-1">
+                      <div className="text-xl font-bold text-slate-900 dark:text-white mb-1">
                         {isLoading ? '...' : <CountUp end={stats?.eventsCount || 1} duration={1500} />}
                       </div>
-                      <div className="text-xs text-muted-foreground">Live Events</div>
+                      <div className="text-xs text-slate-600 dark:text-slate-400">Live Events</div>
                     </AnimatedCard>
 
                     {/* Faculty Count Card */}
                     <AnimatedCard 
                       enableHover={isAnimationEnabled}
-                      className="p-4 rounded-2xl bg-muted/70 border border-white/30 transition-all duration-300 hover:shadow-xl glass-card interactive-elevated focus-ring"
+                      className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-600 interactive-elevated focus-ring"
                       role="region"
                       aria-label="Faculty Information"
                       tabIndex={0}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <GraduationCap className="h-5 w-5 text-primary" aria-hidden="true" />
-                        <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">{stats?.departmentCount || 2} Depts</span>
+                        <GraduationCap className="h-5 w-5 text-blue-600 dark:text-blue-400" aria-hidden="true" />
+                        <span className="text-xs font-medium text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-900/50 px-2 py-1 rounded-full">{stats?.departmentCount || 2} Depts</span>
                       </div>
-                      <div className="text-xl font-bold text-foreground mb-1">
+                      <div className="text-xl font-bold text-slate-900 dark:text-white mb-1">
                         {isLoading ? '...' : <CountUp end={stats?.facultyCount || 2} duration={1500} />}
                       </div>
-                      <div className="text-xs text-muted-foreground">Faculty Members</div>
+                      <div className="text-xs text-slate-600 dark:text-slate-400">Faculty Members</div>
                     </AnimatedCard>
                   </div>
 
-                  {/* Quick Actions */}
+                  {/* Quick Actions with better styling */}
                   <div className="space-y-3">
-                    <div className="text-sm font-semibold text-foreground text-center mb-3">Quick Actions</div>
+                    <div className="text-sm font-semibold text-slate-900 dark:text-white text-center mb-3">Quick Actions</div>
                     <div className="grid grid-cols-2 gap-3">
                       <Link href="/past-papers" className="group/action">
-                        <div className="p-3 rounded-xl bg-muted/70 hover:bg-muted/80 border border-white/30 transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light glass-depth">
+                        <div className="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/70 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600">
                           <div className="flex items-center gap-2">
-                            <FileText className="h-5 w-5 text-primary group-hover/action:scale-110 transition-transform" aria-hidden="true" />
+                            <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400 group-hover/action:scale-110 transition-transform" aria-hidden="true" />
                             <div>
-                              <div className="text-sm font-medium text-foreground">Papers</div>
-                              <div className="text-xs text-muted-foreground">{isLoading ? '...' : (stats?.pastPapersCount === 0 ? 'Soon' : `${stats?.pastPapersCount}+`)}</div>
+                              <div className="text-sm font-medium text-slate-900 dark:text-white">Papers</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400">{isLoading ? '...' : (stats?.pastPapersCount === 0 ? 'Soon' : `${stats?.pastPapersCount}+`)}</div>
                             </div>
                           </div>
                         </div>
                       </Link>
                       <Link href="/gpa-calculator" className="group/action">
-                        <div className="p-3 rounded-xl bg-muted/70 hover:bg-muted/80 border border-white/30 transition-all duration-300 hover:shadow-lg glass-card glass-hover glass-border-light glass-depth">
+                        <div className="p-3 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/70 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600">
                           <div className="flex items-center gap-2">
-                            <Calculator className="h-5 w-5 text-primary group-hover/action:scale-110 transition-transform" aria-hidden="true" />
+                            <Calculator className="h-5 w-5 text-blue-600 dark:text-blue-400 group-hover/action:scale-110 transition-transform" aria-hidden="true" />
                             <div>
-                              <div className="text-sm font-medium text-foreground">GPA Calc</div>
-                              <div className="text-xs text-muted-foreground">Advanced</div>
+                              <div className="text-sm font-medium text-slate-900 dark:text-white">GPA Calc</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-400">Advanced</div>
                             </div>
                           </div>
                         </div>
@@ -469,8 +469,8 @@ export function EnhancedHero() {
                     </div>
                   </div>
 
-                  {/* Trust Indicator with live pulse */}
-                  <div className="text-center p-4 rounded-xl bg-muted/70 border border-white/30 glass-secondary">
+                  {/* Trust Indicator with better contrast */}
+                  <div className="text-center p-4 rounded-xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700">
                     <div className="flex items-center justify-center gap-2 mb-2">
                       <div className="flex items-center gap-1">
                         <Pulse active={isAnimationEnabled}>
@@ -478,10 +478,10 @@ export function EnhancedHero() {
                         </Pulse>
                         <span className="text-xs font-medium text-green-600 dark:text-green-400">Live</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">•</span>
-                      <span className="text-xs font-medium text-foreground">Trusted by {isLoading ? '...' : `${stats?.activeStudents || 2}`} students</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-500">•</span>
+                      <span className="text-xs font-medium text-slate-900 dark:text-white">Trusted by {isLoading ? '...' : `${stats?.activeStudents || 2}`} students</span>
                     </div>
-                    <div className="text-xs text-muted-foreground">Real-time data from COMSATS Lahore</div>
+                    <div className="text-xs text-slate-600 dark:text-slate-400">Real-time data from COMSATS Lahore</div>
                   </div>
                 </div>
               </Card>

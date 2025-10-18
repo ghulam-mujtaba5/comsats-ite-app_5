@@ -67,10 +67,10 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
     <>
       <div className="w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-3 tracking-tight">
+          <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
             Create Account
           </h2>
-          <p className="text-muted-foreground font-serif leading-relaxed">
+          <p className="text-slate-700 dark:text-slate-300 font-serif leading-relaxed">
             Join the CampusAxis community
           </p>
         </div>
@@ -78,7 +78,7 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Enhanced Name Input */}
           <div className="space-y-3">
-            <Label htmlFor="name" className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <Label htmlFor="name" className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
               <User className="h-4 w-4 text-primary" />
               Full Name
             </Label>
@@ -95,7 +95,7 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
 
           {/* Enhanced Email Input */}
           <div className="space-y-3">
-            <Label htmlFor="email" className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <Label htmlFor="email" className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
               <Mail className="h-4 w-4 text-primary" />
               University Email
             </Label>
@@ -112,7 +112,7 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
 
           {/* Enhanced Password Input */}
           <div className="space-y-3">
-            <Label htmlFor="password" className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <Label htmlFor="password" className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
               <Lock className="h-4 w-4 text-primary" />
               Password
             </Label>
@@ -144,7 +144,7 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
 
           {/* Enhanced Confirm Password Input */}
           <div className="space-y-3">
-            <Label htmlFor="confirmPassword" className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <Label htmlFor="confirmPassword" className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
               <Lock className="h-4 w-4 text-primary" />
               Confirm Password
             </Label>
@@ -215,10 +215,10 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
                 <CheckCircle className="h-8 w-8 text-green-600" />
               </div>
             </div>
-            <DialogTitle className="text-2xl font-bold text-foreground mb-2">
+            <DialogTitle className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
               Registration Successful!
             </DialogTitle>
-            <DialogDescription className="text-base text-muted-foreground font-serif leading-relaxed">
+            <DialogDescription className="text-base text-slate-700 dark:text-slate-300 font-serif leading-relaxed">
               Your account has been created successfully. Please check your university email for a verification link to complete the
               registration process.
             </DialogDescription>

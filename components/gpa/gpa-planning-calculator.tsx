@@ -250,7 +250,7 @@ export function GPAPlanningCalculator() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {semester.courses.length === 0 ? (
-                    <p className="text-muted-foreground text-center py-4">
+                    <p className="text-slate-700 dark:text-slate-300 text-center py-4">
                       No courses added yet. Click "Add Course" to start planning.
                     </p>
                   ) : (

@@ -242,9 +242,9 @@ export function MobileCommunityView({
           
           <TabsContent value="trending" className="mt-0">
             <div className="text-center py-12">
-              <TrendingUp className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <TrendingUp className="h-12 w-12 mx-auto text-slate-700 dark:text-slate-300 mb-4" />
               <h3 className="text-lg font-medium mb-2">Trending Content</h3>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-slate-700 dark:text-slate-300 mb-4">
                 See what's popular in the community right now
               </p>
             </div>
@@ -252,9 +252,9 @@ export function MobileCommunityView({
           
           <TabsContent value="following" className="mt-0">
             <div className="text-center py-12">
-              <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <Users className="h-12 w-12 mx-auto text-slate-700 dark:text-slate-300 mb-4" />
               <h3 className="text-lg font-medium mb-2">Following</h3>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-slate-700 dark:text-slate-300 mb-4">
                 See posts from people and groups you follow
               </p>
             </div>

@@ -42,7 +42,7 @@ export default function MeritList2025Page() {
     <div className="container mx-auto py-8 space-y-8">
       <div className="text-center space-y-4">
         <h1 className="text-3xl md:text-4xl font-bold">Merit List 2025</h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
           Merit positions for admission to undergraduate programs for the academic year 2025
         </p>
       </div>
@@ -58,19 +58,19 @@ export default function MeritList2025Page() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="border rounded-lg p-4">
               <h3 className="font-semibold">Merit Formula</h3>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-slate-700 dark:text-slate-300 mt-2">
                 Merit = (Matric: 10%) + (Intermediate: 40%) + (Entry Test: 50%)
               </p>
             </div>
             <div className="border rounded-lg p-4">
               <h3 className="font-semibold">Last Date</h3>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-slate-700 dark:text-slate-300 mt-2">
                 Merit lists will be finalized by July 15, 2025
               </p>
             </div>
             <div className="border rounded-lg p-4">
               <h3 className="font-semibold">Contact</h3>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-slate-700 dark:text-slate-300 mt-2">
                 admissions@comsats.edu.pk
               </p>
             </div>

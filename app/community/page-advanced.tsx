@@ -724,7 +724,7 @@ export default function AdvancedCommunityPage() {
                       <CardContent className="text-center py-12">
                         <Sparkles className="h-12 w-12 mx-auto mb-4 text-gray-400" />
                         <h3 className="text-lg font-semibold mb-2">No posts yet</h3>
-                        <p className="text-muted-foreground mb-4">
+                        <p className="text-slate-700 dark:text-slate-300 mb-4">
                           Be the first to share something with your community
                         </p>
                         <Button onClick={() => setIsCreatePostOpen(true)}>
@@ -901,7 +901,7 @@ function PostCard({
         )}
         
         {/* Stats */}
-        <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
+        <div className="flex items-center justify-between text-sm text-slate-700 dark:text-slate-300 mb-3">
           <div className="flex items-center gap-4">
             <span>{post.likes_count} reactions</span>
             <span>{post.comments_count} comments</span>

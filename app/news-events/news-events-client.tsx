@@ -321,7 +321,7 @@ export function NewsEventsClient() {
               <div className="p-6 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 w-20 h-20 mx-auto mb-8 flex items-center justify-center">
                 <AlertCircle className="h-10 w-10 text-red-500" />
               </div>
-              <h2 className="text-2xl font-bold text-foreground mb-4">Failed to Load Content</h2>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Failed to Load Content</h2>
               <p className="text-red-600 mb-8 font-medium">{error}</p>
               <Button 
                 onClick={() => window.location.reload()} 
@@ -363,11 +363,11 @@ export function NewsEventsClient() {
               Events
             </span>
           </h1>
-          <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-4xl mx-auto mb-4">
+          <p className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif max-w-4xl mx-auto mb-4">
             Stay connected with the latest campus news, exciting events, important announcements, 
             and academic deadlines all in one place.
           </p>
-          <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto">
+          <p className="text-lg text-slate-700 dark:text-slate-300/80 font-light max-w-xl mx-auto">
             Your gateway to campus life and academic excellence
           </p>
           
@@ -388,7 +388,7 @@ export function NewsEventsClient() {
         <Card className="card-modern border-0 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-500 mb-10">
           <CardContent className="p-8">
             <div className="relative mb-8">
-              <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 h-6 w-6 text-muted-foreground/70" />
+              <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 h-6 w-6 text-slate-700 dark:text-slate-300/70" />
               <Input
                 placeholder="Search news, events, announcements, and campus updates..."
                 value={searchQuery}
@@ -407,8 +407,8 @@ export function NewsEventsClient() {
                   <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-blue-500/20 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <Megaphone className="h-8 w-8 text-primary" />
                   </div>
-                  <div className="text-3xl font-bold text-foreground mb-1">{news.length}</div>
-                  <div className="text-sm text-muted-foreground font-medium">News Articles</div>
+                  <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">{news.length}</div>
+                  <div className="text-sm text-slate-700 dark:text-slate-300 font-medium">News Articles</div>
                 </CardContent>
               </Card>
               
@@ -417,8 +417,8 @@ export function NewsEventsClient() {
                   <div className="p-4 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <CalendarDays className="h-8 w-8 text-green-600" />
                   </div>
-                  <div className="text-3xl font-bold text-foreground mb-1">{events.length}</div>
-                  <div className="text-sm text-muted-foreground font-medium">Events</div>
+                  <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">{events.length}</div>
+                  <div className="text-sm text-slate-700 dark:text-slate-300 font-medium">Events</div>
                 </CardContent>
               </Card>
               
@@ -427,8 +427,8 @@ export function NewsEventsClient() {
                   <div className="p-4 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <UserCheck className="h-8 w-8 text-purple-600" />
                   </div>
-                  <div className="text-3xl font-bold text-foreground mb-1">{myRegs.length}</div>
-                  <div className="text-sm text-muted-foreground font-medium">My Registrations</div>
+                  <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">{myRegs.length}</div>
+                  <div className="text-sm text-slate-700 dark:text-slate-300 font-medium">My Registrations</div>
                 </CardContent>
               </Card>
               
@@ -437,8 +437,8 @@ export function NewsEventsClient() {
                   <div className="p-4 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <CheckCircle2 className="h-8 w-8 text-orange-600" />
                   </div>
-                  <div className="text-3xl font-bold text-foreground mb-1">{events.filter(e => e.registrationOpen).length}</div>
-                  <div className="text-sm text-muted-foreground font-medium">Open Registration</div>
+                  <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">{events.filter(e => e.registrationOpen).length}</div>
+                  <div className="text-sm text-slate-700 dark:text-slate-300 font-medium">Open Registration</div>
                 </CardContent>
               </Card>
             </div>
@@ -492,7 +492,7 @@ export function NewsEventsClient() {
                           "h-12 px-6 rounded-xl transition-all duration-200",
                           newsFilter === filter.id
                             ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
-                            : "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 hover:bg-primary/10"
+                            : "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:bg-primary/10"
                         )}
                       >
                         <Icon className="h-4 w-4 mr-2" />
@@ -510,7 +510,7 @@ export function NewsEventsClient() {
                     <Card
                       key={item.id}
                       className={cn(
-                        "bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl",
+                        "bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl",
                         item.isImportant && "ring-2 ring-red-500/20 bg-gradient-to-r from-red-50/50 to-orange-50/50 dark:from-red-950/20 dark:to-orange-950/20"
                       )}
                     >
@@ -550,7 +550,7 @@ export function NewsEventsClient() {
                         <div className="flex items-center justify-between">
                           <Button 
                             variant="outline" 
-                            className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 hover:bg-primary/10 rounded-xl"
+                            className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:bg-primary/10 rounded-xl"
                           >
                             <ExternalLink className="mr-2 h-4 w-4" />
                             Read More
@@ -575,7 +575,7 @@ export function NewsEventsClient() {
                 </div>
 
                 {filteredNews.length === 0 && (
-                  <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl shadow-lg">
+                  <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl shadow-lg">
                     <CardContent className="p-12 text-center">
                       <div className="p-4 rounded-full bg-gradient-to-br from-slate-400/20 to-slate-500/20 border border-slate-400/30 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
                         <Search className="h-10 w-10 text-slate-400" />
@@ -617,7 +617,7 @@ export function NewsEventsClient() {
                           "h-12 px-6 rounded-xl transition-all duration-200",
                           eventsFilter === filter.id
                             ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
-                            : "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 hover:bg-primary/10"
+                            : "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:bg-primary/10"
                         )}
                       >
                         <Icon className="h-4 w-4 mr-2" />
@@ -638,7 +638,7 @@ export function NewsEventsClient() {
                     const registrationWidthClass = getProgressWidthClass(progressPercentage)
 
                     return (
-                      <Card key={event.id} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl group">
+                      <Card key={event.id} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-2xl group">
                         <CardHeader className="p-6">
                         <div className="flex justify-between items-start mb-3">
                           <CardTitle className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
@@ -734,7 +734,7 @@ export function NewsEventsClient() {
                 </div>
 
                 {filteredEvents.length === 0 && (
-                  <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl shadow-lg">
+                  <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl shadow-lg">
                     <CardContent className="p-12 text-center">
                       <div className="p-4 rounded-full bg-gradient-to-br from-slate-400/20 to-slate-500/20 border border-slate-400/30 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
                         <Calendar className="h-10 w-10 text-slate-400" />
@@ -760,7 +760,7 @@ export function NewsEventsClient() {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg">
+        <Card className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-3xl shadow-lg">
           <CardHeader className="p-8">
             <CardTitle className="flex items-center gap-3 text-2xl font-bold text-slate-900 dark:text-white">
               <div className="p-2 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30">
@@ -784,7 +784,7 @@ export function NewsEventsClient() {
             ) : (
               <div className="grid gap-6 md:grid-cols-2">
                 {myRegs.map((r) => (
-                  <Card key={r.id} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300">
+                  <Card key={r.id} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300">
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
@@ -815,7 +815,7 @@ export function NewsEventsClient() {
                         size="sm" 
                         variant="outline" 
                         onClick={() => cancelRegistration(r.event_id)}
-                        className="w-full bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-600 rounded-xl"
+                        className="w-full bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-600 rounded-xl"
                       >
                         Cancel Registration
                       </Button>

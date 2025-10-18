@@ -26,7 +26,7 @@ export default function PrivacyPolicyPage() {
 
           <div className="space-y-6 text-muted-foreground">
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">1. Introduction</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">1. Introduction</h2>
               <p>
                 Welcome to CampusAxis. This Privacy Policy explains how we collect, use, disclose, and safeguard your
                 information when you use our platform. We are committed to protecting your personal data and your right
@@ -35,7 +35,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">2. Information We Collect</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">2. Information We Collect</h2>
               <p>
                 We may collect personal information that you voluntarily provide to us when you register on the
                 platform, including your name, university email address (@cuilahore.edu.pk), and password. We may also
@@ -44,7 +44,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">3. How We Use Your Information</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">3. How We Use Your Information</h2>
               <p>
                 We use the information we collect to:
               </p>
@@ -58,7 +58,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">4. Data Sharing and Disclosure</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">4. Data Sharing and Disclosure</h2>
               <p>
                 We do not sell, trade, or otherwise transfer your personally identifiable information to outside
                 parties. This does not include trusted third parties who assist us in operating our platform, so long as
@@ -67,7 +67,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">5. Data Security</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">5. Data Security</h2>
               <p>
                 We implement a variety of security measures to maintain the safety of your personal information. However,
                 no electronic transmission or storage is 100% secure, and we cannot guarantee its absolute security.
@@ -75,7 +75,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">6. Contact Us</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">6. Contact Us</h2>
               <p>
                 If you have any questions about this Privacy Policy, please contact us at campusaxis0@gmail.com.
               </p>

@@ -387,7 +387,7 @@ export default function CommunityEventsPage() {
                       placeholder="Describe what this event is about..."
                       value={newEventDescription}
                       onChange={(e) => setNewEventDescription(e.target.value)}
-                      className="w-full min-h-[100px] p-3 rounded-md border border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="w-full min-h-[100px] p-3 rounded-md border border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-700 dark:text-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     />
                   </div>
                   
@@ -506,7 +506,7 @@ export default function CommunityEventsPage() {
         </div>
 
         {/* Filters */}
-        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl mb-8">
+        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl mb-8">
           <CardContent className="p-6">
             <div className="flex flex-col lg:flex-row gap-4">
               <div className="flex-1 flex flex-col sm:flex-row gap-4">
@@ -596,7 +596,7 @@ export default function CommunityEventsPage() {
               {filteredEvents.map((event) => (
                 <Card 
                   key={event.id} 
-                  className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden"
+                  className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden"
                 >
                   <div className="md:flex">
                     <div className="md:w-1/3 p-6 border-r border-border">
@@ -686,7 +686,7 @@ export default function CommunityEventsPage() {
                                 {event.organizer.name.charAt(0)}
                               </AvatarFallback>
                             </Avatar>
-                            <div className="h-8 w-8 rounded-full bg-muted border-2 border-white dark:border-slate-800 flex items-center justify-center text-xs">
+                            <div className="h-8 w-8 rounded-full bg-slate-100 dark:bg-slate-900 border-2 border-white dark:border-slate-800 flex items-center justify-center text-xs">
                               +{Math.max(0, event.attendees - 1)}
                             </div>
                           </div>

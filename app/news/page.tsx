@@ -120,11 +120,11 @@ export default function NewsListPage() {
                 Updates
               </span>
             </h1>
-            <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-4xl mx-auto mb-4">
+            <p className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif max-w-4xl mx-auto mb-4">
               Stay informed with the latest announcements, schedules, and important updates from 
               COMSATS Institute of Information Technology.
             </p>
-            <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto">
+            <p className="text-lg text-slate-700 dark:text-slate-300/80 font-light max-w-xl mx-auto">
               Fresh insights and timely information for our academic community
             </p>
             
@@ -149,7 +149,7 @@ export default function NewsListPage() {
           <Card className="card-modern border-0 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 mb-10">
             <CardContent className="p-6">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground/70" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-700 dark:text-slate-300/70" />
                 <Input 
                   value={q} 
                   onChange={e => setQ(e.target.value)} 
@@ -177,7 +177,7 @@ export default function NewsListPage() {
                     variant="ghost"
                     size="sm"
                     onClick={() => setQ("")}
-                    className="text-muted-foreground hover:text-foreground rounded-xl hover:bg-muted/50 transition-all duration-200"
+                    className="text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white rounded-xl hover:bg-muted/50 transition-all duration-200"
                   >
                     Clear
                   </Button>
@@ -255,7 +255,7 @@ export default function NewsListPage() {
                             {n.title}
                           </CardTitle>
                           
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                          <div className="flex items-center gap-4 text-sm text-slate-700 dark:text-slate-300 mb-4">
                             <div className="flex items-center gap-2">
                               <User className="h-4 w-4" />
                               <span className="font-medium">COMSATS IT</span>
@@ -268,7 +268,7 @@ export default function NewsListPage() {
                         </CardHeader>
                         
                         <CardContent className="p-8 pt-0 relative z-10">
-                          <CardDescription className="text-base leading-relaxed font-serif whitespace-pre-wrap line-clamp-3 group-hover:text-foreground/80 transition-colors duration-300">
+                          <CardDescription className="text-base leading-relaxed font-serif whitespace-pre-wrap line-clamp-3 group-hover:text-slate-900 dark:text-white/80 transition-colors duration-300">
                             {n.content}
                           </CardDescription>
                           
@@ -295,7 +295,7 @@ export default function NewsListPage() {
                     <div className="p-4 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 w-16 h-16 mx-auto flex items-center justify-center">
                       <Search className="h-8 w-8 text-muted-foreground" />
                     </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-3">No Articles Found</h3>
+                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">No Articles Found</h3>
                     <CardDescription className="text-base">
                       {q ? `No articles match "${q}". Try different keywords.` : "No news articles available at the moment."}
                     </CardDescription>
@@ -320,10 +320,10 @@ export default function NewsListPage() {
                       </Button>
                       
                       <div className="flex items-center gap-4" aria-live="polite">
-                        <div className="text-sm text-muted-foreground font-medium">
+                        <div className="text-sm text-slate-700 dark:text-slate-300 font-medium">
                           Page {page} of {totalPages}
                         </div>
-                        <div className="text-xs text-muted-foreground px-3 py-1 rounded-xl bg-muted/50">
+                        <div className="text-xs text-slate-700 dark:text-slate-300 px-3 py-1 rounded-xl bg-muted/50">
                           {filtered.length} total articles
                         </div>
                       </div>

@@ -238,7 +238,7 @@ export default function AdminAdmissionsModerationPage() {
                           )}
                         </div>
                         {item.content && (
-                          <p className="text-sm text-muted-foreground line-clamp-2 flex-1">
+                          <p className="text-sm text-slate-700 dark:text-slate-300 line-clamp-2 flex-1">
                             {item.content}
                           </p>
                         )}

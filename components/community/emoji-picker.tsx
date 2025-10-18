@@ -80,7 +80,7 @@ export function EmojiPicker({ onEmojiSelect, className }: EmojiPickerProps) {
             <Button
               variant="ghost"
               size="sm"
-              className="absolute top-2 right-2 h-6 w-6 rounded-full bg-muted z-10"
+              className="absolute top-2 right-2 h-6 w-6 rounded-full bg-slate-100 dark:bg-slate-900 z-10"
               onClick={() => setShowPicker(false)}
             >
               <X className="h-3 w-3" />

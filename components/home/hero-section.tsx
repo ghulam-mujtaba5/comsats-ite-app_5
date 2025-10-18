@@ -155,11 +155,11 @@ export function HeroSection() {
 
             {/* Enhanced description */}
             <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-4">
+              <p className="text-lg lg:text-xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl mb-4">
                 Access past papers, calculate your GPA, explore learning resources, and read faculty reviews - 
                 all in one comprehensive academic portal designed specifically for COMSATS students.
               </p>
-              <p className="text-base text-muted-foreground/80 max-w-xl">
+              <p className="text-base text-slate-700 dark:text-slate-300/80 max-w-xl">
                 A growing platform for COMSATS students to share resources and read faculty reviews.
               </p>
             </div>
@@ -215,7 +215,7 @@ export function HeroSection() {
                   const Icon = action.icon
                   return (
                     <Link key={index} href={action.href}>
-                      <Card className="p-4 hover:shadow-md transition-all duration-300 border cursor-pointer group bg-card/80 backdrop-blur-sm glass-interactive">
+                      <Card className="p-4 hover:shadow-md transition-all duration-300 border cursor-pointer group bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm glass-interactive">
                         <div className="flex items-center gap-3">
                           <Icon className={`h-4 w-4 ${action.color} group-hover:scale-110 transition-transform`} />
                           <div>
@@ -235,7 +235,7 @@ export function HeroSection() {
           <div className={`transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="relative">
               {/* Main Stats Card */}
-              <Card className="relative p-6 bg-card/80 border rounded-2xl shadow-xl backdrop-blur-sm glass-card-premium glass-border-glow glass-depth glass-gradient">
+              <Card className="relative p-6 bg-white/80 dark:bg-slate-800/80 border rounded-2xl shadow-xl backdrop-blur-sm glass-card-premium glass-border-glow glass-depth glass-gradient">
                 <div className="space-y-6">
                   {/* Header Section */}
                   <div className="text-center space-y-3">
@@ -245,7 +245,7 @@ export function HeroSection() {
                       </div>
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-foreground mb-1">CampusAxis Platform</h3>
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">CampusAxis Platform</h3>
                       <p className="text-muted-foreground">Real-time Academic Analytics</p>
                     </div>
                   </div>
@@ -258,7 +258,7 @@ export function HeroSection() {
                         <TrendingUp className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
                       </div>
-                      <div className="text-lg font-bold text-foreground mb-1">
+                      <div className="text-lg font-bold text-slate-900 dark:text-white mb-1">
                         {isLoading ? '...' : <CountUp end={stats?.communityPosts || 2} duration={1500} />}
                       </div>
                       <div className="text-xs text-muted-foreground">Community Posts</div>
@@ -277,7 +277,7 @@ export function HeroSection() {
                           ))}
                         </div>
                       </div>
-                      <div className="text-lg font-bold text-foreground mb-1">
+                      <div className="text-lg font-bold text-slate-900 dark:text-white mb-1">
                         {isLoading ? '...' : `${stats?.avgRating || 4.3}`}
                       </div>
                       <div className="text-xs text-muted-foreground">Avg Rating</div>
@@ -289,7 +289,7 @@ export function HeroSection() {
                         <Calendar className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">Active</span>
                       </div>
-                      <div className="text-lg font-bold text-foreground mb-1">
+                      <div className="text-lg font-bold text-slate-900 dark:text-white mb-1">
                         {isLoading ? '...' : <CountUp end={stats?.eventsCount || 1} duration={1500} />}
                       </div>
                       <div className="text-xs text-muted-foreground">Live Events</div>
@@ -301,7 +301,7 @@ export function HeroSection() {
                         <GraduationCap className="h-4 w-4 text-primary" />
                         <span className="text-xs font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">{stats?.departmentCount || 2} Depts</span>
                       </div>
-                      <div className="text-lg font-bold text-foreground mb-1">
+                      <div className="text-lg font-bold text-slate-900 dark:text-white mb-1">
                         {isLoading ? '...' : <CountUp end={stats?.facultyCount || 2} duration={1500} />}
                       </div>
                       <div className="text-xs text-muted-foreground">Faculty Members</div>
@@ -310,10 +310,10 @@ export function HeroSection() {
 
                   {/* Quick Actions */}
                   <div className="space-y-3">
-                    <div className="text-sm font-semibold text-foreground text-center mb-3">Quick Actions</div>
+                    <div className="text-sm font-semibold text-slate-900 dark:text-white text-center mb-3">Quick Actions</div>
                     <div className="grid grid-cols-2 gap-3">
                       <Link href="/past-papers" className="group/action">
-                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300 glass-interactive">
+                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-slate-50 dark:bg-slate-900/70 border transition-all duration-300 glass-interactive">
                           <div className="flex items-center gap-2">
                             <FileText className="h-4 w-4 text-primary group-hover/action:scale-110 transition-transform" />
                             <div>
@@ -324,7 +324,7 @@ export function HeroSection() {
                         </div>
                       </Link>
                       <Link href="/gpa-calculator" className="group/action">
-                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-muted/70 border transition-all duration-300 glass-interactive">
+                        <div className="p-2.5 rounded-lg bg-muted/50 hover:bg-slate-50 dark:bg-slate-900/70 border transition-all duration-300 glass-interactive">
                           <div className="flex items-center gap-2">
                             <Calculator className="h-4 w-4 text-primary group-hover/action:scale-110 transition-transform" />
                             <div>

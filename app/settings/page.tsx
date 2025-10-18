@@ -23,7 +23,7 @@ export default function SettingsPage() {
   
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-4">
-      <Card className="max-w-md w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-2xl shadow-2xl">
+      <Card className="max-w-md w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl shadow-2xl">
         <CardContent className="p-12">
           <div className="text-center space-y-6">
             <div className="relative mx-auto w-20 h-20">

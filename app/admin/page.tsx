@@ -49,7 +49,7 @@ export default function AdminDashboardPage() {
       fallback={
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 dark:from-slate-950 dark:via-blue-950/30 dark:to-indigo-950/20">
           <div className="flex items-center justify-center min-h-screen p-6">
-            <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 text-center space-y-4 max-w-md">
+            <div className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-3xl p-8 backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 text-center space-y-4 max-w-md">
               <div className="relative mx-auto w-16 h-16 mb-4">
                 <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl blur-xl opacity-30 animate-pulse" />
                 <div className="relative bg-gradient-to-r from-red-500 to-orange-500 p-4 rounded-2xl">
@@ -81,7 +81,7 @@ export default function AdminDashboardPage() {
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C92AC%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20" />
           
           <div className={`relative ${styles.section} px-6 lg:px-10 pt-12 pb-8`}>
-            <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+            <div className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
@@ -241,7 +241,7 @@ export default function AdminDashboardPage() {
                     <Card className={`relative overflow-hidden border-0 h-full transition-all duration-300 group-hover:shadow-2xl ${
                       isHighPriority 
                         ? 'bg-gradient-to-br from-blue-50/80 to-indigo-50/80 dark:from-blue-950/40 dark:to-indigo-950/40 backdrop-blur-xl glass-card border border-blue-200/50 dark:border-blue-800/50 group-hover:shadow-blue-500/20'
-                        : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 backdrop-blur-xl glass-card border border-white/20 dark:border-white/10 group-hover:shadow-slate-500/10'
+                        : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 backdrop-blur-xl glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 group-hover:shadow-slate-500/10'
                     }`}>
                       {isHighPriority && (
                         <div className="absolute top-3 right-3">
@@ -288,7 +288,7 @@ export default function AdminDashboardPage() {
                 )
               })}
               {filtered.length === 0 && (
-                <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-8 text-center sm:col-span-2 lg:col-span-3">
+                <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-8 text-center sm:col-span-2 lg:col-span-3">
                   <div className="space-y-2">
                     <div className="text-2xl">🔍</div>
                     <div className="text-slate-600 dark:text-slate-300">No management tools match "{linkQuery}"</div>

@@ -44,13 +44,13 @@ export default function Loading() {
             </div>
             
             <div className="text-center space-y-4">
-              <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
+              <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">
                 <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
                   Loading
                 </span>
                 <span className="animate-pulse">...</span>
               </h2>
-              <p className="text-lg lg:text-xl text-muted-foreground font-serif leading-relaxed max-w-md">
+              <p className="text-lg lg:text-xl text-slate-700 dark:text-slate-300 font-serif leading-relaxed max-w-md">
                 Please wait while we prepare your content
               </p>
               
@@ -63,7 +63,7 @@ export default function Loading() {
               
               {/* Loading tips */}
               <div className="pt-6 border-t border-border/50 mt-8">
-                <p className="text-sm text-muted-foreground/80 font-light italic">
+                <p className="text-sm text-slate-700 dark:text-slate-300/80 font-light italic">
                   "Great things take time to load perfectly"
                 </p>
               </div>

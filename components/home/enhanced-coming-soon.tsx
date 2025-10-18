@@ -107,7 +107,7 @@ export function EnhancedComingSoon() {
             </span>
           </h2>
           
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground/90 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-slate-700 dark:text-slate-300/90 max-w-3xl mx-auto leading-relaxed">
             Try early versions of upcoming sections. Share feedback while we polish them to perfection. 
             Your input helps shape the future of CampusAxis!
           </p>
@@ -129,15 +129,15 @@ export function EnhancedComingSoon() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-5 rounded-2xl bg-card/90 backdrop-blur-xl border border-white/30 text-center transition-all duration-300 hover:shadow-xl glass-primary"
+                className="p-5 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl glass-primary"
               >
                 <div className="flex justify-center mb-3">
                   <div className="p-3 rounded-xl bg-violet-500/10">
                     <Icon className="h-6 w-6 text-violet-500" />
                   </div>
                 </div>
-                <div className="text-2xl font-semibold text-foreground mb-1">{stat.value}</div>
-                <div className="text-sm text-muted-foreground/90">{stat.label}</div>
+                <div className="text-2xl font-semibold text-slate-900 dark:text-white mb-1">{stat.value}</div>
+                <div className="text-sm text-slate-700 dark:text-slate-300/90">{stat.label}</div>
               </motion.div>
             )
           })}
@@ -156,7 +156,7 @@ export function EnhancedComingSoon() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group h-full bg-card/90 border border-white/30 rounded-2xl shadow-2xl backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl glass-primary glass-professional"
+                    className="group h-full bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl glass-primary glass-professional"
                   >
                     <CardHeader>
                       <div className="flex items-center gap-3 sm:gap-4">
@@ -182,7 +182,7 @@ export function EnhancedComingSoon() {
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm sm:text-base text-muted-foreground/90 mb-4 sm:mb-5">{feature.description}</p>
+                      <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300/90 mb-4 sm:mb-5">{feature.description}</p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
                           <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
@@ -207,7 +207,7 @@ export function EnhancedComingSoon() {
         {/* Feedback CTA with proper spacing */}
         <StaggerContainer className="text-center" staggerDelay={0.1}>
           <StaggerItem>
-            <Card className="inline-block p-6 sm:p-8 border border-white/20 bg-card/80 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl max-w-3xl mx-auto glass-primary glass-gradient">
+            <Card className="inline-block p-6 sm:p-8 border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl max-w-3xl mx-auto glass-primary glass-gradient">
               <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-6">
                 <div className="flex-shrink-0">
                   <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 flex items-center justify-center glass-layered">
@@ -216,7 +216,7 @@ export function EnhancedComingSoon() {
                 </div>
                 <div className="text-center sm:text-left flex-1">
                   <h3 className="text-lg sm:text-xl font-semibold mb-1.5 sm:mb-2">Have ideas for new features?</h3>
-                  <p className="text-sm sm:text-base text-muted-foreground/90">We're always looking for ways to improve CampusAxis. Share your suggestions with us!</p>
+                  <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300/90">We're always looking for ways to improve CampusAxis. Share your suggestions with us!</p>
                 </div>
                 <div className="mt-4 sm:mt-0">
                   <Link 

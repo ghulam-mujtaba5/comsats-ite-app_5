@@ -458,7 +458,7 @@ export default function CommunityPollsPage() {
         </div>
 
         {/* Filters */}
-        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl mb-8">
+        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl mb-8">
           <CardContent className="p-6">
             <div className="flex flex-col lg:flex-row gap-4">
               <div className="flex-1 flex flex-col sm:flex-row gap-4">
@@ -534,7 +534,7 @@ export default function CommunityPollsPage() {
               {filteredPolls.map((poll) => (
                 <Card 
                   key={poll.id} 
-                  className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden"
+                  className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden"
                 >
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between">
@@ -579,7 +579,7 @@ export default function CommunityPollsPage() {
                             </div>
                             <div 
                               className={cn(
-                                "h-2 rounded-full bg-muted",
+                                "h-2 rounded-full bg-slate-100 dark:bg-slate-900",
                                 poll.userHasVoted && poll.userVote === option.id && "bg-primary/20"
                               )}
                             >

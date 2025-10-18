@@ -14,8 +14,8 @@ const inputOTPSlotVariants = cva(
     variants: {
       variant: {
         default: "data-[active=true]:aria-invalid:ring-destructive/20 dark:data-[active=true]:aria-invalid:ring-destructive/40 aria-invalid:border-destructive data-[active=true]:aria-invalid:border-destructive dark:bg-input/30",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white data-[active=true]:border-white/30 data-[active=true]:ring-white/30 data-[active=true]:aria-invalid:ring-white/20 aria-invalid:border-white/30 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white data-[active=true]:border-white/20 data-[active=true]:ring-white/20 data-[active=true]:aria-invalid:ring-white/10 aria-invalid:border-white/20 shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700 text-white data-[active=true]:border-slate-200 dark:border-slate-700 data-[active=true]:ring-white/30 data-[active=true]:aria-invalid:ring-white/20 aria-invalid:border-slate-200 dark:border-slate-700 shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700 text-white data-[active=true]:border-slate-200 dark:border-slate-700 data-[active=true]:ring-white/20 data-[active=true]:aria-invalid:ring-white/10 aria-invalid:border-slate-200 dark:border-slate-700 shadow-glass-sm",
       },
     },
     defaultVariants: {

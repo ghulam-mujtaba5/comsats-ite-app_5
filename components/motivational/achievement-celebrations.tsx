@@ -132,7 +132,7 @@ export function AchievementCelebration({
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.5, y: 50 }}
           transition={{ type: "spring", duration: 0.8 }}
-          className="relative bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-white/20 max-w-md w-full mx-4"
+          className="relative bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-slate-200 dark:border-slate-700 max-w-md w-full mx-4"
         >
           <div className="text-center">
             {/* Achievement badge */}

@@ -509,7 +509,7 @@ export default function TimetablePage() {
                   >
                     {uploading ? (
                       <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <div className="w-4 h-4 border-2 border-slate-200 dark:border-slate-700 border-t-white rounded-full animate-spin" />
                         Uploading...
                       </div>
                     ) : (
@@ -525,7 +525,7 @@ export default function TimetablePage() {
           ) : null}
 
           {/* Advanced Filtering */}
-          <Card className="mb-8 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg">
+          <Card className="mb-8 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-3xl shadow-lg">
             <CardContent className="p-8">
               <AdvancedFilterBar
                 search={searchQuery}

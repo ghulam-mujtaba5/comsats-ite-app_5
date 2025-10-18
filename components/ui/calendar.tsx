@@ -19,8 +19,8 @@ const calendarVariants = cva(
     variants: {
       variant: {
         default: "bg-background",
-        glass: "bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-lg shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700 rounded-lg shadow-glass-sm",
       },
     },
     defaultVariants: {
@@ -111,8 +111,8 @@ function Calendar({
         ),
         dropdown_root: cn(
           "relative has-focus:border-ring border border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] rounded-md",
-          variant === "glass" ? "border-white/20 bg-white/10" : 
-          variant === "glass-subtle" ? "border-white/10 bg-white/5" : "",
+          variant === "glass" ? "border-slate-200 dark:border-slate-700 bg-white/10" : 
+          variant === "glass-subtle" ? "border-slate-200 dark:border-slate-700 bg-white/5" : "",
           defaultClassNames.dropdown_root
         ),
         dropdown: cn(
@@ -123,7 +123,7 @@ function Calendar({
           "select-none font-medium",
           captionLayout === "label"
             ? "text-sm"
-            : "rounded-md pl-2 pr-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-muted-foreground [&>svg]:size-3.5",
+            : "rounded-md pl-2 pr-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-slate-700 dark:text-slate-300 [&>svg]:size-3.5",
           variant?.startsWith("glass") ? "text-white" : "",
           defaultClassNames.caption_label
         ),
@@ -169,11 +169,11 @@ function Calendar({
           defaultClassNames.today
         ),
         outside: cn(
-          variant?.startsWith("glass") ? "text-white/50 aria-selected:text-white/50" : "text-muted-foreground aria-selected:text-muted-foreground",
+          variant?.startsWith("glass") ? "text-white/50 aria-selected:text-white/50" : "text-slate-700 dark:text-slate-300 aria-selected:text-muted-foreground",
           defaultClassNames.outside
         ),
         disabled: cn(
-          variant?.startsWith("glass") ? "text-white/30 opacity-50" : "text-muted-foreground opacity-50",
+          variant?.startsWith("glass") ? "text-white/30 opacity-50" : "text-slate-700 dark:text-slate-300 opacity-50",
           defaultClassNames.disabled
         ),
         hidden: cn("invisible", defaultClassNames.hidden),

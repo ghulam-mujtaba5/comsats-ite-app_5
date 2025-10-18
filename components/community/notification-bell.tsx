@@ -79,7 +79,7 @@ export function NotificationBell() {
         </Button>
       </PopoverTrigger>
       <PopoverContent 
-        className="w-80 p-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border border-white/20 dark:border-slate-700/30 shadow-xl rounded-2xl"
+        className="w-80 p-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-xl rounded-2xl"
         align="end"
       >
         <div className="p-4 border-b border-gray-100 dark:border-slate-700">

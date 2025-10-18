@@ -72,10 +72,10 @@ export default function GPACalculatorPage() {
               <Calculator className="h-3 w-3 md:h-4 md:w-4" />
               Academic Tools
             </div>
-            <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-foreground mb-4 md:mb-6">
+            <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-4 md:mb-6">
               COMSATS <span className="text-gradient">GPA Calculator</span>
             </h1>
-            <p className="text-base md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto font-serif leading-relaxed">
+            <p className="text-base md:text-xl lg:text-2xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto font-serif leading-relaxed">
               Calculate your semester GPA, cumulative CGPA, admission aggregate, and plan your future semesters with our free COMSATS GPA calculator
             </p>
           </div>
@@ -86,7 +86,7 @@ export default function GPACalculatorPage() {
               <BookOpen className="h-5 w-5 md:h-6 md:w-6 text-primary" />
               About COMSATS GPA Calculator
             </h2>
-            <p className="text-sm md:text-base text-muted-foreground mb-3 md:mb-4">
+            <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 mb-3 md:mb-4">
               Our COMSATS GPA calculator is specifically designed for students at COMSATS University Islamabad (CUI) 
               to accurately calculate their academic performance according to the university's official grading system. 
               Whether you need to calculate your semester GPA, cumulative CGPA, or admission aggregate, our tools provide 
@@ -101,7 +101,7 @@ export default function GPACalculatorPage() {
 
           {/* Enhanced SEO bullet points */}
           <div className="mb-8 md:mb-12 grid gap-3 md:gap-4 card-modern p-4 md:p-8 rounded-2xl md:rounded-3xl border-0 backdrop-blur-sm">
-            <div className="font-bold text-base md:text-lg text-foreground flex items-center gap-2">
+            <div className="font-bold text-base md:text-lg text-slate-900 dark:text-white flex items-center gap-2">
               <Info className="h-4 w-4 md:h-5 md:w-5 text-primary" />
               Why use our COMSATS GPA calculators?
             </div>
@@ -187,27 +187,27 @@ export default function GPACalculatorPage() {
                 <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-6 text-center">
                   <div className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 hover:from-green-500/20 hover:to-emerald-500/20 transition-all duration-300">
                     <div className="font-bold text-base md:text-lg text-green-600">A+/A</div>
-                    <div className="text-xs md:text-sm text-muted-foreground font-mono">4.0</div>
+                    <div className="text-xs md:text-sm text-slate-700 dark:text-slate-300 font-mono">4.0</div>
                   </div>
                   <div className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 transition-all duration-300">
                     <div className="font-bold text-base md:text-lg text-blue-600">A-</div>
-                    <div className="text-xs md:text-sm text-muted-foreground font-mono">3.67</div>
+                    <div className="text-xs md:text-sm text-slate-700 dark:text-slate-300 font-mono">3.67</div>
                   </div>
                   <div className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 hover:from-purple-500/20 hover:to-pink-500/20 transition-all duration-300">
                     <div className="font-bold text-base md:text-lg text-purple-600">B+</div>
-                    <div className="text-xs md:text-sm text-muted-foreground font-mono">3.33</div>
+                    <div className="text-xs md:text-sm text-slate-700 dark:text-slate-300 font-mono">3.33</div>
                   </div>
                   <div className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-gradient-to-br from-orange-500/10 to-red-500/10 hover:from-orange-500/20 hover:to-red-500/20 transition-all duration-300">
                     <div className="font-bold text-base md:text-lg text-orange-600">B</div>
-                    <div className="text-xs md:text-sm text-muted-foreground font-mono">3.0</div>
+                    <div className="text-xs md:text-sm text-slate-700 dark:text-slate-300 font-mono">3.0</div>
                   </div>
                   <div className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-gradient-to-br from-yellow-500/10 to-orange-500/10 hover:from-yellow-500/20 hover:to-orange-500/20 transition-all duration-300">
                     <div className="font-bold text-base md:text-lg text-yellow-600">B-</div>
-                    <div className="text-xs md:text-sm text-muted-foreground font-mono">2.67</div>
+                    <div className="text-xs md:text-sm text-slate-700 dark:text-slate-300 font-mono">2.67</div>
                   </div>
                   <div className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-gradient-to-br from-gray-500/10 to-slate-500/10 hover:from-gray-500/20 hover:to-slate-500/20 transition-all duration-300">
                     <div className="font-bold text-base md:text-lg text-gray-600">C+</div>
-                    <div className="text-xs md:text-sm text-muted-foreground font-mono">2.33</div>
+                    <div className="text-xs md:text-sm text-slate-700 dark:text-slate-300 font-mono">2.33</div>
                   </div>
                 </div>
               </CardContent>

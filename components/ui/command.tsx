@@ -37,8 +37,8 @@ const commandInputWrapperVariants = cva(
     variants: {
       variant: {
         default: "border-b",
-        glass: "border-b border-white/20",
-        "glass-subtle": "border-b border-white/10",
+        glass: "border-b border-slate-200 dark:border-slate-700",
+        "glass-subtle": "border-b border-slate-200 dark:border-slate-700",
       },
     },
     defaultVariants: {
@@ -68,7 +68,7 @@ const commandGroupVariants = cva(
   {
     variants: {
       variant: {
-        default: "text-foreground [&_[cmdk-group-heading]]:text-muted-foreground",
+        default: "text-slate-900 dark:text-white [&_[cmdk-group-heading]]:text-muted-foreground",
         glass: "text-white [&_[cmdk-group-heading]]:text-white/80",
         "glass-subtle": "text-white [&_[cmdk-group-heading]]:text-white/70",
       },
@@ -136,7 +136,7 @@ const CommandDialog: React.FC<CommandDialogProps> = ({
         className={cn("overflow-hidden p-0", className)}
         showCloseButton={showCloseButton}
       >
-        <Command className="[&_[cmdk-group-heading]]:text-muted-foreground **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+        <Command className="[&_[cmdk-group-heading]]:text-slate-700 dark:text-slate-300 **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
           {children}
         </Command>
       </DialogContent>
@@ -166,7 +166,7 @@ const CommandInput = React.forwardRef<
         ref={ref}
         data-slot="command-input"
         className={cn(
-          "placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
+          "placeholder:text-slate-700 dark:text-slate-300 flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
           variant?.startsWith("glass") && "placeholder:text-white/70 text-white",
           className
         )}
@@ -301,7 +301,7 @@ const CommandShortcut = React.forwardRef<
       ref={ref}
       data-slot="command-shortcut"
       className={cn(
-        "text-muted-foreground ml-auto text-xs tracking-widest",
+        "text-slate-700 dark:text-slate-300 ml-auto text-xs tracking-widest",
         className
       )}
       {...props}

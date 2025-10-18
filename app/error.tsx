@@ -68,13 +68,13 @@ export default function Error({
                     Something Went Wrong
                   </span>
                 </h1>
-                <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-2xl mx-auto">
+                <p className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif max-w-2xl mx-auto">
                   We encountered an unexpected error while loading this page.
                 </p>
               </div>
 
               <div className="space-y-6">
-                <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto leading-relaxed">
+                <p className="text-lg text-slate-700 dark:text-slate-300/80 font-light max-w-xl mx-auto leading-relaxed">
                   Don't worry, this is usually temporary. Try refreshing the page or return to the homepage to continue your journey.
                 </p>
 
@@ -104,7 +104,7 @@ export default function Error({
 
               {/* Enhanced Quick Actions */}
               <div className="pt-8 border-t border-border/50">
-                <p className="text-sm text-muted-foreground mb-6 font-medium">
+                <p className="text-sm text-slate-700 dark:text-slate-300 mb-6 font-medium">
                   Or try these popular sections while we fix this issue:
                 </p>
                 <div className="flex flex-wrap gap-3 justify-center">
@@ -139,7 +139,7 @@ export default function Error({
               {error && (
                 <div className="pt-8 border-t border-border/50">
                   <details className="text-left" open={process.env.NODE_ENV === "development"}>
-                    <summary className="cursor-pointer text-sm font-semibold text-muted-foreground mb-4 hover:text-foreground transition-colors duration-200 flex items-center gap-2">
+                    <summary className="cursor-pointer text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4 hover:text-slate-900 dark:text-white transition-colors duration-200 flex items-center gap-2">
                       <AlertTriangle className="h-4 w-4" />
                       Error Details {process.env.NODE_ENV === "development" && "(Development Only)"}
                     </summary>
@@ -147,31 +147,31 @@ export default function Error({
                       <CardContent className="p-6 space-y-4">
                         {error.message && (
                           <div>
-                            <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Error Message</h4>
-                            <pre className="text-sm bg-gradient-to-br from-red-500/10 to-orange-500/10 p-4 rounded-xl overflow-auto text-foreground border border-red-500/20 backdrop-blur-sm whitespace-pre-wrap break-words">
+                            <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wide">Error Message</h4>
+                            <pre className="text-sm bg-gradient-to-br from-red-500/10 to-orange-500/10 p-4 rounded-xl overflow-auto text-slate-900 dark:text-white border border-red-500/20 backdrop-blur-sm whitespace-pre-wrap break-words">
                               {error.message}
                             </pre>
                           </div>
                         )}
                         {error.digest && (
                           <div>
-                            <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Error Digest</h4>
-                            <pre className="text-sm bg-gradient-to-br from-orange-500/10 to-yellow-500/10 p-4 rounded-xl overflow-auto text-foreground border border-orange-500/20 backdrop-blur-sm font-mono">
+                            <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wide">Error Digest</h4>
+                            <pre className="text-sm bg-gradient-to-br from-orange-500/10 to-yellow-500/10 p-4 rounded-xl overflow-auto text-slate-900 dark:text-white border border-orange-500/20 backdrop-blur-sm font-mono">
                               {error.digest}
                             </pre>
                           </div>
                         )}
                         {error.stack && process.env.NODE_ENV === "development" && (
                           <div>
-                            <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Stack Trace</h4>
-                            <pre className="text-xs bg-gradient-to-br from-red-500/10 to-orange-500/10 p-4 rounded-xl overflow-auto text-muted-foreground border border-red-500/20 backdrop-blur-sm whitespace-pre-wrap break-words max-h-64">
+                            <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wide">Stack Trace</h4>
+                            <pre className="text-xs bg-gradient-to-br from-red-500/10 to-orange-500/10 p-4 rounded-xl overflow-auto text-slate-700 dark:text-slate-300 border border-red-500/20 backdrop-blur-sm whitespace-pre-wrap break-words max-h-64">
                               {error.stack}
                             </pre>
                           </div>
                         )}
                         {!error.message && !error.digest && !error.stack && (
                           <div>
-                            <p className="text-sm text-muted-foreground italic">No additional error details available.</p>
+                            <p className="text-sm text-slate-700 dark:text-slate-300 italic">No additional error details available.</p>
                           </div>
                         )}
                       </CardContent>

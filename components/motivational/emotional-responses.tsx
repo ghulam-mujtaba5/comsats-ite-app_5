@@ -294,7 +294,7 @@ export function EmotionalResponseSystem() {
         transition={{ type: "spring", damping: 20, stiffness: 300 }}
         className="fixed bottom-4 right-4 z-50 max-w-xs w-full"
       >
-        <div className={`${currentResponse.backgroundColor} rounded-2xl p-5 shadow-2xl border border-white/30 backdrop-blur-xl glass-card`}>
+        <div className={`${currentResponse.backgroundColor} rounded-2xl p-5 shadow-2xl border border-slate-200 dark:border-slate-700 backdrop-blur-xl glass-card`}>
           <div className="flex items-start gap-3">
             <div className={`flex-shrink-0 p-2.5 rounded-full ${currentResponse.backgroundColor.replace('bg-', 'bg-').replace('50', '200').replace('900/20', '800/30')}`}>
               <IconComponent className={`w-5 h-5 ${currentResponse.color}`} />

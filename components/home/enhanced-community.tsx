@@ -85,7 +85,7 @@ export function EnhancedCommunity() {
             </span>
           </h2>
           
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground/90 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-slate-700 dark:text-slate-300/90 max-w-3xl mx-auto leading-relaxed">
             Join thousands of COMSATS students sharing knowledge, opportunities, and academic journeys. 
             Engage in discussions, share resources, and build meaningful connections.
           </p>
@@ -102,15 +102,15 @@ export function EnhancedCommunity() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-4 sm:p-5 rounded-2xl bg-card/90 backdrop-blur-xl border border-white/30 text-center transition-all duration-300 hover:shadow-xl glass-primary"
+                className="p-4 sm:p-5 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl glass-primary"
               >
                 <div className="flex justify-center mb-2 sm:mb-3">
                   <div className="p-2 sm:p-3 rounded-xl bg-blue-500/10">
                     <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />
                   </div>
                 </div>
-                <div className="text-xl sm:text-2xl font-bold text-foreground mb-1">{stat.value}</div>
-                <div className="text-xs sm:text-sm text-muted-foreground/90 mb-1 sm:mb-2">{stat.label}</div>
+                <div className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-1">{stat.value}</div>
+                <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300/90 mb-1 sm:mb-2">{stat.label}</div>
                 <div className="text-[10px] sm:text-xs font-semibold text-green-600 flex items-center justify-center">
                   <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
                   {stat.change}
@@ -140,15 +140,15 @@ export function EnhancedCommunity() {
           {loading ? (
             Array.from({ length: 4 }).map((_, i) => (
               <StaggerItem key={i}>
-                <Card className="border border-white/20 rounded-2xl">
+                <Card className="border border-slate-200 dark:border-slate-700 rounded-2xl">
                   <CardHeader>
-                    <div className="h-4 sm:h-5 bg-muted rounded w-3/4 mb-2 sm:mb-3"></div>
-                    <div className="h-3 sm:h-4 bg-muted rounded w-1/2"></div>
+                    <div className="h-4 sm:h-5 bg-slate-100 dark:bg-slate-900 rounded w-3/4 mb-2 sm:mb-3"></div>
+                    <div className="h-3 sm:h-4 bg-slate-100 dark:bg-slate-900 rounded w-1/2"></div>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-3 sm:h-4 bg-muted rounded w-full mb-2 sm:mb-3"></div>
-                    <div className="h-3 sm:h-4 bg-muted rounded w-5/6 mb-4 sm:mb-6"></div>
-                    <div className="h-8 sm:h-10 bg-muted rounded w-28 sm:w-32"></div>
+                    <div className="h-3 sm:h-4 bg-slate-100 dark:bg-slate-900 rounded w-full mb-2 sm:mb-3"></div>
+                    <div className="h-3 sm:h-4 bg-slate-100 dark:bg-slate-900 rounded w-5/6 mb-4 sm:mb-6"></div>
+                    <div className="h-8 sm:h-10 bg-slate-100 dark:bg-slate-900 rounded w-28 sm:w-32"></div>
                   </CardContent>
                 </Card>
               </StaggerItem>
@@ -162,7 +162,7 @@ export function EnhancedCommunity() {
                 >
                   <AnimatedCard 
                     enableHover={true} 
-                    className="group h-full border border-white/30 rounded-2xl bg-card/90 backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl glass-primary glass-professional"
+                    className="group h-full border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl glass-primary glass-professional"
                   >
                     <CardHeader>
                       <div className="flex items-start justify-between">
@@ -172,7 +172,7 @@ export function EnhancedCommunity() {
                             <Zap className="h-3 w-3 sm:h-4 sm:w-4 ml-1.5 sm:ml-2 text-amber-600" />
                           </CardTitle>
                           {item.subtitle && (
-                            <div className="text-xs sm:text-sm text-muted-foreground/90 mt-1.5 sm:mt-2">{item.subtitle}</div>
+                            <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300/90 mt-1.5 sm:mt-2">{item.subtitle}</div>
                           )}
                         </div>
                         <Badge variant="secondary" className="text-[10px] sm:text-xs px-2 py-0.5">
@@ -183,7 +183,7 @@ export function EnhancedCommunity() {
                     </CardHeader>
                     <CardContent className="space-y-4 sm:space-y-5">
                       {item.description && (
-                        <CardDescription className="text-xs sm:text-sm text-muted-foreground/90">
+                        <CardDescription className="text-xs sm:text-sm text-slate-700 dark:text-slate-300/90">
                           {item.description}
                         </CardDescription>
                       )}
@@ -211,9 +211,9 @@ export function EnhancedCommunity() {
               </StaggerItem>
             ))
           ) : (
-            <Card className="col-span-full text-center p-12 sm:p-16 border border-white/20 rounded-2xl bg-card/80 backdrop-blur-xl">
+            <Card className="col-span-full text-center p-12 sm:p-16 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl">
               <CardContent>
-                <Users className="h-10 w-10 sm:h-14 sm:w-14 text-muted-foreground mx-auto mb-4 sm:mb-5" />
+                <Users className="h-10 w-10 sm:h-14 sm:w-14 text-slate-700 dark:text-slate-300 mx-auto mb-4 sm:mb-5" />
                 <CardTitle className="mb-2 sm:mb-3 text-lg sm:text-xl">No Community Items Yet</CardTitle>
                 <CardDescription className="mb-4 sm:mb-6 text-sm sm:text-base">
                   Be the first to create a community discussion!
@@ -231,7 +231,7 @@ export function EnhancedCommunity() {
         <FadeInScroll className="text-center" delay={0.3}>
           <AnimatedCard 
             enableHover={true} 
-            className="p-10 border border-white/20 bg-card/80 backdrop-blur-2xl shadow-2xl rounded-3xl max-w-3xl mx-auto"
+            className="p-10 border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-2xl shadow-2xl rounded-3xl max-w-3xl mx-auto"
           >
             <div className="space-y-6">
               <div className="flex justify-center">
@@ -240,7 +240,7 @@ export function EnhancedCommunity() {
                 </div>
               </div>
               <h3 className="text-2xl md:text-3xl font-bold">Ready to Join the Community?</h3>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
                 Connect with fellow students, share your knowledge, and be part of the growing COMSATS academic community.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
@@ -273,7 +273,7 @@ export function EnhancedCommunity() {
                   </Link>
                 </Button>
               </div>
-              <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground pt-6">
+              <div className="flex items-center justify-center gap-4 text-sm text-slate-700 dark:text-slate-300 pt-6">
                 <div className="flex items-center gap-1">
                   <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
                   <span>2,847 Active Members</span>

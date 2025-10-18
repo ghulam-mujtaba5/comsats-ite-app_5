@@ -249,7 +249,7 @@ export default function FacultyPage() {
               </div>
             </div>
             <h3 className="text-xl font-bold text-primary mb-2">Add Faculty Member</h3>
-            <p className="text-muted-foreground mb-4 text-sm">
+            <p className="text-slate-700 dark:text-slate-300 mb-4 text-sm">
               Is a faculty member missing? Help us expand our directory.
             </p>
             <div className="w-full space-y-2">
@@ -264,7 +264,7 @@ export default function FacultyPage() {
                 <Plus className="h-4 w-4 mr-2" />
                 Add Faculty
               </Button>
-              <p className="text-xs text-muted-foreground/70">
+              <p className="text-xs text-slate-700 dark:text-slate-300/70">
                 Click anywhere on this card to open
               </p>
             </div>
@@ -322,7 +322,7 @@ export default function FacultyPage() {
                 Directory
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-6">
+            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto mb-6">
               Discover and review faculty members. Share your experiences to help fellow students make informed decisions.
             </p>
             
@@ -577,7 +577,7 @@ export default function FacultyPage() {
                 <div className="p-4 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 w-16 h-16 mx-auto mb-6 flex items-center justify-center">
                   <Users className="h-8 w-8 text-red-500" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">Error Loading Faculty</h3>
+                <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">Error Loading Faculty</h3>
                 <p className="text-red-600 font-medium mb-6">{error}</p>
                 <Button onClick={() => window.location.reload()}>
                   Try Again
@@ -590,8 +590,8 @@ export default function FacultyPage() {
                 <div className="p-6 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 w-20 h-20 mx-auto mb-8 flex items-center justify-center">
                   <Users className="h-10 w-10 text-muted-foreground" />
                 </div>
-                <h3 className="text-2xl font-bold text-foreground mb-4">No Faculty Found</h3>
-                <div className="text-muted-foreground mb-8 space-y-2">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">No Faculty Found</h3>
+                <div className="text-slate-700 dark:text-slate-300 mb-8 space-y-2">
                   <p>No faculty members match your current filters.</p>
                   {selectedCampus && (
                     <p className="text-sm">
@@ -650,7 +650,7 @@ export default function FacultyPage() {
                   )}
                 </div>
                 <div className="border-t border-border pt-6">
-                  <p className="text-muted-foreground mb-4">Don't see a faculty member?</p>
+                  <p className="text-slate-700 dark:text-slate-300 mb-4">Don't see a faculty member?</p>
                   {/* Using the new AddFacultyCard component for consistency */}
                   <div className="max-w-sm mx-auto">
                     <AddFacultyCard />

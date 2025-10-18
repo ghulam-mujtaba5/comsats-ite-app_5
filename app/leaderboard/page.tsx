@@ -119,7 +119,7 @@ export default function LeaderboardPage() {
                 <h1 className="text-4xl font-bold bg-gradient-to-r from-yellow-600 via-amber-600 to-orange-600 bg-clip-text text-transparent">
                   Contribution Leaderboard
                 </h1>
-                <p className="text-muted-foreground text-lg mt-1">
+                <p className="text-slate-700 dark:text-slate-300 text-lg mt-1">
                   Recognizing top contributors across COMSATS campuses
                 </p>
               </div>

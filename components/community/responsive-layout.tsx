@@ -88,7 +88,7 @@ export function ResponsiveCard({
   return (
     <div 
       className={cn(
-        "border rounded-lg bg-card text-card-foreground shadow-sm",
+        "border rounded-lg bg-white dark:bg-slate-800 text-card-foreground shadow-sm",
         responsive && isMobile ? "p-4" : "p-6",
         className
       )}

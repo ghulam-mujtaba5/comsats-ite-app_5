@@ -81,7 +81,7 @@ export default function LMSTroubleshootingPage() {
     <div className="container mx-auto py-8 space-y-8">
       <div className="text-center space-y-4">
         <h1 className="text-3xl md:text-4xl font-bold">LMS Troubleshooting Guide</h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
           Common issues and solutions for the Learning Management System (LMS)
         </p>
       </div>
@@ -172,7 +172,7 @@ export default function LMSTroubleshootingPage() {
             {contactInfo.map((contact, index) => (
               <div key={index} className="border rounded-lg p-4">
                 <h3 className="font-semibold">{contact.department}</h3>
-                <p className="text-sm text-muted-foreground mt-1">{contact.email}</p>
+                <p className="text-sm text-slate-700 dark:text-slate-300 mt-1">{contact.email}</p>
                 <p className="text-sm text-muted-foreground">{contact.phone}</p>
                 <p className="text-sm text-muted-foreground">{contact.hours}</p>
               </div>

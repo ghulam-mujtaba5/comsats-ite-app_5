@@ -465,7 +465,7 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
           <div>
             <Label htmlFor="file">Upload File {hasValidExternal ? '' : '*'}</Label>
             <Input id="file" type="file" accept=".pdf,.doc,.docx" onChange={handleFileChange} disabled={!!formData.externalUrl} />
-            <p className="text-sm text-muted-foreground mt-1">Accepted formats: PDF, DOC, DOCX (Max size: 10MB)</p>
+            <p className="text-sm text-slate-700 dark:text-slate-300 mt-1">Accepted formats: PDF, DOC, DOCX (Max size: 10MB)</p>
           </div>
 
           <div>
@@ -477,7 +477,7 @@ export function UploadPaperDialog({ children, courseCode }: UploadPaperDialogPro
               value={formData.externalUrl}
               onChange={(e) => handleInputChange('externalUrl', e.target.value)}
             />
-            <p className="text-sm text-muted-foreground mt-1">Provide a public link (Google Drive, OneDrive, etc.). Either upload a file or provide a link.</p>
+            <p className="text-sm text-slate-700 dark:text-slate-300 mt-1">Provide a public link (Google Drive, OneDrive, etc.). Either upload a file or provide a link.</p>
           </div>
 
           <div className="flex justify-end gap-2">

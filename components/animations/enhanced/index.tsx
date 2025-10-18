@@ -67,7 +67,7 @@ export function AnimatedCard({
     return (
       <div
         className={cn(
-          'rounded-lg border bg-card text-card-foreground shadow-sm',
+          'rounded-lg border bg-white dark:bg-slate-800 text-card-foreground shadow-sm',
           className
         )}
         suppressHydrationWarning
@@ -102,7 +102,7 @@ export function AnimatedCard({
       variants={enableGlow ? glowVariants : adjustedHoverVariants}
       transition={{ duration: 0.2 }}
       className={cn(
-        'rounded-lg border bg-card text-card-foreground shadow-sm',
+        'rounded-lg border bg-white dark:bg-slate-800 text-card-foreground shadow-sm',
         'transition-shadow duration-300',
         enableHover && 'cursor-pointer',
         className
@@ -685,7 +685,7 @@ export function Shimmer({ className, width = 'w-full', height = 'h-4' }: Shimmer
   if (prefersReducedMotion || !isAnimationEnabled) {
     return (
       <div className={cn('relative overflow-hidden rounded', width, height, className)}>
-        <div className="absolute inset-0 bg-muted" />
+        <div className="absolute inset-0 bg-slate-100 dark:bg-slate-900" />
       </div>
     )
   }
@@ -704,7 +704,7 @@ export function Shimmer({ className, width = 'w-full', height = 'h-4' }: Shimmer
 
   return (
     <div className={cn('relative overflow-hidden rounded', width, height, className)}>
-      <div className="absolute inset-0 bg-muted" />
+      <div className="absolute inset-0 bg-slate-100 dark:bg-slate-900" />
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
         animate={{

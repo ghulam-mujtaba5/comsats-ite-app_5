@@ -87,8 +87,8 @@ export function FAQSection() {
               <HelpCircle className="h-10 w-10 text-primary" />
             </div>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Frequently Asked Questions</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Frequently Asked Questions</h2>
+          <p className="text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
             Find answers to common questions about using the CampusAxis portal
           </p>
           {isFallback && (
@@ -99,7 +99,7 @@ export function FAQSection() {
           )}
         </div>
 
-        <Card className="bg-card/80 backdrop-blur-sm border shadow-xl glass-card-premium glass-border-glow glass-depth">
+        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border shadow-xl glass-card-premium glass-border-glow glass-depth">
           {loading ? (
             <div role="status" aria-live="polite" className="space-y-4 p-6">
               {Array.from({ length: 4 }).map((_, i) => (
@@ -109,7 +109,7 @@ export function FAQSection() {
                   <div className="sk-line w-5/6 rounded" />
                 </div>
               ))}
-              <div className="flex items-center justify-center gap-2 text-muted-foreground py-4">
+              <div className="flex items-center justify-center gap-2 text-slate-700 dark:text-slate-300 py-4">
                 <div className="loader-ring sm" />
                 <span>Loading FAQs…</span>
               </div>
@@ -125,7 +125,7 @@ export function FAQSection() {
                   <AccordionTrigger className="text-left hover:text-primary transition-colors pr-8 py-4 text-base">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-4 text-base">
+                  <AccordionContent className="text-slate-700 dark:text-slate-300 pb-4 text-base">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -136,7 +136,7 @@ export function FAQSection() {
         
         {/* Additional Help CTA */}
         <div className="text-center mt-12">
-          <Card className="inline-block p-6 border bg-card/80 backdrop-blur-sm max-w-2xl mx-auto glass-subtle">
+          <Card className="inline-block p-6 border bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm max-w-2xl mx-auto glass-subtle">
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center glass-interactive">
@@ -145,7 +145,7 @@ export function FAQSection() {
               </div>
               <div className="text-center sm:text-left">
                 <h3 className="text-lg font-semibold mb-1">Need more help?</h3>
-                <p className="text-muted-foreground text-sm">Our support team is ready to assist you with any questions</p>
+                <p className="text-slate-700 dark:text-slate-300 text-sm">Our support team is ready to assist you with any questions</p>
               </div>
               <div className="mt-2 sm:mt-0">
                 <a href="/student-support" className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium glass-interactive">

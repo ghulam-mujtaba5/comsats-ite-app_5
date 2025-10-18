@@ -141,8 +141,8 @@ export function AlumniNavbar() {
                           href={item.href}
                           onClick={() => setIsOpen(false)}
                           className={cn(
-                            "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-muted",
-                            isActive ? "bg-muted text-primary" : "text-muted-foreground"
+                            "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-slate-100 dark:bg-slate-900",
+                            isActive ? "bg-slate-100 dark:bg-slate-900 text-primary" : "text-muted-foreground"
                           )}
                         >
                           <Icon className="h-5 w-5" />

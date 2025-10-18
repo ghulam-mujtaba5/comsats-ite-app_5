@@ -48,7 +48,7 @@ export function LevelUpEffect({
             <div className="relative">
               {/* Main level up card */}
               <motion.div
-                className="bg-gradient-to-br from-blue-600 to-purple-700 rounded-2xl p-8 shadow-2xl text-center border-2 border-white/20"
+                className="bg-gradient-to-br from-blue-600 to-purple-700 rounded-2xl p-8 shadow-2xl text-center border-2 border-slate-200 dark:border-slate-700"
                 initial={{ y: 20 }}
                 animate={{ y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -118,7 +118,7 @@ export function LevelUpEffect({
             exit={{ opacity: 0, scale: 0.8 }}
           >
             <div className="relative">
-              <div className="bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl p-6 shadow-2xl text-center border-2 border-white/30">
+              <div className="bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl p-6 shadow-2xl text-center border-2 border-slate-200 dark:border-slate-700">
                 <div className="text-4xl mb-2">🏆</div>
                 <h3 className="text-2xl font-bold text-white">Achievement Unlocked!</h3>
               </div>

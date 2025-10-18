@@ -196,7 +196,7 @@ export default function AlumniPortal() {
                 </h1>
               </div>
 
-              <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+              <p className="text-xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto">
                 Access your alumni account to maintain connection with COMSATS University.
               </p>
 
@@ -236,7 +236,7 @@ export default function AlumniPortal() {
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
               Welcome, <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">Alumnus</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               Manage your account access and stay connected with the COMSATS community.
             </p>
           </FadeInScroll>
@@ -264,7 +264,7 @@ export default function AlumniPortal() {
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-8">
               {/* Email Management Card */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <Mail className="h-6 w-6 text-primary" />
@@ -285,7 +285,7 @@ export default function AlumniPortal() {
                         placeholder="your.personal@email.com"
                         value={newEmail}
                         onChange={(e) => setNewEmail(e.target.value)}
-                        className="flex-1 glass-card border-white/20"
+                        className="flex-1 glass-card border-slate-200 dark:border-slate-700"
                       />
                       <Button 
                         onClick={handleAddEmail}
@@ -294,7 +294,7 @@ export default function AlumniPortal() {
                       >
                         {isAddingEmail ? (
                           <div className="flex items-center gap-2">
-                            <div className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                            <div className="h-4 w-4 rounded-full border-2 border-slate-200 dark:border-slate-700 border-t-white animate-spin" />
                             Adding...
                           </div>
                         ) : (
@@ -318,7 +318,7 @@ export default function AlumniPortal() {
                     {loading ? (
                       <div className="space-y-3">
                         {[1, 2, 3].map((i) => (
-                          <div key={i} className="h-16 bg-muted rounded-2xl animate-pulse" />
+                          <div key={i} className="h-16 bg-slate-100 dark:bg-slate-900 rounded-2xl animate-pulse" />
                         ))}
                       </div>
                     ) : emails.length === 0 ? (
@@ -331,7 +331,7 @@ export default function AlumniPortal() {
                         {emails.map((email) => (
                           <div 
                             key={email.id} 
-                            className="flex items-center justify-between p-4 rounded-2xl glass-card border border-white/20 hover:shadow-lg transition-all duration-300"
+                            className="flex items-center justify-between p-4 rounded-2xl glass-card border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300"
                           >
                             <div className="flex items-center gap-3">
                               <div className="p-2 rounded-xl bg-primary/10">
@@ -394,7 +394,7 @@ export default function AlumniPortal() {
               </AnimatedCard>
 
               {/* Alumni Benefits */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <Award className="h-6 w-6 text-primary" />
@@ -435,7 +435,7 @@ export default function AlumniPortal() {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.1 }}
-                          className="p-4 rounded-2xl glass-card border border-white/20 hover:shadow-lg transition-all duration-300"
+                          className="p-4 rounded-2xl glass-card border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300"
                         >
                           <div className="flex items-start gap-3">
                             <div className="p-2 rounded-xl bg-primary/10 mt-1">
@@ -457,7 +457,7 @@ export default function AlumniPortal() {
             {/* Sidebar */}
             <div className="space-y-8">
               {/* User Profile Card */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <User className="h-6 w-6 text-primary" />
@@ -509,7 +509,7 @@ export default function AlumniPortal() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">
+                  <p className="text-sm text-slate-700 dark:text-slate-300 mb-4">
                     The Alumni Portal is currently in beta. We're continuously improving features based on your feedback.
                   </p>
                   <Button variant="outline" size="sm" className="w-full border-amber-500/30 text-amber-700 dark:text-amber-300">

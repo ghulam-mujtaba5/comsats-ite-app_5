@@ -165,13 +165,13 @@ export class ErrorBoundary extends Component<Props, State> {
               {(this.props.showDetails || process.env.NODE_ENV === "development") &&
                 this.state.error && (
                   <details className="mt-6">
-                    <summary className="cursor-pointer text-sm font-medium text-muted-foreground hover:text-foreground">
+                    <summary className="cursor-pointer text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-foreground">
                       Error Details (Development Only)
                     </summary>
                     <div className="mt-4 space-y-4">
                       {/* Error Message */}
                       <div>
-                        <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">
+                        <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 uppercase">
                           Error Message
                         </h4>
                         <pre className="text-sm bg-destructive/10 p-4 rounded-lg overflow-auto border border-destructive/20 whitespace-pre-wrap break-words">
@@ -182,10 +182,10 @@ export class ErrorBoundary extends Component<Props, State> {
                       {/* Stack Trace */}
                       {this.state.error.stack && (
                         <div>
-                          <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">
+                          <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 uppercase">
                             Stack Trace
                           </h4>
-                          <pre className="text-xs bg-muted p-4 rounded-lg overflow-auto border border-border whitespace-pre-wrap break-words max-h-48">
+                          <pre className="text-xs bg-slate-100 dark:bg-slate-900 p-4 rounded-lg overflow-auto border border-border whitespace-pre-wrap break-words max-h-48">
                             {this.state.error.stack}
                           </pre>
                         </div>
@@ -194,10 +194,10 @@ export class ErrorBoundary extends Component<Props, State> {
                       {/* Component Stack */}
                       {this.state.errorInfo?.componentStack && (
                         <div>
-                          <h4 className="text-xs font-semibold text-muted-foreground mb-2 uppercase">
+                          <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2 uppercase">
                             Component Stack
                           </h4>
-                          <pre className="text-xs bg-muted p-4 rounded-lg overflow-auto border border-border whitespace-pre-wrap break-words max-h-48">
+                          <pre className="text-xs bg-slate-100 dark:bg-slate-900 p-4 rounded-lg overflow-auto border border-border whitespace-pre-wrap break-words max-h-48">
                             {this.state.errorInfo.componentStack}
                           </pre>
                         </div>

@@ -190,13 +190,13 @@ export function EditProfileDialog() {
       <DialogTrigger asChild>
         <Button 
           variant="outline" 
-          className="rounded-xl border-white/20 dark:border-slate-700/30 hover:bg-white/10 dark:hover:bg-slate-800/50"
+          className="rounded-xl border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:bg-white/10 dark:hover:bg-slate-800/50"
         >
           <Edit3 className="h-4 w-4 mr-2" />
           Edit Profile
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-white/20 dark:border-slate-700/30 rounded-2xl">
+      <DialogContent className="sm:max-w-[600px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">Edit Profile</DialogTitle>
           <DialogDescription>

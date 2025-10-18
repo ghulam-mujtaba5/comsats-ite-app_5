@@ -7,7 +7,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const breadcrumbLinkVariants = cva(
-  "hover:text-foreground transition-colors",
+  "hover:text-slate-900 dark:text-white transition-colors",
   {
     variants: {
       variant: {
@@ -23,7 +23,7 @@ const breadcrumbLinkVariants = cva(
 )
 
 const breadcrumbPageVariants = cva(
-  "text-foreground font-normal",
+  "text-slate-900 dark:text-white font-normal",
   {
     variants: {
       variant: {

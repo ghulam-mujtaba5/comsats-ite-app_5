@@ -112,7 +112,7 @@ export default function AlumniDirectory() {
                 </h1>
               </div>
 
-              <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+              <p className="text-xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto">
                 Connect with fellow COMSATS alumni. Sign in to access the alumni directory.
               </p>
 
@@ -152,7 +152,7 @@ export default function AlumniDirectory() {
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
               Connect with <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">Alumni</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               Find and connect with fellow COMSATS graduates
             </p>
           </FadeInScroll>
@@ -168,7 +168,7 @@ export default function AlumniDirectory() {
           )}
 
           {/* Search and Filters */}
-          <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300 mb-8">
+          <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300 mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
                 <Search className="h-6 w-6 text-primary" />
@@ -189,7 +189,7 @@ export default function AlumniDirectory() {
                       placeholder="Search by name or company..."
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
-                      className="pl-10 glass-card border-white/20"
+                      className="pl-10 glass-card border-slate-200 dark:border-slate-700"
                     />
                   </div>
                 </div>
@@ -197,7 +197,7 @@ export default function AlumniDirectory() {
                 <div>
                   <Label htmlFor="campus">Campus</Label>
                   <Select value={campus} onValueChange={setCampus}>
-                    <SelectTrigger className="glass-card border-white/20 mt-1">
+                    <SelectTrigger className="glass-card border-slate-200 dark:border-slate-700 mt-1">
                       <SelectValue placeholder="Select campus" />
                     </SelectTrigger>
                     <SelectContent>
@@ -220,7 +220,7 @@ export default function AlumniDirectory() {
                     placeholder="2020"
                     value={graduationYear}
                     onChange={(e) => setGraduationYear(e.target.value)}
-                    className="glass-card border-white/20 mt-1"
+                    className="glass-card border-slate-200 dark:border-slate-700 mt-1"
                   />
                 </div>
                 
@@ -252,29 +252,29 @@ export default function AlumniDirectory() {
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                   <AnimatedCard 
                     key={i} 
-                    className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300"
+                    className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300"
                   >
                     <CardContent className="p-6">
                       <div className="flex items-center gap-4 mb-4">
-                        <div className="h-12 w-12 rounded-full bg-muted animate-pulse" />
+                        <div className="h-12 w-12 rounded-full bg-slate-100 dark:bg-slate-900 animate-pulse" />
                         <div className="flex-1 space-y-2">
-                          <div className="h-4 w-3/4 bg-muted rounded animate-pulse" />
-                          <div className="h-3 w-1/2 bg-muted rounded animate-pulse" />
+                          <div className="h-4 w-3/4 bg-slate-100 dark:bg-slate-900 rounded animate-pulse" />
+                          <div className="h-3 w-1/2 bg-slate-100 dark:bg-slate-900 rounded animate-pulse" />
                         </div>
                       </div>
                       <div className="space-y-3">
-                        <div className="h-3 w-full bg-muted rounded animate-pulse" />
-                        <div className="h-3 w-5/6 bg-muted rounded animate-pulse" />
-                        <div className="h-3 w-2/3 bg-muted rounded animate-pulse" />
+                        <div className="h-3 w-full bg-slate-100 dark:bg-slate-900 rounded animate-pulse" />
+                        <div className="h-3 w-5/6 bg-slate-100 dark:bg-slate-900 rounded animate-pulse" />
+                        <div className="h-3 w-2/3 bg-slate-100 dark:bg-slate-900 rounded animate-pulse" />
                       </div>
                     </CardContent>
                   </AnimatedCard>
                 ))}
               </div>
             ) : alumni.length === 0 ? (
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardContent className="p-12 text-center">
-                  <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                  <Users className="h-16 w-16 text-slate-700 dark:text-slate-300 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold mb-2">No Alumni Found</h3>
                   <p className="text-muted-foreground">
                     Try adjusting your search criteria or filters to find more alumni.
@@ -286,7 +286,7 @@ export default function AlumniDirectory() {
                 {alumni.map((person) => (
                   <AnimatedCard 
                     key={person.user_id} 
-                    className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300 hover:shadow-2xl"
+                    className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300 hover:shadow-2xl"
                   >
                     <CardContent className="p-6">
                       <div className="flex items-center gap-4 mb-4">

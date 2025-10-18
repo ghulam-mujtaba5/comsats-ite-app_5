@@ -74,7 +74,7 @@ export function BrandedBanner({
             {title}
           </h2>
           
-          <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed font-serif mb-6">
+          <p className="text-lg lg:text-xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif mb-6">
             {description}
           </p>
 

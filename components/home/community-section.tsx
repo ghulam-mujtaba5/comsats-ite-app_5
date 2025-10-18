@@ -40,7 +40,7 @@ export function CommunitySection() {
       <div className={`${layout.section} ${layout.max6xl}`}>
         <div className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-3">Growing Community</h2>
+            <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-3">Growing Community</h2>
             <p className="text-base text-muted-foreground">
               Connect with fellow students and share academic experiences
             </p>

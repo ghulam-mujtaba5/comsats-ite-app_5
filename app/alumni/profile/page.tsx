@@ -132,7 +132,7 @@ export default function AlumniProfile() {
                 </h1>
               </div>
 
-              <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+              <p className="text-xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto">
                 Access your alumni profile to maintain your information and stay connected.
               </p>
 
@@ -172,7 +172,7 @@ export default function AlumniProfile() {
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
               Your <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">Profile</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               Manage your personal and professional information
             </p>
           </FadeInScroll>
@@ -200,7 +200,7 @@ export default function AlumniProfile() {
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-8">
               {/* Personal Information Card */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <User className="h-6 w-6 text-primary" />
@@ -223,7 +223,7 @@ export default function AlumniProfile() {
                   {loading ? (
                     <div className="space-y-4">
                       {[1, 2, 3, 4].map((i) => (
-                        <div key={i} className="h-12 bg-muted rounded-2xl animate-pulse" />
+                        <div key={i} className="h-12 bg-slate-100 dark:bg-slate-900 rounded-2xl animate-pulse" />
                       ))}
                     </div>
                   ) : (
@@ -236,10 +236,10 @@ export default function AlumniProfile() {
                               id="full_name"
                               value={formData.full_name}
                               onChange={(e) => setFormData({...formData, full_name: e.target.value})}
-                              className="glass-card border-white/20 mt-1"
+                              className="glass-card border-slate-200 dark:border-slate-700 mt-1"
                             />
                           ) : (
-                            <div className="mt-1 p-3 rounded-2xl glass-card border border-white/20">
+                            <div className="mt-1 p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                               {profile?.full_name || "Not provided"}
                             </div>
                           )}
@@ -252,10 +252,10 @@ export default function AlumniProfile() {
                               id="phone"
                               value={formData.phone}
                               onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                              className="glass-card border-white/20 mt-1"
+                              className="glass-card border-slate-200 dark:border-slate-700 mt-1"
                             />
                           ) : (
-                            <div className="mt-1 p-3 rounded-2xl glass-card border border-white/20">
+                            <div className="mt-1 p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                               {profile?.phone || "Not provided"}
                             </div>
                           )}
@@ -268,10 +268,10 @@ export default function AlumniProfile() {
                               id="address"
                               value={formData.address}
                               onChange={(e) => setFormData({...formData, address: e.target.value})}
-                              className="glass-card border-white/20 mt-1"
+                              className="glass-card border-slate-200 dark:border-slate-700 mt-1"
                             />
                           ) : (
-                            <div className="mt-1 p-3 rounded-2xl glass-card border border-white/20">
+                            <div className="mt-1 p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                               {profile?.address || "Not provided"}
                             </div>
                           )}
@@ -294,7 +294,7 @@ export default function AlumniProfile() {
               </AnimatedCard>
 
               {/* Professional Information Card */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <Briefcase className="h-6 w-6 text-primary" />
@@ -308,7 +308,7 @@ export default function AlumniProfile() {
                   {loading ? (
                     <div className="space-y-4">
                       {[1, 2, 3].map((i) => (
-                        <div key={i} className="h-12 bg-muted rounded-2xl animate-pulse" />
+                        <div key={i} className="h-12 bg-slate-100 dark:bg-slate-900 rounded-2xl animate-pulse" />
                       ))}
                     </div>
                   ) : (
@@ -321,10 +321,10 @@ export default function AlumniProfile() {
                               id="company"
                               value={formData.company}
                               onChange={(e) => setFormData({...formData, company: e.target.value})}
-                              className="glass-card border-white/20 mt-1"
+                              className="glass-card border-slate-200 dark:border-slate-700 mt-1"
                             />
                           ) : (
-                            <div className="mt-1 p-3 rounded-2xl glass-card border border-white/20">
+                            <div className="mt-1 p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                               {profile?.company || "Not provided"}
                             </div>
                           )}
@@ -337,10 +337,10 @@ export default function AlumniProfile() {
                               id="position"
                               value={formData.position}
                               onChange={(e) => setFormData({...formData, position: e.target.value})}
-                              className="glass-card border-white/20 mt-1"
+                              className="glass-card border-slate-200 dark:border-slate-700 mt-1"
                             />
                           ) : (
-                            <div className="mt-1 p-3 rounded-2xl glass-card border border-white/20">
+                            <div className="mt-1 p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                               {profile?.position || "Not provided"}
                             </div>
                           )}
@@ -355,7 +355,7 @@ export default function AlumniProfile() {
             {/* Sidebar */}
             <div className="space-y-8">
               {/* Academic Information Card */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <GraduationCap className="h-6 w-6 text-primary" />
@@ -366,12 +366,12 @@ export default function AlumniProfile() {
                   {loading ? (
                     <div className="space-y-3">
                       {[1, 2, 3].map((i) => (
-                        <div key={i} className="h-8 bg-muted rounded-2xl animate-pulse" />
+                        <div key={i} className="h-8 bg-slate-100 dark:bg-slate-900 rounded-2xl animate-pulse" />
                       ))}
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <Award className="h-5 w-5 text-primary" />
                         <div>
                           <p className="text-sm text-muted-foreground">Degree</p>
@@ -379,7 +379,7 @@ export default function AlumniProfile() {
                             <Input
                               value={formData.degree}
                               onChange={(e) => setFormData({...formData, degree: e.target.value})}
-                              className="glass-card border-white/20 text-sm h-8 mt-1"
+                              className="glass-card border-slate-200 dark:border-slate-700 text-sm h-8 mt-1"
                             />
                           ) : (
                             <p className="font-medium">{profile?.degree || "Not provided"}</p>
@@ -387,7 +387,7 @@ export default function AlumniProfile() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <Calendar className="h-5 w-5 text-primary" />
                         <div>
                           <p className="text-sm text-muted-foreground">Graduation Year</p>
@@ -395,7 +395,7 @@ export default function AlumniProfile() {
                             <Input
                               value={formData.graduation_year}
                               onChange={(e) => setFormData({...formData, graduation_year: e.target.value})}
-                              className="glass-card border-white/20 text-sm h-8 mt-1"
+                              className="glass-card border-slate-200 dark:border-slate-700 text-sm h-8 mt-1"
                             />
                           ) : (
                             <p className="font-medium">{profile?.graduation_year || "Not provided"}</p>
@@ -403,7 +403,7 @@ export default function AlumniProfile() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <Building className="h-5 w-5 text-primary" />
                         <div>
                           <p className="text-sm text-muted-foreground">University</p>
@@ -416,7 +416,7 @@ export default function AlumniProfile() {
               </AnimatedCard>
 
               {/* Contact Information Card */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <Mail className="h-6 w-6 text-primary" />
@@ -427,12 +427,12 @@ export default function AlumniProfile() {
                   {loading ? (
                     <div className="space-y-3">
                       {[1, 2].map((i) => (
-                        <div key={i} className="h-8 bg-muted rounded-2xl animate-pulse" />
+                        <div key={i} className="h-8 bg-slate-100 dark:bg-slate-900 rounded-2xl animate-pulse" />
                       ))}
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <Mail className="h-5 w-5 text-primary" />
                         <div>
                           <p className="text-sm text-muted-foreground">Email</p>
@@ -440,7 +440,7 @@ export default function AlumniProfile() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <Phone className="h-5 w-5 text-primary" />
                         <div>
                           <p className="text-sm text-muted-foreground">Phone</p>
@@ -448,7 +448,7 @@ export default function AlumniProfile() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center gap-3 p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <MapPin className="h-5 w-5 text-primary" />
                         <div>
                           <p className="text-sm text-muted-foreground">Address</p>

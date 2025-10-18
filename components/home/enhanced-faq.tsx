@@ -164,7 +164,7 @@ export function EnhancedFAQ() {
             </span>
           </h2>
           
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground/90 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-slate-700 dark:text-slate-300/90 max-w-3xl mx-auto leading-relaxed">
             Find answers to common questions about using the CampusAxis portal. 
             Can't find what you're looking for? Our support team is ready to help.
           </p>
@@ -188,8 +188,8 @@ export function EnhancedFAQ() {
                     <Icon className="h-6 w-6 text-indigo-500" />
                   </div>
                 </div>
-                <div className="text-2xl font-semibold text-foreground mb-1">{stat.value}</div>
-                <div className="text-sm text-muted-foreground/90">{stat.label}</div>
+                <div className="text-2xl font-semibold text-slate-900 dark:text-white mb-1">{stat.value}</div>
+                <div className="text-sm text-slate-700 dark:text-slate-300/90">{stat.label}</div>
               </motion.div>
             )
           })}
@@ -198,7 +198,7 @@ export function EnhancedFAQ() {
         {/* Search Bar with proper spacing */}
         <div className={styles.searchWrap}>
           <div className="relative">
-            <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 sm:h-5 sm:w-5" />
+            <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-slate-700 dark:text-slate-300 h-4 w-4 sm:h-5 sm:w-5" />
             <input
               type="text"
               placeholder="Search for questions..."
@@ -238,7 +238,7 @@ export function EnhancedFAQ() {
                   <div className="sk-line w-5/6 rounded h-3 sm:h-4" />
                 </div>
               ))}
-              <div className="flex items-center justify-center gap-2 text-muted-foreground py-3 sm:py-4">
+              <div className="flex items-center justify-center gap-2 text-slate-700 dark:text-slate-300 py-3 sm:py-4">
                 <div className="loader-ring sm" />
                 <span className="text-sm sm:text-base">Loading FAQs…</span>
               </div>
@@ -268,9 +268,9 @@ export function EnhancedFAQ() {
               ))}
               {filteredFaqs.length === 0 && searchTerm && (
                 <div className="text-center py-6 sm:py-8">
-                  <HelpCircle className="h-10 w-10 sm:h-12 sm:w-12 text-muted-foreground mx-auto mb-3 sm:mb-4" />
+                  <HelpCircle className="h-10 w-10 sm:h-12 sm:w-12 text-slate-700 dark:text-slate-300 mx-auto mb-3 sm:mb-4" />
                   <h3 className="text-base sm:text-lg font-medium mb-1.5 sm:mb-2">No questions found</h3>
-                  <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4">Try different search terms or ask our support team directly</p>
+                  <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 mb-3 sm:mb-4">Try different search terms or ask our support team directly</p>
                   <Button 
                     asChild 
                     variant="outline" 
@@ -299,7 +299,7 @@ export function EnhancedFAQ() {
                 </div>
                 <div className="text-center sm:text-left">
                   <h3 className="text-lg font-semibold mb-1">Need more help?</h3>
-                  <p className="text-muted-foreground text-sm">Our support team is ready to assist you with any questions</p>
+                  <p className="text-slate-700 dark:text-slate-300 text-sm">Our support team is ready to assist you with any questions</p>
                 </div>
                 <div className="mt-4 sm:mt-0">
                   <Button 

@@ -16,7 +16,7 @@ export default function AdvancedEmotionDetectionDemo() {
     <div className={`${layout.section} ${layout.max6xl} py-8`}>
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-foreground">Advanced Emotion Detection System</h1>
-        <p className="text-muted-foreground mt-2">
+        <p className="text-slate-700 dark:text-slate-300 mt-2">
           Experience our 100% accurate emotion detection system that automatically analyzes behavioral patterns
         </p>
       </div>

@@ -16,7 +16,7 @@ export default function CelebrationDemoPage() {
         transition={{ duration: 0.5 }}
       >
         <h1 className="text-3xl font-bold text-center mb-2">Celebration Animations Demo</h1>
-        <p className="text-center text-muted-foreground mb-8">
+        <p className="text-center text-slate-700 dark:text-slate-300 mb-8">
           Experience the engaging, motivational animations that enhance user experience
         </p>
       </motion.div>

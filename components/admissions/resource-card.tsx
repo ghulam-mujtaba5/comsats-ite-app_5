@@ -28,7 +28,7 @@ export function ResourceCard({
         <div className="flex justify-between items-start mb-3">
           <div>
             <h3 className="font-semibold">{title}</h3>
-            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+            <p className="text-sm text-slate-700 dark:text-slate-300 mt-1 line-clamp-2">
               {description}
             </p>
           </div>
@@ -42,7 +42,7 @@ export function ResourceCard({
             <span className="text-xs px-2 py-1 bg-primary/10 rounded-full text-primary">
               {type}
             </span>
-            <span className="text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
+            <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 rounded-full text-muted-foreground">
               {size}
             </span>
           </div>

@@ -75,7 +75,7 @@ export function PostFilters({
   return (
     <div className="space-y-6">
       {/* Main Filter Bar */}
-      <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+      <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
         <div className="p-6">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search and Main Filters */}

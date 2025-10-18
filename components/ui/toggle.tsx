@@ -8,14 +8,14 @@ import { cn } from "@/lib/utils"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const toggleVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
+  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-slate-100 dark:bg-slate-900 hover:text-slate-700 dark:text-slate-300 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
   {
     variants: {
       variant: {
         default: "bg-transparent",
         outline: "border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground",
-        glass: "bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20 data-[state=on]:bg-white/20 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10 text-white hover:bg-white/15 data-[state=on]:bg-white/15 shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-white hover:bg-white/20 data-[state=on]:bg-white/20 shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700 text-white hover:bg-white/15 data-[state=on]:bg-white/15 shadow-glass-sm",
       },
       size: {
         default: "h-9 px-2 min-w-9",

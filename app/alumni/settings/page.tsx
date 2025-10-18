@@ -175,7 +175,7 @@ export default function AlumniSettings() {
                 </h1>
               </div>
 
-              <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+              <p className="text-xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto">
                 Access your alumni account settings to customize your experience.
               </p>
 
@@ -215,7 +215,7 @@ export default function AlumniSettings() {
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
               Account <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">Settings</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
               Manage your account preferences and security settings
             </p>
           </FadeInScroll>
@@ -243,7 +243,7 @@ export default function AlumniSettings() {
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-8">
               {/* Notification Settings Card */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <Bell className="h-6 w-6 text-primary" />
@@ -257,12 +257,12 @@ export default function AlumniSettings() {
                   {loading ? (
                     <div className="space-y-4">
                       {[1, 2, 3].map((i) => (
-                        <div key={i} className="h-12 bg-muted rounded-2xl animate-pulse" />
+                        <div key={i} className="h-12 bg-slate-100 dark:bg-slate-900 rounded-2xl animate-pulse" />
                       ))}
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <div className="flex items-center gap-3">
                           <Mail className="h-5 w-5 text-primary" />
                           <div>
@@ -276,7 +276,7 @@ export default function AlumniSettings() {
                         />
                       </div>
                       
-                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <div className="flex items-center gap-3">
                           <Smartphone className="h-5 w-5 text-primary" />
                           <div>
@@ -290,7 +290,7 @@ export default function AlumniSettings() {
                         />
                       </div>
                       
-                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <div className="flex items-center gap-3">
                           <Globe className="h-5 w-5 text-primary" />
                           <div>
@@ -309,7 +309,7 @@ export default function AlumniSettings() {
               </AnimatedCard>
 
               {/* Privacy Settings Card */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <Shield className="h-6 w-6 text-primary" />
@@ -323,12 +323,12 @@ export default function AlumniSettings() {
                   {loading ? (
                     <div className="space-y-4">
                       {[1, 2, 3].map((i) => (
-                        <div key={i} className="h-12 bg-muted rounded-2xl animate-pulse" />
+                        <div key={i} className="h-12 bg-slate-100 dark:bg-slate-900 rounded-2xl animate-pulse" />
                       ))}
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <div>
                           <p id="profile-visibility-label" className="font-medium">Profile Visibility</p>
                           <p id="profile-visibility-description" className="text-sm text-muted-foreground">Who can see your profile</p>
@@ -339,7 +339,7 @@ export default function AlumniSettings() {
                           onChange={(e) => setPrivacy({...privacy, profile_visibility: e.target.value})}
                           aria-labelledby="profile-visibility-label"
                           aria-describedby="profile-visibility-description"
-                          className="glass-card border border-white/20 rounded-2xl px-3 py-2"
+                          className="glass-card border border-slate-200 dark:border-slate-700 rounded-2xl px-3 py-2"
                         >
                           <option value="public">Public</option>
                           <option value="alumni">Alumni Only</option>
@@ -347,7 +347,7 @@ export default function AlumniSettings() {
                         </select>
                       </div>
                       
-                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <div>
                           <p className="font-medium">Show Email Address</p>
                           <p className="text-sm text-muted-foreground">Display your email publicly</p>
@@ -358,7 +358,7 @@ export default function AlumniSettings() {
                         />
                       </div>
                       
-                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-white/20">
+                      <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                         <div>
                           <p className="font-medium">Show Phone Number</p>
                           <p className="text-sm text-muted-foreground">Display your phone publicly</p>
@@ -374,7 +374,7 @@ export default function AlumniSettings() {
               </AnimatedCard>
 
               {/* Security Settings Card */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <Lock className="h-6 w-6 text-primary" />
@@ -388,13 +388,13 @@ export default function AlumniSettings() {
                   {loading ? (
                     <div className="space-y-4">
                       {[1, 2].map((i) => (
-                        <div key={i} className="h-12 bg-muted rounded-2xl animate-pulse" />
+                        <div key={i} className="h-12 bg-slate-100 dark:bg-slate-900 rounded-2xl animate-pulse" />
                       ))}
                     </div>
                   ) : (
                     <>
                       <div className="space-y-4">
-                        <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-white/20">
+                        <div className="flex items-center justify-between p-4 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                           <div>
                             <p className="font-medium">Two-Factor Authentication</p>
                             <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
@@ -405,7 +405,7 @@ export default function AlumniSettings() {
                           />
                         </div>
                         
-                        <div className="space-y-4 p-4 rounded-2xl glass-card border border-white/20">
+                        <div className="space-y-4 p-4 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                           <h3 className="font-semibold">Change Password</h3>
                           
                           <div>
@@ -416,7 +416,7 @@ export default function AlumniSettings() {
                                 type={showPassword ? "text" : "password"}
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
-                                className="glass-card border-white/20 pr-10"
+                                className="glass-card border-slate-200 dark:border-slate-700 pr-10"
                               />
                               <button
                                 type="button"
@@ -439,7 +439,7 @@ export default function AlumniSettings() {
                               type="password"
                               value={newPassword}
                               onChange={(e) => setNewPassword(e.target.value)}
-                              className="glass-card border-white/20 mt-1"
+                              className="glass-card border-slate-200 dark:border-slate-700 mt-1"
                             />
                           </div>
                           
@@ -450,7 +450,7 @@ export default function AlumniSettings() {
                               type="password"
                               value={confirmPassword}
                               onChange={(e) => setConfirmPassword(e.target.value)}
-                              className="glass-card border-white/20 mt-1"
+                              className="glass-card border-slate-200 dark:border-slate-700 mt-1"
                             />
                           </div>
                           
@@ -471,7 +471,7 @@ export default function AlumniSettings() {
             {/* Sidebar */}
             <div className="space-y-8">
               {/* Account Management Card */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <Settings className="h-6 w-6 text-primary" />
@@ -502,7 +502,7 @@ export default function AlumniSettings() {
               </AnimatedCard>
 
               {/* Account Information Card */}
-              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-white/20 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
+              <AnimatedCard className="glass-card-premium glass-hover glass-gradient border border-slate-200 dark:border-slate-700 rounded-3xl shadow-xl backdrop-blur-2xl transition-all duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3">
                     <Shield className="h-6 w-6 text-primary" />
@@ -511,19 +511,19 @@ export default function AlumniSettings() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="p-3 rounded-2xl glass-card border border-white/20">
+                    <div className="p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                       <p className="text-sm text-muted-foreground">Email</p>
                       <p className="font-medium truncate">{user?.email}</p>
                     </div>
                     
-                    <div className="p-3 rounded-2xl glass-card border border-white/20">
+                    <div className="p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                       <p className="text-sm text-muted-foreground">Member Since</p>
                       <p className="font-medium">
                         {"Unknown"}
                       </p>
                     </div>
                     
-                    <div className="p-3 rounded-2xl glass-card border border-white/20">
+                    <div className="p-3 rounded-2xl glass-card border border-slate-200 dark:border-slate-700">
                       <p className="text-sm text-muted-foreground">Last Login</p>
                       <p className="font-medium">
                         {"Unknown"}

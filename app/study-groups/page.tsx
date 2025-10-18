@@ -94,7 +94,7 @@ export default function StudyGroupsPage() {
     <div className="container mx-auto py-8 space-y-8">
       <div className="text-center space-y-4">
         <h1 className="text-3xl md:text-4xl font-bold">Study Groups</h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
           Join or create study groups to collaborate with fellow students and enhance your learning experience
         </p>
       </div>
@@ -110,19 +110,19 @@ export default function StudyGroupsPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="border rounded-lg p-4">
               <h3 className="font-semibold">Benefits of Study Groups</h3>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-slate-700 dark:text-slate-300 mt-2">
                 Enhanced understanding, shared resources, and improved motivation through peer learning
               </p>
             </div>
             <div className="border rounded-lg p-4">
               <h3 className="font-semibold">How to Join</h3>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-slate-700 dark:text-slate-300 mt-2">
                 Browse available groups, request to join, or create your own study group
               </p>
             </div>
             <div className="border rounded-lg p-4">
               <h3 className="font-semibold">Group Guidelines</h3>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-slate-700 dark:text-slate-300 mt-2">
                 Respectful communication, active participation, and adherence to academic integrity
               </p>
             </div>

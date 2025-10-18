@@ -209,7 +209,7 @@ export function ModerationTools() {
                     className={`p-4 rounded-lg border cursor-pointer transition-colors ${
                       selectedReport?.id === report.id 
                         ? "bg-primary/10 border-primary" 
-                        : "hover:bg-muted"
+                        : "hover:bg-slate-100 dark:bg-slate-900"
                     }`}
                     onClick={() => setSelectedReport(report)}
                   >
@@ -282,7 +282,7 @@ export function ModerationTools() {
                   
                   <div>
                     <Label>Content</Label>
-                    <div className="mt-1 p-3 bg-muted rounded-lg">
+                    <div className="mt-1 p-3 bg-slate-100 dark:bg-slate-900 rounded-lg">
                       {selectedReport.content}
                     </div>
                   </div>
@@ -488,10 +488,10 @@ export function ModerationTools() {
                 {["spam", "offensive", "inappropriate"].map((word) => (
                   <span 
                     key={word} 
-                    className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-muted"
+                    className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-900"
                   >
                     {word}
-                    <button className="text-muted-foreground hover:text-foreground">
+                    <button className="text-slate-700 dark:text-slate-300 hover:text-foreground">
                       <X className="h-3 w-3" /> {/* Fixed the X reference error */}
                     </button>
                   </span>

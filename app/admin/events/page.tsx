@@ -232,7 +232,7 @@ export default function AdminEventsPage() {
     <div className={`${styles.section}`} role="main" aria-labelledby="events-heading">
       <div className="mb-8">
         <h1 id="events-heading" className="text-3xl font-bold">Events Management</h1>
-        <p className="text-muted-foreground mt-2">
+        <p className="text-slate-700 dark:text-slate-300 mt-2">
           Manage campus events and track registrations
         </p>
       </div>
@@ -503,7 +503,7 @@ export default function AdminEventsPage() {
           ))}
           {filteredEvents.length === 0 && (
             <Card variant="soft" className="p-8 text-center">
-              <div className="text-muted-foreground mb-4">No events found matching your criteria</div>
+              <div className="text-slate-700 dark:text-slate-300 mb-4">No events found matching your criteria</div>
               <div>
                 <Button onClick={() => { setEditingEvent(newEvent()); setShowEventDialog(true) }} aria-label="Create a new event">
                   <Plus className="h-4 w-4 mr-2" />

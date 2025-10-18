@@ -74,8 +74,8 @@ const TooltipContent = React.forwardRef<
         {children}
         <TooltipPrimitive.Arrow className={cn(
           "z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]",
-          variant === "glass" ? "bg-white/10 border border-white/20" : 
-          variant === "glass-subtle" ? "bg-white/5 border border-white/10" : 
+          variant === "glass" ? "bg-white/10 border border-slate-200 dark:border-slate-700" : 
+          variant === "glass-subtle" ? "bg-white/5 border border-slate-200 dark:border-slate-700" : 
           "bg-primary fill-primary"
         )} />
       </TooltipPrimitive.Content>

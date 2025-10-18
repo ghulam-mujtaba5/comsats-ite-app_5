@@ -267,11 +267,11 @@ html {
           ])) }}
         />
       </head>
-      <body className={`${GeistSans.variable} ${manrope.variable} antialiased bg-background text-foreground dark:bg-slate-900`}>
+      <body className={`${GeistSans.variable} ${manrope.variable} antialiased bg-background text-slate-900 dark:text-white dark:bg-slate-900`}>
         {/* Skip to main content link for keyboard users */}
         <a 
           href="#main-content" 
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-background focus:text-foreground focus:px-4 focus:py-2 focus:rounded-md focus:ring-2 focus:ring-primary"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-background focus:text-slate-900 dark:text-white focus:px-4 focus:py-2 focus:rounded-md focus:ring-2 focus:ring-primary"
         >
           Skip to main content
         </a>

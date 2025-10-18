@@ -142,7 +142,7 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
             <h3 className="text-heading-3 font-semibold group-hover:text-primary transition-colors truncate">
               {highlight(faculty.name)}
             </h3>
-            <p className="text-body-md text-muted-foreground truncate">{faculty.title}</p>
+            <p className="text-body-md text-slate-700 dark:text-slate-300 truncate">{faculty.title}</p>
             <Badge variant="secondary" className="mt-1">
               {faculty.department}
             </Badge>
@@ -215,7 +215,7 @@ export function FacultyCard({ faculty, searchTerm }: FacultyCardProps) {
             <Users className="h-4 w-4" />
             Courses ({faculty.courses.length})
           </div>
-          <div className="text-body-sm text-muted-foreground space-y-1">
+          <div className="text-body-sm text-slate-700 dark:text-slate-300 space-y-1">
             {faculty.courses.slice(0, 2).map((course, index) => (
               <div key={index} className="truncate">{course}</div>
             ))}

@@ -233,7 +233,7 @@ export default function AdmissionsPage() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent mb-6">
               Your Path to University Success
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto mb-8">
               Connect with senior students, get admission preparation guidance, access study resources, and prepare for entrance exams with our peer-to-peer support system.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

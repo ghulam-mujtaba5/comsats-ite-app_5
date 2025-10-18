@@ -156,7 +156,7 @@ export default function ResourcesPage() {
               </CardContent>
             </Card>
             
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-2xl group hover:scale-[1.02] transition-all duration-300 shadow-lg">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl group hover:scale-[1.02] transition-all duration-300 shadow-lg">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
@@ -171,7 +171,7 @@ export default function ResourcesPage() {
               </CardContent>
             </Card>
             
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-2xl group hover:scale-[1.02] transition-all duration-300 shadow-lg">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl group hover:scale-[1.02] transition-all duration-300 shadow-lg">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity" />
@@ -359,7 +359,7 @@ export default function ResourcesPage() {
 
           {(!loading && items.length === 0) ? (
             <Card className="p-12 text-center slide-up" aria-live="polite">
-              <BookOpen className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+              <BookOpen className="h-16 w-16 text-slate-700 dark:text-slate-300 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">No Resources Yet</h3>
               <p className="text-muted-foreground">Check back later.</p>
             </Card>
@@ -377,9 +377,9 @@ export default function ResourcesPage() {
                   .filter((r) => (!showVerifiedOnly ? true : r.is_verified === true))
               }, [items, search, dept, term, difficulty, resourceType, showVerifiedOnly]).length === 0 && (
                 <Card className="p-12 text-center mb-6" aria-live="polite">
-                  <BookOpen className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                  <BookOpen className="h-16 w-16 text-slate-700 dark:text-slate-300 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold mb-2">No Resources Found</h3>
-                  <div className="text-muted-foreground mb-6 space-y-2">
+                  <div className="text-slate-700 dark:text-slate-300 mb-6 space-y-2">
                     <p>No resources match your current filters.</p>
                     {dept !== "All" && (
                       <p className="text-sm">Department filter: <span className="font-medium">{dept}</span></p>

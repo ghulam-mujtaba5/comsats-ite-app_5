@@ -141,12 +141,12 @@ export default function ContributePage() {
           </div>
 
           <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-4xl mx-auto mb-4">
+            <p className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif max-w-4xl mx-auto mb-4">
               Want to help fellow COMSATS students? Join our community of contributors and make a 
               meaningful impact on student success. Whether you're sharing resources, moderating content, 
               or building features - there's a place for you.
             </p>
-            <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto">
+            <p className="text-lg text-slate-700 dark:text-slate-300/80 font-light max-w-xl mx-auto">
               Together, we're building the ultimate student platform
             </p>
           </div>
@@ -162,8 +162,8 @@ export default function ContributePage() {
                   <div className="p-3 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 backdrop-blur-sm border border-border/50 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-all duration-300 hover-glow">
                     <Icon className="h-6 w-6 text-primary" />
                   </div>
-                  <div className="text-3xl font-bold text-foreground mb-2">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
+                  <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{stat.value}</div>
+                  <div className="text-sm text-slate-700 dark:text-slate-300 font-medium">{stat.label}</div>
                 </CardContent>
               </Card>
             )
@@ -179,7 +179,7 @@ export default function ContributePage() {
               <CardTitle className="text-2xl mb-2">
                 Why <span className="text-primary">Contribute?</span>
               </CardTitle>
-              <p className="text-muted-foreground font-serif max-w-2xl mx-auto">
+              <p className="text-slate-700 dark:text-slate-300 font-serif max-w-2xl mx-auto">
                 Join a community of passionate students making a difference.
               </p>
             </CardHeader>
@@ -192,10 +192,10 @@ export default function ContributePage() {
                       <div className="p-4 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 backdrop-blur-sm border border-border/50 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-all duration-300 hover-glow">
                         <Icon className="h-6 w-6 text-primary" />
                       </div>
-                      <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                      <h3 className="font-semibold text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
                         {benefit.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground font-serif leading-relaxed">
+                      <p className="text-sm text-slate-700 dark:text-slate-300 font-serif leading-relaxed">
                         {benefit.description}
                       </p>
                     </div>
@@ -212,7 +212,7 @@ export default function ContributePage() {
             <h2 className="text-3xl lg:text-5xl font-bold leading-tight mb-4">
               Find Your <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">Impact Path</span>
             </h2>
-            <p className="text-muted-foreground font-serif max-w-2xl mx-auto text-lg">
+            <p className="text-slate-700 dark:text-slate-300 font-serif max-w-2xl mx-auto text-lg">
               Choose how you want to help. Whether you focus on academic content or strategic growth, we make sure your effort counts.
             </p>
           </div>
@@ -237,7 +237,7 @@ export default function ContributePage() {
                         <CardTitle className="text-xl group-hover:text-primary transition-colors">
                           {opt.title}
                         </CardTitle>
-                        <p className="text-sm font-medium text-muted-foreground/80 tracking-tight">{opt.tagline}</p>
+                        <p className="text-sm font-medium text-slate-700 dark:text-slate-300/80 tracking-tight">{opt.tagline}</p>
                       </div>
                     </div>
                     <CardDescription className="text-base font-serif leading-relaxed">
@@ -288,7 +288,7 @@ export default function ContributePage() {
             </CardHeader>
             <CardContent className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-center pt-0">
               <div className="text-center sm:text-left">
-                <div className="text-lg font-medium text-foreground mb-1">
+                <div className="text-lg font-medium text-slate-900 dark:text-white mb-1">
                   <Globe className="inline h-5 w-5 mr-2 text-primary" />
                   Email: campusaxis0@gmail.com
                 </div>

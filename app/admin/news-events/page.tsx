@@ -281,7 +281,7 @@ export default function AdminNewsEventsPage() {
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM5QzkyQUMiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
           
           <div className={`relative ${adminStyles.section} pt-12 pb-8`}>
-            <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+            <div className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
@@ -329,7 +329,7 @@ export default function AdminNewsEventsPage() {
                         Create New
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-2xl glass-card border border-white/20 dark:border-white/10 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
+                    <DialogContent className="max-w-2xl glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
                       <DialogHeader>
                         <DialogTitle className="flex items-center gap-2">
                           {activeTab === "news" ? <Newspaper className="h-5 w-5" /> : <Calendar className="h-5 w-5" />}
@@ -547,7 +547,7 @@ export default function AdminNewsEventsPage() {
             <TabsContent value="news" className="mt-6 space-y-6">
               {loading ? (
                 <div className="flex items-center justify-center py-12">
-                  <div className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-8">
+                  <div className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-8">
                     <div className="flex items-center gap-3">
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-600"></div>
                       <span className="text-slate-600 dark:text-slate-300">Loading news articles...</span>
@@ -557,7 +557,7 @@ export default function AdminNewsEventsPage() {
               ) : (
                 <div className="grid gap-4">
                   {news.map((item) => (
-                    <Card key={item.id} className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.01] transition-all duration-300 hover:shadow-xl">
+                    <Card key={item.id} className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.01] transition-all duration-300 hover:shadow-xl">
                       <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-2xl" />
                       
                       <CardHeader className="relative">
@@ -617,7 +617,7 @@ export default function AdminNewsEventsPage() {
                     </Card>
                   ))}
                   {news.length === 0 && (
-                    <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
+                    <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
                       <div className="space-y-4">
                         <div className="text-4xl">📰</div>
                         <div>
@@ -634,7 +634,7 @@ export default function AdminNewsEventsPage() {
             <TabsContent value="events" className="mt-6 space-y-6">
               {loading ? (
                 <div className="flex items-center justify-center py-12">
-                  <div className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-8">
+                  <div className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-8">
                     <div className="flex items-center gap-3">
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-teal-600"></div>
                       <span className="text-slate-600 dark:text-slate-300">Loading events...</span>
@@ -644,7 +644,7 @@ export default function AdminNewsEventsPage() {
               ) : (
                 <div className="grid gap-4">
                   {events.map((event) => (
-                    <Card key={event.id} className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.01] transition-all duration-300 hover:shadow-xl">
+                    <Card key={event.id} className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.01] transition-all duration-300 hover:shadow-xl">
                       <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-2xl" />
                       
                       <CardHeader className="relative">
@@ -710,7 +710,7 @@ export default function AdminNewsEventsPage() {
                     </Card>
                   ))}
                   {events.length === 0 && (
-                    <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
+                    <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
                       <div className="space-y-4">
                         <div className="text-4xl">📅</div>
                         <div>

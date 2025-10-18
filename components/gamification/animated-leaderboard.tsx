@@ -145,7 +145,7 @@ export function AnimatedLeaderboard({ leaderboard, loading, user, category }: An
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 200 }}
           >
-            <Trophy className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+            <Trophy className="h-16 w-16 text-slate-700 dark:text-slate-300 mx-auto mb-4" />
           </motion.div>
           <h3 className="text-xl font-semibold mb-2">No Data Yet</h3>
           <p className="text-muted-foreground">
@@ -404,7 +404,7 @@ export function AnimatedLeaderboard({ leaderboard, loading, user, category }: An
                         </motion.div>
                       )}
                     </div>
-                    <p className="text-sm text-muted-foreground truncate">
+                    <p className="text-sm text-slate-700 dark:text-slate-300 truncate">
                       {entry.departmentCode} • {entry.campusCode}
                     </p>
                   </div>

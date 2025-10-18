@@ -10,8 +10,8 @@ const skeletonVariants = cva(
     variants: {
       variant: {
         default: "bg-accent",
-        glass: "bg-white/10 backdrop-blur-xl border border-white/20 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10 shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700 shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700 shadow-glass-sm",
       },
     },
     defaultVariants: {

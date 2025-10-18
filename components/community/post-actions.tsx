@@ -165,7 +165,7 @@ export function PostActions({
           <Button
             variant="ghost"
             size="sm"
-            className={`gap-1 ${userReaction ? 'text-blue-500' : 'text-muted-foreground'}`}
+            className={`gap-1 ${userReaction ? 'text-blue-500' : 'text-slate-700 dark:text-slate-300'}`}
             onClick={() => handleReaction('like')}
           >
             <Heart className={`h-4 w-4 ${userReaction === 'like' ? 'fill-current' : ''}`} />
@@ -196,7 +196,7 @@ export function PostActions({
         <Button
           variant="ghost"
           size="sm"
-          className={`gap-1 ${localBookmarked ? 'text-blue-500' : 'text-muted-foreground'}`}
+          className={`gap-1 ${localBookmarked ? 'text-blue-500' : 'text-slate-700 dark:text-slate-300'}`}
           onClick={handleBookmark}
         >
           <Bookmark className={`h-4 w-4 ${localBookmarked ? 'fill-current' : ''}`} />
@@ -242,7 +242,7 @@ export function PostActions({
             {reactionTypes.map(({ type, icon, label }) => (
               <button
                 key={type}
-                className="p-2 rounded-lg hover:bg-muted transition-colors text-lg"
+                className="p-2 rounded-lg hover:bg-slate-100 dark:bg-slate-900 transition-colors text-lg"
                 title={label}
                 onClick={() => {
                   handleReaction(type)

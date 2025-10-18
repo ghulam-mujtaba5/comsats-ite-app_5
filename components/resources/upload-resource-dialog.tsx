@@ -185,7 +185,7 @@ export function UploadResourceDialog({ children }: UploadResourceDialogProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="text-sm text-muted-foreground space-y-1">
+                <ul className="text-sm text-slate-700 dark:text-slate-300 space-y-1">
                   <li>• Only COMSATS students can upload</li>
                   <li>• Track your contributions</li>
                   <li>• Maintain resource quality</li>
@@ -340,7 +340,7 @@ export function UploadResourceDialog({ children }: UploadResourceDialogProps) {
                   onChange={handleFileChange}
                   className="cursor-pointer"
                 />
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-xs text-slate-700 dark:text-slate-300 mt-2">
                   Supported: PDF, DOC, DOCX, PPT, PPTX, TXT, ZIP (Max 50MB)
                 </p>
               </Card>
@@ -355,7 +355,7 @@ export function UploadResourceDialog({ children }: UploadResourceDialogProps) {
                   value={formData.url}
                   onChange={(e) => handleInputChange("url", e.target.value)}
                 />
-                <p className="text-xs text-muted-foreground mt-2">Link to Google Drive, YouTube, GitHub, etc.</p>
+                <p className="text-xs text-slate-700 dark:text-slate-300 mt-2">Link to Google Drive, YouTube, GitHub, etc.</p>
               </Card>
             </div>
           </div>

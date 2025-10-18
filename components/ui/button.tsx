@@ -22,7 +22,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20",
         link: "text-primary underline-offset-4 hover:underline min-h-0",
         soft: "bg-primary/10 text-primary hover:bg-primary/20 dark:bg-primary/15 dark:hover:bg-primary/25",
-        subtle: "bg-muted text-foreground/90 hover:bg-muted/80 dark:text-foreground",
+        subtle: "bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white/90 hover:bg-slate-100/80 dark:bg-slate-900/80 dark:text-foreground",
         success: "bg-[#22C55E] text-white hover:bg-[#16A34A] shadow-[0_4px_12px_rgba(34,197,94,0.3)]",
         warning: "bg-[#F59E0B] text-white hover:bg-[#D97706] shadow-[0_4px_12px_rgba(245,158,11,0.3)]",
         info: "bg-[#3B82F6] text-white hover:bg-[#2563EB] shadow-[0_4px_12px_rgba(59,130,246,0.3)]",

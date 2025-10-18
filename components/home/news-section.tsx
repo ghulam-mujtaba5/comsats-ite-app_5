@@ -78,7 +78,7 @@ export function NewsSection() {
               </div>
               <h2 className="text-2xl lg:text-3xl font-bold text-foreground">Latest News & Updates</h2>
             </div>
-            <p className="text-base text-muted-foreground max-w-2xl">
+            <p className="text-base text-slate-700 dark:text-slate-300 max-w-2xl">
               Stay informed about important announcements and events happening at COMSATS University
             </p>
             {isMock && (
@@ -99,7 +99,7 @@ export function NewsSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={`nsk-${i}`} className="slide-up">
-                <div className="border rounded-xl overflow-hidden bg-card shadow-sm">
+                <div className="border rounded-xl overflow-hidden bg-white dark:bg-slate-800 shadow-sm">
                   <div className="sk-thumb skeleton aspect-video" />
                   <div className="p-5 space-y-3">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -118,7 +118,7 @@ export function NewsSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {items.slice(0, maxCount).map((item) => (
               <Link key={item.id} href={`/news/${item.id}`} className="block group">
-              <Card className="group hover:shadow-xl transition-all duration-500 overflow-hidden border bg-card/80 backdrop-blur-sm hover:-translate-y-1 glass-interactive">
+              <Card className="group hover:shadow-xl transition-all duration-500 overflow-hidden border bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm hover:-translate-y-1 glass-interactive">
                 <div className="aspect-video relative overflow-hidden">
                   <img
                     src={item.image_url || "/placeholder.svg"}
@@ -128,7 +128,7 @@ export function NewsSection() {
                   <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground text-sm px-3 py-1 rounded-full shadow-md glass-interactive">Published</Badge>
                 </div>
                 <CardHeader className="pb-3">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                  <div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 mb-2">
                     <Calendar className="h-4 w-4" />
                     {item.published_at ? new Date(item.published_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }) : 'Draft'}
                   </div>
@@ -148,7 +148,7 @@ export function NewsSection() {
               <Card className="col-span-full glass-subtle">
                 <CardContent className="p-8 text-center">
                   <div className="flex flex-col items-center justify-center py-8">
-                    <Tag className="h-12 w-12 text-muted-foreground mb-4" />
+                    <Tag className="h-12 w-12 text-slate-700 dark:text-slate-300 mb-4" />
                     <CardDescription className="text-lg mb-2">{error ? error : 'No news yet.'}</CardDescription>
                     <p className="text-muted-foreground">Check back later for updates</p>
                   </div>

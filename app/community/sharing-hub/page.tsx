@@ -287,11 +287,11 @@ export default function SharingHubPage() {
             <span>Content Sharing Hub</span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
             Share & Discover <span className="text-primary">Knowledge</span>
           </h1>
           
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto mb-8">
             Easily share news, events, FAQs, guides, past papers, resources, blogs, faculty reviews and more with the entire COMSATS community.
           </p>
           
@@ -436,7 +436,7 @@ export default function SharingHubPage() {
                         {tag}
                         <button 
                           onClick={() => handleRemoveTag(tag)}
-                          className="ml-1 hover:bg-muted rounded-full p-0.5"
+                          className="ml-1 hover:bg-slate-100 dark:bg-slate-900 rounded-full p-0.5"
                         >
                           <X className="h-3 w-3" />
                         </button>
@@ -542,7 +542,7 @@ export default function SharingHubPage() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">
                 Shared Content 
-                <span className="text-muted-foreground text-lg font-normal ml-2">
+                <span className="text-slate-700 dark:text-slate-300 text-lg font-normal ml-2">
                   ({sortedContent.length} items)
                 </span>
               </h2>
@@ -595,7 +595,7 @@ export default function SharingHubPage() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground line-clamp-2 mb-4">
+                      <p className="text-slate-700 dark:text-slate-300 line-clamp-2 mb-4">
                         {item.description}
                       </p>
                       
@@ -650,9 +650,9 @@ export default function SharingHubPage() {
               </div>
             ) : (
               <Card className="p-12 text-center">
-                <Share2 className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+                <Share2 className="h-16 w-16 mx-auto text-slate-700 dark:text-slate-300 mb-4" />
                 <h3 className="text-xl font-semibold mb-2">No content found</h3>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-slate-700 dark:text-slate-300 mb-6">
                   Try adjusting your filters or be the first to share content in this category.
                 </p>
                 <Button onClick={() => setIsSharingDialogOpen(true)}>

@@ -168,7 +168,7 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
       />
       
       {/* Notification Center */}
-      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white/80 dark:bg-slate-900/80 shadow-xl glass-card border-l border-white/20 dark:border-white/10 backdrop-blur-xl">
+      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white/80 dark:bg-slate-900/80 shadow-xl glass-card border-l border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-xl">
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700">
@@ -207,7 +207,7 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
               <input
                 type="text"
                 placeholder="Search notifications..."
-                className="w-full pl-10 pr-4 py-2 text-sm rounded-lg border border-white/20 dark:border-white/10 bg-white/80 dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent glass-input backdrop-blur-sm"
+                className="w-full pl-10 pr-4 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent glass-input backdrop-blur-sm"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -246,11 +246,11 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
             }
           }}>
             {loading ? (
-              <div className="flex items-center justify-center h-32 glass-subtle rounded-xl m-4 border border-white/20 dark:border-white/10 backdrop-blur-sm">
+              <div className="flex items-center justify-center h-32 glass-subtle rounded-xl m-4 border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-sm">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
               </div>
             ) : Object.keys(groupedNotifications).length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-64 text-slate-500 dark:text-slate-400 glass-subtle rounded-xl m-4 border border-white/20 dark:border-white/10 backdrop-blur-sm">
+              <div className="flex flex-col items-center justify-center h-64 text-slate-500 dark:text-slate-400 glass-subtle rounded-xl m-4 border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-sm">
                 <Bell className="h-12 w-12 mb-4" />
                 <p className="text-lg">No notifications</p>
                 <p className="text-sm">You're all caught up!</p>
@@ -259,7 +259,7 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
               <div>
                 {Object.entries(groupedNotifications).map(([date, notifications]) => (
                   <div key={date}>
-                    <div className="px-4 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-50/80 dark:bg-slate-800/50 sticky top-0 z-10 glass-subtle border-b border-white/20 dark:border-white/10 backdrop-blur-sm">
+                    <div className="px-4 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-50/80 dark:bg-slate-800/50 sticky top-0 z-10 glass-subtle border-b border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-sm">
                       {date}
                     </div>
                     <div className="divide-y divide-slate-200 dark:divide-slate-700">
@@ -270,7 +270,7 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
                             !notification.is_read 
                               ? 'bg-blue-50/50 dark:bg-blue-900/20 glass-card' 
                               : 'glass-subtle hover:glass-secondary'
-                          } rounded-xl border border-white/20 dark:border-white/10 backdrop-blur-sm`}
+                          } rounded-xl border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-sm`}
                         >
                           <div className="flex gap-3">
                             <div className={`mt-1 ${getIconColor(notification.type)}`}>
@@ -325,13 +325,13 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
                 ))}
                 
                 {loadingMore && (
-                  <div className="flex items-center justify-center py-4 glass-subtle rounded-xl mx-4 border border-white/20 dark:border-white/10 backdrop-blur-sm">
+                  <div className="flex items-center justify-center py-4 glass-subtle rounded-xl mx-4 border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-sm">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
                   </div>
                 )}
                 
                 {!hasMore && filteredNotifications.length > 0 && (
-                  <div className="py-4 text-center text-xs text-slate-500 dark:text-slate-400 glass-subtle rounded-xl mx-4 border border-white/20 dark:border-white/10 backdrop-blur-sm">
+                  <div className="py-4 text-center text-xs text-slate-500 dark:text-slate-400 glass-subtle rounded-xl mx-4 border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-sm">
                     You've reached the end of your notification history
                   </div>
                 )}

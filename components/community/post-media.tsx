@@ -35,7 +35,7 @@ export function PostMedia({ media }: PostMediaProps) {
         )}
         
         {item.type === 'video' && (
-          <div className="relative aspect-video sm:aspect-[16/9] bg-muted rounded-lg flex items-center justify-center">
+          <div className="relative aspect-video sm:aspect-[16/9] bg-slate-100 dark:bg-slate-900 rounded-lg flex items-center justify-center">
             {item.thumbnail ? (
               <div className="relative w-full h-full">
                 <Image
@@ -50,7 +50,7 @@ export function PostMedia({ media }: PostMediaProps) {
               </div>
             ) : (
               <div className="flex flex-col items-center gap-2">
-                <FileVideo className="h-12 w-12 text-muted-foreground sm:h-16 sm:w-16" />
+                <FileVideo className="h-12 w-12 text-slate-700 dark:text-slate-300 sm:h-16 sm:w-16" />
                 <span className="text-sm text-muted-foreground">Video</span>
               </div>
             )}
@@ -60,7 +60,7 @@ export function PostMedia({ media }: PostMediaProps) {
         {item.type === 'document' && (
           <Card className="border">
             <CardContent className="p-4 flex items-center gap-3 sm:p-6 sm:gap-4">
-              <div className="p-2 rounded-lg bg-muted sm:p-3">
+              <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900 sm:p-3">
                 {item.url.endsWith('.pdf') ? (
                   <FileText className="h-6 w-6 text-red-500 sm:h-8 sm:w-8" />
                 ) : item.url.endsWith('.mp3') || item.url.endsWith('.wav') ? (
@@ -75,7 +75,7 @@ export function PostMedia({ media }: PostMediaProps) {
                 <p className="font-medium text-sm line-clamp-1 sm:text-base">
                   {item.alt || "Document"}
                 </p>
-                <p className="text-xs text-muted-foreground sm:text-sm">
+                <p className="text-xs text-slate-700 dark:text-slate-300 sm:text-sm">
                   {item.url.split('/').pop()}
                 </p>
               </div>
@@ -114,7 +114,7 @@ export function PostMedia({ media }: PostMediaProps) {
           )}
           
           {item.type === 'video' && (
-            <div className="relative aspect-square bg-muted rounded-lg flex items-center justify-center sm:aspect-video">
+            <div className="relative aspect-square bg-slate-100 dark:bg-slate-900 rounded-lg flex items-center justify-center sm:aspect-video">
               {item.thumbnail ? (
                 <div className="relative w-full h-full">
                   <Image
@@ -129,15 +129,15 @@ export function PostMedia({ media }: PostMediaProps) {
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-1 sm:gap-2">
-                  <FileVideo className="h-8 w-8 text-muted-foreground sm:h-10 sm:w-10" />
-                  <span className="text-xs text-muted-foreground sm:text-sm">Video</span>
+                  <FileVideo className="h-8 w-8 text-slate-700 dark:text-slate-300 sm:h-10 sm:w-10" />
+                  <span className="text-xs text-slate-700 dark:text-slate-300 sm:text-sm">Video</span>
                 </div>
               )}
             </div>
           )}
           
           {item.type === 'document' && (
-            <div className="aspect-square bg-muted rounded-lg flex flex-col items-center justify-center p-2 sm:p-3 sm:aspect-video">
+            <div className="aspect-square bg-slate-100 dark:bg-slate-900 rounded-lg flex flex-col items-center justify-center p-2 sm:p-3 sm:aspect-video">
               <div className="p-1 rounded-md bg-background sm:p-2">
                 {item.url.endsWith('.pdf') ? (
                   <FileText className="h-6 w-6 text-red-500 sm:h-8 sm:w-8" />
@@ -149,7 +149,7 @@ export function PostMedia({ media }: PostMediaProps) {
                   <FileText className="h-6 w-6 text-blue-500 sm:h-8 sm:w-8" />
                 )}
               </div>
-              <span className="text-xs text-muted-foreground text-center mt-1 line-clamp-2 sm:text-sm sm:mt-2">
+              <span className="text-xs text-slate-700 dark:text-slate-300 text-center mt-1 line-clamp-2 sm:text-sm sm:mt-2">
                 {item.alt || "Document"}
               </span>
             </div>

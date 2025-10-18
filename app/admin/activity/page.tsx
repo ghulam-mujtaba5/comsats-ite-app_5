@@ -274,7 +274,7 @@ export default function AdminActivityPage() {
           ) : logs.length === 0 ? (
             <Card>
               <CardContent className="flex flex-col items-center justify-center h-64">
-                <Activity className="h-16 w-16 text-muted-foreground mb-4" />
+                <Activity className="h-16 w-16 text-slate-700 dark:text-slate-300 mb-4" />
                 <p className="text-xl font-semibold">No activity logs found</p>
                 <p className="text-muted-foreground">Try adjusting your filters</p>
               </CardContent>
@@ -491,7 +491,7 @@ export default function AdminActivityPage() {
           ) : (
             <Card>
               <CardContent className="flex flex-col items-center justify-center h-64">
-                <TrendingUp className="h-16 w-16 text-muted-foreground mb-4" />
+                <TrendingUp className="h-16 w-16 text-slate-700 dark:text-slate-300 mb-4" />
                 <p className="text-xl font-semibold">No analytics data</p>
                 <p className="text-muted-foreground">Generate analytics to view insights</p>
               </CardContent>

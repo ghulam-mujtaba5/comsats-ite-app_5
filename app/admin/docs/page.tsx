@@ -83,10 +83,10 @@ export default function DocumentationPage() {
       <main className={`${adminStyles.section} px-4 py-8`}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-display-3 font-bold text-muted-foreground mb-4">
+            <h2 className="text-display-3 font-bold text-slate-700 dark:text-slate-300 mb-4">
               Select a documentation topic to get started
             </h2>
-            <p className="text-body-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-body-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
               Comprehensive guides and resources to help you effectively manage the CampusAxis platform
             </p>
           </div>
@@ -133,7 +133,7 @@ export default function DocumentationPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-body-md text-muted-foreground mb-4">
+                <p className="text-body-md text-slate-700 dark:text-slate-300 mb-4">
                   If you need assistance with any administrative functions not covered in these documents, 
                   please reach out to the technical support team.
                 </p>

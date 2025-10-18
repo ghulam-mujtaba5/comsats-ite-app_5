@@ -26,7 +26,7 @@ export default function TermsOfServicePage() {
 
           <div className="space-y-6 text-muted-foreground">
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">1. Acceptance of Terms</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">1. Acceptance of Terms</h2>
               <p>
                 By accessing and using CampusAxis, you accept and agree to be bound by the terms and provision of this
                 agreement. If you do not agree to abide by these terms, please do not use this service.
@@ -34,7 +34,7 @@ export default function TermsOfServicePage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">2. User Conduct</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">2. User Conduct</h2>
               <p>
                 You agree to use the platform only for lawful purposes. You are prohibited from posting on or
                 transmitting through the site any material that is infringing, threatening, defamatory, obscene, or
@@ -43,7 +43,7 @@ export default function TermsOfServicePage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">3. Account Registration</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">3. Account Registration</h2>
               <p>
                 To access certain features, you must register for an account using a valid university email address
                 (@cuilahore.edu.pk). You are responsible for maintaining the confidentiality of your account information
@@ -52,7 +52,7 @@ export default function TermsOfServicePage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">4. Termination of Use</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">4. Termination of Use</h2>
               <p>
                 We may, in our sole discretion, terminate or suspend your access to all or part of the platform for any
                 reason, including, without limitation, breach of these Terms of Service.
@@ -60,7 +60,7 @@ export default function TermsOfServicePage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">5. Disclaimer of Warranties</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">5. Disclaimer of Warranties</h2>
               <p>
                 The service is provided on an "as is" and "as available" basis. We expressly disclaim all warranties of
                 any kind, whether express or implied, including, but not limited to, the implied warranties of
@@ -69,7 +69,7 @@ export default function TermsOfServicePage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">6. Contact Us</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">6. Contact Us</h2>
               <p>
                 If you have any questions about these Terms, please contact us at campusaxis0@gmail.com.
               </p>

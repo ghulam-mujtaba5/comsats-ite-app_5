@@ -126,7 +126,7 @@ export function AdvancedFilterBar({
       {/* Search and Primary Actions */}
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
         <div className="flex-1 relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors duration-200" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-700 dark:text-slate-300 group-focus-within:text-primary transition-colors duration-200" />
           <Input
             placeholder={searchPlaceholder}
             value={search}
@@ -134,12 +134,12 @@ export function AdvancedFilterBar({
             className={cn(
               "pl-12 pr-12 h-12 text-base",
               "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
-              "border-white/30 dark:border-slate-700/30",
+              "border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
               "focus:bg-white/80 dark:focus:bg-slate-800/80",
               "focus:border-primary/50 focus:ring-2 focus:ring-primary/20",
               "hover:border-primary/30 hover:bg-white/60 dark:hover:bg-slate-800/60",
               "rounded-2xl transition-all duration-200",
-              "placeholder:text-muted-foreground/70"
+              "placeholder:text-slate-700 dark:text-slate-300/70"
             )}
           />
           {search && (
@@ -180,7 +180,7 @@ export function AdvancedFilterBar({
                 className={cn(
                   "h-9 px-4 text-sm",
                   "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
-                  "border-white/30 dark:border-slate-700/30",
+                  "border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
                   "hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30",
                   "rounded-xl transition-all duration-200"
                 )}
@@ -200,7 +200,7 @@ export function AdvancedFilterBar({
             {selects.map((select) => (
               <div key={select.id} className="space-y-3">
                 {select.label && (
-                  <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                     {select.label}
                   </label>
                 )}
@@ -208,7 +208,7 @@ export function AdvancedFilterBar({
                   <SelectTrigger className={cn(
                     "h-11 px-4 text-sm",
                     "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
-                    "border-white/30 dark:border-slate-700/30",
+                    "border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
                     "hover:border-primary/40 hover:bg-white/60 dark:hover:bg-slate-800/60",
                     "focus:border-primary/50 focus:ring-2 focus:ring-primary/20",
                     "rounded-xl transition-all duration-200",
@@ -218,7 +218,7 @@ export function AdvancedFilterBar({
                   )}>
                     <SelectValue placeholder={select.placeholder || "Select"} />
                   </SelectTrigger>
-                  <SelectContent className="rounded-xl border-white/30 dark:border-slate-700/30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl">
+                  <SelectContent className="rounded-xl border-slate-200 dark:border-slate-700 dark:border-slate-700/30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl">
                     {select.options.map((opt) => (
                       <SelectItem 
                         key={opt.value} 
@@ -236,7 +236,7 @@ export function AdvancedFilterBar({
                   </SelectContent>
                 </Select>
                 {select.description && (
-                  <p className="text-xs text-muted-foreground leading-relaxed">{select.description}</p>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">{select.description}</p>
                 )}
               </div>
             ))}
@@ -248,23 +248,23 @@ export function AdvancedFilterBar({
       {(sortOptions.length > 0 || savedPresets.length > 0) && (
         <div className={cn(
           "flex flex-col sm:flex-row gap-6 pt-6 mt-6",
-          "border-t border-white/20 dark:border-slate-700/30"
+          "border-t border-slate-200 dark:border-slate-700 dark:border-slate-700/30"
         )}>
           {/* Sort Options */}
           {sortOptions.length > 0 && (
             <div className="flex items-center gap-3">
-              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Sort by:</span>
+              <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Sort by:</span>
               <Select value={currentSort} onValueChange={onSortChange}>
                 <SelectTrigger className={cn(
                   "w-40 h-10 px-4 text-sm",
                   "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
-                  "border-white/30 dark:border-slate-700/30",
+                  "border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
                   "hover:border-primary/40 hover:bg-white/60 dark:hover:bg-slate-800/60",
                   "rounded-xl transition-all duration-200"
                 )}>
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl border-white/30 dark:border-slate-700/30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl">
+                <SelectContent className="rounded-xl border-slate-200 dark:border-slate-700 dark:border-slate-700/30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl">
                   {sortOptions.map((option) => (
                     <SelectItem key={option.value} value={option.value} className="rounded-lg hover:bg-primary/10">
                       {option.label}
@@ -280,7 +280,7 @@ export function AdvancedFilterBar({
                   className={cn(
                     "h-10 px-4 flex items-center gap-2",
                     "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
-                    "border-white/30 dark:border-slate-700/30",
+                    "border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
                     "hover:border-primary/40 hover:bg-white/60 dark:hover:bg-slate-800/60",
                     "rounded-xl transition-all duration-200"
                   )}
@@ -299,7 +299,7 @@ export function AdvancedFilterBar({
           {/* Filter Presets */}
           {savedPresets.length > 0 && (
             <div className="flex items-center gap-3">
-              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Presets:</span>
+              <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Presets:</span>
               <div className="flex flex-wrap gap-2">
                 {savedPresets.slice(0, 3).map((preset) => (
                   <Button
@@ -310,7 +310,7 @@ export function AdvancedFilterBar({
                     className={cn(
                       "h-10 px-4 flex items-center gap-2 text-sm",
                       "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
-                      "border-white/30 dark:border-slate-700/30",
+                      "border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
                       "hover:border-primary/40 hover:bg-primary/10",
                       "rounded-xl transition-all duration-200"
                     )}
@@ -332,7 +332,7 @@ export function AdvancedFilterBar({
               className={cn(
                 "h-10 px-4 flex items-center gap-2 text-sm",
                 "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
-                "border-white/30 dark:border-slate-700/30",
+                "border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
                 "hover:border-primary/40 hover:bg-primary/10",
                 "rounded-xl transition-all duration-200"
               )}
@@ -351,7 +351,7 @@ export function AdvancedFilterBar({
       <div className={cn(
         "relative",
         "bg-white/70 dark:bg-slate-900/70",
-        "backdrop-blur-xl border border-white/20 dark:border-slate-700/30",
+        "backdrop-blur-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
         "rounded-3xl shadow-lg hover:shadow-xl",
         "transition-all duration-300",
         "p-6 lg:p-8",
@@ -368,7 +368,7 @@ export function AdvancedFilterBar({
       <div className={cn(
         "relative",
         "bg-white/70 dark:bg-slate-900/70",
-        "backdrop-blur-xl border border-white/20 dark:border-slate-700/30",
+        "backdrop-blur-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30",
         "rounded-3xl shadow-lg hover:shadow-xl",
         "transition-all duration-300",
         "overflow-hidden",
@@ -400,14 +400,14 @@ export function AdvancedFilterBar({
               </div>
             </div>
             <ChevronDown className={cn(
-              "h-5 w-5 text-muted-foreground transition-transform duration-200",
+              "h-5 w-5 text-slate-700 dark:text-slate-300 transition-transform duration-200",
               isCollapsed && "rotate-180"
             )} />
           </Button>
         </CollapsibleTrigger>
         
         <CollapsibleContent className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1">
-          <div className="px-6 lg:px-8 pb-6 lg:pb-8 border-t border-white/10 dark:border-slate-700/20">
+          <div className="px-6 lg:px-8 pb-6 lg:pb-8 border-t border-slate-200 dark:border-slate-700 dark:border-slate-700/20">
             <div className="pt-6">
               {renderFilterContent()}
             </div>

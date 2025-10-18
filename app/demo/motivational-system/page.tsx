@@ -19,7 +19,7 @@ export default function MotivationalSystemDemo() {
         
         <div className="mt-12 p-6 bg-muted/50 rounded-xl">
           <h2 className="text-xl font-semibold mb-4">About This System</h2>
-          <p className="text-muted-foreground mb-4">
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
             This motivational feedback system integrates multiple psychological and emotional support mechanisms:
           </p>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">

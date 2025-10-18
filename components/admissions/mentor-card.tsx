@@ -40,7 +40,7 @@ export function MentorCard({
           </div>
         </div>
         
-        <div className="flex items-center text-sm text-muted-foreground mb-3">
+        <div className="flex items-center text-sm text-slate-700 dark:text-slate-300 mb-3">
           <Star className="h-4 w-4 text-yellow-500 fill-yellow-500 mr-1" />
           <span>{rating} ({reviewCount} reviews)</span>
         </div>
@@ -56,14 +56,14 @@ export function MentorCard({
               </span>
             ))}
             {specialization.length > 2 && (
-              <span className="text-xs px-2 py-1 bg-muted rounded-full text-muted-foreground">
+              <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-900 rounded-full text-muted-foreground">
                 +{specialization.length - 2}
               </span>
             )}
           </div>
         </div>
         
-        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+        <p className="text-sm text-slate-700 dark:text-slate-300 mb-4 line-clamp-2">
           {bio}
         </p>
         

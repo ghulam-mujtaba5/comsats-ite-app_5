@@ -195,7 +195,7 @@ export default function LostFoundPage() {
 
       <div className={`relative px-4 py-12 ${layout.section} ${layout.max6xl}`}>
         {/* Enhanced Header Section */}
-        <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-12 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+        <div className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-3xl p-8 mb-12 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className="space-y-4">
               <div className="flex items-center gap-4">
@@ -234,7 +234,7 @@ export default function LostFoundPage() {
                   Report Item
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[500px] glass-card border border-white/20 dark:border-white/10 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
+              <DialogContent className="sm:max-w-[500px] glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
                 <DialogHeader>
                   <DialogTitle className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <div className="relative">
@@ -389,7 +389,7 @@ export default function LostFoundPage() {
         </div>
 
         {/* Enhanced Search and Filter Section */}
-        <div className="glass-card border border-white/20 dark:border-white/10 rounded-2xl p-6 mb-10 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+        <div className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl p-6 mb-10 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
@@ -419,7 +419,7 @@ export default function LostFoundPage() {
         {/* Enhanced Items Grid */}
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <div className="glass-card border border-white/20 dark:border-white/10 rounded-2xl p-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+            <div className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl p-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
               <div className="flex items-center space-x-3">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-600"></div>
                 <span className="text-slate-600 dark:text-slate-300">Loading lost & found items...</span>
@@ -432,7 +432,7 @@ export default function LostFoundPage() {
               <Card
                 key={item.id}
                 className={cn(
-                  "glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl overflow-hidden",
+                  "glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 group hover:scale-[1.02] transition-all duration-300 hover:shadow-2xl overflow-hidden",
                   getCardDelayClass(index)
                 )}
               >
@@ -537,7 +537,7 @@ export default function LostFoundPage() {
         )}
 
         {!loading && filteredItems.length === 0 && (
-          <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
+          <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
             <div className="space-y-4">
               <div className="relative mx-auto w-20 h-20">
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-amber-500 rounded-3xl blur-xl opacity-30" />

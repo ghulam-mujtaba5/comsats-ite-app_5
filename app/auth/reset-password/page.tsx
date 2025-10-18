@@ -109,7 +109,7 @@ export default function ResetPasswordPage() {
           <Button
             variant="ghost"
             onClick={() => router.push("/auth")}
-            className="flex items-center gap-3 text-muted-foreground hover:text-foreground px-4 py-3 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift shadow-lg"
+            className="flex items-center gap-3 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white px-4 py-3 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift shadow-lg"
           >
             <ArrowLeft className="h-10 w-10" />
             <span className="font-medium">Back to Login</span>
@@ -126,13 +126,13 @@ export default function ResetPasswordPage() {
               </div>
             </div>
             
-            <CardTitle className="text-3xl lg:text-4xl font-bold text-foreground mb-4 tracking-tight">
+            <CardTitle className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
               Reset Your{" "}
               <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">
                 Password
               </span>
             </CardTitle>
-            <CardDescription className="text-base text-muted-foreground font-serif leading-relaxed">
+            <CardDescription className="text-base text-slate-700 dark:text-slate-300 font-serif leading-relaxed">
               Enter your new password below to secure your account
             </CardDescription>
           </CardHeader>
@@ -161,7 +161,7 @@ export default function ResetPasswordPage() {
 
               {/* Enhanced Password Input */}
               <div className="space-y-3">
-                <Label htmlFor="password" className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <Label htmlFor="password" className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                   <Lock className="h-10 w-10 text-primary" />
                   New Password
                 </Label>
@@ -194,7 +194,7 @@ export default function ResetPasswordPage() {
 
               {/* Enhanced Confirm Password Input */}
               <div className="space-y-3">
-                <Label htmlFor="confirmPassword" className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <Label htmlFor="confirmPassword" className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                   <Lock className="h-10 w-10 text-primary" />
                   Confirm New Password
                 </Label>
@@ -233,7 +233,7 @@ export default function ResetPasswordPage() {
               >
                 {loading ? (
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <div className="w-10 h-10 border-2 border-slate-200 dark:border-slate-700 border-t-white rounded-full animate-spin" />
                     Updating...
                   </div>
                 ) : (

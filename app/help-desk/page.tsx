@@ -163,11 +163,11 @@ export default function HelpDeskPage() {
               Expert Help
             </span>
           </h1>
-          <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-4xl mx-auto mb-4">
+          <p className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif max-w-4xl mx-auto mb-4">
             Submit a support ticket and get personalized assistance from our expert team. 
             Track your requests and get timely responses.
           </p>
-          <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto">
+          <p className="text-lg text-slate-700 dark:text-slate-300/80 font-light max-w-xl mx-auto">
             Professional support when you need it most
           </p>
         </div>
@@ -181,7 +181,7 @@ export default function HelpDeskPage() {
               </div>
               <div>
                 <CardTitle className="text-3xl font-bold text-foreground">Create Support Ticket</CardTitle>
-                <CardDescription className="text-base text-muted-foreground font-serif mt-2">
+                <CardDescription className="text-base text-slate-700 dark:text-slate-300 font-serif mt-2">
                   Describe your issue and we'll get back to you as soon as possible
                 </CardDescription>
               </div>
@@ -192,7 +192,7 @@ export default function HelpDeskPage() {
               {/* Enhanced Personal Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <Label htmlFor="student_name" className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <Label htmlFor="student_name" className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                     <User className="h-4 w-4 text-primary" />
                     Full Name
                   </Label>
@@ -206,7 +206,7 @@ export default function HelpDeskPage() {
                   />
                 </div>
                 <div className="space-y-3">
-                  <Label htmlFor="student_id" className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <Label htmlFor="student_id" className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                     <Hash className="h-4 w-4 text-primary" />
                     Student ID
                   </Label>
@@ -223,7 +223,7 @@ export default function HelpDeskPage() {
 
               {/* Enhanced Title */}
               <div className="space-y-3">
-                <Label htmlFor="title" className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <Label htmlFor="title" className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                   <MessageSquare className="h-4 w-4 text-primary" />
                   Ticket Title
                 </Label>
@@ -240,7 +240,7 @@ export default function HelpDeskPage() {
               {/* Enhanced Category and Priority */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <Label className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                     <Filter className="h-4 w-4 text-primary" />
                     Category
                   </Label>
@@ -258,7 +258,7 @@ export default function HelpDeskPage() {
                   </Select>
                 </div>
                 <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <Label className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                     <AlertCircle className="h-4 w-4 text-primary" />
                     Priority
                   </Label>
@@ -305,7 +305,7 @@ export default function HelpDeskPage() {
                 >
                   {submitting ? (
                     <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <div className="w-5 h-5 border-2 border-slate-200 dark:border-slate-700 border-t-white rounded-full animate-spin" />
                       Creating Ticket...
                     </div>
                   ) : (
@@ -329,7 +329,7 @@ export default function HelpDeskPage() {
                 Tickets
               </span>
             </h2>
-            <p className="text-muted-foreground font-serif text-lg leading-relaxed">
+            <p className="text-slate-700 dark:text-slate-300 font-serif text-lg leading-relaxed">
               Track the status and progress of your support requests
             </p>
           </div>
@@ -338,7 +338,7 @@ export default function HelpDeskPage() {
             <Card className="card-modern border-0 backdrop-blur-sm rounded-2xl">
               <CardContent className="p-12 text-center">
                 <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4" />
-                <p className="text-muted-foreground font-medium">Loading your tickets...</p>
+                <p className="text-slate-700 dark:text-slate-300 font-medium">Loading your tickets...</p>
               </CardContent>
             </Card>
           ) : tickets.length === 0 ? (
@@ -347,8 +347,8 @@ export default function HelpDeskPage() {
                 <div className="p-6 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
                   <Ticket className="h-10 w-10 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-3">No Tickets Yet</h3>
-                <p className="text-muted-foreground font-serif leading-relaxed">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">No Tickets Yet</h3>
+                <p className="text-slate-700 dark:text-slate-300 font-serif leading-relaxed">
                   You haven't created any support tickets yet. Create one above to get started.
                 </p>
               </CardContent>
@@ -371,7 +371,7 @@ export default function HelpDeskPage() {
                           {config.label} 
                           <span className="ml-2 text-lg text-muted-foreground">({list.length})</span>
                         </h3>
-                        <p className="text-muted-foreground font-serif">
+                        <p className="text-slate-700 dark:text-slate-300 font-serif">
                           {status === 'open' && 'Waiting for our team to respond'}
                           {status === 'in-progress' && 'Our team is actively working on these'}
                           {status === 'resolved' && 'Issues that have been resolved'}
@@ -386,7 +386,7 @@ export default function HelpDeskPage() {
                           <Card key={t.id} className="card-modern border-0 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl group hover-lift">
                             <CardHeader className="p-6">
                               <div className="flex items-start justify-between mb-3">
-                                <CardTitle className="text-lg font-bold text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-2">
+                                <CardTitle className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors duration-300 line-clamp-2">
                                   {t.title}
                                 </CardTitle>
                                 <div className="flex flex-col items-end gap-2">
@@ -405,7 +405,7 @@ export default function HelpDeskPage() {
                                   </span>
                                 </div>
                               </div>
-                              <p className="text-sm text-muted-foreground line-clamp-3 font-serif leading-relaxed">
+                              <p className="text-sm text-slate-700 dark:text-slate-300 line-clamp-3 font-serif leading-relaxed">
                                 {t.description}
                               </p>
                             </CardHeader>

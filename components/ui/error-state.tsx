@@ -12,8 +12,8 @@ const errorStateCardVariants = cva(
     variants: {
       variant: {
         default: "border-destructive/50",
-        glass: "bg-white/10 backdrop-blur-xl border border-white/20 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10 shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700 shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700 shadow-glass-sm",
       },
     },
     defaultVariants: {
@@ -28,8 +28,8 @@ const errorStateMessageVariants = cva(
     variants: {
       variant: {
         default: "bg-destructive/10 border border-destructive/20",
-        glass: "bg-white/10 backdrop-blur-xl border border-white/20",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10",
+        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700",
       },
     },
     defaultVariants: {

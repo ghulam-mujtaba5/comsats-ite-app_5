@@ -265,7 +265,7 @@ export default function ProfilePage() {
     <AuthGuard
       fallback={
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 flex items-center justify-center p-6">
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 rounded-2xl shadow-lg max-w-md w-full">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-2xl shadow-lg max-w-md w-full">
             <CardContent className="p-8 text-center space-y-4">
               <div className="p-4 rounded-full bg-gradient-to-br from-primary/20 to-blue-500/20 border border-primary/30 w-16 h-16 mx-auto flex items-center justify-center">
                 <Shield className="h-8 w-8 text-primary" />
@@ -306,7 +306,7 @@ export default function ProfilePage() {
                   onClick={logout} 
                   disabled={isLoading || !isAuthenticated}
                   variant="outline"
-                  className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-white/30 dark:border-slate-700/30 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-600 rounded-xl"
+                  className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-600 rounded-xl"
                 >
                   <User className="h-4 w-4 mr-2" />
                   Sign Out
@@ -314,7 +314,7 @@ export default function ProfilePage() {
                 <DeleteAccountButton />
                 <EditProfileDialog />
                 <Link href="/settings">
-                  <Button variant="outline" className="rounded-xl border-white/20 dark:border-slate-700/30 hover:bg-white/10 dark:hover:bg-slate-800/50">
+                  <Button variant="outline" className="rounded-xl border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:bg-white/10 dark:hover:bg-slate-800/50">
                     <Settings className="h-4 w-4 mr-2" />
                     Settings
                   </Button>
@@ -425,7 +425,7 @@ export default function ProfilePage() {
                 </Button>
               </div>
             )}
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
               <CardContent className="p-6 text-center">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <FileText className="h-8 w-8 text-blue-600 dark:text-blue-400" />
@@ -436,7 +436,7 @@ export default function ProfilePage() {
                 <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Papers Uploaded</div>
               </CardContent>
             </Card>
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
               <CardContent className="p-6 text-center">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30 dark:border-green-700/30 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <Star className="h-8 w-8 text-green-600 dark:text-green-400" />
@@ -447,7 +447,7 @@ export default function ProfilePage() {
                 <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Reviews Written</div>
               </CardContent>
             </Card>
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
               <CardContent className="p-6 text-center">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-200/30 dark:border-purple-700/30 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <MessageSquare className="h-8 w-8 text-purple-600 dark:text-purple-400" />
@@ -458,7 +458,7 @@ export default function ProfilePage() {
                 <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">Posts Created</div>
               </CardContent>
             </Card>
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl">
               <CardContent className="p-6 text-center">
                 <div className="p-3 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-600/20 border border-red-200/30 dark:border-red-700/30 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <Heart className="h-8 w-8 text-red-600 dark:text-red-400" />
@@ -472,7 +472,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Profile Info Card */}
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl mb-12">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl mb-12">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <User className="h-5 w-5" />
@@ -553,7 +553,7 @@ export default function ProfilePage() {
           </Card>
 
           {/* Enhanced Dashboard Tabs */}
-          <Card className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 rounded-3xl shadow-lg">
+          <Card className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-3xl shadow-lg">
             <CardContent className="p-8">
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList className="grid w-full grid-cols-4 bg-slate-100/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-1 mb-8">
@@ -593,7 +593,7 @@ export default function ProfilePage() {
                     <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Quick Actions</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <Link href="/past-papers">
-                        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300 cursor-pointer group">
                           <CardContent className="p-6 text-center">
                             <FileText className="h-8 w-8 text-blue-600 dark:text-blue-400 mx-auto mb-3 group-hover:scale-110 transition-transform duration-200" />
                             <div className="font-medium text-slate-900 dark:text-white">Past Papers</div>
@@ -601,7 +601,7 @@ export default function ProfilePage() {
                         </Card>
                       </Link>
                       <Link href="/faculty">
-                        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300 cursor-pointer group">
                           <CardContent className="p-6 text-center">
                             <Star className="h-8 w-8 text-yellow-600 dark:text-yellow-400 mx-auto mb-3 group-hover:scale-110 transition-transform duration-200" />
                             <div className="font-medium text-slate-900 dark:text-white">Review Faculty</div>
@@ -609,7 +609,7 @@ export default function ProfilePage() {
                         </Card>
                       </Link>
                       <Link href="/community">
-                        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300 cursor-pointer group">
                           <CardContent className="p-6 text-center">
                             <Users className="h-8 w-8 text-green-600 dark:text-green-400 mx-auto mb-3 group-hover:scale-110 transition-transform duration-200" />
                             <div className="font-medium text-slate-900 dark:text-white">Join Discussion</div>
@@ -617,7 +617,7 @@ export default function ProfilePage() {
                         </Card>
                       </Link>
                       <Link href="/resources">
-                        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                        <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300 cursor-pointer group">
                           <CardContent className="p-6 text-center">
                             <BookOpen className="h-8 w-8 text-purple-600 dark:text-purple-400 mx-auto mb-3 group-hover:scale-110 transition-transform duration-200" />
                             <div className="font-medium text-slate-900 dark:text-white">Learn Resources</div>
@@ -640,7 +640,7 @@ export default function ProfilePage() {
                         <Loader2 className="h-6 w-6 animate-spin text-primary" />
                       </div>
                     ) : recentActivity.length === 0 ? (
-                      <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+                      <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl">
                         <CardContent className="p-8 text-center">
                           <MessageSquare className="h-12 w-12 text-slate-400 dark:text-slate-500 mx-auto mb-3" />
                           <p className="text-slate-600 dark:text-slate-400">No activity yet. Start contributing!</p>
@@ -651,7 +651,7 @@ export default function ProfilePage() {
                         {recentActivity.slice(0, 3).map((activity) => {
                           const Icon = getIconComponent(activity.icon)
                           return (
-                            <Card key={activity.id} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+                            <Card key={activity.id} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl">
                               <CardContent className="p-4 flex items-center gap-4">
                                 <div className={cn("p-2 rounded-lg border", getActivityColor(activity.color))}>
                                   <Icon className="h-4 w-4" />
@@ -891,7 +891,7 @@ export default function ProfilePage() {
                           : 0
                         return (
                           <Card key={achievement.id} className={cn(
-                            "bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl transition-all duration-300",
+                            "bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl transition-all duration-300",
                             achievement.earned ? "ring-2 ring-yellow-500/20 shadow-lg" : "opacity-75"
                           )}>
                             <CardContent className="p-6">
@@ -949,7 +949,7 @@ export default function ProfilePage() {
                       <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
                   ) : recentActivity.length === 0 ? (
-                    <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+                    <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl">
                       <CardContent className="p-12 text-center">
                         <Activity className="h-16 w-16 text-slate-400 dark:text-slate-500 mx-auto mb-4" />
                         <h4 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">No Activity Yet</h4>
@@ -961,7 +961,7 @@ export default function ProfilePage() {
                       {recentActivity.map((activity) => {
                         const Icon = getIconComponent(activity.icon)
                         return (
-                          <Card key={activity.id} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300">
+                          <Card key={activity.id} className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl hover:shadow-lg transition-all duration-300">
                             <CardContent className="p-6 flex items-center gap-4">
                               <div className={cn("p-3 rounded-xl border", getActivityColor(activity.color))}>
                                 <Icon className="h-6 w-6" />
@@ -1010,7 +1010,7 @@ export default function ProfilePage() {
 
                 <TabsContent value="settings" className="space-y-8">
                   {/* Account Details */}
-                  <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-white/30 dark:border-slate-700/30 rounded-xl">
+                  <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 rounded-xl">
                     <CardHeader className="p-6">
                     <CardTitle className="flex items-center gap-3 text-xl font-bold text-slate-900 dark:text-white">
                       <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30">

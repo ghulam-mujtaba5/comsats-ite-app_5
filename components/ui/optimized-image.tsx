@@ -84,7 +84,7 @@ export function OptimizedImage({
     return (
       <div
         className={cn(
-          "flex items-center justify-center bg-muted rounded-lg",
+          "flex items-center justify-center bg-slate-100 dark:bg-slate-900 rounded-lg",
           fill ? "absolute inset-0" : "",
           className
         )}
@@ -94,7 +94,7 @@ export function OptimizedImage({
             : undefined
         }
       >
-        <div className="text-center text-muted-foreground p-4">
+        <div className="text-center text-slate-700 dark:text-slate-300 p-4">
           <p className="text-sm">Failed to load image</p>
           <p className="text-xs opacity-60">{alt}</p>
         </div>

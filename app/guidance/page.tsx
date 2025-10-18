@@ -418,18 +418,18 @@ export default function GuidancePage() {
     <div className="min-h-screen bg-gradient-to-br from-background via-background/80 to-muted/30">
       <div className={`${layout.section} px-4 py-8`}>
         {/* Header with Reduced Visual Intensity */}
-        <div className="mb-8 bg-card rounded-2xl p-6 border">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Student Guidance Portal</h1>
-          <p className="text-muted-foreground max-w-4xl">
+        <div className="mb-8 bg-white dark:bg-slate-800 rounded-2xl p-6 border">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Student Guidance Portal</h1>
+          <p className="text-slate-700 dark:text-slate-300 max-w-4xl">
             Your comprehensive guide to academic policies, procedures, campus resources, support services, and portal links
           </p>
         </div>
 
         {/* Search and Filters with Reduced Visual Intensity */}
-        <div className="mb-6 bg-card rounded-xl p-5 border">
+        <div className="mb-6 bg-white dark:bg-slate-800 rounded-xl p-5 border">
           <div className="flex flex-col md:flex-row gap-4 mb-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-700 dark:text-slate-300 h-4 w-4" />
               <Input
                 placeholder="Search guides, FAQs, articles, and resources..."
                 value={searchQuery}
@@ -443,7 +443,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "all" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("all")}
-              className={selectedCategory === "all" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "all" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               All
             </Button>
@@ -451,7 +451,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "academic" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("academic")}
-              className={selectedCategory === "academic" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "academic" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               Academic
             </Button>
@@ -459,7 +459,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "admission" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("admission")}
-              className={selectedCategory === "admission" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "admission" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               Admission
             </Button>
@@ -467,7 +467,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "campus" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("campus")}
-              className={selectedCategory === "campus" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "campus" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               Campus
             </Button>
@@ -475,7 +475,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "financial" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("financial")}
-              className={selectedCategory === "financial" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "financial" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               Financial
             </Button>
@@ -483,7 +483,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "policies" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("policies")}
-              className={selectedCategory === "policies" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "policies" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               Policies
             </Button>
@@ -491,7 +491,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "mental-health" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("mental-health")}
-              className={selectedCategory === "mental-health" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "mental-health" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               Mental Health
             </Button>
@@ -499,7 +499,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "career" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("career")}
-              className={selectedCategory === "career" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "career" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               Career
             </Button>
@@ -507,7 +507,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "technical" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("technical")}
-              className={selectedCategory === "technical" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "technical" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               Technical
             </Button>
@@ -515,7 +515,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "cuonline" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("cuonline")}
-              className={selectedCategory === "cuonline" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "cuonline" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               CU Online
             </Button>
@@ -523,7 +523,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "email" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("email")}
-              className={selectedCategory === "email" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "email" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               Email
             </Button>
@@ -531,7 +531,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "lms" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("lms")}
-              className={selectedCategory === "lms" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "lms" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               LMS
             </Button>
@@ -539,7 +539,7 @@ export default function GuidancePage() {
               variant={selectedCategory === "library" ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory("library")}
-              className={selectedCategory === "library" ? "" : "bg-muted hover:bg-muted/80 border-muted"}
+              className={selectedCategory === "library" ? "" : "bg-slate-100 dark:bg-slate-900 hover:bg-slate-100/80 dark:bg-slate-900/80 border-muted"}
             >
               Library
             </Button>
@@ -547,7 +547,7 @@ export default function GuidancePage() {
         </div>
 
         <Tabs defaultValue="guides" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-muted rounded-lg p-1">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-slate-100 dark:bg-slate-900 rounded-lg p-1">
             <TabsTrigger value="guides" className="data-[state=active]:bg-background data-[state=active]:shadow-sm">Guidance Sections</TabsTrigger>
             <TabsTrigger value="faqs" className="data-[state=active]:bg-background data-[state=active]:shadow-sm">Frequently Asked Questions</TabsTrigger>
             <TabsTrigger value="blog" className="data-[state=active]:bg-background data-[state=active]:shadow-sm">Blog & Articles</TabsTrigger>
@@ -560,13 +560,13 @@ export default function GuidancePage() {
             ) : error ? (
               <div className="text-center py-8 text-destructive max-w-4xl mx-auto">{error}</div>
             ) : filteredSections.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground max-w-4xl mx-auto">No guidance sections found matching your criteria</div>
+              <div className="text-center py-8 text-slate-700 dark:text-slate-300 max-w-4xl mx-auto">No guidance sections found matching your criteria</div>
             ) : (
               <div className="grid gap-6 md:grid-cols-2 max-w-6xl mx-auto">
                 {filteredSections.map((section) => {
                   const Icon = getCategoryIcon(section.category)
                   return (
-                    <Card key={section.id} className="bg-card border rounded-xl hover:shadow-md transition-all duration-300">
+                    <Card key={section.id} className="bg-white dark:bg-slate-800 border rounded-xl hover:shadow-md transition-all duration-300">
                       <CardHeader>
                         <div className="flex items-start justify-between">
                           <div className="flex items-center gap-2">
@@ -607,11 +607,11 @@ export default function GuidancePage() {
             ) : error ? (
               <div className="text-center py-8 text-destructive max-w-4xl mx-auto">{error}</div>
             ) : filteredFaqs.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground max-w-4xl mx-auto">No FAQs found matching your criteria</div>
+              <div className="text-center py-8 text-slate-700 dark:text-slate-300 max-w-4xl mx-auto">No FAQs found matching your criteria</div>
             ) : (
               <Accordion type="single" collapsible className="space-y-4 max-w-4xl mx-auto">
                 {filteredFaqs.map((faq) => (
-                  <AccordionItem key={faq.id} value={faq.id} className="bg-card border rounded-lg px-4">
+                  <AccordionItem key={faq.id} value={faq.id} className="bg-white dark:bg-slate-800 border rounded-lg px-4">
                     <AccordionTrigger className="text-left pr-8 hover:no-underline">
                       <div className="flex items-center justify-between w-full mr-4">
                         <span>{faq.question}</span>
@@ -622,10 +622,10 @@ export default function GuidancePage() {
                     </AccordionTrigger>
                     <AccordionContent>
                       <div className="pt-2 pb-4">
-                        <p className="text-muted-foreground mb-3">{faq.answer}</p>
+                        <p className="text-slate-700 dark:text-slate-300 mb-3">{faq.answer}</p>
                         <div className="flex flex-wrap gap-2">
                           {faq.tags.map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs bg-muted">
+                            <Badge key={tag} variant="secondary" className="text-xs bg-slate-100 dark:bg-slate-900">
                               {tag}
                             </Badge>
                           ))}
@@ -644,8 +644,8 @@ export default function GuidancePage() {
             ) : error ? (
               <div className="text-center py-8 text-destructive max-w-4xl mx-auto">{error}</div>
             ) : filteredBlogArticles.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground max-w-4xl mx-auto">
-                <Newspaper className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <div className="text-center py-8 text-slate-700 dark:text-slate-300 max-w-4xl mx-auto">
+                <Newspaper className="h-12 w-12 mx-auto text-slate-700 dark:text-slate-300 mb-4" />
                 <p>No blog articles found matching your criteria.</p>
                 <Button asChild className="mt-4">
                   <Link href="/blog">View All Blog Articles</Link>
@@ -657,7 +657,7 @@ export default function GuidancePage() {
                   const Icon = getBlogCategoryIcon(article.category)
                   return (
                     <Link key={article.id} href={`/blog/${article.slug}`} className="block">
-                      <Card className="h-full bg-card border rounded-xl hover:shadow-md transition-all duration-300">
+                      <Card className="h-full bg-white dark:bg-slate-800 border rounded-xl hover:shadow-md transition-all duration-300">
                         {article.featured_image_url && (
                           <img 
                             src={article.featured_image_url} 
@@ -688,11 +688,11 @@ export default function GuidancePage() {
                     </Link>
                   )
                 })}
-                <Card className="h-full bg-card border rounded-xl flex items-center justify-center">
+                <Card className="h-full bg-white dark:bg-slate-800 border rounded-xl flex items-center justify-center">
                   <CardContent className="text-center p-6">
-                    <Newspaper className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                    <h3 className="font-semibold text-foreground mb-2">More Articles Available</h3>
-                    <p className="text-sm text-muted-foreground mb-4">Visit our full blog for more articles and insights</p>
+                    <Newspaper className="h-12 w-12 mx-auto text-slate-700 dark:text-slate-300 mb-4" />
+                    <h3 className="font-semibold text-slate-900 dark:text-white mb-2">More Articles Available</h3>
+                    <p className="text-sm text-slate-700 dark:text-slate-300 mb-4">Visit our full blog for more articles and insights</p>
                     <Button asChild size="sm" variant="outline">
                       <Link href="/blog">View All Articles</Link>
                     </Button>
@@ -710,13 +710,13 @@ export default function GuidancePage() {
             ) : (
               <div className="space-y-8 max-w-6xl mx-auto">
                 <div>
-                  <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                     <Heart className="h-5 w-5 text-red-500" />
                     Student Support Resources
                   </h3>
                   {filteredSupportResources.length === 0 ? (
-                    <div className="text-center py-8 text-muted-foreground max-w-4xl mx-auto">
-                      <Heart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                    <div className="text-center py-8 text-slate-700 dark:text-slate-300 max-w-4xl mx-auto">
+                      <Heart className="h-12 w-12 mx-auto text-slate-700 dark:text-slate-300 mb-4" />
                       <p>No support resources found matching your criteria.</p>
                     </div>
                   ) : (
@@ -724,7 +724,7 @@ export default function GuidancePage() {
                       {filteredSupportResources.map((resource) => {
                         const Icon = getResourceIcon(resource.category)
                         return (
-                          <Card key={resource.id} className="bg-card border rounded-xl hover:shadow-md transition-all duration-300">
+                          <Card key={resource.id} className="bg-white dark:bg-slate-800 border rounded-xl hover:shadow-md transition-all duration-300">
                             <CardHeader>
                               <div className="flex items-start justify-between">
                                 <div className="flex items-center gap-2">
@@ -744,7 +744,7 @@ export default function GuidancePage() {
                             </CardHeader>
                             <CardContent>
                               {resource.contact_info && (
-                                <p className="text-sm text-muted-foreground mb-1">
+                                <p className="text-sm text-slate-700 dark:text-slate-300 mb-1">
                                   <strong>Contact:</strong> {resource.contact_info}
                                 </p>
                               )}
@@ -756,7 +756,7 @@ export default function GuidancePage() {
                               {resource.tags && resource.tags.length > 0 && (
                                 <div className="flex flex-wrap gap-1 mt-2">
                                   {resource.tags.map((tag) => (
-                                    <Badge key={tag} variant="secondary" className="text-xs bg-muted">
+                                    <Badge key={tag} variant="secondary" className="text-xs bg-slate-100 dark:bg-slate-900">
                                       {tag}
                                     </Badge>
                                   ))}
@@ -771,13 +771,13 @@ export default function GuidancePage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                     <Globe className="h-5 w-5 text-blue-500" />
                     Student Portal Resources
                   </h3>
                   {filteredPortalResources.length === 0 ? (
-                    <div className="text-center py-8 text-muted-foreground max-w-4xl mx-auto">
-                      <Globe className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                    <div className="text-center py-8 text-slate-700 dark:text-slate-300 max-w-4xl mx-auto">
+                      <Globe className="h-12 w-12 mx-auto text-slate-700 dark:text-slate-300 mb-4" />
                       <p>No portal resources found matching your criteria.</p>
                     </div>
                   ) : (
@@ -786,7 +786,7 @@ export default function GuidancePage() {
                         const Icon = getResourceIcon(resource.category)
                         return (
                           <Link key={resource.id} href={resource.url} target="_blank" rel="noopener noreferrer">
-                            <Card className="h-full bg-card border rounded-xl hover:shadow-md transition-all duration-300 cursor-pointer">
+                            <Card className="h-full bg-white dark:bg-slate-800 border rounded-xl hover:shadow-md transition-all duration-300 cursor-pointer">
                               <CardHeader>
                                 <div className="flex items-start justify-between">
                                   <div className="flex items-center gap-2">

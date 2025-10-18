@@ -118,7 +118,7 @@ export function MeritCalculator() {
                 value={ntsScore}
                 onChange={(e) => setNtsScore(e.target.value)}
               />
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-slate-700 dark:text-slate-300 mt-1">
                 Leave blank if your program doesn't require NTS
               </p>
             </div>

@@ -195,7 +195,7 @@ export default async function FacultyReviewsPage() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent mb-6">
               Student Feedback on Faculty
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+            <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto mb-8">
               Discover honest reviews from fellow students to make informed decisions about your academic journey at COMSATS University.
             </p>
             
@@ -203,21 +203,21 @@ export default async function FacultyReviewsPage() {
             <nav className="flex mb-8" aria-label="Breadcrumb">
               <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li className="inline-flex items-center">
-                  <Link href="/" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary">
+                  <Link href="/" className="inline-flex items-center text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary">
                     Home
                   </Link>
                 </li>
                 <li>
                   <div className="flex items-center">
-                    <svg className="rtl:rotate-180 w-3 h-3 text-muted-foreground mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <svg className="rtl:rotate-180 w-3 h-3 text-slate-700 dark:text-slate-300 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
                     </svg>
-                    <Link href="/faculty" className="ms-1 text-sm font-medium text-muted-foreground hover:text-primary md:ms-2">Faculty</Link>
+                    <Link href="/faculty" className="ms-1 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary md:ms-2">Faculty</Link>
                   </div>
                 </li>
                 <li aria-current="page">
                   <div className="flex items-center">
-                    <svg className="rtl:rotate-180 w-3 h-3 text-muted-foreground mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <svg className="rtl:rotate-180 w-3 h-3 text-slate-700 dark:text-slate-300 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
                     </svg>
                     <span className="ms-1 text-sm font-medium text-primary md:ms-2">Reviews</span>
@@ -235,7 +235,7 @@ export default async function FacultyReviewsPage() {
                   <Users className="h-8 w-8 text-primary" />
                 </div>
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{stats.totalFaculty || "150+"}</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{stats.totalFaculty || "150+"}</div>
               <div className="text-muted-foreground">Faculty Members</div>
             </Card>
             <Card className="text-center p-6">
@@ -244,7 +244,7 @@ export default async function FacultyReviewsPage() {
                   <Star className="h-8 w-8 text-primary" />
                 </div>
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{stats.totalReviews || "2,400+"}</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{stats.totalReviews || "2,400+"}</div>
               <div className="text-muted-foreground">Student Reviews</div>
             </Card>
             <Card className="text-center p-6">
@@ -253,7 +253,7 @@ export default async function FacultyReviewsPage() {
                   <BookOpen className="h-8 w-8 text-primary" />
                 </div>
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{stats.averageRating ? stats.averageRating.toFixed(1) : "4.6"}</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">{stats.averageRating ? stats.averageRating.toFixed(1) : "4.6"}</div>
               <div className="text-muted-foreground">Average Rating</div>
             </Card>
             <Card className="text-center p-6">
@@ -262,7 +262,7 @@ export default async function FacultyReviewsPage() {
                   <TrendingUp className="h-8 w-8 text-primary" />
                 </div>
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">98%</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-white mb-2">98%</div>
               <div className="text-muted-foreground">Recommendation Rate</div>
             </Card>
           </div>

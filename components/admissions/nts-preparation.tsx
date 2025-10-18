@@ -77,7 +77,7 @@ export function NtsPreparation() {
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <h3 className="font-semibold">{test.title}</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-sm text-slate-700 dark:text-slate-300 mt-1">
                     {test.description}
                   </p>
                 </div>
@@ -88,7 +88,7 @@ export function NtsPreparation() {
               
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="text-center p-3 rounded-lg bg-muted/50">
-                  <div className="flex items-center justify-center text-muted-foreground mb-1">
+                  <div className="flex items-center justify-center text-slate-700 dark:text-slate-300 mb-1">
                     <Trophy className="h-4 w-4 mr-1" />
                     <span className="text-xs">Questions</span>
                   </div>
@@ -96,7 +96,7 @@ export function NtsPreparation() {
                 </div>
                 
                 <div className="text-center p-3 rounded-lg bg-muted/50">
-                  <div className="flex items-center justify-center text-muted-foreground mb-1">
+                  <div className="flex items-center justify-center text-slate-700 dark:text-slate-300 mb-1">
                     <Clock className="h-4 w-4 mr-1" />
                     <span className="text-xs">Time</span>
                   </div>

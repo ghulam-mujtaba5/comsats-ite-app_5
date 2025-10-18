@@ -116,11 +116,11 @@ export default function SupportPage() {
               Support
             </span>
           </h1>
-          <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-4xl mx-auto mb-4">
+          <p className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif max-w-4xl mx-auto mb-4">
             How can we help you today? Choose from our comprehensive support options 
             to get the assistance you need.
           </p>
-          <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto">
+          <p className="text-lg text-slate-700 dark:text-slate-300/80 font-light max-w-xl mx-auto">
             We're here to help you succeed
           </p>
         </div>
@@ -144,10 +144,10 @@ export default function SupportPage() {
                         {option.badge}
                       </Badge>
                     </div>
-                    <CardTitle className="text-2xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
+                    <CardTitle className="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-primary transition-colors duration-300">
                       {option.title}
                     </CardTitle>
-                    <CardDescription className="text-base text-muted-foreground font-serif leading-relaxed">
+                    <CardDescription className="text-base text-slate-700 dark:text-slate-300 font-serif leading-relaxed">
                       {option.description}
                     </CardDescription>
                   </CardHeader>
@@ -173,7 +173,7 @@ export default function SupportPage() {
                 </div>
                 Quick Links
               </CardTitle>
-              <CardDescription className="text-muted-foreground font-serif text-base">
+              <CardDescription className="text-slate-700 dark:text-slate-300 font-serif text-base">
                 Fast access to important resources and policies
               </CardDescription>
             </CardHeader>
@@ -210,7 +210,7 @@ export default function SupportPage() {
                 </div>
                 Top Support FAQs
               </CardTitle>
-              <CardDescription className="text-muted-foreground font-serif text-base">
+              <CardDescription className="text-slate-700 dark:text-slate-300 font-serif text-base">
                 Most frequently asked questions by our community
               </CardDescription>
             </CardHeader>
@@ -221,7 +221,7 @@ export default function SupportPage() {
                     <div className="p-1 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 mt-0.5">
                       <CheckCircle className="h-4 w-4 text-green-600" />
                     </div>
-                    <span className="text-foreground font-medium leading-relaxed group-hover:text-primary transition-colors duration-200">
+                    <span className="text-slate-900 dark:text-white font-medium leading-relaxed group-hover:text-primary transition-colors duration-200">
                       {faq}
                     </span>
                   </div>
@@ -247,8 +247,8 @@ export default function SupportPage() {
                 <Clock className="h-8 w-8 text-blue-600" />
               </div>
             </div>
-            <h3 className="text-xl font-bold text-foreground mb-3">Response Times</h3>
-            <p className="text-muted-foreground font-serif leading-relaxed max-w-2xl mx-auto">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Response Times</h3>
+            <p className="text-slate-700 dark:text-slate-300 font-serif leading-relaxed max-w-2xl mx-auto">
               We typically respond to support requests within 24 hours during business days. 
               For urgent issues, please use our priority support channels.
             </p>

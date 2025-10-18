@@ -37,7 +37,7 @@ export function DesktopNavigation() {
     <nav className="hidden lg:block w-64 flex-shrink-0 border-r border-border bg-background/95 backdrop-blur-lg sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
       <div className="p-6 border-b border-border">
         <h2 className="text-xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">Community Hub</h2>
-        <p className="text-sm text-muted-foreground mt-1">Connect & engage with peers</p>
+        <p className="text-sm text-slate-700 dark:text-slate-300 mt-1">Connect & engage with peers</p>
       </div>
       
       <div className="px-3 py-4 space-y-1">
@@ -53,7 +53,7 @@ export function DesktopNavigation() {
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 group relative overflow-hidden",
                 isActive
                   ? "bg-gradient-to-r from-primary to-blue-600 text-primary-foreground shadow-lg shadow-primary/25"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground hover:shadow-md"
+                  : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:bg-slate-900 hover:text-slate-900 dark:text-white hover:shadow-md"
               )}
             >
               {isActive && (

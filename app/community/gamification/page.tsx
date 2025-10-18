@@ -112,7 +112,7 @@ export default function CommunityGamificationPage() {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
             <CardContent className="flex items-center gap-3 p-4">
               <div className="p-2 rounded-xl bg-gradient-to-br from-yellow-500/20 to-orange-600/20 border border-yellow-200/30 dark:border-yellow-700/30">
                 <Trophy className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
@@ -126,7 +126,7 @@ export default function CommunityGamificationPage() {
             </CardContent>
           </Card>
           
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
             <CardContent className="flex items-center gap-3 p-4">
               <div className="p-2 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-600/20 border border-green-200/30 dark:border-green-700/30">
                 <Award className="h-6 w-6 text-green-600 dark:text-green-400" />
@@ -140,7 +140,7 @@ export default function CommunityGamificationPage() {
             </CardContent>
           </Card>
           
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
             <CardContent className="flex items-center gap-3 p-4">
               <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-600/20 border border-blue-200/30 dark:border-blue-700/30">
                 <TrendingUp className="h-6 w-6 text-blue-600 dark:text-blue-400" />
@@ -154,7 +154,7 @@ export default function CommunityGamificationPage() {
             </CardContent>
           </Card>
           
-          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+          <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
             <CardContent className="flex items-center gap-3 p-4">
               <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-600/20 border border-purple-200/30 dark:border-purple-700/30">
                 <Target className="h-6 w-6 text-purple-600 dark:text-purple-400" />
@@ -171,7 +171,7 @@ export default function CommunityGamificationPage() {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 p-1 rounded-2xl mb-6">
+          <TabsList className="grid w-full grid-cols-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 p-1 rounded-2xl mb-6">
             <TabsTrigger 
               value="achievements" 
               className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
@@ -235,7 +235,7 @@ export default function CommunityGamificationPage() {
                     <Card 
                       key={achievement.id} 
                       className={cn(
-                        "bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden",
+                        "bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden",
                         isUnlocked 
                           ? "border-l-4 border-l-primary" 
                           : "opacity-70"
@@ -342,7 +342,7 @@ export default function CommunityGamificationPage() {
                 </div>
               </Card>
             ) : (
-              <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+              <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
                 <CardContent className="p-0">
                   <div className="divide-y divide-border">
                     {leaderboard.slice(0, 20).map((entry, index) => (
@@ -357,7 +357,7 @@ export default function CommunityGamificationPage() {
                                 {index + 1}
                               </div>
                             ) : (
-                              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-muted font-medium">
+                              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-900 font-medium">
                                 {index + 1}
                               </div>
                             )}
@@ -392,7 +392,7 @@ export default function CommunityGamificationPage() {
           </TabsContent>
 
           <TabsContent value="progress" className="mt-6">
-            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl">
+            <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5" />

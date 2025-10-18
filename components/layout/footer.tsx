@@ -68,18 +68,18 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
   }
 
   return (
-    <footer className="relative glass-card bg-white/80 dark:bg-slate-900/70 border border-white/20 dark:border-slate-700/40 rounded-2xl backdrop-blur-xl shadow-lg mx-4 sm:mx-6 lg:mx-8 mb-6 mt-12 overflow-hidden">
+    <footer className="relative glass-card bg-white/80 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700 dark:border-slate-700/40 rounded-2xl backdrop-blur-xl shadow-lg mx-4 sm:mx-6 lg:mx-8 mb-6 mt-12 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-purple-500/5 dark:from-slate-800/20 dark:via-slate-800/15 dark:to-slate-900/20 rounded-2xl"></div>
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-500/8 to-transparent dark:from-slate-700/15 dark:to-slate-900/5 rounded-r-2xl"></div>
       <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-t from-indigo-500/8 to-transparent dark:from-slate-800/15 dark:to-slate-900/5 rounded-bl-2xl"></div>
       <div className={`${layout.section} py-10 px-4 sm:px-6 lg:px-8 relative z-10`}>
         <div className="mb-8 p-4 md:p-5 glass-card-premium glass-border-glow glass-hover-glow rounded-xl flex flex-col md:flex-row items-center justify-between gap-3 glass-gradient glass-depth glass-floating">
           <div className="text-center md:text-left">
-            <div className="font-semibold text-foreground flex items-center justify-center md:justify-start gap-2">
+            <div className="font-semibold text-slate-900 dark:text-white flex items-center justify-center md:justify-start gap-2">
               <Users className="h-5 w-5 text-primary" />
               Want to contribute or become a moderator?
             </div>
-            <p className="text-sm text-muted-foreground font-serif">Help other students and shape CampusAxis with your contributions.</p>
+            <p className="text-sm text-slate-700 dark:text-slate-300 font-serif">Help other students and shape CampusAxis with your contributions.</p>
           </div>
           <div className="flex items-center gap-3">
             <Button asChild className="glass-interactive">
@@ -113,12 +113,12 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
                 )}
               </div>
             </div>
-            <p className="text-sm text-muted-foreground font-serif">
+            <p className="text-sm text-slate-700 dark:text-slate-300 font-serif">
               Empowering COMSATS University Lahore students with comprehensive academic resources and tools.
             </p>
             {/* Moved Contact Info here */}
             <div>
-              <h3 className="font-semibold text-foreground mb-3">Contact Info</h3>
+              <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Contact Info</h3>
               <ul className="space-y-3 text-sm">
                 <li className="flex items-center space-x-2">
                   <MapPin className="h-4 w-4 text-primary" />
@@ -133,11 +133,11 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-3">Quick Links</h3>
+            <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Quick Links</h3>
             <ul className="space-y-1 text-[13px]">
               {groups.core.filter(link => link.href !== '/admin').concat(groups.student).map(link => (
                 <li key={link.href} className="flex items-center justify-between gap-2 py-0.5 leading-tight">
-                  <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link href={link.href} className="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">
                     {link.label}
                   </Link>
                   <StatusBadge status={link.status} />
@@ -147,11 +147,11 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-3">Admissions</h3>
+            <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Admissions</h3>
             <ul className="space-y-1 text-[13px]">
               {groups.admissions.map(link => (
                 <li key={link.href} className="flex items-center justify-between gap-2 py-0.5 leading-tight">
-                  <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link href={link.href} className="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">
                     {link.label}
                   </Link>
                   <StatusBadge status={link.status} />
@@ -161,11 +161,11 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-3">Community</h3>
+            <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Community</h3>
             <ul className="space-y-1 text-[13px]">
               {groups.community.map(link => (
                 <li key={link.href} className="flex items-center justify-between gap-2 py-0.5 leading-tight">
-                  <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link href={link.href} className="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">
                     {link.label}
                   </Link>
                   <StatusBadge status={link.status} />
@@ -191,11 +191,11 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
           </div>
 
           <div>
-            <h3 className="font-semibold text-foreground mb-3">Support</h3>
+            <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Support</h3>
             <ul className="space-y-1 text-[13px]">
               {groups.support.map(link => (
                 <li key={link.href} className="flex items-center justify-between gap-2 py-0.5 leading-tight">
-                  <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link href={link.href} className="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors">
                     {link.label}
                   </Link>
                   <StatusBadge status={link.status} />

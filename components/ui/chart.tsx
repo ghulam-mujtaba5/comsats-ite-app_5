@@ -58,8 +58,8 @@ const chartTooltipContentVariants = cva(
     variants: {
       variant: {
         default: "border-border/50 bg-background",
-        glass: "bg-white/10 backdrop-blur-xl border border-white/20 text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10 text-white shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-white shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700 text-white shadow-glass-sm",
       },
     },
     defaultVariants: {
@@ -248,7 +248,7 @@ function ChartTooltipContent({
             <div
               key={item.dataKey}
               className={cn(
-                "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5",
+                "[&>svg]:text-slate-700 dark:text-slate-300 flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5",
                 indicator === "dot" && "items-center"
               )}
             >
@@ -297,7 +297,7 @@ function ChartTooltipContent({
                     </div>
                     {item.value && (
                       <span className={cn(
-                        "text-foreground font-mono font-medium tabular-nums",
+                        "text-slate-900 dark:text-white font-mono font-medium tabular-nums",
                         variant?.startsWith("glass") && "text-white"
                       )}>
                         {item.value.toLocaleString()}
@@ -353,7 +353,7 @@ function ChartLegendContent({
           <div
             key={item.value}
             className={cn(
-              "[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3"
+              "[&>svg]:text-slate-700 dark:text-slate-300 flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3"
             )}
           >
             {itemConfig?.icon && !hideIcon ? (

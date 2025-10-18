@@ -26,7 +26,7 @@ export default function AccessibilityTestPage() {
         <p className="text-muted-foreground">
           Testing reduced motion and other accessibility features
         </p>
-        <div className="mt-4 p-4 bg-muted rounded-lg">
+        <div className="mt-4 p-4 bg-slate-100 dark:bg-slate-900 rounded-lg">
           <p className="font-medium">
             Prefers Reduced Motion: {prefersReducedMotion ? 'Yes' : 'No'}
           </p>
@@ -51,7 +51,7 @@ export default function AccessibilityTestPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-slate-700 dark:text-slate-300 mb-4">
               Hover state: {isHovered ? 'Active' : 'Inactive'}
               <br />
               Active state: {isActive ? 'Active' : 'Inactive'}

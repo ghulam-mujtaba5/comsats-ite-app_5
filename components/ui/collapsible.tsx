@@ -13,8 +13,8 @@ const collapsibleContentVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border border-white/20 rounded-lg shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-lg shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700 rounded-lg shadow-glass-sm",
       },
     },
     defaultVariants: {

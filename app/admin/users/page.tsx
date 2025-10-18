@@ -687,7 +687,7 @@ export default function AdminUsersPage() {
                   <Plus className="h-4 w-4 mr-2" />
                   Create Custom Role
                 </Button>
-                <DialogContent className="glass-card border border-white/20 dark:border-white/10 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90 max-w-2xl max-h-[90vh] overflow-y-auto">
+                <DialogContent className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90 max-w-2xl max-h-[90vh] overflow-y-auto">
                   <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                       <Shield className="h-5 w-5" />
@@ -760,7 +760,7 @@ export default function AdminUsersPage() {
                 <AdminLoading message="Loading roles..." />
               ) : roles.length > 0 ? (
                 roles.map((role) => (
-                  <Card key={role.id} className="glass-card border border-white/20 dark:border-white/10">
+                  <Card key={role.id} className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700">
                     <CardHeader>
                       <div className="flex justify-between items-start">
                         <div>
@@ -817,7 +817,7 @@ export default function AdminUsersPage() {
 
         {/* Enhanced Promote Dialog */}
         <Dialog open={isPromoteDialogOpen} onOpenChange={setIsPromoteDialogOpen}>
-          <DialogContent className="glass-card border border-white/20 dark:border-white/10 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
+          <DialogContent className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
                 <Crown className="h-5 w-5" />
@@ -866,7 +866,7 @@ export default function AdminUsersPage() {
                     <SelectItem value="campus-ambassador">🎓 Campus Ambassador</SelectItem>
                   </SelectContent>
                 </Select>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-slate-700 dark:text-slate-300 mt-1">
                   Displays on profile and leaderboard alongside earned level
                 </p>
               </div>
@@ -885,7 +885,7 @@ export default function AdminUsersPage() {
 
         {/* Manage Access Dialog */}
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent className="glass-card border border-white/20 dark:border-white/10 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
+          <DialogContent className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
                 <Settings className="h-5 w-5" />
@@ -938,7 +938,7 @@ export default function AdminUsersPage() {
                     <SelectItem value="campus-ambassador">🎓 Campus Ambassador</SelectItem>
                   </SelectContent>
                 </Select>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-slate-700 dark:text-slate-300 mt-1">
                   Shows in profile, leaderboard, and badges
                 </p>
               </div>

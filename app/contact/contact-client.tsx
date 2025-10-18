@@ -165,11 +165,11 @@ export function ContactPageClient() {
           </div>
 
           <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-3xl mx-auto mb-4">
+            <p className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif max-w-3xl mx-auto mb-4">
               Have questions, suggestions, or need support? We'd love to hear from you. 
               Our dedicated team is here to help you succeed.
             </p>
-            <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto">
+            <p className="text-lg text-slate-700 dark:text-slate-300/80 font-light max-w-xl mx-auto">
               Typically responding within 24 hours
             </p>
           </div>
@@ -187,7 +187,7 @@ export function ContactPageClient() {
                   </div>
                   Send us a Message
                 </CardTitle>
-                <p className="text-muted-foreground font-serif">
+                <p className="text-slate-700 dark:text-slate-300 font-serif">
                   Fill out the form below and we'll get back to you as soon as possible.
                 </p>
               </CardHeader>
@@ -259,7 +259,7 @@ export function ContactPageClient() {
                   >
                     {isSubmitting ? (
                       <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <div className="w-4 h-4 border-2 border-slate-200 dark:border-slate-700 border-t-white rounded-full animate-spin" />
                         Sending...
                       </div>
                     ) : (
@@ -297,10 +297,10 @@ export function ContactPageClient() {
                         <Icon className={cn("h-6 w-6", method.color)} />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
+                        <h3 className="font-semibold text-slate-900 dark:text-white mb-1 group-hover:text-primary transition-colors">
                           {method.title}
                         </h3>
-                        <p className="text-sm text-muted-foreground mb-2">
+                        <p className="text-sm text-slate-700 dark:text-slate-300 mb-2">
                           {method.description}
                         </p>
                         <p className="text-sm font-medium text-foreground">
@@ -308,7 +308,7 @@ export function ContactPageClient() {
                         </p>
                       </div>
                       {method.action && (
-                        <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
+                        <ArrowRight className="h-5 w-5 text-slate-700 dark:text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
                       )}
                     </CardContent>
                   </Card>
@@ -325,7 +325,7 @@ export function ContactPageClient() {
               <CardTitle className="text-2xl mb-2">
                 Why <span className="text-primary">Contact Us?</span>
               </CardTitle>
-              <p className="text-muted-foreground font-serif max-w-2xl mx-auto">
+              <p className="text-slate-700 dark:text-slate-300 font-serif max-w-2xl mx-auto">
                 We're committed to providing the best experience for COMSATS students.
               </p>
             </CardHeader>
@@ -338,10 +338,10 @@ export function ContactPageClient() {
                       <div className="p-4 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 backdrop-blur-sm border border-border/50 w-16 h-16 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-all duration-300 hover-glow">
                         <Icon className="h-6 w-6 text-primary" />
                       </div>
-                      <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                      <h3 className="font-semibold text-slate-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
                         {feature.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground font-serif leading-relaxed">
+                      <p className="text-sm text-slate-700 dark:text-slate-300 font-serif leading-relaxed">
                         {feature.description}
                       </p>
                     </div>

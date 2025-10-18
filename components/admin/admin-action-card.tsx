@@ -43,7 +43,7 @@ export function AdminActionCard({
     <Card className={`glass-card border-0 rounded-2xl backdrop-blur-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl group ${
       isProblematic 
         ? 'bg-gradient-to-br from-red-50/80 to-orange-50/80 dark:from-red-950/40 dark:to-orange-950/40 border border-red-200/50 dark:border-red-800/50 hover:shadow-red-500/20'
-        : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 border border-white/20 dark:border-white/10 hover:shadow-blue-500/10'
+        : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 hover:shadow-blue-500/10'
     }`}>
       <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-xl" />
       

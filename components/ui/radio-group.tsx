@@ -14,8 +14,8 @@ const radioGroupItemVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white focus:ring-2 focus:ring-white/30 focus:border-white/30 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white focus:ring-1 focus:ring-white/20 focus:border-white/20 shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700 text-white focus:ring-2 focus:ring-white/30 focus:border-slate-200 dark:border-slate-700 shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700 text-white focus:ring-1 focus:ring-white/20 focus:border-slate-200 dark:border-slate-700 shadow-glass-sm",
       },
     },
     defaultVariants: {

@@ -426,7 +426,7 @@ export function AdminPanel() {
                       <div key={report.id} className="grid grid-cols-12 gap-4 p-4 items-center">
                         <div className="col-span-3">
                           <p className="text-sm font-medium line-clamp-2">{report.content}</p>
-                          <p className="text-xs text-muted-foreground mt-1">
+                          <p className="text-xs text-slate-700 dark:text-slate-300 mt-1">
                             by {report.author}
                           </p>
                         </div>
@@ -606,9 +606,9 @@ export function AdminPanel() {
             </CardHeader>
             <CardContent>
               <div className="text-center py-12">
-                <TrendingUp className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                <TrendingUp className="h-12 w-12 mx-auto text-slate-700 dark:text-slate-300 mb-4" />
                 <h3 className="text-lg font-medium mb-2">Analytics Dashboard</h3>
-                <p className="text-muted-foreground mb-4">
+                <p className="text-slate-700 dark:text-slate-300 mb-4">
                   Detailed analytics and insights would be displayed here
                 </p>
                 <Button variant="outline">View Detailed Analytics</Button>
@@ -636,9 +636,9 @@ export function AdminPanel() {
           
           <div className="space-y-4">
             {selectedReport && (
-              <div className="p-4 bg-muted rounded-lg">
+              <div className="p-4 bg-slate-100 dark:bg-slate-900 rounded-lg">
                 <p className="text-sm font-medium">Reported Content</p>
-                <p className="text-sm text-muted-foreground mt-1 line-clamp-3">
+                <p className="text-sm text-slate-700 dark:text-slate-300 mt-1 line-clamp-3">
                   {selectedReport.content}
                 </p>
                 <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">

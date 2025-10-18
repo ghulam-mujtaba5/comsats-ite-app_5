@@ -223,7 +223,7 @@ export const MediaUploader = forwardRef<MediaUploaderRef, MediaUploaderProps>(({
                   />
                 </div>
               ) : (
-                <div className="aspect-square rounded-md bg-muted flex flex-col items-center justify-center p-2">
+                <div className="aspect-square rounded-md bg-slate-100 dark:bg-slate-900 flex flex-col items-center justify-center p-2">
                   {getFileIcon(item.type)}
                   <span className="text-xs text-center mt-1 line-clamp-2">
                     {item.alt?.split('.').slice(0, -1).join('.') || "File"}
@@ -249,7 +249,7 @@ export const MediaUploader = forwardRef<MediaUploaderRef, MediaUploaderProps>(({
 
       {/* File Info */}
       {media.length > 0 && (
-        <p className="text-xs text-muted-foreground text-center">
+        <p className="text-xs text-slate-700 dark:text-slate-300 text-center">
           {media.length} of {maxFiles} files uploaded
         </p>
       )}

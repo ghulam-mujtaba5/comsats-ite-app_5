@@ -150,10 +150,10 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   return (
     <div className="w-full space-y-8">
       <div className="text-center">
-        <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-3 tracking-tight">
+        <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
           Welcome Back
         </h2>
-        <p className="text-muted-foreground font-serif leading-relaxed">
+        <p className="text-slate-700 dark:text-slate-300 font-serif leading-relaxed">
           Sign in to your CampusAxis account
         </p>
       </div>
@@ -161,7 +161,7 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Enhanced Email Input */}
         <div className="space-y-3">
-          <Label htmlFor="email" className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <Label htmlFor="email" className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
             <Mail className="h-4 w-4 text-primary" />
             University Email
           </Label>
@@ -178,7 +178,7 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
 
         {/* Enhanced Password Input */}
         <div className="space-y-3">
-          <Label htmlFor="password" className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <Label htmlFor="password" className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
             <Lock className="h-4 w-4 text-primary" />
             Password
           </Label>
@@ -246,11 +246,11 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
         </Button>
         {/* Policy hint (provider-neutral) */}
         <div className="text-center">
-          <p className="text-xs text-muted-foreground mt-2">
+          <p className="text-xs text-slate-700 dark:text-slate-300 mt-2">
             Use your COMSATS Google account (e.g., <span className="font-mono">@cuilahore.edu.pk</span>, <span className="font-mono">@cuislamabad.edu.pk</span>).
           </p>
           {selectedCampus && (
-            <p className="text-xs text-muted-foreground mt-1 flex items-center justify-center gap-1">
+            <p className="text-xs text-slate-700 dark:text-slate-300 mt-1 flex items-center justify-center gap-1">
               <MapPin className="h-3 w-3" />
               Selected campus: <span className="font-medium">{selectedCampus.name}</span>
             </p>

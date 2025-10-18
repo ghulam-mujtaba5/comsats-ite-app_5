@@ -227,7 +227,7 @@ export function RichTextEditor({
         <div className="min-h-[200px]">
           <RichTextPlugin
             contentEditable={<ContentEditable className="min-h-[200px] p-4" />}
-            placeholder={<div className="absolute top-4 left-4 text-muted-foreground pointer-events-none">{placeholder}</div>}
+            placeholder={<div className="absolute top-4 left-4 text-slate-700 dark:text-slate-300 pointer-events-none">{placeholder}</div>}
             ErrorBoundary={EditorErrorBoundary}
           />
           <HistoryPlugin />
@@ -238,7 +238,7 @@ export function RichTextEditor({
       
       {/* Preview of uploaded files */}
       <div className="p-2 border-t border-border">
-        <div className="text-xs text-muted-foreground mb-2">
+        <div className="text-xs text-slate-700 dark:text-slate-300 mb-2">
           Attachments (0)
         </div>
         {/* File previews would go here */}

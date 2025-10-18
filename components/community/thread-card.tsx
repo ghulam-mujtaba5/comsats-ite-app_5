@@ -146,7 +146,7 @@ export function ThreadCard({ post, onLike, onComment, onShare, currentUser }: Th
           <div className="flex-1 min-w-0">
             {/* User Info and Badges */}
             <div className="flex flex-wrap items-center gap-2 mb-3">
-              <h4 className="font-semibold text-foreground truncate">
+              <h4 className="font-semibold text-slate-900 dark:text-white truncate">
                 {post.author}
               </h4>
               
@@ -194,11 +194,11 @@ export function ThreadCard({ post, onLike, onComment, onShare, currentUser }: Th
                 </Badge>
               )}
               
-              <span className="text-sm text-muted-foreground whitespace-nowrap">{post.time}</span>
+              <span className="text-sm text-slate-700 dark:text-slate-300 whitespace-nowrap">{post.time}</span>
             </div>
             
             {/* Post Content */}
-            <p className="text-muted-foreground mb-4 leading-relaxed">
+            <p className="text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
               {post.content}
             </p>
             

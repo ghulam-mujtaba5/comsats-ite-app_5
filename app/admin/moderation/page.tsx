@@ -234,7 +234,7 @@ export default function AdminModerationPage() {
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM5QzkyQUMiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
           
           <div className={`relative ${styles.section} pt-12 pb-8`}>
-            <div className="glass-card border border-white/20 dark:border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+            <div className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-3xl p-8 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
@@ -352,7 +352,7 @@ export default function AdminModerationPage() {
                   <Card key={post.id} className={`glass-card rounded-2xl backdrop-blur-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl group ${
                     isProblematic 
                       ? 'bg-gradient-to-br from-red-50/80 to-orange-50/80 dark:from-red-950/40 dark:to-orange-950/40 border border-red-200/50 dark:border-red-800/50 hover:shadow-red-500/20'
-                      : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 border border-white/20 dark:border-white/10 hover:shadow-blue-500/10'
+                      : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 hover:shadow-blue-500/10'
                   }`}>
                     <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-2xl" />
                     
@@ -442,7 +442,7 @@ export default function AdminModerationPage() {
                 )
               })}
               {filteredPosts.length === 0 && (
-                <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
+                <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
                   <div className="space-y-4">
                     <div className="text-4xl">📝</div>
                     <div>
@@ -463,7 +463,7 @@ export default function AdminModerationPage() {
                   <Card key={comment.id} className={`glass-card rounded-2xl backdrop-blur-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl group ${
                     isProblematic 
                       ? 'bg-gradient-to-br from-yellow-50/80 to-orange-50/80 dark:from-yellow-950/40 dark:to-orange-950/40 border border-yellow-200/50 dark:border-yellow-800/50 hover:shadow-yellow-500/20'
-                      : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 border border-white/20 dark:border-white/10 hover:shadow-blue-500/10'
+                      : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 hover:shadow-blue-500/10'
                   }`}>
                     <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-2xl" />
                     
@@ -545,7 +545,7 @@ export default function AdminModerationPage() {
                 )
               })}
               {filteredComments.length === 0 && (
-                <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
+                <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
                   <div className="space-y-4">
                     <div className="text-4xl">💬</div>
                     <div>
@@ -565,7 +565,7 @@ export default function AdminModerationPage() {
                   <Card key={report.id} className={`glass-card rounded-2xl backdrop-blur-xl transition-all duration-300 hover:scale-[1.01] hover:shadow-xl group ${
                     isPending 
                       ? 'bg-gradient-to-br from-red-50/80 to-pink-50/80 dark:from-red-950/40 dark:to-pink-950/40 border border-red-200/50 dark:border-red-800/50 hover:shadow-red-500/20'
-                      : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 border border-white/20 dark:border-white/10 hover:shadow-blue-500/10'
+                      : 'bg-gradient-to-br from-white/60 to-white/40 dark:from-slate-800/60 dark:to-slate-900/40 border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 hover:shadow-blue-500/10'
                   }`}>
                     <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-2xl" />
                     
@@ -664,7 +664,7 @@ export default function AdminModerationPage() {
                 )
               })}
               {filteredReports.length === 0 && (
-                <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
+                <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
                   <div className="space-y-4">
                     <div className="text-4xl">🚩</div>
                     <div>
@@ -679,7 +679,7 @@ export default function AdminModerationPage() {
 
           {/* Enhanced Moderation Action Dialog */}
           <Dialog open={isActionDialogOpen} onOpenChange={setIsActionDialogOpen}>
-            <DialogContent className="glass-card border border-white/20 dark:border-white/10 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
+            <DialogContent className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 backdrop-blur-xl bg-white/90 dark:bg-slate-900/90">
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2">
                   <Shield className="h-5 w-5" />

@@ -61,7 +61,7 @@ export function AchievementBadge({
             }`}>
               {title}
             </h3>
-            <p className="text-sm text-muted-foreground truncate">
+            <p className="text-sm text-slate-700 dark:text-slate-300 truncate">
               {description}
             </p>
           </div>

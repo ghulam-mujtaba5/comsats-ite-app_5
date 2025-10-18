@@ -135,7 +135,7 @@ export default function CommunitySearchPage() {
         </div>
 
         {/* Search Bar */}
-        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 shadow-lg rounded-2xl mb-8">
+        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 shadow-lg rounded-2xl mb-8">
           <CardContent className="p-6">
             <div className="flex flex-col lg:flex-row gap-4">
               <div className="flex-1 relative">
@@ -421,7 +421,7 @@ export default function CommunitySearchPage() {
                 {results.map((result) => (
                   <Card 
                     key={result.id} 
-                    className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 hover:shadow-lg transition-all duration-300 rounded-2xl"
+                    className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:shadow-lg transition-all duration-300 rounded-2xl"
                   >
                     <CardContent className="p-6">
                       <div className="flex items-start space-x-4">

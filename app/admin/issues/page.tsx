@@ -201,7 +201,7 @@ Created At: ${new Date(issue.created_at).toLocaleString()}
         <div className={`${styles.section} ${styles.spaceY6}`}>
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <div className="glass-card border border-white/20 dark:border-white/10 rounded-2xl p-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+              <div className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl p-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
                 <div className="flex items-center space-x-3">
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
                   <span className="text-slate-600 dark:text-slate-300">Loading issues...</span>
@@ -219,7 +219,7 @@ Created At: ${new Date(issue.created_at).toLocaleString()}
                 Back to Issues
               </Button>
               
-              <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+              <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
@@ -283,7 +283,7 @@ Created At: ${new Date(issue.created_at).toLocaleString()}
               </Card>
               
               {/* Responses Section */}
-              <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
+              <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40">
                 <CardHeader>
                   <div className="flex items-center gap-2">
                     <MessageCircle className="h-5 w-5 text-blue-600" />
@@ -361,7 +361,7 @@ Created At: ${new Date(issue.created_at).toLocaleString()}
                 return (
                   <Card 
                     key={it.id} 
-                    className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 hover:shadow-lg transition-all duration-300 cursor-pointer"
                     onClick={() => {
                       setSelectedIssue(it)
                       loadResponses(it.id)
@@ -453,7 +453,7 @@ Created At: ${new Date(issue.created_at).toLocaleString()}
               })}
               
               {issues.length === 0 && (
-                <Card className="glass-card border border-white/20 dark:border-white/10 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
+                <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 p-12 text-center">
                   <div className="space-y-4">
                     <div className="relative mx-auto w-16 h-16">
                       <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl blur-xl opacity-30" />

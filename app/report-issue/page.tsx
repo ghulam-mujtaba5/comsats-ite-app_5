@@ -67,7 +67,7 @@ export default function ReportIssuePage() {
           <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent">
             Report an Issue
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
             Found a bug or have a suggestion? Let us know and help us improve CampusAxis for everyone.
           </p>
         </div>
@@ -178,7 +178,7 @@ export default function ReportIssuePage() {
               <CardContent className="space-y-4">
                 <div className="space-y-2 text-sm">
                   <p className="font-medium">Help us help you:</p>
-                  <ul className="space-y-1 text-muted-foreground list-disc list-inside">
+                  <ul className="space-y-1 text-slate-700 dark:text-slate-300 list-disc list-inside">
                     <li>Check if the issue has already been reported</li>
                     <li>Include specific steps to reproduce the problem</li>
                     <li>Mention your browser and device information</li>
@@ -202,7 +202,7 @@ export default function ReportIssuePage() {
                 <p className="text-sm text-muted-foreground">
                   We'll notify you when:
                 </p>
-                <ul className="space-y-1 text-sm text-muted-foreground list-disc list-inside">
+                <ul className="space-y-1 text-sm text-slate-700 dark:text-slate-300 list-disc list-inside">
                   <li>Your issue is acknowledged</li>
                   <li>We start working on a fix</li>
                   <li>The issue is resolved</li>

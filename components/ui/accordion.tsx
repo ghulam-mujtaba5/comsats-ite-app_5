@@ -14,8 +14,8 @@ const accordionItemVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "border-white/20 bg-white/10 backdrop-blur-xl shadow-glass",
-        "glass-subtle": "border-white/10 bg-white/5 backdrop-blur-lg shadow-glass-sm",
+        glass: "border-slate-200 dark:border-slate-700 bg-white/10 backdrop-blur-xl shadow-glass",
+        "glass-subtle": "border-slate-200 dark:border-slate-700 bg-white/5 backdrop-blur-lg shadow-glass-sm",
       },
     },
     defaultVariants: {
@@ -103,7 +103,7 @@ const AccordionTrigger = React.forwardRef<
       >
         {children}
         <ChevronDownIcon className={cn(
-          "text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5",
+          "text-slate-700 dark:text-slate-300 pointer-events-none size-4 shrink-0 translate-y-0.5",
           prefersReducedMotion ? "transition-none" : "transition-transform animate-duration-200"
         )} />
       </AccordionPrimitive.Trigger>

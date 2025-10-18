@@ -206,7 +206,7 @@ export default async function DashboardPage() {
                   <CardContent className="p-6 text-center">
                     <BookOpen className="h-8 w-8 text-emerald-600 dark:text-emerald-400 mx-auto mb-3 group-hover:scale-110 transition-transform duration-200" />
                     <div className="font-medium text-slate-900 dark:text-white">Resources</div>
-                    <p className="text-xs text-muted-foreground mt-1">Study materials</p>
+                    <p className="text-xs text-slate-700 dark:text-slate-300 mt-1">Study materials</p>
                   </CardContent>
                 </Card>
               </Link>
@@ -216,7 +216,7 @@ export default async function DashboardPage() {
                   <CardContent className="p-6 text-center">
                     <Calendar className="h-8 w-8 text-blue-600 dark:text-blue-400 mx-auto mb-3 group-hover:scale-110 transition-transform duration-200" />
                     <div className="font-medium text-slate-900 dark:text-white">Timetable</div>
-                    <p className="text-xs text-muted-foreground mt-1">Class schedules</p>
+                    <p className="text-xs text-slate-700 dark:text-slate-300 mt-1">Class schedules</p>
                   </CardContent>
                 </Card>
               </Link>
@@ -226,7 +226,7 @@ export default async function DashboardPage() {
                   <CardContent className="p-6 text-center">
                     <TrendingUp className="h-8 w-8 text-purple-600 dark:text-purple-400 mx-auto mb-3 group-hover:scale-110 transition-transform duration-200" />
                     <div className="font-medium text-slate-900 dark:text-white">News & Events</div>
-                    <p className="text-xs text-muted-foreground mt-1">Campus updates</p>
+                    <p className="text-xs text-slate-700 dark:text-slate-300 mt-1">Campus updates</p>
                   </CardContent>
                 </Card>
               </Link>

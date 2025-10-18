@@ -218,7 +218,7 @@ export function Header() {
               aria-label="Mobile navigation menu"
             >
               <div className="flex flex-col space-y-4 mt-4 pb-4 w-full">
-                <div className="flex items-center justify-center pb-6 border-b border-white/20 dark:border-white/10 w-full max-w-full box-border">
+                <div className="flex items-center justify-center pb-6 border-b border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 w-full max-w-full box-border">
                   <div className="relative group">
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur-lg opacity-20" />
                     <Image 

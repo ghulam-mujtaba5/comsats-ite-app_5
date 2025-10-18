@@ -14,8 +14,8 @@ const dropdownMenuContentVariants = cva(
     variants: {
       variant: {
         default: "bg-popover text-popover-foreground",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 text-white shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700 text-white shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700 text-white shadow-glass-sm",
       },
     },
     defaultVariants: {
@@ -233,7 +233,7 @@ const DropdownMenuShortcut = React.forwardRef<
       ref={ref}
       data-slot="dropdown-menu-shortcut"
       className={cn(
-        "text-muted-foreground ml-auto text-xs tracking-widest",
+        "text-slate-700 dark:text-slate-300 ml-auto text-xs tracking-widest",
         className
       )}
       {...props}

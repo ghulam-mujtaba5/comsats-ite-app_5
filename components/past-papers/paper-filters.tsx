@@ -24,7 +24,7 @@ export function PaperFilters({ filters, onFilterChange, onReset }: PaperFiltersP
     filters.department && filters.department !== "All" ? getCoursesByDepartment(filters.department) : []
 
   return (
-    <div className="space-y-4 p-6 bg-card border border-border rounded-lg">
+    <div className="space-y-4 p-6 bg-white dark:bg-slate-800 border border-border rounded-lg">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold flex items-center gap-2">
           <Filter className="h-5 w-5 text-primary" />
@@ -38,7 +38,7 @@ export function PaperFilters({ filters, onFilterChange, onReset }: PaperFiltersP
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div>
-          <label className="text-sm font-medium text-foreground mb-2 block">Department</label>
+          <label className="text-sm font-medium text-slate-900 dark:text-white mb-2 block">Department</label>
           <Select value={filters.department} onValueChange={(value) => onFilterChange("department", value)}>
             <SelectTrigger>
               <SelectValue placeholder="All Departments" />
@@ -55,7 +55,7 @@ export function PaperFilters({ filters, onFilterChange, onReset }: PaperFiltersP
         </div>
 
         <div>
-          <label className="text-sm font-medium text-foreground mb-2 block">Course</label>
+          <label className="text-sm font-medium text-slate-900 dark:text-white mb-2 block">Course</label>
           <Select
             value={filters.course}
             onValueChange={(value) => onFilterChange("course", value)}
@@ -76,7 +76,7 @@ export function PaperFilters({ filters, onFilterChange, onReset }: PaperFiltersP
         </div>
 
         <div>
-          <label className="text-sm font-medium text-foreground mb-2 block">Exam Type</label>
+          <label className="text-sm font-medium text-slate-900 dark:text-white mb-2 block">Exam Type</label>
           <Select value={filters.examType} onValueChange={(value) => onFilterChange("examType", value)}>
             <SelectTrigger>
               <SelectValue placeholder="All Types" />
@@ -92,7 +92,7 @@ export function PaperFilters({ filters, onFilterChange, onReset }: PaperFiltersP
         </div>
 
         <div>
-          <label className="text-sm font-medium text-foreground mb-2 block">Semester</label>
+          <label className="text-sm font-medium text-slate-900 dark:text-white mb-2 block">Semester</label>
           <Select value={filters.semester} onValueChange={(value) => onFilterChange("semester", value)}>
             <SelectTrigger>
               <SelectValue placeholder="All Semesters" />
@@ -108,7 +108,7 @@ export function PaperFilters({ filters, onFilterChange, onReset }: PaperFiltersP
         </div>
 
         <div>
-          <label className="text-sm font-medium text-foreground mb-2 block">Year</label>
+          <label className="text-sm font-medium text-slate-900 dark:text-white mb-2 block">Year</label>
           <Select value={filters.year} onValueChange={(value) => onFilterChange("year", value)}>
             <SelectTrigger>
               <SelectValue placeholder="All Years" />
@@ -125,7 +125,7 @@ export function PaperFilters({ filters, onFilterChange, onReset }: PaperFiltersP
         </div>
 
         <div>
-          <label className="text-sm font-medium text-foreground mb-2 block">Search</label>
+          <label className="text-sm font-medium text-slate-900 dark:text-white mb-2 block">Search</label>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input

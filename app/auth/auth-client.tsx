@@ -119,7 +119,7 @@ export default function AuthClient() {
               </div>
               <div>
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Welcome to CampusAxis</h1>
-                <p className="text-sm text-muted-foreground mt-2">Your Academic Portal for COMSATS University</p>
+                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2">Your Academic Portal for COMSATS University</p>
               </div>
             </div>
             
@@ -127,7 +127,7 @@ export default function AuthClient() {
               <Button
                 variant="ghost"
                 onClick={() => router.back()}
-                className="flex items-center gap-3 text-muted-foreground hover:text-foreground px-4 py-3 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift shadow-lg"
+                className="flex items-center gap-3 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white px-4 py-3 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift shadow-lg"
               >
                 <ArrowLeft className="h-5 w-5" />
                 <span className="font-medium">Back to Home</span>
@@ -139,13 +139,13 @@ export default function AuthClient() {
                   <GraduationCap className="h-12 w-12 text-primary" />
                 </div>
               </div>
-              <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-4 tracking-tight leading-[0.9]">
+              <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight leading-[0.9]">
                 Welcome to{" "}
                 <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent block">
                   CampusAxis
                 </span>
               </h1>
-              <p className="text-muted-foreground text-lg font-serif leading-relaxed max-w-md mx-auto">
+              <p className="text-slate-700 dark:text-slate-300 text-lg font-serif leading-relaxed max-w-md mx-auto">
                 Your gateway to academic excellence at COMSATS University Lahore
               </p>
             </div>
@@ -159,7 +159,7 @@ export default function AuthClient() {
                         className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 ${
                           isLogin 
                             ? 'bg-gradient-to-r from-primary to-blue-600 text-primary-foreground shadow-lg hover:shadow-xl hover-lift' 
-                            : 'text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl'
+                            : 'text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-primary/10 rounded-xl'
                         }`}
                       >
                         Sign In
@@ -169,7 +169,7 @@ export default function AuthClient() {
                         className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 ${
                           !isLogin 
                             ? 'bg-gradient-to-r from-primary to-blue-600 text-primary-foreground shadow-lg hover:shadow-xl hover-lift' 
-                            : 'text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl'
+                            : 'text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-primary/10 rounded-xl'
                         }`}
                       >
                         Sign Up
@@ -213,13 +213,13 @@ export default function AuthClient() {
                 <Sparkles className="h-4 w-4" />
                 Academic Portal
               </div>
-              <h2 className="text-4xl lg:text-6xl font-bold text-foreground mb-6 tracking-tight leading-[0.9]">
+              <h2 className="text-4xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight leading-[0.9]">
                 Empowering Your{" "}
                 <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent block">
                   Academic Journey
                 </span>
               </h2>
-              <p className="text-xl text-muted-foreground leading-relaxed font-serif">
+              <p className="text-xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif">
                 Join thousands of COMSATS students who trust CampusAxis for their academic needs.
               </p>
             </div>
@@ -236,10 +236,10 @@ export default function AuthClient() {
                         <Icon className="h-7 w-7 text-primary" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-lg mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
+                        <h3 className="font-bold text-lg mb-2 text-slate-900 dark:text-white group-hover:text-primary transition-colors duration-300">
                           {feature.title}
                         </h3>
-                        <p className="text-muted-foreground leading-relaxed font-serif">
+                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed font-serif">
                           {feature.description}
                         </p>
                       </div>
@@ -253,7 +253,7 @@ export default function AuthClient() {
                 <GraduationCap className="h-8 w-8 text-primary" />
               </div>
               <h4 className="font-bold text-xl mb-3 text-foreground">Ready to get started?</h4>
-              <p className="text-muted-foreground leading-relaxed font-serif">
+              <p className="text-slate-700 dark:text-slate-300 leading-relaxed font-serif">
                 Join the CampusAxis community and unlock your academic potential.
               </p>
             </Card>

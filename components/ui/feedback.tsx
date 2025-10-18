@@ -111,7 +111,7 @@ export function FeedbackToast({
           {description && (
             <ToastDescription>{description}</ToastDescription>
           )}
-          <div className="mt-2 w-full bg-muted rounded-full h-1">
+          <div className="mt-2 w-full bg-slate-100 dark:bg-slate-900 rounded-full h-1">
             <div
               className={`h-1 rounded-full ${getProgressColor()}`}
               style={{ width: `${progress}%` }}

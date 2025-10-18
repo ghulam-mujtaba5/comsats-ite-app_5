@@ -190,7 +190,7 @@ export default function CommunityNotificationsPage() {
                 <Card 
                   key={notification.id} 
                   className={cn(
-                    "bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/30 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden",
+                    "bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden",
                     !notification.is_read && "border-l-4 border-l-primary"
                   )}
                 >

@@ -136,7 +136,7 @@ export function FeatureCards() {
             </span>
           </h2>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
             Comprehensive tools and resources designed specifically for COMSATS University students. 
             Access everything you need to excel in your academic journey.
           </p>
@@ -151,7 +151,7 @@ export function FeatureCards() {
                 <AnimatedCard 
                   enableHover={true} 
                   enableGlow={true}
-                  className="group relative h-full overflow-hidden border bg-card/80 backdrop-blur-sm glass-interactive glass-gradient"
+                  className="group relative h-full overflow-hidden border bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm glass-interactive glass-gradient"
                 >
                   {/* Enhanced badge */}
                   <div className="absolute top-4 right-4 z-10">
@@ -191,7 +191,7 @@ export function FeatureCards() {
                     {/* Enhanced CTA */}
                     <Button 
                       variant="ghost" 
-                      className="w-full justify-between hover:bg-muted group/btn p-3 h-auto glass-button glass-border-subtle glass-hover glass-depth" 
+                      className="w-full justify-between hover:bg-slate-100 dark:bg-slate-900 group/btn p-3 h-auto glass-button glass-border-subtle glass-hover glass-depth" 
                       asChild
                     >
                       <Link href={feature.href} className="font-medium">
@@ -212,7 +212,7 @@ export function FeatureCards() {
 
         {/* Enhanced call to action */}
         <FadeInScroll className="text-center mt-20" delay={0.5}>
-          <AnimatedCard enableHover={true} className="inline-block p-8 border bg-card/80 backdrop-blur-sm shadow-xl max-w-3xl mx-auto glass-primary glass-gradient">
+          <AnimatedCard enableHover={true} className="inline-block p-8 border bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm shadow-xl max-w-3xl mx-auto glass-primary glass-gradient">
             <div className="space-y-6">
               <div className="flex justify-center">
                 <div className="relative p-4 bg-gradient-to-r from-primary/20 to-indigo-500/20 rounded-2xl glass-interactive">
@@ -220,7 +220,7 @@ export function FeatureCards() {
                 </div>
               </div>
               <h3 className="text-2xl md:text-3xl font-bold">Ready to Transform Your Academic Experience?</h3>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
                 Join thousands of COMSATS students who are already using CampusAxis to excel in their studies and connect with their academic community.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -237,7 +237,7 @@ export function FeatureCards() {
                   </Link>
                 </Button>
               </div>
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground pt-4">
+              <div className="flex items-center justify-center gap-2 text-sm text-slate-700 dark:text-slate-300 pt-4">
                 <Clock className="h-4 w-4" />
                 <span>Join in less than 2 minutes</span>
               </div>

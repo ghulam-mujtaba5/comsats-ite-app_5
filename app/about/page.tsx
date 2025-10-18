@@ -61,7 +61,7 @@ export default function AboutUsPage() {
                 </span>
               </h1>
               
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-serif leading-relaxed animate-slide-up animate-delay-400">
+              <p className="text-xl text-slate-700 dark:text-slate-300 max-w-2xl mx-auto font-serif leading-relaxed animate-slide-up animate-delay-400">
                 CampusAxis is designed to help COMSATS University Lahore students access academic resources and make informed decisions through faculty reviews, enhancing their learning experience with best faculty.
               </p>
 
@@ -81,10 +81,10 @@ export default function AboutUsPage() {
                   <div className="p-3 rounded-xl bg-primary/10 text-primary">
                     <Target className="h-6 w-6" />
                   </div>
-                  <h2 className="text-3xl lg:text-4xl font-bold text-foreground ml-2">Mission</h2>
+                  <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white ml-2">Mission</h2>
                 </div>
                 
-                <p className="text-lg text-muted-foreground leading-relaxed font-serif">
+                <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-serif">
                   Our mission is to make academic resources and faculty reviews easily accessible for COMSATS students, supporting their learning and growth.
                 </p>
 
@@ -107,7 +107,7 @@ export default function AboutUsPage() {
                   <div className="text-center space-y-4">
                     <GraduationCap className="h-16 w-16 mx-auto text-primary" />
                     <h3 className="text-2xl font-semibold">Built for Students</h3>
-                    <p className="text-muted-foreground font-serif">
+                    <p className="text-slate-700 dark:text-slate-300 font-serif">
                       Designed for students: simple, useful, and focused on what matters most for your academic journey.
                     </p>
                   </div>
@@ -123,7 +123,7 @@ export default function AboutUsPage() {
               <div className="text-center mb-8">
                 <Badge variant="soft" className="uppercase tracking-wide text-xs">Leadership</Badge>
                 <h3 className="text-2xl lg:text-3xl font-semibold mt-2">CampusAxis Leadership</h3>
-                <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+                <p className="text-slate-700 dark:text-slate-300 max-w-2xl mx-auto mt-2">
                   The team behind CampusAxis — leading with vision, engineering excellence, and student-first focus.
                 </p>
               </div>
@@ -170,7 +170,7 @@ export default function AboutUsPage() {
                       <div className="text-xs inline-flex items-center gap-2 px-2 py-1 rounded-full bg-primary/10 text-primary font-medium mt-1 mb-2">
                         {person.role}
                       </div>
-                      <div className="text-sm text-muted-foreground mb-4 leading-relaxed">{person.bio}</div>
+                      <div className="text-sm text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">{person.bio}</div>
                       <div className="flex items-center justify-center gap-3">
                         <a aria-label={`${person.name} on GitHub`} href={person.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-white/40 dark:border-slate-700/60 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-colors">
                           <Github className="h-4 w-4" />
@@ -240,7 +240,7 @@ export default function AboutUsPage() {
           <div className={layout.section}>
             <div className="max-w-4xl mx-auto text-center">
               <h3 className="text-2xl lg:text-3xl font-semibold mt-2">Our Values & Principles</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed font-serif mt-4">
+              <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-serif mt-4">
                 At CampusAxis, our foundation is built on values that guide how we create, grow, and serve our student community.
               </p>
               <div className="space-y-6 text-left mt-8">
@@ -274,7 +274,7 @@ export default function AboutUsPage() {
           <div className={layout.section}>
             <div className="max-w-3xl mx-auto text-center">
               <h3 className="text-2xl lg:text-3xl font-semibold mt-2">User Privacy</h3>
-              <p className="text-lg text-muted-foreground leading-relaxed font-serif mt-4">
+              <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-serif mt-4">
                 At CampusAxis, we prioritize user privacy. Our platform ensures anonymity and fosters confidence, allowing students to engage and learn without concerns about data security or misuse.
               </p>
             </div>
@@ -365,7 +365,7 @@ export default function AboutUsPage() {
                 </div>
                 <h2 className="text-3xl font-bold">Powered by <a href="https://megicode.com" target="_blank" rel="noopener noreferrer" className="text-primary underline">Megicode</a></h2>
               </div>
-              <p className="text-muted-foreground max-w-2xl mx-auto">Built and maintained by the Megicode team — supporting students and campus communities.</p>
+              <p className="text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">Built and maintained by the Megicode team — supporting students and campus communities.</p>
             </div>
             {/* Leadership grid moved above; Ambassador CTA removed */}
           </div>
@@ -403,7 +403,7 @@ export default function AboutUsPage() {
                   <h2 className="text-3xl font-bold text-foreground">Our Commitment</h2>
                 </div>
                 
-                <p className="text-lg text-muted-foreground leading-relaxed font-serif max-w-3xl mx-auto">
+                <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-serif max-w-3xl mx-auto">
                   We are dedicated to continuously improving and expanding our platform to meet the evolving needs of the 
                   student community. Our goal is to create a tool that is not only useful but also an integral part of the 
                   university experience at COMSATS Lahore.

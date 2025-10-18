@@ -107,14 +107,14 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
           <h1 className="text-5xl lg:text-8xl font-bold leading-[0.9] text-balance mb-6">Help &{" "}
             <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">Support</span>
           </h1>
-          <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed font-serif max-w-4xl mx-auto mb-4">Find answers to common questions and get the help you need to make the most of your CampusAxis experience.</p>
-          <p className="text-lg text-muted-foreground/80 font-light max-w-xl mx-auto">Fast, accurate, and always here to help</p>
+          <p className="text-xl lg:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-serif max-w-4xl mx-auto mb-4">Find answers to common questions and get the help you need to make the most of your CampusAxis experience.</p>
+          <p className="text-lg text-slate-700 dark:text-slate-300/80 font-light max-w-xl mx-auto">Fast, accurate, and always here to help</p>
         </div>
 
         <Card className="card-modern border-0 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-500 mb-12 rounded-3xl">
           <CardContent className="p-8">
             <div className="relative mb-6">
-              <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 h-6 w-6 text-muted-foreground/70" />
+              <Search className="absolute left-6 top-1/2 transform -translate-y-1/2 h-6 w-6 text-slate-700 dark:text-slate-300/70" />
               <Input
                 placeholder="Search for help topics, features, or common questions..."
                 value={searchQuery}
@@ -161,7 +161,7 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
               <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-3 text-foreground">{filteredFAQs.length} Helpful{" "}
                 <span className="bg-gradient-to-r from-primary via-blue-500 to-purple-500 bg-clip-text text-transparent">Answers</span>
               </h2>
-              <p className="text-muted-foreground font-serif text-lg leading-relaxed">Find solutions to the most common questions from our community</p>
+              <p className="text-slate-700 dark:text-slate-300 font-serif text-lg leading-relaxed">Find solutions to the most common questions from our community</p>
             </div>
             <div className="space-y-6">
               {filteredFAQs.map((faq) => (
@@ -171,11 +171,11 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
                       <CardHeader className="p-6 cursor-pointer hover:bg-background/30 transition-all duration-300 rounded-t-2xl">
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
-                            <CardTitle className="text-lg lg:text-xl font-bold text-foreground mb-3 text-left group-hover:text-primary transition-colors duration-300">{faq.question}</CardTitle>
+                            <CardTitle className="text-lg lg:text-xl font-bold text-slate-900 dark:text-white mb-3 text-left group-hover:text-primary transition-colors duration-300">{faq.question}</CardTitle>
                             <div className="flex items-center gap-3 flex-wrap">
                               <Badge variant="outline" className="text-xs capitalize font-medium px-3 py-1 rounded-xl bg-primary/5 border-primary/20 text-primary">{faq.category}</Badge>
                               {faq.helpful && (
-                                <div className="flex items-center gap-2 text-xs text-muted-foreground px-3 py-1 rounded-xl bg-muted/30">
+                                <div className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 px-3 py-1 rounded-xl bg-muted/30">
                                   <Heart className="h-3 w-3 text-red-500" />
                                   <span className="font-medium">{faq.helpful} helpful</span>
                                 </div>
@@ -186,7 +186,7 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
                             {openItems.includes(faq.id) ? (
                               <ChevronDown className="h-6 w-6 text-primary transition-transform duration-300" />
                             ) : (
-                              <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-all duration-300" />
+                              <ChevronRight className="h-6 w-6 text-slate-700 dark:text-slate-300 group-hover:text-primary transition-all duration-300" />
                             )}
                           </div>
                         </div>
@@ -194,11 +194,11 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <CardContent className="px-6 pb-6">
-                        <p className="text-muted-foreground leading-relaxed mb-6 font-serif text-base">{faq.answer}</p>
+                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-6 font-serif text-base">{faq.answer}</p>
                         <div className="flex items-center justify-between">
                           <div className="flex flex-wrap gap-2">
                             {faq.tags.map((tag) => (
-                              <Badge key={tag} variant="secondary" className="text-xs px-2 py-1 rounded-lg bg-muted/50 hover:bg-muted transition-colors cursor-pointer">#{tag}</Badge>
+                              <Badge key={tag} variant="secondary" className="text-xs px-2 py-1 rounded-lg bg-muted/50 hover:bg-slate-100 dark:bg-slate-900 transition-colors cursor-pointer">#{tag}</Badge>
                             ))}
                           </div>
                           <div className="flex items-center gap-2">
@@ -221,7 +221,7 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
                     <Search className="h-10 w-10 text-muted-foreground" />
                   </div>
                   <h3 className="text-2xl font-bold mb-4 text-foreground">No Results Found</h3>
-                  <p className="text-muted-foreground mb-6 font-serif text-base leading-relaxed max-w-md mx-auto">Try adjusting your search terms or browse different categories to find what you're looking for.</p>
+                  <p className="text-slate-700 dark:text-slate-300 mb-6 font-serif text-base leading-relaxed max-w-md mx-auto">Try adjusting your search terms or browse different categories to find what you're looking for.</p>
                   <Button onClick={() => { setSearchQuery(""); setSelectedCategory("all") }} className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl px-8 py-3 hover-lift">
                     <Search className="h-4 w-4 mr-2" />
                     Clear Search
@@ -240,7 +240,7 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
                   </div>
                   Quick Actions
                 </CardTitle>
-                <CardDescription className="text-muted-foreground font-serif">Get help with common tasks</CardDescription>
+                <CardDescription className="text-slate-700 dark:text-slate-300 font-serif">Get help with common tasks</CardDescription>
               </CardHeader>
               <CardContent className="p-6 pt-0 space-y-4">
                 <Link href="/contact"><Button variant="outline" className="w-full justify-start h-12 rounded-xl bg-background/50 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300 hover-lift"><div className="flex items-center gap-3"><div className="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20"><Mail className="h-4 w-4 text-green-600" /></div>Contact Support</div></Button></Link>
@@ -256,7 +256,7 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
                   </div>
                   Popular Topics
                 </CardTitle>
-                <CardDescription className="text-muted-foreground font-serif">Browse by category</CardDescription>
+                <CardDescription className="text-slate-700 dark:text-slate-300 font-serif">Browse by category</CardDescription>
               </CardHeader>
               <CardContent className="p-6 pt-0 space-y-3">
                 {categories.filter(cat => cat.id !== "all").map(category => {
@@ -268,8 +268,8 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
                           <Icon className="h-5 w-5" />
                         </div>
                         <div className="flex-1 text-left">
-                          <div className="font-semibold text-foreground group-hover:text-primary transition-colors duration-300">{category.name}</div>
-                          <div className="text-sm text-muted-foreground font-serif">{category.description}</div>
+                          <div className="font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors duration-300">{category.name}</div>
+                          <div className="text-sm text-slate-700 dark:text-slate-300 font-serif">{category.description}</div>
                         </div>
                         <Badge variant="secondary" className="text-xs font-medium">{category.count}</Badge>
                       </div>
@@ -288,7 +288,7 @@ export function HelpClient({ faqs }: { faqs: FAQItem[] }) {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 pt-0">
-                <p className="text-muted-foreground mb-6 font-serif leading-relaxed">Can't find what you're looking for? Our support team is here to help.</p>
+                <p className="text-slate-700 dark:text-slate-300 mb-6 font-serif leading-relaxed">Can't find what you're looking for? Our support team is here to help.</p>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/30">
                     <div className="p-2 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20"><Mail className="h-4 w-4 text-green-600" /></div>

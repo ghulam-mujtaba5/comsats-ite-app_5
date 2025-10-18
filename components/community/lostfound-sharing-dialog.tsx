@@ -319,7 +319,7 @@ export function LostFoundSharingDialog({
                   {tag}
                   <button 
                     onClick={() => handleRemoveTag(tag)}
-                    className="ml-1 hover:bg-muted rounded-full p-0.5"
+                    className="ml-1 hover:bg-slate-100 dark:bg-slate-900 rounded-full p-0.5"
                   >
                     <X className="h-3 w-3" />
                   </button>
@@ -352,7 +352,7 @@ export function LostFoundSharingDialog({
             />
           </div>
           
-          <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-slate-100 dark:bg-slate-900 rounded-lg">
             <div className="flex items-center gap-2">
               {isPublic ? (
                 <Globe className="h-4 w-4 text-primary" />

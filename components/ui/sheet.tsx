@@ -75,8 +75,8 @@ const sheetVariants = cva(
       },
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border-white/20 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-white/10 shadow-glass-sm",
+        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700 shadow-glass",
+        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700 shadow-glass-sm",
       },
     },
     defaultVariants: {

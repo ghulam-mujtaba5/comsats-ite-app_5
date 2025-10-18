@@ -457,7 +457,7 @@ export function EnhancedSharingDialog({
                         #{tag}
                         <button 
                           onClick={() => handleRemoveTag(tag)}
-                          className="ml-1 hover:bg-muted rounded-full"
+                          className="ml-1 hover:bg-slate-100 dark:bg-slate-900 rounded-full"
                         >
                           <X className="h-3 w-3" />
                         </button>
@@ -556,12 +556,12 @@ export function EnhancedSharingDialog({
                   >
                     <CardContent className="p-4">
                       <div className="flex items-start gap-3">
-                        <div className="bg-muted p-2 rounded-lg">
+                        <div className="bg-slate-100 dark:bg-slate-900 p-2 rounded-lg">
                           <FileDocument className="h-5 w-5" />
                         </div>
                         <div className="flex-1">
                           <h3 className="font-medium text-sm">Sample Content {item}</h3>
-                          <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                          <p className="text-xs text-slate-700 dark:text-slate-300 line-clamp-2 mt-1">
                             This is a sample content description that would appear in the sharing dialog.
                           </p>
                           <div className="flex items-center gap-2 mt-2">
@@ -585,7 +585,7 @@ export function EnhancedSharingDialog({
                     <CardTitle className="text-lg">Share Options</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-slate-100 dark:bg-slate-900 rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="bg-background p-2 rounded-lg">
                           <FileDocument className="h-5 w-5" />

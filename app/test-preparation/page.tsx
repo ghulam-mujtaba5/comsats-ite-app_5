@@ -109,7 +109,7 @@ export default function TestPreparationPage() {
     <div className="container mx-auto py-8 space-y-8">
       <div className="text-center space-y-4">
         <h1 className="text-3xl md:text-4xl font-bold">Test Preparation Resources</h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
           Access practice tests, study materials, and preparation guides for various entrance exams
         </p>
       </div>
@@ -125,19 +125,19 @@ export default function TestPreparationPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="border rounded-lg p-4">
               <h3 className="font-semibold">Popular Exams</h3>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-slate-700 dark:text-slate-300 mt-2">
                 NTS, GAT, GRE, SAT, and subject-specific tests
               </p>
             </div>
             <div className="border rounded-lg p-4">
               <h3 className="font-semibold">Study Tips</h3>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-slate-700 dark:text-slate-300 mt-2">
                 Effective preparation strategies and time management
               </p>
             </div>
             <div className="border rounded-lg p-4">
               <h3 className="font-semibold">Resources</h3>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-slate-700 dark:text-slate-300 mt-2">
                 Practice tests, study guides, and video tutorials
               </p>
             </div>

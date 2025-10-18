@@ -8,7 +8,7 @@ import { cva, VariantProps } from "class-variance-authority"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const sliderTrackVariants = cva(
-  "bg-muted relative grow overflow-hidden rounded-full data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5",
+  "bg-slate-100 dark:bg-slate-900 relative grow overflow-hidden rounded-full data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5",
   {
     variants: {
       variant: {
@@ -45,8 +45,8 @@ const sliderThumbVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/80 border-white/30 ring-white/30 shadow-glass",
-        "glass-subtle": "bg-white/70 border-white/20 ring-white/20 shadow-glass-sm",
+        glass: "bg-white/80 border-slate-200 dark:border-slate-700 ring-white/30 shadow-glass",
+        "glass-subtle": "bg-white/70 border-slate-200 dark:border-slate-700 ring-white/20 shadow-glass-sm",
       },
     },
     defaultVariants: {

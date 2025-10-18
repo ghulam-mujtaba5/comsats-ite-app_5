@@ -47,7 +47,7 @@ function ToolbarPlugin() {
   }
 
   return (
-    <div id="toolbar" className="flex flex-wrap gap-1 p-2 border rounded-t-md bg-muted">
+    <div id="toolbar" className="flex flex-wrap gap-1 p-2 border rounded-t-md bg-slate-100 dark:bg-slate-900">
       <Button variant="ghost" size="sm" type="button" className="p-1" onClick={() => formatText('bold')}>
         <Bold className="h-4 w-4" />
       </Button>
@@ -193,7 +193,7 @@ export function RichTextEditorEnhanced({
 
   if (!isClient) {
     return (
-      <div className={`min-h-[150px] p-3 border rounded-md bg-muted ${className}`}>
+      <div className={`min-h-[150px] p-3 border rounded-md bg-slate-100 dark:bg-slate-900 ${className}`}>
         <p className="text-muted-foreground">{placeholder}</p>
       </div>
     )
@@ -208,7 +208,7 @@ export function RichTextEditorEnhanced({
         <div className="min-h-[150px]">
           <RichTextPlugin
             contentEditable={<ContentEditable className="min-h-[150px] p-4" />}
-            placeholder={<div className="absolute top-4 left-4 text-muted-foreground pointer-events-none">{placeholder}</div>}
+            placeholder={<div className="absolute top-4 left-4 text-slate-700 dark:text-slate-300 pointer-events-none">{placeholder}</div>}
             ErrorBoundary={EditorErrorBoundary}
           />
           <HistoryPlugin />

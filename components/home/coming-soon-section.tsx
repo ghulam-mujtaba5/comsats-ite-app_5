@@ -49,11 +49,11 @@ export function ComingSoonSection() {
               <Zap className="h-10 w-10 text-primary" />
             </div>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Beta Testing Area</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Beta Testing Area</h2>
+          <p className="text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
             Try early versions of upcoming sections. Share feedback while we polish them to perfection.
           </p>
-          <div className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 px-4 py-2 rounded-full">
+          <div className="mt-4 inline-flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 bg-muted/50 px-4 py-2 rounded-full">
             <Sparkles className="h-4 w-4" />
             Your feedback helps us build better features
           </div>
@@ -63,7 +63,7 @@ export function ComingSoonSection() {
             const Icon = feature.icon
             return (
               <Link key={index} href={feature.href} className="block group">
-                <Card className="bg-card/80 border rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-1 h-full backdrop-blur-sm glass-interactive">
+                <Card className="bg-white/80 dark:bg-slate-800/80 border rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-1 h-full backdrop-blur-sm glass-interactive">
                   <CardHeader>
                     <div className="flex items-center gap-4">
                       <div className="bg-primary/10 p-3 rounded-xl glass-interactive">
@@ -98,7 +98,7 @@ export function ComingSoonSection() {
         
         {/* Feedback CTA */}
         <div className="text-center mt-12">
-          <Card className="inline-block p-6 border bg-card/80 backdrop-blur-sm max-w-3xl mx-auto glass-card-premium glass-border-glow glass-depth">
+          <Card className="inline-block p-6 border bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm max-w-3xl mx-auto glass-card-premium glass-border-glow glass-depth">
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <div className="flex-shrink-0">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 flex items-center justify-center glass-interactive">

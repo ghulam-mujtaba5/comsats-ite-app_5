@@ -127,7 +127,7 @@ export default function CommunityAdminPage() {
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-2">Access Denied</h2>
-            <p className="text-muted-foreground mb-4">You must be an administrator to access this page.</p>
+            <p className="text-slate-700 dark:text-slate-300 mb-4">You must be an administrator to access this page.</p>
             <Button onClick={() => router.push('/admin/auth')}>Go to Admin Login</Button>
           </div>
         </div>
@@ -450,7 +450,7 @@ function CommunityAdminPageContent() {
                     <div key={post.id} className="flex items-start gap-3">
                       <div className="flex-1 space-y-1">
                         <p className="text-sm font-medium">{post.author.name}</p>
-                        <p className="text-sm text-muted-foreground line-clamp-2">
+                        <p className="text-sm text-slate-700 dark:text-slate-300 line-clamp-2">
                           {post.content}
                         </p>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -482,7 +482,7 @@ function CommunityAdminPageContent() {
                       <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5" />
                       <div className="flex-1 space-y-1">
                         <p className="text-sm font-medium">{report.type}</p>
-                        <p className="text-sm text-muted-foreground line-clamp-2">
+                        <p className="text-sm text-slate-700 dark:text-slate-300 line-clamp-2">
                           {report.content}
                         </p>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -525,7 +525,7 @@ function CommunityAdminPageContent() {
               {/* Search and Filter */}
               <div className="flex flex-col sm:flex-row gap-4 mb-4">
                 <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-700 dark:text-slate-300 h-4 w-4" />
                   <Input
                     placeholder="Search posts..."
                     value={postSearch}
@@ -621,7 +621,7 @@ function CommunityAdminPageContent() {
               {/* Search and Filter */}
               <div className="flex flex-col sm:flex-row gap-4 mb-4">
                 <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-700 dark:text-slate-300 h-4 w-4" />
                   <Input
                     placeholder="Search users..."
                     value={userSearch}
@@ -849,11 +849,11 @@ function CommunityAdminPageContent() {
                   {["spam", "offensive", "inappropriate"].map((word) => (
                     <span 
                       key={word} 
-                      className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-muted"
+                      className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-900"
                     >
                       {word}
                       <button 
-                        className="text-muted-foreground hover:text-foreground"
+                        className="text-slate-700 dark:text-slate-300 hover:text-foreground"
                         aria-label={`Remove ${word} from blocked words`}
                       >
                         <X className="h-3 w-3" />

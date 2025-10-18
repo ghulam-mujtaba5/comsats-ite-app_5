@@ -144,9 +144,9 @@ export function ReportContent({ postId, commentId, contentType, onReport }: Repo
             />
           </div>
           
-          <div className="rounded-lg bg-muted p-4">
+          <div className="rounded-lg bg-slate-100 dark:bg-slate-900 p-4">
             <h4 className="font-medium text-sm mb-2">What happens next?</h4>
-            <ul className="text-xs text-muted-foreground space-y-1">
+            <ul className="text-xs text-slate-700 dark:text-slate-300 space-y-1">
               <li>• Our moderation team will review your report</li>
               <li>• Appropriate action will be taken if the content violates our guidelines</li>
               <li>• You'll be notified of the outcome</li>

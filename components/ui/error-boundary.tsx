@@ -52,7 +52,7 @@ export class ErrorBoundary extends Component<Props, State> {
               {this.state.error && (
                 <div className={cn(
                   "p-4 rounded-lg",
-                  "bg-white/10 backdrop-blur-xl border border-white/20"
+                  "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700"
                 )}>
                   <p className={cn(
                     "text-sm font-mono",

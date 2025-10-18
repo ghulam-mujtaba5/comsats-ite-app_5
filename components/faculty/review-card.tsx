@@ -102,7 +102,7 @@ export function ReviewCard({ review }: ReviewCardProps) {
         </div>
 
         <div className="space-y-3">
-          <p className="text-foreground leading-relaxed">{review.comment}</p>
+          <p className="text-slate-900 dark:text-white leading-relaxed">{review.comment}</p>
 
           {review.pros.length > 0 && (
             <div>
@@ -143,11 +143,11 @@ export function ReviewCard({ review }: ReviewCardProps) {
 
         <div className="flex items-center justify-between pt-2 border-t border-border">
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={() => action('helpful')} disabled={votedHelpful} className="text-muted-foreground hover:text-foreground">
+            <Button variant="ghost" size="sm" onClick={() => action('helpful')} disabled={votedHelpful} className="text-slate-700 dark:text-slate-300 hover:text-foreground">
               <ThumbsUp className="h-4 w-4 mr-1" />
               Helpful ({helpful})
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => action('report')} disabled={votedReport} className="text-muted-foreground hover:text-foreground">
+            <Button variant="ghost" size="sm" onClick={() => action('report')} disabled={votedReport} className="text-slate-700 dark:text-slate-300 hover:text-foreground">
               <Flag className="h-4 w-4 mr-1" />
               Report {reported > review.reported ? `(${reported})` : ''}
             </Button>
