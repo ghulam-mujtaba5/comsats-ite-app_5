@@ -15,7 +15,7 @@ type CardProps = React.ComponentProps<"div"> & {
     highContrast?: boolean
     focusVisible?: boolean
   }
-  role?: string
+  role?: React.AriaRole
   'aria-label'?: string
 }
 
@@ -96,6 +96,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       variant === "glass-layered" ? 'glass-layered' : 'glass-secondary'
     )
 
+    const validRoles: Set<React.AriaRole> = new Set([
+      'article','banner','button','cell','checkbox','complementary','contentinfo','dialog','directory','document','feed','figure','form','grid','gridcell','group','heading','img','link','list','listbox','listitem','log','main','marquee','math','menu','menubar','menuitem','meter','navigation','none','note','option','presentation','progressbar','radio','radiogroup','region','row','rowgroup','rowheader','scrollbar','search','searchbox','separator','slider','spinbutton','status','switch','tab','table','tablist','tabpanel','textbox','timer','toolbar','tooltip','tree','treegrid','treeitem'
+    ])
+
+    const safeRole = role && validRoles.has(role) ? role : undefined
+
     return (
       <div
         ref={ref}
@@ -116,9 +122,9 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           glassClasses,
           className
         )}
-        role={role}
-        aria-label={ariaLabel}
-        {...glassAccessibility.getAriaAttributes(role, ariaLabel)}
+  role={safeRole}
+  aria-label={ariaLabel}
+  {...glassAccessibility.getAriaAttributes(safeRole, ariaLabel)}
         {...(enablePress && !prefersReducedMotion ? { 
           onMouseDown: (e) => {
             if (e.button === 0) { // Left mouse button

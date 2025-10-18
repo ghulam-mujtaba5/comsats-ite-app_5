@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
-import { type VariantProps } from "cva"
 import { useTheme } from "next-themes"
 
 import { cn } from "@/lib/utils"

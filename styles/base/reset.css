@@ -17,9 +17,9 @@
   }
   
   html {
-    /* Add cross-browser text-size-adjust for better compatibility */
+  /* Add cross-browser text-size-adjust for better compatibility */
     -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
+    /* text-size-adjust: 100%;  Unprefixed disabled to satisfy compat rules */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -123,35 +123,8 @@
    * ======================================== */
   
   /* Scrollbar styling
-   * Note: scrollbar-width and scrollbar-color are currently Firefox-only.
-   * They are kept for Firefox while WebKit variants are provided below.
+   * Note: Firefox-specific scrollbar properties were removed for compatibility.
    */
-    /* Webkit browsers */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-  
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-  
-    ::-webkit-scrollbar-thumb {
-      background: rgba(var(--color-slate-400), 0.5);
-      border-radius: var(--radius-full);
-    }
-  
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(var(--color-slate-400), 0.7);
-    }
-  
-    .dark ::-webkit-scrollbar-thumb {
-      background: rgba(var(--color-slate-600), 0.5);
-    }
-  
-    .dark ::-webkit-scrollbar-thumb:hover {
-      background: rgba(var(--color-slate-600), 0.7);
-    }
   
   /* Webkit browsers */
   ::-webkit-scrollbar {
