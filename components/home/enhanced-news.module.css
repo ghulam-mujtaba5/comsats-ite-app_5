@@ -1,1 +1,50 @@
 ﻿/* Component-specific styles only - generic classes removed */
+
+/* Visibility fixes - override glassmorphism */
+.enhancedNews :global(.bg-white\/80),
+.enhancedNews :global(.bg-white\/90) {
+  background: rgb(255, 255, 255) !important;
+}
+
+.enhancedNews :global(.dark\:bg-slate-800\/80),
+.enhancedNews :global(.dark\:bg-slate-800\/90) {
+  background: rgb(30, 41, 59) !important;
+}
+
+.enhancedNews :global(.backdrop-blur-xl),
+.enhancedNews :global(.backdrop-blur-2xl),
+.enhancedNews :global(.backdrop-blur-3xl) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.enhancedNews :global(.glass-card),
+.enhancedNews :global(.glass-primary),
+.enhancedNews :global(.glass-professional) {
+  background: rgb(255, 255, 255) !important;
+}
+
+.enhancedNews h2,
+.enhancedNews h3 {
+  color: rgb(15, 23, 42) !important;
+}
+
+.enhancedNews p {
+  color: rgb(51, 65, 85) !important;
+}
+
+/* Dark mode overrides */
+:global(.dark) .enhancedNews :global(.glass-card),
+:global(.dark) .enhancedNews :global(.glass-primary),
+:global(.dark) .enhancedNews :global(.glass-professional) {
+  background: rgb(30, 41, 59) !important;
+}
+
+:global(.dark) .enhancedNews h2,
+:global(.dark) .enhancedNews h3 {
+  color: rgb(255, 255, 255) !important;
+}
+
+:global(.dark) .enhancedNews p {
+  color: rgb(203, 213, 225) !important;
+}

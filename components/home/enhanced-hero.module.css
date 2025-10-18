@@ -1,1 +1,51 @@
 ﻿/* Component-specific styles only - generic classes removed */
+
+/* Visibility fixes - override glassmorphism */
+.enhancedHero :global(.bg-white\/80),
+.enhancedHero :global(.bg-white\/90) {
+  background: rgb(255, 255, 255) !important;
+}
+
+.enhancedHero :global(.dark\:bg-slate-800\/80),
+.enhancedHero :global(.dark\:bg-slate-800\/90) {
+  background: rgb(30, 41, 59) !important;
+}
+
+.enhancedHero :global(.backdrop-blur-xl),
+.enhancedHero :global(.backdrop-blur-2xl),
+.enhancedHero :global(.backdrop-blur-3xl) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.enhancedHero :global(.glass-card),
+.enhancedHero :global(.glass-card-premium) {
+  background: rgb(255, 255, 255) !important;
+  min-height: 100px !important;
+}
+
+.enhancedHero h1,
+.enhancedHero h2,
+.enhancedHero h3 {
+  color: rgb(15, 23, 42) !important;
+}
+
+.enhancedHero p {
+  color: rgb(51, 65, 85) !important;
+}
+
+/* Dark mode overrides */
+:global(.dark) .enhancedHero :global(.glass-card),
+:global(.dark) .enhancedHero :global(.glass-card-premium) {
+  background: rgb(30, 41, 59) !important;
+}
+
+:global(.dark) .enhancedHero h1,
+:global(.dark) .enhancedHero h2,
+:global(.dark) .enhancedHero h3 {
+  color: rgb(255, 255, 255) !important;
+}
+
+:global(.dark) .enhancedHero p {
+  color: rgb(203, 213, 225) !important;
+}

@@ -1,1 +1,69 @@
 /* Component-specific styles only - generic classes removed to prevent layout conflicts */
+
+/* Override glassmorphism for solid backgrounds */
+.filterBarContainer {
+  background: rgb(255, 255, 255) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid rgb(226, 232, 240) !important;
+  padding: 1rem !important;
+}
+
+:global(.dark) .filterBarContainer {
+  background: rgb(15, 23, 42) !important;
+  border-color: rgb(51, 65, 85) !important;
+}
+
+/* Compact spacing for better vertical alignment */
+.filterBarContainer :global(.space-y-6) {
+  gap: 0.75rem !important;
+}
+
+/* Grid layout override - compact and properly aligned */
+.filterGrid {
+  display: grid !important;
+  grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  gap: 0.75rem !important;
+  align-items: start !important;
+}
+
+@media (min-width: 640px) {
+  .filterGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .filterGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .filterGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Compact filter items */
+.filterGrid > div {
+  margin: 0 !important;
+}
+
+.filterGrid label {
+  margin-bottom: 0.375rem !important;
+  font-size: 0.75rem !important;
+  line-height: 1.25 !important;
+}
+
+/* Reduce input/select heights for compact layout */
+.filterGrid :global(.h-11) {
+  height: 2.5rem !important;
+}
+
+/* Compact search input */
+.filterBarContainer :global(input[type="text"]) {
+  height: 2.5rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}

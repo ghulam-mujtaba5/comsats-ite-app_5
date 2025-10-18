@@ -36,14 +36,14 @@ export function AnimatedSections() {
   return (
     <>
       {/* Enhanced About CampusAxis section with improved glassmorphism and visual hierarchy */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background/80 to-muted/30 glass-primary" aria-labelledby="about-campusaxis-heading">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background/80 to-muted/30 glass-primary" aria-labelledby="about-campusaxis-heading">
         <div className={`${styles.section} ${styles.max6xl}`}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-10"
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6" role="banner">
               <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
@@ -57,7 +57,7 @@ export function AnimatedSections() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
             {features.map((item, index) => {
               const Icon = item.icon
               return (

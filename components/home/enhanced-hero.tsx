@@ -186,7 +186,7 @@ export function EnhancedHero() {
   }
 
   return (
-    <section className="relative min-h-[85vh] flex items-center overflow-hidden px-4 sm:px-6 lg:px-8 bg-transparent" aria-labelledby="hero-heading" ref={ref} role="region">
+    <section className="relative flex items-center overflow-hidden px-4 sm:px-6 lg:px-8 bg-transparent" aria-labelledby="hero-heading" ref={ref} role="region">
       {/* Enhanced background elements with better theme support */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-400/12 to-indigo-400/8 dark:from-blue-500/8 dark:to-indigo-500/6 rounded-full blur-3xl" aria-hidden="true" />
@@ -194,7 +194,7 @@ export function EnhancedHero() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-blue-300/10 to-indigo-300/6 dark:from-blue-600/6 dark:to-indigo-600/4 rounded-full blur-3xl" aria-hidden="true" />
       </div>
 
-      <div className={`${layout.section} relative z-10 py-12 md:py-16 lg:py-20`}>
+      <div className={`${layout.section} relative z-10 py-8 md:py-10`}>
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left Content */}
           <div className="space-y-6 md:space-y-8 flex flex-col justify-center h-full">

@@ -99,7 +99,7 @@ export function EnhancedNews() {
   ]
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-muted/30 to-background/80 glass-primary">
+    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-muted/30 to-background/80 glass-primary">
       <div className={`${layout.section} ${layout.max6xl}`}>
         {/* Enhanced Header with proper spacing */}
         <div className="text-center mb-16 md:mb-20">

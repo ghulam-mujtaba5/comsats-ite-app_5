@@ -9,6 +9,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Search, Filter, X, ChevronDown, SortAsc, SortDesc, RotateCcw, BookmarkPlus, Bookmark } from "lucide-react"
 import { ReactNode, useState, useEffect } from "react"
 import { cn } from "@lib/utils"
+import styles from "./advanced-filter-bar.module.css"
 
 export type Option = { label: string; value: string; description?: string }
 
@@ -122,9 +123,9 @@ export function AdvancedFilterBar({
   }
 
   const renderFilterContent = () => (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Search and Primary Actions */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <div className="flex-1 relative group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-700 dark:text-slate-300 group-focus-within:text-primary transition-colors duration-200" />
           <Input
@@ -192,13 +193,10 @@ export function AdvancedFilterBar({
           </div>
 
           <div className={cn(
-            "grid gap-4",
-            compact 
-              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-              : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            styles.filterGrid
           )}>
             {selects.map((select) => (
-              <div key={select.id} className="space-y-3">
+              <div key={select.id} className="space-y-2">
                 {select.label && (
                   <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                     {select.label}
@@ -206,7 +204,7 @@ export function AdvancedFilterBar({
                 )}
                 <Select value={select.value} onValueChange={select.onChange}>
                   <SelectTrigger className={cn(
-                    "h-11 px-4 text-sm",
+                    "h-10 px-4 text-sm",
                     "bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm",
                     "border-slate-200 dark:border-slate-700/30",
                     "hover:border-primary/40 hover:bg-white/60 dark:hover:bg-slate-800/60",
@@ -244,10 +242,10 @@ export function AdvancedFilterBar({
         </div>
       )}
 
-      {/* Sort and Advanced Options */}
+          {/* Sort and Advanced Options */}
       {(sortOptions.length > 0 || savedPresets.length > 0) && (
         <div className={cn(
-          "flex flex-col sm:flex-row gap-6 pt-6 mt-6",
+          "flex flex-col sm:flex-row gap-4 pt-4 mt-4",
           "border-t border-slate-200 dark:border-slate-700/30"
         )}>
           {/* Sort Options */}
@@ -349,12 +347,11 @@ export function AdvancedFilterBar({
   if (!collapsible) {
     return (
       <div className={cn(
+        styles.filterBarContainer,
         "relative",
-        "bg-white/70 dark:bg-slate-900/70",
-        "backdrop-blur-xl border border-slate-200 dark:border-slate-700/30",
         "rounded-3xl shadow-lg hover:shadow-xl",
         "transition-all duration-300",
-        "p-6 lg:p-8",
+        "p-4 lg:p-6",
         className
       )}>
         <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none" />
@@ -368,9 +365,8 @@ export function AdvancedFilterBar({
   return (
     <Collapsible open={!isCollapsed} onOpenChange={(open) => setIsCollapsed(!open)}>
       <div className={cn(
+        styles.filterBarContainer,
         "relative",
-        "bg-white/70 dark:bg-slate-900/70",
-        "backdrop-blur-xl border border-slate-200 dark:border-slate-700/30",
         "rounded-3xl shadow-lg hover:shadow-xl",
         "transition-all duration-300",
         "overflow-hidden",
@@ -382,7 +378,7 @@ export function AdvancedFilterBar({
           <Button
             variant="ghost"
             className={cn(
-              "w-full justify-between p-6 lg:p-8 h-auto",
+              "w-full justify-between p-4 lg:p-6 h-auto",
               "hover:bg-white/10 dark:hover:bg-slate-800/20",
               "border-0 rounded-none",
               "text-left font-medium"
@@ -409,8 +405,8 @@ export function AdvancedFilterBar({
         </CollapsibleTrigger>
         
         <CollapsibleContent className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-up-1 data-[state=open]:slide-down-1">
-          <div className="px-6 lg:px-8 pb-6 lg:pb-8 border-t border-slate-200 dark:border-slate-700/20">
-            <div className="pt-6">
+          <div className="px-4 lg:px-6 pb-4 lg:pb-6 border-t border-slate-200 dark:border-slate-700/20">
+            <div className="pt-4">
               {renderFilterContent()}
             </div>
           </div>

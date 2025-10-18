@@ -1,1 +1,52 @@
 ﻿/* Component-specific styles only - generic classes removed */
+
+/* Filter Box Container - Solid background, no glass effects */
+.filterContainer {
+  background: rgb(255, 255, 255) !important;
+  box-shadow: none !important;
+  border: 1px solid rgb(226, 232, 240) !important;
+  border-radius: 0.5rem !important;
+  padding: 1rem !important;
+}
+
+:global(.dark) .filterContainer {
+  background: rgb(30, 41, 59) !important;
+  border-color: rgb(51, 65, 85) !important;
+}
+
+/* Compact spacing */
+.filterContainer :global(.space-y-4) {
+  gap: 0.75rem !important;
+}
+
+/* Filter Grid - Responsive 3-column layout with compact spacing */
+.filterGrid {
+  display: grid !important;
+  grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  gap: 0.75rem !important;
+  align-items: start !important;
+}
+
+@media (min-width: 768px) {
+  .filterGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .filterGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Compact filter labels and inputs */
+.filterGrid label {
+  margin-bottom: 0.375rem !important;
+  font-size: 0.75rem !important;
+  line-height: 1.25 !important;
+}
+
+/* Reduce excessive spacing in filter items */
+.filterGrid > div {
+  margin: 0 !important;
+}

@@ -1,1 +1,44 @@
 ﻿/* Component-specific styles only - generic classes removed */
+
+/* Visibility fixes - override glassmorphism */
+.enhancedComingSoon :global(.bg-white\/80),
+.enhancedComingSoon :global(.bg-white\/90) {
+  background: rgb(255, 255, 255) !important;
+}
+
+.enhancedComingSoon :global(.dark\:bg-slate-800\/80),
+.enhancedComingSoon :global(.dark\:bg-slate-800\/90) {
+  background: rgb(30, 41, 59) !important;
+}
+
+.enhancedComingSoon :global(.backdrop-blur-xl) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.enhancedComingSoon :global(.glass-card) {
+  background: rgb(255, 255, 255) !important;
+}
+
+.enhancedComingSoon h2,
+.enhancedComingSoon h3 {
+  color: rgb(15, 23, 42) !important;
+}
+
+.enhancedComingSoon p {
+  color: rgb(51, 65, 85) !important;
+}
+
+/* Dark mode overrides */
+:global(.dark) .enhancedComingSoon :global(.glass-card) {
+  background: rgb(30, 41, 59) !important;
+}
+
+:global(.dark) .enhancedComingSoon h2,
+:global(.dark) .enhancedComingSoon h3 {
+  color: rgb(255, 255, 255) !important;
+}
+
+:global(.dark) .enhancedComingSoon p {
+  color: rgb(203, 213, 225) !important;
+}

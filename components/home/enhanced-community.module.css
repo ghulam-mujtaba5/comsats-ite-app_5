@@ -1,1 +1,50 @@
 ﻿/* Component-specific styles only - generic classes removed */
+
+/* Visibility fixes - override glassmorphism */
+.enhancedCommunity :global(.bg-white\/80),
+.enhancedCommunity :global(.bg-white\/90) {
+  background: rgb(255, 255, 255) !important;
+}
+
+.enhancedCommunity :global(.dark\:bg-slate-800\/80),
+.enhancedCommunity :global(.dark\:bg-slate-800\/90) {
+  background: rgb(30, 41, 59) !important;
+}
+
+.enhancedCommunity :global(.backdrop-blur-xl),
+.enhancedCommunity :global(.backdrop-blur-2xl),
+.enhancedCommunity :global(.backdrop-blur-3xl) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.enhancedCommunity :global(.glass-card),
+.enhancedCommunity :global(.glass-primary),
+.enhancedCommunity :global(.glass-professional) {
+  background: rgb(255, 255, 255) !important;
+}
+
+.enhancedCommunity h2,
+.enhancedCommunity h3 {
+  color: rgb(15, 23, 42) !important;
+}
+
+.enhancedCommunity p {
+  color: rgb(51, 65, 85) !important;
+}
+
+/* Dark mode overrides */
+:global(.dark) .enhancedCommunity :global(.glass-card),
+:global(.dark) .enhancedCommunity :global(.glass-primary),
+:global(.dark) .enhancedCommunity :global(.glass-professional) {
+  background: rgb(30, 41, 59) !important;
+}
+
+:global(.dark) .enhancedCommunity h2,
+:global(.dark) .enhancedCommunity h3 {
+  color: rgb(255, 255, 255) !important;
+}
+
+:global(.dark) .enhancedCommunity p {
+  color: rgb(203, 213, 225) !important;
+}

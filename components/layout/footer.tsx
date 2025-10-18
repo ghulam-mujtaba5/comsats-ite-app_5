@@ -5,6 +5,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { SITE_LINKS, type PageStatus, type SiteLink } from "@lib/site-map"
 import layout from "@/app/styles/common.module.css"
+import styles from "./footer.module.css"
 import { usePathname } from "next/navigation"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
@@ -68,7 +69,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
   }
 
   return (
-    <footer className="relative glass-card bg-white/80 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700/40 rounded-2xl backdrop-blur-xl shadow-lg mx-4 sm:mx-6 lg:mx-8 mb-6 mt-12 overflow-hidden">
+    <footer className="relative bg-white/80 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-700/40 rounded-2xl shadow-lg mx-4 sm:mx-6 lg:mx-8 mb-6 mt-12 overflow-hidden" style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-purple-500/5 dark:from-slate-800/20 dark:via-slate-800/15 dark:to-slate-900/20 rounded-2xl"></div>
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-500/8 to-transparent dark:from-slate-700/15 dark:to-slate-900/5 rounded-r-2xl"></div>
       <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-t from-indigo-500/8 to-transparent dark:from-slate-800/15 dark:to-slate-900/5 rounded-bl-2xl"></div>
@@ -92,7 +93,7 @@ export function Footer({ hidePortalSubtitle = false }: FooterProps) {
             </a>
           </div>
         </div>
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+  <div className={styles.footerGrid}>
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <div className="relative group">

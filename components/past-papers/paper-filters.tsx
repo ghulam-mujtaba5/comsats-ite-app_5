@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Search, Filter, X } from "lucide-react"
 import { departments, examTypes, semesters, years, getCoursesByDepartment } from "@/lib/past-papers-data"
+import styles from "./paper-filters.module.css"
 
 interface PaperFiltersProps {
   filters: {
@@ -24,7 +25,7 @@ export function PaperFilters({ filters, onFilterChange, onReset }: PaperFiltersP
     filters.department && filters.department !== "All" ? getCoursesByDepartment(filters.department) : []
 
   return (
-    <div className="space-y-4 p-6 bg-white dark:bg-slate-800 border border-border rounded-lg">
+    <div className={`space-y-4 ${styles.filterContainer}`}>
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold flex items-center gap-2">
           <Filter className="h-5 w-5 text-primary" />
@@ -36,7 +37,7 @@ export function PaperFilters({ filters, onFilterChange, onReset }: PaperFiltersP
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className={styles.filterGrid}>
         <div>
           <label className="text-sm font-medium text-slate-900 dark:text-white mb-2 block">Department</label>
           <Select value={filters.department} onValueChange={(value) => onFilterChange("department", value)}>

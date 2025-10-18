@@ -20,7 +20,7 @@ function ContentSkeleton() {
         <div className="h-8 bg-gradient-to-r from-primary/20 to-blue-500/20 dark:from-primary/30 dark:to-blue-500/30 rounded-lg w-1/3 mx-auto mb-12"></div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-xl bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm p-6 space-y-3">
+            <div key={i} className="border border-slate-200 dark:border-slate-700 rounded-xl bg-white/40 dark:bg-slate-800/40 backdrop-blur-sm p-6 space-y-3">
               <div className="h-6 bg-gradient-to-r from-primary/20 to-blue-500/15 dark:from-primary/30 dark:to-blue-500/25 rounded w-3/4"></div>
               <div className="h-4 bg-slate-200/60 dark:bg-slate-700/60 rounded w-full"></div>
               <div className="h-4 bg-slate-200/60 dark:bg-slate-700/60 rounded w-5/6"></div>
@@ -45,25 +45,19 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 dark:bg-gradient-to-br dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 -mt-8 sm:-mt-12">
-      {/* Enhanced Glassmorphism Background with Better Theme Support */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        {/* Primary brand gradient orbs - Better contrast for both themes */}
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-blue-400/20 via-indigo-400/15 to-purple-400/10 dark:from-blue-500/15 dark:via-indigo-500/12 dark:to-purple-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-indigo-400/20 via-purple-400/15 to-pink-400/10 dark:from-indigo-500/15 dark:via-purple-500/12 dark:to-pink-500/10 rounded-full blur-3xl animate-pulse animate-delay-2000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-br from-blue-300/15 via-indigo-300/12 to-purple-300/8 dark:from-blue-600/12 dark:via-indigo-600/10 dark:to-purple-600/8 rounded-full blur-3xl" />
-        
-        {/* Premium dot pattern with better visibility */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%234573df%22%20fill-opacity%3D%220.15%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%221.5%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40 dark:opacity-20" />
-        
-        {/* Enhanced glassmorphism overlay with better theme support */}
-        <div className="absolute inset-0 bg-white/40 dark:bg-slate-950/60 backdrop-blur-[2px]" />
+      {/* Enhanced Background - Subtle gradients without overlay */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+        {/* Subtle brand gradient orbs */}
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-blue-400/10 via-indigo-400/8 to-purple-400/5 dark:from-blue-500/8 dark:via-indigo-500/6 dark:to-purple-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-indigo-400/10 via-purple-400/8 to-pink-400/5 dark:from-indigo-500/8 dark:via-purple-500/6 dark:to-pink-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-br from-blue-300/8 via-indigo-300/6 to-purple-300/4 dark:from-blue-600/6 dark:via-indigo-600/5 dark:to-purple-600/4 rounded-full blur-3xl" />
       </div>
 
       <main className="relative z-10 flex-1">
         <EnhancedHero />
         
-        {/* Sections with maximum glassmorphism */}
-        <div className="space-y-0">
+        {/* Sections with proper spacing */}
+        <div className="space-y-8 md:space-y-12">
           <EnhancedFeatures />
           
           {/* Combine multiple sections in one Suspense boundary for better performance */}

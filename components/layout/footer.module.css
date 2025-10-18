@@ -1,1 +1,38 @@
 ﻿/* Component-specific styles only - generic classes removed */
+
+/* Footer Grid Override - Force horizontal layout with proper alignment */
+.footerGrid {
+  display: grid !important;
+  grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  gap: 2rem !important;
+  align-items: start !important;
+}
+
+@media (min-width: 768px) {
+  .footerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1.5rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footerGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 1.5rem !important;
+  }
+}
+
+/* Ensure footer columns have consistent spacing */
+.footerGrid > div {
+  min-width: 0;
+}
+
+/* Compact footer links */
+.footerGrid ul {
+  margin: 0 !important;
+}
+
+.footerGrid li {
+  padding-top: 0.125rem !important;
+  padding-bottom: 0.125rem !important;
+}

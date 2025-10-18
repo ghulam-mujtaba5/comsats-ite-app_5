@@ -91,10 +91,10 @@ export function EnhancedComingSoon() {
   ]
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-muted/30 to-background/80 glass-primary">
+    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-muted/30 to-background/80 glass-primary">
       <div className={`${layout.section} ${layout.max6xl}`}>
         {/* Enhanced Header with proper spacing */}
-        <div className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-10">
           <Badge variant="soft" className="mb-4 md:mb-6 px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base font-medium bg-gradient-to-r from-violet-600/30 to-fuchsia-600/30 text-violet-700 dark:text-violet-300 border border-violet-600/40 glass-secondary">
             <Zap className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
             Beta Testing Area
@@ -119,7 +119,7 @@ export function EnhancedComingSoon() {
         </div>
 
         {/* Feature Stats with proper spacing */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {featureStats.map((stat, index) => {
             const Icon = stat.icon
             return (
@@ -129,22 +129,22 @@ export function EnhancedComingSoon() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-5 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl glass-primary"
+                className="p-4 rounded-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl glass-primary"
               >
-                <div className="flex justify-center mb-3">
-                  <div className="p-3 rounded-xl bg-violet-500/10">
-                    <Icon className="h-6 w-6 text-violet-500" />
+                <div className="flex justify-center mb-2">
+                  <div className="p-2 rounded-lg bg-violet-500/10">
+                    <Icon className="h-5 w-5 text-violet-500" />
                   </div>
                 </div>
-                <div className="text-2xl font-semibold text-slate-900 dark:text-white mb-1">{stat.value}</div>
-                <div className="text-sm text-slate-700 dark:text-slate-300/90">{stat.label}</div>
+                <div className="text-xl font-bold text-slate-900 dark:text-white mb-1">{stat.value}</div>
+                <div className="text-xs text-slate-700 dark:text-slate-300/90">{stat.label}</div>
               </motion.div>
             )
           })}
         </div>
 
         {/* Beta Features Grid with proper spacing */}
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto mb-12 sm:mb-16" staggerDelay={0.1}>
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto mb-10" staggerDelay={0.1}>
           {betaFeatures.map((feature, index) => {
             const Icon = feature.icon
             return (
