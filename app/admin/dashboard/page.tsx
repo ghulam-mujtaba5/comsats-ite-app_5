@@ -10,6 +10,17 @@ import { AdminPageHeader } from "@/components/admin/admin-page-header"
 import { Users, MessageSquare, Search, HelpCircle, Newspaper, Heart, FileText, AlertTriangle, Server, TrendingUp, Activity, Zap, BarChart3, Globe, Settings, Bell, GraduationCap, Library, RefreshCw } from "lucide-react"
 import { useOffline } from "@/hooks/use-offline"
 import adminStyles from '../admin-shared.module.css'
+import { cn } from "@/lib/utils"
+
+const cardDelayClasses = [
+  "",
+  "animate-delay-75",
+  "animate-delay-100",
+  "animate-delay-150",
+  "animate-delay-200",
+  "animate-delay-300",
+  "animate-delay-400",
+]
 
 interface DashboardStats {
   lostFoundItems: number
@@ -399,8 +410,10 @@ export default function AdminDashboardPage() {
                   key={card.title}
                   href={card.href}
                   aria-label={`${card.title} — ${card.description}`}
-                  className="group block outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1"
-                  style={{ animationDelay: `${Math.min(idx, 6) * 60}ms` as any }}
+                  className={cn(
+                    "group block outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1",
+                    cardDelayClasses[Math.min(idx, cardDelayClasses.length - 1)]
+                  )}
                 >
                   <Card className="relative overflow-hidden glass-secondary glass-hover-glow glass-gradient rounded-2xl h-full transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-blue-500/10">
                     <div className={`absolute inset-0 bg-gradient-to-br ${gradientColors} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />

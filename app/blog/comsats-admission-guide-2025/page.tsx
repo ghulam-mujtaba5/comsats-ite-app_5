@@ -40,19 +40,19 @@ export default function ComsatsAdmissionGuide2025() {
 
         {/* Quick Stats */}
         <div className="grid md:grid-cols-4 gap-4 mb-12">
-          <Card className="text-center">
+          <Card className="text-center glass-card-info border-0">
             <CardContent className="pt-6">
               <div className="text-3xl font-bold text-[#4573df]">7</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Campuses</div>
             </CardContent>
           </Card>
-          <Card className="text-center">
+          <Card className="text-center glass-card-info border-0">
             <CardContent className="pt-6">
               <div className="text-3xl font-bold text-[#667eea]">50+</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Degree Programs</div>
             </CardContent>
           </Card>
-          <Card className="text-center">
+          <Card className="text-center glass-card-info border-0">
             <CardContent className="pt-6">
               <div className="text-3xl font-bold text-[#ff9800]">15,000+</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Admitted Annually</div>
@@ -189,7 +189,7 @@ export default function ComsatsAdmissionGuide2025() {
           <section>
             <h2 className="text-3xl font-bold mb-6">🧮 How Merit is Calculated</h2>
             
-            <Card className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20">
+            <Card className="glass-card-info rounded-3xl">
               <CardHeader>
                 <CardTitle>Official COMSATS Merit Formula</CardTitle>
                 <CardDescription>Understanding how your aggregate is calculated</CardDescription>
@@ -197,9 +197,9 @@ export default function ComsatsAdmissionGuide2025() {
               <CardContent className="space-y-6">
                 <div>
                   <h3 className="font-bold text-lg mb-3">For FSc/ICS Students:</h3>
-                  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg space-y-2">
+                  <div className="glass-card glass-border-light p-4 rounded-xl space-y-2">
                     <p className="font-mono">Aggregate = (Matric % × 0.10) + (FSc % × 0.40) + (Test Score × 0.50)</p>
-                    <div className="mt-4 p-3 bg-blue-100 dark:bg-blue-900/30 rounded">
+                    <div className="glass-callout-primary mt-4 p-4 rounded-xl">
                       <p className="font-semibold text-sm">Example Calculation:</p>
                       <ul className="text-sm space-y-1 mt-2">
                         <li>• Matric: 85% → 85 × 0.10 = 8.5</li>
@@ -213,7 +213,7 @@ export default function ComsatsAdmissionGuide2025() {
 
                 <div>
                   <h3 className="font-bold text-lg mb-3">For A-Level Students:</h3>
-                  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
+                  <div className="glass-card glass-border-light p-4 rounded-xl">
                     <p className="font-mono">Aggregate = (O-Level % × 0.10) + (A-Level % × 0.40) + (Test Score × 0.50)</p>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                       *A-Level grades converted to percentage: A*=90%, A=85%, B=75%, C=65%
@@ -221,7 +221,7 @@ export default function ComsatsAdmissionGuide2025() {
                   </div>
                 </div>
 
-                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border-l-4 border-yellow-500">
+                <div className="glass-callout-warning p-4 rounded-xl">
                   <p className="font-semibold">💡 Pro Tip:</p>
                   <p className="text-sm mt-1">
                     The entry test carries 50% weight! Even with moderate FSc marks, a good test score can secure admission. 
@@ -307,7 +307,7 @@ export default function ComsatsAdmissionGuide2025() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg">
+                    <div className="glass-callout-warning p-4 rounded-xl">
                       <p className="font-bold text-lg">Application Fee: PKR 2,000</p>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                         (Non-refundable, covers admission processing and entry test)
@@ -338,26 +338,26 @@ export default function ComsatsAdmissionGuide2025() {
                     <div>
                       <p className="font-semibold mb-2">Test Pattern:</p>
                       <div className="grid md:grid-cols-2 gap-3">
-                        <div className="bg-blue-50 dark:bg-blue-950/20 p-3 rounded">
+                        <div className="glass-callout-primary p-3 rounded-xl">
                           <p className="font-bold">Mathematics: 60 MCQs</p>
                           <p className="text-sm text-gray-600 dark:text-gray-400">Algebra, Calculus, Trigonometry</p>
                         </div>
-                        <div className="bg-purple-50 dark:bg-purple-950/20 p-3 rounded">
+                        <div className="glass-callout-accent p-3 rounded-xl">
                           <p className="font-bold">English: 30 MCQs</p>
                           <p className="text-sm text-gray-600 dark:text-gray-400">Grammar, Vocabulary, Comprehension</p>
                         </div>
-                        <div className="bg-green-50 dark:bg-green-950/20 p-3 rounded">
+                        <div className="glass-callout-success p-3 rounded-xl">
                           <p className="font-bold">Physics: 25 MCQs</p>
                           <p className="text-sm text-gray-600 dark:text-gray-400">FSc Physics syllabus</p>
                         </div>
-                        <div className="bg-orange-50 dark:bg-orange-950/20 p-3 rounded">
+                        <div className="glass-callout-warning p-3 rounded-xl">
                           <p className="font-bold">Computer/IQ: 25 MCQs</p>
                           <p className="text-sm text-gray-600 dark:text-gray-400">Basic CS concepts or IQ</p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-gradient-to-r from-[#4573df] to-[#667eea] text-white p-4 rounded-lg">
+                    <div className="glass-callout-primary p-4 rounded-xl">
                       <p className="font-bold mb-2">📚 Test Preparation Resources:</p>
                       <ul className="space-y-1 text-sm">
                         <li>✓ Download past papers from our <Link href="/past-papers" className="underline">Past Papers</Link> section</li>
@@ -428,7 +428,7 @@ export default function ComsatsAdmissionGuide2025() {
               <CardContent>
                 <div className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg">
+                    <div className="glass-callout-primary p-4 rounded-xl">
                       <p className="font-bold text-lg mb-3">Engineering Programs</p>
                       <ul className="space-y-2 text-sm">
                         <li className="flex justify-between">
@@ -450,7 +450,7 @@ export default function ComsatsAdmissionGuide2025() {
                       </ul>
                     </div>
 
-                    <div className="bg-purple-50 dark:bg-purple-950/20 p-4 rounded-lg">
+                    <div className="glass-callout-accent p-4 rounded-xl">
                       <p className="font-bold text-lg mb-3">CS/IT/Business Programs</p>
                       <ul className="space-y-2 text-sm">
                         <li className="flex justify-between">
@@ -473,7 +473,7 @@ export default function ComsatsAdmissionGuide2025() {
                     </div>
                   </div>
 
-                  <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg border-l-4 border-green-500">
+                  <div className="glass-callout-success p-4 rounded-xl">
                     <p className="font-semibold text-lg mb-2">💡 Financial Aid Available:</p>
                     <ul className="space-y-1 text-sm">
                       <li>✓ <strong>Merit Scholarships:</strong> 25-100% fee waiver for 3.5+ GPA students</li>
@@ -488,7 +488,7 @@ export default function ComsatsAdmissionGuide2025() {
           </section>
 
           {/* Success Tips */}
-          <section className="bg-gradient-to-r from-[#4573df] to-[#667eea] text-white p-8 rounded-xl">
+          <section className="glass-card-info p-8 rounded-xl">
             <h2 className="text-3xl font-bold mb-6">🏆 Expert Tips for Admission Success</h2>
             
             <div className="grid md:grid-cols-2 gap-6">

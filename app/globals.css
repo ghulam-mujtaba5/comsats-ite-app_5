@@ -2495,11 +2495,20 @@ html, body {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--glass-bg-medium);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(99, 102, 241, 0.1))
+    , rgba(255, 255, 255, 0.88);
   -webkit-backdrop-filter: var(--glass-blur-lg);
   backdrop-filter: var(--glass-blur-lg);
-  border-bottom: 1px solid var(--glass-border-light);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  color: #0f172a;
+}
+
+.dark .glass-nav {
+  background: rgba(15, 23, 42, 0.7);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.35);
   box-shadow: var(--glass-shadow-sm);
+  color: inherit;
 }
 
 /* Glass Sidebar */
@@ -2933,6 +2942,145 @@ html, body {
 
 .dark .glass-border-subtle {
   border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+/* Glass Info Card - For informational banners with primary color accent */
+.glass-card-info {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(99, 102, 241, 0.06)), rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.06);
+}
+
+.dark .glass-card-info {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(99, 102, 241, 0.08)), rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Informational callouts */
+.glass-callout-primary {
+  background: linear-gradient(140deg, rgba(37, 99, 235, 0.1), rgba(79, 70, 229, 0.08)), rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-left: 4px solid rgba(37, 99, 235, 0.35);
+  box-shadow: 0 14px 36px rgba(37, 99, 235, 0.08);
+  color: #1e3a8a;
+}
+
+.dark .glass-callout-primary {
+  background: linear-gradient(140deg, rgba(59, 130, 246, 0.18), rgba(129, 140, 248, 0.12)), rgba(25, 33, 52, 0.88);
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  border-left: 4px solid rgba(96, 165, 250, 0.45);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.5);
+  color: #bfdbfe;
+}
+
+.glass-callout-warning {
+  background: linear-gradient(140deg, rgba(249, 168, 38, 0.12), rgba(252, 211, 77, 0.1)), rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(249, 168, 38, 0.2);
+  border-left: 4px solid rgba(249, 168, 38, 0.4);
+  box-shadow: 0 12px 32px rgba(249, 168, 38, 0.12);
+  color: #92400e;
+}
+
+.dark .glass-callout-warning {
+  background: linear-gradient(140deg, rgba(251, 191, 36, 0.18), rgba(253, 230, 138, 0.12)), rgba(30, 25, 18, 0.88);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-left: 4px solid rgba(254, 215, 102, 0.5);
+  box-shadow: 0 14px 30px rgba(146, 64, 14, 0.4);
+  color: #fcd34d;
+}
+
+/* Success (green) callouts */
+.glass-callout-success {
+  background: linear-gradient(140deg, rgba(34, 197, 94, 0.12), rgba(74, 222, 128, 0.1)), rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(34, 197, 94, 0.22);
+  border-left: 4px solid rgba(34, 197, 94, 0.45);
+  box-shadow: 0 12px 32px rgba(34, 197, 94, 0.12);
+  color: #065f46;
+}
+
+.dark .glass-callout-success {
+  background: linear-gradient(140deg, rgba(34, 197, 94, 0.18), rgba(74, 222, 128, 0.12)), rgba(18, 30, 24, 0.88);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-left: 4px solid rgba(52, 211, 153, 0.5);
+  box-shadow: 0 14px 30px rgba(6, 95, 70, 0.35);
+  color: #bbf7d0;
+}
+
+/* Accent (purple/violet) callouts */
+.glass-callout-accent {
+  background: linear-gradient(140deg, rgba(139, 92, 246, 0.12), rgba(129, 140, 248, 0.1)), rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(139, 92, 246, 0.22);
+  border-left: 4px solid rgba(139, 92, 246, 0.4);
+  box-shadow: 0 12px 32px rgba(139, 92, 246, 0.12);
+  color: #4c1d95;
+}
+
+.dark .glass-callout-accent {
+  background: linear-gradient(140deg, rgba(139, 92, 246, 0.2), rgba(129, 140, 248, 0.14)), rgba(28, 22, 48, 0.88);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-left: 4px solid rgba(167, 139, 250, 0.55);
+  box-shadow: 0 14px 30px rgba(76, 29, 149, 0.4);
+  color: #ddd6fe;
+}
+
+/* Danger (red) callouts */
+.glass-callout-danger {
+  background: linear-gradient(140deg, rgba(239, 68, 68, 0.12), rgba(252, 165, 165, 0.1)), rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  border-left: 4px solid rgba(239, 68, 68, 0.45);
+  box-shadow: 0 12px 32px rgba(239, 68, 68, 0.12);
+  color: #7f1d1d;
+}
+
+.dark .glass-callout-danger {
+  background: linear-gradient(140deg, rgba(239, 68, 68, 0.2), rgba(248, 113, 113, 0.14)), rgba(50, 21, 21, 0.88);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-left: 4px solid rgba(248, 113, 113, 0.55);
+  box-shadow: 0 14px 30px rgba(127, 29, 29, 0.45);
+  color: #fecaca;
+}
+
+/* Accent chips */
+.glass-chip-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.85), rgba(99, 102, 241, 0.82));
+  border: 1px solid rgba(37, 99, 235, 0.45);
+  color: #f8fafc;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28);
+}
+
+.dark .glass-chip-primary {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(129, 140, 248, 0.85));
+  border: 1px solid rgba(147, 197, 253, 0.45);
+  color: #f8fafc;
+  box-shadow: 0 12px 28px rgba(30, 64, 175, 0.45);
+}
+
+.glass-chip-soft {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.6rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.14), rgba(79, 70, 229, 0.08)), rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  color: #1d4ed8;
+}
+
+.dark .glass-chip-soft {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(129, 140, 248, 0.14)), rgba(22, 30, 49, 0.85);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  color: #bfdbfe;
 }
 
 /* Glass Hover Effects */

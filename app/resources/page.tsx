@@ -189,13 +189,13 @@ export default function ResourcesPage() {
 
           {/* Auto-filter notification banner */}
           {autoFilterApplied && items.filter((r) => (dept === "All" ? true : (r.department || "General") === dept)).length > 0 && dept !== "All" && (
-            <div className="glass-card border border-blue-200/50 dark:border-blue-800/50 rounded-2xl p-4 bg-blue-50/80 dark:bg-blue-950/80 backdrop-blur-sm mb-6">
+            <div className="glass-card-info border border-primary/20 rounded-2xl p-4 bg-gradient-to-r from-primary/8 to-blue-500/8 backdrop-blur-sm mb-6">
               <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-blue-800 dark:text-blue-200">
+                <div className="flex items-center gap-2 text-primary dark:text-blue-300">
                   <GraduationCap className="h-4 w-4" />
                   <span className="font-medium">Auto-filtered by your department:</span>
                   <span>{dept}</span>
-                  <Badge variant="secondary" className="ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                  <Badge variant="secondary" className="ml-2 bg-primary/10 text-primary border-primary/20">
                     {items.filter((r) => (r.department || "General") === dept).length} found
                   </Badge>
                 </div>
@@ -211,7 +211,7 @@ export default function ResourcesPage() {
                   Show all departments
                 </Button>
               </div>
-              <p className="text-sm text-blue-700 dark:text-blue-300 mt-2">
+              <p className="text-sm text-primary/80 dark:text-blue-200/80 mt-2">
                 Results filtered to show resources from your department. Click above to view all resources.
               </p>
             </div>
@@ -219,13 +219,13 @@ export default function ResourcesPage() {
 
           {/* Suggested department banner (when auto-filter was not applied or returned zero results) */}
           {userDepartment && !autoFilterApplied && dept === "All" && (
-            <div className="glass-card border border-blue-200/50 dark:border-blue-800/50 rounded-2xl p-4 bg-blue-50/80 dark:bg-blue-950/80 backdrop-blur-sm mb-6">
-              <div className="flex items-center justify-between gap-4 text-blue-800 dark:text-blue-200">
+            <div className="glass-card-info border border-primary/20 rounded-2xl p-4 bg-gradient-to-r from-primary/8 to-blue-500/8 backdrop-blur-sm mb-6">
+              <div className="flex items-center justify-between gap-4 text-primary dark:text-blue-300">
                 <div className="flex items-center gap-2">
                   <GraduationCap className="h-4 w-4" />
                   <span className="font-medium">Your Department:</span>
                   <span>{userDepartment}</span>
-                  <Badge variant="secondary" className="ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                  <Badge variant="secondary" className="ml-2 bg-primary/10 text-primary border-primary/20">
                     Quick filter
                   </Badge>
                 </div>

@@ -13,6 +13,19 @@ import { AdminGuard } from "@/components/admin/admin-guard"
 import { toast } from "@/hooks/use-toast"
 import Link from "next/link"
 import styles from "@/app/admin/admin-shared.module.css"
+import { cn } from "@/lib/utils"
+
+const rowDelayClasses = [
+  "",
+  "animate-delay-75",
+  "animate-delay-150",
+  "animate-delay-200",
+  "animate-delay-300",
+  "animate-delay-400",
+  "animate-delay-500",
+  "animate-delay-700",
+]
+
 
 interface LostFoundItem {
   id: string
@@ -266,7 +279,13 @@ export default function AdminLostFoundPage() {
                     </TableHeader>
                     <TableBody>
                       {items.map((item, index) => (
-                        <TableRow key={item.id} className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors" style={{ animationDelay: `${index * 50}ms` }}>
+                        <TableRow
+                          key={item.id}
+                          className={cn(
+                            "border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors",
+                            rowDelayClasses[index % rowDelayClasses.length]
+                          )}
+                        >
                           <TableCell className="font-medium text-slate-900 dark:text-white">{item.title}</TableCell>
                           <TableCell>
                             <Badge 

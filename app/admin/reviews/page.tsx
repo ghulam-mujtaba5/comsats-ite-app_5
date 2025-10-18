@@ -308,16 +308,16 @@ export default function AdminReviewsPage() {
           
           {/* User Department Info */}
           {userDepartment && (
-            <div className="glass-card border border-blue-200/50 dark:border-blue-800/50 rounded-2xl p-4 bg-blue-50/80 dark:bg-blue-950/80 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-blue-800 dark:text-blue-200">
+            <div className="glass-card-info border border-primary/20 rounded-2xl p-4 bg-gradient-to-r from-primary/8 to-blue-500/8 backdrop-blur-sm">
+              <div className="flex items-center gap-2 text-primary dark:text-blue-300">
                 <GraduationCap className="h-4 w-4" />
                 <span className="font-medium">Your Department:</span> 
                 <span>{userDepartment}</span>
-                <Badge variant="secondary" className="ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                <Badge variant="secondary" className="ml-2 bg-primary/10 text-primary border-primary/20">
                   Auto-filtered
                 </Badge>
               </div>
-              <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+              <p className="text-sm text-primary/80 dark:text-blue-200/80 mt-1">
                 Showing reviews from your department. Select "All Departments" to view all reviews.
               </p>
             </div>

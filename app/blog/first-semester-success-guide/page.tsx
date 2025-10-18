@@ -94,7 +94,7 @@ export default function FirstSemesterSuccessGuide() {
             </h2>
             
             <div className="space-y-6">
-              <div className="bg-blue-50 dark:bg-blue-950/20 p-6 rounded-lg border-l-4 border-[#4573df]">
+              <div className="glass-callout-primary p-6 rounded-xl">
                 <h3 className="text-xl font-semibold mb-3">1. Understand the COMSATS Grading System</h3>
                 <p className="mb-4">
                   COMSATS uses a 4.0 GPA scale. Understanding this early is crucial:
@@ -106,13 +106,13 @@ export default function FirstSemesterSuccessGuide() {
                   <li><strong>B Grade (3.0):</strong> 71-74 marks - Above average</li>
                   <li><strong>Passing:</strong> Minimum 50 marks (D grade, 1.0 GPA)</li>
                 </ul>
-                <div className="mt-4 p-4 bg-white dark:bg-gray-800 rounded">
+                <div className="mt-4 p-4 glass-card-info rounded-xl">
                   <p className="font-semibold text-[#4573df]">💡 Pro Tip:</p>
                   <p>Use our <Link href="/gpa-calculator" className="text-[#4573df] hover:underline">GPA Calculator</Link> to plan your target grades from day one!</p>
                 </div>
               </div>
 
-              <div className="bg-purple-50 dark:bg-purple-950/20 p-6 rounded-lg border-l-4 border-[#667eea]">
+              <div className="glass-callout-accent p-6 rounded-xl">
                 <h3 className="text-xl font-semibold mb-3">2. Get Your Study Materials Ready</h3>
                 <ul className="space-y-3 ml-6 list-disc">
                   <li>
@@ -130,7 +130,7 @@ export default function FirstSemesterSuccessGuide() {
                 </ul>
               </div>
 
-              <div className="bg-orange-50 dark:bg-orange-950/20 p-6 rounded-lg border-l-4 border-[#ff9800]">
+              <div className="glass-callout-warning p-6 rounded-xl">
                 <h3 className="text-xl font-semibold mb-3">3. Campus Familiarization</h3>
                 <ul className="space-y-2 ml-6 list-disc">
                   <li>Visit campus before first day if possible</li>
@@ -300,31 +300,31 @@ export default function FirstSemesterSuccessGuide() {
             </h2>
             
             <div className="space-y-4">
-              <div className="bg-red-50 dark:bg-red-950/20 p-5 rounded-lg border-l-4 border-red-500">
+              <div className="glass-callout-danger p-5 rounded-xl">
                 <h3 className="font-bold text-lg mb-2">❌ Mistake #1: Skipping Early Lectures</h3>
                 <p className="mb-2"><strong>Why it's bad:</strong> You miss foundational concepts that are assumed knowledge later.</p>
                 <p><strong>✅ Solution:</strong> Treat the first month as non-negotiable. Attend every single class.</p>
               </div>
 
-              <div className="bg-red-50 dark:bg-red-950/20 p-5 rounded-lg border-l-4 border-red-500">
+              <div className="glass-callout-danger p-5 rounded-xl">
                 <h3 className="font-bold text-lg mb-2">❌ Mistake #2: Ignoring Assignments</h3>
                 <p className="mb-2"><strong>Why it's bad:</strong> Assignments typically count 10-20% of your grade and build understanding.</p>
                 <p><strong>✅ Solution:</strong> Complete assignments the day they're assigned, not the day before deadline.</p>
               </div>
 
-              <div className="bg-red-50 dark:bg-red-950/20 p-5 rounded-lg border-l-4 border-red-500">
+              <div className="glass-callout-danger p-5 rounded-xl">
                 <h3 className="font-bold text-lg mb-2">❌ Mistake #3: Last-Minute Exam Preparation</h3>
                 <p className="mb-2"><strong>Why it's bad:</strong> Cramming leads to poor retention and high stress.</p>
                 <p><strong>✅ Solution:</strong> Start solving past papers 3 weeks before midterms/finals.</p>
               </div>
 
-              <div className="bg-red-50 dark:bg-red-950/20 p-5 rounded-lg border-l-4 border-red-500">
+              <div className="glass-callout-danger p-5 rounded-xl">
                 <h3 className="font-bold text-lg mb-2">❌ Mistake #4: Isolating Yourself</h3>
                 <p className="mb-2"><strong>Why it's bad:</strong> You miss study resources, notes, and emotional support.</p>
                 <p><strong>✅ Solution:</strong> Join at least one society and maintain a study group.</p>
               </div>
 
-              <div className="bg-red-50 dark:bg-red-950/20 p-5 rounded-lg border-l-4 border-red-500">
+              <div className="glass-callout-danger p-5 rounded-xl">
                 <h3 className="font-bold text-lg mb-2">❌ Mistake #5: Neglecting Faculty Feedback</h3>
                 <p className="mb-2"><strong>Why it's bad:</strong> You repeat the same mistakes in every assignment/exam.</p>
                 <p><strong>✅ Solution:</strong> Review graded work carefully and visit faculty during office hours for clarification.</p>
@@ -422,8 +422,8 @@ export default function FirstSemesterSuccessGuide() {
           </section>
 
           {/* Conclusion & CTA */}
-          <section className="bg-gradient-to-r from-[#4573df] to-[#667eea] text-white p-8 rounded-xl">
-            <h2 className="text-3xl font-bold mb-4">Ready to Excel at COMSATS?</h2>
+          <section className="glass-card-info p-8 rounded-xl">
+              <h2 className="text-3xl font-bold mb-4">Ready to Excel at COMSATS?</h2>
             <p className="text-lg mb-6">
               Your first semester is the foundation of your academic journey. Follow this guide, stay consistent, 
               and don't hesitate to seek help when needed. Thousands of COMSATS students have succeeded before you, 
@@ -436,12 +436,12 @@ export default function FirstSemesterSuccessGuide() {
                   Calculate Your Target GPA
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="bg-white/10 border-white/30 hover:bg-white/20">
+              <Button asChild variant="outline" size="lg">
                 <Link href="/past-papers">
                   Access Past Papers
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="bg-white/10 border-white/30 hover:bg-white/20">
+              <Button asChild variant="outline" size="lg">
                 <Link href="/faculty">
                   Find Great Professors
                 </Link>

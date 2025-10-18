@@ -136,8 +136,8 @@ export function Header() {
                 href={item.href}
                 className={`relative inline-flex items-center h-10 px-3 rounded-2xl text-sm font-semibold transition-all duration-300 interactive hover-lift group box-border whitespace-nowrap min-h-[44px] ${
                   isActivePath(item.href) 
-                    ? "glass-medium glass-border-light text-blue-600 dark:text-blue-400 shadow-lg glass-hover-glow" 
-                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white glass-light glass-hover glass-border-subtle hover:shadow-md border border-transparent"
+                    ? "glass-medium glass-border-light text-blue-700 dark:text-blue-400 shadow-lg glass-hover-glow" 
+                    : "text-slate-800 dark:text-slate-300 hover:text-blue-600 dark:hover:text-white glass-light glass-hover glass-border-subtle hover:shadow-md border border-transparent"
                 }`}
                 aria-current={isActivePath(item.href) ? "page" : undefined}
                 aria-label={item.name}
