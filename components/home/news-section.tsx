@@ -38,19 +38,19 @@ export function NewsSection() {
         setIsMock(res.headers.get('X-Mock-Data') === '1')
         const json = await res.json()
         // The /api/news-events/news endpoint returns an array of items with fields: id, title, content, imageUrl, publishedAt
-        const arr: any[] = Array.isArray(json) ? json : []
+        const arr: News[] = Array.isArray(json) ? json : []
         const mapped: News[] = arr.map((n) => ({
           id: n.id,
           title: n.title,
           content: n.content,
-          image_url: n.imageUrl ?? null,
+          image_url: n.image_url ?? null,
           status: 'published',
-          published_at: n.publishedAt ?? null,
+          published_at: n.published_at ?? null,
         }))
         // Items will be further sliced by maxCount effect
         setItems(mapped)
-      } catch (e: any) {
-        setError(e?.message || 'Failed to load news')
+      } catch (e) {
+        setError((e as Error)?.message || 'Failed to load news')
         setItems([])
       } finally {
         setLoading(false)

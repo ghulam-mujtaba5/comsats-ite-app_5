@@ -13,18 +13,9 @@ import {
   Trophy, 
   Heart, 
   Star, 
-  Award, 
-  Smile, 
-  Frown, 
-  Zap, 
   Sparkles,
   ThumbsUp,
-  Gift,
-  Medal,
-  Crown,
-  Flame,
   Target,
-  CheckCircle
 } from "lucide-react"
 
 // Define motivational event types
@@ -60,7 +51,7 @@ interface MotivationalEvent {
   message: string
   studentState: StudentPsychologicalState
   intensity?: 'low' | 'medium' | 'high'
-  context?: Record<string, any>
+  context?: Record<string, unknown>
 }
 
 export function UnifiedFeedbackSystem() {
@@ -315,12 +306,10 @@ export function UnifiedFeedbackSystem() {
 
   // Make feedback API available globally
   useEffect(() => {
-    // @ts-ignore
-    window.motivationalFeedback = feedbackAPI
+    (window as any).motivationalFeedback = feedbackAPI
     
     return () => {
-      // @ts-ignore
-      delete window.motivationalFeedback
+      delete (window as any).motivationalFeedback
     }
   }, [feedbackAPI])
 

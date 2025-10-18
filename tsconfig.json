@@ -20,11 +20,12 @@
       }
     ],
     "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
       "@app/*": ["app/*"],
-      "@components/*": ["components/*"],u
-      "@lib/*": ["lib/*"],
+      "@components/*": ["components/*"],
+      "@lib/*": ["src/lib/*"],
       "@styles/*": ["styles/*"],
       "@hooks/*": ["hooks/*"],
       "@contexts/*": ["contexts/*"],

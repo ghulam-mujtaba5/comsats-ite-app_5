@@ -213,7 +213,6 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent 
-              side="right" 
               className="w-[80vw] max-w-[360px] glass-modal glass-border-light glass-noise shadow-2xl z-[105] overflow-y-auto overflow-x-hidden max-h-screen p-4"
               aria-label="Mobile navigation menu"
             >
@@ -308,7 +307,7 @@ export function Header() {
                 >
                   <Avatar className="h-8 w-8 sm:h-9 sm:w-9">
                     <AvatarImage 
-                      src={(user as any).user_metadata?.avatar_url || undefined} 
+                      src={user.user_metadata?.avatar_url || undefined} 
                       alt={user.email || "Profile"} 
                     />
                     <AvatarFallback className="bg-primary text-primary-foreground">
