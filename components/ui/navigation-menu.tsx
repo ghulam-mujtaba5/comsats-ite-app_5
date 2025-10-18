@@ -6,6 +6,7 @@ import { ChevronDownIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { type VariantProps } from "class-variance-authority"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 const navigationMenuTriggerStyle = cva(
   "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 interactive hover-lift",
@@ -13,8 +14,8 @@ const navigationMenuTriggerStyle = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-white hover:bg-white/20 focus:bg-white/20 data-[state=open]:bg-white/20 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700 text-white hover:bg-white/15 focus:bg-white/15 data-[state=open]:bg-white/15 shadow-glass-sm",
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -29,8 +30,8 @@ const navigationMenuContentVariants = cva(
     variants: {
       variant: {
         default: "group-data-[viewport=false]/navigation-menu:bg-popover group-data-[viewport=false]/navigation-menu:text-popover-foreground",
-        glass: "group-data-[viewport=false]/navigation-menu:bg-white/10 group-data-[viewport=false]/navigation-menu:text-white group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:border-slate-200 dark:border-slate-700 group-data-[viewport=false]/navigation-menu:backdrop-blur-xl group-data-[viewport=false]/navigation-menu:shadow-glass",
-        "glass-subtle": "group-data-[viewport=false]/navigation-menu:bg-white/5 group-data-[viewport=false]/navigation-menu:text-white group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:border-slate-200 dark:border-slate-700 group-data-[viewport=false]/navigation-menu:backdrop-blur-lg group-data-[viewport=false]/navigation-menu:shadow-glass-sm",
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -45,8 +46,8 @@ const navigationMenuViewportVariants = cva(
     variants: {
       variant: {
         default: "bg-popover text-popover-foreground",
-        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700 text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700 text-white shadow-glass-sm",
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -61,8 +62,8 @@ const navigationMenuLinkVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "text-white hover:bg-white/20 focus:bg-white/20 data-[active=true]:bg-white/20",
-        "glass-subtle": "text-white hover:bg-white/15 focus:bg-white/15 data-[active=true]:bg-white/15",
+        glass: "text-slate-900 dark:text-white hover:bg-white/20 dark:hover:bg-white/10 focus:bg-white/20 dark:focus:bg-white/10 data-[active=true]:bg-white/20 dark:data-[active=true]:bg-white/10",
+        "glass-subtle": "text-slate-900 dark:text-white hover:bg-white/15 dark:hover:bg-white/7 focus:bg-white/15 dark:focus:bg-white/7 data-[active=true]:bg-white/15 dark:data-[active=true]:bg-white/7",
       },
     },
     defaultVariants: {
@@ -146,6 +147,33 @@ const NavigationMenuTrigger = React.forwardRef<
     ? "transition-none" 
     : "transition-all animate-duration-300 animate-ease-spring hover:scale-[1.02]"
 
+  // If it's a glass variant, use UnifiedGlassCard
+  if (variant === "glass" || variant === "glass-subtle") {
+    const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+    
+    return (
+      <UnifiedGlassCard
+        variant={glassVariant}
+        className={cn(
+          "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium disabled:pointer-events-none disabled:opacity-50 data-[state=open]:data-[state=open] focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 interactive hover-lift",
+          "group", 
+          animationClasses,
+          className
+        )}
+        {...props}
+      >
+        {children}{" "}
+        <ChevronDownIcon
+          className={cn(
+            "relative top-[1px] ml-1 size-3",
+            prefersReducedMotion ? "transition-none" : "transition duration-300 group-data-[state=open]:rotate-180"
+          )}
+          aria-hidden="true"
+        />
+      </UnifiedGlassCard>
+    )
+  }
+
   return (
     <NavigationMenuPrimitive.Trigger
       ref={ref}
@@ -154,8 +182,7 @@ const NavigationMenuTrigger = React.forwardRef<
         navigationMenuTriggerStyle({ variant }), 
         "group", 
         animationClasses,
-        className,
-        variant?.startsWith("glass") && "dark"
+        className
       )}
       {...props}
     >
@@ -203,21 +230,13 @@ const NavigationMenuViewport = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Viewport>,
   NavigationMenuViewportProps
 >(({ className, variant, ...props }, ref) => {
-  const prefersReducedMotion = usePrefersReducedMotion()
-  
-  // Apply animation classes conditionally based on user preferences
-  const animationClasses = prefersReducedMotion 
-    ? "transition-none" 
-    : "transition-all animate-duration-300 animate-ease-default"
-
   return (
-    <div className={cn("absolute top-full left-0 isolate z-50 flex justify-center")}>
+    <div className={cn("absolute left-0 top-full flex justify-center")}>
       <NavigationMenuPrimitive.Viewport
         ref={ref}
         data-slot="navigation-menu-viewport"
         className={cn(
           navigationMenuViewportVariants({ variant }),
-          animationClasses,
           className,
         )}
         {...props}
@@ -235,22 +254,13 @@ const NavigationMenuLink = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Link>,
   NavigationMenuLinkProps
 >(({ className, variant, ...props }, ref) => {
-  const prefersReducedMotion = usePrefersReducedMotion()
-  
-  // Apply animation classes conditionally based on user preferences
-  const animationClasses = prefersReducedMotion 
-    ? "transition-none" 
-    : "transition-all animate-duration-300 animate-ease-spring hover:scale-[1.01]"
-
   return (
     <NavigationMenuPrimitive.Link
       ref={ref}
       data-slot="navigation-menu-link"
       className={cn(
         navigationMenuLinkVariants({ variant }),
-        animationClasses,
         className,
-        variant?.startsWith("glass") && "dark"
       )}
       {...props}
     />
@@ -258,27 +268,22 @@ const NavigationMenuLink = React.forwardRef<
 })
 NavigationMenuLink.displayName = NavigationMenuPrimitive.Link.displayName
 
-interface NavigationMenuIndicatorProps
-  extends React.ComponentProps<typeof NavigationMenuPrimitive.Indicator> {}
-
 const NavigationMenuIndicator = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Indicator>,
-  NavigationMenuIndicatorProps
->(({ className, ...props }, ref) => {
-  return (
-    <NavigationMenuPrimitive.Indicator
-      ref={ref}
-      data-slot="navigation-menu-indicator"
-      className={cn(
-        "data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden",
-        className,
-      )}
-      {...props}
-    >
-      <div className="bg-border relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm shadow-md" />
-    </NavigationMenuPrimitive.Indicator>
-  )
-})
+  React.ComponentProps<typeof NavigationMenuPrimitive.Indicator>
+>(({ className, ...props }, ref) => (
+  <NavigationMenuPrimitive.Indicator
+    ref={ref}
+    data-slot="navigation-menu-indicator"
+    className={cn(
+      "data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden",
+      className
+    )}
+    {...props}
+  >
+    <div className="relative top-[60%] size-2 rotate-45 rounded-tl-sm bg-border shadow-md" />
+  </NavigationMenuPrimitive.Indicator>
+))
 NavigationMenuIndicator.displayName = NavigationMenuPrimitive.Indicator.displayName
 
 export {
@@ -290,5 +295,4 @@ export {
   NavigationMenuLink,
   NavigationMenuIndicator,
   NavigationMenuViewport,
-  navigationMenuTriggerStyle,
 }

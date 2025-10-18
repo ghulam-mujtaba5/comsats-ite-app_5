@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 import { Calendar, ArrowRight, Clock, Tag, TrendingUp, Zap, Flame } from "lucide-react"
 import { motion } from "framer-motion"
 import { StaggerContainer, StaggerItem, AnimatedCard, FadeInScroll } from "@/components/animations/enhanced"
@@ -165,18 +165,18 @@ export function EnhancedNews() {
           {loading ? (
             Array.from({ length: 4 }).map((_, i) => (
               <StaggerItem key={i}>
-                <Card className="border border-slate-200 dark:border-slate-700 rounded-2xl">
+                <UnifiedGlassCard className="border border-slate-200 dark:border-slate-700 rounded-2xl p-0">
                   <div className="aspect-video bg-slate-100 dark:bg-slate-900 rounded-t-2xl" />
-                  <CardHeader>
+                  <div className="p-6">
                     <div className="h-4 sm:h-5 bg-slate-100 dark:bg-slate-900 rounded w-3/4 mb-2 sm:mb-3"></div>
                     <div className="h-3 sm:h-4 bg-slate-100 dark:bg-slate-900 rounded w-1/2"></div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-3 sm:h-4 bg-slate-100 dark:bg-slate-900 rounded w-full mb-2 sm:mb-3"></div>
-                    <div className="h-3 sm:h-4 bg-slate-100 dark:bg-slate-900 rounded w-5/6 mb-4 sm:mb-6"></div>
-                    <div className="h-8 sm:h-10 bg-slate-100 dark:bg-slate-900 rounded w-28 sm:w-32"></div>
-                  </CardContent>
-                </Card>
+                    <div className="mt-4">
+                      <div className="h-3 sm:h-4 bg-slate-100 dark:bg-slate-900 rounded w-full mb-2 sm:mb-3"></div>
+                      <div className="h-3 sm:h-4 bg-slate-100 dark:bg-slate-900 rounded w-5/6 mb-4 sm:mb-6"></div>
+                      <div className="h-8 sm:h-10 bg-slate-100 dark:bg-slate-900 rounded w-28 sm:w-32"></div>
+                    </div>
+                  </div>
+                </UnifiedGlassCard>
               </StaggerItem>
             ))
           ) : items.length > 0 ? (
@@ -186,9 +186,11 @@ export function EnhancedNews() {
                   whileHover={{ y: -5 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <AnimatedCard 
-                    enableHover={true} 
-                    className="group h-full overflow-hidden border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl glass-primary glass-professional"
+                  <UnifiedGlassCard 
+                    variant="medium" 
+                    interactive 
+                    glow
+                    className="group h-full overflow-hidden border border-slate-200 dark:border-slate-700 rounded-2xl transition-all duration-300 hover:border-amber-400 dark:hover:border-amber-600"
                   >
                     <div className="aspect-video relative overflow-hidden rounded-t-2xl">
                       <img
@@ -204,38 +206,36 @@ export function EnhancedNews() {
                         Published
                       </Badge>
                     </div>
-                    <CardHeader className="pb-3 sm:pb-4">
+                    <div className="p-6">
                       <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 mb-2 sm:mb-3">
                         <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                         {item.published_at ? new Date(item.published_at).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }) : 'Draft'}
                       </div>
-                      <CardTitle className="text-base sm:text-lg group-hover:text-amber-700 transition-colors line-clamp-2">
+                      <h3 className="text-base sm:text-lg font-bold group-hover:text-amber-700 transition-colors line-clamp-2 mb-3">
                         {item.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="line-clamp-3 text-xs sm:text-sm mb-4 sm:mb-5 text-slate-700 dark:text-slate-300/90">
+                      </h3>
+                      <p className="line-clamp-3 text-xs sm:text-sm mb-4 sm:mb-5 text-slate-700 dark:text-slate-300/90">
                         {item.content}
-                      </CardDescription>
+                      </p>
                       <Button asChild variant="ghost" size="sm" className="w-full justify-between rounded-lg sm:rounded-xl text-xs sm:text-sm px-3 py-2 text-slate-700 dark:text-slate-300 hover:text-amber-700">
                         <Link href={`/news/${item.id}`}>
                           Read Full Story
                           <ArrowRight className="ml-1.5 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
                         </Link>
                       </Button>
-                    </CardContent>
-                  </AnimatedCard>
+                    </div>
+                  </UnifiedGlassCard>
                 </motion.div>
               </StaggerItem>
             ))
           ) : (
-            <Card className="col-span-full text-center py-12 sm:py-16 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl">
-              <CardContent>
+            <UnifiedGlassCard className="col-span-full text-center py-12 sm:py-16 border border-slate-200 dark:border-slate-700 rounded-2xl">
+              <div>
                 <Tag className="h-10 w-10 sm:h-14 sm:w-14 text-slate-700 dark:text-slate-300 mx-auto mb-4 sm:mb-5" />
-                <CardDescription className="text-base sm:text-lg mb-2 sm:mb-3">{error ? error : 'No news yet.'}</CardDescription>
+                <p className="text-base sm:text-lg mb-2 sm:mb-3">{error ? error : 'No news yet.'}</p>
                 <p className="text-sm sm:text-base text-muted-foreground">Check back later for updates</p>
-              </CardContent>
-            </Card>
+              </div>
+            </UnifiedGlassCard>
           )}
         </StaggerContainer>
 

@@ -3,9 +3,9 @@
 import { motion } from "framer-motion"
 import { FileText, Calculator, Users, BookOpen, Calendar, Bug, TrendingUp, ArrowRight, Sparkles, Zap, Star, Award, Target, Rocket } from "lucide-react"
 import Link from "next/link"
-import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 const features = [
   {
@@ -124,7 +124,12 @@ export function ModernFeaturesGrid() {
                 `}
               >
                 <Link href={feature.href} className="block h-full">
-                  <Card className="relative h-full min-h-[280px] overflow-hidden bg-white dark:bg-slate-900/90 backdrop-blur-xl border-2 border-slate-300 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-600 shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:scale-[1.02]">
+                  <UnifiedGlassCard 
+                    variant="medium" 
+                    interactive 
+                    glow
+                    className="relative h-full min-h-[280px] overflow-hidden group-hover:scale-[1.02]"
+                  >
                     {/* Gradient Background */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
                     
@@ -162,7 +167,7 @@ export function ModernFeaturesGrid() {
                         <ArrowRight className="h-5 w-5 text-slate-400 group-hover:translate-x-1 transition-transform duration-300" />
                       </div>
                     </div>
-                  </Card>
+                  </UnifiedGlassCard>
                 </Link>
               </motion.div>
             )
@@ -189,15 +194,21 @@ export function ModernFeaturesGrid() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="text-center p-6 rounded-2xl bg-white dark:bg-slate-900/80 backdrop-blur-xl border-2 border-slate-300 dark:border-slate-700 shadow-lg hover:shadow-xl transition-all\"
+                className="h-full"
               >
-                <Icon className={`h-8 w-8 ${stat.color} mx-auto mb-3`} />
-                <div className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-slate-600 dark:text-slate-400">
-                  {stat.label}
-                </div>
+                <UnifiedGlassCard 
+                  variant="medium" 
+                  interactive
+                  className="text-center p-6 rounded-2xl h-full"
+                >
+                  <Icon className={`h-8 w-8 ${stat.color} mx-auto mb-3`} />
+                  <div className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
+                    {stat.value}
+                  </div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">
+                    {stat.label}
+                  </div>
+                </UnifiedGlassCard>
               </motion.div>
             )
           })}

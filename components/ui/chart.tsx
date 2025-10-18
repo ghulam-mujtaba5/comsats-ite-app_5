@@ -6,6 +6,7 @@ import * as RechartsPrimitive from "recharts"
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const
@@ -42,8 +43,8 @@ const chartContainerVariants = cva(
     variants: {
       variant: {
         default: "[&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-sector[stroke='#fff']]:stroke-transparent",
-        glass: "[&_.recharts-cartesian-axis-tick_text]:fill-white/80 [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-white/20 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-white/30 [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-white/20 [&_.recharts-radial-bar-background-sector]:fill-white/10 [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-white/10 [&_.recharts-reference-line_[stroke='#ccc']]:stroke-white/20 [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-sector[stroke='#fff']]:stroke-transparent",
-        "glass-subtle": "[&_.recharts-cartesian-axis-tick_text]:fill-white/70 [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-white/10 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-white/20 [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-white/10 [&_.recharts-radial-bar-background-sector]:fill-white/5 [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-white/5 [&_.recharts-reference-line_[stroke='#ccc']]:stroke-white/10 [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-sector[stroke='#fff']]:stroke-transparent",
+        glass: "[&_.recharts-cartesian-axis-tick_text]:fill-slate-700 dark:[&_.recharts-cartesian-axis-tick_text]:fill-slate-300 [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-slate-200/50 dark:[&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-slate-700/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-slate-200 dark:[&_.recharts-curve.recharts-tooltip-cursor]:stroke-slate-700 [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-slate-200/50 dark:[&_.recharts-polar-grid_[stroke='#ccc']]:stroke-slate-700/50 [&_.recharts-radial-bar-background-sector]:fill-slate-100 dark:[&_.recharts-radial-bar-background-sector]:fill-slate-900 [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-slate-100 dark:[&_.recharts-rectangle.recharts-tooltip-cursor]:fill-slate-900 [&_.recharts-reference-line_[stroke='#ccc']]:stroke-slate-200/50 dark:[&_.recharts-reference-line_[stroke='#ccc']]:stroke-slate-700/50 [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-sector[stroke='#fff']]:stroke-transparent",
+        "glass-subtle": "[&_.recharts-cartesian-axis-tick_text]:fill-slate-700 dark:[&_.recharts-cartesian-axis-tick_text]:fill-slate-300 [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-slate-200/30 dark:[&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-slate-700/30 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-slate-200/50 dark:[&_.recharts-curve.recharts-tooltip-cursor]:stroke-slate-700/50 [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-slate-200/30 dark:[&_.recharts-polar-grid_[stroke='#ccc']]:stroke-slate-700/30 [&_.recharts-radial-bar-background-sector]:fill-slate-100/50 dark:[&_.recharts-radial-bar-background-sector]:fill-slate-900/50 [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-slate-100/50 dark:[&_.recharts-rectangle.recharts-tooltip-cursor]:fill-slate-900/50 [&_.recharts-reference-line_[stroke='#ccc']]:stroke-slate-200/30 dark:[&_.recharts-reference-line_[stroke='#ccc']]:stroke-slate-700/30 [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-sector[stroke='#fff']]:stroke-transparent",
       },
     },
     defaultVariants: {
@@ -58,8 +59,8 @@ const chartTooltipContentVariants = cva(
     variants: {
       variant: {
         default: "border-border/50 bg-background",
-        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700 text-white shadow-glass-sm",
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -94,6 +95,39 @@ function ChartContainer({
     ? "" 
     : "transition-all duration-300"
 
+  // If it's a glass variant, use UnifiedGlassCard
+  if (variant === "glass" || variant === "glass-subtle") {
+    const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+    
+    return (
+      <ChartContext.Provider value={{ config }}>
+        <UnifiedGlassCard
+          variant={glassVariant}
+          className={cn(
+            "p-0 border-0",
+            animationClasses,
+            className
+          )}
+          {...props}
+        >
+          <div
+            data-slot="chart"
+            data-chart={chartId}
+            className={cn(
+              chartContainerVariants({ variant }),
+              "p-4"
+            )}
+          >
+            <ChartStyle id={chartId} config={config} />
+            <RechartsPrimitive.ResponsiveContainer>
+              {children}
+            </RechartsPrimitive.ResponsiveContainer>
+          </div>
+        </UnifiedGlassCard>
+      </ChartContext.Provider>
+    )
+  }
+
   return (
     <ChartContext.Provider value={{ config }}>
       <div
@@ -102,8 +136,7 @@ function ChartContainer({
         className={cn(
           chartContainerVariants({ variant }),
           animationClasses,
-          className,
-          variant?.startsWith("glass") && "dark"
+          className
         )}
         {...props}
       >

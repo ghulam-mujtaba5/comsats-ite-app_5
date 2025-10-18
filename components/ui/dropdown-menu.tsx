@@ -7,6 +7,7 @@ import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 const dropdownMenuContentVariants = cva(
   "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md",
@@ -14,8 +15,8 @@ const dropdownMenuContentVariants = cva(
     variants: {
       variant: {
         default: "bg-popover text-popover-foreground",
-        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700 text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700 text-white shadow-glass-sm",
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -30,8 +31,8 @@ const dropdownMenuItemVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "text-white focus:bg-white/20",
-        "glass-subtle": "text-white focus:bg-white/15",
+        glass: "text-slate-900 dark:text-white focus:bg-white/20 dark:focus:bg-white/10",
+        "glass-subtle": "text-slate-900 dark:text-white focus:bg-white/15 dark:focus:bg-white/7",
       },
       itemVariant: {
         default: "[&_svg:not([class*='text-'])]:text-muted-foreground",
@@ -68,6 +69,34 @@ const DropdownMenuContent = React.forwardRef<
     ? "" 
     : "transition-all duration-300"
 
+  // If it's a glass variant, use UnifiedGlassCard
+  if (variant === "glass" || variant === "glass-subtle") {
+    const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+    
+    return (
+      <DropdownMenuPrimitive.Portal>
+        <DropdownMenuPrimitive.Content
+          ref={ref}
+          data-slot="dropdown-menu-content"
+          sideOffset={sideOffset}
+          className={cn(
+            "p-0 border-0",
+            animationClasses,
+            className
+          )}
+          {...props}
+        >
+          <UnifiedGlassCard
+            variant={glassVariant}
+            className="p-1"
+          >
+            {props.children}
+          </UnifiedGlassCard>
+        </DropdownMenuPrimitive.Content>
+      </DropdownMenuPrimitive.Portal>
+    )
+  }
+
   return (
     <DropdownMenuPrimitive.Portal>
       <DropdownMenuPrimitive.Content
@@ -77,8 +106,7 @@ const DropdownMenuContent = React.forwardRef<
         className={cn(
           dropdownMenuContentVariants({ variant }),
           animationClasses,
-          className,
-          variant?.startsWith("glass") && "dark"
+          className
         )}
         {...props}
       />
@@ -113,8 +141,7 @@ const DropdownMenuItem = React.forwardRef<
       className={cn(
         dropdownMenuItemVariants({ variant, itemVariant }),
         animationClasses,
-        className,
-        variant?.startsWith("glass") && "dark"
+        className
       )}
       {...props}
     />
@@ -203,107 +230,45 @@ const DropdownMenuLabel = React.forwardRef<
 })
 DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName
 
-interface DropdownMenuSeparatorProps
-  extends React.ComponentProps<typeof DropdownMenuPrimitive.Separator> {}
-
 const DropdownMenuSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
-  DropdownMenuSeparatorProps
->(({ className, ...props }, ref) => {
-  return (
-    <DropdownMenuPrimitive.Separator
-      ref={ref}
-      data-slot="dropdown-menu-separator"
-      className={cn("bg-border -mx-1 my-1 h-px", className)}
-      {...props}
-    />
-  )
-})
+  React.ComponentProps<typeof DropdownMenuPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Separator
+    ref={ref}
+    data-slot="dropdown-menu-separator"
+    className={cn("-mx-1 my-1 h-px bg-muted", className)}
+    {...props}
+  />
+))
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
 
-interface DropdownMenuShortcutProps
-  extends React.ComponentProps<"span"> {}
-
-const DropdownMenuShortcut = React.forwardRef<
-  HTMLSpanElement,
-  DropdownMenuShortcutProps
->(({ className, ...props }, ref) => {
+const DropdownMenuShortcut = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement>) => {
   return (
     <span
-      ref={ref}
       data-slot="dropdown-menu-shortcut"
-      className={cn(
-        "text-slate-700 dark:text-slate-300 ml-auto text-xs tracking-widest",
-        className
-      )}
+      className={cn("ml-auto text-xs tracking-widest opacity-60", className)}
       {...props}
     />
   )
-})
-DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
-
-interface DropdownMenuSubTriggerProps
-  extends React.ComponentProps<typeof DropdownMenuPrimitive.SubTrigger> {
-  inset?: boolean
 }
-
-const DropdownMenuSubTrigger = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
-  DropdownMenuSubTriggerProps
->(({ className, inset, children, ...props }, ref) => {
-  return (
-    <DropdownMenuPrimitive.SubTrigger
-      ref={ref}
-      data-slot="dropdown-menu-sub-trigger"
-      data-inset={inset}
-      className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:pl-8 interactive hover-lift",
-        className
-      )}
-      {...props}
-    >
-      {children}
-      <ChevronRightIcon className="ml-auto size-4" />
-    </DropdownMenuPrimitive.SubTrigger>
-  )
-})
-DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName
-
-interface DropdownMenuSubContentProps
-  extends React.ComponentProps<typeof DropdownMenuPrimitive.SubContent> {}
-
-const DropdownMenuSubContent = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
-  DropdownMenuSubContentProps
->(({ className, ...props }, ref) => {
-  return (
-    <DropdownMenuPrimitive.SubContent
-      ref={ref}
-      data-slot="dropdown-menu-sub-content"
-      className={cn(
-        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg",
-        className
-      )}
-      {...props}
-    />
-  )
-})
-DropdownMenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayName
+DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
 
 export {
   DropdownMenu,
-  DropdownMenuPortal,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
   DropdownMenuItem,
   DropdownMenuCheckboxItem,
-  DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
+  DropdownMenuGroup,
+  DropdownMenuPortal,
   DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
+  DropdownMenuRadioGroup,
 }

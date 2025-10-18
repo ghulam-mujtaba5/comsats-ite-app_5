@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { cva, type VariantProps } from "class-variance-authority"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -50,8 +51,8 @@ const carouselVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700 shadow-glass-sm",
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -136,6 +137,39 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselComponentProps>(
       ? "transition-none" 
       : "transition-all animate-duration-300 animate-ease-default"
 
+    // If it's a glass variant, use UnifiedGlassCard
+    if (variant === "glass" || variant === "glass-subtle") {
+      const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+      
+      return (
+        <CarouselContext.Provider
+          value={{
+            carouselRef,
+            api: api,
+            opts,
+            orientation:
+              orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
+            scrollPrev,
+            scrollNext,
+            canScrollPrev,
+            canScrollNext,
+          }}
+        >
+          <UnifiedGlassCard
+            variant={glassVariant}
+            className={cn(
+              "relative p-0 border-0",
+              animationClasses,
+              className
+            )}
+            {...props}
+          >
+            {children}
+          </UnifiedGlassCard>
+        </CarouselContext.Provider>
+      )
+    }
+
     return (
       <CarouselContext.Provider
         value={{
@@ -156,8 +190,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselComponentProps>(
           className={cn(
             carouselVariants({ variant }),
             animationClasses,
-            className,
-            variant?.startsWith("glass") && "dark"
+            className
           )}
           role="region"
           aria-roledescription="carousel"
@@ -210,7 +243,6 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
         ref={ref}
         role="group"
         aria-roledescription="slide"
-        data-slot="carousel-item"
         className={cn(
           "min-w-0 shrink-0 grow-0 basis-full",
           orientation === "horizontal" ? "pl-4" : "pt-4",
@@ -223,84 +255,64 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
 )
 CarouselItem.displayName = "CarouselItem"
 
-interface CarouselPreviousProps
-  extends React.ComponentProps<typeof Button> {}
+interface CarouselPreviousProps extends React.ComponentProps<typeof Button> {}
 
-const CarouselPrevious = React.forwardRef<
-  React.ElementRef<typeof Button>,
-  CarouselPreviousProps
->(({ className, variant = "outline", size = "icon", ...props }, ref) => {
-  const { orientation, scrollPrev, canScrollPrev } = useCarousel()
-  const prefersReducedMotion = usePrefersReducedMotion()
-  
-  // Apply animation classes conditionally based on user preferences
-  const animationClasses = prefersReducedMotion 
-    ? "transition-none" 
-    : "transition-all animate-duration-300 animate-ease-spring hover:scale-110"
+const CarouselPrevious = React.forwardRef<HTMLButtonElement, CarouselPreviousProps>(
+  ({ className, variant = "outline", size = "icon", ...props }, ref) => {
+    const { orientation, scrollPrev, canScrollPrev } = useCarousel()
 
-  return (
-    <Button
-      ref={ref}
-      data-slot="carousel-previous"
-      variant={variant}
-      size={size}
-      className={cn(
-        "absolute size-8 rounded-full",
-        orientation === "horizontal"
-          ? "top-1/2 -left-12 -translate-y-1/2"
-          : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-        animationClasses,
-        className
-      )}
-      disabled={!canScrollPrev}
-      onClick={scrollPrev}
-      {...props}
-    >
-      <ArrowLeft />
-      <span className="sr-only">Previous slide</span>
-    </Button>
-  )
-})
+    return (
+      <Button
+        ref={ref}
+        variant={variant}
+        size={size}
+        className={cn(
+          "absolute h-8 w-8 rounded-full",
+          orientation === "horizontal"
+            ? "-left-12 top-1/2 -translate-y-1/2"
+            : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
+          className
+        )}
+        disabled={!canScrollPrev}
+        onClick={scrollPrev}
+        {...props}
+      >
+        <ArrowLeft className="h-4 w-4" />
+        <span className="sr-only">Previous slide</span>
+      </Button>
+    )
+  }
+)
 CarouselPrevious.displayName = "CarouselPrevious"
 
-interface CarouselNextProps
-  extends React.ComponentProps<typeof Button> {}
+interface CarouselNextProps extends React.ComponentProps<typeof Button> {}
 
-const CarouselNext = React.forwardRef<
-  React.ElementRef<typeof Button>,
-  CarouselNextProps
->(({ className, variant = "outline", size = "icon", ...props }, ref) => {
-  const { orientation, scrollNext, canScrollNext } = useCarousel()
-  const prefersReducedMotion = usePrefersReducedMotion()
-  
-  // Apply animation classes conditionally based on user preferences
-  const animationClasses = prefersReducedMotion 
-    ? "transition-none" 
-    : "transition-all animate-duration-300 animate-ease-spring hover:scale-110"
+const CarouselNext = React.forwardRef<HTMLButtonElement, CarouselNextProps>(
+  ({ className, variant = "outline", size = "icon", ...props }, ref) => {
+    const { orientation, scrollNext, canScrollNext } = useCarousel()
 
-  return (
-    <Button
-      ref={ref}
-      data-slot="carousel-next"
-      variant={variant}
-      size={size}
-      className={cn(
-        "absolute size-8 rounded-full",
-        orientation === "horizontal"
-          ? "top-1/2 -right-12 -translate-y-1/2"
-          : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-        animationClasses,
-        className
-      )}
-      disabled={!canScrollNext}
-      onClick={scrollNext}
-      {...props}
-    >
-      <ArrowRight />
-      <span className="sr-only">Next slide</span>
-    </Button>
-  )
-})
+    return (
+      <Button
+        ref={ref}
+        variant={variant}
+        size={size}
+        className={cn(
+          "absolute h-8 w-8 rounded-full",
+          orientation === "horizontal"
+            ? "-right-12 top-1/2 -translate-y-1/2"
+            : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
+          className
+        )}
+        disabled={!canScrollNext}
+        onClick={scrollNext}
+        {...props}
+      >
+        <ArrowRight className="h-4 w-4" />
+        <span className="sr-only">Next slide</span>
+      </Button>
+    )
+  }
+)
 CarouselNext.displayName = "CarouselNext"
 
 export {

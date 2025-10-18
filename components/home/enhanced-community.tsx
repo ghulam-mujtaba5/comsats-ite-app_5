@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 import { ArrowRight, Users, MessageSquare, TrendingUp, Zap, Flame, Star, Calendar, Hash } from "lucide-react"
 import { motion } from "framer-motion"
 import { StaggerContainer, StaggerItem, AnimatedCard, FadeInScroll } from "@/components/animations/enhanced"
@@ -102,19 +102,25 @@ export function EnhancedCommunity() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                  className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-800/95 backdrop-blur-xl border-2 border-slate-300 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl shadow-md"
+                className="h-full"
               >
-                <div className="flex justify-center mb-2 sm:mb-3">
-                  <div className="p-2 sm:p-3 rounded-xl bg-blue-500/10">
-                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />
+                <UnifiedGlassCard 
+                  variant="medium" 
+                  interactive
+                  className="text-center p-4 sm:p-5 rounded-2xl h-full"
+                >
+                  <div className="flex justify-center mb-2 sm:mb-3">
+                    <div className="p-2 sm:p-3 rounded-xl bg-blue-500/10">
+                      <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />
+                    </div>
                   </div>
-                </div>
-                <div className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-1">{stat.value}</div>
-                <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300/90 mb-1 sm:mb-2">{stat.label}</div>
-                <div className="text-[10px] sm:text-xs font-semibold text-green-600 flex items-center justify-center">
-                  <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
-                  {stat.change}
-                </div>
+                  <div className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-1">{stat.value}</div>
+                  <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300/90 mb-1 sm:mb-2">{stat.label}</div>
+                  <div className="text-[10px] sm:text-xs font-semibold text-green-600 flex items-center justify-center">
+                    <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
+                    {stat.change}
+                  </div>
+                </UnifiedGlassCard>
               </motion.div>
             )
           })}
@@ -140,17 +146,17 @@ export function EnhancedCommunity() {
           {loading ? (
             Array.from({ length: 4 }).map((_, i) => (
               <StaggerItem key={i}>
-                <Card className="border border-slate-200 dark:border-slate-700 rounded-2xl">
-                  <CardHeader>
+                <UnifiedGlassCard className="border border-slate-200 dark:border-slate-700 rounded-2xl p-6">
+                  <div>
                     <div className="h-4 sm:h-5 bg-slate-100 dark:bg-slate-900 rounded w-3/4 mb-2 sm:mb-3"></div>
                     <div className="h-3 sm:h-4 bg-slate-100 dark:bg-slate-900 rounded w-1/2"></div>
-                  </CardHeader>
-                  <CardContent>
+                  </div>
+                  <div className="mt-4">
                     <div className="h-3 sm:h-4 bg-slate-100 dark:bg-slate-900 rounded w-full mb-2 sm:mb-3"></div>
                     <div className="h-3 sm:h-4 bg-slate-100 dark:bg-slate-900 rounded w-5/6 mb-4 sm:mb-6"></div>
                     <div className="h-8 sm:h-10 bg-slate-100 dark:bg-slate-900 rounded w-28 sm:w-32"></div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </UnifiedGlassCard>
               </StaggerItem>
             ))
           ) : items.length > 0 ? (
@@ -160,17 +166,19 @@ export function EnhancedCommunity() {
                   whileHover={{ y: -5 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <AnimatedCard 
-                    enableHover={true} 
-                    className="group h-full border-2 border-slate-300 dark:border-slate-700 rounded-2xl bg-white dark:bg-slate-800/95 backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl shadow-lg hover:border-blue-400 dark:hover:border-blue-600"
+                  <UnifiedGlassCard 
+                    variant="medium" 
+                    interactive 
+                    glow
+                    className="group h-full border-2 border-slate-300 dark:border-slate-700 rounded-2xl transition-all duration-300 hover:border-blue-400 dark:hover:border-blue-600"
                   >
-                    <CardHeader>
+                    <div className="p-6">
                       <div className="flex items-start justify-between">
                         <div>
-                          <CardTitle className="text-base sm:text-lg group-hover:text-primary-600 transition-colors flex items-center">
+                          <h3 className="text-base sm:text-lg font-bold group-hover:text-primary-600 transition-colors flex items-center">
                             {item.title}
                             <Zap className="h-3 w-3 sm:h-4 sm:w-4 ml-1.5 sm:ml-2 text-amber-600" />
-                          </CardTitle>
+                          </h3>
                           {item.subtitle && (
                             <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300/90 mt-1.5 sm:mt-2">{item.subtitle}</div>
                           )}
@@ -180,58 +188,59 @@ export function EnhancedCommunity() {
                           Hot
                         </Badge>
                       </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4 sm:space-y-5">
-                      {item.description && (
-                        <CardDescription className="text-xs sm:text-sm text-slate-700 dark:text-slate-300/90">
-                          {item.description}
-                        </CardDescription>
-                      )}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-muted-foreground">
-                          <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-                          <span>1.2k members</span>
+                      <div className="space-y-4 sm:space-y-5 mt-4">
+                        {item.description && (
+                          <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300/90">
+                            {item.description}
+                          </p>
+                        )}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-muted-foreground">
+                            <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                            <span>1.2k members</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Star className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-500 fill-yellow-500" />
+                            <span className="text-[10px] sm:text-xs font-medium">4.8</span>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <Star className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-500 fill-yellow-500" />
-                          <span className="text-[10px] sm:text-xs font-medium">4.8</span>
-                        </div>
+                        {item.link_url && (
+                          <Button asChild variant="outline" size="sm" className="w-full rounded-lg sm:rounded-xl text-xs sm:text-sm px-3 py-2">
+                            <Link href={item.link_url} target={item.link_url.startsWith('http') ? '_blank' : undefined}>
+                              Join Community
+                              <ArrowRight className="ml-1.5 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
+                            </Link>
+                          </Button>
+                        )}
                       </div>
-                      {item.link_url && (
-                        <Button asChild variant="outline" size="sm" className="w-full rounded-lg sm:rounded-xl text-xs sm:text-sm px-3 py-2">
-                          <Link href={item.link_url} target={item.link_url.startsWith('http') ? '_blank' : undefined}>
-                            Join Community
-                            <ArrowRight className="ml-1.5 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
-                          </Link>
-                        </Button>
-                      )}
-                    </CardContent>
-                  </AnimatedCard>
+                    </div>
+                  </UnifiedGlassCard>
                 </motion.div>
               </StaggerItem>
             ))
           ) : (
-            <Card className="col-span-full text-center p-12 sm:p-16 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl">
-              <CardContent>
+            <UnifiedGlassCard className="col-span-full text-center p-12 sm:p-16 border border-slate-200 dark:border-slate-700 rounded-2xl">
+              <div>
                 <Users className="h-10 w-10 sm:h-14 sm:w-14 text-slate-700 dark:text-slate-300 mx-auto mb-4 sm:mb-5" />
-                <CardTitle className="mb-2 sm:mb-3 text-lg sm:text-xl">No Community Items Yet</CardTitle>
-                <CardDescription className="mb-4 sm:mb-6 text-sm sm:text-base">
+                <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold">No Community Items Yet</h3>
+                <p className="mb-4 sm:mb-6 text-sm sm:text-base">
                   Be the first to create a community discussion!
-                </CardDescription>
+                </p>
                 <Button onClick={handleJoinCommunity} className="rounded-lg sm:rounded-xl text-sm sm:text-base px-4 py-2">
                   <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2" />
                   Start a Discussion
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </UnifiedGlassCard>
           )}
         </StaggerContainer>
 
         {/* Enhanced CTA Section with proper spacing */}
         <FadeInScroll className="text-center" delay={0.3}>
-          <AnimatedCard 
-            enableHover={true} 
-            className="p-10 border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-2xl shadow-2xl rounded-3xl max-w-3xl mx-auto"
+          <UnifiedGlassCard 
+            variant="strong" 
+            interactive
+            className="p-10 rounded-3xl max-w-3xl mx-auto"
           >
             <div className="space-y-6">
               <div className="flex justify-center">
@@ -285,7 +294,7 @@ export function EnhancedCommunity() {
                 </div>
               </div>
             </div>
-          </AnimatedCard>
+          </UnifiedGlassCard>
         </FadeInScroll>
 
         {/* Trending Topics with proper spacing */}

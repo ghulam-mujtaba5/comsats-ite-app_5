@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from '@/hooks/use-toast'

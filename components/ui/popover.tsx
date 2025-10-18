@@ -5,8 +5,8 @@ import * as PopoverPrimitive from "@radix-ui/react-popover"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
-import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 const popoverContentVariants = cva(
   "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden",
@@ -14,21 +14,8 @@ const popoverContentVariants = cva(
     variants: {
       variant: {
         default: "bg-popover text-popover-foreground",
-        glass: getEnhancedGlassClasses({
-          ...glassPresets.dropdown,
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
-        "glass-subtle": getEnhancedGlassClasses({
-          ...glassPresets.dropdown,
-          variant: 'glass-subtle',
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -57,6 +44,35 @@ const PopoverContent = React.forwardRef<
     ? "transition-none" 
     : "transition-all animate-duration-300 animate-ease-default"
 
+  // If it's a glass variant, use UnifiedGlassCard
+  if (variant === "glass" || variant === "glass-subtle") {
+    const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+    
+    return (
+      <PopoverPrimitive.Portal>
+        <PopoverPrimitive.Content
+          ref={ref}
+          data-slot="popover-content"
+          align={align}
+          sideOffset={sideOffset}
+          className={cn(
+            "p-0 border-0",
+            animationClasses,
+            className
+          )}
+          {...props}
+        >
+          <UnifiedGlassCard
+            variant={glassVariant}
+            className="p-4"
+          >
+            {props.children}
+          </UnifiedGlassCard>
+        </PopoverPrimitive.Content>
+      </PopoverPrimitive.Portal>
+    )
+  }
+
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Content
@@ -67,8 +83,7 @@ const PopoverContent = React.forwardRef<
         className={cn(
           popoverContentVariants({ variant }),
           animationClasses,
-          className,
-          variant?.startsWith("glass") && "dark"
+          className
         )}
         {...props}
       />

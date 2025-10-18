@@ -5,7 +5,6 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
-import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
 const tabsListVariants = cva(
@@ -14,22 +13,8 @@ const tabsListVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: getEnhancedGlassClasses({
-          ...glassPresets.card,
-          variant: 'glass-subtle',
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
-        "glass-subtle": getEnhancedGlassClasses({
-          ...glassPresets.card,
-          variant: 'glass-subtle',
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
+        glass: "bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700",
+        "glass-subtle": "bg-white/40 dark:bg-slate-800/40 backdrop-blur-xs border border-slate-200 dark:border-slate-700",
       },
     },
     defaultVariants: {
@@ -44,21 +29,8 @@ const tabsTriggerVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: getEnhancedGlassClasses({
-          ...glassPresets.button,
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
-        "glass-subtle": getEnhancedGlassClasses({
-          ...glassPresets.button,
-          variant: 'glass-subtle',
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
+        glass: "bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 data-[state=active]:bg-white/100 dark:data-[state=active]:bg-slate-900/100",
+        "glass-subtle": "bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200 dark:border-slate-700 data-[state=active]:bg-white/80 dark:data-[state=active]:bg-slate-900/80",
       },
     },
     defaultVariants: {
@@ -107,8 +79,7 @@ const TabsList = React.forwardRef<
       className={cn(
         tabsListVariants({ variant }),
         animationClasses,
-        className,
-        variant?.startsWith("glass") && "dark"
+        className
       )}
       {...props}
     />
@@ -138,8 +109,7 @@ const TabsTrigger = React.forwardRef<
       className={cn(
         tabsTriggerVariants({ variant }),
         animationClasses,
-        className,
-        variant?.startsWith("glass") && "dark"
+        className
       )}
       {...props}
     />

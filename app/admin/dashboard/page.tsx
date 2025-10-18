@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { AdminGuard } from "@/components/admin/admin-guard"
 import { AdminPageHeader } from "@/components/admin/admin-page-header"
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 import { Users, MessageSquare, Search, HelpCircle, Newspaper, Heart, FileText, AlertTriangle, Server, TrendingUp, Activity, Zap, BarChart3, Globe, Settings, Bell, GraduationCap, Library, RefreshCw } from "lucide-react"
 import { useOffline } from "@/hooks/use-offline"
 import adminStyles from '../admin-shared.module.css'
@@ -461,194 +462,200 @@ export default function AdminDashboardPage() {
           <div className={`${adminStyles.threeCol}`}>
             {/* Recent Activity */}
             <div className={adminStyles.colSpan2}>
-              <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 h-full">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl blur-lg opacity-30" />
-                        <div className="relative bg-gradient-to-r from-orange-500 to-red-500 p-2 rounded-xl">
-                          <Activity className="h-5 w-5 text-white" />
+              <UnifiedGlassCard variant="medium" className="h-full border-0 p-0">
+                <Card className="border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 h-full">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl blur-lg opacity-30" />
+                          <div className="relative bg-gradient-to-r from-orange-500 to-red-500 p-2 rounded-xl">
+                            <Activity className="h-5 w-5 text-white" />
+                          </div>
+                        </div>
+                        <div>
+                          <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">Recent Activity</CardTitle>
+                          <CardDescription className="text-slate-600 dark:text-slate-300">
+                            Sample activity feed - Activity tracking system coming soon
+                          </CardDescription>
                         </div>
                       </div>
-                      <div>
-                        <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">Recent Activity</CardTitle>
-                        <CardDescription className="text-slate-600 dark:text-slate-300">
-                          Sample activity feed - Activity tracking system coming soon
-                        </CardDescription>
-                      </div>
+                      <Button size="sm" variant="outline" className="glass-interactive">
+                        View All
+                      </Button>
                     </div>
-                    <Button size="sm" variant="outline" className="glass-interactive">
-                      View All
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="text-center py-8 text-slate-500 dark:text-slate-400">
-                    <Activity className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p className="font-medium mb-2">Activity Tracking Not Yet Implemented</p>
-                    <p className="text-sm">Real-time activity monitoring will be available in a future update.</p>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="text-center py-8 text-slate-500 dark:text-slate-400">
+                      <Activity className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                      <p className="font-medium mb-2">Activity Tracking Not Yet Implemented</p>
+                      <p className="text-sm">Real-time activity monitoring will be available in a future update.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </UnifiedGlassCard>
             </div>
             
             {/* Quick Actions */}
             <div>
-              <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 h-full">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl blur-lg opacity-30" />
-                      <div className="relative bg-gradient-to-r from-emerald-500 to-green-500 p-2 rounded-xl">
-                        <Zap className="h-5 w-5 text-white" />
+              <UnifiedGlassCard variant="medium" className="h-full border-0 p-0">
+                <Card className="border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 h-full">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-green-500 rounded-xl blur-lg opacity-30" />
+                        <div className="relative bg-gradient-to-r from-emerald-500 to-green-500 p-2 rounded-xl">
+                          <Zap className="h-5 w-5 text-white" />
+                        </div>
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">Quick Actions</CardTitle>
+                        <CardDescription className="text-slate-600 dark:text-slate-300">Frequently used operations</CardDescription>
                       </div>
                     </div>
-                    <div>
-                      <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">Quick Actions</CardTitle>
-                      <CardDescription className="text-slate-600 dark:text-slate-300">Frequently used operations</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2" aria-live="polite">
+                      {quickActions.filter(q => roleAllows(q.roles)).map((qa, idx) => (
+                        <Link
+                          key={qa.href + qa.label}
+                          href={qa.href}
+                          aria-label={`Go to ${qa.label}`}
+                          className="group block p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all duration-200 border border-transparent hover:border-white/40 dark:hover:border-slate-600/40"
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl group-hover:scale-110 transition-transform duration-200">
+                              {qa.label.split(' ')[0]}
+                            </span>
+                            <span className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                              {qa.label.substring(qa.label.indexOf(' ') + 1)}
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2" aria-live="polite">
-                    {quickActions.filter(q => roleAllows(q.roles)).map((qa, idx) => (
-                      <Link
-                        key={qa.href + qa.label}
-                        href={qa.href}
-                        aria-label={`Go to ${qa.label}`}
-                        className="group block p-3 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all duration-200 border border-transparent hover:border-white/40 dark:hover:border-slate-600/40"
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl group-hover:scale-110 transition-transform duration-200">
-                            {qa.label.split(' ')[0]}
-                          </span>
-                          <span className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                            {qa.label.substring(qa.label.indexOf(' ') + 1)}
-                          </span>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </UnifiedGlassCard>
             </div>
           </div>
         </div>
         
         {/* Enhanced System Health */}
         <div className={`${adminStyles.section} pb-12`}>
-          <Card className="glass-card border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 overflow-hidden">
-            <div className="relative">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-full blur-3xl" />
-              <CardHeader className="relative pb-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl blur-lg opacity-30" />
-                      <div className="relative bg-gradient-to-r from-green-500 to-emerald-500 p-2 rounded-xl">
-                        <Server className="h-5 w-5 text-white" />
+          <UnifiedGlassCard variant="medium" className="overflow-hidden border-0 p-0">
+            <Card className="border border-slate-200 dark:border-slate-700 dark:border-slate-200 dark:border-slate-700 rounded-2xl backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 overflow-hidden">
+              <div className="relative">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-full blur-3xl" />
+                <CardHeader className="relative pb-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl blur-lg opacity-30" />
+                        <div className="relative bg-gradient-to-r from-green-500 to-emerald-500 p-2 rounded-xl">
+                          <Server className="h-5 w-5 text-white" />
+                        </div>
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">System Health Monitor</CardTitle>
+                        <CardDescription className="text-slate-600 dark:text-slate-300">Real-time service status and performance metrics</CardDescription>
                       </div>
                     </div>
-                    <div>
-                      <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">System Health Monitor</CardTitle>
-                      <CardDescription className="text-slate-600 dark:text-slate-300">Real-time service status and performance metrics</CardDescription>
-                    </div>
-                  </div>
-                  <Badge variant="outline" className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300">
-                    <Globe className="h-3 w-3 mr-1" />
-                    All Systems Operational
-                  </Badge>
-                </div>
-              </CardHeader>
-              
-              <CardContent className="relative">
-                <div className="grid gap-6 md:grid-cols-2" aria-live="polite">
-                  {/* Timetable Database */}
-                  <div className="group p-4 rounded-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 animate-pulse" />
-                        <span className="font-semibold text-slate-900 dark:text-white">Timetable Database</span>
-                      </div>
-                      {loadingHealth ? (
-                        <Badge variant="secondary" className="animate-pulse">Checking...</Badge>
-                      ) : health.timetable?.ok ? (
-                        <Badge className="bg-green-100 dark:bg-green-950 border-green-300 dark:border-green-700 text-green-800 dark:text-green-200">
-                          ✓ Online
-                          {typeof health.timetable?.timetable?.count === 'number' && (
-                            <span className="ml-1 text-xs">({health.timetable.timetable.count} records)</span>
-                          )}
-                        </Badge>
-                      ) : (
-                        <Badge variant="destructive" role="alert">
-                          ✗ {health.timetable?.error || 'Offline'}
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="text-sm text-slate-600 dark:text-slate-300">
-                      PostgreSQL • Course schedules & academic data
-                    </div>
-                    {health.timetable?.hint && (
-                      <div className="mt-2 text-xs text-slate-500 dark:text-slate-400 italic">
-                        Tip: {health.timetable.hint}
-                      </div>
-                    )}
-                  </div>
-                  
-                  {/* MongoDB */}
-                  <div className="group p-4 rounded-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 animate-pulse" />
-                        <span className="font-semibold text-slate-900 dark:text-white">Document Database</span>
-                      </div>
-                      {loadingHealth ? (
-                        <Badge variant="secondary" className="animate-pulse">Checking...</Badge>
-                      ) : health.mongo?.ok ? (
-                        <Badge className="bg-green-100 dark:bg-green-950 border-green-300 dark:border-green-700 text-green-800 dark:text-green-200">
-                          ✓ Online
-                        </Badge>
-                      ) : (
-                        <Badge variant="destructive" role="alert">
-                          ✗ {health.mongo?.error || 'Offline'}
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="text-sm text-slate-600 dark:text-slate-300">
-                      MongoDB • User data, content & community features
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Performance Metrics */}
-                <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-slate-50/80 to-blue-50/80 dark:from-slate-800/80 dark:to-blue-900/80 border border-slate-200/50 dark:border-slate-700/50">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-semibold text-slate-900 dark:text-white">Performance Overview</h4>
-                    <Badge variant="outline" className="text-xs">
-                      Last updated: just now
+                    <Badge variant="outline" className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300">
+                      <Globe className="h-3 w-3 mr-1" />
+                      All Systems Operational
                     </Badge>
                   </div>
-                  <div className="grid grid-cols-3 gap-4 text-center">
-                    <div>
-                      <div className="text-2xl font-bold text-green-600 dark:text-green-400">99.9%</div>
-                      <div className="text-xs text-slate-600 dark:text-slate-300">Uptime</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">145ms</div>
-                      <div className="text-xs text-slate-600 dark:text-slate-300">Avg Response</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                        {loading ? '...' : (stats.totalUsers > 0 ? stats.totalUsers.toLocaleString() : '0')}
+                </CardHeader>
+                
+                <CardContent className="relative">
+                  <div className="grid gap-6 md:grid-cols-2" aria-live="polite">
+                    {/* Timetable Database */}
+                    <div className="group p-4 rounded-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 animate-pulse" />
+                          <span className="font-semibold text-slate-900 dark:text-white">Timetable Database</span>
+                        </div>
+                        {loadingHealth ? (
+                          <Badge variant="secondary" className="animate-pulse">Checking...</Badge>
+                        ) : health.timetable?.ok ? (
+                          <Badge className="bg-green-100 dark:bg-green-950 border-green-300 dark:border-green-700 text-green-800 dark:text-green-200">
+                            ✓ Online
+                            {typeof health.timetable?.timetable?.count === 'number' && (
+                              <span className="ml-1 text-xs">({health.timetable.timetable.count} records)</span>
+                            )}
+                          </Badge>
+                        ) : (
+                          <Badge variant="destructive" role="alert">
+                            ✗ {health.timetable?.error || 'Offline'}
+                          </Badge>
+                        )}
                       </div>
-                      <div className="text-xs text-slate-600 dark:text-slate-300">Total Users</div>
+                      <div className="text-sm text-slate-600 dark:text-slate-300">
+                        PostgreSQL • Course schedules & academic data
+                      </div>
+                      {health.timetable?.hint && (
+                        <div className="mt-2 text-xs text-slate-500 dark:text-slate-400 italic">
+                          Tip: {health.timetable.hint}
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* MongoDB */}
+                    <div className="group p-4 rounded-xl border border-slate-200 dark:border-slate-700 dark:border-slate-700/30 bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all duration-300">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 animate-pulse" />
+                          <span className="font-semibold text-slate-900 dark:text-white">Document Database</span>
+                        </div>
+                        {loadingHealth ? (
+                          <Badge variant="secondary" className="animate-pulse">Checking...</Badge>
+                        ) : health.mongo?.ok ? (
+                          <Badge className="bg-green-100 dark:bg-green-950 border-green-300 dark:border-green-700 text-green-800 dark:text-green-200">
+                            ✓ Online
+                          </Badge>
+                        ) : (
+                          <Badge variant="destructive" role="alert">
+                            ✗ {health.mongo?.error || 'Offline'}
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="text-sm text-slate-600 dark:text-slate-300">
+                        MongoDB • User data, content & community features
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </div>
-          </Card>
+                  
+                  {/* Performance Metrics */}
+                  <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-slate-50/80 to-blue-50/80 dark:from-slate-800/80 dark:to-blue-900/80 border border-slate-200/50 dark:border-slate-700/50">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-semibold text-slate-900 dark:text-white">Performance Overview</h4>
+                      <Badge variant="outline" className="text-xs">
+                        Last updated: just now
+                      </Badge>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <div className="text-2xl font-bold text-green-600 dark:text-green-400">99.9%</div>
+                        <div className="text-xs text-slate-600 dark:text-slate-300">Uptime</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">145ms</div>
+                        <div className="text-xs text-slate-600 dark:text-slate-300">Avg Response</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                          {loading ? '...' : (stats.totalUsers > 0 ? stats.totalUsers.toLocaleString() : '0')}
+                        </div>
+                        <div className="text-xs text-slate-600 dark:text-slate-300">Total Users</div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </div>
+            </Card>
+          </UnifiedGlassCard>
         </div>
       </div>
     </AdminGuard>

@@ -6,8 +6,8 @@ import { XIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
-import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 const dialogContentVariants = cva(
   "bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-4 shadow-lg duration-200 sm:p-6 sm:max-w-lg",
@@ -15,21 +15,8 @@ const dialogContentVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: getEnhancedGlassClasses({
-          ...glassPresets.modal,
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
-        "glass-subtle": getEnhancedGlassClasses({
-          ...glassPresets.modal,
-          variant: 'glass-subtle',
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -44,18 +31,8 @@ const dialogOverlayVariants = cva(
     variants: {
       variant: {
         default: "bg-black/50",
-        glass: getEnhancedGlassClasses({
-          variant: 'glass-subtle',
-          accessibility: {
-            reducedMotion: true
-          }
-        }),
-        "glass-subtle": getEnhancedGlassClasses({
-          variant: 'glass-subtle',
-          accessibility: {
-            reducedMotion: true
-          }
-        }),
+        glass: "bg-black/30 dark:bg-black/20",
+        "glass-subtle": "bg-black/20 dark:bg-black/10",
       },
     },
     defaultVariants: {
@@ -122,6 +99,49 @@ const DialogContent = React.forwardRef<
     ? "transition-none" 
     : "transition-all animate-duration-300 animate-ease-default"
 
+  // If it's a glass variant, use UnifiedGlassCard
+  if (variant === "glass" || variant === "glass-subtle") {
+    const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+    
+    return (
+      <DialogPortal>
+        <DialogOverlay variant={variant} aria-label="Dialog overlay" />
+        <DialogPrimitive.Content
+          ref={ref}
+          data-slot="dialog-content"
+          className={cn(
+            "p-0 border-0",
+            animationClasses,
+            className
+          )}
+          aria-label={ariaLabel}
+          aria-describedby={ariaDescribedBy}
+          {...props}
+        >
+          <UnifiedGlassCard
+            variant={glassVariant}
+            className="p-4 sm:p-6"
+          >
+            {children}
+            {showCloseButton && (
+              <DialogPrimitive.Close
+                data-slot="dialog-close"
+                className={cn(
+                  "ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-slate-700 dark:text-slate-300 absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 min-h-[44px] min-w-[44px] flex items-center justify-center",
+                  prefersReducedMotion ? "transition-none" : "transition-opacity animate-duration-200"
+                )}
+                aria-label="Close dialog"
+              >
+                <XIcon aria-hidden="true" />
+                <span className="sr-only">Close</span>
+              </DialogPrimitive.Close>
+            )}
+          </UnifiedGlassCard>
+        </DialogPrimitive.Content>
+      </DialogPortal>
+    )
+  }
+
   return (
     <DialogPortal>
       <DialogOverlay variant={variant} aria-label="Dialog overlay" />
@@ -131,8 +151,7 @@ const DialogContent = React.forwardRef<
         className={cn(
           dialogContentVariants({ variant }),
           animationClasses,
-          className,
-          variant?.startsWith("glass") && "dark"
+          className
         )}
         aria-label={ariaLabel}
         aria-describedby={ariaDescribedBy}
@@ -201,17 +220,18 @@ interface DialogTitleProps
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   DialogTitleProps
->(({ className, 'aria-label': ariaLabel, ...props }, ref) => {
-  return (
-    <DialogPrimitive.Title
-      ref={ref}
-      data-slot="dialog-title"
-      className={cn("text-lg leading-none font-semibold", className)}
-      aria-label={ariaLabel}
-      {...props}
-    />
-  )
-})
+>(({ className, 'aria-label': ariaLabel, ...props }, ref) => (
+  <DialogPrimitive.Title
+    ref={ref}
+    data-slot="dialog-title"
+    className={cn(
+      "text-lg font-semibold leading-none tracking-tight",
+      className
+    )}
+    aria-label={ariaLabel}
+    {...props}
+  />
+))
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
 interface DialogDescriptionProps
@@ -222,28 +242,26 @@ interface DialogDescriptionProps
 const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
   DialogDescriptionProps
->(({ className, 'aria-label': ariaLabel, ...props }, ref) => {
-  return (
-    <DialogPrimitive.Description
-      ref={ref}
-      data-slot="dialog-description"
-      className={cn("text-slate-700 dark:text-slate-300 text-sm", className)}
-      aria-label={ariaLabel}
-      {...props}
-    />
-  )
-})
+>(({ className, 'aria-label': ariaLabel, ...props }, ref) => (
+  <DialogPrimitive.Description
+    ref={ref}
+    data-slot="dialog-description"
+    className={cn("text-slate-700 dark:text-slate-300 text-sm", className)}
+    aria-label={ariaLabel}
+    {...props}
+  />
+))
 DialogDescription.displayName = DialogPrimitive.Description.displayName
 
 export {
   Dialog,
+  DialogPortal,
+  DialogOverlay,
+  DialogTrigger,
   DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
-  DialogOverlay,
-  DialogPortal,
+  DialogFooter,
   DialogTitle,
-  DialogTrigger,
+  DialogDescription,
 }

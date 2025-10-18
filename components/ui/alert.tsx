@@ -1,9 +1,8 @@
 import * as React from "react"
 import { cva, type VariantProps } from "@/lib/cva"
-import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
-
 import { cn } from "@/lib/utils"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 const alertVariants = cva(
   "relative w-full rounded-2xl border-2 px-6 py-4 text-base grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-4 gap-y-2 items-start [&>svg]:size-5 [&>svg]:translate-y-0.5 [&>svg]:text-current transition-all duration-300 ease-in-out",
@@ -16,21 +15,8 @@ const alertVariants = cva(
         success: "text-[#22C55E] bg-[#22C55E]/10 border-[#22C55E]/30 [&>svg]:text-[#22C55E] *:data-[slot=alert-description]:text-[#22C55E]/90 shadow-sm",
         warning: "text-[#F59E0B] bg-[#F59E0B]/10 border-[#F59E0B]/30 [&>svg]:text-[#F59E0B] *:data-[slot=alert-description]:text-[#F59E0B]/90 shadow-sm",
         info: "text-[#3B82F6] bg-[#3B82F6]/10 border-[#3B82F6]/30 [&>svg]:text-[#3B82F6] *:data-[slot=alert-description]:text-[#3B82F6]/90 shadow-sm",
-        glass: getEnhancedGlassClasses({
-          ...glassPresets.card,
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
-        "glass-subtle": getEnhancedGlassClasses({
-          ...glassPresets.card,
-          variant: 'glass-subtle',
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
+        glass: "",
+        "glass-subtle": "",
         campus: "text-[#007BFF] dark:text-[#1F8FFF] bg-[#007BFF]/10 dark:bg-[#1F8FFF]/10 border-[#007BFF]/30 dark:border-[#1F8FFF]/30 [&>svg]:text-[#007BFF] dark:[&>svg]:text-[#1F8FFF] shadow-sm",
       },
     },
@@ -45,13 +31,33 @@ interface AlertProps
     VariantProps<typeof alertVariants> {}
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  ({ className, variant, ...props }, ref) => {
+  ({ className, variant, children, ...props }, ref) => {
     const prefersReducedMotion = usePrefersReducedMotion()
     
     // Apply animation classes conditionally based on user preferences
     const animationClasses = prefersReducedMotion 
       ? "transition-none" 
       : "transition-all animate-duration-300 animate-ease-default"
+
+    // If it's a glass variant, use UnifiedGlassCard
+    if (variant === "glass" || variant === "glass-subtle") {
+      const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+      
+      return (
+        <UnifiedGlassCard
+          ref={ref}
+          variant={glassVariant}
+          className={cn(
+            "border-2 px-6 py-4",
+            animationClasses,
+            className
+          )}
+          {...props}
+        >
+          {children}
+        </UnifiedGlassCard>
+      )
+    }
 
     return (
       <div
@@ -61,11 +67,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         className={cn(
           alertVariants({ variant }),
           animationClasses,
-          className,
-          variant === "glass" || variant === "glass-subtle" ? "dark" : ""
+          className
         )}
         {...props}
-      />
+      >
+        {children}
+      </div>
     )
   }
 )

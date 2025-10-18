@@ -3,8 +3,8 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { cva, VariantProps } from 'class-variance-authority'
-import { getEnhancedGlassClasses, glassPresets } from '@/lib/glassmorphism-2025'
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from '@/components/shared/UnifiedGlassCard'
 
 const inputVariants = cva(
   'flex w-full rounded-xl border-2 border-input bg-background px-4 py-3 text-base font-medium ring-offset-background file:border-0 file:bg-transparent file:text-base file:font-medium placeholder:text-slate-700 dark:text-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-slate-100 dark:bg-slate-900 transition-all duration-200 ease-in-out min-h-[44px]',
@@ -12,21 +12,8 @@ const inputVariants = cva(
     variants: {
       variant: {
         default: 'hover:border-primary/40',
-        glass: getEnhancedGlassClasses({
-          ...glassPresets.input,
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
-        'glass-subtle': getEnhancedGlassClasses({
-          ...glassPresets.input,
-          variant: 'glass-subtle',
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
+        glass: '',
+        'glass-subtle': '',
         campus: 'border-[#007BFF]/20 dark:border-[#1F8FFF]/20 focus:border-[#007BFF] dark:focus:border-[#1F8FFF] focus:ring-[#007BFF]/20 dark:focus:ring-[#1F8FFF]/20',
       },
       inputSize: {
@@ -57,13 +44,37 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       ? 'transition-none' 
       : 'transition-all animate-duration-300 animate-ease-spring hover:scale-[1.02] focus:scale-100'
 
+    // If it's a glass variant, use UnifiedGlassCard
+    if (variant === 'glass' || variant === 'glass-subtle') {
+      const glassVariant = variant === 'glass-subtle' ? 'subtle' : 'base'
+      
+      return (
+        <UnifiedGlassCard
+          variant={glassVariant}
+          className={cn(
+            'p-0 border-0',
+            animationClasses
+          )}
+        >
+          <input
+            type={type}
+            className={cn(
+              inputVariants({ variant: 'default', inputSize: size, className }),
+              'bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0'
+            )}
+            ref={ref}
+            {...props}
+          />
+        </UnifiedGlassCard>
+      )
+    }
+
     return (
       <input
         type={type}
         className={cn(
           inputVariants({ variant, inputSize: size, className }),
-          animationClasses,
-          variant === 'glass' || variant === 'glass-subtle' ? 'dark' : ''
+          animationClasses
         )}
         ref={ref}
         {...props}

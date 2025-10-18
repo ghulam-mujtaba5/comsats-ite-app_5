@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 import { HelpCircle, Clock, Users, FileText, Calendar, Search, MessageSquare, Zap, Rocket, Flame, Star } from "lucide-react"
 import { motion } from "framer-motion"
 import { StaggerContainer, StaggerItem, AnimatedCard, FadeInScroll } from "@/components/animations/enhanced"
@@ -228,7 +228,7 @@ export function EnhancedFAQ() {
         )}
 
         {/* FAQ Accordion with proper spacing */}
-        <Card className={styles.cardShell}>
+        <UnifiedGlassCard variant="medium" className={styles.cardShell}>
           {loading ? (
             <div role="status" aria-live="polite" className="space-y-4 p-4 sm:p-6">
               {Array.from({ length: 4 }).map((_, i) => (
@@ -285,12 +285,12 @@ export function EnhancedFAQ() {
               )}
             </Accordion>
           )}
-        </Card>
+        </UnifiedGlassCard>
         
         {/* Additional Help CTA with proper spacing */}
         <StaggerContainer className="text-center" staggerDelay={0.1}>
           <StaggerItem>
-            <Card className={styles.ctaCard}>
+            <UnifiedGlassCard className={styles.ctaCard}>
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 <div className="flex-shrink-0">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex items-center justify-center">
@@ -313,7 +313,7 @@ export function EnhancedFAQ() {
                   </Button>
                 </div>
               </div>
-            </Card>
+            </UnifiedGlassCard>
           </StaggerItem>
         </StaggerContainer>
       </div>

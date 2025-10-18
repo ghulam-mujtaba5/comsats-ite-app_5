@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { ArrowRight, Sparkles, CheckCircle2, Users, TrendingUp, Award } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 export function InteractiveCTA() {
   const benefits = [
@@ -152,7 +152,11 @@ export function InteractiveCTA() {
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <Card className="p-6 bg-white dark:bg-slate-900/90 backdrop-blur-xl border-2 border-slate-300 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-600 shadow-lg hover:shadow-xl transition-all">
+                <UnifiedGlassCard 
+                  variant="medium" 
+                  interactive
+                  className="p-6 border-2 border-slate-300 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-600"
+                >
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold flex-shrink-0">
                       {testimonial.avatar}
@@ -176,7 +180,7 @@ export function InteractiveCTA() {
                       </div>
                     </div>
                   </div>
-                </Card>
+                </UnifiedGlassCard>
               </motion.div>
             ))}
 
@@ -185,21 +189,26 @@ export function InteractiveCTA() {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20"
+              className="h-full"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
-                  <Award className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <div className="font-semibold text-slate-900 dark:text-white">
-                    Trusted by Students
+              <UnifiedGlassCard 
+                variant="medium" 
+                className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20 h-full"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+                    <Award className="h-6 w-6 text-white" />
                   </div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400">
-                    Across all COMSATS campuses
+                  <div>
+                    <div className="font-semibold text-slate-900 dark:text-white">
+                      Trusted by Students
+                    </div>
+                    <div className="text-sm text-slate-600 dark:text-slate-400">
+                      Across all COMSATS campuses
+                    </div>
                   </div>
                 </div>
-              </div>
+              </UnifiedGlassCard>
             </motion.div>
           </motion.div>
         </div>

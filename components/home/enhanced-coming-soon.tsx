@@ -1,7 +1,7 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 import Link from "next/link"
 import { Users, PackageSearch, Newspaper, HelpCircle, LifeBuoy, Sparkles, Clock, Zap, Rocket, Flame, TrendingUp } from "lucide-react"
 import { motion } from "framer-motion"
@@ -129,15 +129,21 @@ export function EnhancedComingSoon() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="p-4 rounded-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl glass-primary"
+                className="h-full"
               >
-                <div className="flex justify-center mb-2">
-                  <div className="p-2 rounded-lg bg-violet-500/10">
-                    <Icon className="h-5 w-5 text-violet-500" />
+                <UnifiedGlassCard 
+                  variant="medium" 
+                  interactive
+                  className="p-4 rounded-xl h-full border border-slate-200 dark:border-slate-700 text-center transition-all duration-300 hover:shadow-xl"
+                >
+                  <div className="flex justify-center mb-2">
+                    <div className="p-2 rounded-lg bg-violet-500/10">
+                      <Icon className="h-5 w-5 text-violet-500" />
+                    </div>
                   </div>
-                </div>
-                <div className="text-xl font-bold text-slate-900 dark:text-white mb-1">{stat.value}</div>
-                <div className="text-xs text-slate-700 dark:text-slate-300/90">{stat.label}</div>
+                  <div className="text-xl font-bold text-slate-900 dark:text-white mb-1">{stat.value}</div>
+                  <div className="text-xs text-slate-700 dark:text-slate-300/90">{stat.label}</div>
+                </UnifiedGlassCard>
               </motion.div>
             )
           })}
@@ -154,17 +160,19 @@ export function EnhancedComingSoon() {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleFeatureClick(feature.title)}
                 >
-                  <AnimatedCard 
-                    enableHover={true} 
-                    className="group h-full bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl backdrop-blur-3xl transition-all duration-300 hover:shadow-2xl glass-primary glass-professional"
+                  <UnifiedGlassCard 
+                    variant="medium" 
+                    interactive 
+                    glow
+                    className="group h-full border border-slate-200 dark:border-slate-700 rounded-2xl transition-all duration-300 hover:border-violet-400 dark:hover:border-violet-600"
                   >
-                    <CardHeader>
+                    <div className="p-6">
                       <div className="flex items-center gap-3 sm:gap-4">
                         <div className="bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 p-2.5 sm:p-3 rounded-2xl">
                           <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-violet-500" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <CardTitle className="text-lg sm:text-xl font-semibold flex items-center gap-1.5 sm:gap-2">
+                          <h3 className="text-lg sm:text-xl font-semibold flex items-center gap-1.5 sm:gap-2 mb-3">
                             {feature.title}
                             {feature.status === "beta" && (
                               <Badge variant="secondary" className="text-[10px] sm:text-xs px-2 py-0.5">
@@ -177,27 +185,27 @@ export function EnhancedComingSoon() {
                                 Live
                               </Badge>
                             )}
-                          </CardTitle>
+                          </h3>
                         </div>
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300/90 mb-4 sm:mb-5">{feature.description}</p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
-                          <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
-                          <span>{feature.popularity}% popular</span>
+                      <div className="mt-4">
+                        <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300/90 mb-4 sm:mb-5">{feature.description}</p>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center text-[10px] sm:text-xs text-muted-foreground">
+                            <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
+                            <span>{feature.popularity}% popular</span>
+                          </div>
+                          <Link 
+                            href={feature.href} 
+                            className="text-[10px] sm:text-xs font-medium text-violet-700 dark:text-violet-300 hover:underline flex items-center"
+                          >
+                            Explore
+                            <Rocket className="h-2.5 w-2.5 sm:h-3 sm:w-3 ml-1" />
+                          </Link>
                         </div>
-                        <Link 
-                          href={feature.href} 
-                          className="text-[10px] sm:text-xs font-medium text-violet-700 dark:text-violet-300 hover:underline flex items-center"
-                        >
-                          Explore
-                          <Rocket className="h-2.5 w-2.5 sm:h-3 sm:w-3 ml-1" />
-                        </Link>
                       </div>
-                    </CardContent>
-                  </AnimatedCard>
+                    </div>
+                  </UnifiedGlassCard>
                 </motion.div>
               </StaggerItem>
             )
@@ -207,10 +215,13 @@ export function EnhancedComingSoon() {
         {/* Feedback CTA with proper spacing */}
         <StaggerContainer className="text-center" staggerDelay={0.1}>
           <StaggerItem>
-            <Card className="inline-block p-6 sm:p-8 border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl max-w-3xl mx-auto glass-primary glass-gradient">
+            <UnifiedGlassCard 
+              variant="strong" 
+              className="inline-block p-6 sm:p-8 border border-slate-200 dark:border-slate-700 rounded-2xl sm:rounded-3xl shadow-2xl max-w-3xl mx-auto"
+            >
               <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-6">
                 <div className="flex-shrink-0">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 flex items-center justify-center glass-layered">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 flex items-center justify-center">
                     <Sparkles className="h-7 w-7 sm:h-8 sm:w-8 text-amber-500" />
                   </div>
                 </div>
@@ -227,7 +238,7 @@ export function EnhancedComingSoon() {
                   </Link>
                 </div>
               </div>
-            </Card>
+            </UnifiedGlassCard>
           </StaggerItem>
         </StaggerContainer>
       </div>

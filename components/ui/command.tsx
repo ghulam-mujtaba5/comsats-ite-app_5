@@ -7,6 +7,7 @@ import { SearchIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 import {
   Dialog,
   DialogContent,
@@ -21,8 +22,8 @@ const commandVariants = cva(
     variants: {
       variant: {
         default: "bg-popover text-popover-foreground",
-        glass: "bg-white/10 backdrop-blur-xl text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg text-white shadow-glass-sm",
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -53,8 +54,8 @@ const commandItemVariants = cva(
     variants: {
       variant: {
         default: "data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground",
-        glass: "data-[selected=true]:bg-white/20 data-[selected=true]:text-white [&_svg:not([class*='text-'])]:text-white/80",
-        "glass-subtle": "data-[selected=true]:bg-white/15 data-[selected=true]:text-white [&_svg:not([class*='text-'])]:text-white/70",
+        glass: "data-[selected=true]:bg-white/20 dark:data-[selected=true]:bg-white/10 data-[selected=true]:text-slate-900 dark:data-[selected=true]:text-white [&_svg:not([class*='text-'])]:text-slate-700 dark:[&_svg:not([class*='text-'])]:text-slate-300",
+        "glass-subtle": "data-[selected=true]:bg-white/15 dark:data-[selected=true]:bg-white/7 data-[selected=true]:text-slate-900 dark:data-[selected=true]:text-white [&_svg:not([class*='text-'])]:text-slate-700 dark:[&_svg:not([class*='text-'])]:text-slate-300",
       },
     },
     defaultVariants: {
@@ -69,8 +70,8 @@ const commandGroupVariants = cva(
     variants: {
       variant: {
         default: "text-slate-900 dark:text-white [&_[cmdk-group-heading]]:text-muted-foreground",
-        glass: "text-white [&_[cmdk-group-heading]]:text-white/80",
-        "glass-subtle": "text-white [&_[cmdk-group-heading]]:text-white/70",
+        glass: "text-slate-900 dark:text-white [&_[cmdk-group-heading]]:text-slate-700 dark:[&_[cmdk-group-heading]]:text-slate-300",
+        "glass-subtle": "text-slate-900 dark:text-white [&_[cmdk-group-heading]]:text-slate-700 dark:[&_[cmdk-group-heading]]:text-slate-300",
       },
     },
     defaultVariants: {
@@ -94,6 +95,23 @@ const Command = React.forwardRef<
     ? "transition-none" 
     : "transition-all animate-duration-300 animate-ease-default"
 
+  // If it's a glass variant, use UnifiedGlassCard
+  if (variant === "glass" || variant === "glass-subtle") {
+    const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+    
+    return (
+      <UnifiedGlassCard
+        variant={glassVariant}
+        className={cn(
+          "flex h-full w-full flex-col overflow-hidden rounded-md border-0",
+          animationClasses,
+          className
+        )}
+        {...props}
+      />
+    )
+  }
+
   return (
     <CommandPrimitive
       ref={ref}
@@ -101,8 +119,7 @@ const Command = React.forwardRef<
       className={cn(
         commandVariants({ variant }),
         animationClasses,
-        className,
-        variant?.startsWith("glass") && "dark"
+        className
       )}
       {...props}
     />
@@ -167,7 +184,7 @@ const CommandInput = React.forwardRef<
         data-slot="command-input"
         className={cn(
           "placeholder:text-slate-700 dark:text-slate-300 flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
-          variant?.startsWith("glass") && "placeholder:text-white/70 text-white",
+          variant?.startsWith("glass") && "placeholder:text-slate-700/70 dark:placeholder:text-slate-300/70 text-slate-900 dark:text-white",
           className
         )}
         {...props}
@@ -204,16 +221,15 @@ interface CommandEmptyProps
 const CommandEmpty = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Empty>,
   CommandEmptyProps
->(({ ...props }, ref) => {
-  return (
-    <CommandPrimitive.Empty
-      ref={ref}
-      data-slot="command-empty"
-      className="py-6 text-center text-sm"
-      {...props}
-    />
-  )
-})
+>((props, ref) => (
+  <CommandPrimitive.Empty
+    ref={ref}
+    data-slot="command-empty"
+    className="py-6 text-center text-sm"
+    {...props}
+  />
+))
+
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName
 
 interface CommandGroupProps
@@ -223,21 +239,19 @@ interface CommandGroupProps
 const CommandGroup = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Group>,
   CommandGroupProps
->(({ className, variant, ...props }, ref) => {
-  return (
-    <CommandPrimitive.Group
-      ref={ref}
-      data-slot="command-group"
-      className={cn(
-        commandGroupVariants({ variant }),
-        "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium",
-        className,
-        variant?.startsWith("glass") && "dark"
-      )}
-      {...props}
-    />
-  )
-})
+>(({ className, variant, ...props }, ref) => (
+  <CommandPrimitive.Group
+    ref={ref}
+    data-slot="command-group"
+    className={cn(
+      commandGroupVariants({ variant }),
+      "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium",
+      className
+    )}
+    {...props}
+  />
+))
+
 CommandGroup.displayName = CommandPrimitive.Group.displayName
 
 interface CommandSeparatorProps
@@ -246,16 +260,14 @@ interface CommandSeparatorProps
 const CommandSeparator = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Separator>,
   CommandSeparatorProps
->(({ className, ...props }, ref) => {
-  return (
-    <CommandPrimitive.Separator
-      ref={ref}
-      data-slot="command-separator"
-      className={cn("bg-border -mx-1 h-px", className)}
-      {...props}
-    />
-  )
-})
+>(({ className, ...props }, ref) => (
+  <CommandPrimitive.Separator
+    ref={ref}
+    data-slot="command-separator"
+    className={cn("-mx-1 h-px bg-border", className)}
+    {...props}
+  />
+))
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName
 
 interface CommandItemProps
@@ -266,48 +278,36 @@ const CommandItem = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Item>,
   CommandItemProps
 >(({ className, variant, ...props }, ref) => {
-  const prefersReducedMotion = usePrefersReducedMotion()
-  
-  // Apply animation classes conditionally based on user preferences
-  const animationClasses = prefersReducedMotion 
-    ? "transition-none" 
-    : "transition-all animate-duration-300 animate-ease-spring hover:scale-[1.01]"
-
   return (
     <CommandPrimitive.Item
       ref={ref}
       data-slot="command-item"
       className={cn(
         commandItemVariants({ variant }),
-        animationClasses,
-        className,
-        variant?.startsWith("glass") && "dark"
-      )}
-      {...props}
-    />
-  )
-})
-CommandItem.displayName = CommandPrimitive.Item.displayName
-
-interface CommandShortcutProps
-  extends React.ComponentProps<"span"> {}
-
-const CommandShortcut = React.forwardRef<
-  HTMLSpanElement,
-  CommandShortcutProps
->(({ className, ...props }, ref) => {
-  return (
-    <span
-      ref={ref}
-      data-slot="command-shortcut"
-      className={cn(
-        "text-slate-700 dark:text-slate-300 ml-auto text-xs tracking-widest",
         className
       )}
       {...props}
     />
   )
 })
+
+CommandItem.displayName = CommandPrimitive.Item.displayName
+
+const CommandShortcut = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement>) => {
+  return (
+    <span
+      data-slot="command-shortcut"
+      className={cn(
+        "ml-auto text-xs tracking-widest text-muted-foreground",
+        className
+      )}
+      {...props}
+    />
+  )
+}
 CommandShortcut.displayName = "CommandShortcut"
 
 export {

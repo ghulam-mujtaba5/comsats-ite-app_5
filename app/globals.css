@@ -17,22 +17,20 @@
 @layer base {
   /* Touch-friendly interactive elements */
   button,
-  a,
-  [role="button"],
-  [role="link"],
-  input,
-  textarea,
-  select {
+  [role="button"] {
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+  }
+  
+  /* Prevent text selection only on specific interactive elements where needed */
+  button,
+  [role="button"] {
     -webkit-user-select: none;
     user-select: none;
   }
   
-  /* Allow text selection in inputs and text areas */
-  input,
-  textarea,
-  [contenteditable] {
+  /* Allow text selection for all other content */
+  * {
     -webkit-user-select: text;
     user-select: text;
   }

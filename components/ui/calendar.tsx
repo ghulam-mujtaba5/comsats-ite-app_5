@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils"
 import { Button, getButtonClasses } from "@/components/ui/button"
 import { cva, type VariantProps } from "class-variance-authority"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 const calendarVariants = cva(
   "group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
@@ -19,8 +20,8 @@ const calendarVariants = cva(
     variants: {
       variant: {
         default: "bg-background",
-        glass: "bg-white/10 backdrop-blur-xl border border-slate-200 dark:border-slate-700 rounded-lg shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border border-slate-200 dark:border-slate-700 rounded-lg shadow-glass-sm",
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -67,8 +68,7 @@ function Calendar({
         animationClasses,
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
-        className,
-        variant?.startsWith("glass") && "dark"
+        className
       )}
       captionLayout={captionLayout}
       formatters={{
@@ -90,15 +90,15 @@ function Calendar({
         button_previous: cn(
           getButtonClasses({ variant: buttonVariant }),
           "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
-          variant === "glass" ? "text-white hover:bg-white/20" : 
-          variant === "glass-subtle" ? "text-white hover:bg-white/15" : "",
+          variant === "glass" ? "text-slate-900 dark:text-white hover:bg-white/20 dark:hover:bg-white/10" : 
+          variant === "glass-subtle" ? "text-slate-900 dark:text-white hover:bg-white/15 dark:hover:bg-white/7" : "",
           defaultClassNames.button_previous
         ),
         button_next: cn(
           getButtonClasses({ variant: buttonVariant }),
           "size-(--cell-size) aria-disabled:opacity-50 p-0 select-none",
-          variant === "glass" ? "text-white hover:bg-white/20" : 
-          variant === "glass-subtle" ? "text-white hover:bg-white/15" : "",
+          variant === "glass" ? "text-slate-900 dark:text-white hover:bg-white/20 dark:hover:bg-white/10" : 
+          variant === "glass-subtle" ? "text-slate-900 dark:text-white hover:bg-white/15 dark:hover:bg-white/7" : "",
           defaultClassNames.button_next
         ),
         month_caption: cn(
@@ -111,8 +111,8 @@ function Calendar({
         ),
         dropdown_root: cn(
           "relative has-focus:border-ring border border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] rounded-md",
-          variant === "glass" ? "border-slate-200 dark:border-slate-700 bg-white/10" : 
-          variant === "glass-subtle" ? "border-slate-200 dark:border-slate-700 bg-white/5" : "",
+          variant === "glass" ? "border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80" : 
+          variant === "glass-subtle" ? "border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/60" : "",
           defaultClassNames.dropdown_root
         ),
         dropdown: cn(
@@ -124,14 +124,14 @@ function Calendar({
           captionLayout === "label"
             ? "text-sm"
             : "rounded-md pl-2 pr-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-slate-700 dark:text-slate-300 [&>svg]:size-3.5",
-          variant?.startsWith("glass") ? "text-white" : "",
+          variant?.startsWith("glass") ? "text-slate-900 dark:text-white" : "",
           defaultClassNames.caption_label
         ),
         table: "w-full border-collapse",
         weekdays: cn("flex", defaultClassNames.weekdays),
         weekday: cn(
           "rounded-md flex-1 font-normal text-[0.8rem] select-none",
-          variant?.startsWith("glass") ? "text-white/80" : "text-muted-foreground",
+          variant?.startsWith("glass") ? "text-slate-700 dark:text-slate-300" : "text-muted-foreground",
           defaultClassNames.weekday
         ),
         week: cn("flex w-full mt-2", defaultClassNames.week),
@@ -141,7 +141,7 @@ function Calendar({
         ),
         week_number: cn(
           "text-[0.8rem] select-none",
-          variant?.startsWith("glass") ? "text-white/70" : "text-muted-foreground",
+          variant?.startsWith("glass") ? "text-slate-700 dark:text-slate-300" : "text-muted-foreground",
           defaultClassNames.week_number
         ),
         day: cn(
@@ -150,37 +150,37 @@ function Calendar({
         ),
         range_start: cn(
           "rounded-l-md",
-          variant?.startsWith("glass") ? "bg-white/30" : "bg-accent",
+          variant?.startsWith("glass") ? "bg-white/30 dark:bg-white/20" : "bg-accent",
           defaultClassNames.range_start
         ),
         range_middle: cn(
           "rounded-none",
-          variant?.startsWith("glass") ? "bg-white/20" : "",
+          variant?.startsWith("glass") ? "bg-white/20 dark:bg-white/10" : "",
           defaultClassNames.range_middle
         ),
         range_end: cn(
           "rounded-r-md",
-          variant?.startsWith("glass") ? "bg-white/30" : "bg-accent",
+          variant?.startsWith("glass") ? "bg-white/30 dark:bg-white/20" : "bg-accent",
           defaultClassNames.range_end
         ),
         today: cn(
           "rounded-md data-[selected=true]:rounded-none",
-          variant?.startsWith("glass") ? "bg-white/20 text-white" : "bg-accent text-accent-foreground",
+          variant?.startsWith("glass") ? "bg-white/20 dark:bg-white/10 text-slate-900 dark:text-white" : "bg-accent text-accent-foreground",
           defaultClassNames.today
         ),
         outside: cn(
-          variant?.startsWith("glass") ? "text-white/50 aria-selected:text-white/50" : "text-slate-700 dark:text-slate-300 aria-selected:text-muted-foreground",
+          variant?.startsWith("glass") ? "text-slate-700/50 dark:text-slate-300/50 aria-selected:text-slate-700/50 dark:aria-selected:text-slate-300/50" : "text-slate-700 dark:text-slate-300 aria-selected:text-muted-foreground",
           defaultClassNames.outside
         ),
         disabled: cn(
-          variant?.startsWith("glass") ? "text-white/30 opacity-50" : "text-slate-700 dark:text-slate-300 opacity-50",
+          variant?.startsWith("glass") ? "text-slate-700/30 dark:text-slate-300/30 opacity-50" : "text-slate-700 dark:text-slate-300 opacity-50",
           defaultClassNames.disabled
         ),
         hidden: cn("invisible", defaultClassNames.hidden),
         ...classNames,
       }}
       components={{
-        Root: ({ className, rootRef, ...props }) => {
+        Root: ({ className, rootRef, ...props }: { className?: string; rootRef?: React.Ref<HTMLDivElement>; [key: string]: any }) => {
           return (
             <div
               data-slot="calendar"
@@ -190,84 +190,40 @@ function Calendar({
             />
           )
         },
-        Chevron: ({ className, orientation, ...props }) => {
+        Chevron: ({ className, orientation, ...props }: { className?: string; orientation?: "left" | "right"; [key: string]: any }) => {
           if (orientation === "left") {
             return (
               <ChevronLeftIcon className={cn(
                 "size-4",
-                variant?.startsWith("glass") ? "text-white" : "",
+                variant?.startsWith("glass") ? "text-slate-900 dark:text-white" : "",
                 className
               )} {...props} />
             )
           }
-
-          if (orientation === "right") {
-            return (
-              <ChevronRightIcon
-                className={cn(
-                  "size-4",
-                  variant?.startsWith("glass") ? "text-white" : "",
-                  className
-                )}
-                {...props}
-              />
-            )
-          }
-
           return (
-            <ChevronDownIcon className={cn(
+            <ChevronRightIcon className={cn(
               "size-4",
-              variant?.startsWith("glass") ? "text-white" : "",
+              variant?.startsWith("glass") ? "text-slate-900 dark:text-white" : "",
               className
             )} {...props} />
           )
         },
-        DayButton: ({ className, day, modifiers, ...props }) => {
-          const ref = React.useRef<HTMLButtonElement>(null)
-          React.useEffect(() => {
-            if (modifiers.focused) ref.current?.focus()
-          }, [modifiers.focused])
-
-          return (
-            <Button
-              ref={ref}
-              variant="ghost"
-              size="icon"
-              data-day={day.date.toLocaleDateString()}
-              data-selected-single={
-                modifiers.selected &&
-                !modifiers.range_start &&
-                !modifiers.range_end &&
-                !modifiers.range_middle
-              }
-              data-range-start={modifiers.range_start}
-              data-range-end={modifiers.range_end}
-              data-range-middle={modifiers.range_middle}
-              className={cn(
-                "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md [&>span]:text-xs [&>span]:opacity-70",
-                variant === "glass" ? "text-white hover:bg-white/20 data-[selected-single=true]:bg-white/30 data-[selected-single=true]:text-white data-[range-middle=true]:bg-white/20 data-[range-middle=true]:text-white data-[range-start=true]:bg-white/30 data-[range-start=true]:text-white data-[range-end=true]:bg-white/30 data-[range-end=true]:text-white" : 
-                variant === "glass-subtle" ? "text-white hover:bg-white/15 data-[selected-single=true]:bg-white/20 data-[selected-single=true]:text-white data-[range-middle=true]:bg-white/15 data-[range-middle=true]:text-white data-[range-start=true]:bg-white/20 data-[range-start=true]:text-white data-[range-end=true]:bg-white/20 data-[range-end=true]:text-white" : "",
-                className,
-                variant?.startsWith("glass") && "dark"
-              )}
-              {...props}
-            />
-          )
-        },
-        WeekNumber: ({ children, ...props }) => {
-          return (
-            <td {...props}>
-              <div className="flex size-(--cell-size) items-center justify-center text-center">
-                {children}
-              </div>
-            </td>
-          )
-        },
+        DropdownIcon: ({ className, ...props }: { className?: string; [key: string]: any }) => (
+          <ChevronDownIcon
+            className={cn(
+              "size-4",
+              variant?.startsWith("glass") ? "text-slate-900 dark:text-white" : "",
+              className
+            )}
+            {...props}
+          />
+        ),
         ...components,
       }}
       {...props}
     />
   )
 }
+Calendar.displayName = "Calendar"
 
 export { Calendar }

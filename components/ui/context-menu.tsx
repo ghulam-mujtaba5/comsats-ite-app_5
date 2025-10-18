@@ -7,6 +7,7 @@ import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 const contextMenuContentVariants = cva(
   "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--radix-context-menu-content-available-height) min-w-[8rem] origin-(--radix-context-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md",
@@ -14,8 +15,8 @@ const contextMenuContentVariants = cva(
     variants: {
       variant: {
         default: "bg-popover text-popover-foreground",
-        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700 text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700 text-white shadow-glass-sm",
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -30,8 +31,8 @@ const contextMenuItemVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "text-white focus:bg-white/20",
-        "glass-subtle": "text-white focus:bg-white/15",
+        glass: "text-slate-900 dark:text-white focus:bg-white/20 dark:focus:bg-white/10",
+        "glass-subtle": "text-slate-900 dark:text-white focus:bg-white/15 dark:focus:bg-white/7",
       },
       itemVariant: {
         default: "[&_svg:not([class*='text-'])]:text-muted-foreground",
@@ -51,8 +52,8 @@ const contextMenuSubContentVariants = cva(
     variants: {
       variant: {
         default: "bg-popover text-popover-foreground",
-        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700 text-white shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700 text-white shadow-glass-sm",
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -84,6 +85,33 @@ const ContextMenuContent = React.forwardRef<
     ? "transition-none" 
     : "transition-all animate-duration-300 animate-ease-default"
 
+  // If it's a glass variant, use UnifiedGlassCard
+  if (variant === "glass" || variant === "glass-subtle") {
+    const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+    
+    return (
+      <ContextMenuPrimitive.Portal>
+        <ContextMenuPrimitive.Content
+          ref={ref}
+          data-slot="context-menu-content"
+          className={cn(
+            "p-0 border-0",
+            animationClasses,
+            className
+          )}
+          {...props}
+        >
+          <UnifiedGlassCard
+            variant={glassVariant}
+            className="p-1 rounded-md border"
+          >
+            {props.children}
+          </UnifiedGlassCard>
+        </ContextMenuPrimitive.Content>
+      </ContextMenuPrimitive.Portal>
+    )
+  }
+
   return (
     <ContextMenuPrimitive.Portal>
       <ContextMenuPrimitive.Content
@@ -92,8 +120,7 @@ const ContextMenuContent = React.forwardRef<
         className={cn(
           contextMenuContentVariants({ variant }),
           animationClasses,
-          className,
-          variant?.startsWith("glass") && "dark"
+          className
         )}
         {...props}
       />
@@ -128,8 +155,7 @@ const ContextMenuItem = React.forwardRef<
       className={cn(
         contextMenuItemVariants({ variant, itemVariant }),
         animationClasses,
-        className,
-        variant?.startsWith("glass") && "dark"
+        className
       )}
       {...props}
     />
@@ -202,102 +228,61 @@ interface ContextMenuLabelProps
 const ContextMenuLabel = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Label>,
   ContextMenuLabelProps
->(({ className, inset, ...props }, ref) => {
-  return (
-    <ContextMenuPrimitive.Label
-      ref={ref}
-      data-slot="context-menu-label"
-      data-inset={inset}
-      className={cn(
-        "text-slate-900 dark:text-white px-2 py-1.5 text-sm font-medium data-[inset]:pl-8",
-        className
-      )}
-      {...props}
-    />
-  )
-})
+>(({ className, inset, ...props }, ref) => (
+  <ContextMenuPrimitive.Label
+    ref={ref}
+    data-slot="context-menu-label"
+    data-inset={inset}
+    className={cn(
+      "px-2 py-1.5 text-sm font-medium",
+      inset && "pl-8",
+      className
+    )}
+    {...props}
+  />
+))
 ContextMenuLabel.displayName = ContextMenuPrimitive.Label.displayName
-
-interface ContextMenuSeparatorProps
-  extends React.ComponentProps<typeof ContextMenuPrimitive.Separator> {}
 
 const ContextMenuSeparator = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Separator>,
-  ContextMenuSeparatorProps
->(({ className, ...props }, ref) => {
-  return (
-    <ContextMenuPrimitive.Separator
-      ref={ref}
-      data-slot="context-menu-separator"
-      className={cn("bg-border -mx-1 my-1 h-px", className)}
-      {...props}
-    />
-  )
-})
+  React.ComponentProps<typeof ContextMenuPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <ContextMenuPrimitive.Separator
+    ref={ref}
+    data-slot="context-menu-separator"
+    className={cn("-mx-1 my-1 h-px bg-border", className)}
+    {...props}
+  />
+))
 ContextMenuSeparator.displayName = ContextMenuPrimitive.Separator.displayName
 
-interface ContextMenuShortcutProps
-  extends React.ComponentProps<"span"> {}
-
-const ContextMenuShortcut = React.forwardRef<
-  HTMLSpanElement,
-  ContextMenuShortcutProps
->(({ className, ...props }, ref) => {
+const ContextMenuShortcut = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement>) => {
   return (
     <span
-      ref={ref}
       data-slot="context-menu-shortcut"
       className={cn(
-        "text-slate-700 dark:text-slate-300 ml-auto text-xs tracking-widest",
+        "ml-auto text-xs tracking-widest text-muted-foreground",
         className
       )}
       {...props}
     />
   )
-})
-ContextMenuShortcut.displayName = "ContextMenuShortcut"
-
-interface ContextMenuSubTriggerProps
-  extends React.ComponentProps<typeof ContextMenuPrimitive.SubTrigger> {
-  inset?: boolean
 }
-
-const ContextMenuSubTrigger = React.forwardRef<
-  React.ElementRef<typeof ContextMenuPrimitive.SubTrigger>,
-  ContextMenuSubTriggerProps
->(({ className, inset, children, ...props }, ref) => {
-  return (
-    <ContextMenuPrimitive.SubTrigger
-      ref={ref}
-      data-slot="context-menu-sub-trigger"
-      data-inset={inset}
-      className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
-      )}
-      {...props}
-    >
-      {children}
-      <ChevronRightIcon className="ml-auto" />
-    </ContextMenuPrimitive.SubTrigger>
-  )
-})
-ContextMenuSubTrigger.displayName = ContextMenuPrimitive.SubTrigger.displayName
-
-interface ContextMenuSubContentProps
-  extends React.ComponentProps<typeof ContextMenuPrimitive.SubContent>,
-    VariantProps<typeof contextMenuSubContentVariants> {}
+ContextMenuShortcut.displayName = "ContextMenuShortcut"
 
 const ContextMenuSubContent = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.SubContent>,
-  ContextMenuSubContentProps
+  React.ComponentProps<typeof ContextMenuPrimitive.SubContent> & VariantProps<typeof contextMenuSubContentVariants>
 >(({ className, variant, ...props }, ref) => {
   const prefersReducedMotion = usePrefersReducedMotion()
   
   // Apply animation classes conditionally based on user preferences
   const animationClasses = prefersReducedMotion 
-    ? "" 
-    : "transition-all duration-300"
+    ? "transition-none" 
+    : "transition-all animate-duration-300 animate-ease-default"
 
   return (
     <ContextMenuPrimitive.SubContent
@@ -306,8 +291,7 @@ const ContextMenuSubContent = React.forwardRef<
       className={cn(
         contextMenuSubContentVariants({ variant }),
         animationClasses,
-        className,
-        variant?.startsWith("glass") && "dark"
+        className
       )}
       {...props}
     />
@@ -328,7 +312,6 @@ export {
   ContextMenuGroup,
   ContextMenuPortal,
   ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
   ContextMenuRadioGroup,
+  ContextMenuSubContent,
 }

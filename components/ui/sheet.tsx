@@ -7,6 +7,7 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 const Sheet = SheetPrimitive.Root
 
@@ -22,8 +23,8 @@ const sheetOverlayVariants = cva(
     variants: {
       variant: {
         default: "bg-black/80",
-        glass: "bg-black/30 backdrop-blur-sm",
-        "glass-subtle": "bg-black/20 backdrop-blur-xs",
+        glass: "bg-black/30",
+        "glass-subtle": "bg-black/20",
       },
     },
     defaultVariants: {
@@ -75,8 +76,8 @@ const sheetVariants = cva(
       },
       variant: {
         default: "",
-        glass: "bg-white/10 backdrop-blur-xl border-slate-200 dark:border-slate-700 shadow-glass",
-        "glass-subtle": "bg-white/5 backdrop-blur-lg border-slate-200 dark:border-slate-700 shadow-glass-sm",
+        glass: "bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border-slate-200 dark:border-slate-700 shadow-xl",
+        "glass-subtle": "bg-white/60 dark:bg-slate-800/60 backdrop-blur-md border-slate-200 dark:border-slate-700 shadow-lg",
       },
     },
     defaultVariants: {
@@ -101,6 +102,41 @@ const SheetContent = React.forwardRef<
     ? "transition-none" 
     : "transition-all animate-duration-300 animate-ease-default"
 
+  // If it's a glass variant, use UnifiedGlassCard
+  if (variant === "glass" || variant === "glass-subtle") {
+    const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+    
+    return (
+      <SheetPortal>
+        <SheetOverlay variant={variant} />
+        <SheetPrimitive.Content
+          ref={ref}
+          className={cn(
+            sheetVariants({ side, variant: "default" }),
+            "p-0 border-0",
+            animationClasses,
+            className
+          )}
+          {...props}
+        >
+          <UnifiedGlassCard
+            variant={glassVariant}
+            className="p-4 sm:p-6 h-full"
+          >
+            {children}
+            <SheetPrimitive.Close className={cn(
+              "absolute right-4 top-4 z-[103] rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary p-2 hover:bg-secondary/80 min-h-[44px] min-w-[44px] flex items-center justify-center",
+              prefersReducedMotion ? "transition-none" : "transition-opacity animate-duration-200"
+            )}>
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close</span>
+            </SheetPrimitive.Close>
+          </UnifiedGlassCard>
+        </SheetPrimitive.Content>
+      </SheetPortal>
+    )
+  }
+
   return (
     <SheetPortal>
       <SheetOverlay variant={variant} />
@@ -109,8 +145,7 @@ const SheetContent = React.forwardRef<
         className={cn(
           sheetVariants({ side, variant }),
           animationClasses,
-          className,
-          variant?.startsWith("glass") && "dark"
+          className
         )}
         {...props}
       >

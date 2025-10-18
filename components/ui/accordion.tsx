@@ -7,6 +7,7 @@ import { ChevronDownIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 const accordionItemVariants = cva(
   "border-b last:border-b-0",
@@ -14,8 +15,8 @@ const accordionItemVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "border-slate-200 dark:border-slate-700 bg-white/10 backdrop-blur-xl shadow-glass",
-        "glass-subtle": "border-slate-200 dark:border-slate-700 bg-white/5 backdrop-blur-lg shadow-glass-sm",
+        glass: "border-slate-200 dark:border-slate-700",
+        "glass-subtle": "border-slate-200 dark:border-slate-700",
       },
     },
     defaultVariants: {
@@ -30,8 +31,8 @@ const accordionTriggerVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: "text-white hover:text-white/90",
-        "glass-subtle": "text-white hover:text-white/80",
+        glass: "text-slate-900 dark:text-white",
+        "glass-subtle": "text-slate-900 dark:text-white",
       },
     },
     defaultVariants: {
@@ -57,6 +58,28 @@ const AccordionItem = React.forwardRef<
     ? "transition-none" 
     : "transition-all animate-duration-300 animate-ease-default"
 
+  // If it's a glass variant, wrap in UnifiedGlassCard
+  if (variant?.startsWith("glass")) {
+    const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+    
+    return (
+      <UnifiedGlassCard 
+        variant={glassVariant} 
+        className={cn("p-0 border-0", className)}
+      >
+        <AccordionPrimitive.Item
+          ref={ref}
+          data-slot="accordion-item"
+          className={cn(
+            accordionItemVariants({ variant }),
+            animationClasses
+          )}
+          {...props}
+        />
+      </UnifiedGlassCard>
+    )
+  }
+
   return (
     <AccordionPrimitive.Item
       ref={ref}
@@ -64,8 +87,7 @@ const AccordionItem = React.forwardRef<
       className={cn(
         accordionItemVariants({ variant }),
         animationClasses,
-        className,
-        variant?.startsWith("glass") && "dark"
+        className
       )}
       {...props}
     />
@@ -96,8 +118,7 @@ const AccordionTrigger = React.forwardRef<
         className={cn(
           accordionTriggerVariants({ variant }),
           animationClasses,
-          className,
-          variant?.startsWith("glass") && "dark"
+          className
         )}
         {...props}
       >
@@ -126,7 +147,7 @@ const AccordionContent = React.forwardRef<
       className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
       {...props}
     >
-      <div className={cn("pt-0 pb-4", className)}>{children}</div>
+      <div className={cn("pt-0 pb-4 px-4", className)}>{children}</div>
     </AccordionPrimitive.Content>
   )
 })

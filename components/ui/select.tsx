@@ -6,8 +6,8 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { cva, VariantProps } from "class-variance-authority"
-import { getEnhancedGlassClasses, glassPresets } from "@/lib/glassmorphism-2025"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 const selectTriggerVariants = cva(
   "border-input data-[placeholder]:text-slate-700 dark:text-slate-300 [&_svg:not([class*='text-'])]:text-slate-700 dark:text-slate-300 focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 interactive hover-lift",
@@ -15,21 +15,8 @@ const selectTriggerVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: getEnhancedGlassClasses({
-          ...glassPresets.input,
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
-        "glass-subtle": getEnhancedGlassClasses({
-          ...glassPresets.input,
-          variant: 'glass-subtle',
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
+        glass: "",
+        "glass-subtle": "",
       },
       size: {
         sm: "h-8",
@@ -49,21 +36,8 @@ const selectContentVariants = cva(
     variants: {
       variant: {
         default: "",
-        glass: getEnhancedGlassClasses({
-          ...glassPresets.dropdown,
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
-        "glass-subtle": getEnhancedGlassClasses({
-          ...glassPresets.dropdown,
-          variant: 'glass-subtle',
-          accessibility: {
-            reducedMotion: true,
-            focusVisible: true
-          }
-        }),
+        glass: "",
+        "glass-subtle": "",
       },
     },
     defaultVariants: {
@@ -107,6 +81,37 @@ const SelectTrigger = React.forwardRef<
     ? "" 
     : "transition-all duration-300 hover:scale-[1.02] focus:scale-100"
 
+  // If it's a glass variant, use UnifiedGlassCard
+  if (variant === "glass" || variant === "glass-subtle") {
+    const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+    
+    return (
+      <SelectPrimitive.Trigger
+        ref={ref}
+        data-slot="select-trigger"
+        data-size={size}
+        className={cn(
+          "p-0 border-0",
+          animationClasses
+        )}
+        {...props}
+      >
+        <UnifiedGlassCard
+          variant={glassVariant}
+          className={cn(
+            "flex w-fit items-center justify-between gap-2 rounded-md px-3 py-2 text-sm whitespace-nowrap shadow-xs",
+            size === "sm" ? "h-8" : "h-9"
+          )}
+        >
+          {children}
+          <SelectPrimitive.Icon asChild>
+            <ChevronDownIcon className="size-4 opacity-50" />
+          </SelectPrimitive.Icon>
+        </UnifiedGlassCard>
+      </SelectPrimitive.Trigger>
+    )
+  }
+
   return (
     <SelectPrimitive.Trigger
       ref={ref}
@@ -114,8 +119,7 @@ const SelectTrigger = React.forwardRef<
       data-size={size}
       className={cn(
         selectTriggerVariants({ variant, size, className }),
-        animationClasses,
-        variant?.startsWith("glass") && "dark"
+        animationClasses
       )}
       {...props}
     >
@@ -143,6 +147,43 @@ const SelectContent = React.forwardRef<
     ? "transition-none" 
     : "transition-all animate-duration-300 animate-ease-default"
 
+  // If it's a glass variant, use UnifiedGlassCard
+  if (variant === "glass" || variant === "glass-subtle") {
+    const glassVariant = variant === "glass-subtle" ? "subtle" : "base"
+    
+    return (
+      <SelectPrimitive.Portal>
+        <SelectPrimitive.Content
+          ref={ref}
+          data-slot="select-content"
+          className={cn(
+            "p-0 border-0",
+            animationClasses,
+            className
+          )}
+          position={position}
+          {...props}
+        >
+          <UnifiedGlassCard
+            variant={glassVariant}
+            className="rounded-md border shadow-md p-1"
+          >
+            <SelectScrollUpButton />
+            <SelectPrimitive.Viewport
+              className={cn(
+                position === "popper" &&
+                  "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)] scroll-my-1"
+              )}
+            >
+              {children}
+            </SelectPrimitive.Viewport>
+            <SelectScrollDownButton />
+          </UnifiedGlassCard>
+        </SelectPrimitive.Content>
+      </SelectPrimitive.Portal>
+    )
+  }
+
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
@@ -150,8 +191,7 @@ const SelectContent = React.forwardRef<
         data-slot="select-content"
         className={cn(
           selectContentVariants({ variant, className }),
-          animationClasses,
-          variant?.startsWith("glass") && "dark"
+          animationClasses
         )}
         position={position}
         {...props}
@@ -211,68 +251,49 @@ const SelectItem = React.forwardRef<
 })
 SelectItem.displayName = SelectPrimitive.Item.displayName
 
-function SelectSeparator({
-  className,
-  ...props
-}: React.ComponentProps<typeof SelectPrimitive.Separator>) {
-  return (
-    <SelectPrimitive.Separator
-      data-slot="select-separator"
-      className={cn("bg-border pointer-events-none -mx-1 my-1 h-px", className)}
-      {...props}
-    />
-  )
-}
-
 const SelectScrollUpButton = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
   React.ComponentProps<typeof SelectPrimitive.ScrollUpButton>
->(({ className, ...props }, ref) => {
-  return (
-    <SelectPrimitive.ScrollUpButton
-      ref={ref}
-      data-slot="select-scroll-up-button"
-      className={cn(
-        "flex cursor-default items-center justify-center py-1",
-        className
-      )}
-      {...props}
-    >
-      <ChevronUpIcon className="size-4" />
-    </SelectPrimitive.ScrollUpButton>
-  )
-})
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.ScrollUpButton
+    ref={ref}
+    className={cn(
+      "flex cursor-default items-center justify-center py-1",
+      className
+    )}
+    {...props}
+  >
+    <ChevronUpIcon className="size-4" />
+  </SelectPrimitive.ScrollUpButton>
+))
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName
 
 const SelectScrollDownButton = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
   React.ComponentProps<typeof SelectPrimitive.ScrollDownButton>
->(({ className, ...props }, ref) => {
-  return (
-    <SelectPrimitive.ScrollDownButton
-      ref={ref}
-      data-slot="select-scroll-down-button"
-      className={cn(
-        "flex cursor-default items-center justify-center py-1",
-        className
-      )}
-      {...props}
-    >
-      <ChevronDownIcon className="size-4" />
-    </SelectPrimitive.ScrollDownButton>
-  )
-})
-SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.ScrollDownButton
+    ref={ref}
+    className={cn(
+      "flex cursor-default items-center justify-center py-1",
+      className
+    )}
+    {...props}
+  >
+    <ChevronDownIcon className="size-4" />
+  </SelectPrimitive.ScrollDownButton>
+))
+SelectScrollDownButton.displayName =
+  SelectPrimitive.ScrollDownButton.displayName
 
 export {
   Select,
-  SelectContent,
   SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
-  SelectSeparator,
-  SelectTrigger,
   SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectScrollUpButton,
+  SelectScrollDownButton,
 }
