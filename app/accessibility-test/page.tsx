@@ -14,7 +14,7 @@ import styles from './page.module.css';
 
 export default function AccessibilityTestPage() {
   const mode = useThemeMode()
-  const themeClass = mode === 'dark' ? stylesDark.a11yDark : stylesLight.a11yLight
+  const themeClass = mode.isDark ? stylesDark.a11yDark : stylesLight.a11yLight
   const prefersReducedMotion = usePrefersReducedMotion()
   const [isHovered, setIsHovered] = useState(false)
   const [isActive, setIsActive] = useState(false)

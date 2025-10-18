@@ -4,7 +4,7 @@ import * as React from "react"
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { getButtonClasses } from "@/components/ui/button"
 import { cva, type VariantProps } from "class-variance-authority"
 import { usePrefersReducedMotion } from '@/hooks/use-enhanced-animations'
 
@@ -190,7 +190,7 @@ const AlertDialogAction = React.forwardRef<
   return (
     <AlertDialogPrimitive.Action
       ref={ref}
-      className={cn(buttonVariants(), className)}
+      className={cn(getButtonClasses(), className)}
       {...props}
     />
   )
@@ -207,7 +207,7 @@ const AlertDialogCancel = React.forwardRef<
   return (
     <AlertDialogPrimitive.Cancel
       ref={ref}
-      className={cn(buttonVariants({ variant: "outline" }), className)}
+      className={cn(getButtonClasses({ variant: "outline" }), className)}
       {...props}
     />
   )

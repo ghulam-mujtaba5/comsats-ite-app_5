@@ -2,7 +2,7 @@
 
 import React from 'react'
 import clsx from 'clsx'
-import { useThemeMode } from '@/lib/theme/useThemeMode'
+import { useThemeMode } from '../../src/lib/theme/useThemeMode'
 import stylesLight from './admin.light.module.css'
 import stylesDark from './admin.dark.module.css'
 import styles from './AdminThemeWrapper.module.css';
@@ -54,7 +54,7 @@ export function AdminThemeWrapper({
   }, [])
 
   // Compute the effective mode: prefer forced, then detected (after mount), else initial
-  const effectiveMode: ThemeMode = forceMode ?? (mounted ? detected : initialMode)
+  const effectiveMode: ThemeMode = forceMode ?? (mounted ? (detected.isDark ? 'dark' : 'light') : initialMode)
 
   // Optionally disable transitions during mode flips to avoid jank
   React.useEffect(() => {

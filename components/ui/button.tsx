@@ -10,7 +10,8 @@ import styles from './button.module.css'
 import lightStyles from './button.light.module.css'
 import darkStyles from './button.dark.module.css'
 
-const buttonVariants = {
+// Public helper: class variants map, used by other UI components (e.g., calendar, pagination)
+export const buttonVariants = {
   variant: {
     default: styles.default,
     destructive: styles.destructive,
@@ -25,6 +26,8 @@ const buttonVariants = {
     info: styles.info,
     glass: "glass", // These are special and handled by getEnhancedGlassClasses
     "glass-premium": "glass-premium",
+    // Back-compat alias for subtle glass buttons used across the app
+    "glass-subtle": "glass",
     "campus-primary": styles['campus-primary'],
     "campus-secondary": styles['campus-secondary'],
   },
@@ -36,6 +39,13 @@ const buttonVariants = {
     xs: styles.xs,
   },
 };
+
+// Back-compat callable helper for components that expect cva-like API
+export function getButtonClasses(opts?: { variant?: keyof typeof buttonVariants.variant; size?: keyof typeof buttonVariants.size }) {
+  const v = opts?.variant ?? 'default'
+  const s = opts?.size ?? 'default'
+  return cn(buttonVariants.variant[v], buttonVariants.size[s])
+}
 
 interface ButtonProps extends React.ComponentProps<"button"> {
   asChild?: boolean

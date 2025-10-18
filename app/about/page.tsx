@@ -15,7 +15,7 @@ import styles from './page.module.css';
 
 export default function AboutUsPage() {
   const mode = useThemeMode()
-  const themeClass = mode === 'dark' ? stylesDark.aboutDark : stylesLight.aboutLight
+  const themeClass = mode.isDark ? stylesDark.aboutDark : stylesLight.aboutLight
   // features removed from About page to avoid duplication with Home
 
   // Top-of-page numeric stats removed to avoid duplication with other site sections
