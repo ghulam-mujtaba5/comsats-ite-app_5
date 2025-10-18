@@ -5,6 +5,7 @@ import { useMicroInteraction, usePrefersReducedMotion } from '@/hooks/use-enhanc
 import { getEnhancedGlassClasses, glassPresets, glassAccessibility } from "@/lib/glassmorphism-2025"
 
 import { cn } from "@/lib/utils"
+import { UnifiedGlassCard } from "@/components/shared/UnifiedGlassCard"
 
 type CardProps = React.ComponentProps<"div"> & {
   variant?: "default" | "elevated" | "soft" | "glass" | "glass-premium" | "glass-floating" | "glass-layered"
@@ -28,8 +29,47 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     accessibility = {},
     role,
     'aria-label': ariaLabel,
+    children,
     ...props 
   }, ref) => {
+    // If it's a glass variant, use the new UnifiedGlassCard component
+    if (variant.startsWith("glass")) {
+      // Map legacy variants to new variants
+      const glassVariantMap = {
+        "soft": "subtle",
+        "glass": "base",
+        "glass-premium": "premium",
+        "glass-floating": "base",
+        "glass-layered": "medium",
+        "elevated": "medium"
+      } as const
+
+      // Extract glass variant
+      const glassVariant = glassVariantMap[variant as keyof typeof glassVariantMap] || "base"
+      
+      // Extract interactive effects
+      const interactive = enableHover || enablePress
+      const glow = variant === "glass-premium"
+      const layered = variant === "glass-layered"
+      const depth = variant === "glass-floating"
+
+      return (
+        <UnifiedGlassCard
+          ref={ref}
+          variant={glassVariant as any}
+          interactive={interactive}
+          glow={glow}
+          layered={layered}
+          depth={depth}
+          className={className}
+          {...props}
+        >
+          {children}
+        </UnifiedGlassCard>
+      )
+    }
+
+    // For non-glass variants, use the existing implementation
     const { hoverVariants, tapVariants } = useMicroInteraction()
     const prefersReducedMotion = usePrefersReducedMotion()
     
@@ -43,58 +83,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       ? "cursor-pointer" 
       : ""
 
-    // Get glassmorphism classes based on variant
-    let glassClasses = ""
-    switch (variant) {
-      case "elevated":
-        glassClasses = getEnhancedGlassClasses({
-          ...glassPresets.card,
-          accessibility
-        })
-        break
-      case "soft":
-        glassClasses = getEnhancedGlassClasses({ 
-          variant: 'glass-subtle',
-          accessibility
-        })
-        break
-      case "glass":
-        glassClasses = getEnhancedGlassClasses({
-          ...glassPresets.card,
-          accessibility
-        })
-        break
-      case "glass-premium":
-        glassClasses = getEnhancedGlassClasses({
-          ...glassPresets.cardPremium,
-          accessibility
-        })
-        break
-      case "glass-floating":
-        glassClasses = getEnhancedGlassClasses({
-          ...glassPresets.floatingCard,
-          accessibility
-        })
-        break
-      case "glass-layered":
-        glassClasses = getEnhancedGlassClasses({
-          ...glassPresets.layeredCard,
-          accessibility
-        })
-        break
-      default:
-        glassClasses = ""
-    }
-
     // Get accessibility classes
     const focusClasses = glassAccessibility.getFocusClasses()
-    const textContrastClasses = glassAccessibility.getTextContrastClasses(
-      variant === "soft" ? 'glass-subtle' : 
-      variant === "glass" || variant === "elevated" ? 'glass-card' :
-      variant === "glass-premium" ? 'glass-premium' :
-      variant === "glass-floating" ? 'glass-floating' :
-      variant === "glass-layered" ? 'glass-layered' : 'glass-secondary'
-    )
 
     return (
       <div
@@ -111,12 +101,9 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           interactiveClasses && "select-none",
           // Accessibility classes
           focusClasses,
-          textContrastClasses,
-          // Glassmorphism classes
-          glassClasses,
           className
         )}
-  aria-label={ariaLabel}
+        aria-label={ariaLabel}
         {...glassAccessibility.getAriaAttributes(undefined, ariaLabel)}
         {...(enablePress && !prefersReducedMotion ? { 
           onMouseDown: (e) => {
@@ -132,7 +119,9 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           }
         } : {})}
         {...props}
-      />
+      >
+        {children}
+      </div>
     )
   }
 )

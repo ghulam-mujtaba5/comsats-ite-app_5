@@ -63,7 +63,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         className={cn(
           inputVariants({ variant, inputSize: size, className }),
           animationClasses,
-          variant?.startsWith('glass') && 'dark'
+          variant === 'glass' || variant === 'glass-subtle' ? 'dark' : ''
         )}
         ref={ref}
         {...props}

@@ -1,0 +1,65 @@
+/**
+ * Global Glassmorphism Styles
+ * Applied across the entire application
+ */
+
+/* Import the unified glassmorphism system */
+@import '../styles/design-system/glassmorphism-unified.css';
+
+/* Ensure proper theme handling */
+:root {
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
+}
+
+/* Global glass container styles */
+.glass-container {
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+/* Ensure proper contrast for text on glass backgrounds */
+.glass-text-primary {
+  color: var(--glass-text-primary);
+}
+
+.glass-text-secondary {
+  color: var(--glass-text-secondary);
+}
+
+.glass-text-tertiary {
+  color: var(--glass-text-tertiary);
+}
+
+/* Interactive glass elements */
+.glass-interactive {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glass-shadow-lg);
+}
+
+.glass-interactive:active {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .glass-container {
+    padding: 1rem;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .glass-interactive {
+    transition: none;
+    transform: none !important;
+  }
+}

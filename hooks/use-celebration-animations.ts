@@ -28,7 +28,7 @@ export function useCelebrationAnimations() {
       duration = 5000,
       position,
       particleCount = 200,
-      colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981']
+      colors = ['#6366f1', '#ec4899', '#ec4899', '#f59e0b', '#10b981']
     } = options
 
     // Trigger the existing confetti effect
@@ -83,7 +83,7 @@ export function useCelebrationAnimations() {
       message = 'Brilliant!',
       duration = 4000,
       lightCount = 20,
-      colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981']
+      colors = ['#6366f1', '#ec4899', '#ec4899', '#f59e0b', '#10b981']
     } = options
 
     triggerAnimation({
@@ -107,7 +107,7 @@ export function useCelebrationAnimations() {
       message = 'Achievement unlocked!',
       duration = 7000,
       ribbonCount = 10,
-      colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981']
+      colors = ['#6366f1', '#ec4899', '#ec4899', '#f59e0b', '#10b981']
     } = options
 
     // We'll implement this as a custom fireworks effect

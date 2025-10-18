@@ -354,7 +354,7 @@ export async function sendWeeklyDigestEmail(
               </div>
               
               <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; border: 2px solid #e5e7eb;">
-                <div style="font-size: 32px; color: #8b5cf6; font-weight: bold;">#${stats.leaderboardRank}</div>
+                <div style="font-size: 32px; color: #ec4899; font-weight: bold;">#${stats.leaderboardRank}</div>
                 <div style="color: #6b7280; font-size: 14px;">Your Rank</div>
               </div>
             </div>
@@ -536,7 +536,7 @@ export async function sendReviewSubmittedEmail(
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <div style="background: #8b5cf6; padding: 20px; border-radius: 10px 10px 0 0; text-align: center;">
+          <div style="background: #ec4899; padding: 20px; border-radius: 10px 10px 0 0; text-align: center;">
             <h1 style="color: white; margin: 0; font-size: 24px;">⭐ Review Submitted</h1>
           </div>
           
@@ -545,7 +545,7 @@ export async function sendReviewSubmittedEmail(
             
             <p>Thank you for submitting your review for <strong>${facultyName}</strong>. Your feedback is valuable to the CampusAxis community.</p>
             
-            <div style="background: white; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #8b5cf6;">
+            <div style="background: white; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #ec4899;">
               <p style="margin: 0; color: #6b7280;">Your review is now pending approval by our moderation team. This usually takes 1-2 business days.</p>
             </div>
             

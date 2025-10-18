@@ -13,7 +13,7 @@ export interface WrappingRibbonsProps {
 
 export function WrappingRibbons({ 
   ribbonCount = 10, 
-  colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'],
+  colors = ['#6366f1', '#ec4899', '#ec4899', '#f59e0b', '#10b981'],
   duration = 7000,
   onComplete 
 }: WrappingRibbonsProps) {

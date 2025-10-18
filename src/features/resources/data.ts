@@ -241,7 +241,7 @@ export const mockTimetableEvents: TimetableEvent[] = [
     date: "2024-03-25",
     description: "University closed for spring break",
     isRecurring: false,
-    color: "#8b5cf6",
+    color: "#ec4899",
   },
   {
     id: "6",

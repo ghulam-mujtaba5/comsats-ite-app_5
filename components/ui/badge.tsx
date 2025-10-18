@@ -71,7 +71,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
           badgeVariants({ variant }),
           animationClasses,
           className,
-          variant?.startsWith("glass") && "dark"
+          variant === "glass" || variant === "glass-subtle" ? "dark" : ""
         )}
         {...props}
       />

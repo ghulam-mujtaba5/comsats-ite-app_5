@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -41,6 +42,8 @@ import {
   TooltipTrigger 
 } from '@/components/ui/tooltip'
 import { AlertCircle, Info, CheckCircle, XCircle } from 'lucide-react'
+import { UnifiedGlassCard } from '@/components/shared/UnifiedGlassCard'
+import { UnifiedGlassButton } from '@/components/shared/UnifiedGlassButton'
 
 export default function GlassmorphismTestPage() {
   const [isOpen, setIsOpen] = useState(false)
@@ -49,11 +52,73 @@ export default function GlassmorphismTestPage() {
   return (
     <div className={`${layout.section} ${layout.max6xl} py-8 space-y-8`}>
       <div className="text-center">
-        <h1 className="text-3xl font-bold mb-2">Glassmorphism Components Test</h1>
+        <h1 className="text-3xl font-bold mb-2">Glassmorphism Design System</h1>
         <p className="text-muted-foreground">
-          Testing all glassmorphism components in both light and dark modes
+          Comprehensive glassmorphism implementation with dark and light modes
         </p>
       </div>
+
+      {/* Navigation Cards */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Demos & Documentation</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <UnifiedGlassCard variant="base" interactive glow>
+            <Link href="/glassmorphism-test/dark-mode-demo" className="block">
+              <h3 className="text-xl font-semibold mb-2">Dark Mode Demo</h3>
+              <p className="text-muted-foreground">
+                Experience deep, rich glass effects optimized for low-light environments
+              </p>
+            </Link>
+          </UnifiedGlassCard>
+          
+          <UnifiedGlassCard variant="base" interactive glow>
+            <Link href="/glassmorphism-test/light-mode-demo" className="block">
+              <h3 className="text-xl font-semibold mb-2">Light Mode Demo</h3>
+              <p className="text-muted-foreground">
+                Experience clean, crisp glass effects optimized for daylight viewing
+              </p>
+            </Link>
+          </UnifiedGlassCard>
+          
+          <UnifiedGlassCard variant="base" interactive glow>
+            <Link href="/glassmorphism-test/documentation" className="block">
+              <h3 className="text-xl font-semibold mb-2">Documentation</h3>
+              <p className="text-muted-foreground">
+                Comprehensive guide to implementing glassmorphism effects
+              </p>
+            </Link>
+          </UnifiedGlassCard>
+        </div>
+      </section>
+
+      {/* Unified Glass Cards */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Unified Glass Cards</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <UnifiedGlassCard variant="base" interactive glow>
+            <h3 className="text-xl font-semibold mb-2">Base Glass Card</h3>
+            <p className="text-muted-foreground">
+              This is a unified glass card with interactive and glow effects.
+            </p>
+          </UnifiedGlassCard>
+          <UnifiedGlassCard variant="strong" layered depth>
+            <h3 className="text-xl font-semibold mb-2">Strong Glass Card</h3>
+            <p className="text-muted-foreground">
+              This is a strong glass card with layered and depth effects.
+            </p>
+          </UnifiedGlassCard>
+        </div>
+      </section>
+
+      {/* Unified Glass Buttons */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Unified Glass Buttons</h2>
+        <div className="flex flex-wrap gap-4">
+          <UnifiedGlassButton variant="base">Base Button</UnifiedGlassButton>
+          <UnifiedGlassButton variant="medium" glow>Medium Glow Button</UnifiedGlassButton>
+          <UnifiedGlassButton variant="premium" size="lg">Premium Large Button</UnifiedGlassButton>
+        </div>
+      </section>
 
       {/* Alert Components */}
       <section>

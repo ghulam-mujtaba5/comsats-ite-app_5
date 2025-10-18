@@ -1,6 +1,7 @@
 import layout from '@/app/styles/common.module.css'
 import './glassmorphism-test.light.module.css'
 import './glassmorphism-test.dark.module.css'
+import '@/styles/design-system/glassmorphism-unified.css'
 
 export default function GlassmorphismTestLayout({
   children,

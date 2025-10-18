@@ -24,7 +24,7 @@ export function useConfettiEffect() {
       particleCount = 100,
       spread = 70,
       origin = { x: 0.5, y: 0.5 },
-      colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'],
+      colors = ['#6366f1', '#ec4899', '#ec4899', '#f59e0b', '#10b981'],
       shapes = ['circle', 'square'],
       gravity = 1,
       drift = 0,
@@ -91,7 +91,7 @@ export function useConfettiEffect() {
         ...defaults,
         particleCount,
         origin: { x: Math.random() * 0.8 + 0.1, y: Math.random() * 0.5 },
-        colors: ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'],
+        colors: ['#6366f1', '#ec4899', '#ec4899', '#f59e0b', '#10b981'],
         disableForReducedMotion: true,
       })
     }, 250)
@@ -103,7 +103,7 @@ export function useConfettiEffect() {
     const count = 200
     const defaults = {
       origin: { y: 0.7 },
-      colors: ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'],
+      colors: ['#6366f1', '#ec4899', '#ec4899', '#f59e0b', '#10b981'],
     }
 
     function fireConfetti(particleRatio: number, opts: any) {

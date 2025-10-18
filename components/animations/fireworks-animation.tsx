@@ -181,7 +181,7 @@ export function FireworksAnimation({
                   borderColor: [
                     '#fbbf24', 
                     '#3b82f6', 
-                    '#8b5cf6', 
+                    '#ec4899', 
                     '#fbbf24'
                   ]
                 }}

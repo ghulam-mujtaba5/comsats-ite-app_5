@@ -55,7 +55,7 @@ export function ConfettiSpray() {
               "#ef4444", // red
               "#3b82f6", // blue
               "#10b981", // green
-              "#8b5cf6", // purple
+              "#ec4899", // pink
             ][Math.floor(Math.random() * 5)],
             rotate: `${Math.random() * 360}deg`,
           }}

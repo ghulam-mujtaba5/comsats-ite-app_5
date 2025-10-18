@@ -61,7 +61,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         className={cn(
           textareaVariants({ variant, textSize: size, className }),
           animationClasses,
-          variant?.startsWith("glass") && "dark"
+          variant === "glass" || variant === "glass-subtle" ? "dark" : ""
         )}
         ref={ref}
         {...props}

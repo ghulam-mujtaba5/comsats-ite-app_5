@@ -129,7 +129,7 @@ export default async function Image() {
               <div
                 style={{
                   fontSize: '48px',
-                  color: '#8b5cf6',
+                  color: '#ec4899',
                   fontWeight: 'bold',
                   marginBottom: '5px',
                 }}
@@ -148,7 +148,7 @@ export default async function Image() {
               <div
                 style={{
                   fontSize: '48px',
-                  color: '#8b5cf6',
+                  color: '#ec4899',
                   fontWeight: 'bold',
                   marginBottom: '5px',
                 }}
@@ -167,7 +167,7 @@ export default async function Image() {
               <div
                 style={{
                   fontSize: '48px',
-                  color: '#8b5cf6',
+                  color: '#ec4899',
                   fontWeight: 'bold',
                   marginBottom: '5px',
                 }}

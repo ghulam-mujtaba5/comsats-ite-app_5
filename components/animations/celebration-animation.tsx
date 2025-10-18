@@ -111,7 +111,7 @@ export function CelebrationAnimation({
                 key={i}
                 className="absolute w-4 h-4 rounded-full animate-firework"
                 style={{
-                  backgroundColor: ['#fbbf24', '#ef4444', '#3b82f6', '#10b981', '#8b5cf6'][i % 5],
+                  backgroundColor: ['#fbbf24', '#ef4444', '#3b82f6', '#10b981', '#ec4899'][i % 5],
                   left: `${20 + i * 20}%`,
                   top: `${20 + (i % 2) * 40}%`,
                 }}
@@ -238,10 +238,10 @@ export function CelebrationAnimation({
                 key={i}
                 className="absolute w-1 h-24 rounded-full origin-bottom"
                 style={{
-                  backgroundColor: (options?.colors || ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'])[i % (options?.colors?.length || 5)],
+                  backgroundColor: (options?.colors || ['#6366f1', '#ec4899', '#ec4899', '#f59e0b', '#10b981'])[i % (options?.colors?.length || 5)],
                   left: `${Math.random() * 100}%`,
                   top: Math.random() > 0.5 ? '-10%' : '110%',
-                  boxShadow: `0 0 8px ${(options?.colors || ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'])[i % (options?.colors?.length || 5)]}, 0 0 16px ${(options?.colors || ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'])[i % (options?.colors?.length || 5)]}`
+                  boxShadow: `0 0 8px ${(options?.colors || ['#6366f1', '#ec4899', '#ec4899', '#f59e0b', '#10b981'])[i % (options?.colors?.length || 5)]}, 0 0 16px ${(options?.colors || ['#6366f1', '#ec4899', '#ec4899', '#f59e0b', '#10b981'])[i % (options?.colors?.length || 5)]}`
                 }}
                 initial={{ 
                   rotate: 0,

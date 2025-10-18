@@ -9,6 +9,7 @@ import { useRippleEffect, usePrefersReducedMotion } from '@/hooks/use-enhanced-a
 import styles from './button.module.css'
 import lightStyles from './button.light.module.css'
 import darkStyles from './button.dark.module.css'
+import { UnifiedGlassButton } from "@/components/shared/UnifiedGlassButton"
 
 // Public helper: class variants map, used by other UI components (e.g., calendar, pagination)
 export const buttonVariants = {
@@ -24,7 +25,7 @@ export const buttonVariants = {
     success: styles.success,
     warning: styles.warning,
     info: styles.info,
-    glass: "glass", // These are special and handled by getEnhancedGlassClasses
+    glass: "glass", // These are special and handled by UnifiedGlassButton
     "glass-premium": "glass-premium",
     // Back-compat alias for subtle glass buttons used across the app
     "glass-subtle": "glass",
@@ -55,7 +56,50 @@ interface ButtonProps extends React.ComponentProps<"button"> {
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "default", size = "default", asChild = false, onClick, 'aria-label': ariaLabel, ...props }, ref) => {
+  ({ className, variant = "default", size = "default", asChild = false, onClick, 'aria-label': ariaLabel, children, ...props }, ref) => {
+    // If it's a glass variant, use the new UnifiedGlassButton component
+    if (variant === "glass" || variant === "glass-premium" || variant === "glass-subtle") {
+      // Map legacy variants to new variants
+      const glassVariantMap = {
+        "glass": "base",
+        "glass-premium": "premium",
+        "glass-subtle": "subtle"
+      } as const
+
+      // Extract glass variant
+      const glassVariant = glassVariantMap[variant as keyof typeof glassVariantMap] || "base"
+      
+      // Extract size
+      const sizeMap = {
+        "xs": "sm",
+        "sm": "sm",
+        "default": "md",
+        "lg": "lg",
+        "icon": "md"
+      } as const
+
+      const glassSize = sizeMap[size as keyof typeof sizeMap] || "md"
+      
+      // Check if glow effect is needed
+      const glow = variant === "glass-premium"
+
+      return (
+        <UnifiedGlassButton
+          ref={ref}
+          variant={glassVariant as any}
+          size={glassSize as any}
+          glow={glow}
+          className={className}
+          onClick={onClick}
+          aria-label={ariaLabel}
+          {...props}
+        >
+          {children}
+        </UnifiedGlassButton>
+      )
+    }
+
+    // For non-glass variants, use the existing implementation
     const { ripples, createRipple } = useRippleEffect()
     const prefersReducedMotion = usePrefersReducedMotion()
     const { theme } = useTheme();
@@ -101,7 +145,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             }}
           />
         ))}
-        {props.children}
+        {children}
       </Comp>
     )
   }

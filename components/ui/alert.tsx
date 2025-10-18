@@ -62,7 +62,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
           alertVariants({ variant }),
           animationClasses,
           className,
-          variant?.startsWith("glass") && "dark"
+          variant === "glass" || variant === "glass-subtle" ? "dark" : ""
         )}
         {...props}
       />

@@ -107,7 +107,7 @@ export function GradientWave() {
           background: [
             "linear-gradient(to right, #60a5fa, #a78bfa, #f472b6)",
             "linear-gradient(to right, #818cf8, #ec4899, #60a5fa)",
-            "linear-gradient(to right, #0ea5e9, #8b5cf6, #ec4899)",
+            "linear-gradient(to right, #0ea5e9, #6366f1, #ec4899)",
             "linear-gradient(to right, #60a5fa, #a78bfa, #f472b6)",
           ]
         }}

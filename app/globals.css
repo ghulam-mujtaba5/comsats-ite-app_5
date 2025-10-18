@@ -7,6 +7,7 @@
  * Perfect light/dark mode support
  * ============================================ */
 @import "../styles/index.css";
+@import "./globals.glass.css";
 
 /* ============================================
  * PERFORMANCE & ACCESSIBILITY FIRST
@@ -767,65 +768,46 @@ iframe {
   --input: 217 33% 17%; /* Dark input backgrounds */
   --ring: 217 91% 65%; /* Bright focus ring */
   
-  /* Sidebar - Dark Navigation */
-  --sidebar: 222 47% 13%; /* Slightly lighter than background */
-  --sidebar-foreground: 210 40% 98%;
-  --sidebar-primary: 217 91% 65%;
-  --sidebar-primary-foreground: 222 47% 11%;
-  --sidebar-accent: 262 83% 65%;
-  --sidebar-accent-foreground: 222 47% 11%;
-  --sidebar-border: 217 33% 24%;
-  --sidebar-ring: 217 91% 65%;
+@import "tailwindcss";
+
+/* ============================================
+ * CAMPUSAXIS DESIGN SYSTEM 2025
+ * Modern Academic Platform Design
+ * Fully customized for educational excellence
+ * Perfect light/dark mode support
+ * ============================================ */
+@import "../styles/index.css";
+@import "./globals.glass.css";
+
+/* Update the color palette to use our new professional colors */
+@layer base {
+  :root {
+    /* Updated brand colors */
+    --campus-primary-light: #4573df;
+    --campus-primary-dark: #6366f1;
+    --campus-accent-light: #ec4899;
+    --campus-accent-dark: #ec4899;
+    
+    /* Update glass colors */
+    --campus-glass-light: rgba(255, 255, 255, 0.7);
+    --campus-glass-dark: rgba(255, 255, 255, 0.05);
+    --campus-blur-light: 15px;
+    --campus-blur-dark: 25px;
+  }
   
-  /* Chart Colors - Vibrant Data */
-  --chart-1: 217 91% 65%; /* Bright blue */
-  --chart-2: 262 83% 65%; /* Vivid purple */
-  --chart-3: 199 89% 58%; /* Neon cyan */
-  --chart-4: 142 76% 45%; /* Bright green */
-  --chart-5: 38 92% 55%; /* Bright amber */
+  .dark {
+    --campus-primary: var(--campus-primary-dark);
+    --campus-accent: var(--campus-accent-dark);
+    --campus-glass: var(--campus-glass-dark);
+    --campus-blur: var(--campus-blur-dark);
+  }
   
-  /* ============================================
-   * DARK MODE GLASSMORPHISM 2025
-   * Premium Dark Glass with Subtle Glow
-   * Optimized for night study sessions
-   * ============================================ */
-  
-  /* Glass Background Layers - Dark Tinted */
-  --glass-bg-light: rgba(17, 24, 39, 0.70); /* Dark frosted glass */
-  --glass-bg-medium: rgba(17, 24, 39, 0.80); /* Medium dark glass */
-  --glass-bg-heavy: rgba(17, 24, 39, 0.88); /* Heavy dark glass */
-  --glass-bg-subtle: rgba(17, 24, 39, 0.60); /* Subtle dark glass */
-  --glass-bg-light-hover: rgba(17, 24, 39, 0.78);
-  --glass-bg-medium-hover: rgba(17, 24, 39, 0.86);
-  --glass-bg-heavy-hover: rgba(17, 24, 39, 0.92);
-  --glass-bg-subtle-hover: rgba(17, 24, 39, 0.68);
-  
-  /* Glass Borders - Soft Glow */
-  --glass-border-light: rgba(148, 163, 184, 0.15);
-  --glass-border-medium: rgba(148, 163, 184, 0.22);
-  --glass-border-subtle: rgba(148, 163, 184, 0.10);
-  
-  /* Glass Shadows - Enhanced Depth */
-  --glass-shadow-sm: 0 2px 16px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.4);
-  --glass-shadow-md: 0 4px 24px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.5);
-  --glass-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.6);
-  --glass-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.7);
-  
-  /* Blur Intensity - Same as light mode */
-  --glass-blur-sm: blur(10px) saturate(130%);
-  --glass-blur-md: blur(14px) saturate(140%);
-  --glass-blur-lg: blur(18px) saturate(150%);
-  --glass-blur-xl: blur(24px) saturate(160%);
-  
-  /* Gradient Overlays - Neon Accents */
-  --gradient-primary: linear-gradient(135deg, #60A5FA 0%, #8B5CF6 100%);
-  --gradient-secondary: linear-gradient(135deg, #8B5CF6 0%, #22D3EE 100%);
-  --gradient-accent: linear-gradient(135deg, #22D3EE 0%, #60A5FA 100%);
-  --gradient-glass: linear-gradient(135deg, rgba(30,41,59,0.5) 0%, rgba(30,41,59,0.2) 100%);
-  
-  /* Surface Gradients - Dark Theme */
-  --surface-page: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  --surface-hero: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  :root:not(.dark) {
+    --campus-primary: var(--campus-primary-light);
+    --campus-accent: var(--campus-accent-light);
+    --campus-glass: var(--campus-glass-light);
+    --campus-blur: var(--campus-blur-light);
+  }
 }
 
 @layer base {
@@ -895,97 +877,8 @@ iframe {
       padding-right: 2rem;
     }
   }
+}
 
-  /* ========================================
-     2025 ADVANCED GLASSMORPHISM SYSTEM
-     Modern frosted glass effects with depth
-     
-     Accessibility & Performance Features:
-     - All glass effects respect prefers-reduced-motion media query
-     - Automatic performance optimization for mobile devices
-     - Proper focus states and ARIA attributes
-     - High contrast mode support
-     - Reduced motion support for accessibility
-     ======================================== */
-  
-  /* Consistent Animation Timing and Easing System */
-  .animate-ease-default {
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); /* easeInOut */
-  }
-  
-  .animate-ease-in {
-    transition-timing-function: cubic-bezier(0.4, 0, 1, 1); /* easeIn */
-  }
-  
-  .animate-ease-out {
-    transition-timing-function: cubic-bezier(0, 0, 0.2, 1); /* easeOut */
-  }
-  
-  .animate-ease-linear {
-    transition-timing-function: linear;
-  }
-  
-  .animate-ease-spring {
-    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.1); /* spring */
-  }
-  
-  .animate-ease-bounce {
-    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* bounce */
-  }
-  
-  .animate-ease-elastic {
-    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* elastic */
-  }
-  
-  /* Consistent Animation Duration Classes */
-  .animate-duration-75 {
-    transition-duration: 75ms;
-  }
-  
-  .animate-duration-100 {
-    transition-duration: 100ms;
-  }
-  
-  .animate-duration-150 {
-    transition-duration: 150ms;
-  }
-  
-  .animate-duration-200 {
-    transition-duration: 200ms;
-  }
-  
-  .animate-duration-300 {
-    transition-duration: 300ms;
-  }
-  
-  .animate-duration-400 {
-    transition-duration: 400ms;
-  }
-  
-  .animate-duration-500 {
-    transition-duration: 500ms;
-  }
-  
-  .animate-duration-700 {
-    transition-duration: 700ms;
-  }
-  
-  .animate-duration-1000 {
-    transition-duration: 1000ms;
-  }
-  
-  /* Consistent Animation Delay Classes */
-  .animate-delay-75 {
-    animation-delay: 75ms;
-  }
-  
-  .animate-delay-100 {
-    animation-delay: 100ms;
-  }
-  
-  .animate-delay-150 {
-    animation-delay: 150ms;
-  }
 
   .animate-delay-200 {
     animation-delay: 200ms;
