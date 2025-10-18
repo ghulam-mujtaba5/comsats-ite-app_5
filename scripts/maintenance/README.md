@@ -1,0 +1,1 @@
+Maintenance scripts moved here to keep the project root clean. These are not part of the runtime application.

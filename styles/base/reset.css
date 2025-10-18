@@ -17,11 +17,7 @@
   }
   
   html {
-    /* Add text-size-adjust for browser compatibility */
-    /* stylelint-disable-next-line compat-api/css */
-    -webkit-text-size-adjust: 100%;
-    /* stylelint-disable-next-line compat-api/css */
-    text-size-adjust: 100%;
+  /* text-size-adjust intentionally omitted due to cross-browser compat rules */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
